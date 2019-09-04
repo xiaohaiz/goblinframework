@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-public class CompressUtilsTest {
+public class CompressionUtilsTest {
 
   @Test
   public void compress() throws Exception {
@@ -15,7 +15,7 @@ public class CompressUtilsTest {
     ByteArrayInputStream bis = new ByteArrayInputStream(s.getBytes(Charsets.UTF_8));
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-    CompressUtils.compress(bis, bos);
+    CompressionUtils.compress(bis, bos);
 
     bis.close();
     bos.close();
