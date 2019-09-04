@@ -1,0 +1,7 @@
+description = "goblinframework-core"
+
+dependencies {
+  compile(project(':goblinframework-api'))
+  compile("org.slf4j:slf4j-api:${slf4j_version}")
+  compile("org.springframework:spring-context:${spring_version}")
+}
