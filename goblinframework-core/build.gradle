@@ -6,6 +6,7 @@ dependencies {
   compile("org.apache.commons:commons-lang3:${commons_lang3_version}")
   compile("org.apache.commons:commons-compress:${commons_compress_version}")
   compile("commons-io:commons-io:${commons_io_version}")
+  compile("com.lmax:disruptor:${disruptor_version}")
   compile("org.springframework:spring-context:${spring_version}")
   compile("com.caucho:hessian:${hessian_version}")
 
