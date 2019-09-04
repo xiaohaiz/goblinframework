@@ -1,0 +1,4 @@
+rootProject.name = "goblinframework"
+
+include ":goblinframework-api"
+
