@@ -5,6 +5,9 @@
 .idea
 *.iml
 
+# Build out
+*/out
+
 # Compiled class file
 *.class
 
