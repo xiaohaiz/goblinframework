@@ -3,7 +3,8 @@ package org.goblinframework.api.compression;
 public enum Compressor {
 
   BZIP2("bzip2"),
-  GZIP("gz");
+  GZIP("gz"),
+  DEFLATE("deflate");
 
   private final String name;
 

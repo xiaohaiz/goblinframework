@@ -13,8 +13,9 @@ class CompressionManager private constructor() {
   private val buffer = EnumMap<Compressor, Compression>(Compressor::class.java)
 
   init {
-    buffer[Compressor.BZIP2] = CompressionImpl(Compressor.BZIP2)
-    buffer[Compressor.GZIP] = CompressionImpl(Compressor.GZIP)
+    for (compressor in Compressor.values()) {
+      buffer[compressor] = CompressionImpl(compressor)
+    }
   }
 
   fun getCompression(compressor: Compressor): Compression {
