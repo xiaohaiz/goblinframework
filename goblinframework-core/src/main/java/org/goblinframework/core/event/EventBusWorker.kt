@@ -9,6 +9,7 @@ import org.goblinframework.core.util.ThreadUtils
 import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
 
 @GoblinManagedBean("CORE")
 class EventBusWorker
@@ -32,6 +33,14 @@ internal constructor(private val config: EventBusConfig)
     val handlers = Array(n) { EventBusWorkerEventHandler.INSTANCE }
     disruptor.handleEventsWithWorkerPool(*handlers)
     disruptor.start()
+  }
+
+  internal fun lookup(ctx: GoblinEventContext): List<GoblinEventListener> {
+    return lock.read { listeners.filter { it.accept(ctx) }.toList() }
+  }
+
+  internal fun public(ctx: GoblinEventContext, listeners: List<GoblinEventListener>) {
+
   }
 
   internal fun close() {

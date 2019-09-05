@@ -1,13 +1,10 @@
-package org.goblinframework.core.event;
+package org.goblinframework.core.event
 
-import java.time.Instant;
-import java.util.EventObject;
+import java.time.Instant
+import java.util.*
 
-abstract public class GoblinEvent extends EventObject {
-  private static final long serialVersionUID = 1272680749868964006L;
-
-  public GoblinEvent() {
-    super(Instant.now());
+abstract class GoblinEvent(val fair: Boolean = false) : EventObject(Instant.now()) {
+  companion object {
+    private const val serialVersionUID = 1272680749868964006L
   }
-
 }

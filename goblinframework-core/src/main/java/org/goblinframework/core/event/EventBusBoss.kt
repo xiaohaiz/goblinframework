@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 @GoblinManagedBean("CORE")
@@ -45,6 +46,10 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
       ctx.complete(GoblinEventState.EVENT_BUS_RING_BUFFER_FULL)
     }
     return ctx.future()
+  }
+
+  internal fun lookup(channel: String): EventBusWorker? {
+    return lock.read { workers[channel] }
   }
 
   fun close() {

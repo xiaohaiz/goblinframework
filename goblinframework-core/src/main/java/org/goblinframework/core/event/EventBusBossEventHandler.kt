@@ -1,6 +1,7 @@
 package org.goblinframework.core.event
 
 import com.lmax.disruptor.WorkHandler
+import org.goblinframework.core.util.OrderUtils
 
 class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossEvent> {
 
@@ -18,6 +19,23 @@ class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossE
 
   private fun processEventBusBossEvent(event: EventBusBossEvent) {
     val ctx = event.ctx!!
-
+    val worker = EventBusBoss.INSTANCE.lookup(ctx.channel)
+    if (worker == null) {
+      ctx.complete(GoblinEventState.CHANNEL_NOT_REGISTERED)
+      return
+    }
+    val listeners = worker.lookup(ctx)
+    if (listeners.isEmpty()) {
+      ctx.complete(GoblinEventState.LISTENER_NOT_SUBSCRIBED)
+      return
+    }
+    if (ctx.event.fair) {
+      val sorted = listeners.sortedWith(Comparator { o1, o2 ->
+        OrderUtils.calculateOrder(o1).compareTo(OrderUtils.calculateOrder(o2))
+      }).toList()
+      worker.public(ctx, sorted)
+    } else {
+      listeners.forEach { worker.public(ctx, listOf(it)) }
+    }
   }
 }
