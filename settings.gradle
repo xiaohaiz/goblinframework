@@ -3,4 +3,5 @@ rootProject.name = "goblinframework"
 include ":goblinframework-api"
 include ":goblinframework-test"
 include ":goblinframework-core"
+include ":goblinframework-serialization"
 
