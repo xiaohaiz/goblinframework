@@ -44,6 +44,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     val published = disruptor.ringBuffer.tryPublishEvent { e, _ -> e.ctx = ctx }
     if (!published) {
       ctx.exceptionCaught(BossRingBufferFullException())
+      ctx.complete()
     }
     return ctx.future()
   }
