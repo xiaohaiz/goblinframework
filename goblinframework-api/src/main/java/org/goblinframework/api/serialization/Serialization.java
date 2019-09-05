@@ -10,8 +10,9 @@ public interface Serialization {
   @NotNull
   Serializer getSerializer();
 
-  void serialize(@NotNull InputStream inStream, @NotNull OutputStream outStream);
+  void serialize(@NotNull Object obj, @NotNull OutputStream outStream);
 
-  void deserialize(@NotNull InputStream inStream, @NotNull OutputStream outStream);
+  @NotNull
+  Object deserialize(@NotNull InputStream inStream);
 
 }
