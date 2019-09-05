@@ -20,7 +20,7 @@ final public class CompressionUtils {
   public static void compress(@NotNull Compressor compressor, @NotNull InputStream inStream, @NotNull OutputStream outStream) {
     CompressorOutputStream cos = null;
     try {
-      cos = FACTORY.createCompressorOutputStream(compressor.getName(), outStream);
+      cos = FACTORY.createCompressorOutputStream(compressor.getAlgorithm(), outStream);
       IOUtils.copy(inStream, cos);
     } catch (Exception ex) {
       throw CompressionException.newInstance(ex);
@@ -34,7 +34,7 @@ final public class CompressionUtils {
                                 @NotNull OutputStream outStream) {
     CompressorInputStream cis = null;
     try {
-      cis = FACTORY.createCompressorInputStream(compressor.getName(), inStream);
+      cis = FACTORY.createCompressorInputStream(compressor.getAlgorithm(), inStream);
       IOUtils.copy(cis, outStream);
     } catch (Exception ex) {
       throw CompressionException.newInstance(ex);

@@ -1,24 +1,9 @@
-package org.goblinframework.api.compression;
+package org.goblinframework.api.compression
 
-public enum Compressor {
+enum class Compressor(val id: Byte, val algorithm: String) {
 
-  BZIP2((byte) 1, "bzip2"),
-  GZIP((byte) 2, "gz"),
-  DEFLATE((byte) 3, "deflate");
+  BZIP2(1.toByte(), "bzip2"),
+  GZIP(2.toByte(), "gz"),
+  DEFLATE(3.toByte(), "deflate")
 
-  private final byte id;
-  private final String name;
-
-  Compressor(byte id, String name) {
-    this.id = id;
-    this.name = name;
-  }
-
-  public byte getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
 }
