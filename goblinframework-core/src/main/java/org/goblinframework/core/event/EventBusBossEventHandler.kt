@@ -33,8 +33,10 @@ class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossE
       val sorted = listeners.sortedWith(Comparator { o1, o2 ->
         OrderUtils.calculateOrder(o1).compareTo(OrderUtils.calculateOrder(o2))
       }).toList()
+      ctx.initializeTaskCount(1)
       worker.public(ctx, sorted)
     } else {
+      ctx.initializeTaskCount(listeners.size)
       listeners.forEach { worker.public(ctx, listOf(it)) }
     }
   }
