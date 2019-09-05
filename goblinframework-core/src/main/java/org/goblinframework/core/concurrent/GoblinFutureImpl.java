@@ -47,6 +47,7 @@ public class GoblinFutureImpl<T> implements GoblinFuture<T> {
     latch.await();
     GoblinFutureResult<T> fr = result.get();
     assert fr != null;
+    doResultObtained(fr);
     if (fr.getRight() != null) {
       throw new ExecutionException(fr.getRight());
     }
@@ -61,6 +62,7 @@ public class GoblinFutureImpl<T> implements GoblinFuture<T> {
     }
     GoblinFutureResult<T> fr = result.get();
     assert fr != null;
+    doResultObtained(fr);
     if (fr.getRight() != null) {
       throw new ExecutionException(fr.getRight());
     }
@@ -165,5 +167,8 @@ public class GoblinFutureImpl<T> implements GoblinFuture<T> {
         logger.warn("Exception caught when executing GoblinFutureListener: {}", listener.getDelegator(), ex);
       }
     }
+  }
+
+  protected void doResultObtained(@NotNull GoblinFutureResult<T> result) {
   }
 }

@@ -28,17 +28,7 @@ internal constructor(private val channel: String,
   }
 
   override fun getExtensions(): MutableMap<String, Any> {
-    if (isSuccess) {
-      return extensions
-    }
-    val c = taskCount.get()
-    if (c == null) {
-      // task not started yet
-      throw GoblinEventException(exceptions.first())
-    } else {
-      val total = c.get()
-      throw GoblinEventException(total, exceptions)
-    }
+    return extensions
   }
 
   fun getExtension(name: String): Any? {
@@ -72,6 +62,17 @@ internal constructor(private val channel: String,
   internal fun exceptionCaught(cause: Throwable) {
     exceptions.add(cause)
     state.set(GoblinEventState.FAILURE)
+  }
+
+  internal fun throwException() {
+    val c = taskCount.get()
+    if (c == null) {
+      // task not started yet
+      throw GoblinEventException(exceptions.first())
+    } else {
+      val total = c.get()
+      throw GoblinEventException(total, exceptions)
+    }
   }
 
   internal fun complete() {

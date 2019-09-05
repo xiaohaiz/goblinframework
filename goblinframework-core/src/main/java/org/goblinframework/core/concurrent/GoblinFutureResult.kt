@@ -2,7 +2,7 @@ package org.goblinframework.core.concurrent
 
 import org.apache.commons.lang3.tuple.Pair
 
-internal class GoblinFutureResult<T>
+class GoblinFutureResult<T>
 internal constructor(private val ret: T?, private val cause: Throwable?)
   : Pair<T, Throwable>() {
 
