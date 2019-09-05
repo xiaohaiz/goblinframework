@@ -4,6 +4,6 @@ enum class GoblinEventState {
 
   SUCCESS,
   FAILURE,
-  DISCARD
+  EVENT_BUS_RING_BUFFER_FULL
 
 }
