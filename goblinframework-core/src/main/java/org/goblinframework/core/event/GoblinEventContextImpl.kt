@@ -1,6 +1,7 @@
 package org.goblinframework.core.event
 
-import org.apache.commons.lang3.mutable.MutableInt
+import java.util.*
+import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 
 class GoblinEventContextImpl
@@ -8,8 +9,9 @@ internal constructor(private val channel: String,
                      private val event: GoblinEvent,
                      private val future: GoblinEventFuture) : GoblinEventContext {
 
-  private val status = AtomicReference(GoblinEventState.SUCCESS)
-  private val taskCount = MutableInt()
+  private val state = AtomicReference(GoblinEventState.SUCCESS)
+  private val taskCount = AtomicInteger()
+  private val exceptions = Collections.synchronizedList(LinkedList<Throwable>())
 
   override fun getChannel(): String {
     return channel
@@ -24,12 +26,23 @@ internal constructor(private val channel: String,
   }
 
   internal fun initializeTaskCount(count: Int) {
-    taskCount.setValue(count)
+    taskCount.set(count)
+  }
+
+  internal fun finishTask() {
+    if (taskCount.decrementAndGet() == 0) {
+      complete()
+    }
+  }
+
+  internal fun exceptionCaught(cause: Throwable) {
+    exceptions.add(cause)
+    state.set(GoblinEventState.FAILURE)
   }
 
   internal fun complete(state: GoblinEventState? = null) {
     state?.run {
-      this@GoblinEventContextImpl.status.set(this)
+      this@GoblinEventContextImpl.state.set(this)
     }
     future.complete(this)
   }

@@ -19,6 +19,12 @@ class EventBusWorkerEventHandler private constructor() : WorkHandler<EventBusWor
   private fun processEventBusWorkerEvent(event: EventBusWorkerEvent) {
     val ctx = event.ctx!!
     val listeners = event.listeners!!
-    listeners.forEach { it.onEvent(ctx) }
+    try {
+      listeners.forEach { it.onEvent(ctx) }
+    } catch (ex: Exception) {
+      ctx.exceptionCaught(ex)
+    } finally {
+      ctx.finishTask()
+    }
   }
 }

@@ -39,8 +39,15 @@ internal constructor(private val config: EventBusConfig)
     return lock.read { listeners.filter { it.accept(ctx) }.toList() }
   }
 
-  internal fun public(ctx: GoblinEventContext, listeners: List<GoblinEventListener>) {
-
+  internal fun public(ctx: GoblinEventContextImpl, listeners: List<GoblinEventListener>) {
+    val published = disruptor.ringBuffer.tryPublishEvent { e, _ ->
+      e.ctx = ctx
+      e.listeners = listeners
+    }
+    if (!published) {
+      ctx.exceptionCaught(WorkerRingBufferFullException(ctx.channel))
+      ctx.finishTask()
+    }
   }
 
   internal fun close() {
