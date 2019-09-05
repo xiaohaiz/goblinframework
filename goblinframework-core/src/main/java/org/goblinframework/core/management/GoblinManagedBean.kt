@@ -1,4 +1,8 @@
-package org.goblinframework.core.management;
+package org.goblinframework.core.management
 
-public @interface GoblinManagedBean {
-}
+@MustBeDocumented
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class GoblinManagedBean(val type: String = "",
+                                   val name: String = "",
+                                   val register: Boolean = true)

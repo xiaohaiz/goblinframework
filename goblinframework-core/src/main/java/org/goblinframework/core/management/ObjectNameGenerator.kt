@@ -6,7 +6,7 @@ import javax.management.ObjectName
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-object ObjectNameGenerator {
+internal object ObjectNameGenerator {
 
   private const val DOMAIN = "org.goblinframework"
 
