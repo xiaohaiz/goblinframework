@@ -2,9 +2,13 @@ package org.goblinframework.core.compress
 
 import org.goblinframework.api.compression.Compression
 import org.goblinframework.api.compression.Compressor
+import org.goblinframework.core.management.GoblinManagedBean
+import org.goblinframework.core.management.GoblinManagedObject
 import java.util.*
 
-class CompressionManager private constructor() {
+@GoblinManagedBean("CORE")
+class CompressionManager private constructor()
+  : GoblinManagedObject(), CompressionManagerMXBean {
 
   companion object {
     @JvmField

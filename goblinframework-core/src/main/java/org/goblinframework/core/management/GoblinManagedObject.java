@@ -7,6 +7,7 @@ import org.goblinframework.core.util.StringUtils;
 
 import javax.management.ObjectName;
 import java.lang.management.PlatformManagedObject;
+import java.util.function.Supplier;
 
 abstract public class GoblinManagedObject implements PlatformManagedObject {
 
@@ -18,7 +19,8 @@ abstract public class GoblinManagedObject implements PlatformManagedObject {
     GoblinManagedBean annotation = AnnotationUtils.getAnnotation(clazz, GoblinManagedBean.class);
     if (annotation != null) {
       String type = StringUtils.defaultIfBlank(annotation.type(), "GOBLIN");
-      String name = StringUtils.defaultIfBlank(annotation.name(), "UNNAMED");
+      String name = StringUtils.defaultIfBlank(annotation.name(),
+          (Supplier<String>) () -> StringUtils.defaultIfBlank(clazz.getSimpleName(), "UNNAMED"));
       objectName = ObjectNameGenerator.INSTANCE.generate(type, name);
     } else {
       objectName = null;
