@@ -25,6 +25,6 @@ internal constructor(private val compressor: Compressor)
   }
 
   internal fun close() {
-    unregisterMbeanIfNecessary()
+    unregisterIfNecessary()
   }
 }

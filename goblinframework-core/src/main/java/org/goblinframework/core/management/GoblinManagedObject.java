@@ -36,7 +36,7 @@ abstract public class GoblinManagedObject implements PlatformManagedObject {
     return objectName;
   }
 
-  public void unregisterMbeanIfNecessary() {
+  public void unregisterIfNecessary() {
     if (registerMBean) {
       ManagementUtils.unregisterMBean(objectName);
     }

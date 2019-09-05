@@ -29,8 +29,8 @@ class SerializationManager private constructor() : GoblinManagedObject(), Serial
   }
 
   fun close() {
-    unregisterMbeanIfNecessary()
-    buffer.values.forEach { it.unregisterMbeanIfNecessary() }
+    unregisterIfNecessary()
+    buffer.values.forEach { it.unregisterIfNecessary() }
   }
 
   override fun getSerializationList(): Array<SerializationMXBean> {
