@@ -8,7 +8,7 @@ import java.io.OutputStream;
 public interface Compression {
 
   @NotNull
-  Compressor compressor();
+  Compressor getCompressor();
 
   void compress(@NotNull InputStream inStream, @NotNull OutputStream outStream);
 

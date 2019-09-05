@@ -8,7 +8,7 @@ import java.io.OutputStream
 class CompressionImpl
 internal constructor(private val compressor: Compressor) : Compression {
 
-  override fun compressor(): Compressor {
+  override fun getCompressor(): Compressor {
     return compressor
   }
 
