@@ -27,9 +27,9 @@ internal constructor(private val channel: String,
     return state.get() === GoblinEventState.SUCCESS
   }
 
-  override fun getExtensions(): Map<String, Any> {
+  override fun getExtensions(): MutableMap<String, Any> {
     if (isSuccess) {
-      return Collections.unmodifiableMap(extensions)
+      return extensions
     }
     val c = taskCount.get()
     if (c == null) {
@@ -39,6 +39,18 @@ internal constructor(private val channel: String,
       val total = c.get()
       throw GoblinEventException(total, exceptions)
     }
+  }
+
+  override fun getExtension(name: String): Any? {
+    return extensions[name]
+  }
+
+  override fun removeExtension(name: String): Any? {
+    return extensions.remove(name)
+  }
+
+  override fun setExtension(name: String, extension: Any): Any? {
+    return extensions.put(name, extension)
   }
 
   internal fun future(): GoblinEventFuture {
