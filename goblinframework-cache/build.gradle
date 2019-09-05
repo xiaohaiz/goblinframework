@@ -1,0 +1,7 @@
+description = "goblinframework-cache"
+
+dependencies {
+  compile(project(':goblinframework-serialization'))
+
+  testCompile(project(':goblinframework-test'))
+}
