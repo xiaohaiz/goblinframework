@@ -7,7 +7,9 @@ dependencies {
   compile("org.apache.commons:commons-compress:${commons_compress_version}")
   compile("commons-io:commons-io:${commons_io_version}")
   compile("com.fasterxml.jackson.core:jackson-databind:${jackson_version}")
-
+  compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jackson_yaml_version}") {
+    exclude(group: "com.fasterxml.jackson.core", module: "jackson-core")
+  }
   compile("com.lmax:disruptor:${disruptor_version}")
   compile("org.springframework:spring-context:${spring_version}")
 
