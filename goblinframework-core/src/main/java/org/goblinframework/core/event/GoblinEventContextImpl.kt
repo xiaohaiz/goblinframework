@@ -1,6 +1,7 @@
 package org.goblinframework.core.event
 
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 
@@ -12,6 +13,7 @@ internal constructor(private val channel: String,
   private val state = AtomicReference(GoblinEventState.SUCCESS)
   private val taskCount = AtomicReference<AtomicInteger>()
   private val exceptions = Collections.synchronizedList(LinkedList<Throwable>())
+  private val extensions = ConcurrentHashMap<String, Any>()
 
   override fun getChannel(): String {
     return channel
@@ -19,6 +21,24 @@ internal constructor(private val channel: String,
 
   override fun getEvent(): GoblinEvent {
     return event
+  }
+
+  override fun isSuccess(): Boolean {
+    return state.get() === GoblinEventState.SUCCESS
+  }
+
+  override fun getExtensions(): Map<String, Any> {
+    if (isSuccess) {
+      return Collections.unmodifiableMap(extensions)
+    }
+    val c = taskCount.get()
+    if (c == null) {
+      // task not started yet
+      throw GoblinEventException(exceptions.first())
+    } else {
+      val total = c.get()
+      throw GoblinEventException(total, exceptions)
+    }
   }
 
   internal fun future(): GoblinEventFuture {
