@@ -15,4 +15,13 @@ final public class ClassUtils {
     }
     return classLoader;
   }
+
+  @NotNull
+  public static Class<?> filterCglibProxyClass(@NotNull Class<?> clazz) {
+    Class<?> clazzForUse = clazz;
+    while (org.springframework.util.ClassUtils.isCglibProxyClass(clazzForUse)) {
+      clazzForUse = clazzForUse.getSuperclass();
+    }
+    return clazzForUse;
+  }
 }

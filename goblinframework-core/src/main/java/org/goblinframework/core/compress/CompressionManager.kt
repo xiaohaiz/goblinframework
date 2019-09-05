@@ -7,7 +7,8 @@ import java.util.*
 class CompressionManager private constructor() {
 
   companion object {
-    val instance = CompressionManager()
+    @JvmField
+    val INSTANCE = CompressionManager()
   }
 
   private val buffer = EnumMap<Compressor, Compression>(Compressor::class.java)

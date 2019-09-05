@@ -16,7 +16,7 @@ class CompressionManagerTest {
 
   @Test
   fun testCompression() {
-    val cm = CompressionManager.instance
+    val cm = CompressionManager.INSTANCE
     for (compressor in Compressor.values()) {
       val c = cm.getCompression(compressor)
 
