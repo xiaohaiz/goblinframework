@@ -41,15 +41,15 @@ internal constructor(private val channel: String,
     }
   }
 
-  override fun getExtension(name: String): Any? {
+  fun getExtension(name: String): Any? {
     return extensions[name]
   }
 
-  override fun removeExtension(name: String): Any? {
+  fun removeExtension(name: String): Any? {
     return extensions.remove(name)
   }
 
-  override fun setExtension(name: String, extension: Any): Any? {
+  fun setExtension(name: String, extension: Any): Any? {
     return extensions.put(name, extension)
   }
 
