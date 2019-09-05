@@ -12,4 +12,12 @@ internal constructor(private val channel: String,
   override fun getEvent(): GoblinEvent {
     return event
   }
+
+  internal fun future(): GoblinEventFuture {
+    return future
+  }
+
+  internal fun complete() {
+    future.complete(this)
+  }
 }

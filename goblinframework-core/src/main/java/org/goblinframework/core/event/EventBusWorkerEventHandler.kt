@@ -10,13 +10,13 @@ class EventBusWorkerEventHandler private constructor() : WorkHandler<EventBusWor
 
   override fun onEvent(event: EventBusWorkerEvent) {
     try {
-      handleEventBusWorkerEvent(event)
+      processEventBusWorkerEvent(event)
     } finally {
       event.clear()
     }
   }
 
-  private fun handleEventBusWorkerEvent(event: EventBusWorkerEvent) {
+  private fun processEventBusWorkerEvent(event: EventBusWorkerEvent) {
     val ctx = event.ctx!!
     val listeners = event.listeners!!
     listeners.forEach { it.onEvent(ctx) }
