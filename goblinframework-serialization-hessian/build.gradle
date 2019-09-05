@@ -1,0 +1,8 @@
+description = "goblinframework-serialization-hessian"
+
+dependencies {
+  compile(project(':goblinframework-serialization'))
+  compile("com.caucho:hessian:${hessian_version}")
+
+  testCompile(project(':goblinframework-test'))
+}

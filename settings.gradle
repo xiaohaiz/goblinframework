@@ -4,4 +4,5 @@ include ":goblinframework-api"
 include ":goblinframework-test"
 include ":goblinframework-core"
 include ":goblinframework-serialization"
+include ":goblinframework-serialization-hessian"
 
