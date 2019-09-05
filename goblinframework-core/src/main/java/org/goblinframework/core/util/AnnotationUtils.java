@@ -10,6 +10,21 @@ final public class AnnotationUtils {
   /**
    * Interfaces excluded.
    */
+  public static boolean isAnnotationPresent(@NotNull Class<?> clazz,
+                                            @NotNull Class<? extends Annotation> annotationClass) {
+    Class<?> clazzForUse = clazz;
+    while (clazzForUse != null) {
+      if (clazzForUse.isAnnotationPresent(annotationClass)) {
+        return true;
+      }
+      clazzForUse = clazzForUse.getSuperclass();
+    }
+    return false;
+  }
+
+  /**
+   * Interfaces excluded.
+   */
   @Nullable
   public static <A extends Annotation> A getAnnotation(@NotNull Class<?> clazz,
                                                        @NotNull Class<A> annotationClass) {
