@@ -2,11 +2,15 @@ package org.goblinframework.core.compress
 
 import org.goblinframework.api.compression.Compression
 import org.goblinframework.api.compression.Compressor
+import org.goblinframework.core.management.GoblinManagedBean
+import org.goblinframework.core.management.GoblinManagedObject
 import java.io.InputStream
 import java.io.OutputStream
 
+@GoblinManagedBean("CORE", "Compression")
 class CompressionImpl
-internal constructor(private val compressor: Compressor) : Compression {
+internal constructor(private val compressor: Compressor)
+  : GoblinManagedObject(), Compression, CompressionMXBean {
 
   override fun getCompressor(): Compressor {
     return compressor
@@ -18,5 +22,9 @@ internal constructor(private val compressor: Compressor) : Compression {
 
   override fun decompress(inStream: InputStream, outStream: OutputStream) {
     CompressionUtils.decompress(compressor, inStream, outStream)
+  }
+
+  internal fun close() {
+    unregisterMbeanIfNecessary()
   }
 }

@@ -15,7 +15,7 @@ class CompressionManager private constructor()
     val INSTANCE = CompressionManager()
   }
 
-  private val buffer = EnumMap<Compressor, Compression>(Compressor::class.java)
+  private val buffer = EnumMap<Compressor, CompressionImpl>(Compressor::class.java)
 
   init {
     for (compressor in Compressor.values()) {
@@ -25,5 +25,9 @@ class CompressionManager private constructor()
 
   fun getCompression(compressor: Compressor): Compression {
     return buffer[compressor]!!
+  }
+
+  override fun getCompressionList(): Array<CompressionMXBean> {
+    return buffer.values.sortedBy { it.compressor }.toTypedArray()
   }
 }
