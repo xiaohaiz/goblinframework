@@ -10,7 +10,7 @@ internal constructor(private val channel: String,
                      private val future: GoblinEventFuture) : GoblinEventContext {
 
   private val state = AtomicReference(GoblinEventState.SUCCESS)
-  private val taskCount = AtomicInteger()
+  private val taskCount = AtomicReference<AtomicInteger>()
   private val exceptions = Collections.synchronizedList(LinkedList<Throwable>())
 
   override fun getChannel(): String {
@@ -26,11 +26,13 @@ internal constructor(private val channel: String,
   }
 
   internal fun initializeTaskCount(count: Int) {
-    taskCount.set(count)
+    taskCount.set(AtomicInteger(count))
   }
 
   internal fun finishTask() {
-    if (taskCount.decrementAndGet() == 0) {
+    val c = taskCount.get()
+    check(c != null)
+    if (c.decrementAndGet() == 0) {
       complete()
     }
   }
@@ -40,10 +42,7 @@ internal constructor(private val channel: String,
     state.set(GoblinEventState.FAILURE)
   }
 
-  internal fun complete(state: GoblinEventState? = null) {
-    state?.run {
-      this@GoblinEventContextImpl.state.set(this)
-    }
+  internal fun complete() {
     future.complete(this)
   }
 

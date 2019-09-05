@@ -21,12 +21,14 @@ class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossE
     val ctx = event.ctx!!
     val worker = EventBusBoss.INSTANCE.lookup(ctx.channel)
     if (worker == null) {
-      ctx.complete(GoblinEventState.CHANNEL_NOT_REGISTERED)
+      ctx.exceptionCaught(ChannelNotFoundException(ctx.channel))
+      ctx.complete()
       return
     }
     val listeners = worker.lookup(ctx)
     if (listeners.isEmpty()) {
-      ctx.complete(GoblinEventState.LISTENER_NOT_SUBSCRIBED)
+      ctx.exceptionCaught(ListenerNotFoundException(ctx.channel))
+      ctx.complete()
       return
     }
     if (ctx.event.fair) {
