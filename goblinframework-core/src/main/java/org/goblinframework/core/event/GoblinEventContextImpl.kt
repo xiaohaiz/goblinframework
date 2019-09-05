@@ -7,7 +7,7 @@ internal constructor(private val channel: String,
                      private val event: GoblinEvent,
                      private val future: GoblinEventFuture) : GoblinEventContext {
 
-  private val status = AtomicReference(GoblinEventStatus.SUCCESS)
+  private val status = AtomicReference(GoblinEventState.SUCCESS)
 
   override fun getChannel(): String {
     return channel
@@ -21,8 +21,8 @@ internal constructor(private val channel: String,
     return future
   }
 
-  internal fun complete(status: GoblinEventStatus? = null) {
-    status?.run {
+  internal fun complete(state: GoblinEventState? = null) {
+    state?.run {
       this@GoblinEventContextImpl.status.set(this)
     }
     future.complete(this)

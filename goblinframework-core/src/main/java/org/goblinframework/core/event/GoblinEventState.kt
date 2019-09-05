@@ -1,6 +1,6 @@
 package org.goblinframework.core.event
 
-enum class GoblinEventStatus {
+enum class GoblinEventState {
 
   SUCCESS,
   FAILURE,
