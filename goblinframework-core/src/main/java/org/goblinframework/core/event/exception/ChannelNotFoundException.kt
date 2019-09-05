@@ -1,4 +1,4 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.exception
 
 class ChannelNotFoundException(channel: String) : RuntimeException("Channel [$channel] not registered") {
   companion object {

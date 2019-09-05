@@ -1,4 +1,4 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.exception
 
 class ListenerNotFoundException(channel: String) : RuntimeException("No listener found on channel [$channel]") {
   companion object {
