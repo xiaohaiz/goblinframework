@@ -4,6 +4,7 @@ import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.core.concurrent.NamedDaemonThreadFactory
 import org.goblinframework.core.event.GoblinEventContext
+import org.goblinframework.core.event.GoblinEventException
 import org.goblinframework.core.event.GoblinEventListener
 import org.goblinframework.core.event.config.EventBusConfig
 import org.goblinframework.core.event.context.GoblinEventContextImpl
@@ -43,11 +44,12 @@ internal constructor(private val config: EventBusConfig)
     disruptor.start()
   }
 
-  internal fun subscribe(listener: GoblinEventListener): Boolean {
+  internal fun subscribe(listener: GoblinEventListener) {
     lock.write {
-      if (listeners[listener] != null) return false
+      if (listeners[listener] != null) {
+        throw GoblinEventException("Listener [$listener] already subscribed on channel [${config.channel}]")
+      }
       listeners[listener] = Instant.now()
-      return true
     }
   }
 

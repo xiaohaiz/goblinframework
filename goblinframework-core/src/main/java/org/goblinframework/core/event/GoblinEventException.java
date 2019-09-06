@@ -10,6 +10,10 @@ public class GoblinEventException extends RuntimeException {
 
   private final List<Throwable> exceptionList = new LinkedList<>();
 
+  public GoblinEventException(String message) {
+    super(message);
+  }
+
   public GoblinEventException(@NotNull Throwable cause) {
     super(cause.getMessage());
     exceptionList.add(cause);

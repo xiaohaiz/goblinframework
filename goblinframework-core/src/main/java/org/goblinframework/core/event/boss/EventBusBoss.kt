@@ -3,9 +3,7 @@ package org.goblinframework.core.event.boss
 import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.core.concurrent.NamedDaemonThreadFactory
-import org.goblinframework.core.event.GoblinEvent
-import org.goblinframework.core.event.GoblinEventFuture
-import org.goblinframework.core.event.GoblinEventListener
+import org.goblinframework.core.event.*
 import org.goblinframework.core.event.config.EventBusConfig
 import org.goblinframework.core.event.config.EventBusConfigLoader
 import org.goblinframework.core.event.context.GoblinEventContextImpl
@@ -13,6 +11,7 @@ import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.management.GoblinManagedBean
 import org.goblinframework.core.management.GoblinManagedObject
+import org.goblinframework.core.util.AnnotationUtils
 import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
@@ -49,15 +48,16 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     EventBusConfigLoader.configs.forEach { register(it) }
   }
 
-  fun register(channel: String, ringBufferSize: Int, workerHandlers: Int): Boolean {
+  fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
     return register(EventBusConfig(channel, ringBufferSize, workerHandlers))
   }
 
-  fun register(config: EventBusConfig): Boolean {
+  fun register(config: EventBusConfig) {
     lock.write {
-      if (workers[config.channel] != null) return false
+      if (workers[config.channel] != null) {
+        throw GoblinEventException("Channel [${config.channel}] already registered")
+      }
       workers[config.channel] = EventBusWorker(config)
-      return true
     }
   }
 
@@ -65,9 +65,17 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     lock.write { workers.remove(channel) }?.run { close() }
   }
 
-  fun subscribe(channel: String, listener: GoblinEventListener): Boolean {
-    val worker = lock.read { workers[channel] } ?: return false
-    return worker.subscribe(listener)
+  fun subscribe(listener: GoblinEventListener) {
+    val annotation = AnnotationUtils.getAnnotation(listener.javaClass, GoblinEventChannel::class.java)
+    if (annotation == null || annotation.value.isBlank()) {
+      throw GoblinEventException("No available channel found from [$listener]")
+    }
+    subscribe(annotation.value, listener)
+  }
+
+  fun subscribe(channel: String, listener: GoblinEventListener) {
+    val worker = lock.read { workers[channel] } ?: throw GoblinEventException("Channel [$channel] not found")
+    worker.subscribe(listener)
   }
 
   fun publish(channel: String, event: GoblinEvent): GoblinEventFuture {
