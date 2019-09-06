@@ -5,6 +5,7 @@ import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.core.concurrent.NamedDaemonThreadFactory
 import org.goblinframework.core.event.GoblinEvent
 import org.goblinframework.core.event.GoblinEventFuture
+import org.goblinframework.core.event.config.EventBusConfig
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusWorker
@@ -42,6 +43,22 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     val handlers = Array(DEFAULT_WORK_HANDLER_NUMBER) { EventBusBossEventHandler.INSTANCE }
     disruptor.handleEventsWithWorkerPool(*handlers)
     disruptor.start()
+  }
+
+  fun register(channel: String, ringBufferSize: Int, workerHandlers: Int): Boolean {
+    return register(EventBusConfig(channel, ringBufferSize, workerHandlers))
+  }
+
+  fun register(config: EventBusConfig): Boolean {
+    lock.write {
+      if (workers[config.channel] != null) return false
+      workers[config.channel] = EventBusWorker(config)
+      return true
+    }
+  }
+
+  fun unregister(channel: String) {
+    lock.write { workers.remove(channel) }?.run { close() }
   }
 
   fun publish(channel: String, event: GoblinEvent): GoblinEventFuture {

@@ -43,10 +43,11 @@ internal constructor(private val config: EventBusConfig)
     disruptor.start()
   }
 
-  internal fun subscribe(listener: GoblinEventListener) {
+  internal fun subscribe(listener: GoblinEventListener): Boolean {
     lock.write {
-      if (listeners[listener] != null) return
+      if (listeners[listener] != null) return false
       listeners[listener] = Instant.now()
+      return true
     }
   }
 
