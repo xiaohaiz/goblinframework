@@ -1,4 +1,6 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.boss
+
+import org.goblinframework.core.event.context.GoblinEventContextImpl
 
 class EventBusBossEvent {
 

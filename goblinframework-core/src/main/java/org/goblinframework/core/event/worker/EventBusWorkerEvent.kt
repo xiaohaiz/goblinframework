@@ -1,4 +1,7 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.worker
+
+import org.goblinframework.core.event.GoblinEventListener
+import org.goblinframework.core.event.context.GoblinEventContextImpl
 
 class EventBusWorkerEvent {
 

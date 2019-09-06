@@ -2,6 +2,7 @@ package org.goblinframework.core.event
 
 import org.goblinframework.core.concurrent.GoblinFutureImpl
 import org.goblinframework.core.concurrent.GoblinFutureResult
+import org.goblinframework.core.event.context.GoblinEventContextImpl
 
 class GoblinEventFuture : GoblinFutureImpl<GoblinEventContext>() {
 
