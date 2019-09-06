@@ -6,6 +6,7 @@ import org.goblinframework.core.concurrent.NamedDaemonThreadFactory
 import org.goblinframework.core.event.GoblinEvent
 import org.goblinframework.core.event.GoblinEventFuture
 import org.goblinframework.core.event.config.EventBusConfig
+import org.goblinframework.core.event.config.EventBusConfigLoader
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusWorker
@@ -43,6 +44,8 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     val handlers = Array(DEFAULT_WORK_HANDLER_NUMBER) { EventBusBossEventHandler.INSTANCE }
     disruptor.handleEventsWithWorkerPool(*handlers)
     disruptor.start()
+
+    EventBusConfigLoader.configs.forEach { register(it) }
   }
 
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int): Boolean {
