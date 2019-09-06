@@ -1,8 +1,8 @@
 rootProject.name = "goblinframework"
 
 include ":goblinframework-api"
-include ":goblinframework-test"
 include ":goblinframework-core"
+include ":goblinframework-test"
 include ":goblinframework-serialization"
 include ":goblinframework-serialization-hessian"
 include ":goblinframework-cache"
