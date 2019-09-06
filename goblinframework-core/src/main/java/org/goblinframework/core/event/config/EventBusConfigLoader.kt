@@ -1,6 +1,7 @@
 package org.goblinframework.core.event.config
 
 import org.goblinframework.core.util.ClassUtils
+import org.goblinframework.core.util.YamlUtils
 
 object EventBusConfigLoader {
 
@@ -21,7 +22,10 @@ object EventBusConfigLoader {
     while (resources.hasMoreElements()) {
       val url = resources.nextElement()
       url.openStream().use {
-
+        YamlUtils.asList(it, EventBusConfig::class.java).forEach { config ->
+          val channel = config.channel
+          allConfigs[channel] = config
+        }
       }
     }
   }
