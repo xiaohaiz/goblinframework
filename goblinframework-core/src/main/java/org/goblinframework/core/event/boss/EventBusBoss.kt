@@ -5,6 +5,7 @@ import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.core.concurrent.NamedDaemonThreadFactory
 import org.goblinframework.core.event.GoblinEvent
 import org.goblinframework.core.event.GoblinEventFuture
+import org.goblinframework.core.event.GoblinEventListener
 import org.goblinframework.core.event.config.EventBusConfig
 import org.goblinframework.core.event.config.EventBusConfigLoader
 import org.goblinframework.core.event.context.GoblinEventContextImpl
@@ -62,6 +63,11 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
 
   fun unregister(channel: String) {
     lock.write { workers.remove(channel) }?.run { close() }
+  }
+
+  fun subscribe(channel: String, listener: GoblinEventListener): Boolean {
+    val worker = lock.read { workers[channel] } ?: return false
+    return worker.subscribe(listener)
   }
 
   fun publish(channel: String, event: GoblinEvent): GoblinEventFuture {
