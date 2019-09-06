@@ -1,4 +1,4 @@
-package org.goblinframework.core.yaml;
+package org.goblinframework.core.mapper.yaml;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
