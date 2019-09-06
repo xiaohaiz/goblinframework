@@ -11,6 +11,8 @@ class GoblinEventFuture : GoblinFutureImpl<GoblinEventContext>() {
     if (ctx.isSuccess) {
       return
     }
-    (ctx as? GoblinEventContextImpl)?.run { throwException() }
+    if (ctx.event.isRaiseException) {
+      (ctx as? GoblinEventContextImpl)?.run { throwException() }
+    }
   }
 }

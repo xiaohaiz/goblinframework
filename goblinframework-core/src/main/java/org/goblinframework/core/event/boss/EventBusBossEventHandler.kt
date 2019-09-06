@@ -33,7 +33,7 @@ class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossE
       ctx.complete()
       return
     }
-    if (ctx.event.fair) {
+    if (ctx.event.isFair) {
       val sorted = listeners.sortedWith(Comparator { o1, o2 ->
         OrderUtils.calculateOrder(o1).compareTo(OrderUtils.calculateOrder(o2))
       }).toList()
