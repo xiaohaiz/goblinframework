@@ -9,9 +9,12 @@ import org.goblinframework.core.management.GoblinManagedBean
 import org.goblinframework.core.management.GoblinManagedObject
 import org.goblinframework.core.util.ThreadUtils
 import org.slf4j.LoggerFactory
+import java.time.Instant
+import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
+import kotlin.concurrent.write
 
 @GoblinManagedBean("CORE")
 class EventBusWorker
@@ -25,7 +28,7 @@ internal constructor(private val config: EventBusConfig)
 
   private val disruptor: Disruptor<EventBusWorkerEvent>
   private val lock = ReentrantReadWriteLock()
-  private val listeners = mutableListOf<GoblinEventListener>()
+  private val listeners = IdentityHashMap<GoblinEventListener, Instant>()
 
   init {
     val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusWorker-${config.channel}")
@@ -37,8 +40,21 @@ internal constructor(private val config: EventBusConfig)
     disruptor.start()
   }
 
+  internal fun subscribe(listener: GoblinEventListener) {
+    lock.write {
+      if (listeners[listener] != null) return
+      listeners[listener] = Instant.now()
+    }
+  }
+
+  internal fun unsubscribe(listener: GoblinEventListener) {
+    lock.write {
+      listeners.remove(listener)
+    }
+  }
+
   internal fun lookup(ctx: GoblinEventContext): List<GoblinEventListener> {
-    return lock.read { listeners.filter { it.accept(ctx) }.toList() }
+    return lock.read { listeners.keys.filter { it.accept(ctx) }.toList() }
   }
 
   internal fun public(ctx: GoblinEventContextImpl, listeners: List<GoblinEventListener>) {
