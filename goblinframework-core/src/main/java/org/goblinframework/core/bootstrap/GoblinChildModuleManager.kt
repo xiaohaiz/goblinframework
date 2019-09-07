@@ -25,6 +25,18 @@ class GoblinChildModuleManager(private val parent: String) {
     execute(ctx)
   }
 
+  fun bootstrap(ctx: GoblinModuleBootstrapContext) {
+    execute(ctx)
+  }
+
+  fun shutdown(ctx: GoblinModuleShutdownContext) {
+    execute(ctx)
+  }
+
+  fun finalize(ctx: GoblinModuleFinalizeContext) {
+    execute(ctx)
+  }
+
   private fun execute(ctx: Any) {
     if (modules.isEmpty()) {
       return
