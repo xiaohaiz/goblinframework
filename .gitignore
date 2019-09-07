@@ -6,8 +6,10 @@
 *.iml
 
 # Build out
-*/out
-*/build
+*/out/
+*/build/
+build/
+out/
 
 # Compiled class file
 *.class
