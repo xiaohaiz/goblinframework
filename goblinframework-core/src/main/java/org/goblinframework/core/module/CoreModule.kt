@@ -1,6 +1,6 @@
 package org.goblinframework.core.module
 
-import org.goblinframework.core.lifecycle.GoblinModule
+import org.goblinframework.core.bootstrap.GoblinModule
 
 class CoreModule : GoblinModule {
 

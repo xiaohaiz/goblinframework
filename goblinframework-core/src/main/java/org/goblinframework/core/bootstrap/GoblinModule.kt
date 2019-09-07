@@ -1,4 +1,4 @@
-package org.goblinframework.core.lifecycle
+package org.goblinframework.core.bootstrap
 
 interface GoblinModule {
 

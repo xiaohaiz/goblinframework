@@ -1,8 +1,12 @@
-package org.goblinframework.core.lifecycle
+package org.goblinframework.core.bootstrap
 
 import org.goblinframework.core.util.GoblinServiceLoader
 
-class GoblinExtensionModuleLoader {
+class GoblinExtensionModuleLoader private constructor() {
+
+  companion object {
+    @JvmField val INSTANCE = GoblinExtensionModuleLoader()
+  }
 
   private val installedExtensionModules = mutableMapOf<String, GoblinExtensionModule>()
 
