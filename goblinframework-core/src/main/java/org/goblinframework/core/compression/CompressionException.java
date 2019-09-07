@@ -1,4 +1,4 @@
-package org.goblinframework.core.compress;
+package org.goblinframework.core.compression;
 
 import org.jetbrains.annotations.NotNull;
 
