@@ -1,0 +1,8 @@
+description = "goblinframework-serialization-hessian"
+
+dependencies {
+  compile(project(':goblinframework-serialization'))
+  compile("de.ruedigermoeller:fst:${fst_version}")
+
+  testCompile(project(':goblinframework-test'))
+}
