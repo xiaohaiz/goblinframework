@@ -5,6 +5,7 @@ include ":goblinframework-core"
 include ":goblinframework-test"
 include ":goblinframework-serialization"
 include ":goblinframework-serialization-hessian"
+include ":goblinframework-embedded"
 include ":goblinframework-cache"
 include ":goblinframework-cache-couchbase"
 

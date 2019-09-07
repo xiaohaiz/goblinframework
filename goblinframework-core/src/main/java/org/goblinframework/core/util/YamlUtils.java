@@ -2,15 +2,18 @@ package org.goblinframework.core.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.List;
 
-final public class YamlUtils extends GoblinMappingSupport {
+final public class YamlUtils {
 
   private static final YAMLMapper DEFAULT_OBJECT_MAPPER;
 
@@ -33,6 +36,11 @@ final public class YamlUtils extends GoblinMappingSupport {
   }
 
   public static <E> List<E> asList(@NotNull InputStream inStream, @NotNull Class<E> elementType) {
-    return asList(getDefaultObjectMapper(), inStream, elementType);
+    JavaType jt = getDefaultObjectMapper().getTypeFactory().constructCollectionLikeType(LinkedList.class, elementType);
+    try {
+      return getDefaultObjectMapper().readValue(inStream, jt);
+    } catch (IOException ex) {
+      throw new GoblinMappingException(ex);
+    }
   }
 }
