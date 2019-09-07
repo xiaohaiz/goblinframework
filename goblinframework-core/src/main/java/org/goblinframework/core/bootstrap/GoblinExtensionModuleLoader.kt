@@ -19,7 +19,7 @@ class GoblinExtensionModuleLoader private constructor() {
     }
   }
 
-  fun getGoblinExtensionModule(name: String): GoblinExtensionModule? {
-    return installedExtensionModules[name]
+  fun getGoblinExtensionModules(): List<GoblinExtensionModule> {
+    return installedExtensionModules.values.sortedBy { it.order }.toList()
   }
 }
