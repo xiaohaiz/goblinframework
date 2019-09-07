@@ -1,8 +1,8 @@
 package org.goblinframework.serialization.core.manager;
 
-import org.goblinframework.api.serialization.Serializer;
 import org.goblinframework.core.management.GoblinManagedBean;
 import org.goblinframework.core.management.GoblinManagedObject;
+import org.goblinframework.serialization.core.Serializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;

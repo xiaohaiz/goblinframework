@@ -2,15 +2,14 @@ package org.goblinframework.serialization.hessian.provider
 
 import com.caucho.hessian.io.Hessian2Input
 import com.caucho.hessian.io.Hessian2Output
-import org.goblinframework.api.serialization.Serialization
-import org.goblinframework.api.serialization.Serializer0
+import org.goblinframework.serialization.core.Serializer
 import java.io.InputStream
 import java.io.OutputStream
 
-class Hessian2Serializer : Serialization {
+class Hessian2Serializer : Serializer {
 
-  override fun getSerializer(): Serializer0 {
-    return Serializer0.HESSIAN2
+  override fun id(): Byte {
+    return 3
   }
 
   override fun serialize(obj: Any, outStream: OutputStream) {

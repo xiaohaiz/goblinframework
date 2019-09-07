@@ -1,7 +1,7 @@
 package org.goblinframework.serialization.core.provider
 
 import org.apache.commons.lang3.SerializationUtils
-import org.goblinframework.api.serialization.Serializer
+import org.goblinframework.serialization.core.Serializer
 import java.io.InputStream
 import java.io.OutputStream
 import java.io.Serializable

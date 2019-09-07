@@ -1,9 +1,9 @@
 package org.goblinframework.serialization.core.manager
 
-import org.goblinframework.api.serialization.Serializer
 import org.goblinframework.core.management.GoblinManagedBean
 import org.goblinframework.core.management.GoblinManagedObject
 import org.goblinframework.core.util.GoblinServiceLoader
+import org.goblinframework.serialization.core.Serializer
 
 @GoblinManagedBean("SERIALIZATION")
 class SerializerManager private constructor() : GoblinManagedObject(), SerializerManagerMXBean {
@@ -22,6 +22,10 @@ class SerializerManager private constructor() : GoblinManagedObject(), Serialize
       }
       buffer[id] = SerializerImpl(it)
     }
+  }
+
+  fun getSerializer(id: Byte): Serializer? {
+    return buffer[id]
   }
 
   fun initialize() {}

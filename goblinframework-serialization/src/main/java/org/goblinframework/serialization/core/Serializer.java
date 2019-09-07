@@ -1,4 +1,4 @@
-package org.goblinframework.api.serialization;
+package org.goblinframework.serialization.core;
 
 import org.jetbrains.annotations.NotNull;
 
