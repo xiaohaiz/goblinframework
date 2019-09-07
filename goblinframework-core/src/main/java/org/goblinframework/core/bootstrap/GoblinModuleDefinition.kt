@@ -2,6 +2,9 @@ package org.goblinframework.core.bootstrap
 
 object GoblinModuleDefinition {
 
-  val moduleNames = listOf("CORE")
+  val moduleNames = listOf(
+      "CORE",
+      "SERIALIZER",
+      "EMBEDDED")
 
 }

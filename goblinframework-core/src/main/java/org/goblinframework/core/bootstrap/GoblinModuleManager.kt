@@ -23,8 +23,45 @@ class GoblinModuleManager private constructor() {
       return this
     }
     val ctx = GoblinModuleInitializeContext()
-
+    for (name in GoblinModuleDefinition.moduleNames) {
+      val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
+      module.initialize(ctx)
+    }
     return this
+  }
+
+  fun bootstrap() {
+    if (!bootstrap.compareAndSet(false, true)) {
+      return
+    }
+    val ctx = GoblinModuleBootstrapContext()
+    for (name in GoblinModuleDefinition.moduleNames) {
+      val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
+      module.bootstrap(ctx)
+    }
+  }
+
+  fun shutdown(): GoblinModuleManager {
+    if (!shutdown.compareAndSet(false, true)) {
+      return this
+    }
+    val ctx = GoblinModuleShutdownContext()
+    for (name in GoblinModuleDefinition.moduleNames.reversed()) {
+      val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
+      module.shutdown(ctx)
+    }
+    return this
+  }
+
+  fun finalize() {
+    if (!finalize.compareAndSet(false, true)) {
+      return
+    }
+    val ctx = GoblinModuleFinalizeContext()
+    for (name in GoblinModuleDefinition.moduleNames.reversed()) {
+      val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
+      module.finalize(ctx)
+    }
   }
 
 }
