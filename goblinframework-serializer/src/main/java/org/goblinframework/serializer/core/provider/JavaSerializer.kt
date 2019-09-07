@@ -19,7 +19,7 @@ class JavaSerializer : Serializer {
     SerializationUtils.serialize(obj, outStream)
   }
 
-  override fun deserialize(inStream: InputStream): Any? {
+  override fun deserialize(inStream: InputStream): Any {
     return SerializationUtils.deserialize(inStream)
   }
 }
