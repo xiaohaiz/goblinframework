@@ -1,5 +1,7 @@
 package org.goblinframework.core.bootstrap
 
+import org.goblinframework.core.event.GoblinEventBus
+import org.goblinframework.core.event.GoblinEventFuture
 import org.springframework.util.LinkedMultiValueMap
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -20,11 +22,16 @@ class GoblinChildModuleManager(private val parent: String) {
   }
 
   fun initialize(ctx: GoblinModuleInitializeContext) {
+    execute(ctx)
+  }
+
+  private fun execute(ctx: Any) {
     if (modules.isEmpty()) {
       return
     }
     for (i in 0..stage.get()) {
       val namesList = modules[i] ?: continue
+      val futures = mutableListOf<GoblinEventFuture>()
       for (names in namesList) {
         val childModules = names.mapNotNull {
           GoblinChildModuleLoader.INSTANCE.getGoblinChildModule(parent, it)
@@ -32,7 +39,15 @@ class GoblinChildModuleManager(private val parent: String) {
         if (childModules.isEmpty()) {
           continue
         }
-
+        val event = GoblinChildModuleEvent(ctx, childModules)
+        futures.add(GoblinEventBus.publish(event))
+      }
+      futures.forEach {
+        try {
+          it.awaitUninterruptibly()
+        } catch (ex: Exception) {
+          throw GoblinModuleException(ex)
+        }
       }
     }
   }

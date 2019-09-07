@@ -1,11 +1,16 @@
 package org.goblinframework.core.bootstrap
 
+import org.goblinframework.core.event.GoblinEventBus
 import java.util.concurrent.atomic.AtomicBoolean
 
 class GoblinModuleManager private constructor() {
 
   companion object {
     @JvmField val INSTANCE = GoblinModuleManager()
+  }
+
+  init {
+    GoblinEventBus.subscribe(GoblinChildModuleEventListener.INSTANCE)
   }
 
   private val initialize = AtomicBoolean()

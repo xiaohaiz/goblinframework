@@ -91,6 +91,14 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     worker.unsubscribe(listener)
   }
 
+  fun publish(event: GoblinEvent): GoblinEventFuture {
+    val annotation = AnnotationUtils.getAnnotation(event.javaClass, GoblinEventChannel::class.java)
+    if (annotation == null || annotation.value.isBlank()) {
+      throw GoblinEventException("No available channel found from [$event]")
+    }
+    return publish(annotation.value, event)
+  }
+
   fun publish(channel: String, event: GoblinEvent): GoblinEventFuture {
     val ctx = GoblinEventContextImpl(channel, event, GoblinEventFuture())
     val published = disruptor.ringBuffer.tryPublishEvent { e, _ -> e.ctx = ctx }
