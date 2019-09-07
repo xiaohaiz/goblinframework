@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.module
+package org.goblinframework.embedded.core.module
 
 import org.goblinframework.core.bootstrap.*
 
