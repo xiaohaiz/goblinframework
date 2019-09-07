@@ -5,12 +5,10 @@ import org.goblinframework.core.management.GoblinManagedObject
 import java.util.*
 
 @GoblinManagedBean("CORE")
-class CompressorManager private constructor()
-  : GoblinManagedObject(), CompressorManagerMXBean {
+class CompressorManager private constructor() : GoblinManagedObject(), CompressorManagerMXBean {
 
   companion object {
-    @JvmField
-    val INSTANCE = CompressorManager()
+    @JvmField val INSTANCE = CompressorManager()
   }
 
   private val buffer = EnumMap<CompressorMode, CompressorImpl>(CompressorMode::class.java)
@@ -27,5 +25,10 @@ class CompressorManager private constructor()
 
   override fun getCompressorList(): Array<CompressorMXBean> {
     return buffer.values.sortedBy { it.mode() }.toTypedArray()
+  }
+
+  fun close() {
+    unregisterIfNecessary()
+    buffer.values.forEach { it.unregisterIfNecessary() }
   }
 }
