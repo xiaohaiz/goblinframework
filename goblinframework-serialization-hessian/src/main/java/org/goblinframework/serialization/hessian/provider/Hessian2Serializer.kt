@@ -9,7 +9,7 @@ import java.io.OutputStream
 class Hessian2Serializer : Serializer {
 
   override fun id(): Byte {
-    return 3
+    return Serializer.HESSIAN2
   }
 
   override fun serialize(obj: Any, outStream: OutputStream) {

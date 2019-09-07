@@ -9,7 +9,7 @@ import java.io.Serializable
 class JavaSerializer : Serializer {
 
   override fun id(): Byte {
-    return 1
+    return Serializer.JAVA
   }
 
   override fun serialize(obj: Any, outStream: OutputStream) {

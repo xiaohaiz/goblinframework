@@ -1,5 +1,6 @@
 package org.goblinframework.serialization.hessian.provider
 
+import org.goblinframework.serialization.core.Serializer
 import org.goblinframework.serialization.core.manager.SerializerManager
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert
@@ -18,7 +19,7 @@ class Hessian2SerializerTest {
   fun testInstant() {
     val i = Instant.now()
     val t = i.toEpochMilli()
-    val s = SerializerManager.INSTANCE.getSerializer(3)!!
+    val s = SerializerManager.INSTANCE.getSerializer(Serializer.HESSIAN2)!!
     val bos = ByteArrayOutputStream()
     s.serialize(i, bos)
     val bis = ByteArrayInputStream(bos.toByteArray())

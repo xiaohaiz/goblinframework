@@ -7,6 +7,10 @@ import java.io.OutputStream;
 
 public interface Serializer {
 
+  byte JAVA = 1;
+  byte FST = 2;
+  byte HESSIAN2 = 3;
+
   byte id();
 
   void serialize(@NotNull Object obj, @NotNull OutputStream outStream);
