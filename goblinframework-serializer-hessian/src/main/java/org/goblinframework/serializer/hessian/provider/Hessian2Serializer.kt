@@ -1,5 +1,7 @@
 package org.goblinframework.serializer.hessian.provider
 
+import com.caucho.hessian.io.Hessian2Input
+import com.caucho.hessian.io.Hessian2Output
 import org.goblinframework.api.serialization.Serialization
 import org.goblinframework.api.serialization.Serializer
 import java.io.InputStream
@@ -12,10 +14,23 @@ class Hessian2Serializer : Serialization {
   }
 
   override fun serialize(obj: Any, outStream: OutputStream) {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    var ho: Hessian2Output? = null
+    try {
+      ho = GoblinHessianFactory.INSTANCE.createHessian2Output(outStream)
+      ho.writeObject(obj)
+      ho.flush()
+    } finally {
+      GoblinHessianFactory.INSTANCE.freeHessian2Output(ho)
+    }
   }
 
   override fun deserialize(inStream: InputStream): Any {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    var hi: Hessian2Input? = null
+    try {
+      hi = GoblinHessianFactory.INSTANCE.createHessian2Input(inStream)
+      return hi.readObject()
+    } finally {
+      GoblinHessianFactory.INSTANCE.freeHessian2Input(hi)
+    }
   }
 }
