@@ -1,4 +1,4 @@
 package org.goblinframework.core.module
 
-interface FinalizeContext {
+interface GoblinModuleShutdownContext {
 }

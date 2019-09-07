@@ -8,12 +8,12 @@ interface GoblinModule {
     return null
   }
 
-  fun initialize(ctx: InitializeContext) {}
+  fun initialize(ctx: GoblinModuleInitializeContext) {}
 
-  fun bootstrap(ctx: BootstrapContext) {}
+  fun bootstrap(ctx: GoblinModuleBootstrapContext) {}
 
-  fun shutdown(ctx: ShutdownContext) {}
+  fun shutdown(ctx: GoblinModuleShutdownContext) {}
 
-  fun finalize(ctx: FinalizeContext) {}
+  fun finalize(ctx: GoblinModuleFinalizeContext) {}
 
 }
