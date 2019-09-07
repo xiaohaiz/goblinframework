@@ -2,7 +2,10 @@ description = "goblinframework-serialization-hessian"
 
 dependencies {
   compile(project(':goblinframework-serialization'))
-  compile("de.ruedigermoeller:fst:${fst_version}")
+  compile("de.ruedigermoeller:fst:${fst_version}") {
+    exclude(group: "org.objenesis", module: "objenesis")
+  }
+  compile("org.objenesis:objenesis:${objenesis_version}")
 
   testCompile(project(':goblinframework-test'))
 }

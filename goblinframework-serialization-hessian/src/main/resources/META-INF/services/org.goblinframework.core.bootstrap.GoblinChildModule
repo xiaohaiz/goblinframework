@@ -1,1 +1,1 @@
-org.goblinframework.serialization.hessian.module.HessianSerializerModule
+org.goblinframework.serialization.hessian.module.HessianSerializationModule

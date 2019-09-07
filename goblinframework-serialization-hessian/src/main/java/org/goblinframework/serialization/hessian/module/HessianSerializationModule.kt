@@ -2,7 +2,7 @@ package org.goblinframework.serialization.hessian.module
 
 import org.goblinframework.core.bootstrap.GoblinChildModule
 
-class HessianSerializerModule : GoblinChildModule {
+class HessianSerializationModule : GoblinChildModule {
 
   override fun parent(): String {
     return "SERIALIZATION"
