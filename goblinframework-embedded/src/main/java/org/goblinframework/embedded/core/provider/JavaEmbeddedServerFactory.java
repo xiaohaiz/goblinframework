@@ -17,6 +17,6 @@ public class JavaEmbeddedServerFactory implements EmbeddedServerFactory {
   @NotNull
   @Override
   public EmbeddedServer createEmbeddedServer(@NotNull EmbeddedServerSetting setting) {
-    return new JavaEmbeddedServer();
+    return new JavaEmbeddedServer(setting);
   }
 }

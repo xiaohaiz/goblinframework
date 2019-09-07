@@ -1,8 +1,16 @@
 package org.goblinframework.embedded.core.provider;
 
 import org.goblinframework.embedded.core.EmbeddedServer;
+import org.goblinframework.embedded.core.manager.EmbeddedServerSetting;
+import org.jetbrains.annotations.NotNull;
 
-public class JavaEmbeddedServer implements EmbeddedServer {
+final public class JavaEmbeddedServer implements EmbeddedServer {
+
+  private final EmbeddedServerSetting setting;
+
+  JavaEmbeddedServer(@NotNull EmbeddedServerSetting setting) {
+    this.setting = setting;
+  }
 
   @Override
   public void start() {
@@ -17,5 +25,10 @@ public class JavaEmbeddedServer implements EmbeddedServer {
   @Override
   public boolean isRunning() {
     return false;
+  }
+
+  @Override
+  public void close() {
+
   }
 }

@@ -1,6 +1,7 @@
 package org.goblinframework.embedded.core.module
 
 import org.goblinframework.core.bootstrap.*
+import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 
 class EmbeddedModule : GoblinModule {
 
@@ -34,5 +35,6 @@ class EmbeddedModule : GoblinModule {
         .module("JETTY")
         .module("NETTY")
         .finalize(ctx)
+    EmbeddedServerManager.INSTANCE.close()
   }
 }

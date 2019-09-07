@@ -10,4 +10,5 @@ public interface EmbeddedServer extends Lifecycle {
 
   boolean isRunning();
 
+  void close();
 }
