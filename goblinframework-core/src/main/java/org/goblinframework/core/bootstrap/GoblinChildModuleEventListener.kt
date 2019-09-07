@@ -4,7 +4,7 @@ import org.goblinframework.core.event.GoblinEventChannel
 import org.goblinframework.core.event.GoblinEventContext
 import org.goblinframework.core.event.GoblinEventListener
 
-@GoblinEventChannel("/goblin/bootstrap")
+@GoblinEventChannel("/goblin/core")
 class GoblinChildModuleEventListener private constructor() : GoblinEventListener {
 
   companion object {

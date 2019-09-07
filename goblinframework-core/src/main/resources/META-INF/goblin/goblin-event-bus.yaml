@@ -1,6 +1,3 @@
-- channel: "/goblin/bootstrap"
-  ringBufferSize: 4096
-  workHandlers: 4
 - channel: "/goblin/core"
   ringBufferSize: 32768
   workHandlers: 0
