@@ -4,7 +4,7 @@ object GoblinModuleDefinition {
 
   val moduleNames = listOf(
       "CORE",
-      "SERIALIZER",
+      "SERIALIZATION",
       "EMBEDDED",
       "SYSTEM")
 

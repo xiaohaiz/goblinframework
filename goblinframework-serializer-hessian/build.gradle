@@ -1,8 +1,0 @@
-description = "goblinframework-serializer-hessian"
-
-dependencies {
-  compile(project(':goblinframework-serializer'))
-  compile("com.caucho:hessian:${hessian_version}")
-
-  testCompile(project(':goblinframework-test'))
-}
