@@ -1,6 +1,8 @@
-package org.goblinframework.core.module
+package org.goblinframework.core.lifecycle
 
-interface GoblinModule {
+interface GoblinChildModule {
+
+  fun parent(): String
 
   fun name(): String
 

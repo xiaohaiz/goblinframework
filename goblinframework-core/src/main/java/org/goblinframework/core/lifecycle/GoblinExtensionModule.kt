@@ -1,4 +1,4 @@
-package org.goblinframework.core.module
+package org.goblinframework.core.lifecycle
 
 import org.goblinframework.api.common.Ordered
 
