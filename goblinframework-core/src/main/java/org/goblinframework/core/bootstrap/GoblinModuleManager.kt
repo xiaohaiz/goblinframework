@@ -21,7 +21,7 @@ class GoblinModuleManager private constructor() {
   private val shutdown = AtomicBoolean()
   private val finalize = AtomicBoolean()
 
-  fun initialize(): GoblinModuleManager {
+  fun executeInitialize(): GoblinModuleManager {
     if (!initialize.compareAndSet(false, true)) {
       return this
     }
@@ -38,7 +38,7 @@ class GoblinModuleManager private constructor() {
     return this
   }
 
-  fun bootstrap() {
+  fun executeBootstrap() {
     if (!bootstrap.compareAndSet(false, true)) {
       return
     }
@@ -54,7 +54,7 @@ class GoblinModuleManager private constructor() {
     }
   }
 
-  fun shutdown(): GoblinModuleManager {
+  fun executeShutdown(): GoblinModuleManager {
     if (!shutdown.compareAndSet(false, true)) {
       return this
     }
@@ -77,7 +77,7 @@ class GoblinModuleManager private constructor() {
     return this
   }
 
-  fun finalize() {
+  fun executeFinalize() {
     if (!finalize.compareAndSet(false, true)) {
       return
     }

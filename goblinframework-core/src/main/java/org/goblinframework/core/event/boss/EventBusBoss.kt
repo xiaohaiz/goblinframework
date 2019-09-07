@@ -53,6 +53,8 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     GoblinServiceLoader.installedList(GoblinEventListener::class.java).forEach { subscribe(it) }
   }
 
+  fun initialize() {}
+
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
     return register(EventBusConfig(channel, ringBufferSize, workerHandlers))
   }
