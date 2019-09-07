@@ -24,4 +24,9 @@ final public class ClassUtils {
     }
     return clazzForUse;
   }
+
+  @NotNull
+  public static Class<?> loadClass(@NotNull String className) throws ClassNotFoundException {
+    return org.apache.commons.lang3.ClassUtils.getClass(getDefaultClassLoader(), className);
+  }
 }
