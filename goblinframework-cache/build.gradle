@@ -1,7 +1,7 @@
 description = "goblinframework-cache"
 
 dependencies {
-  compile(project(':goblinframework-serialization'))
+  compile(project(':goblinframework-serializer'))
 
   testCompile(project(':goblinframework-test'))
 }
