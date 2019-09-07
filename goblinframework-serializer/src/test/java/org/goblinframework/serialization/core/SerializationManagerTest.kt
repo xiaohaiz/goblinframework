@@ -1,6 +1,6 @@
 package org.goblinframework.serialization.core
 
-import org.goblinframework.api.serialization.Serializer
+import org.goblinframework.api.serialization.Serializer0
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert
 import org.junit.Test
@@ -13,7 +13,7 @@ class SerializationManagerTest {
 
   @Test
   fun testGetSerialization() {
-    val serialization = SerializationManager.INSTANCE.getSerialization(Serializer.JAVA)
+    val serialization = SerializationManager.INSTANCE.getSerialization(Serializer0.JAVA)
     Assert.assertNotNull(serialization)
   }
 }

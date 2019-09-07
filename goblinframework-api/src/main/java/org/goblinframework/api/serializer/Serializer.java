@@ -1,18 +1,18 @@
-package org.goblinframework.api.serialization;
+package org.goblinframework.api.serializer;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public interface Serialization {
+public interface Serializer {
 
-  @NotNull
-  Serializer0 getSerializer();
+  byte id();
 
   void serialize(@NotNull Object obj, @NotNull OutputStream outStream);
 
-  @NotNull
+  @Nullable
   Object deserialize(@NotNull InputStream inStream);
 
 }

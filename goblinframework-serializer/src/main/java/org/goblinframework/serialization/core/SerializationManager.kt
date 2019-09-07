@@ -1,7 +1,7 @@
 package org.goblinframework.serialization.core
 
 import org.goblinframework.api.serialization.Serialization
-import org.goblinframework.api.serialization.Serializer
+import org.goblinframework.api.serialization.Serializer0
 import org.goblinframework.core.management.GoblinManagedBean
 import org.goblinframework.core.management.GoblinManagedObject
 import org.goblinframework.core.util.GoblinServiceLoader
@@ -14,7 +14,7 @@ class SerializationManager private constructor() : GoblinManagedObject(), Serial
     @JvmField val INSTANCE = SerializationManager()
   }
 
-  private val buffer = EnumMap<Serializer, SerializationDelegator>(Serializer::class.java)
+  private val buffer = EnumMap<Serializer0, SerializationDelegator>(Serializer0::class.java)
 
   init {
     GoblinServiceLoader.installedList(Serialization::class.java).forEach {
@@ -24,7 +24,7 @@ class SerializationManager private constructor() : GoblinManagedObject(), Serial
     }
   }
 
-  fun getSerialization(serializer: Serializer): Serialization? {
+  fun getSerialization(serializer: Serializer0): Serialization? {
     return buffer[serializer]
   }
 
