@@ -1,7 +1,7 @@
 description = "goblinframework-test"
 
 dependencies {
-  compile(project(':goblinframework-core'))
+  compile(project(":goblinframework-core"))
   compile("junit:junit:${junit_version}")
   compile("org.easymock:easymock:${easymock_version}")
   compile("org.springframework:spring-test:${spring_version}")

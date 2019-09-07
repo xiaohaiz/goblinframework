@@ -1,7 +1,7 @@
 description = "goblinframework-core"
 
 dependencies {
-  compile(project(':goblinframework-api'))
+  compile(project(":goblinframework-api"))
   compile("org.slf4j:slf4j-api:${slf4j_version}")
   compile("org.apache.commons:commons-lang3:${commons_lang3_version}")
   compile("org.apache.commons:commons-compress:${commons_compress_version}")
@@ -12,6 +12,8 @@ dependencies {
   }
   compile("com.lmax:disruptor:${disruptor_version}")
   compile("org.springframework:spring-context:${spring_version}")
+  compile("javax.inject:javax.inject:${javax_inject_version}")
+
 
   testCompile("junit:junit:${junit_version}")
   testCompile("org.easymock:easymock:${easymock_version}")
