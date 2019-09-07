@@ -1,4 +1,4 @@
-package org.goblinframework.serializer.hessian.provider
+package org.goblinframework.serialization.hessian.provider
 
 import org.goblinframework.api.serialization.Serializer0
 import org.goblinframework.serialization.core.SerializationManager
