@@ -30,9 +30,4 @@ final class DelegatedEmbeddedServer extends GoblinManagedObject
     return server.isRunning();
   }
 
-  @Override
-  public void close() {
-    unregisterIfNecessary();
-    server.close();
-  }
 }

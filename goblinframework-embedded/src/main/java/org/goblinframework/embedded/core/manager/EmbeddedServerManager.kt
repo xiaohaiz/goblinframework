@@ -54,8 +54,8 @@ class EmbeddedServerManager private constructor()
 
   fun closeServer(name: String) {
     lock.write { servers.remove(name) }?.run {
-      if (this.isRunning) this.stop()
-      this.close()
+      this.stop()
+      this.unregisterIfNecessary()
     }
   }
 
@@ -63,8 +63,8 @@ class EmbeddedServerManager private constructor()
     unregisterIfNecessary()
     lock.write {
       servers.values.forEach {
-        if (it.isRunning) it.stop()
-        it.close()
+        it.stop()
+        it.unregisterIfNecessary()
       }
       servers.clear()
     }

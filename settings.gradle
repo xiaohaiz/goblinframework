@@ -9,6 +9,7 @@ include "goblinframework-serialization-hessian"
 include "goblinframework-embedded"
 include "goblinframework-embedded-jetty"
 include "goblinframework-embedded-netty"
+include "goblinframework-management"
 include "goblinframework-cache"
 include "goblinframework-cache-couchbase"
 

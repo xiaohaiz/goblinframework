@@ -4,31 +4,36 @@ import org.goblinframework.embedded.core.EmbeddedServer;
 import org.goblinframework.embedded.core.manager.EmbeddedServerSetting;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 final public class JavaEmbeddedServer implements EmbeddedServer {
 
   private final EmbeddedServerSetting setting;
+  private final AtomicReference<JavaEmbeddedServerImpl> server = new AtomicReference<>();
 
   JavaEmbeddedServer(@NotNull EmbeddedServerSetting setting) {
     this.setting = setting;
   }
 
   @Override
-  public void start() {
-
+  public synchronized void start() {
+    if (server.get() != null) {
+      return;
+    }
+    server.set(new JavaEmbeddedServerImpl(setting));
   }
 
   @Override
-  public void stop() {
-
+  public synchronized void stop() {
+    JavaEmbeddedServerImpl s = server.getAndSet(null);
+    if (s != null) {
+      s.stop();
+    }
   }
 
   @Override
-  public boolean isRunning() {
-    return false;
+  public synchronized boolean isRunning() {
+    return server.get() != null;
   }
 
-  @Override
-  public void close() {
-
-  }
 }
