@@ -1,6 +1,7 @@
 package org.goblinframework.core.bootstrap
 
 import org.goblinframework.core.event.GoblinEventBus
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 class GoblinModuleManager private constructor() {
@@ -45,10 +46,16 @@ class GoblinModuleManager private constructor() {
     if (!shutdown.compareAndSet(false, true)) {
       return this
     }
-    val ctx = GoblinModuleShutdownContext()
-    for (name in GoblinModuleDefinition.moduleNames.reversed()) {
-      val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
-      module.shutdown(ctx)
+    val future = GoblinEventBus.execute {
+      val ctx = GoblinModuleShutdownContext()
+      for (name in GoblinModuleDefinition.moduleNames.reversed()) {
+        val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
+        module.shutdown(ctx)
+      }
+    }
+    try {
+      future.awaitUninterruptibly(1, TimeUnit.MINUTES)
+    } catch (ignore: Throwable) {
     }
     return this
   }
@@ -57,10 +64,16 @@ class GoblinModuleManager private constructor() {
     if (!finalize.compareAndSet(false, true)) {
       return
     }
-    val ctx = GoblinModuleFinalizeContext()
-    for (name in GoblinModuleDefinition.moduleNames.reversed()) {
-      val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
-      module.finalize(ctx)
+    val future = GoblinEventBus.execute {
+      val ctx = GoblinModuleFinalizeContext()
+      for (name in GoblinModuleDefinition.moduleNames.reversed()) {
+        val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
+        module.finalize(ctx)
+      }
+    }
+    try {
+      future.awaitUninterruptibly(1, TimeUnit.MINUTES)
+    } catch (ignore: Throwable) {
     }
   }
 
