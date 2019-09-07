@@ -1,15 +1,14 @@
-package org.goblinframework.api.compression;
+package org.goblinframework.core.compression;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
-@Deprecated
-public interface Compression {
+public interface Compressor {
 
   @NotNull
-  Compressor getCompressor();
+  CompressorMode mode();
 
   void compress(@NotNull InputStream inStream, @NotNull OutputStream outStream);
 

@@ -1,24 +1,23 @@
-package org.goblinframework.core.compress
+package org.goblinframework.core.compression
 
 import org.apache.commons.lang3.RandomStringUtils
-import org.goblinframework.api.compression.Compressor
 import org.junit.Assert
 import org.junit.Test
 import org.slf4j.LoggerFactory
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
-class CompressionManagerTest {
+class CompressorManagerTest {
 
   companion object {
-    private val logger = LoggerFactory.getLogger(CompressionManagerTest::class.java)
+    private val logger = LoggerFactory.getLogger(CompressorManagerTest::class.java)
   }
 
   @Test
   fun testCompression() {
-    val cm = CompressionManager.INSTANCE
-    for (compressor in Compressor.values()) {
-      val c = cm.getCompression(compressor)
+    val cm = CompressorManager.INSTANCE
+    for (mode in CompressorMode.values()) {
+      val c = cm.getCompressor(mode)
 
       val s = RandomStringUtils.randomAlphanumeric(1024 * 1024)
       var i = s.byteInputStream(Charsets.UTF_8)
@@ -28,7 +27,7 @@ class CompressionManagerTest {
       i.close()
       o.close()
 
-      logger.debug("Compressor[$compressor] compressedSize=${compressed.size}")
+      logger.debug("Compressor[$mode] compressedSize=${compressed.size}")
 
       i = ByteArrayInputStream(compressed)
       o = ByteArrayOutputStream()
