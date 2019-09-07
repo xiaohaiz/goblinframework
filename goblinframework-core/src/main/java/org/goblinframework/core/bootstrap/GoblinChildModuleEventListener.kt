@@ -21,25 +21,25 @@ class GoblinChildModuleEventListener private constructor() : GoblinEventListener
       is GoblinModuleInitializeContext -> {
         event.childModules.forEach {
           it.initialize(event.ctx)
-          GoblinModuleManager.logger.info("Initialize [${it.parent()}.${it.name()}]")
+          GoblinBootstrap.LOGGER.info("Initialize [${it.parent()}.${it.name()}]")
         }
       }
       is GoblinModuleBootstrapContext -> {
         event.childModules.forEach {
           it.bootstrap(event.ctx)
-          GoblinModuleManager.logger.info("Bootstrap [${it.parent()}.${it.name()}]")
+          GoblinBootstrap.LOGGER.info("Bootstrap [${it.parent()}.${it.name()}]")
         }
       }
       is GoblinModuleShutdownContext -> {
         event.childModules.reversed().forEach {
           it.shutdown(event.ctx)
-          GoblinModuleManager.logger.info("Shutdown [${it.parent()}.${it.name()}]")
+          GoblinBootstrap.LOGGER.info("Shutdown [${it.parent()}.${it.name()}]")
         }
       }
       is GoblinModuleFinalizeContext -> {
         event.childModules.reversed().forEach {
           it.finalize(event.ctx)
-          GoblinModuleManager.logger.info("Finalize [${it.parent()}.${it.name()}]")
+          GoblinBootstrap.LOGGER.info("Finalize [${it.parent()}.${it.name()}]")
         }
       }
     }

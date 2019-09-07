@@ -3,6 +3,7 @@ package org.goblinframework.core.event.worker
 import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.core.concurrent.NamedDaemonThreadFactory
+import org.goblinframework.core.event.GoblinEventBus
 import org.goblinframework.core.event.GoblinEventContext
 import org.goblinframework.core.event.GoblinEventException
 import org.goblinframework.core.event.GoblinEventListener
@@ -12,7 +13,6 @@ import org.goblinframework.core.event.exception.WorkerRingBufferFullException
 import org.goblinframework.core.management.GoblinManagedBean
 import org.goblinframework.core.management.GoblinManagedObject
 import org.goblinframework.core.util.ThreadUtils
-import org.slf4j.LoggerFactory
 import java.time.Instant
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -27,7 +27,6 @@ internal constructor(private val config: EventBusConfig)
 
   companion object {
     private const val DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS = 15
-    private val logger = LoggerFactory.getLogger(EventBusWorker::class.java)
   }
 
   private val disruptor: Disruptor<EventBusWorkerEvent>
@@ -78,9 +77,9 @@ internal constructor(private val config: EventBusConfig)
     unregisterIfNecessary()
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
-      logger.info("EventBusWorker [${config.channel}] closed")
+      GoblinEventBus.LOGGER.info("EventBusWorker [${config.channel}] closed")
     } catch (ex: TimeoutException) {
-      logger.warn("EventBusWorker [${config.channel}] close timeout", ex)
+      GoblinEventBus.LOGGER.warn("EventBusWorker [${config.channel}] close timeout", ex)
     }
   }
 }

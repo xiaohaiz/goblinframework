@@ -14,7 +14,6 @@ import org.goblinframework.core.management.GoblinManagedBean
 import org.goblinframework.core.management.GoblinManagedObject
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.GoblinServiceLoader
-import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.locks.ReentrantReadWriteLock
@@ -25,8 +24,6 @@ import kotlin.concurrent.write
 class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMXBean {
 
   companion object {
-    private val logger = LoggerFactory.getLogger(EventBusBoss::class.java)
-
     private const val DEFAULT_RING_BUFFER_SIZE = 65536
     private const val DEFAULT_WORK_HANDLER_NUMBER = 4
     private const val DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS = 15
@@ -127,14 +124,14 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     unregisterIfNecessary()
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
-      logger.info("EventBusBoss closed")
+      GoblinEventBus.LOGGER.info("EventBusBoss closed")
     } catch (ex: TimeoutException) {
-      logger.warn("EventBusBoss close timeout", ex)
+      GoblinEventBus.LOGGER.warn("EventBusBoss close timeout", ex)
     }
     lock.write {
       workers.values.reversed().forEach { it.close() }
       workers.clear()
     }
-    logger.info("EventBus closed")
+    GoblinEventBus.LOGGER.info("EventBus closed")
   }
 }

@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 final public class GoblinBootstrap {
-  private static final Logger logger = LoggerFactory.getLogger(GoblinBootstrap.class);
+  public static final Logger LOGGER = LoggerFactory.getLogger("goblin.core.Bootstrap");
 
   private static final AtomicBoolean initialized = new AtomicBoolean();
   private static final AtomicBoolean closed = new AtomicBoolean();
@@ -18,7 +18,7 @@ final public class GoblinBootstrap {
     if (initialized.compareAndSet(false, true)) {
       EventBusBoss.INSTANCE.initialize();
       GoblinModuleManager.INSTANCE.executeInitialize().executeBootstrap();
-      logger.info("WELCOME");
+      LOGGER.info("WELCOME");
     }
   }
 
@@ -26,7 +26,7 @@ final public class GoblinBootstrap {
     if (closed.compareAndSet(false, true)) {
       GoblinModuleManager.INSTANCE.executeShutdown().executeFinalize();
       EventBusBoss.INSTANCE.close();
-      logger.info("FAREWELL");
+      LOGGER.info("FAREWELL");
       shutdownLog4j2IfNecessary();
     }
   }
