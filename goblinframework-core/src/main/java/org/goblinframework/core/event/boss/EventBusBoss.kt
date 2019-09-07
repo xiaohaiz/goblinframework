@@ -7,11 +7,13 @@ import org.goblinframework.core.event.*
 import org.goblinframework.core.event.config.EventBusConfig
 import org.goblinframework.core.event.config.EventBusConfigLoader
 import org.goblinframework.core.event.context.GoblinEventContextImpl
+import org.goblinframework.core.event.dsl.GoblinCallbackEventListener
 import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.management.GoblinManagedBean
 import org.goblinframework.core.management.GoblinManagedObject
 import org.goblinframework.core.util.AnnotationUtils
+import org.goblinframework.core.util.GoblinServiceLoader
 import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
@@ -46,6 +48,9 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     disruptor.start()
 
     EventBusConfigLoader.configs.forEach { register(it) }
+
+    subscribe(GoblinCallbackEventListener.INSTANCE)
+    GoblinServiceLoader.installedList(GoblinEventListener::class.java).forEach { subscribe(it) }
   }
 
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {

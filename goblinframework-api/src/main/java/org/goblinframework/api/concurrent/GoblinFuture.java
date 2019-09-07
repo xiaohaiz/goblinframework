@@ -1,6 +1,7 @@
 package org.goblinframework.api.concurrent;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -19,8 +20,8 @@ public interface GoblinFuture<T> extends Future<T> {
 
   void removeListener(@NotNull GoblinFutureListener<T> listener);
 
-  GoblinFuture<T> complete(T result);
+  GoblinFuture<T> complete(@Nullable T result);
 
-  GoblinFuture<T> complete(T result, Throwable cause);
+  GoblinFuture<T> complete(@Nullable T result, @Nullable Throwable cause);
 
 }

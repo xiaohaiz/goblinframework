@@ -7,7 +7,7 @@ abstract public class GoblinEvent extends EventObject {
   private static final long serialVersionUID = -7526906465983002702L;
 
   private boolean fair = false;
-  private boolean raiseException = false;
+  private boolean raiseException = true;
 
   public GoblinEvent() {
     super(Instant.now());
