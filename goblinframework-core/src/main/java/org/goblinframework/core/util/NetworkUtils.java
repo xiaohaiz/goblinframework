@@ -17,6 +17,9 @@ final public class NetworkUtils {
 
   private static final Pattern IP_PATTERN = Pattern.compile("\\d{1,3}(\\.\\d{1,3}){3,5}$");
 
+  public static final String LOCALHOST = "127.0.0.1";
+  public static final String ALL_HOST = "0.0.0.0";
+
   @NotNull
   public static String getLocalAddress() {
     InetAddress ia;
@@ -29,7 +32,7 @@ final public class NetworkUtils {
       return ia.getHostAddress();
     }
     return getLocalAddresses().stream()
-        .findFirst().orElse("127.0.0.1");
+        .findFirst().orElse(LOCALHOST);
   }
 
   @NotNull
@@ -75,8 +78,8 @@ final public class NetworkUtils {
     }
     String name = address.getHostAddress();
     return (name != null
-        && !"0.0.0.0".equals(name)
-        && !"127.0.0.1".equals(name)
+        && !ALL_HOST.equals(name)
+        && !LOCALHOST.equals(name)
         && IP_PATTERN.matcher(name).matches());
   }
 }
