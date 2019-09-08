@@ -17,19 +17,6 @@ final public class NetworkUtils {
 
   private static final Pattern IP_PATTERN = Pattern.compile("\\d{1,3}(\\.\\d{1,3}){3,5}$");
 
-  public static boolean isValidAddress(@Nullable InetAddress address) {
-    if (address == null || address.isLoopbackAddress())
-      return false;
-    if (address instanceof Inet6Address) {
-      return false;
-    }
-    String name = address.getHostAddress();
-    return (name != null
-        && !"0.0.0.0".equals(name)
-        && !"127.0.0.1".equals(name)
-        && IP_PATTERN.matcher(name).matches());
-  }
-
   @NotNull
   public static String getLocalAddress() {
     InetAddress ia;
@@ -48,6 +35,14 @@ final public class NetworkUtils {
   @NotNull
   public static List<String> getLocalAddresses() {
     List<InetAddress> list = new ArrayList<>();
+    try {
+      InetAddress la = InetAddress.getLocalHost();
+      if (isValidAddress(la)) {
+        list.add(la);
+      }
+    } catch (Exception ex) {
+      throw new GoblinNetworkException(ex);
+    }
     Enumeration<NetworkInterface> it;
     try {
       it = NetworkInterface.getNetworkInterfaces();
@@ -72,4 +67,16 @@ final public class NetworkUtils {
         .collect(Collectors.toList());
   }
 
+  private static boolean isValidAddress(@Nullable InetAddress address) {
+    if (address == null || address.isLoopbackAddress())
+      return false;
+    if (address instanceof Inet6Address) {
+      return false;
+    }
+    String name = address.getHostAddress();
+    return (name != null
+        && !"0.0.0.0".equals(name)
+        && !"127.0.0.1".equals(name)
+        && IP_PATTERN.matcher(name).matches());
+  }
 }
