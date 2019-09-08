@@ -2,6 +2,7 @@ package org.goblinframework.serialization.fst.provider
 
 import org.apache.commons.lang3.RandomUtils
 import org.apache.commons.lang3.SystemUtils
+import org.bson.types.ObjectId
 import org.goblinframework.serialization.core.Serializer
 import org.goblinframework.serialization.core.manager.SerializerManager
 import org.goblinframework.test.runner.GoblinTestRunner
@@ -14,10 +15,34 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.math.BigDecimal
 import java.time.Instant
+import javax.management.ObjectName
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
 class FstSerializerTest {
+
+  @Test
+  fun testObjectId() {
+    val s = SerializerManager.INSTANCE.getSerializer(Serializer.FST)!!
+    val source = ObjectId()
+    ByteArrayOutputStream().use {
+      s.serialize(source, it)
+      ByteArrayInputStream(it.toByteArray())
+    }.use {
+      val target = s.deserialize(it)
+      target as ObjectId
+      Assert.assertEquals(source, target)
+    }
+    val bs = s.serialize(source)
+    ByteArrayInputStream(bs).use {
+      val target = s.deserialize(it)
+      target as ObjectId
+      Assert.assertEquals(source, target)
+    }
+    val target = s.deserialize(bs)
+    target as ObjectId
+    Assert.assertEquals(source, target)
+  }
 
   @Test
   fun testBigDecimal() {
@@ -63,6 +88,29 @@ class FstSerializerTest {
     val target = s.deserialize(bs)
     target as File
     Assert.assertEquals(source.path, target.path)
+  }
+
+  @Test
+  fun testObjectName() {
+    val s = SerializerManager.INSTANCE.getSerializer(Serializer.FST)!!
+    val source = ObjectName("org.goblinframework:type=TEST,name=testObjectName")
+    ByteArrayOutputStream().use {
+      s.serialize(source, it)
+      ByteArrayInputStream(it.toByteArray())
+    }.use {
+      val target = s.deserialize(it)
+      target as ObjectName
+      Assert.assertEquals(source, target)
+    }
+    val bs = s.serialize(source)
+    ByteArrayInputStream(bs).use {
+      val target = s.deserialize(it)
+      target as ObjectName
+      Assert.assertEquals(source, target)
+    }
+    val target = s.deserialize(bs)
+    target as ObjectName
+    Assert.assertEquals(source, target)
   }
 
   @Test
