@@ -15,6 +15,14 @@ final public class StringUtils {
     return org.apache.commons.lang3.StringUtils.defaultIfBlank(str, defaultStr);
   }
 
+  public static String defaultString(final String str) {
+    return org.apache.commons.lang3.StringUtils.defaultString(str);
+  }
+
+  public static String defaultString(final String str, final String defaultStr) {
+    return org.apache.commons.lang3.StringUtils.defaultString(str, defaultStr);
+  }
+
   public static boolean endsWith(final CharSequence str, final CharSequence suffix) {
     return org.apache.commons.lang3.StringUtils.endsWith(str, suffix);
   }
@@ -52,7 +60,14 @@ final public class StringUtils {
   }
 
   @Nullable
-  public static <T extends CharSequence> T defaultIfBlank(final T str, @NotNull final Supplier<T> defaultStrSupplier) {
+  public static <T extends CharSequence> T defaultIfBlank(@Nullable final T str,
+                                                          @NotNull final Supplier<T> defaultStrSupplier) {
     return isBlank(str) ? defaultStrSupplier.get() : str;
+  }
+
+  @Nullable
+  public static String defaultString(@Nullable final String str,
+                                     @NotNull final Supplier<String> defaultStrSupplier) {
+    return str == null ? defaultStrSupplier.get() : str;
   }
 }
