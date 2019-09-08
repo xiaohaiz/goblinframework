@@ -3,6 +3,8 @@ description = "goblinframework-webmvc"
 dependencies {
   compile(project(":goblinframework-core"))
   compile("javax.servlet:javax.servlet-api:${javax_servlet_version}")
+  compile("org.springframework:spring-web:${spring_version}")
+  compile group: 'org.freemarker', name: 'freemarker', version: '2.3.29'
 
   testCompile(project(":goblinframework-test"))
 }

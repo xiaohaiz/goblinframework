@@ -1,6 +1,7 @@
 package org.goblinframework.core.util;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
@@ -30,7 +31,8 @@ final public class StringUtils {
   // EXTENSION UTILITIES METHODS
   // ==========================================================================
 
-  public static String compactContinuousSlashes(final String path) {
+  @Nullable
+  public static String compactContinuousSlashes(@Nullable final String path) {
     if (path == null) {
       return null;
     }
@@ -49,6 +51,7 @@ final public class StringUtils {
     return s;
   }
 
+  @Nullable
   public static <T extends CharSequence> T defaultIfBlank(final T str, @NotNull final Supplier<T> defaultStrSupplier) {
     return isBlank(str) ? defaultStrSupplier.get() : str;
   }

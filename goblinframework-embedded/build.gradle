@@ -1,8 +1,7 @@
 description = "goblinframework-embedded"
 
 dependencies {
-  compile(project(":goblinframework-core"))
-  compile("javax.servlet:javax.servlet-api:${javax_servlet_version}")
+  compile(project(":goblinframework-webmvc"))
 
   testCompile(project(":goblinframework-test"))
 }
