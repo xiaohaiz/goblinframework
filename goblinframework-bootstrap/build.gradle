@@ -1,0 +1,17 @@
+description = "goblinframework-bootstrap"
+
+dependencies {
+  compile(project(":goblinframework-core"))
+  compile(project(":goblinframework-monitor"))
+  compile(project(":goblinframework-serialization"))
+  compile(project(":goblinframework-webmvc"))
+  compile(project(":goblinframework-embedded"))
+  compile(project(":goblinframework-cache"))
+  compile(project(":goblinframework-transport"))
+  compile(project(":goblinframework-management"))
+  compile("org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}") {
+    exclude(group: "org.slf4j", module: "slf4j-api")
+  }
+
+  testCompile(project(":goblinframework-test"))
+}

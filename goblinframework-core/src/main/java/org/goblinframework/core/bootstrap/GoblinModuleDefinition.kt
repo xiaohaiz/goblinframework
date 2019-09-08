@@ -11,6 +11,7 @@ object GoblinModuleDefinition {
       "CACHE",
       "TRANSPORT",
       "MANAGEMENT",
+      "BOOTSTRAP",
       "SYSTEM")
 
 }

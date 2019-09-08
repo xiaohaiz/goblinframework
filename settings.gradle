@@ -17,5 +17,6 @@ include "goblinframework-transport"
 include "goblinframework-transport-client"
 include "goblinframework-transport-server"
 include "goblinframework-management"
+include "goblinframework-bootstrap"
 
 
