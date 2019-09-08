@@ -1,6 +1,7 @@
 package org.goblinframework.embedded.core.http;
 
 import kotlin.text.Charsets;
+import org.apache.http.client.utils.DateUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.springframework.http.HttpHeaders;
 
@@ -9,10 +10,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpCookie;
 import java.nio.charset.Charset;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -81,13 +79,12 @@ public class AbstractHttpServletRequest extends HttpServletRequestWrapper {
     if (header == null) {
       return -1;
     }
-//    try {
-//      Date date = DateUtils.parseDate(header);
-//      return date == null ? -1 : date.getTime();
-//    } finally {
-//      DateUtils.clearThreadLocal();
-//    }
-    return -1;
+    try {
+      Date date = DateUtils.parseDate(header);
+      return date == null ? -1 : date.getTime();
+    } finally {
+      DateUtils.clearThreadLocal();
+    }
   }
 
   @Override

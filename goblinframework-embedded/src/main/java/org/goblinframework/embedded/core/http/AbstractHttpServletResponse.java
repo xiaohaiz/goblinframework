@@ -1,7 +1,7 @@
 package org.goblinframework.embedded.core.http;
 
 import kotlin.text.Charsets;
-import org.goblinframework.core.util.DateUtils;
+import org.apache.http.client.utils.DateUtils;
 import org.springframework.http.HttpHeaders;
 
 import javax.servlet.http.Cookie;
@@ -102,12 +102,20 @@ abstract public class AbstractHttpServletResponse extends HttpServletResponseWra
 
   @Override
   public void addDateHeader(String name, long date) {
-    addHeader(name, DateUtils.formatDate(new Date(date), DateUtils.PATTERN_RFC1123));
+    try {
+      addHeader(name, DateUtils.formatDate(new Date(date)));
+    } finally {
+      DateUtils.clearThreadLocal();
+    }
   }
 
   @Override
   public void setDateHeader(String name, long date) {
-    setHeader(name, DateUtils.formatDate(new Date(date), DateUtils.PATTERN_RFC1123));
+    try {
+      setHeader(name, DateUtils.formatDate(new Date(date)));
+    } finally {
+      DateUtils.clearThreadLocal();
+    }
   }
 
   @Override

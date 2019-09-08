@@ -7,7 +7,10 @@ import java.util.Date;
 
 final public class DateUtils {
 
-  public static final String PATTERN_RFC1123 = "EEE, dd MMM yyyy HH:mm:ss zzz";
+  @NotNull
+  public static String formatDate(@NotNull final Date date) {
+    return formatDate(date, "yyyy-MM-dd HH:mm:ss.SSS");
+  }
 
   @NotNull
   public static String formatDate(@NotNull final Date date,
