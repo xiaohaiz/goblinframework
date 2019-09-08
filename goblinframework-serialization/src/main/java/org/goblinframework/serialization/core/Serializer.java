@@ -21,4 +21,7 @@ public interface Serializer {
   @NotNull
   Object deserialize(@NotNull InputStream inStream);
 
+  @NotNull
+  Object deserialize(@NotNull byte[] bs);
+
 }

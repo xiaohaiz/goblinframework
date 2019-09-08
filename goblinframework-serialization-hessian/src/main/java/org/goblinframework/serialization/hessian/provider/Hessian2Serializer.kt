@@ -3,6 +3,7 @@ package org.goblinframework.serialization.hessian.provider
 import com.caucho.hessian.io.Hessian2Input
 import com.caucho.hessian.io.Hessian2Output
 import org.goblinframework.serialization.core.Serializer
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
@@ -38,6 +39,12 @@ class Hessian2Serializer : Serializer {
       return hi.readObject()
     } finally {
       GoblinHessianFactory.INSTANCE.freeHessian2Input(hi)
+    }
+  }
+
+  override fun deserialize(bs: ByteArray): Any {
+    return ByteArrayInputStream(bs).use {
+      deserialize(it)
     }
   }
 }

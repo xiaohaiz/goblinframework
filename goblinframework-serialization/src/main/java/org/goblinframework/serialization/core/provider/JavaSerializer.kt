@@ -29,4 +29,8 @@ class JavaSerializer : Serializer {
   override fun deserialize(inStream: InputStream): Any {
     return SerializationUtils.deserialize(inStream)
   }
+
+  override fun deserialize(bs: ByteArray): Any {
+    return SerializationUtils.deserialize(bs)
+  }
 }

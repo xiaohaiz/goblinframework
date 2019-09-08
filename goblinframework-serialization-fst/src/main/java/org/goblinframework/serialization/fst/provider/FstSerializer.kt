@@ -27,4 +27,9 @@ class FstSerializer : Serializer {
     val fi = configuration.getObjectInput(inStream)
     return fi.readObject()
   }
+
+  override fun deserialize(bs: ByteArray): Any {
+    val configuration = FstConfigurationFactory.configuration
+    return configuration.asObject(bs)
+  }
 }

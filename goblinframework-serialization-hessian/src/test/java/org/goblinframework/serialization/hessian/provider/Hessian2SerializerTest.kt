@@ -33,5 +33,8 @@ class Hessian2SerializerTest {
       target as Instant
       Assert.assertEquals(source.toEpochMilli(), target.toEpochMilli())
     }
+    val target = s.deserialize(bs)
+    target as Instant
+    Assert.assertEquals(source.toEpochMilli(), target.toEpochMilli())
   }
 }
