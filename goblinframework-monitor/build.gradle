@@ -1,7 +1,7 @@
 description = "goblinframework-monitor"
 
 dependencies {
-  compile(project(':goblinframework-core'))
+  compile(project(":goblinframework-core"))
 
-  testCompile(project(':goblinframework-test'))
+  testCompile(project(":goblinframework-test"))
 }

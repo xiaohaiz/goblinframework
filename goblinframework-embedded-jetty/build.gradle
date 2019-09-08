@@ -1,8 +1,8 @@
 description = "goblinframework-embedded-jetty"
 
 dependencies {
-  compile(project(':goblinframework-embedded'))
+  compile(project(":goblinframework-embedded"))
   compile("org.eclipse.jetty:jetty-server:${jetty_version}")
 
-  testCompile(project(':goblinframework-test'))
+  testCompile(project(":goblinframework-test"))
 }

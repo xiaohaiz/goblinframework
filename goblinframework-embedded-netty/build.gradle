@@ -1,8 +1,8 @@
 description = "goblinframework-embedded-netty"
 
 dependencies {
-  compile(project(':goblinframework-embedded'))
+  compile(project(":goblinframework-embedded"))
   compile("io.netty:netty-all:${netty_version}")
 
-  testCompile(project(':goblinframework-test'))
+  testCompile(project(":goblinframework-test"))
 }
