@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Class related miscellaneous utilities.
  */
-final public class ClassUtils {
+final public class ClassUtils extends org.apache.commons.lang3.ClassUtils {
 
   @NotNull
   public static ClassLoader getDefaultClassLoader() {
@@ -27,6 +27,6 @@ final public class ClassUtils {
 
   @NotNull
   public static Class<?> loadClass(@NotNull String className) throws ClassNotFoundException {
-    return org.apache.commons.lang3.ClassUtils.getClass(getDefaultClassLoader(), className);
+    return getClass(getDefaultClassLoader(), className);
   }
 }

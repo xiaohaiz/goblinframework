@@ -2,16 +2,9 @@ package org.goblinframework.core.util;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.aop.framework.ProxyFactory;
 
-import java.lang.reflect.Method;
-
-final public class ReflectionUtils {
-
-  public static boolean isToStringMethod(@Nullable final Method method) {
-    return (method != null && method.getName().equals("toString") && method.getParameterTypes().length == 0);
-  }
+final public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
 
   @SuppressWarnings("unchecked")
   @NotNull

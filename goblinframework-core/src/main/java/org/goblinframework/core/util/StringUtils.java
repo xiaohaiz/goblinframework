@@ -5,39 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-final public class StringUtils {
-
-  public static boolean contains(final CharSequence seq, final CharSequence searchSeq) {
-    return org.apache.commons.lang3.StringUtils.contains(seq, searchSeq);
-  }
-
-  public static <T extends CharSequence> T defaultIfBlank(final T str, final T defaultStr) {
-    return org.apache.commons.lang3.StringUtils.defaultIfBlank(str, defaultStr);
-  }
-
-  public static String defaultString(final String str) {
-    return org.apache.commons.lang3.StringUtils.defaultString(str);
-  }
-
-  public static String defaultString(final String str, final String defaultStr) {
-    return org.apache.commons.lang3.StringUtils.defaultString(str, defaultStr);
-  }
-
-  public static boolean endsWith(final CharSequence str, final CharSequence suffix) {
-    return org.apache.commons.lang3.StringUtils.endsWith(str, suffix);
-  }
-
-  public static boolean isBlank(final CharSequence cs) {
-    return org.apache.commons.lang3.StringUtils.isBlank(cs);
-  }
-
-  public static String replace(final String text, final String searchString, final String replacement) {
-    return org.apache.commons.lang3.StringUtils.replace(text, searchString, replacement);
-  }
-
-  // ==========================================================================
-  // EXTENSION UTILITIES METHODS
-  // ==========================================================================
+final public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
   @Nullable
   public static String compactContinuousSlashes(@Nullable final String path) {
