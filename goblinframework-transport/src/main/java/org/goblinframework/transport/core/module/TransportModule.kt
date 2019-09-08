@@ -9,34 +9,34 @@ class TransportModule : GoblinModule {
   }
 
   override fun initialize(ctx: GoblinModuleInitializeContext) {
-    ctx.createChildModuleManager(name())
-        .module("CLIENT")
+    ctx.createChildModuleManager()
+        .module("TRANSPORT:CLIENT")
         .next()
-        .module("SERVER")
+        .module("TRANSPORT:SERVER")
         .initialize(ctx)
   }
 
   override fun bootstrap(ctx: GoblinModuleBootstrapContext) {
-    ctx.createChildModuleManager(name())
-        .module("CLIENT")
+    ctx.createChildModuleManager()
+        .module("TRANSPORT:CLIENT")
         .next()
-        .module("SERVER")
+        .module("TRANSPORT:SERVER")
         .bootstrap(ctx)
   }
 
   override fun shutdown(ctx: GoblinModuleShutdownContext) {
-    ctx.createChildModuleManager(name())
-        .module("SERVER")
+    ctx.createChildModuleManager()
+        .module("TRANSPORT:SERVER")
         .next()
-        .module("CLIENT")
+        .module("TRANSPORT:CLIENT")
         .shutdown(ctx)
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    ctx.createChildModuleManager(name())
-        .module("SERVER")
+    ctx.createChildModuleManager()
+        .module("TRANSPORT:SERVER")
         .next()
-        .module("CLIENT")
+        .module("TRANSPORT:CLIENT")
         .finalize(ctx)
   }
 }

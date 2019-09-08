@@ -5,7 +5,7 @@ import org.goblinframework.core.event.GoblinEventFuture
 import org.springframework.util.LinkedMultiValueMap
 import java.util.concurrent.atomic.AtomicInteger
 
-class GoblinChildModuleManager(private val parent: String) {
+class GoblinChildModuleManager {
 
   private val stage = AtomicInteger()
   private val modules = LinkedMultiValueMap<Int, List<String>>()
@@ -46,7 +46,7 @@ class GoblinChildModuleManager(private val parent: String) {
       val futures = mutableListOf<GoblinEventFuture>()
       for (names in namesList) {
         val childModules = names.mapNotNull {
-          GoblinChildModuleLoader.INSTANCE.getGoblinChildModule(parent, it)
+          GoblinChildModuleLoader.INSTANCE.getGoblinChildModule(it)
         }.toList()
         if (childModules.isEmpty()) {
           continue

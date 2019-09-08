@@ -10,30 +10,30 @@ class EmbeddedModule : GoblinModule {
   }
 
   override fun initialize(ctx: GoblinModuleInitializeContext) {
-    ctx.createChildModuleManager(name())
-        .module("JETTY")
-        .module("NETTY")
+    ctx.createChildModuleManager()
+        .module("EMBEDDED:JETTY")
+        .module("EMBEDDED:NETTY")
         .initialize(ctx)
   }
 
   override fun bootstrap(ctx: GoblinModuleBootstrapContext) {
-    ctx.createChildModuleManager(name())
-        .module("JETTY")
-        .module("NETTY")
+    ctx.createChildModuleManager()
+        .module("EMBEDDED:JETTY")
+        .module("EMBEDDED:NETTY")
         .bootstrap(ctx)
   }
 
   override fun shutdown(ctx: GoblinModuleShutdownContext) {
-    ctx.createChildModuleManager(name())
-        .module("JETTY")
-        .module("NETTY")
+    ctx.createChildModuleManager()
+        .module("EMBEDDED:JETTY")
+        .module("EMBEDDED:NETTY")
         .shutdown(ctx)
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    ctx.createChildModuleManager(name())
-        .module("JETTY")
-        .module("NETTY")
+    ctx.createChildModuleManager()
+        .module("EMBEDDED:JETTY")
+        .module("EMBEDDED:NETTY")
         .finalize(ctx)
     EmbeddedServerManager.INSTANCE.close()
   }

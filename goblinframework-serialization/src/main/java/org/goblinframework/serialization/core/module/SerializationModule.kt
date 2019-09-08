@@ -11,30 +11,30 @@ class SerializationModule : GoblinModule {
 
   override fun initialize(ctx: GoblinModuleInitializeContext) {
     SerializerManager.INSTANCE.initialize()
-    ctx.createChildModuleManager(name())
-        .module("FST")
-        .module("HESSIAN")
+    ctx.createChildModuleManager()
+        .module("SERIALIZATION:FST")
+        .module("SERIALIZATION:HESSIAN")
         .initialize(ctx)
   }
 
   override fun bootstrap(ctx: GoblinModuleBootstrapContext) {
-    ctx.createChildModuleManager(name())
-        .module("FST")
-        .module("HESSIAN")
+    ctx.createChildModuleManager()
+        .module("SERIALIZATION:FST")
+        .module("SERIALIZATION:HESSIAN")
         .bootstrap(ctx)
   }
 
   override fun shutdown(ctx: GoblinModuleShutdownContext) {
-    ctx.createChildModuleManager(name())
-        .module("FST")
-        .module("HESSIAN")
+    ctx.createChildModuleManager()
+        .module("SERIALIZATION:FST")
+        .module("SERIALIZATION:HESSIAN")
         .shutdown(ctx)
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    ctx.createChildModuleManager(name())
-        .module("FST")
-        .module("HESSIAN")
+    ctx.createChildModuleManager()
+        .module("SERIALIZATION:FST")
+        .module("SERIALIZATION:HESSIAN")
         .finalize(ctx)
     SerializerManager.INSTANCE.close()
   }

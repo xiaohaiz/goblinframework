@@ -2,8 +2,6 @@ package org.goblinframework.core.bootstrap
 
 interface GoblinChildModule {
 
-  fun parent(): String
-
   fun name(): String
 
   fun managementEntrance(): String? {
