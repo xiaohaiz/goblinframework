@@ -19,6 +19,7 @@ final public class NetworkUtils {
 
   public static final String LOCALHOST = "127.0.0.1";
   public static final String ALL_HOST = "0.0.0.0";
+  public static final int RANDOM_PORT = 0;
 
   @NotNull
   public static String getLocalAddress() {
