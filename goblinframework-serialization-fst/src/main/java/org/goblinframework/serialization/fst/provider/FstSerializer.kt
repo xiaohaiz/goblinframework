@@ -17,6 +17,11 @@ class FstSerializer : Serializer {
     fo.flush()
   }
 
+  override fun serialize(obj: Any): ByteArray {
+    val configuration = FstConfigurationFactory.configuration
+    return configuration.asByteArray(obj)
+  }
+
   override fun deserialize(inStream: InputStream): Any {
     val configuration = FstConfigurationFactory.configuration
     val fi = configuration.getObjectInput(inStream)

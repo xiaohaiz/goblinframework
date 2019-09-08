@@ -27,5 +27,11 @@ class FstSerializerTest {
       target as Instant
       Assert.assertEquals(source.toEpochMilli(), target.toEpochMilli())
     }
+    val bs = s.serialize(source)
+    ByteArrayInputStream(bs).use {
+      val target = s.deserialize(it)
+      target as Instant
+      Assert.assertEquals(source.toEpochMilli(), target.toEpochMilli())
+    }
   }
 }

@@ -16,16 +16,22 @@ import java.time.Instant
 class Hessian2SerializerTest {
 
   @Test
-  fun testInstant() {
-    val i = Instant.now()
-    val t = i.toEpochMilli()
+  fun serializeInstant() {
     val s = SerializerManager.INSTANCE.getSerializer(Serializer.HESSIAN2)!!
-    val bos = ByteArrayOutputStream()
-    s.serialize(i, bos)
-    val bis = ByteArrayInputStream(bos.toByteArray())
-    bos.close()
-    val d = s.deserialize(bis) as Instant
-    bis.close()
-    Assert.assertEquals(t, d.toEpochMilli())
+    val source = Instant.now()
+    ByteArrayOutputStream().use {
+      s.serialize(source, it)
+      ByteArrayInputStream(it.toByteArray())
+    }.use {
+      val target = s.deserialize(it)
+      target as Instant
+      Assert.assertEquals(source.toEpochMilli(), target.toEpochMilli())
+    }
+    val bs = s.serialize(source)
+    ByteArrayInputStream(bs).use {
+      val target = s.deserialize(it)
+      target as Instant
+      Assert.assertEquals(source.toEpochMilli(), target.toEpochMilli())
+    }
   }
 }

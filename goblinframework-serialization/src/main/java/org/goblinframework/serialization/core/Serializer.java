@@ -16,6 +16,9 @@ public interface Serializer {
   void serialize(@NotNull Object obj, @NotNull OutputStream outStream);
 
   @NotNull
+  byte[] serialize(@NotNull Object obj);
+
+  @NotNull
   Object deserialize(@NotNull InputStream inStream);
 
 }

@@ -19,6 +19,13 @@ class JavaSerializer : Serializer {
     SerializationUtils.serialize(obj, outStream)
   }
 
+  override fun serialize(obj: Any): ByteArray {
+    if (obj !is Serializable) {
+      throw UnsupportedOperationException("Serializable is required")
+    }
+    return SerializationUtils.serialize(obj)
+  }
+
   override fun deserialize(inStream: InputStream): Any {
     return SerializationUtils.deserialize(inStream)
   }

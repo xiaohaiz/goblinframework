@@ -30,6 +30,12 @@ final class SerializerImpl extends GoblinManagedObject
 
   @NotNull
   @Override
+  public byte[] serialize(@NotNull Object obj) {
+    return serializer.serialize(obj);
+  }
+
+  @NotNull
+  @Override
   public Object deserialize(@NotNull InputStream inStream) {
     return serializer.deserialize(inStream);
   }
