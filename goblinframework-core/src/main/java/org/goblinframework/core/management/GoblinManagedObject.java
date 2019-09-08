@@ -16,7 +16,7 @@ abstract public class GoblinManagedObject implements PlatformManagedObject {
 
   protected GoblinManagedObject() {
     Class<?> clazz = ClassUtils.filterCglibProxyClass(getClass());
-    GoblinManagedBean annotation = AnnotationUtils.getAnnotation(clazz, GoblinManagedBean.class);
+    GoblinManagedBean annotation = AnnotationUtils.findAnnotation(clazz, GoblinManagedBean.class);
     if (annotation != null) {
       String type = StringUtils.defaultIfBlank(annotation.type(), "GOBLIN");
       String name = StringUtils.defaultIfBlank(annotation.name(),
