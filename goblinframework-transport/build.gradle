@@ -1,0 +1,8 @@
+description = "goblinframework-transport"
+
+dependencies {
+  compile(project(":goblinframework-serialization"))
+  compile("io.netty:netty-all:${netty_version}")
+
+  testCompile(project(":goblinframework-test"))
+}
