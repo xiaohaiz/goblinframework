@@ -1,6 +1,7 @@
 package org.goblinframework.core.util;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -16,7 +17,7 @@ final public class NetworkUtils {
 
   private static final Pattern IP_PATTERN = Pattern.compile("\\d{1,3}(\\.\\d{1,3}){3,5}$");
 
-  public static boolean isValidAddress(InetAddress address) {
+  public static boolean isValidAddress(@Nullable InetAddress address) {
     if (address == null || address.isLoopbackAddress())
       return false;
     if (address instanceof Inet6Address) {
@@ -29,24 +30,30 @@ final public class NetworkUtils {
         && IP_PATTERN.matcher(name).matches());
   }
 
-  private static List<String> hostAddresses = null;
-
   @NotNull
-  public synchronized static List<String> getHostAddresses() {
-    if (hostAddresses == null) {
-      try {
-        hostAddresses = determineHostAddresses();
-      } catch (Exception ex) {
-        throw new GoblinNetworkException(ex);
-      }
+  public static String getLocalAddress() {
+    InetAddress ia;
+    try {
+      ia = InetAddress.getLocalHost();
+    } catch (Exception ex) {
+      throw new GoblinNetworkException(ex);
     }
-    return hostAddresses;
+    if (isValidAddress(ia)) {
+      return ia.getHostAddress();
+    }
+    return getLocalAddresses().stream()
+        .findFirst().orElse("127.0.0.1");
   }
 
   @NotNull
-  private static List<String> determineHostAddresses() throws Exception {
+  public static List<String> getLocalAddresses() {
     List<InetAddress> list = new ArrayList<>();
-    Enumeration<NetworkInterface> it = NetworkInterface.getNetworkInterfaces();
+    Enumeration<NetworkInterface> it;
+    try {
+      it = NetworkInterface.getNetworkInterfaces();
+    } catch (Exception ex) {
+      throw new GoblinNetworkException(ex);
+    }
     if (it == null) {
       return Collections.emptyList();
     }
@@ -64,4 +71,5 @@ final public class NetworkUtils {
         .distinct()
         .collect(Collectors.toList());
   }
+
 }
