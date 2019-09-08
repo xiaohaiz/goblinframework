@@ -1,6 +1,6 @@
 package org.goblinframework.embedded.core;
 
-import org.goblinframework.embedded.core.manager.EmbeddedServerSetting;
+import org.goblinframework.embedded.core.setting.EmbeddedServerSetting;
 import org.jetbrains.annotations.NotNull;
 
 public interface EmbeddedServerFactory {
