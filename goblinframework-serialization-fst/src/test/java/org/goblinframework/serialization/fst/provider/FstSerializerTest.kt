@@ -1,5 +1,6 @@
 package org.goblinframework.serialization.fst.provider
 
+import org.apache.commons.lang3.RandomUtils
 import org.apache.commons.lang3.SystemUtils
 import org.goblinframework.serialization.core.Serializer
 import org.goblinframework.serialization.core.manager.SerializerManager
@@ -11,11 +12,35 @@ import org.springframework.test.context.ContextConfiguration
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.math.BigDecimal
 import java.time.Instant
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
 class FstSerializerTest {
+
+  @Test
+  fun testBigDecimal() {
+    val s = SerializerManager.INSTANCE.getSerializer(Serializer.FST)!!
+    val source = BigDecimal.valueOf(RandomUtils.nextDouble())
+    ByteArrayOutputStream().use {
+      s.serialize(source, it)
+      ByteArrayInputStream(it.toByteArray())
+    }.use {
+      val target = s.deserialize(it)
+      target as BigDecimal
+      Assert.assertEquals(source, target)
+    }
+    val bs = s.serialize(source)
+    ByteArrayInputStream(bs).use {
+      val target = s.deserialize(it)
+      target as BigDecimal
+      Assert.assertEquals(source, target)
+    }
+    val target = s.deserialize(bs)
+    target as BigDecimal
+    Assert.assertEquals(source, target)
+  }
 
   @Test
   fun testFile() {
