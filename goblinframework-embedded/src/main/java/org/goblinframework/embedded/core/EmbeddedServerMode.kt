@@ -2,7 +2,7 @@ package org.goblinframework.embedded.core
 
 enum class EmbeddedServerMode {
 
-  JAVA,
+  JDK,
   JETTY,
   NETTY
 

@@ -6,12 +6,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-final public class JavaEmbeddedServer implements EmbeddedServer {
+final public class JdkEmbeddedServer implements EmbeddedServer {
 
   private final EmbeddedServerSetting setting;
-  private final AtomicReference<JavaEmbeddedServerImpl> server = new AtomicReference<>();
+  private final AtomicReference<JdkEmbeddedServerImpl> server = new AtomicReference<>();
 
-  JavaEmbeddedServer(@NotNull EmbeddedServerSetting setting) {
+  JdkEmbeddedServer(@NotNull EmbeddedServerSetting setting) {
     this.setting = setting;
   }
 
@@ -20,12 +20,12 @@ final public class JavaEmbeddedServer implements EmbeddedServer {
     if (server.get() != null) {
       return;
     }
-    server.set(new JavaEmbeddedServerImpl(setting));
+    server.set(new JdkEmbeddedServerImpl(setting));
   }
 
   @Override
   public synchronized void stop() {
-    JavaEmbeddedServerImpl s = server.getAndSet(null);
+    JdkEmbeddedServerImpl s = server.getAndSet(null);
     if (s != null) {
       s.stop();
     }

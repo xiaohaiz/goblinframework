@@ -11,14 +11,14 @@ import org.springframework.test.context.ContextConfiguration
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class JavaEmbeddedServerTest {
+class JdkEmbeddedServerTest {
 
   @Test
   fun server() {
     val name = ObjectId().toHexString()
     val setting = EmbeddedServerSetting.builder()
         .name(name)
-        .mode(EmbeddedServerMode.JAVA)
+        .mode(EmbeddedServerMode.JDK)
         .build()
     val server = EmbeddedServerManager.INSTANCE.createServer(setting)
     server.start()

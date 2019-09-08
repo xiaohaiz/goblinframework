@@ -6,17 +6,17 @@ import org.goblinframework.embedded.core.EmbeddedServerMode;
 import org.goblinframework.embedded.core.setting.EmbeddedServerSetting;
 import org.jetbrains.annotations.NotNull;
 
-public class JavaEmbeddedServerFactory implements EmbeddedServerFactory {
+public class JdkEmbeddedServerFactory implements EmbeddedServerFactory {
 
   @NotNull
   @Override
   public EmbeddedServerMode mode() {
-    return EmbeddedServerMode.JAVA;
+    return EmbeddedServerMode.JDK;
   }
 
   @NotNull
   @Override
   public EmbeddedServer createEmbeddedServer(@NotNull EmbeddedServerSetting setting) {
-    return new JavaEmbeddedServer(setting);
+    return new JdkEmbeddedServer(setting);
   }
 }

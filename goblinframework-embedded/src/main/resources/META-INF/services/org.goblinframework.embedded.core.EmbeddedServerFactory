@@ -1,1 +1,1 @@
-org.goblinframework.embedded.core.provider.JavaEmbeddedServerFactory
+org.goblinframework.embedded.core.provider.JdkEmbeddedServerFactory
