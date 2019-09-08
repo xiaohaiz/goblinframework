@@ -2,9 +2,9 @@ package org.goblinframework.serialization.fst.provider
 
 import org.nustaq.serialization.FSTConfiguration
 
-object FSTConfigurationProvider {
+object FstConfigurationFactory {
 
-  val configuration = FSTConfiguration.createDefaultConfiguration().also {
+  val configuration: FSTConfiguration = FSTConfiguration.createDefaultConfiguration().also {
     it.isShareReferences = false
   }
 
