@@ -38,8 +38,36 @@ abstract public class HttpUtils {
   }
 
   @NotNull
-  public static LinkedHashMap<String, String[]> parseAllQueryString(@Nullable final String qs,
-                                                                    @Nullable final Charset charset) {
+  public static LinkedHashMap<String, String> parseQueryString(@Nullable final String qs) {
+    return parseQueryString(qs, Charsets.UTF_8);
+  }
+
+  @NotNull
+  public static LinkedHashMap<String, String> parseQueryString(@Nullable final String qs,
+                                                               @Nullable final Charset charset) {
+    if (StringUtils.isBlank(qs)) {
+      return new LinkedHashMap<>();
+    }
+    LinkedHashMap<String, String> m = new LinkedHashMap<>();
+    Charset c = (charset == null ? Charsets.UTF_8 : charset);
+    String[] pairs = StringUtils.split(qs, "&");
+    for (String pair : pairs) {
+      int idx = pair.indexOf("=");
+      String key = decodeURL(pair.substring(0, idx), c);
+      String value = decodeURL(pair.substring(idx + 1), c);
+      m.putIfAbsent(key, value);
+    }
+    return m;
+  }
+
+  @NotNull
+  public static LinkedHashMap<String, String[]> parseMultiQueryString(@Nullable final String qs) {
+    return parseMultiQueryString(qs, Charsets.UTF_8);
+  }
+
+  @NotNull
+  public static LinkedHashMap<String, String[]> parseMultiQueryString(@Nullable final String qs,
+                                                                      @Nullable final Charset charset) {
     if (StringUtils.isBlank(qs)) {
       return new LinkedHashMap<>();
     }
