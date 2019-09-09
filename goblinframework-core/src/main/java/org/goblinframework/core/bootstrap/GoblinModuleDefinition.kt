@@ -6,6 +6,7 @@ object GoblinModuleDefinition {
       "CORE",
       "MONITOR",
       "SERIALIZATION",
+      "HTTP",
       "WEBMVC",
       "EMBEDDED",
       "CACHE",

@@ -1,16 +1,10 @@
 description = "goblinframework-webmvc"
 
 dependencies {
-  compile(project(":goblinframework-core"))
+  compile(project(":goblinframework-http"))
   compile("javax.servlet:javax.servlet-api:${javax_servlet_version}")
   compile("org.springframework:spring-web:${spring_version}")
   compile("org.freemarker:freemarker:${freemarker_version}")
-  compile("org.apache.httpcomponents:httpclient:${httpclient_version}") {
-    exclude(group: "commons-codec", module: "commons-codec")
-  }
-  compile("com.squareup.okhttp3:okhttp:${okhttp_version}") {
-    exclude(group: "org.jetbrains.kotlin", module: "kotlin-stdlib")
-  }
 
   testCompile(project(":goblinframework-test"))
 }
