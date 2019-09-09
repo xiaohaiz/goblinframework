@@ -1,4 +1,4 @@
-package org.goblinframework.core.management
+package org.goblinframework.core.mbean
 
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantReadWriteLock

@@ -1,7 +1,7 @@
 package org.goblinframework.serialization.core.manager
 
-import org.goblinframework.core.management.GoblinManagedBean
-import org.goblinframework.core.management.GoblinManagedObject
+import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.GoblinServiceLoader
 import org.goblinframework.serialization.core.Serializer
 

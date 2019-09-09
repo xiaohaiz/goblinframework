@@ -10,8 +10,8 @@ import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.dsl.GoblinCallbackEventListener
 import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusWorker
-import org.goblinframework.core.management.GoblinManagedBean
-import org.goblinframework.core.management.GoblinManagedObject
+import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.GoblinServiceLoader
 import java.util.concurrent.TimeUnit

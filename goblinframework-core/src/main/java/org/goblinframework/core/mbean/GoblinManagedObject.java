@@ -1,4 +1,4 @@
-package org.goblinframework.core.management;
+package org.goblinframework.core.mbean;
 
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;

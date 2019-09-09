@@ -43,10 +43,10 @@ final public class ThreadPoolSetting {
 
   final public static class ThreadPoolSettingBuilder {
 
-    private int corePoolSize = 8;
-    private int maximumPoolSize = 256;
-    private long keepAliveTime = 60;
-    private TimeUnit unit = TimeUnit.SECONDS;
+    private int corePoolSize = 4;
+    private int maximumPoolSize = 32;
+    private long keepAliveTime = 1;
+    private TimeUnit unit = TimeUnit.MINUTES;
 
     private ThreadPoolSettingBuilder() {
     }
