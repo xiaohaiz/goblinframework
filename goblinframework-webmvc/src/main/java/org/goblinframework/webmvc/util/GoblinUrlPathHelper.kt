@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest
 class GoblinUrlPathHelper private constructor() : UrlPathHelper() {
 
   companion object {
-    val INSTANCE = GoblinUrlPathHelper()
+    @JvmField val INSTANCE = GoblinUrlPathHelper()
   }
 
   init {
