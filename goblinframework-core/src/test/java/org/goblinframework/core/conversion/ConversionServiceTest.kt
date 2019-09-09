@@ -1,5 +1,6 @@
 package org.goblinframework.core.conversion
 
+import org.goblinframework.core.util.DateFormatUtils
 import org.junit.Assert.*
 import org.junit.Test
 import java.time.Instant
@@ -20,6 +21,16 @@ class ConversionServiceTest {
     val source = Calendar.getInstance()
     val target = cs.convert(source, Long::class.java)
     assertEquals(source.timeInMillis, target!!.toLong())
+  }
+
+  @Test
+  fun calendarToString() {
+    val cs = ConversionService.INSTANCE
+    assertTrue(cs.canConvert(Calendar::class.java, String::class.java))
+    val source = Calendar.getInstance()
+    val target = cs.convert(source, String::class.java)
+    val date = DateFormatUtils.parse(target)!!
+    assertEquals(source.timeInMillis, date.time)
   }
 
   @Test

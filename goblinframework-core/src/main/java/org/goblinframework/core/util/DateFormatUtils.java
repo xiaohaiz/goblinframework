@@ -1,19 +1,36 @@
 package org.goblinframework.core.util;
 
 import org.apache.commons.lang3.time.FastDateFormat;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 
 abstract public class DateFormatUtils extends org.apache.commons.lang3.time.DateFormatUtils {
+
+  private static final String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
+
+  @NotNull
+  public static FastDateFormat getDefaultFormatter() {
+    return FastDateFormat.getInstance(DEFAULT_PATTERN);
+  }
+
+  @Nullable
+  public static String format(@Nullable final Calendar calendar) {
+    if (calendar == null) {
+      return null;
+    }
+    return getDefaultFormatter().format(calendar);
+  }
 
   @Nullable
   public static String format(@Nullable final Date date) {
     if (date == null) {
       return null;
     }
-    return FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss.SSS").format(date);
+    return getDefaultFormatter().format(date);
   }
 
   @Nullable
@@ -54,7 +71,7 @@ abstract public class DateFormatUtils extends org.apache.commons.lang3.time.Date
           return null;
         }
       }
-      pattern = "yyyy-MM-dd HH:mm:ss.SSS";
+      pattern = DEFAULT_PATTERN;
     }
     if (pattern == null) {
       return null;

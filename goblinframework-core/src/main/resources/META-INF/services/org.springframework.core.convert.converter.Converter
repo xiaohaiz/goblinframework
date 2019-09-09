@@ -1,3 +1,4 @@
 org.goblinframework.core.conversion.converter.CalendarToLongConverter
+org.goblinframework.core.conversion.converter.CalendarToStringConverter
 org.goblinframework.core.conversion.converter.DateToLongConverter
 org.goblinframework.core.conversion.converter.InstantToLongConverter
