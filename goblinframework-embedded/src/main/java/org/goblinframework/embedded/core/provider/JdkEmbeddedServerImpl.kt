@@ -1,14 +1,14 @@
 package org.goblinframework.embedded.core.provider
 
 import com.sun.net.httpserver.HttpServer
-import org.goblinframework.embedded.core.setting.EmbeddedServerSetting
+import org.goblinframework.embedded.core.setting.ServerSetting
 
 import java.net.InetSocketAddress
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
-internal class JdkEmbeddedServerImpl(setting: EmbeddedServerSetting) {
+internal class JdkEmbeddedServerImpl(setting: ServerSetting) {
 
   private val host: String
   private val port: Int

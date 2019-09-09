@@ -1,17 +1,17 @@
 package org.goblinframework.embedded.core.provider;
 
 import org.goblinframework.embedded.core.EmbeddedServer;
-import org.goblinframework.embedded.core.setting.EmbeddedServerSetting;
+import org.goblinframework.embedded.core.setting.ServerSetting;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.atomic.AtomicReference;
 
 final public class JdkEmbeddedServer implements EmbeddedServer {
 
-  private final EmbeddedServerSetting setting;
+  private final ServerSetting setting;
   private final AtomicReference<JdkEmbeddedServerImpl> server = new AtomicReference<>();
 
-  JdkEmbeddedServer(@NotNull EmbeddedServerSetting setting) {
+  JdkEmbeddedServer(@NotNull ServerSetting setting) {
     this.setting = setting;
   }
 

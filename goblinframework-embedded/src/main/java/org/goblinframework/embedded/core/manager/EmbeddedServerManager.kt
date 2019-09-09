@@ -6,7 +6,7 @@ import org.goblinframework.core.util.GoblinServiceLoader
 import org.goblinframework.embedded.core.EmbeddedServer
 import org.goblinframework.embedded.core.EmbeddedServerFactory
 import org.goblinframework.embedded.core.EmbeddedServerMode
-import org.goblinframework.embedded.core.setting.EmbeddedServerSetting
+import org.goblinframework.embedded.core.setting.ServerSetting
 import java.util.*
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
@@ -34,7 +34,7 @@ class EmbeddedServerManager private constructor()
     }
   }
 
-  fun createServer(setting: EmbeddedServerSetting): EmbeddedServer {
+  fun createServer(setting: ServerSetting): EmbeddedServer {
     val name = setting.name()
     val mode = setting.mode()
     val factory = factories[mode]
