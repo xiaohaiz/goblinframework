@@ -9,6 +9,14 @@ import java.util.Date;
 abstract public class DateFormatUtils extends org.apache.commons.lang3.time.DateFormatUtils {
 
   @Nullable
+  public static String format(@Nullable final Date date) {
+    if (date == null) {
+      return null;
+    }
+    return FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss.SSS").format(date);
+  }
+
+  @Nullable
   public static Date parse(@Nullable final String s) {
     if (s == null) {
       return null;
