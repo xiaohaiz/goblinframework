@@ -6,23 +6,13 @@ import javax.servlet.WriteListener
 
 class JdkServletOutputStream : ServletOutputStream() {
 
-  private val flushed = ByteArrayOutputStream(512)
   private val outputStream = ByteArrayOutputStream(512)
 
   fun responseBody(): ByteArray {
-    return flushed.toByteArray()
+    return outputStream.toByteArray()
   }
 
   fun reset() {
-    outputStream.reset()
-  }
-
-  override fun close() {
-    flush()
-  }
-
-  override fun flush() {
-    flushed.write(outputStream.toByteArray())
     outputStream.reset()
   }
 
