@@ -4,6 +4,7 @@ import org.goblinframework.core.module.spi.ManagementServer
 import org.goblinframework.embedded.core.EmbeddedServerMode
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting
+import java.util.concurrent.atomic.AtomicReference
 
 class ManagementServerManager private constructor() : ManagementServer {
 
@@ -12,7 +13,12 @@ class ManagementServerManager private constructor() : ManagementServer {
     @JvmField val INSTANCE = ManagementServerManager()
   }
 
+  private val setting = AtomicReference<ServerSetting>()
+
   override fun start() {
+    if (this.setting.get() != null) {
+      return
+    }
     val setting = ServerSetting.builder()
         .name(SERVER_NAME)
         .mode(EmbeddedServerMode.JDK)
@@ -25,11 +31,14 @@ class ManagementServerManager private constructor() : ManagementServer {
         .build()
     val serverManager = EmbeddedServerManager.INSTANCE
     serverManager.createServer(setting).start()
+    this.setting.set(setting)
   }
 
   override fun stop() {
-    val serverManager = EmbeddedServerManager.INSTANCE
-    serverManager.closeServer(SERVER_NAME)
+    setting.getAndSet(null)?.run {
+      val serverManager = EmbeddedServerManager.INSTANCE
+      serverManager.closeServer(this.name())
+    }
   }
 
   class Installer : ManagementServer by INSTANCE
