@@ -2,16 +2,9 @@ description = "goblinframework-http"
 
 dependencies {
   compile(project(":goblinframework-core"))
-  compile("org.apache.httpcomponents:httpclient:${httpclient_version}") {
-    exclude(group: "commons-codec", module: "commons-codec")
-  }
-  compile("org.apache.httpcomponents:httpasyncclient:${httpasyncclient_version}") {
-    exclude(group: "org.apache.httpcomponents", module: "httpclient")
-    exclude(group: "org.apache.httpcomponents", module: "httpcore")
-  }
-  compile("com.squareup.okhttp3:okhttp:${okhttp_version}") {
-    exclude(group: "org.jetbrains.kotlin", module: "kotlin-stdlib")
-  }
+  compile("org.apache.httpcomponents:httpclient:${httpclient_version}")
+  compile("org.apache.httpcomponents:httpasyncclient:${httpasyncclient_version}")
+  compile("com.squareup.okhttp3:okhttp:${okhttp_version}")
 
   testCompile(project(":goblinframework-test"))
 }

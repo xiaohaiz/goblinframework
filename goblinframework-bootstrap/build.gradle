@@ -10,9 +10,7 @@ dependencies {
   compile(project(":goblinframework-transport"))
   compile(project(":goblinframework-management"))
   compile("org.slf4j:jcl-over-slf4j:${slf4j_version}")
-  compile("org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}") {
-    exclude(group: "org.slf4j", module: "slf4j-api")
-  }
+  compile("org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}")
 
   testCompile(project(":goblinframework-test"))
 }
