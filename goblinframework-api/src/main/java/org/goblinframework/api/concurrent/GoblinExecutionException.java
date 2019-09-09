@@ -1,11 +1,12 @@
 package org.goblinframework.api.concurrent;
 
+import org.goblinframework.api.common.GoblinException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.ExecutionException;
 
-public class GoblinExecutionException extends RuntimeException {
+public class GoblinExecutionException extends GoblinException {
   private static final long serialVersionUID = -5355808569842280913L;
 
   public GoblinExecutionException(@NotNull ExecutionException cause) {
