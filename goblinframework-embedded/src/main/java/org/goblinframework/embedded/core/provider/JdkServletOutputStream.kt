@@ -17,6 +17,10 @@ class JdkServletOutputStream : ServletOutputStream() {
     outputStream.reset()
   }
 
+  override fun close() {
+    flush()
+  }
+
   override fun flush() {
     flushed.write(outputStream.toByteArray())
     outputStream.reset()
