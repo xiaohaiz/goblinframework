@@ -12,7 +12,7 @@ import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.WorkerRingBufferFullException
 import org.goblinframework.core.management.GoblinManagedBean
 import org.goblinframework.core.management.GoblinManagedObject
-import org.goblinframework.core.util.ThreadUtils
+import org.goblinframework.core.util.SystemUtils
 import java.time.Instant
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -37,7 +37,7 @@ internal constructor(private val config: EventBusConfig)
     val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusWorker-${config.channel}")
     val eventFactory = EventBusWorkerEventFactory.INSTANCE
     disruptor = Disruptor<EventBusWorkerEvent>(eventFactory, config.ringBufferSize, threadFactory)
-    val n = if (config.workHandlers <= 0) ThreadUtils.estimateThreads() else config.workHandlers
+    val n = if (config.workHandlers <= 0) SystemUtils.estimateThreads() else config.workHandlers
     val handlers = Array(n) { EventBusWorkerEventHandler.INSTANCE }
     disruptor.handleEventsWithWorkerPool(*handlers)
     disruptor.start()

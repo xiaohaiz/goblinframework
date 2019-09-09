@@ -5,27 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-final public class StringUtils extends org.apache.commons.lang3.StringUtils {
-
-  @Nullable
-  public static String compactContinuousSlashes(@Nullable final String path) {
-    if (path == null) {
-      return null;
-    }
-    String s = path;
-    if (contains(s, "//")) {
-      while (contains(s, "//")) {
-        s = replace(s, "//", "/");
-      }
-    }
-    if ("/".equals(s)) {
-      return "/";
-    }
-    if (endsWith(s, "/")) {
-      s = s.substring(0, s.length() - 1);
-    }
-    return s;
-  }
+abstract public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
   @Nullable
   public static <T extends CharSequence> T defaultIfBlank(@Nullable final T str,

@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Class related miscellaneous utilities.
  */
-final public class ClassUtils extends org.apache.commons.lang3.ClassUtils {
+abstract public class ClassUtils extends org.apache.commons.lang3.ClassUtils {
 
   @NotNull
   public static ClassLoader getDefaultClassLoader() {

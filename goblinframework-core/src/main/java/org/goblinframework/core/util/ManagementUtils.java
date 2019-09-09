@@ -11,7 +11,7 @@ import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.lang.management.PlatformManagedObject;
 
-final public class ManagementUtils {
+abstract public class ManagementUtils {
   private static final Logger logger = LoggerFactory.getLogger(ManagementUtils.class);
 
   public static void registerMBean(@NotNull PlatformManagedObject pmo) {

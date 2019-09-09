@@ -40,7 +40,7 @@ final public class GoblinServiceLoader {
       List<E> installed = new LinkedList<>();
       ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
       ServiceLoader.load(serviceType, classLoader).forEach(installed::add);
-      installed.sort(Comparator.comparingInt(OrderUtils::calculateOrder));
+      installed.sort(Comparator.comparingInt(ObjectUtils::calculateOrder));
       installed = Collections.unmodifiableList(installed);
       buffer.put(serviceType, installed);
       return installed;

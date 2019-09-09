@@ -3,8 +3,7 @@ package org.goblinframework.core.util;
 import org.goblinframework.api.common.Ordered;
 import org.jetbrains.annotations.NotNull;
 
-final public class OrderUtils {
-
+abstract public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
   /**
    * Calculate specified object's order with default value 0.
    */

@@ -1,6 +1,4 @@
 package org.goblinframework.core.util;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-
-final public class DateUtils extends DateFormatUtils {
+abstract public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 }

@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
-final public class JsonUtils {
+abstract public class JsonUtils {
 
   private static final ObjectMapper DEFAULT_OBJECT_MAPPER;
 

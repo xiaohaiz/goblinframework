@@ -3,7 +3,7 @@ package org.goblinframework.core.event.boss
 import com.lmax.disruptor.WorkHandler
 import org.goblinframework.core.event.exception.ChannelNotFoundException
 import org.goblinframework.core.event.exception.ListenerNotFoundException
-import org.goblinframework.core.util.OrderUtils
+import org.goblinframework.core.util.ObjectUtils
 
 class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossEvent> {
 
@@ -35,7 +35,7 @@ class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossE
     }
     if (ctx.event.isFair) {
       val sorted = listeners.sortedWith(Comparator { o1, o2 ->
-        OrderUtils.calculateOrder(o1).compareTo(OrderUtils.calculateOrder(o2))
+        ObjectUtils.calculateOrder(o1).compareTo(ObjectUtils.calculateOrder(o2))
       }).toList()
       ctx.initializeTaskCount(1)
       worker.public(ctx, sorted)

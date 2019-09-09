@@ -4,7 +4,7 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.aop.framework.ProxyFactory;
 
-final public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
+abstract public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
 
   @SuppressWarnings("unchecked")
   @NotNull

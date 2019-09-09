@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
-final public class YamlUtils {
+abstract public class YamlUtils {
 
   private static final YAMLMapper DEFAULT_OBJECT_MAPPER;
 
