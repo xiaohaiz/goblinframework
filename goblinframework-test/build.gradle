@@ -5,6 +5,7 @@ dependencies {
   compile("junit:junit:${junit_version}")
   compile("org.easymock:easymock:${easymock_version}")
   compile("org.springframework:spring-test:${spring_version}")
+  compile("org.slf4j:jcl-over-slf4j:${slf4j_version}")
   compile("org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}") {
     exclude(group: "org.slf4j", module: "slf4j-api")
   }
