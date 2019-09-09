@@ -60,4 +60,14 @@ class ConversionServiceTest {
     val target = cs.convert(source, Long::class.java)
     assertEquals(source.toEpochMilli(), target!!.toLong())
   }
+
+  @Test
+  fun instantToString() {
+    val cs = ConversionService.INSTANCE
+    assertTrue(cs.canConvert(Instant::class.java, String::class.java))
+    val source = Instant.now()
+    val target = cs.convert(source, String::class.java)
+    val date = DateFormatUtils.parse(target)
+    assertEquals(source.toEpochMilli(), date!!.time)
+  }
 }
