@@ -43,6 +43,16 @@ class ConversionServiceTest {
   }
 
   @Test
+  fun dateToString() {
+    val cs = ConversionService.INSTANCE
+    assertTrue(cs.canConvert(Date::class.java, String::class.java))
+    val source = Date()
+    val target = cs.convert(source, String::class.java)
+    val date = DateFormatUtils.parse(target)
+    assertEquals(source.time, date!!.time)
+  }
+
+  @Test
   fun instantToLong() {
     val cs = ConversionService.INSTANCE
     assertTrue(cs.canConvert(Instant::class.java, Long::class.java))
