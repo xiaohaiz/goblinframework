@@ -1,6 +1,6 @@
 package org.goblinframework.core.bootstrap
 
-import org.goblinframework.core.util.GoblinServiceLoader
+import org.goblinframework.core.util.ServiceInstaller
 
 class GoblinExtensionModuleLoader private constructor() {
 
@@ -11,7 +11,7 @@ class GoblinExtensionModuleLoader private constructor() {
   private val installedExtensionModules = mutableMapOf<String, GoblinExtensionModule>()
 
   init {
-    GoblinServiceLoader.installedList(GoblinExtensionModule::class.java).forEach {
+    ServiceInstaller.installedList(GoblinExtensionModule::class.java).forEach {
       val name = it.name()
       installedExtensionModules.put(name, it)?.run {
         throw GoblinModuleException("Duplicated extension module not allowed: $name")

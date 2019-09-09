@@ -4,7 +4,7 @@ import org.goblinframework.core.bootstrap.GoblinModule
 import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
 import org.goblinframework.core.module.spi.ManagementServer
-import org.goblinframework.core.util.GoblinServiceLoader
+import org.goblinframework.core.util.ServiceInstaller
 
 class SystemModule : GoblinModule {
 
@@ -13,10 +13,10 @@ class SystemModule : GoblinModule {
   }
 
   override fun bootstrap(ctx: GoblinModuleBootstrapContext) {
-    GoblinServiceLoader.installedFirst(ManagementServer::class.java)?.run { start() }
+    ServiceInstaller.installedFirst(ManagementServer::class.java)?.run { start() }
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    GoblinServiceLoader.installedFirst(ManagementServer::class.java)?.run { stop() }
+    ServiceInstaller.installedFirst(ManagementServer::class.java)?.run { stop() }
   }
 }

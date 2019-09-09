@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * GOBLIN specified service loader through standard {@link java.util.ServiceLoader} mechanism.
  */
-final public class GoblinServiceLoader {
+final public class ServiceInstaller {
 
   private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
   private static final Map<Class<?>, Object> buffer = new ConcurrentReferenceHashMap<>(64);

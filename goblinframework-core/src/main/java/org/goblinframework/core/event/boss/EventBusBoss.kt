@@ -13,7 +13,7 @@ import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.AnnotationUtils
-import org.goblinframework.core.util.GoblinServiceLoader
+import org.goblinframework.core.util.ServiceInstaller
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.locks.ReentrantReadWriteLock
@@ -47,7 +47,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     EventBusConfigLoader.configs.forEach { register(it) }
 
     subscribe(GoblinCallbackEventListener.INSTANCE)
-    GoblinServiceLoader.installedList(GoblinEventListener::class.java).forEach { subscribe(it) }
+    ServiceInstaller.installedList(GoblinEventListener::class.java).forEach { subscribe(it) }
   }
 
   fun initialize() {}

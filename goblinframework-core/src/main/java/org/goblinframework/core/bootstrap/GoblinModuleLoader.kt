@@ -1,6 +1,6 @@
 package org.goblinframework.core.bootstrap
 
-import org.goblinframework.core.util.GoblinServiceLoader
+import org.goblinframework.core.util.ServiceInstaller
 
 class GoblinModuleLoader private constructor() {
 
@@ -11,7 +11,7 @@ class GoblinModuleLoader private constructor() {
   private val installedModules = mutableMapOf<String, GoblinModule>()
 
   init {
-    GoblinServiceLoader.installedList(GoblinModule::class.java).forEach {
+    ServiceInstaller.installedList(GoblinModule::class.java).forEach {
       val name = it.name()
       installedModules.put(name, it)?.run {
         throw GoblinModuleException("Duplicated module not allowed: $name")
