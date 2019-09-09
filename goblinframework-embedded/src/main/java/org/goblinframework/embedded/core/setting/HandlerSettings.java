@@ -2,7 +2,7 @@ package org.goblinframework.embedded.core.setting;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.goblinframework.core.util.StringUtils;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.util.LinkedMultiValueMap;
 
 import java.util.*;
@@ -26,7 +26,7 @@ public class HandlerSettings extends LinkedHashMap<String, HandlerSetting> {
     return true;
   }
 
-  @Nullable
+  @NotNull
   public ImmutablePair<String, String> lookupContextPath(final String path) {
     if ("/".equals(path)) {
       return new ImmutablePair<>("/", "/");
@@ -55,6 +55,6 @@ public class HandlerSettings extends LinkedHashMap<String, HandlerSetting> {
         }
       }
     }
-    return null;
+    return new ImmutablePair<>("/", path);
   }
 }

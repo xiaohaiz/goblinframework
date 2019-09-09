@@ -14,11 +14,17 @@ import java.util.*;
 public class JdkHttpServletRequest extends AbstractHttpServletRequest {
 
   private final HttpExchange exchange;
+  private final String contextPath;
+  private final String target;
   private final JdkServletInputStream inStream;
   private final LinkedMultiValueMap<String, String> parameters;
 
-  JdkHttpServletRequest(@NotNull HttpExchange exchange) {
+  JdkHttpServletRequest(@NotNull HttpExchange exchange,
+                        @NotNull String contextPath,
+                        @NotNull String target) {
     this.exchange = exchange;
+    this.contextPath = contextPath;
+    this.target = target;
     this.inStream = new JdkServletInputStream(this.exchange);
     this.parameters = new LinkedMultiValueMap<>();
     String qs = getQueryString();
@@ -118,7 +124,7 @@ public class JdkHttpServletRequest extends AbstractHttpServletRequest {
 
   @Override
   public String getContextPath() {
-    throw new UnsupportedOperationException();
+    return contextPath;
   }
 
   @Override
@@ -128,6 +134,6 @@ public class JdkHttpServletRequest extends AbstractHttpServletRequest {
 
   @Override
   public String getRequestURI() {
-    throw new UnsupportedOperationException();
+    return target;
   }
 }

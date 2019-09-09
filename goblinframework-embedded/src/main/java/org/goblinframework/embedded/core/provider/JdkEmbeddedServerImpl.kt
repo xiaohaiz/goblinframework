@@ -28,6 +28,7 @@ internal class JdkEmbeddedServerImpl(setting: ServerSetting) {
         setting.threadPoolSetting().unit(),
         LinkedBlockingQueue())
     server.executor = executor
+    server.createContext("/", JdkHttpRequestHandler(setting))
     server.start()
 
     host = server.address.address.hostAddress
