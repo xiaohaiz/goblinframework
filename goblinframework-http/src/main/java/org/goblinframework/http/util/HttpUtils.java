@@ -7,9 +7,11 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 abstract public class HttpUtils {
 
@@ -35,6 +37,53 @@ abstract public class HttpUtils {
       s = s.substring(0, s.length() - 1);
     }
     return s;
+  }
+
+  @NotNull
+  public static String buildQueryString(@Nullable final Map<String, Object> m) {
+    return buildQueryString(m, Charsets.UTF_8);
+  }
+
+  @NotNull
+  public static String buildQueryString(@Nullable final Map<String, Object> m,
+                                        @Nullable final Charset charset) {
+    if (m == null || m.isEmpty()) {
+      return StringUtils.EMPTY;
+    }
+    Charset c = (charset == null ? Charsets.UTF_8 : charset);
+    StringBuilder sbuf = new StringBuilder();
+    for (Map.Entry<String, Object> entry : m.entrySet()) {
+      String key = entry.getKey();
+      Object value = entry.getValue();
+      if (value == null) {
+        continue;
+      }
+      String k = encodeURL(key, c);
+      List<String> vs = new LinkedList<>();
+      if (value instanceof Collection) {
+        Object[] ca = ((Collection) value).toArray(new Object[0]);
+        for (Object o : ca) {
+          vs.add(encodeURL(o.toString(), c));
+        }
+      } else if (value.getClass().isArray()) {
+        int len = Array.getLength(value);
+        for (int i = 0; i < len; i++) {
+          vs.add(encodeURL(Array.get(value, i).toString(), c));
+        }
+      } else {
+        vs.add(encodeURL(value.toString(), c));
+      }
+      if (vs.isEmpty()) {
+        continue;
+      }
+      for (String v : vs) {
+        sbuf.append(k).append("=").append(v).append("&");
+      }
+    }
+    if (sbuf.length() > 0) {
+      sbuf.setLength(sbuf.length() - 1);
+    }
+    return sbuf.toString();
   }
 
   @NotNull
@@ -83,6 +132,15 @@ abstract public class HttpUtils {
     LinkedHashMap<String, String[]> result = new LinkedHashMap<>();
     map.forEach((key, value) -> result.put(key, value.toArray(new String[0])));
     return result;
+  }
+
+  private static String encodeURL(@NotNull final String s,
+                                  @NotNull final Charset c) {
+    try {
+      return URLEncoder.encode(s, c.name());
+    } catch (UnsupportedEncodingException ex) {
+      throw new UnsupportedOperationException(ex);
+    }
   }
 
   private static String decodeURL(@NotNull final String s,
