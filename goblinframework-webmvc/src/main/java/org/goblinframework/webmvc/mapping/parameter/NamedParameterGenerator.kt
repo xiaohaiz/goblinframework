@@ -1,4 +1,4 @@
-package org.goblinframework.webmvc.mapping
+package org.goblinframework.webmvc.mapping.parameter
 
 import org.springframework.core.DefaultParameterNameDiscoverer
 import java.lang.reflect.Method

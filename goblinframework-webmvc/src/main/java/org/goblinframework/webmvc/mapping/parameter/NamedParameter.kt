@@ -1,4 +1,4 @@
-package org.goblinframework.webmvc.mapping
+package org.goblinframework.webmvc.mapping.parameter
 
 import java.lang.reflect.Parameter
 import java.lang.reflect.Type

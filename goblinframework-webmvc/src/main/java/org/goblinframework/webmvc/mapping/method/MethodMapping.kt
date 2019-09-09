@@ -1,5 +1,6 @@
-package org.goblinframework.webmvc.mapping
+package org.goblinframework.webmvc.mapping.method
 
+import org.goblinframework.webmvc.mapping.MalformedMappingException
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.ResponseBody
 import java.lang.reflect.Method

@@ -1,7 +1,6 @@
-package org.goblinframework.webmvc.mapping
+package org.goblinframework.webmvc.mapping.parameter
 
 import org.goblinframework.core.util.StringUtils
-import org.goblinframework.webmvc.mapping.parameter.*
 import org.goblinframework.webmvc.servlet.GoblinServletServerHttpRequest
 import org.goblinframework.webmvc.servlet.GoblinServletServerHttpResponse
 import org.springframework.http.server.ServletServerHttpRequest

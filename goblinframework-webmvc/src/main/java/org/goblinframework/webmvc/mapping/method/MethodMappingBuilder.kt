@@ -1,10 +1,9 @@
-package org.goblinframework.webmvc.mapping
+package org.goblinframework.webmvc.mapping.method
 
 import org.apache.commons.lang3.tuple.ImmutablePair
 import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.core.util.ClassUtils
-import org.goblinframework.webmvc.mapping.method.ManagedMethodMapping
-import org.goblinframework.webmvc.mapping.method.StaticMethodMapping
+import org.goblinframework.webmvc.mapping.MalformedMappingException
 import org.goblinframework.webmvc.setting.ControllerSetting
 import org.springframework.beans.factory.BeanFactoryUtils
 import org.springframework.web.bind.annotation.RequestMapping
@@ -22,9 +21,9 @@ object MethodMappingBuilder {
           .filter { it.right != null }
           .map { ImmutablePair.of(it.left, ClassUtils.filterCglibProxyClass(it.right!!)) }
           .filter { it.right.isAnnotationPresent(RequestMapping::class.java) }
-          .forEach {
-            val name = it.left
-            val type = it.right
+          .forEach { p ->
+            val name = p.left
+            val type = p.right
             types.putIfAbsent(type, System.currentTimeMillis())?.run { throw MalformedMappingException() }
             type.declaredMethods.asList()
                 .filterNot { Modifier.isStatic(it.modifiers) }
@@ -38,9 +37,9 @@ object MethodMappingBuilder {
     setting.controllers()
         .map { ImmutablePair.of(it, ClassUtils.filterCglibProxyClass(it.javaClass)) }
         .filter { it.right.isAnnotationPresent(RequestMapping::class.java) }
-        .forEach {
-          val bean = it.left
-          val type = it.right
+        .forEach { p ->
+          val bean = p.left
+          val type = p.right
           types.putIfAbsent(type, System.currentTimeMillis())?.run { throw MalformedMappingException() }
           type.declaredMethods.asList()
               .filterNot { Modifier.isStatic(it.modifiers) }
