@@ -18,8 +18,8 @@ class GoblinUrlPathHelper private constructor() : UrlPathHelper() {
     setRemoveSemicolonContent(true)
   }
 
-  override fun getLookupPathForRequest(request: HttpServletRequest): String? {
+  override fun getLookupPathForRequest(request: HttpServletRequest): String {
     val path = super.getLookupPathForRequest(request)
-    return HttpUtils.compactContinuousSlashes(path)
+    return HttpUtils.compactContinuousSlashes(path)!!
   }
 }
