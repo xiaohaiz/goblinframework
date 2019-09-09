@@ -1,12 +1,15 @@
 package org.goblinframework.management.server
 
+import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.module.spi.ManagementServer
 import org.goblinframework.embedded.core.EmbeddedServerMode
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting
 import java.util.concurrent.atomic.AtomicReference
 
-class ManagementServerManager private constructor() : ManagementServer {
+@GoblinManagedBean("MANAGEMENT")
+class ManagementServerManager private constructor() : GoblinManagedObject(), ManagementServer {
 
   companion object {
     private const val SERVER_NAME = "GoblinManagementServer"
@@ -24,7 +27,7 @@ class ManagementServerManager private constructor() : ManagementServer {
         .mode(EmbeddedServerMode.JDK)
         .applyHandlerSetting {
           it.contextPath("/")
-          it.servletHandler { target, request, response ->
+          it.servletHandler { _, _, _ ->
             println("")
           }
         }
@@ -39,6 +42,10 @@ class ManagementServerManager private constructor() : ManagementServer {
       val serverManager = EmbeddedServerManager.INSTANCE
       serverManager.closeServer(this.name())
     }
+  }
+
+  fun close() {
+    unregisterIfNecessary()
   }
 
   class Installer : ManagementServer by INSTANCE
