@@ -3,10 +3,13 @@ package org.goblinframework.embedded.core.provider;
 import org.goblinframework.embedded.core.EmbeddedServer;
 import org.goblinframework.embedded.core.setting.ServerSetting;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicReference;
 
 final public class JdkEmbeddedServer implements EmbeddedServer {
+  private static final Logger logger = LoggerFactory.getLogger(JdkEmbeddedServer.class);
 
   private final ServerSetting setting;
   private final AtomicReference<JdkEmbeddedServerImpl> server = new AtomicReference<>();
@@ -21,6 +24,10 @@ final public class JdkEmbeddedServer implements EmbeddedServer {
       return;
     }
     server.set(new JdkEmbeddedServerImpl(setting));
+    if (logger.isDebugEnabled()) {
+      logger.debug("JDK embedded server [{}] started at [{}:{}]",
+          setting.name(), server.get().getHost(), server.get().getPort());
+    }
   }
 
   @Override
@@ -28,6 +35,9 @@ final public class JdkEmbeddedServer implements EmbeddedServer {
     JdkEmbeddedServerImpl s = server.getAndSet(null);
     if (s != null) {
       s.stop();
+      if (logger.isDebugEnabled()) {
+        logger.debug("JDK embedded server [{}] stopped", setting.name());
+      }
     }
   }
 

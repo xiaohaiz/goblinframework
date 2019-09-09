@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit
 
 internal class JdkEmbeddedServerImpl(setting: ServerSetting) {
 
-  private val host: String
-  private val port: Int
+  val host: String
+  val port: Int
   private val executor: ThreadPoolExecutor
   private val server: HttpServer
 

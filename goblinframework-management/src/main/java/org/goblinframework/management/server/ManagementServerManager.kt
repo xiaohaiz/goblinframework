@@ -7,6 +7,7 @@ import org.goblinframework.embedded.core.EmbeddedServerMode
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting
 import java.util.concurrent.atomic.AtomicReference
+import javax.servlet.http.HttpServletResponse
 
 @GoblinManagedBean("MANAGEMENT")
 class ManagementServerManager private constructor() : GoblinManagedObject(), ManagementServer {
@@ -27,8 +28,9 @@ class ManagementServerManager private constructor() : GoblinManagedObject(), Man
         .mode(EmbeddedServerMode.JDK)
         .applyHandlerSetting {
           it.contextPath("/")
-          it.servletHandler { _, _, _ ->
-            println("")
+          it.servletHandler { _, _, response ->
+            response.writer.write("HELLO, WORLD!")
+            response.status = HttpServletResponse.SC_OK
           }
         }
         .build()
