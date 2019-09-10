@@ -5,6 +5,7 @@ import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.webmvc.setting.RequestHandlerSetting
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 @GoblinManagedBean("WEBMVC")
@@ -36,5 +37,9 @@ class RequestHandlerManagerBuilder private constructor()
       buffer.values.forEach { it.close() }
       buffer.clear()
     }
+  }
+
+  override fun getRequestHandlerManagerList(): Array<RequestHandlerManagerMXBean> {
+    return lock.read { buffer.values.toTypedArray() }
   }
 }
