@@ -83,10 +83,10 @@ abstract class AbstractInterceptor protected constructor() : Interceptor {
     return true
   }
 
-  override fun postHandle(request: ServletRequest, response: ServletRequest, handler: RequestHandler) {
+  override fun postHandle(request: ServletRequest, response: ServletResponse, handler: RequestHandler) {
   }
 
-  override fun afterCompletion(request: ServletRequest, response: ServletRequest, handler: RequestHandler, cause: Throwable?) {
+  override fun afterCompletion(request: ServletRequest, response: ServletResponse, handler: RequestHandler, cause: Throwable?) {
   }
 
   @Synchronized

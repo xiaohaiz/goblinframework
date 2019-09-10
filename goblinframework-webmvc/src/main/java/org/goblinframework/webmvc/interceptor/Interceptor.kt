@@ -22,11 +22,11 @@ interface Interceptor : Ordered {
                 handler: RequestHandler): Boolean
 
   fun postHandle(request: ServletRequest,
-                 response: ServletRequest,
+                 response: ServletResponse,
                  handler: RequestHandler)
 
   fun afterCompletion(request: ServletRequest,
-                      response: ServletRequest,
+                      response: ServletResponse,
                       handler: RequestHandler,
                       cause: Throwable?)
 }

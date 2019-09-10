@@ -52,7 +52,7 @@ class RequestHandlerManager(private val setting: RequestHandlerSetting) {
     val url = "${request.method!!.name} $lookupPath"
     var mapping = withoutPathVariables[url]
     if (mapping != null) {
-      return RequestHandlerImpl()
+      return RequestHandlerImpl(setting, request, response, lookupPath, lookupPath, mapping)
     }
 
     val depth = StringUtils.countMatches(url, "/")
@@ -65,7 +65,7 @@ class RequestHandlerManager(private val setting: RequestHandlerSetting) {
       val matching = condition.getMatchingPatterns(lookupPath)
       val bestMatchingPattern = matching.firstOrNull() ?: continue
       mapping = withPathVariables[prefix]!![bestMatchingPattern]!!
-      return RequestHandlerImpl()
+      return RequestHandlerImpl(setting, request, response, lookupPath, bestMatchingPattern, mapping)
     }
     return null
   }
