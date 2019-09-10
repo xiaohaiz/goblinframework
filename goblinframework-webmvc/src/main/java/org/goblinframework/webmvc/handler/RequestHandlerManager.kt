@@ -1,5 +1,7 @@
 package org.goblinframework.webmvc.handler
 
+import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.StringUtils
 import org.goblinframework.webmvc.mapping.controller.ControllerMappingBuilder
 import org.goblinframework.webmvc.mapping.method.MethodMappingBuilder
@@ -10,7 +12,9 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.max
 import kotlin.math.min
 
-class RequestHandlerManager(private val setting: RequestHandlerSetting) {
+@GoblinManagedBean("WEBMVC")
+class RequestHandlerManager(private val setting: RequestHandlerSetting)
+  : GoblinManagedObject(), RequestHandlerManagerMXBean {
 
   private val withoutPathVariables = ControllerMappingMap()
   private val withPathVariables = mutableMapOf<String, ControllerMappingMap>()
@@ -75,5 +79,9 @@ class RequestHandlerManager(private val setting: RequestHandlerSetting) {
     list.addAll(listOf(*segments).subList(0, index))
     list.add("")
     return StringUtils.join(list, "/")
+  }
+
+  internal fun close() {
+    unregisterIfNecessary()
   }
 }

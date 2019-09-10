@@ -2,18 +2,26 @@ package org.goblinframework.webmvc.setting;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 final public class RequestHandlerSetting {
 
+  private final String name;
   private final ControllerSetting controllerSetting;
   private final InterceptorSetting interceptorSetting;
   private final ViewResolverSetting viewResolverSetting;
 
   private RequestHandlerSetting(@NotNull RequestHandlerSettingBuilder builder) {
+    this.name = Objects.requireNonNull(builder.name);
     this.controllerSetting = builder.controllerSettingBuilder.build();
     this.interceptorSetting = builder.interceptorSettingBuilder.build();
     this.viewResolverSetting = builder.viewResolverSettingBuilder.build();
+  }
+
+  @NotNull
+  public String name() {
+    return name;
   }
 
   @NotNull
@@ -38,6 +46,7 @@ final public class RequestHandlerSetting {
 
   final public static class RequestHandlerSettingBuilder {
 
+    private String name;
     private final ControllerSetting.ControllerSettingBuilder controllerSettingBuilder;
     private final InterceptorSetting.InterceptorSettingBuilder interceptorSettingBuilder;
     private final ViewResolverSetting.ViewResolverSettingBuilder viewResolverSettingBuilder;
@@ -46,6 +55,12 @@ final public class RequestHandlerSetting {
       controllerSettingBuilder = ControllerSetting.builder();
       interceptorSettingBuilder = InterceptorSetting.builder();
       viewResolverSettingBuilder = ViewResolverSetting.builder();
+    }
+
+    @NotNull
+    public RequestHandlerSettingBuilder name(@NotNull String name) {
+      this.name = name;
+      return this;
     }
 
     @NotNull
