@@ -13,6 +13,7 @@
         p:order="1"
         p:templateLoaderPaths="/WEB-INF/ftl"
         p:autoInclude="/include.ftl"
-        p:suffix=".ftl"/>
+        p:suffix=".ftl"
+        p:preferFileSystemAccess="false"/>
 
 </beans>
