@@ -12,6 +12,6 @@ class NettyEmbeddedServerFactory : EmbeddedServerFactory {
   }
 
   override fun createEmbeddedServer(setting: ServerSetting): EmbeddedServer {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    return NettyEmbeddedServer(setting)
   }
 }
