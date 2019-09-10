@@ -1,6 +1,6 @@
 package org.goblinframework.webmvc.servlet
 
-import org.goblinframework.webmvc.container.GoblinServletApplicationContext
+import org.goblinframework.webmvc.container.ServletSpringContainer
 import org.goblinframework.webmvc.exception.NoRequestHandlerFoundException
 import org.goblinframework.webmvc.handler.RequestHandlerManager
 import org.goblinframework.webmvc.handler.RequestHandlerManagerBuilder
@@ -33,7 +33,7 @@ open class DispatchServlet : FrameworkServlet() {
   }
 
   override fun getContextClass(): Class<*> {
-    return GoblinServletApplicationContext::class.java
+    return ServletSpringContainer::class.java
   }
 
   override fun doOptions(request: HttpServletRequest?, response: HttpServletResponse?) {
