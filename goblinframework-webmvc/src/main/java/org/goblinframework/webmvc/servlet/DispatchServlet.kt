@@ -9,7 +9,7 @@ import repackages.org.springframework.web.servlet.FrameworkServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class DispatchServlet : FrameworkServlet() {
+open class DispatchServlet : FrameworkServlet() {
 
   private lateinit var requestHandlerManager: RequestHandlerManager
 
