@@ -13,7 +13,7 @@ abstract public class ReflectionUtils extends org.springframework.util.Reflectio
   @Nullable
   public static Object invoke(@Nullable Object target,
                               @NotNull Method method,
-                              @Nullable Object... args) throws Throwable {
+                              @Nullable Object[] args) throws Throwable {
     if (!method.isAccessible()) {
       method.setAccessible(true);
     }
