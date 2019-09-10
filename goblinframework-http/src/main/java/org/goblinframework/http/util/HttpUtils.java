@@ -61,8 +61,7 @@ abstract public class HttpUtils {
       String k = encodeURL(key, c);
       List<String> vs = new LinkedList<>();
       if (value instanceof Collection) {
-        Object[] ca = ((Collection) value).toArray(new Object[0]);
-        for (Object o : ca) {
+        for (Object o : (Collection) value) {
           vs.add(encodeURL(o.toString(), c));
         }
       } else if (value.getClass().isArray()) {
@@ -142,6 +141,7 @@ abstract public class HttpUtils {
       throw new UnsupportedOperationException(ex);
     }
   }
+
 
   private static String decodeURL(@NotNull final String s,
                                   @NotNull final Charset c) {
