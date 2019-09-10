@@ -1,0 +1,7 @@
+description = "goblinframework-dao"
+
+dependencies {
+  compile(project(":goblinframework-cache"))
+
+  testCompile(project(":goblinframework-test"))
+}
