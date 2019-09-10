@@ -1,5 +1,6 @@
 package org.goblinframework.core.container
 
+import org.goblinframework.core.event.EventBus
 import org.springframework.beans.BeansException
 import org.springframework.context.support.ClassPathXmlApplicationContext
 
@@ -43,5 +44,10 @@ constructor(vararg configLocations: String)
     if (closed.compareAndSet(false, true)) {
       super.close()
     }
+  }
+
+  override fun finishRefresh() {
+    super.finishRefresh()
+    EventBus.publish(ContainerRefreshedEvent(this)).awaitUninterruptibly()
   }
 }
