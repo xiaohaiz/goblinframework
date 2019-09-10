@@ -17,7 +17,6 @@ open class ContextLoaderListener : org.springframework.web.context.ContextLoader
   }
 
   override fun contextDestroyed(event: ServletContextEvent) {
-    GoblinBootstrap.doShutdown()
     super.contextDestroyed(event)
     GoblinBootstrap.close()
   }

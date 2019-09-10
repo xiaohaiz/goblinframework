@@ -11,7 +11,6 @@ constructor(clazz: Class<*>) : SpringJUnit4ClassRunner(clazz) {
       GoblinBootstrap.initialize()
       Runtime.getRuntime().addShutdownHook(object : Thread("GoblinTestRunnerShutdownHook") {
         override fun run() {
-          GoblinBootstrap.doShutdown()
           GoblinBootstrap.close()
         }
       })

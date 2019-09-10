@@ -17,10 +17,6 @@ final public class GoblinBootstrap {
     LOGGER.info("WELCOME");
   }
 
-  public static void doShutdown() {
-    GoblinModuleManager.INSTANCE.executeShutdown();
-  }
-
   public static void close() {
     SpringContainerManager.INSTANCE.close();
     GoblinModuleManager.INSTANCE.executeFinalize();

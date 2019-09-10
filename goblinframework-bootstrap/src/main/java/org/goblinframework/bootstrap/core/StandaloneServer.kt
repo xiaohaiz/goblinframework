@@ -26,7 +26,6 @@ abstract class StandaloneServer {
   }
 
   fun shutdown() {
-    GoblinBootstrap.doShutdown()
     GoblinBootstrap.close()
   }
 
