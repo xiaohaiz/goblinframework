@@ -27,7 +27,7 @@ class ManagementServerManager private constructor() : GoblinManagedObject(), Man
         .mode(EmbeddedServerMode.JDK)
         .applyHandlerSetting {
           it.contextPath("/")
-
+          it.servletHandler(ManagementServletHandler.INSTANCE)
         }
         .build()
     val serverManager = EmbeddedServerManager.INSTANCE
