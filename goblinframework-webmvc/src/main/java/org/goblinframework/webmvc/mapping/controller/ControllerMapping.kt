@@ -1,6 +1,6 @@
 package org.goblinframework.webmvc.mapping.controller
 
-import org.apache.commons.lang3.StringUtils
+import org.goblinframework.core.util.StringUtils
 import org.goblinframework.webmvc.mapping.MalformedMappingException
 import org.goblinframework.webmvc.mapping.method.MethodMapping
 import org.goblinframework.webmvc.mapping.parameter.*

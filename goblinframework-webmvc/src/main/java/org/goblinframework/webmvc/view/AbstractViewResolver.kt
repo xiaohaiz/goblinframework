@@ -1,6 +1,6 @@
 package org.goblinframework.webmvc.view
 
-import org.apache.commons.lang3.StringUtils
+import org.goblinframework.core.util.StringUtils
 import org.goblinframework.webmvc.servlet.ServletRequest
 import org.goblinframework.webmvc.servlet.ServletResponse
 import org.springframework.ui.Model
