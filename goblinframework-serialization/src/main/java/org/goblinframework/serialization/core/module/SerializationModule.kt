@@ -2,6 +2,7 @@ package org.goblinframework.serialization.core.module
 
 import org.goblinframework.core.bootstrap.*
 import org.goblinframework.serialization.core.manager.SerializerManager
+import org.goblinframework.serialization.core.module.management.SerializationManagementController
 
 class SerializationModule : GoblinModule {
 
@@ -9,8 +10,12 @@ class SerializationModule : GoblinModule {
     return "SERIALIZATION"
   }
 
+  override fun managementEntrance(): String? {
+    return "/serialization/index.do"
+  }
+
   override fun initialize(ctx: GoblinModuleInitializeContext) {
-    SerializerManager.INSTANCE.initialize()
+    ctx.registerManagementController(SerializationManagementController.INSTANCE)
     ctx.createChildModuleManager()
         .module("SERIALIZATION:FST")
         .module("SERIALIZATION:HESSIAN")
@@ -18,6 +23,7 @@ class SerializationModule : GoblinModule {
   }
 
   override fun bootstrap(ctx: GoblinModuleBootstrapContext) {
+    SerializerManager.INSTANCE.initialize()
     ctx.createChildModuleManager()
         .module("SERIALIZATION:FST")
         .module("SERIALIZATION:HESSIAN")
