@@ -1,6 +1,9 @@
 package org.goblinframework.serialization.core.module
 
-import org.goblinframework.core.bootstrap.*
+import org.goblinframework.core.bootstrap.GoblinModule
+import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
+import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
 import org.goblinframework.serialization.core.manager.SerializerManager
 import org.goblinframework.serialization.core.module.management.SerializationManagementController
 
@@ -28,13 +31,6 @@ class SerializationModule : GoblinModule {
         .module("SERIALIZATION:FST")
         .module("SERIALIZATION:HESSIAN")
         .bootstrap(ctx)
-  }
-
-  override fun shutdown(ctx: GoblinModuleShutdownContext) {
-    ctx.createChildModuleManager()
-        .module("SERIALIZATION:FST")
-        .module("SERIALIZATION:HESSIAN")
-        .shutdown(ctx)
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {

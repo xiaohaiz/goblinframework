@@ -18,8 +18,6 @@ interface GoblinExtensionModule : Ordered {
 
   fun bootstrap(ctx: GoblinModuleBootstrapContext) {}
 
-  fun shutdown(ctx: GoblinModuleShutdownContext) {}
-
   fun finalize(ctx: GoblinModuleFinalizeContext) {}
 
 }

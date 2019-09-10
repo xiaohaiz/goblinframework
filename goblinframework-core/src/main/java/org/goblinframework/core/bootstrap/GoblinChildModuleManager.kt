@@ -29,10 +29,6 @@ class GoblinChildModuleManager {
     execute(ctx)
   }
 
-  fun shutdown(ctx: GoblinModuleShutdownContext) {
-    execute(ctx)
-  }
-
   fun finalize(ctx: GoblinModuleFinalizeContext) {
     execute(ctx)
   }

@@ -52,29 +52,6 @@ class GoblinModuleManager private constructor() {
     }
   }
 
-  fun executeShutdown(): GoblinModuleManager {
-    if (!shutdown.compareAndSet(false, true)) {
-      return this
-    }
-    val future = EventBus.execute {
-      val ctx = GoblinModuleShutdownContext()
-      for (name in GoblinModuleDefinition.moduleNames.reversed()) {
-        val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
-        module.shutdown(ctx)
-        GoblinBootstrap.LOGGER.info("Shutdown {${module.name()}}")
-      }
-      for (module in GoblinExtensionModuleLoader.INSTANCE.getGoblinExtensionModules().reversed()) {
-        module.shutdown(ctx)
-        GoblinBootstrap.LOGGER.info("Shutdown (${module.name()})")
-      }
-    }
-    try {
-      future.awaitUninterruptibly(1, TimeUnit.MINUTES)
-    } catch (ignore: Throwable) {
-    }
-    return this
-  }
-
   fun executeFinalize() {
     if (!finalize.compareAndSet(false, true)) {
       return

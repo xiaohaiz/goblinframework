@@ -7,9 +7,8 @@ import org.goblinframework.core.event.GoblinEventChannel
 class GoblinChildModuleEvent(val ctx: Any, val childModules: List<GoblinChildModule>) : GoblinEvent() {
 
   init {
-    when (ctx) {
-      is GoblinModuleShutdownContext -> isRaiseException = false
-      is GoblinModuleFinalizeContext -> isRaiseException = false
+    if (ctx is GoblinModuleFinalizeContext) {
+      isRaiseException = false
     }
   }
 }

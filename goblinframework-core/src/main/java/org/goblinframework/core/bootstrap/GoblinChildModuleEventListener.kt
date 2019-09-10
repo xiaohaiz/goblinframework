@@ -30,12 +30,6 @@ class GoblinChildModuleEventListener private constructor() : GoblinEventListener
           GoblinBootstrap.LOGGER.info("Bootstrap [${it.name()}]")
         }
       }
-      is GoblinModuleShutdownContext -> {
-        event.childModules.reversed().forEach {
-          it.shutdown(event.ctx)
-          GoblinBootstrap.LOGGER.info("Shutdown [${it.name()}]")
-        }
-      }
       is GoblinModuleFinalizeContext -> {
         event.childModules.reversed().forEach {
           it.finalize(event.ctx)

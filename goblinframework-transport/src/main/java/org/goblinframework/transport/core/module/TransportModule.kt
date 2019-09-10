@@ -1,6 +1,9 @@
 package org.goblinframework.transport.core.module
 
-import org.goblinframework.core.bootstrap.*
+import org.goblinframework.core.bootstrap.GoblinModule
+import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
+import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
 
 class TransportModule : GoblinModule {
 
@@ -22,14 +25,6 @@ class TransportModule : GoblinModule {
         .next()
         .module("TRANSPORT:SERVER")
         .bootstrap(ctx)
-  }
-
-  override fun shutdown(ctx: GoblinModuleShutdownContext) {
-    ctx.createChildModuleManager()
-        .module("TRANSPORT:SERVER")
-        .next()
-        .module("TRANSPORT:CLIENT")
-        .shutdown(ctx)
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
