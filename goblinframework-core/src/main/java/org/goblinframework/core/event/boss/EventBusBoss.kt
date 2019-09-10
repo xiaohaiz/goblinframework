@@ -124,14 +124,14 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     unregisterIfNecessary()
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
-      GoblinEventBus.LOGGER.info("EventBusBoss closed")
+      EventBus.LOGGER.info("EventBusBoss closed")
     } catch (ex: TimeoutException) {
-      GoblinEventBus.LOGGER.warn("EventBusBoss close timeout", ex)
+      EventBus.LOGGER.warn("EventBusBoss close timeout", ex)
     }
     lock.write {
       workers.values.reversed().forEach { it.close() }
       workers.clear()
     }
-    GoblinEventBus.LOGGER.info("EventBus closed")
+    EventBus.LOGGER.info("EventBus closed")
   }
 }

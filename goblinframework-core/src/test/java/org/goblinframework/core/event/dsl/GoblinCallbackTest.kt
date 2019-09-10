@@ -2,7 +2,7 @@ package org.goblinframework.core.event.dsl
 
 import org.apache.commons.lang3.RandomStringUtils
 import org.apache.commons.lang3.RandomUtils
-import org.goblinframework.core.event.GoblinEventBus
+import org.goblinframework.core.event.EventBus
 import org.junit.Assert
 import org.junit.Test
 
@@ -19,6 +19,6 @@ class GoblinCallbackTest {
   }
 
   private fun echo(input: Any?): Any? {
-    return GoblinEventBus.execute { input }.get()
+    return EventBus.execute { input }.get()
   }
 }

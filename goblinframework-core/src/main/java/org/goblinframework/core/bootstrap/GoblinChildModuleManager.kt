@@ -1,6 +1,6 @@
 package org.goblinframework.core.bootstrap
 
-import org.goblinframework.core.event.GoblinEventBus
+import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.event.GoblinEventFuture
 import org.springframework.util.LinkedMultiValueMap
 import java.util.concurrent.atomic.AtomicInteger
@@ -52,7 +52,7 @@ class GoblinChildModuleManager {
           continue
         }
         val event = GoblinChildModuleEvent(ctx, childModules)
-        futures.add(GoblinEventBus.publish(event))
+        futures.add(EventBus.publish(event))
       }
       futures.forEach {
         try {

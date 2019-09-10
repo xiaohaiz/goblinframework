@@ -1,6 +1,6 @@
 package org.goblinframework.core.bootstrap
 
-import org.goblinframework.core.event.GoblinEventBus
+import org.goblinframework.core.event.EventBus
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -11,7 +11,7 @@ class GoblinModuleManager private constructor() {
   }
 
   init {
-    GoblinEventBus.subscribe(GoblinChildModuleEventListener.INSTANCE)
+    EventBus.subscribe(GoblinChildModuleEventListener.INSTANCE)
   }
 
   private val initialize = AtomicBoolean()
@@ -56,7 +56,7 @@ class GoblinModuleManager private constructor() {
     if (!shutdown.compareAndSet(false, true)) {
       return this
     }
-    val future = GoblinEventBus.execute {
+    val future = EventBus.execute {
       val ctx = GoblinModuleShutdownContext()
       for (name in GoblinModuleDefinition.moduleNames.reversed()) {
         val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
@@ -79,7 +79,7 @@ class GoblinModuleManager private constructor() {
     if (!finalize.compareAndSet(false, true)) {
       return
     }
-    val future = GoblinEventBus.execute {
+    val future = EventBus.execute {
       val ctx = GoblinModuleFinalizeContext()
       for (name in GoblinModuleDefinition.moduleNames.reversed()) {
         val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
