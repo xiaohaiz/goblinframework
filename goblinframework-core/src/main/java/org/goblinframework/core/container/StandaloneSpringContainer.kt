@@ -18,6 +18,7 @@ constructor(vararg configLocations: String)
   private val closed = AtomicBoolean()
 
   init {
+    SpringContainerManager.INSTANCE.register(this)
     refresh()
     start()
   }
@@ -49,6 +50,7 @@ constructor(vararg configLocations: String)
     stop()
     if (closed.compareAndSet(false, true)) {
       super.close()
+      SpringContainerManager.INSTANCE.unregister(this)
     }
   }
 
