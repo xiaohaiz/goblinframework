@@ -1,16 +1,15 @@
-package org.goblinframework.embedded.core.handler;
+package org.goblinframework.embedded.core.handler
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.goblinframework.webmvc.servlet.ServletRequest
+import org.goblinframework.webmvc.servlet.ServletResponse
+import javax.servlet.ServletException
 
-public interface ServletHandler {
+interface ServletHandler {
 
-  default String transformTarget(String target) {
-    return target;
-  }
+  fun transformLookupPath(path: String): String
 
-  void handle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
+  @Throws(ServletException::class)
+  fun handle(request: ServletRequest, response: ServletResponse)
+
 
 }
