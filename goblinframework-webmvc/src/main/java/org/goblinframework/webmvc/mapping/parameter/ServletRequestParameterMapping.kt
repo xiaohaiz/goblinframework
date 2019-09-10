@@ -1,4 +1,4 @@
 package org.goblinframework.webmvc.mapping.parameter
 
-class GoblinServletServerHttpResponseParameterMapping(namedParameter: NamedParameter)
+class ServletRequestParameterMapping(namedParameter: NamedParameter)
   : ParameterMapping(namedParameter)

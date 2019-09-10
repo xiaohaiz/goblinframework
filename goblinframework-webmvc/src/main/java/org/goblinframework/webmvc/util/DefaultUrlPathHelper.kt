@@ -5,10 +5,10 @@ import org.springframework.web.util.UrlPathHelper
 
 import javax.servlet.http.HttpServletRequest
 
-class GoblinUrlPathHelper private constructor() : UrlPathHelper() {
+class DefaultUrlPathHelper private constructor() : UrlPathHelper() {
 
   companion object {
-    @JvmField val INSTANCE = GoblinUrlPathHelper()
+    @JvmField val INSTANCE = DefaultUrlPathHelper()
   }
 
   init {

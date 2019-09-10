@@ -7,7 +7,7 @@ import org.springframework.ui.Model
 
 import javax.servlet.http.HttpServletResponse
 
-class GoblinServletServerHttpResponse(response: HttpServletResponse) : ServletServerHttpResponse(response) {
+class ServletResponse(response: HttpServletResponse) : ServletServerHttpResponse(response) {
 
   fun sendRedirect(location: String, model: Model?) {
     var loc = location

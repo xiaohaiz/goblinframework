@@ -2,8 +2,8 @@ package org.goblinframework.webmvc.interceptor
 
 import org.goblinframework.api.common.Ordered
 import org.goblinframework.webmvc.handler.RequestHandler
-import org.goblinframework.webmvc.servlet.GoblinServletServerHttpRequest
-import org.goblinframework.webmvc.servlet.GoblinServletServerHttpResponse
+import org.goblinframework.webmvc.servlet.ServletRequest
+import org.goblinframework.webmvc.servlet.ServletResponse
 
 interface Interceptor : Ordered {
 
@@ -17,16 +17,16 @@ interface Interceptor : Ordered {
 
   fun matches(lookupPath: String): Boolean
 
-  fun preHandle(request: GoblinServletServerHttpRequest,
-                response: GoblinServletServerHttpResponse,
+  fun preHandle(request: ServletRequest,
+                response: ServletResponse,
                 handler: RequestHandler): Boolean
 
-  fun postHandle(request: GoblinServletServerHttpRequest,
-                 response: GoblinServletServerHttpRequest,
+  fun postHandle(request: ServletRequest,
+                 response: ServletRequest,
                  handler: RequestHandler)
 
-  fun afterCompletion(request: GoblinServletServerHttpRequest,
-                      response: GoblinServletServerHttpRequest,
+  fun afterCompletion(request: ServletRequest,
+                      response: ServletRequest,
                       handler: RequestHandler,
                       cause: Throwable?)
 }

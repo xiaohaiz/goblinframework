@@ -1,8 +1,8 @@
 package org.goblinframework.webmvc.mapping.parameter
 
 import org.goblinframework.core.util.StringUtils
-import org.goblinframework.webmvc.servlet.GoblinServletServerHttpRequest
-import org.goblinframework.webmvc.servlet.GoblinServletServerHttpResponse
+import org.goblinframework.webmvc.servlet.ServletRequest
+import org.goblinframework.webmvc.servlet.ServletResponse
 import org.springframework.http.server.ServletServerHttpRequest
 import org.springframework.http.server.ServletServerHttpResponse
 import org.springframework.ui.Model
@@ -27,17 +27,17 @@ object ParameterMappingBuilder {
     if (HttpServletResponse::class.java.isAssignableFrom(t)) {
       return HttpServletResponseParameterMapping(namedParameter)
     }
+    if (ServletRequest::class.java.isAssignableFrom(t)) {
+      return ServletRequestParameterMapping(namedParameter)
+    }
+    if (ServletResponse::class.java.isAssignableFrom(t)) {
+      return ServletResponseParameterMapping(namedParameter)
+    }
     if (ServletServerHttpRequest::class.java.isAssignableFrom(t)) {
       return ServletServerHttpRequestParameterMapping(namedParameter)
     }
     if (ServletServerHttpResponse::class.java.isAssignableFrom(t)) {
       return ServletServerHttpResponseParameterMapping(namedParameter)
-    }
-    if (GoblinServletServerHttpRequest::class.java.isAssignableFrom(t)) {
-      return GoblinServletServerHttpRequestParameterMapping(namedParameter)
-    }
-    if (GoblinServletServerHttpResponse::class.java.isAssignableFrom(t)) {
-      return GoblinServletServerHttpResponseParameterMapping(namedParameter)
     }
     if (MultipartFile::class.java.isAssignableFrom(t)) {
       var name = namedParameter.name
