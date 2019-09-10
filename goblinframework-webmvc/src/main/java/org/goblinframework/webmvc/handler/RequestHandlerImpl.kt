@@ -1,15 +1,24 @@
 package org.goblinframework.webmvc.handler
 
 import org.goblinframework.core.conversion.ConversionService
+import org.goblinframework.core.util.JsonUtils
+import org.goblinframework.core.util.ReflectionUtils
+import org.goblinframework.webmvc.exception.NoViewFoundException
 import org.goblinframework.webmvc.exception.RequestHandlerInvocationException
+import org.goblinframework.webmvc.exception.ViewResolvingException
 import org.goblinframework.webmvc.interceptor.Interceptor
 import org.goblinframework.webmvc.interceptor.InterceptorLocator
 import org.goblinframework.webmvc.mapping.controller.ControllerMapping
+import org.goblinframework.webmvc.mapping.parameter.ModelParameterMapping
 import org.goblinframework.webmvc.servlet.ServletRequest
 import org.goblinframework.webmvc.servlet.ServletResponse
 import org.goblinframework.webmvc.setting.RequestHandlerSetting
+import org.goblinframework.webmvc.view.ViewResolverManager
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
+import org.springframework.ui.Model
+import org.springframework.validation.support.BindingAwareModelMap
 import java.util.concurrent.atomic.AtomicInteger
 import javax.servlet.ServletException
 
@@ -26,6 +35,7 @@ class RequestHandlerImpl(val setting: RequestHandlerSetting,
 
   private val interceptors: Array<Interceptor>
   private val interceptorIndex = AtomicInteger(-1)
+  private val viewResolverManager = ViewResolverManager(setting.viewResolverSetting())
 
   init {
     val locator = InterceptorLocator(setting.interceptorSetting())
@@ -95,6 +105,55 @@ class RequestHandlerImpl(val setting: RequestHandlerSetting,
       return
     }
 
+    val args = RequestHandlerResolver.resolve(this, request, response)
+    val bean = controllerMapping.methodMapping.getBean()
+    val method = controllerMapping.methodMapping.method
+    val result = try {
+      ReflectionUtils.invoke(bean, method, args)
+    } catch (ex: Throwable) {
+      throw ex as? Exception ?: RequestHandlerInvocationException(ex)
+    }
 
+    if (!controllerMapping.hasReturnType()) {
+      return
+    }
+
+    if (controllerMapping.methodMapping.restful) {
+      (result as? String ?: JsonUtils.toJson(result))?.run {
+        val bytes = toByteArray(Charsets.UTF_8)
+        response.headers.contentType = MediaType.APPLICATION_JSON_UTF8
+        response.headers.contentLength = bytes.size.toLong()
+        response.body.write(bytes)
+      }
+      return
+    }
+
+    if (result == null) {
+      throw ViewResolvingException()
+    }
+    val viewName = result.toString()
+    var model: Model? = null
+    if (controllerMapping.hasModelParameter()) {
+      var index = 0
+      for (p in controllerMapping.requestHandlerParameters) {
+        if (p is ModelParameterMapping) {
+          break
+        }
+        index++
+      }
+      model = args[index] as Model
+    }
+    val modelMap = BindingAwareModelMap()
+    if (model != null) {
+      modelMap.putAll(model.asMap())
+    }
+
+    if (viewName.startsWith("redirect:", true)) {
+      response.sendRedirect(viewName, modelMap)
+      return
+    }
+
+    viewResolverManager.lookupView(viewName)?.render(modelMap, request, response)
+        ?: throw NoViewFoundException()
   }
 }
