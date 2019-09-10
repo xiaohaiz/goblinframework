@@ -1,15 +1,17 @@
 package org.goblinframework.core.container
 
+import org.bson.types.ObjectId
 import org.goblinframework.core.event.EventBus
 import org.springframework.beans.BeansException
 import org.springframework.context.support.ClassPathXmlApplicationContext
 
 import java.util.concurrent.atomic.AtomicBoolean
 
-class GoblinApplicationContext @Throws(BeansException::class)
+class StandaloneSpringContainer @Throws(BeansException::class)
 constructor(vararg configLocations: String)
-  : ClassPathXmlApplicationContext(configLocations, false) {
+  : ClassPathXmlApplicationContext(configLocations, false), SpringContainerId {
 
+  private val uniqueId = ObjectId().toHexString()
   private val refreshed = AtomicBoolean()
   private val started = AtomicBoolean()
   private val stopped = AtomicBoolean()
@@ -18,6 +20,10 @@ constructor(vararg configLocations: String)
   init {
     refresh()
     start()
+  }
+
+  override fun uniqueId(): String {
+    return uniqueId
   }
 
   @Throws(BeansException::class, IllegalStateException::class)
