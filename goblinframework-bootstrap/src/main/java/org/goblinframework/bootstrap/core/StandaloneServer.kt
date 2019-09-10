@@ -7,8 +7,7 @@ import org.goblinframework.core.util.ThreadUtils
 abstract class StandaloneServer {
 
   fun bootstrap(args: Array<String>) {
-    GoblinBootstrap.doInitialize()
-    GoblinBootstrap.doBootstrap()
+    GoblinBootstrap.initialize()
     val container = SpringContainerLoader.load(this)
 
     if (useShutdownHook()) {
@@ -28,7 +27,7 @@ abstract class StandaloneServer {
 
   fun shutdown() {
     GoblinBootstrap.doShutdown()
-    GoblinBootstrap.doFinalize()
+    GoblinBootstrap.close()
   }
 
   open fun useShutdownHook(): Boolean {

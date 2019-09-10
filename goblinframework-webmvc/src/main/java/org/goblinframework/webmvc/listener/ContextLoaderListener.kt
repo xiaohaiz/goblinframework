@@ -12,14 +12,13 @@ open class ContextLoaderListener : org.springframework.web.context.ContextLoader
   }
 
   override fun contextInitialized(event: ServletContextEvent) {
-    GoblinBootstrap.doInitialize()
-    GoblinBootstrap.doBootstrap()
+    GoblinBootstrap.initialize()
     super.contextInitialized(event)
   }
 
   override fun contextDestroyed(event: ServletContextEvent) {
     GoblinBootstrap.doShutdown()
     super.contextDestroyed(event)
-    GoblinBootstrap.doFinalize()
+    GoblinBootstrap.close()
   }
 }

@@ -8,12 +8,11 @@ class GoblinTestRunner @Throws(InitializationError::class)
 constructor(clazz: Class<*>) : SpringJUnit4ClassRunner(clazz) {
   companion object {
     init {
-      GoblinBootstrap.doInitialize()
-      GoblinBootstrap.doBootstrap()
+      GoblinBootstrap.initialize()
       Runtime.getRuntime().addShutdownHook(object : Thread("GoblinTestRunnerShutdownHook") {
         override fun run() {
           GoblinBootstrap.doShutdown()
-          GoblinBootstrap.doFinalize()
+          GoblinBootstrap.close()
         }
       })
     }

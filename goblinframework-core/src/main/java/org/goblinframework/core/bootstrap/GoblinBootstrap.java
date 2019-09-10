@@ -11,13 +11,9 @@ import java.lang.reflect.Method;
 final public class GoblinBootstrap {
   public static final Logger LOGGER = LoggerFactory.getLogger("goblin.core.Bootstrap");
 
-  public static void doInitialize() {
+  public static void initialize() {
     EventBusBoss.INSTANCE.initialize();
-    GoblinModuleManager.INSTANCE.executeInitialize();
-  }
-
-  public static void doBootstrap() {
-    GoblinModuleManager.INSTANCE.executeBootstrap();
+    GoblinModuleManager.INSTANCE.executeInitialize().executeBootstrap();
     LOGGER.info("WELCOME");
   }
 
@@ -25,7 +21,7 @@ final public class GoblinBootstrap {
     GoblinModuleManager.INSTANCE.executeShutdown();
   }
 
-  public static void doFinalize() {
+  public static void close() {
     SpringContainerManager.INSTANCE.close();
     GoblinModuleManager.INSTANCE.executeFinalize();
     EventBusBoss.INSTANCE.close();
