@@ -4,8 +4,8 @@ import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.ServiceInstaller
 import org.goblinframework.embedded.core.EmbeddedServer
-import org.goblinframework.embedded.core.EmbeddedServerFactory
 import org.goblinframework.embedded.core.EmbeddedServerMode
+import org.goblinframework.embedded.core.module.spi.EmbeddedServerFactory
 import org.goblinframework.embedded.core.setting.ServerSetting
 import java.util.*
 import java.util.concurrent.locks.ReentrantReadWriteLock

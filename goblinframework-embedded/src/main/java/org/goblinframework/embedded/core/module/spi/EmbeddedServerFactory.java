@@ -1,5 +1,7 @@
-package org.goblinframework.embedded.core;
+package org.goblinframework.embedded.core.module.spi;
 
+import org.goblinframework.embedded.core.EmbeddedServer;
+import org.goblinframework.embedded.core.EmbeddedServerMode;
 import org.goblinframework.embedded.core.setting.ServerSetting;
 import org.jetbrains.annotations.NotNull;
 
