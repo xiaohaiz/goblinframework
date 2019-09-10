@@ -8,7 +8,7 @@ class JdkServletOutputStream : ServletOutputStream() {
 
   private val outputStream = ByteArrayOutputStream(512)
 
-  fun responseBody(): ByteArray {
+  fun content(): ByteArray {
     return outputStream.toByteArray()
   }
 

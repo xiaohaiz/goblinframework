@@ -3,23 +3,16 @@ package org.goblinframework.embedded.core.provider
 import com.sun.net.httpserver.HttpExchange
 import org.apache.commons.io.IOUtils
 import java.io.ByteArrayInputStream
-import java.io.InputStream
 import javax.servlet.ReadListener
 import javax.servlet.ServletInputStream
 
 class JdkServletInputStream(exchange: HttpExchange) : ServletInputStream() {
 
-  private val requestBody: ByteArray
-  private val inputStream: InputStream
+  private val requestBody: ByteArray = exchange.requestBody.use { IOUtils.toByteArray(it) }
+  private val inputStream: ByteArrayInputStream = ByteArrayInputStream(requestBody)
 
-  init {
-    val `in` = exchange.requestBody
-    requestBody = IOUtils.toByteArray(`in`)
-    inputStream = ByteArrayInputStream(requestBody)
-  }
-
-  fun requestBodyAsString(): String {
-    return requestBody.toString(Charsets.UTF_8)
+  fun content(): ByteArray {
+    return requestBody
   }
 
   override fun isReady(): Boolean {

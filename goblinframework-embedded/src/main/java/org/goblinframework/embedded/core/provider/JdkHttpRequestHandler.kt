@@ -1,54 +1,64 @@
-package org.goblinframework.embedded.core.provider;
+package org.goblinframework.embedded.core.provider
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import org.goblinframework.embedded.core.setting.ServerSetting;
-import org.jetbrains.annotations.NotNull;
+import com.sun.net.httpserver.HttpExchange
+import com.sun.net.httpserver.HttpHandler
+import org.goblinframework.core.util.ExceptionUtils
+import org.goblinframework.embedded.core.setting.ServerSetting
+import org.goblinframework.http.util.HttpUtils
+import org.goblinframework.webmvc.servlet.RequestAttribute
+import org.goblinframework.webmvc.servlet.ServletRequest
+import org.goblinframework.webmvc.servlet.ServletResponse
+import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
+import java.net.URLDecoder
 
-import java.io.IOException;
+class JdkHttpRequestHandler internal constructor(private val setting: ServerSetting) : HttpHandler {
 
-public class JdkHttpRequestHandler implements HttpHandler {
-
-  private final ServerSetting setting;
-
-  JdkHttpRequestHandler(@NotNull ServerSetting setting) {
-    this.setting = setting;
+  override fun handle(exchange: HttpExchange) {
+    val uri = exchange.requestURI
+    val path = HttpUtils.compactContinuousSlashes(uri.rawPath)!!
+    val query = uri.rawQuery
+    val request = ServletRequest(JdkHttpServletRequest(exchange, path, query))
+    val response = ServletResponse(JdkHttpServletResponse(exchange))
+    try {
+      doDispatch(path, request, response)
+    } finally {
+      RequestAttribute.values().forEach { request.removeAttribute(it) }
+      response.flush()
+      (response.servletResponse as JdkHttpServletResponse).close()
+    }
   }
 
-  @Override
-  public void handle(HttpExchange exchange) throws IOException {
-//    String path = HttpUtils.compactContinuousSlashes(exchange.getRequestURI().getPath());
-//
-//    JdkHttpServletResponse response = new JdkHttpServletResponse(exchange);
-//    if (HttpUtils.isMalformedPath(path)) {
-//      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Malformed request path specified");
-//      response.close();
-//      return;
-//    }
-//
-//    HandlerSettings handlerSettings = setting.handlerSettings();
-//    ImmutablePair<String, String> pair = handlerSettings.lookupContextPath(path);
-//    String contextPath = pair.getLeft();
-//    String target = pair.getRight();
-//    HandlerSetting handlerSetting = handlerSettings.get(contextPath);
-//    if (handlerSetting == null) {
-//      response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unrecognized contextPath specified");
-//      response.close();
-//      return;
-//    }
-//
-//    ServletHandler handler = handlerSetting.servletHandler();
-//    JdkHttpServletRequest request = new JdkHttpServletRequest(exchange, contextPath, handler.transformTarget(target));
-//    try {
-//      handler.handle(request, response);
-//    } catch (Exception ex) {
-//      response.resetBuffer();
-//      ex.printStackTrace(response.getWriter());
-//      response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//    }
-//    try {
-//      response.close();
-//    } catch (Exception ignore) {
-//    }
+  private fun doDispatch(target: String,
+                         request: ServletRequest,
+                         response: ServletResponse) {
+    val decodedPath = URLDecoder.decode(target, Charsets.UTF_8.name())
+    val handlerSettings = setting.handlerSettings()
+    val p = handlerSettings.lookupContextPath(decodedPath)
+    val contextPath = p.left
+    val path = p.right
+
+    val handlerSetting = handlerSettings[contextPath]
+    if (handlerSetting == null) {
+      response.resetBuffer()
+      response.setStatusCode(HttpStatus.NOT_FOUND)
+      response.headers.contentLength = 0
+      return
+    }
+
+    val handler = handlerSetting.servletHandler()
+    val lookupPath = handler.transformLookupPath(path)
+    request.setAttribute(RequestAttribute.LOOKUP_PATH, lookupPath)
+
+    try {
+      handler.handle(request, response)
+    } catch (ex: Exception) {
+      val stackTrace = ExceptionUtils.getStackTrace(ex).toByteArray(Charsets.UTF_8)
+      response.resetBuffer()
+      response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR)
+      response.headers.contentLength = stackTrace.size.toLong()
+      response.headers.contentType = MediaType(MediaType.TEXT_PLAIN, Charsets.UTF_8)
+      response.body.write(stackTrace)
+    }
   }
 }
