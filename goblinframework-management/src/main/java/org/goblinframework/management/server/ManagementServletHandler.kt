@@ -3,6 +3,7 @@ package org.goblinframework.management.server
 import org.goblinframework.embedded.core.handler.DispatchServletHandler
 import org.goblinframework.embedded.core.resource.ClassPathStaticResourceManager
 import org.goblinframework.embedded.core.resource.MapStaticResourceBuffer
+import org.goblinframework.management.controller.ManagementControllerManager
 import org.goblinframework.webmvc.handler.RequestHandlerManagerBuilder
 import org.goblinframework.webmvc.setting.RequestHandlerSetting
 
@@ -16,7 +17,8 @@ class ManagementServletHandler private constructor() : DispatchServletHandler() 
     val setting = RequestHandlerSetting.builder()
         .name("ManagementServer")
         .applyControllerSetting {
-
+          val controllers = ManagementControllerManager.INSTANCE.drain()
+          it.registerControllers(*controllers.toTypedArray())
         }
         .applyInterceptorSetting {
           it.includeDefaultInterceptors(true)

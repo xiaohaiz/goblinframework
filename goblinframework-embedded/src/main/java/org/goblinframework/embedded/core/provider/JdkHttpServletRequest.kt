@@ -9,6 +9,7 @@ import java.util.*
 import javax.servlet.ServletInputStream
 
 class JdkHttpServletRequest(private val exchange: HttpExchange,
+                            private val contextPath: String,
                             private val path: String,
                             private val query: String?) : AbstractHttpServletRequest() {
 
@@ -80,5 +81,9 @@ class JdkHttpServletRequest(private val exchange: HttpExchange,
 
   override fun getParameterValues(name: String): Array<String>? {
     return parameters[name]?.toTypedArray()
+  }
+
+  override fun getContextPath(): String {
+    return contextPath
   }
 }

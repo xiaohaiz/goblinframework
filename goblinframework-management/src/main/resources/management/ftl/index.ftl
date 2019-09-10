@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="managementModules" type="java.util.List<com.github.goblin.management.controller.ManagementModule>" -->
+<#-- @ftlvariable name="modules" type="java.util.List<org.goblinframework.core.bootstrap.GoblinModule>" -->
 <!--suppress HtmlUnknownTarget -->
 <html>
 <head>
@@ -10,28 +10,28 @@
 
 <div class="container-fluid">
 
-<#if managementModules?has_content>
-  <div class="row">
-    <table class="table table-bordered table-condensed table-striped">
-      <thead>
-      <tr class="info">
-        <td><strong>Installed Module(s)</strong></td>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>
-          <#list managementModules as module>
-            <a class="btn btn-default"
-               href="${module.managementURL}"
-               role="button">${module.moduleName.name()}</a>
-          </#list>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</#if>
+    <#if modules?has_content>
+      <div class="row">
+        <table class="table table-bordered table-condensed table-striped">
+          <thead>
+          <tr class="info">
+            <td><strong>Installed Module(s)</strong></td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+                <#list modules as module>
+                  <a class="btn btn-default"
+                     href="${module.managementEntrance()}"
+                     role="button">${module.name()}</a>
+                </#list>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </#if>
 
 </div>
 

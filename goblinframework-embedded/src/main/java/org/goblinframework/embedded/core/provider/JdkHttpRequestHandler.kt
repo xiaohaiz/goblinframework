@@ -3,6 +3,7 @@ package org.goblinframework.embedded.core.provider
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.goblinframework.core.util.ExceptionUtils
+import org.goblinframework.embedded.core.handler.ServletHandler
 import org.goblinframework.embedded.core.setting.ServerSetting
 import org.goblinframework.http.util.HttpUtils
 import org.goblinframework.webmvc.servlet.RequestAttribute
@@ -18,10 +19,29 @@ class JdkHttpRequestHandler internal constructor(private val setting: ServerSett
     val uri = exchange.requestURI
     val path = HttpUtils.compactContinuousSlashes(uri.rawPath)!!
     val query = uri.rawQuery
-    val request = ServletRequest(JdkHttpServletRequest(exchange, path, query))
+
     val response = ServletResponse(JdkHttpServletResponse(exchange))
+
+    val decodedPath = URLDecoder.decode(path, Charsets.UTF_8.name())
+    val handlerSettings = setting.handlerSettings()
+    val parsed = handlerSettings.lookupContextPath(decodedPath)
+    val contextPath = parsed.left
+    var lookupPath = parsed.right
+
+    val handlerSetting = handlerSettings[contextPath] ?: run {
+      response.resetBuffer()
+      response.setStatusCode(HttpStatus.NOT_FOUND)
+      response.headers.contentLength = 0
+      return@handle
+    }
+
+    val handler = handlerSetting.servletHandler()
+    lookupPath = handler.transformLookupPath(lookupPath)
+
+    val request = ServletRequest(JdkHttpServletRequest(exchange, contextPath, lookupPath, query))
+
     try {
-      doDispatch(path, request, response)
+      doDispatch(handler, request, response)
     } finally {
       RequestAttribute.values().forEach { request.removeAttribute(it) }
       response.flush()
@@ -29,26 +49,10 @@ class JdkHttpRequestHandler internal constructor(private val setting: ServerSett
     }
   }
 
-  private fun doDispatch(target: String,
+  private fun doDispatch(handler: ServletHandler,
                          request: ServletRequest,
                          response: ServletResponse) {
-    val decodedPath = URLDecoder.decode(target, Charsets.UTF_8.name())
-    val handlerSettings = setting.handlerSettings()
-    val p = handlerSettings.lookupContextPath(decodedPath)
-    val contextPath = p.left
-    val path = p.right
-
-    val handlerSetting = handlerSettings[contextPath]
-    if (handlerSetting == null) {
-      response.resetBuffer()
-      response.setStatusCode(HttpStatus.NOT_FOUND)
-      response.headers.contentLength = 0
-      return
-    }
-
-    val handler = handlerSetting.servletHandler()
-    val lookupPath = handler.transformLookupPath(path)
-    request.setAttribute(RequestAttribute.LOOKUP_PATH, lookupPath)
+    request.setAttribute(RequestAttribute.LOOKUP_PATH, request.getLookupPath())
 
     try {
       handler.handle(request, response)

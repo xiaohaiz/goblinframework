@@ -3,9 +3,9 @@
          xmlns="http://java.sun.com/xml/ns/javaee"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         id="AlpsSampleWeb_ID" version="3.0">
+         id="GoblinExampleWebmvc" version="3.0">
 
-  <display-name>ALPS EXAMPLE WEBMVC</display-name>
+  <display-name>GOBLIN EXAMPLE WEBMVC</display-name>
 
   <context-param>
     <param-name>contextConfigLocation</param-name>
