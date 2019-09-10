@@ -1,6 +1,8 @@
 package org.goblinframework.webmvc.mapping
 
-class MalformedMappingException : RuntimeException {
+import org.goblinframework.api.common.GoblinException
+
+class MalformedMappingException : GoblinException {
 
   constructor() {}
 
