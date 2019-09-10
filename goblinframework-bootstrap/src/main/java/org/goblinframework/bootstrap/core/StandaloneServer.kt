@@ -1,15 +1,15 @@
 package org.goblinframework.bootstrap.core
 
 import org.goblinframework.core.bootstrap.GoblinBootstrap
+import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.util.ThreadUtils
-import org.springframework.context.ApplicationContext
 
 abstract class StandaloneServer {
 
   fun bootstrap(args: Array<String>) {
     GoblinBootstrap.doInitialize()
     GoblinBootstrap.doBootstrap()
-    val ctx = SpringContainerLoader.load(this)
+    val container = SpringContainerLoader.load(this)
 
     if (useShutdownHook()) {
       Runtime.getRuntime().addShutdownHook(object : Thread("StandaloneServerShutdownHook") {
@@ -18,6 +18,8 @@ abstract class StandaloneServer {
         }
       })
     }
+
+    doService(container)
 
     if (runDaemonMode()) {
       ThreadUtils.joinCurrentThread()
@@ -37,5 +39,5 @@ abstract class StandaloneServer {
     return true
   }
 
-  protected abstract fun doService(ctx: ApplicationContext?)
+  protected abstract fun doService(container: SpringContainer?)
 }

@@ -5,6 +5,7 @@ import org.goblinframework.core.mbean.GoblinManagedObject
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ConfigurableApplicationContext
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 @GoblinManagedBean("CORE")
@@ -16,6 +17,12 @@ class SpringContainerManager private constructor() : GoblinManagedObject(), Spri
 
   private val lock = ReentrantReadWriteLock()
   private val containers = LinkedHashMap<String, SpringContainer>()
+
+  fun createStandaloneContainer(vararg configLocations: String): SpringContainer? {
+    val container = StandaloneSpringContainer(*configLocations)
+    val id = container.uniqueId()
+    return lock.read { containers[id] }
+  }
 
   fun register(ctx: ApplicationContext) {
     if (ctx !is SpringContainerId) {

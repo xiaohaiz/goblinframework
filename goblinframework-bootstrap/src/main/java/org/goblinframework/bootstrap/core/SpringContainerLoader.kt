@@ -1,16 +1,16 @@
 package org.goblinframework.bootstrap.core
 
-import org.goblinframework.core.container.StandaloneSpringContainer
+import org.goblinframework.core.container.SpringContainer
+import org.goblinframework.core.container.SpringContainerManager
 import org.goblinframework.core.container.UseSpringContainer
 import org.goblinframework.core.util.AnnotationUtils
-import org.springframework.context.ApplicationContext
 
 object SpringContainerLoader {
 
-  fun load(obj: Any): ApplicationContext? {
+  fun load(obj: Any): SpringContainer? {
     val annotation = AnnotationUtils.findAnnotation(obj::class.java, UseSpringContainer::class.java) ?: return null
     val configLocations = annotation.value
-    return StandaloneSpringContainer(*configLocations)
+    return SpringContainerManager.INSTANCE.createStandaloneContainer(*configLocations)
   }
 
 }
