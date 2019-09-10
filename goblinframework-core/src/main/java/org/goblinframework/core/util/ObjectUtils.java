@@ -3,6 +3,8 @@ package org.goblinframework.core.util;
 import org.goblinframework.api.common.Ordered;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Comparator;
+
 abstract public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
   /**
    * Calculate specified object's order with default value 0.
@@ -16,4 +18,6 @@ abstract public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
     }
     return 0;
   }
+
+  public static final Comparator<Ordered> ORDERED_COMPARATOR = Comparator.comparingInt(ObjectUtils::calculateOrder);
 }
