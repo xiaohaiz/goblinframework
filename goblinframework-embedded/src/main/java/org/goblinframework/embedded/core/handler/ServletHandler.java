@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.servlet;
+package org.goblinframework.embedded.core.handler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +11,6 @@ public interface ServletHandler {
     return target;
   }
 
-  void handle(String target, HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException;
+  void handle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
 
 }

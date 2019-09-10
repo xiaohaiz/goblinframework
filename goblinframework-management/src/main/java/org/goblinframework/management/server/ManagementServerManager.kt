@@ -28,7 +28,7 @@ class ManagementServerManager private constructor() : GoblinManagedObject(), Man
         .mode(EmbeddedServerMode.JDK)
         .applyHandlerSetting {
           it.contextPath("/")
-          it.servletHandler { _, _, response ->
+          it.servletHandler { _, response ->
             response.writer.write("HELLO, WORLD!")
             response.status = HttpServletResponse.SC_OK
           }

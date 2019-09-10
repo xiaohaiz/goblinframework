@@ -3,7 +3,7 @@ package org.goblinframework.embedded.core.provider;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.goblinframework.embedded.core.servlet.ServletHandler;
+import org.goblinframework.embedded.core.handler.ServletHandler;
 import org.goblinframework.embedded.core.setting.HandlerSetting;
 import org.goblinframework.embedded.core.setting.HandlerSettings;
 import org.goblinframework.embedded.core.setting.ServerSetting;
@@ -46,7 +46,7 @@ public class JdkHttpRequestHandler implements HttpHandler {
     ServletHandler handler = handlerSetting.servletHandler();
     JdkHttpServletRequest request = new JdkHttpServletRequest(exchange, contextPath, handler.transformTarget(target));
     try {
-      handler.handle(request.getRequestURI(), request, response);
+      handler.handle(request, response);
     } catch (Exception ex) {
       response.resetBuffer();
       ex.printStackTrace(response.getWriter());
