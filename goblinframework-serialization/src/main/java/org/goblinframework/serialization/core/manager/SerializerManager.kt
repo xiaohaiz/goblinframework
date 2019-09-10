@@ -1,5 +1,6 @@
 package org.goblinframework.serialization.core.manager
 
+import org.goblinframework.api.common.DuplicateException
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.ServiceInstaller
@@ -18,7 +19,7 @@ class SerializerManager private constructor() : GoblinManagedObject(), Serialize
     ServiceInstaller.installedList(Serializer::class.java).forEach {
       val id = it.id()
       buffer[id]?.run {
-        throw UnsupportedOperationException("Duplicated serializer not allowed: $id")
+        throw DuplicateException("Duplicated serializer not allowed: $id")
       }
       buffer[id] = SerializerImpl(it)
     }
