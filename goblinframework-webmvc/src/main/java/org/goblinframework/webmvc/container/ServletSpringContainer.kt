@@ -23,6 +23,7 @@ class ServletSpringContainer : XmlWebApplicationContext(), SpringContainerId {
 
   override fun close() {
     if (closed.compareAndSet(false, true)) {
+      Exception().printStackTrace()
       super.close()
       SpringContainerManager.INSTANCE.unregister(this)
     }

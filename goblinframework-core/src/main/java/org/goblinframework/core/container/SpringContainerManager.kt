@@ -3,6 +3,7 @@ package org.goblinframework.core.container
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.springframework.context.ApplicationContext
+import org.springframework.context.ConfigurableApplicationContext
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.write
 
@@ -10,7 +11,7 @@ import kotlin.concurrent.write
 class SpringContainerManager private constructor() : GoblinManagedObject(), SpringContainerManagerMXBean {
 
   companion object {
-    val INSTANCE = SpringContainerManager()
+    @JvmField val INSTANCE = SpringContainerManager()
   }
 
   private val lock = ReentrantReadWriteLock()
@@ -34,5 +35,11 @@ class SpringContainerManager private constructor() : GoblinManagedObject(), Spri
 
   fun close() {
     unregisterIfNecessary()
+    lock.write {
+      containers.values.map { it.applicationContext }
+          .filterIsInstance<ConfigurableApplicationContext>()
+          .forEach { it.close() }
+      containers.clear()
+    }
   }
 }
