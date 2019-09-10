@@ -23,5 +23,8 @@ class NettyHttpServletRequest(private val ctx: ChannelHandlerContext,
     } else {
       StringUtils.EMPTY
     }
+    decoder.parameters().forEach { (name, values) ->
+      values.forEach { parameters.add(name, it) }
+    }
   }
 }
