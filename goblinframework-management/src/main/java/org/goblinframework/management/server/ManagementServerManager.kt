@@ -2,14 +2,14 @@ package org.goblinframework.management.server
 
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
-import org.goblinframework.core.module.spi.ManagementServer
+import org.goblinframework.core.module.spi.ManagementServerLifecycle
 import org.goblinframework.embedded.core.EmbeddedServerMode
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting
 import java.util.concurrent.atomic.AtomicReference
 
 @GoblinManagedBean("MANAGEMENT")
-class ManagementServerManager private constructor() : GoblinManagedObject(), ManagementServer {
+class ManagementServerManager private constructor() : GoblinManagedObject(), ManagementServerLifecycle {
 
   companion object {
     private const val SERVER_NAME = "GoblinManagementServer"
@@ -18,6 +18,7 @@ class ManagementServerManager private constructor() : GoblinManagedObject(), Man
 
   private val setting = AtomicReference<ServerSetting>()
 
+  @Synchronized
   override fun start() {
     if (this.setting.get() != null) {
       return
@@ -42,9 +43,13 @@ class ManagementServerManager private constructor() : GoblinManagedObject(), Man
     }
   }
 
+  override fun isRunning(): Boolean {
+    return setting.get() != null
+  }
+
   fun close() {
     unregisterIfNecessary()
   }
 
-  class Installer : ManagementServer by INSTANCE
+  class Installer : ManagementServerLifecycle by INSTANCE
 }

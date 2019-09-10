@@ -23,7 +23,7 @@ class GoblinModuleManager private constructor() {
     if (!initialize.compareAndSet(false, true)) {
       return this
     }
-    val ctx = GoblinModuleInitializeContext()
+    val ctx = GoblinModuleInitializeContext.INSTANCE
     for (name in GoblinModuleDefinition.moduleNames) {
       val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
       module.initialize(ctx)

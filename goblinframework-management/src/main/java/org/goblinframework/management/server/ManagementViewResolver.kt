@@ -11,7 +11,7 @@ class ManagementViewResolver private constructor() : FreemarkerViewResolver() {
   init {
     setName("ManagementViewResolver")
     setSuffix(".ftl")
-    setAutoInclude("/common.ftl")
+    setAutoInclude("/include.ftl")
     setTemplateLoaderPaths("/management/ftl")
     setPreferFileSystemAccess(false)
     afterPropertiesSet()
