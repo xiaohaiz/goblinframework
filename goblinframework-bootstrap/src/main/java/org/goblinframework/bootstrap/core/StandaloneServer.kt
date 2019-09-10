@@ -31,13 +31,14 @@ abstract class StandaloneServer {
     GoblinBootstrap.doFinalize()
   }
 
-  protected fun useShutdownHook(): Boolean {
+  open fun useShutdownHook(): Boolean {
     return true
   }
 
-  protected fun runDaemonMode(): Boolean {
+  open fun runDaemonMode(): Boolean {
     return true
   }
 
-  protected abstract fun doService(container: SpringContainer?)
+  open fun doService(container: SpringContainer?) {
+  }
 }
