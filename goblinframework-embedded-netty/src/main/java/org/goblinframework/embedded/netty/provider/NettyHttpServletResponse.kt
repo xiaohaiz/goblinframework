@@ -7,6 +7,7 @@ import io.netty.handler.codec.http.HttpVersion
 import org.goblinframework.embedded.core.servlet.AbstractHttpServletResponse
 import org.goblinframework.http.util.SendError
 import org.goblinframework.webmvc.util.HttpContentTypes
+import org.springframework.http.HttpHeaders
 import java.io.Closeable
 import java.io.PrintWriter
 import java.util.concurrent.atomic.AtomicReference
@@ -87,6 +88,18 @@ class NettyHttpServletResponse(private val ctx: ChannelHandlerContext)
         outputStream.write(bs)
         setContentLength(bs.size)
       }
+    }
+
+    try {
+      flushBuffer()
+      val content = outputStream.content()
+      val contentLen = content.size
+      if (!containsHeader(HttpHeaders.CONTENT_LENGTH)) {
+        setContentLength(contentLen)
+      }
+      response.content().writeBytes(content)
+    } finally {
+      ctx.writeAndFlush(response)
     }
   }
 }
