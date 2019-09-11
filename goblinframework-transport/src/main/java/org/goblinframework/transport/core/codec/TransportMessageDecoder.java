@@ -7,6 +7,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import org.goblinframework.core.util.JsonUtils;
 import org.goblinframework.core.util.TranscoderUtils;
+import org.goblinframework.serialization.core.Serializer;
+import org.goblinframework.serialization.core.manager.SerializerManager;
 import org.goblinframework.transport.core.protocol.HandshakeRequest;
 import org.goblinframework.transport.core.protocol.HandshakeResponse;
 import org.goblinframework.transport.core.protocol.TransportPayload;
@@ -48,10 +50,20 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
       return decodeJsonMessage(frame, payloadEnabled);
     }
 
-    return null;
+    Serializer serializer = SerializerManager.INSTANCE.getSerializer(serializerId);
+    if (serializer == null) {
+      return null;
+    }
+    byte[] payload = extractPayloadIfNecessary(frame, payloadEnabled);
+    ByteBufInputStream bis = new ByteBufInputStream(frame);
+    Object ret = serializer.deserialize(bis);
+    if (payloadEnabled && ret instanceof TransportPayload) {
+      ((TransportPayload) ret).writePayload(payload);
+    }
+    return ret;
   }
 
-  private Object decodeJsonMessage(ByteBuf buf, boolean payloadEnabled) throws Exception {
+  private byte[] extractPayloadIfNecessary(ByteBuf buf, boolean payloadEnabled) {
     byte[] payload = null;
     if (payloadEnabled) {
       byte[] dst = new byte[buf.readByte()];
@@ -60,9 +72,11 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
       payload = new byte[payloadLength];
       buf.readBytes(payload);
     }
-    byte[] bs = new byte[buf.readableBytes()];
-    buf.readBytes(bs);
+    return payload;
+  }
 
+  private Object decodeJsonMessage(ByteBuf buf, boolean payloadEnabled) throws Exception {
+    byte[] payload = extractPayloadIfNecessary(buf, payloadEnabled);
     ByteBufInputStream bis = new ByteBufInputStream(buf);
     JsonNode root = JsonUtils.getDefaultObjectMapper().readTree(bis);
     bis.close();
