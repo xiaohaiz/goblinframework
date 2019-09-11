@@ -12,7 +12,7 @@ import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
-import org.goblinframework.core.module.spi.TimerEventGenerator
+import org.goblinframework.core.module.spi.GoblinTimerEventGenerator
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.ServiceInstaller
 import java.util.concurrent.TimeUnit
@@ -50,7 +50,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     subscribe(GoblinCallbackEventListener.INSTANCE)
     ServiceInstaller.installedList(GoblinEventListener::class.java).forEach { subscribe(it) }
 
-    ServiceInstaller.installedFirst(TimerEventGenerator::class.java)?.start()
+    ServiceInstaller.installedFirst(GoblinTimerEventGenerator::class.java)?.start()
   }
 
   fun initialize() {}
@@ -125,7 +125,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
       return
     }
     unregisterIfNecessary()
-    ServiceInstaller.installedFirst(TimerEventGenerator::class.java)?.stop()
+    ServiceInstaller.installedFirst(GoblinTimerEventGenerator::class.java)?.stop()
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
       EventBus.LOGGER.info("EventBusBoss closed")
