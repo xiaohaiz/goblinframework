@@ -5,7 +5,11 @@ import io.netty.buffer.ByteBufOutputStream;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import org.goblinframework.transport.core.protocol.HandshakeRequest;
+import org.goblinframework.transport.core.protocol.HandshakeResponse;
 import org.goblinframework.transport.core.protocol.TransportProtocol;
+import org.goblinframework.transport.core.protocol.encoder.HandshakeRequestEncoder;
+import org.goblinframework.transport.core.protocol.encoder.HandshakeResponseEncoder;
 
 @ChannelHandler.Sharable
 public class TransportMessageEncoder extends MessageToByteEncoder<Object> {
@@ -18,6 +22,13 @@ public class TransportMessageEncoder extends MessageToByteEncoder<Object> {
     ByteBufOutputStream bos = new ByteBufOutputStream(out);
     bos.write(LENGTH_PLACEHOLDER);
     bos.writeShort(TransportProtocol.MAGIC);
+    if (msg instanceof HandshakeRequest) {
+      HandshakeRequestEncoder.INSTANCE.encode(bos, (HandshakeRequest) msg);
+    } else if (msg instanceof HandshakeResponse) {
+      HandshakeResponseEncoder.INSTANCE.encode(bos, (HandshakeResponse) msg);
+    } else {
+      throw new UnsupportedOperationException("Unrecognized message to be encoded: " + msg);
+    }
     bos.flush();
     bos.close();
     int endIdx = out.writerIndex();
