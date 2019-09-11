@@ -20,4 +20,8 @@ class TransportServer(private val setting: ServerSetting)
   override fun isRunning(): Boolean {
     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
   }
+
+  internal fun close() {
+    unregisterIfNecessary()
+  }
 }
