@@ -39,4 +39,20 @@ internal constructor(private val setting: ServerSetting)
   override fun getUpTime(): String {
     return watch.toString()
   }
+
+  override fun getName(): String {
+    return setting.name()
+  }
+
+  override fun getRunning(): Boolean {
+    return isRunning
+  }
+
+  override fun getHost(): String? {
+    return server.get()?.host
+  }
+
+  override fun getPort(): Int {
+    return server.get()?.port ?: -1
+  }
 }
