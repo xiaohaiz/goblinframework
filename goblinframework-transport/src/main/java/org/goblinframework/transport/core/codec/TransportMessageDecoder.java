@@ -1,8 +1,15 @@
 package org.goblinframework.transport.core.codec;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import org.goblinframework.core.util.JsonUtils;
+import org.goblinframework.core.util.TranscoderUtils;
+import org.goblinframework.transport.core.protocol.HandshakeRequest;
+import org.goblinframework.transport.core.protocol.HandshakeResponse;
+import org.goblinframework.transport.core.protocol.TransportPayload;
 import org.goblinframework.transport.core.protocol.TransportProtocol;
 
 public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
@@ -44,12 +51,46 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
     return null;
   }
 
-  private Object decodeJsonMessage(ByteBuf buf, boolean payloadEnabled) {
+  private Object decodeJsonMessage(ByteBuf buf, boolean payloadEnabled) throws Exception {
+    byte[] payload = null;
     if (payloadEnabled) {
       byte[] dst = new byte[buf.readByte()];
       buf.readBytes(dst);
-
+      int payloadLength = TranscoderUtils.decodeInt(dst);
+      payload = new byte[payloadLength];
+      buf.readBytes(payload);
     }
-    return null;
+    byte[] bs = new byte[buf.readableBytes()];
+    buf.readBytes(bs);
+
+    ByteBufInputStream bis = new ByteBufInputStream(buf);
+    JsonNode root = JsonUtils.getDefaultObjectMapper().readTree(bis);
+    bis.close();
+    if (root == null || !root.isObject()) {
+      return null;
+    }
+    JsonNode node = root.get("id");
+    if (node == null || !node.isTextual()) {
+      return null;
+    }
+    String id = node.asText();
+    Object ret;
+    switch (id) {
+      case "HandshakeRequest": {
+        ret = JsonUtils.getDefaultObjectMapper().readValue(root.traverse(), HandshakeRequest.class);
+        break;
+      }
+      case "HandshakeResponse": {
+        ret = JsonUtils.getDefaultObjectMapper().readValue(root.traverse(), HandshakeResponse.class);
+        break;
+      }
+      default: {
+        return null;
+      }
+    }
+    if (payloadEnabled && ret instanceof TransportPayload) {
+      ((TransportPayload) ret).writePayload(payload);
+    }
+    return ret;
   }
 }
