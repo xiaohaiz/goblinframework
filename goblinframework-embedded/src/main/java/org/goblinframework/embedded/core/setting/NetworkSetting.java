@@ -3,6 +3,7 @@ package org.goblinframework.embedded.core.setting;
 import org.goblinframework.core.util.NetworkUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.net.InetSocketAddress;
 import java.util.Objects;
 
 final public class NetworkSetting {
@@ -22,6 +23,14 @@ final public class NetworkSetting {
 
   public int port() {
     return port;
+  }
+
+  public InetSocketAddress toInetSocketAddress() {
+    if (host == null) {
+      return new InetSocketAddress(port);
+    } else {
+      return new InetSocketAddress(host, port);
+    }
   }
 
   @NotNull
