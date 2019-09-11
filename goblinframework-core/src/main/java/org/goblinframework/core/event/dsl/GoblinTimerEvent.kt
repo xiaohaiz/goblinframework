@@ -2,6 +2,9 @@ package org.goblinframework.core.event.dsl
 
 import org.goblinframework.core.event.GoblinEvent
 import org.goblinframework.core.event.GoblinEventChannel
+import org.goblinframework.core.util.DateFormatUtils
+import java.time.Instant
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 @GoblinEventChannel("/goblin/timer")
@@ -11,6 +14,7 @@ class GoblinTimerEvent(val unit: TimeUnit, val sequence: Long) : GoblinEvent() {
   }
 
   override fun toString(): String {
-    return "GoblinTimerEvent[unit=$unit,sequence=$sequence,createTime=$source]"
+    val createTime = DateFormatUtils.format(Date.from(source as Instant))
+    return "GoblinTimerEvent[unit=$unit,sequence=$sequence,createTime=$createTime]"
   }
 }
