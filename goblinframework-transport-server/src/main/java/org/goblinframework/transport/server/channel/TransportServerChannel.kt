@@ -15,6 +15,9 @@ internal constructor(private val server: TransportServerImpl,
 
   private val handshake = AtomicReference<HandshakeRequest>()
 
+  internal fun terminate() {
+  }
+
   internal fun close() {
     unregisterIfNecessary()
     handshake.set(null)
