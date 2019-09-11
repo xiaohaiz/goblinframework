@@ -19,6 +19,7 @@ final public class GoblinBootstrap {
     if (!initialized.compareAndSet(false, true)) {
       return;
     }
+    GoblinSystem.initialize();
     EventBusBoss.INSTANCE.initialize();
     GoblinModuleManager.INSTANCE.executeInitialize().executeBootstrap();
     LOGGER.info("WELCOME");
