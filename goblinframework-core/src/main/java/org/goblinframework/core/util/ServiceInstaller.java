@@ -2,7 +2,6 @@ package org.goblinframework.core.util;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.util.ConcurrentReferenceHashMap;
 
 import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -13,7 +12,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 final public class ServiceInstaller {
 
   private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-  private static final Map<Class<?>, Object> buffer = new ConcurrentReferenceHashMap<>(64);
+  private static final Map<Class<?>, Object> buffer = new IdentityHashMap<>(64);
 
   @NotNull
   @SuppressWarnings("unchecked")
