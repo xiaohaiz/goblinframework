@@ -41,4 +41,16 @@ abstract public class RandomUtils {
   public static String nextObjectId() {
     return new ObjectId().toHexString();
   }
+
+  public static boolean nextBoolean() {
+    return RANDOM.nextBoolean();
+  }
+
+  public static int nextInt() {
+    return RANDOM.nextInt();
+  }
+
+  public static long nextLong() {
+    return RANDOM.nextLong();
+  }
 }

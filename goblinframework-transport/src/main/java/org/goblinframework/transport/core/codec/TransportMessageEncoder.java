@@ -16,6 +16,12 @@ public class TransportMessageEncoder extends MessageToByteEncoder<Object> {
 
   private static final byte[] LENGTH_PLACEHOLDER = new byte[4];
 
+  private static final TransportMessageEncoder instance = new TransportMessageEncoder();
+
+  public static TransportMessageEncoder getInstance() {
+    return instance;
+  }
+
   @Override
   protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
     int startIdx = out.writerIndex();
