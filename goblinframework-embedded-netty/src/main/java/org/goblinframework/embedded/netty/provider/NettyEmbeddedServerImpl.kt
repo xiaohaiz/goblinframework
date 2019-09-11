@@ -10,6 +10,9 @@ import io.netty.handler.timeout.IdleStateHandler
 import org.goblinframework.api.common.InitializeException
 import org.goblinframework.embedded.core.setting.ServerSetting
 import java.net.InetSocketAddress
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.TimeUnit
 
 class NettyEmbeddedServerImpl(private val setting: ServerSetting) {
 
@@ -22,9 +25,20 @@ class NettyEmbeddedServerImpl(private val setting: ServerSetting) {
   val host: String
   val port: Int
 
+  private val executor: ThreadPoolExecutor
+
   init {
-    boss = NioEventLoopGroup(1)
-    worker = NioEventLoopGroup(4)
+    val bossThreads = 1
+    val workerThreads = 4
+    boss = NioEventLoopGroup(bossThreads)
+    worker = NioEventLoopGroup(workerThreads)
+
+    executor = ThreadPoolExecutor(
+        setting.threadPoolSetting().corePoolSize(),
+        setting.threadPoolSetting().maximumPoolSize(),
+        setting.threadPoolSetting().keepAliveTime(),
+        setting.threadPoolSetting().unit(),
+        LinkedBlockingQueue())
 
     val bootstrap = ServerBootstrap()
         .group(boss, worker)
@@ -40,7 +54,7 @@ class NettyEmbeddedServerImpl(private val setting: ServerSetting) {
             pipeline.addLast("httpKeepAlive", HttpServerKeepAliveHandler())
             pipeline.addLast("aggregator", HttpObjectAggregator(MAX_HTTP_CONTENT_LENGTH))
             pipeline.addLast("compressor", HttpContentCompressor())
-            pipeline.addLast(NettyHttpRequestHandler(setting))
+            pipeline.addLast(NettyHttpRequestHandler(setting, executor))
           }
         })
     val future = bootstrap.bind().sync()
@@ -55,5 +69,7 @@ class NettyEmbeddedServerImpl(private val setting: ServerSetting) {
   internal fun close() {
     boss.shutdownGracefully().awaitUninterruptibly()
     worker.shutdownGracefully().awaitUninterruptibly()
+    executor.shutdown()
+    executor.awaitTermination(5, TimeUnit.SECONDS)
   }
 }
