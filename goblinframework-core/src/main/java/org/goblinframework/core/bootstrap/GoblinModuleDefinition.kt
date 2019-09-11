@@ -11,6 +11,7 @@ object GoblinModuleDefinition {
       "EMBEDDED",
       "CACHE",
       "TRANSPORT",
+      "SCHEDULE",
       "MANAGEMENT",
       "BOOTSTRAP",
       "SYSTEM")
