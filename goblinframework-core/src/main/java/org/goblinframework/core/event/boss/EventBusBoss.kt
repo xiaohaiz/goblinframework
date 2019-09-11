@@ -12,7 +12,7 @@ import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
-import org.goblinframework.core.module.spi.SubscribeEventBusChannel
+import org.goblinframework.core.module.spi.TimerEventGenerator
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.ServiceInstaller
 import java.util.concurrent.TimeUnit
@@ -49,6 +49,8 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
 
     subscribe(GoblinCallbackEventListener.INSTANCE)
     ServiceInstaller.installedList(GoblinEventListener::class.java).forEach { subscribe(it) }
+
+    ServiceInstaller.installedFirst(TimerEventGenerator::class.java)?.start()
   }
 
   fun initialize() {}
@@ -81,9 +83,6 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   fun subscribe(channel: String, listener: GoblinEventListener) {
     val worker = lock.read { workers[channel] } ?: throw GoblinEventException("Channel [$channel] not found")
     worker.subscribe(listener)
-    ServiceInstaller.installedList(SubscribeEventBusChannel::class.java).forEach {
-      it.subscribed(channel, listener)
-    }
   }
 
   fun unsubscribe(listener: GoblinEventListener) {
@@ -126,6 +125,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
       return
     }
     unregisterIfNecessary()
+    ServiceInstaller.installedFirst(TimerEventGenerator::class.java)?.stop()
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
       EventBus.LOGGER.info("EventBusBoss closed")
