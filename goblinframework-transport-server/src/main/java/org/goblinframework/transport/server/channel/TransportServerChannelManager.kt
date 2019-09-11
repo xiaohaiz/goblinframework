@@ -19,14 +19,14 @@ class TransportServerChannelManager(private val server: TransportServerImpl)
   private val lock = ReentrantReadWriteLock()
   private val buffer = mutableMapOf<ChannelId, TransportServerChannel>()
   private val latch = SynchronizedCountLatch()
-  private val stopped = AtomicBoolean()
+  private val terminated = AtomicBoolean()
 
   fun getChannel(id: ChannelId): TransportServerChannel? {
     return lock.read { buffer[id] }
   }
 
   fun register(channel: Channel) {
-    if (stopped.get()) {
+    if (terminated.get()) {
       return
     }
     val id = channel.id()
@@ -49,7 +49,7 @@ class TransportServerChannelManager(private val server: TransportServerImpl)
   }
 
   fun terminate() {
-    if (!stopped.compareAndSet(false, true)) {
+    if (!terminated.compareAndSet(false, true)) {
       return
     }
     lock.read { buffer.values.forEach { it.terminate() } }
