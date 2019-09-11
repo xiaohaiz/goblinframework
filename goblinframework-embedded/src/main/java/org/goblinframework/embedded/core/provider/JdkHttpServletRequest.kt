@@ -36,6 +36,14 @@ class JdkHttpServletRequest(private val exchange: HttpExchange,
     }
   }
 
+  override fun isSecure(): Boolean {
+    return false
+  }
+
+  override fun getScheme(): String {
+    return "http"
+  }
+
   override fun getMethod(): String {
     return exchange.requestMethod
   }
