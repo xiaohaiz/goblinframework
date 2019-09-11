@@ -12,6 +12,7 @@ import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.core.module.spi.SubscribeEventBusChannel
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.ServiceInstaller
 import java.util.concurrent.TimeUnit
@@ -80,6 +81,9 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   fun subscribe(channel: String, listener: GoblinEventListener) {
     val worker = lock.read { workers[channel] } ?: throw GoblinEventException("Channel [$channel] not found")
     worker.subscribe(listener)
+    ServiceInstaller.installedList(SubscribeEventBusChannel::class.java).forEach {
+      it.subscribed(channel, listener)
+    }
   }
 
   fun unsubscribe(listener: GoblinEventListener) {
