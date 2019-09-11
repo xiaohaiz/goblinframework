@@ -1,24 +1,27 @@
-package org.goblinframework.schedule.support;
+package org.goblinframework.schedule.timer
 
-public class GoblinTimerEventGenerator implements org.goblinframework.core.module.spi.GoblinTimerEventGenerator {
+import java.util.concurrent.atomic.AtomicReference
 
-  @Override
-  public int getOrder() {
-    return 0;
+class GoblinTimerEventGenerator : org.goblinframework.core.module.spi.GoblinTimerEventGenerator {
+
+  private val generator = AtomicReference<GoblinTimerEventGeneratorImpl>()
+
+  override fun getOrder(): Int {
+    return 0
   }
 
-  @Override
-  public void start() {
-
+  @Synchronized
+  override fun start() {
+    if (generator.get() == null) {
+      generator.set(GoblinTimerEventGeneratorImpl())
+    }
   }
 
-  @Override
-  public void stop() {
-
+  override fun stop() {
+    generator.getAndSet(null)?.close()
   }
 
-  @Override
-  public boolean isRunning() {
-    return false;
+  override fun isRunning(): Boolean {
+    return generator.get() != null
   }
 }

@@ -11,6 +11,6 @@ class GoblinTimerEvent(val unit: TimeUnit, val sequence: Long) : GoblinEvent() {
   }
 
   override fun toString(): String {
-    return "GoblinTimerEvent[unit=$unit,sequence=$sequence]"
+    return "GoblinTimerEvent[unit=$unit,sequence=$sequence,createTime=$source]"
   }
 }

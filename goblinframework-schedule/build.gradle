@@ -3,6 +3,7 @@ description = "goblinframework-schedule"
 dependencies {
   compile(project(":goblinframework-core"))
   compile("org.springframework:spring-context-support:${spring_version}")
+  compile("org.springframework:spring-tx:${spring_version}")
   compile("org.quartz-scheduler:quartz:${quartz_version}") {
     exclude(group: "com.mchange", module: "c3p0")
     exclude(group: "com.mchange", module: "mchange-commons-java")
