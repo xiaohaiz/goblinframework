@@ -29,6 +29,10 @@ class SerializerManager private constructor() : GoblinManagedObject(), Serialize
     return buffer[id]
   }
 
+  fun availableSerializerIds(): List<Byte> {
+    return buffer.keys.sorted()
+  }
+
   fun initialize() {}
 
   fun close() {
