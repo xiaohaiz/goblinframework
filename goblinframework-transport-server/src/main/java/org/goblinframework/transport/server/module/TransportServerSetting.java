@@ -16,6 +16,7 @@ final public class TransportServerSetting {
   private final HandshakeRequestHandler handshakeRequestHandler;
   private final boolean debugMode;
   private final TransportServerThreadPoolSetting threadPoolSetting;
+  private final TransportServerHandlerSetting handlerSetting;
 
   private TransportServerSetting(@NotNull TransportServerSettingBuilder builder) {
     this.name = Objects.requireNonNull(builder.name);
@@ -24,6 +25,7 @@ final public class TransportServerSetting {
     this.handshakeRequestHandler = Objects.requireNonNull(builder.handshakeRequestHandler);
     this.debugMode = builder.debugMode;
     this.threadPoolSetting = builder.threadPoolSettingBuilder.build();
+    this.handlerSetting = builder.handlerSettingBuilder.build();
   }
 
   @NotNull
@@ -55,6 +57,11 @@ final public class TransportServerSetting {
   }
 
   @NotNull
+  public TransportServerHandlerSetting handlerSetting() {
+    return handlerSetting;
+  }
+
+  @NotNull
   public static TransportServerSettingBuilder builder() {
     return new TransportServerSettingBuilder();
   }
@@ -67,6 +74,7 @@ final public class TransportServerSetting {
     private HandshakeRequestHandler handshakeRequestHandler = DefaultHandshakeRequestHandler.INSTANCE;
     private boolean debugMode = false;
     private final TransportServerThreadPoolSetting.TransportServerThreadPoolSettingBuilder threadPoolSettingBuilder = TransportServerThreadPoolSetting.builder();
+    private final TransportServerHandlerSetting.TransportServerHandlerSettingBuilder handlerSettingBuilder = TransportServerHandlerSetting.builder();
 
     private TransportServerSettingBuilder() {
     }
@@ -102,8 +110,14 @@ final public class TransportServerSetting {
     }
 
     @NotNull
-    public TransportServerSettingBuilder applyThreadPoolSettings(@NotNull Block1<TransportServerThreadPoolSetting.TransportServerThreadPoolSettingBuilder> block) {
+    public TransportServerSettingBuilder applyThreadPoolSetting(@NotNull Block1<TransportServerThreadPoolSetting.TransportServerThreadPoolSettingBuilder> block) {
       block.apply(threadPoolSettingBuilder);
+      return this;
+    }
+
+    @NotNull
+    public TransportServerSettingBuilder applyHandlerSetting(@NotNull Block1<TransportServerHandlerSetting.TransportServerHandlerSettingBuilder> block) {
+      block.apply(handlerSettingBuilder);
       return this;
     }
 

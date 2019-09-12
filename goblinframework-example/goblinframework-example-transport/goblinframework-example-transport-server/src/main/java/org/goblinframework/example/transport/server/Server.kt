@@ -15,7 +15,7 @@ class Server : StandaloneServer() {
         .name("goblinframework-example-transport-server")
         .port(59766)
         .enableDebugMode()
-        .applyThreadPoolSettings {
+        .applyThreadPoolSetting {
           it.bossThreads(1)
           it.workerThreads(SystemUtils.estimateThreads())
         }
