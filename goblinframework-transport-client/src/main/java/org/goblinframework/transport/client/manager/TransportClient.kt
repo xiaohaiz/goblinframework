@@ -3,11 +3,28 @@ package org.goblinframework.transport.client.manager
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.transport.client.setting.ClientSetting
+import java.util.concurrent.atomic.AtomicReference
+import java.util.concurrent.atomic.LongAdder
 
 @GoblinManagedBean("TRANSPORT.CLIENT")
 class TransportClient internal constructor(val setting: ClientSetting,
                                            val clientManager: TransportClientManager)
   : GoblinManagedObject(), TransportClientMXBean {
+
+  private val clientRef = AtomicReference<TransportClientImpl>()
+  private val reconnectTimes = LongAdder()
+
+  init {
+    clientRef.set(TransportClientImpl(this))
+  }
+
+  fun connectFuture(): TransportClientConnectFuture {
+    return clientRef.get().connectFuture
+  }
+
+  fun disconnectFuture(): TransportClientDisconnectFuture {
+    return clientRef.get().disconnectFuture
+  }
 
   fun onStateChange(state: TransportClientState) {
     when (state) {
@@ -23,10 +40,16 @@ class TransportClient internal constructor(val setting: ClientSetting,
   }
 
   private fun terminate(reconnect: Boolean = false) {
-
+    if (reconnect && setting.isAutoReconnect) {
+      clientRef.getAndSet(TransportClientImpl(this)).close()
+      reconnectTimes.increment()
+    } else {
+      clientManager.closeConnection(setting.name)
+    }
   }
 
   internal fun close() {
     unregisterIfNecessary()
+    clientRef.get().close()
   }
 }

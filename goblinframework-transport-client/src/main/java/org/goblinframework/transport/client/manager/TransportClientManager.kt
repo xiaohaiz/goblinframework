@@ -20,6 +20,8 @@ class TransportClientManager private constructor() : GoblinManagedObject(), Tran
     @JvmField val INSTANCE = TransportClientManager()
   }
 
+  fun closeConnection(name: String) {}
+
   fun close() {
     unregisterIfNecessary()
     DisconnectFutureManager.INSTANCE.close()

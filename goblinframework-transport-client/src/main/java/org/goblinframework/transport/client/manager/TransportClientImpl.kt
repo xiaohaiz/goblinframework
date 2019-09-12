@@ -30,8 +30,8 @@ internal constructor(private val client: TransportClient) {
   private val channelRef = AtomicReference<Channel>()
   private val worker: NioEventLoopGroup
 
-  val connectFuture = TransportClientConnectFuture()
-  val disconnectFuture = TransportClientDisconnectFuture(client.clientManager)
+  internal val connectFuture = TransportClientConnectFuture()
+  internal val disconnectFuture = TransportClientDisconnectFuture(client.clientManager)
 
   init {
     val setting = client.setting
