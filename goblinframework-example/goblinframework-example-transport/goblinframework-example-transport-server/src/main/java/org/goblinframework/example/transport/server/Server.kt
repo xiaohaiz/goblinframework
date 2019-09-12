@@ -10,7 +10,10 @@ import org.goblinframework.transport.server.setting.ServerSetting
 class Server : StandaloneServer() {
 
   override fun doService(container: SpringContainer?) {
-    val setting = ServerSetting.builder().name("goblinframework-example-transport-server").build()
+    val setting = ServerSetting.builder()
+        .name("goblinframework-example-transport-server")
+        .port(59766)
+        .build()
     TransportServerManager.INSTANCE.createTransportServer(setting).start()
   }
 

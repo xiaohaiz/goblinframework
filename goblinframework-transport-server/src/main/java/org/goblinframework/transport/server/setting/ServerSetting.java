@@ -75,13 +75,13 @@ final public class ServerSetting {
     }
 
     @NotNull
-    public ServerSettingBuilder setHost(@NotNull String host) {
+    public ServerSettingBuilder host(@NotNull String host) {
       this.host = host;
       return this;
     }
 
     @NotNull
-    public ServerSettingBuilder setPort(int port) {
+    public ServerSettingBuilder port(int port) {
       this.port = port;
       return this;
     }
