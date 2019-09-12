@@ -30,6 +30,7 @@ class TransportClient internal constructor(val setting: ClientSetting,
     return clientRef.get().disconnectFuture
   }
 
+
   fun onStateChange(state: TransportClientState) {
     when (state) {
       TransportClientState.CONNECTING -> return

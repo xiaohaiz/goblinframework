@@ -7,13 +7,17 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioSocketChannel
 import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
+import org.apache.commons.collections4.map.LRUMap
 import org.goblinframework.core.bootstrap.GoblinSystem
+import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.transport.core.codec.TransportMessageDecoder
 import org.goblinframework.transport.core.codec.TransportMessageEncoder
 import org.goblinframework.transport.core.protocol.HandshakeRequest
 import org.goblinframework.transport.core.protocol.HandshakeResponse
+import org.goblinframework.transport.core.protocol.HeartbeatRequest
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
+import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 
 class TransportClientImpl
@@ -23,12 +27,14 @@ internal constructor(private val client: TransportClient) {
     private val logger = LoggerFactory.getLogger(TransportClientImpl::class.java)
   }
 
+  private val heartbeatInProgress = Collections.synchronizedMap(LRUMap<String, HeartbeatRequest>())
   private val stateChannelRef = AtomicReference<TransportClientChannel>(TransportClientChannel.CONNECTING)
   private val channelRef = AtomicReference<Channel>()
   private val worker: NioEventLoopGroup
 
   internal val connectFuture = TransportClientConnectFuture()
   internal val disconnectFuture = TransportClientDisconnectFuture(client.clientManager)
+
 
   init {
     val setting = client.setting
@@ -85,6 +91,19 @@ internal constructor(private val client: TransportClient) {
 
   fun available(): Boolean {
     return stateChannelRef.get().available()
+  }
+
+  fun sendHeartbeat() {
+    if (!client.setting.sendHeartbeat()) {
+      return
+    }
+    if (!available()) {
+      return
+    }
+    val request = HeartbeatRequest()
+    request.token = RandomUtils.nextObjectId()
+    writeMessage(request)
+    heartbeatInProgress[request.token] = request
   }
 
   fun writeMessage(msg: Any) {
