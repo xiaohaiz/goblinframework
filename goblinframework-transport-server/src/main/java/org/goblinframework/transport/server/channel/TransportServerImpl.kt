@@ -30,8 +30,8 @@ class TransportServerImpl(val setting: TransportServerSetting) {
   init {
     val socketAddress = InetSocketAddress(setting.host(), setting.port())
 
-    boss = NioEventLoopGroup(setting.bossThreads())
-    worker = NioEventLoopGroup(setting.bossThreads())
+    boss = NioEventLoopGroup(setting.threadPoolSetting().bossThreads())
+    worker = NioEventLoopGroup(setting.threadPoolSetting().workerThreads())
 
     channelManager = TransportServerChannelManager(this)
 

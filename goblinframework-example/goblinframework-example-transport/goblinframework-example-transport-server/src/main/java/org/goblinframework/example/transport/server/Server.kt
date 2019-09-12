@@ -3,6 +3,7 @@ package org.goblinframework.example.transport.server
 import org.goblinframework.bootstrap.core.StandaloneServer
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.container.UseSpringContainer
+import org.goblinframework.core.util.SystemUtils
 import org.goblinframework.transport.server.channel.TransportServerManager
 import org.goblinframework.transport.server.module.TransportServerSetting
 
@@ -14,6 +15,10 @@ class Server : StandaloneServer() {
         .name("goblinframework-example-transport-server")
         .port(59766)
         .enableDebugMode()
+        .applyThreadPoolSettings {
+          it.bossThreads(1)
+          it.workerThreads(SystemUtils.estimateThreads())
+        }
         .build()
     TransportServerManager.INSTANCE.createTransportServer(setting).start()
   }
