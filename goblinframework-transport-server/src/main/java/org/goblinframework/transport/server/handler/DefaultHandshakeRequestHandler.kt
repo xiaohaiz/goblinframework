@@ -1,4 +1,4 @@
-package org.goblinframework.transport.server.setting
+package org.goblinframework.transport.server.handler
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.bootstrap.GoblinSystem
