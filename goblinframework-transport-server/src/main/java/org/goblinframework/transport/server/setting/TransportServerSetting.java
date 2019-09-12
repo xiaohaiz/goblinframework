@@ -2,8 +2,6 @@ package org.goblinframework.transport.server.setting;
 
 import org.goblinframework.api.function.Block1;
 import org.goblinframework.core.util.NetworkUtils;
-import org.goblinframework.transport.server.handler.DefaultHandshakeRequestHandler;
-import org.goblinframework.transport.server.handler.HandshakeRequestHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -13,7 +11,6 @@ final public class TransportServerSetting {
   private final String name;
   private final String host;
   private final int port;
-  private final HandshakeRequestHandler handshakeRequestHandler;
   private final boolean debugMode;
   private final TransportServerThreadPoolSetting threadPoolSetting;
   private final TransportServerHandlerSetting handlerSetting;
@@ -22,7 +19,6 @@ final public class TransportServerSetting {
     this.name = Objects.requireNonNull(builder.name);
     this.host = Objects.requireNonNull(builder.host);
     this.port = builder.port;
-    this.handshakeRequestHandler = Objects.requireNonNull(builder.handshakeRequestHandler);
     this.debugMode = builder.debugMode;
     this.threadPoolSetting = builder.threadPoolSettingBuilder.build();
     this.handlerSetting = builder.handlerSettingBuilder.build();
@@ -40,11 +36,6 @@ final public class TransportServerSetting {
 
   public int port() {
     return port;
-  }
-
-  @NotNull
-  public HandshakeRequestHandler handshakeRequestHandler() {
-    return handshakeRequestHandler;
   }
 
   public boolean debugMode() {
@@ -71,7 +62,6 @@ final public class TransportServerSetting {
     private String name;
     private String host = NetworkUtils.ALL_HOST;
     private int port = NetworkUtils.RANDOM_PORT;
-    private HandshakeRequestHandler handshakeRequestHandler = DefaultHandshakeRequestHandler.INSTANCE;
     private boolean debugMode = false;
     private final TransportServerThreadPoolSetting.TransportServerThreadPoolSettingBuilder threadPoolSettingBuilder = TransportServerThreadPoolSetting.builder();
     private final TransportServerHandlerSetting.TransportServerHandlerSettingBuilder handlerSettingBuilder = TransportServerHandlerSetting.builder();
@@ -94,12 +84,6 @@ final public class TransportServerSetting {
     @NotNull
     public TransportServerSettingBuilder port(int port) {
       this.port = port;
-      return this;
-    }
-
-    @NotNull
-    public TransportServerSettingBuilder handshakeRequestHandler(@NotNull HandshakeRequestHandler handshakeRequestHandler) {
-      this.handshakeRequestHandler = handshakeRequestHandler;
       return this;
     }
 

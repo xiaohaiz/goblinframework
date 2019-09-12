@@ -23,7 +23,7 @@ internal constructor(private val server: TransportServerImpl,
   fun onMessage(msg: Any) {
     when (msg) {
       is HandshakeRequest -> {
-        val handler = server.setting.handshakeRequestHandler()
+        val handler = server.setting.handlerSetting().handshakeRequestHandler()
         val success = handler.handleHandshakeRequest(msg)
         if (success) {
           handshake.set(msg)
