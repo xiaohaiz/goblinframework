@@ -27,8 +27,8 @@ class SerializerManager private constructor() : GoblinManagedObject(), Serialize
     return getSerializer(mode)
   }
 
-  fun getSerializer(mode: SerializerMode): Serializer? {
-    return buffer[mode]
+  fun getSerializer(mode: SerializerMode): Serializer {
+    return buffer[mode]!!
   }
 
   fun close() {
