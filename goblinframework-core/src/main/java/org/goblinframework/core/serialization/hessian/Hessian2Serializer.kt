@@ -3,6 +3,7 @@ package org.goblinframework.core.serialization.hessian
 import com.caucho.hessian.io.Hessian2Input
 import com.caucho.hessian.io.Hessian2Output
 import org.goblinframework.core.serialization.Serializer
+import org.goblinframework.core.serialization.SerializerMode
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -10,8 +11,8 @@ import java.io.OutputStream
 
 class Hessian2Serializer : Serializer {
 
-  override fun id(): Byte {
-    return Serializer.HESSIAN2
+  override fun mode(): SerializerMode {
+    return SerializerMode.HESSIAN2
   }
 
   override fun serialize(obj: Any, outStream: OutputStream) {

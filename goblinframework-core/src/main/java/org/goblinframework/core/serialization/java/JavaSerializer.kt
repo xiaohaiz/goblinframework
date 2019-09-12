@@ -2,14 +2,15 @@ package org.goblinframework.core.serialization.java
 
 import org.apache.commons.lang3.SerializationUtils
 import org.goblinframework.core.serialization.Serializer
+import org.goblinframework.core.serialization.SerializerMode
 import java.io.InputStream
 import java.io.OutputStream
 import java.io.Serializable
 
 class JavaSerializer : Serializer {
 
-  override fun id(): Byte {
-    return Serializer.JAVA
+  override fun mode(): SerializerMode {
+    return SerializerMode.JAVA
   }
 
   override fun serialize(obj: Any, outStream: OutputStream) {

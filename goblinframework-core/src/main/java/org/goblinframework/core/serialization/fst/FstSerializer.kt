@@ -1,13 +1,14 @@
 package org.goblinframework.core.serialization.fst
 
 import org.goblinframework.core.serialization.Serializer
+import org.goblinframework.core.serialization.SerializerMode
 import java.io.InputStream
 import java.io.OutputStream
 
 class FstSerializer : Serializer {
 
-  override fun id(): Byte {
-    return Serializer.FST
+  override fun mode(): SerializerMode {
+    return SerializerMode.FST
   }
 
   override fun serialize(obj: Any, outStream: OutputStream) {

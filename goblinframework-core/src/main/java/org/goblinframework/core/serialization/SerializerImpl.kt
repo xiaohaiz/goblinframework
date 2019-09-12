@@ -10,8 +10,8 @@ import java.io.OutputStream
 internal class SerializerImpl(private val serializer: Serializer)
   : GoblinManagedObject(), Serializer, SerializerMXBean {
 
-  override fun id(): Byte {
-    return serializer.id()
+  override fun mode(): SerializerMode {
+    return serializer.mode()
   }
 
   override fun serialize(obj: Any, outStream: OutputStream) {
@@ -30,8 +30,8 @@ internal class SerializerImpl(private val serializer: Serializer)
     return serializer.deserialize(bs)
   }
 
-  override fun getId(): Byte {
-    return id()
+  override fun getMode(): SerializerMode {
+    return mode()
   }
 
   fun close() {

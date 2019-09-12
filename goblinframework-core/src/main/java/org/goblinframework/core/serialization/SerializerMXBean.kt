@@ -4,6 +4,6 @@ import java.lang.management.PlatformManagedObject
 
 interface SerializerMXBean : PlatformManagedObject {
 
-  fun getId(): Byte
+  fun getMode(): SerializerMode
 
 }
