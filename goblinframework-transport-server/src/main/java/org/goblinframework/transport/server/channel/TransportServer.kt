@@ -4,7 +4,7 @@ import org.goblinframework.api.common.Lifecycle
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.StopWatch
-import org.goblinframework.transport.server.module.TransportServerSetting
+import org.goblinframework.transport.server.setting.TransportServerSetting
 import java.util.concurrent.atomic.AtomicReference
 
 @GoblinManagedBean("TRANSPORT.SERVER")

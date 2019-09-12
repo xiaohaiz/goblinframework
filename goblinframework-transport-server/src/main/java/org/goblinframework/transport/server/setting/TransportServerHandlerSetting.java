@@ -1,4 +1,4 @@
-package org.goblinframework.transport.server.module;
+package org.goblinframework.transport.server.setting;
 
 import org.goblinframework.transport.server.handler.DefaultHandshakeRequestHandler;
 import org.goblinframework.transport.server.handler.HandshakeRequestHandler;

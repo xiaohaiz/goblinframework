@@ -9,7 +9,7 @@ import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
 import org.goblinframework.transport.core.codec.TransportMessageDecoder
 import org.goblinframework.transport.core.codec.TransportMessageEncoder
-import org.goblinframework.transport.server.module.TransportServerSetting
+import org.goblinframework.transport.server.setting.TransportServerSetting
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import java.util.concurrent.TimeUnit

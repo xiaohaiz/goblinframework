@@ -1,4 +1,4 @@
-package org.goblinframework.transport.server.module;
+package org.goblinframework.transport.server.setting;
 
 import org.goblinframework.api.function.Block1;
 import org.goblinframework.core.util.NetworkUtils;

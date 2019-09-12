@@ -5,7 +5,7 @@ import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.container.UseSpringContainer
 import org.goblinframework.core.util.SystemUtils
 import org.goblinframework.transport.server.channel.TransportServerManager
-import org.goblinframework.transport.server.module.TransportServerSetting
+import org.goblinframework.transport.server.setting.TransportServerSetting
 
 @UseSpringContainer("/config/goblinframework-example-transport-server.xml")
 class Server : StandaloneServer() {

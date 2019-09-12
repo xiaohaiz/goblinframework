@@ -5,7 +5,7 @@ import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.common.DuplicateException
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
-import org.goblinframework.transport.server.module.TransportServerSetting
+import org.goblinframework.transport.server.setting.TransportServerSetting
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
