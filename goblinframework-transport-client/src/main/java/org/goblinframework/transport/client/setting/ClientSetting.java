@@ -27,7 +27,8 @@ public class ClientSetting {
     this.autoReconnect = builder.autoReconnect;
   }
 
-  public String getName() {
+  @NotNull
+  public String name() {
     return name;
   }
 

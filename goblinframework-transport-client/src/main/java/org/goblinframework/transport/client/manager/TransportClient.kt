@@ -44,7 +44,7 @@ class TransportClient internal constructor(val setting: ClientSetting,
       clientRef.getAndSet(TransportClientImpl(this)).close()
       reconnectTimes.increment()
     } else {
-      clientManager.closeConnection(setting.name)
+      clientManager.closeConnection(setting.name())
     }
   }
 
