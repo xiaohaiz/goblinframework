@@ -12,11 +12,17 @@ public interface Compressor {
 
   void compress(@NotNull InputStream inStream, @NotNull OutputStream outStream);
 
+  @NotNull
+  byte[] compress(@NotNull InputStream inStream);
+
+  @NotNull
+  byte[] compress(@NotNull byte[] data);
+
   void decompress(@NotNull InputStream inStream, @NotNull OutputStream outStream);
 
   @NotNull
   byte[] decompress(@NotNull InputStream inStream);
 
   @NotNull
-  byte[] decompress(@NotNull byte[] compressed);
+  byte[] decompress(@NotNull byte[] data);
 }

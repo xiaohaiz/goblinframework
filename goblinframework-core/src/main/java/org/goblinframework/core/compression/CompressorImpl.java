@@ -30,6 +30,28 @@ final class CompressorImpl extends GoblinManagedObject implements Compressor, Co
     CompressionUtils.compress(mode, inStream, outStream);
   }
 
+  @NotNull
+  @Override
+  public byte[] compress(@NotNull InputStream inStream) {
+    ByteArrayOutputStream bos = new ByteArrayOutputStream(512);
+    compress(inStream, bos);
+    byte[] compressed = bos.toByteArray();
+    IOUtils.closeStream(bos);
+    return compressed;
+  }
+
+  @NotNull
+  @Override
+  public byte[] compress(@NotNull byte[] data) {
+    ByteArrayInputStream bis = new ByteArrayInputStream(data);
+    ByteArrayOutputStream bos = new ByteArrayOutputStream(512);
+    compress(bis, bos);
+    byte[] compressed = bos.toByteArray();
+    IOUtils.closeStream(bis);
+    IOUtils.closeStream(bos);
+    return compressed;
+  }
+
   @Override
   public void decompress(@NotNull InputStream inStream, @NotNull OutputStream outStream) {
     CompressionUtils.decompress(mode, inStream, outStream);
@@ -47,8 +69,8 @@ final class CompressorImpl extends GoblinManagedObject implements Compressor, Co
 
   @NotNull
   @Override
-  public byte[] decompress(@NotNull byte[] compressed) {
-    ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
+  public byte[] decompress(@NotNull byte[] data) {
+    ByteArrayInputStream bis = new ByteArrayInputStream(data);
     ByteArrayOutputStream bos = new ByteArrayOutputStream(512);
     decompress(bis, bos);
     byte[] decompressed = bos.toByteArray();
