@@ -1,4 +1,6 @@
 description = "goblinframework-api"
 
 dependencies {
+  compile("org.slf4j:slf4j-api:${slf4j_version}")
+  compile("com.fasterxml.jackson.core:jackson-annotations:${jackson_annotations_version}")
 }
