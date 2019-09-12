@@ -1,5 +1,6 @@
 package org.goblinframework.transport.server.module;
 
+import org.goblinframework.api.function.Block1;
 import org.goblinframework.core.util.NetworkUtils;
 import org.goblinframework.core.util.SystemUtils;
 import org.goblinframework.transport.server.handler.DefaultHandshakeRequestHandler;
@@ -17,8 +18,9 @@ final public class TransportServerSetting {
   private final int workerThreads;
   private final HandshakeRequestHandler handshakeRequestHandler;
   private final boolean debugMode;
+  private final TransportServerThreadPoolSetting threadPoolSetting;
 
-  private TransportServerSetting(@NotNull ServerSettingBuilder builder) {
+  private TransportServerSetting(@NotNull TransportServerSettingBuilder builder) {
     this.name = Objects.requireNonNull(builder.name);
     this.host = Objects.requireNonNull(builder.host);
     this.port = builder.port;
@@ -26,6 +28,7 @@ final public class TransportServerSetting {
     this.workerThreads = builder.workerThreads;
     this.handshakeRequestHandler = Objects.requireNonNull(builder.handshakeRequestHandler);
     this.debugMode = builder.debugMode;
+    this.threadPoolSetting = builder.threadPoolSettingBuilder.build();
   }
 
   @NotNull
@@ -60,11 +63,16 @@ final public class TransportServerSetting {
   }
 
   @NotNull
-  public static ServerSettingBuilder builder() {
-    return new ServerSettingBuilder();
+  public TransportServerThreadPoolSetting threadPoolSetting() {
+    return threadPoolSetting;
   }
 
-  final public static class ServerSettingBuilder {
+  @NotNull
+  public static TransportServerSettingBuilder builder() {
+    return new TransportServerSettingBuilder();
+  }
+
+  final public static class TransportServerSettingBuilder {
 
     private String name;
     private String host = NetworkUtils.ALL_HOST;
@@ -73,49 +81,56 @@ final public class TransportServerSetting {
     private int workerThreads = SystemUtils.estimateThreads();
     private HandshakeRequestHandler handshakeRequestHandler = DefaultHandshakeRequestHandler.INSTANCE;
     private boolean debugMode = false;
+    private final TransportServerThreadPoolSetting.TransportServerThreadPoolSettingBuilder threadPoolSettingBuilder = TransportServerThreadPoolSetting.builder();
 
-    private ServerSettingBuilder() {
+    private TransportServerSettingBuilder() {
     }
 
     @NotNull
-    public ServerSettingBuilder name(@NotNull String name) {
+    public TransportServerSettingBuilder name(@NotNull String name) {
       this.name = name;
       return this;
     }
 
     @NotNull
-    public ServerSettingBuilder host(@NotNull String host) {
+    public TransportServerSettingBuilder host(@NotNull String host) {
       this.host = host;
       return this;
     }
 
     @NotNull
-    public ServerSettingBuilder port(int port) {
+    public TransportServerSettingBuilder port(int port) {
       this.port = port;
       return this;
     }
 
     @NotNull
-    public ServerSettingBuilder bossThreads(int bossThreads) {
+    public TransportServerSettingBuilder bossThreads(int bossThreads) {
       this.bossThreads = SystemUtils.estimateThreads(bossThreads);
       return this;
     }
 
     @NotNull
-    public ServerSettingBuilder workerThreads(int workerThreads) {
+    public TransportServerSettingBuilder workerThreads(int workerThreads) {
       this.workerThreads = SystemUtils.estimateThreads(workerThreads);
       return this;
     }
 
     @NotNull
-    public ServerSettingBuilder handshakeRequestHandler(@NotNull HandshakeRequestHandler handshakeRequestHandler) {
+    public TransportServerSettingBuilder handshakeRequestHandler(@NotNull HandshakeRequestHandler handshakeRequestHandler) {
       this.handshakeRequestHandler = handshakeRequestHandler;
       return this;
     }
 
     @NotNull
-    public ServerSettingBuilder enableDebugMode() {
+    public TransportServerSettingBuilder enableDebugMode() {
       this.debugMode = true;
+      return this;
+    }
+
+    @NotNull
+    public TransportServerSettingBuilder applyThreadPoolSettings(@NotNull Block1<TransportServerThreadPoolSetting.TransportServerThreadPoolSettingBuilder> block) {
+      block.apply(threadPoolSettingBuilder);
       return this;
     }
 
