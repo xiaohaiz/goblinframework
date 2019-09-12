@@ -15,8 +15,6 @@ import org.goblinframework.transport.core.protocol.HandshakeResponse
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import java.util.concurrent.atomic.AtomicReference
-import java.util.concurrent.locks.ReentrantLock
-import kotlin.concurrent.withLock
 
 class TransportClientImpl
 internal constructor(private val client: TransportClient) {
@@ -25,7 +23,6 @@ internal constructor(private val client: TransportClient) {
     private val logger = LoggerFactory.getLogger(TransportClientImpl::class.java)
   }
 
-  private val stateChannelLock = ReentrantLock()
   private val stateChannelRef = AtomicReference<TransportClientChannel>(TransportClientChannel.CONNECTING)
   private val channelRef = AtomicReference<Channel>()
   private val worker: NioEventLoopGroup
@@ -73,18 +70,21 @@ internal constructor(private val client: TransportClient) {
     })
   }
 
+  @Synchronized
   fun updateStateChannel(sc: TransportClientChannel) {
-    stateChannelLock.withLock {
-      val previous = stateChannelRef.get().state
-      if (previous === TransportClientState.SHUTDOWN) {
-        return
-      }
-      stateChannelRef.set(sc)
-      if (logger.isDebugEnabled) {
-        logger.debug("{} state changed: {} -> {}", this, previous, sc.state)
-      }
-      client.onStateChange(sc.state)
+    val previous = stateChannelRef.get().state
+    if (previous === TransportClientState.SHUTDOWN) {
+      return
     }
+    stateChannelRef.set(sc)
+    if (logger.isDebugEnabled) {
+      logger.debug("{} state changed: {} -> {}", this, previous, sc.state)
+    }
+    client.onStateChange(sc.state)
+  }
+
+  fun available(): Boolean {
+    return stateChannelRef.get().available()
   }
 
   fun writeMessage(msg: Any) {

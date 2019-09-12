@@ -10,4 +10,8 @@ class TransportClientChannel(val state: TransportClientState,
     @JvmField val DISCONNECTED = TransportClientChannel(TransportClientState.DISCONNECTED, null)
     @JvmField val SHUTDOWN = TransportClientChannel(TransportClientState.SHUTDOWN, null)
   }
+
+  fun available(): Boolean {
+    return state === TransportClientState.HANDSHAKED
+  }
 }

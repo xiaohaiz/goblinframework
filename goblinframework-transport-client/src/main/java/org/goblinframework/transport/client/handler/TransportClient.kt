@@ -18,6 +18,10 @@ class TransportClient internal constructor(val setting: ClientSetting,
     clientRef.set(TransportClientImpl(this))
   }
 
+  fun available(): Boolean {
+    return clientRef.get().available()
+  }
+
   fun connectFuture(): TransportClientConnectFuture {
     return clientRef.get().connectFuture
   }
