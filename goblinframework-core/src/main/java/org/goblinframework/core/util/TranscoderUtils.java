@@ -3,7 +3,19 @@ package org.goblinframework.core.util;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 abstract public class TranscoderUtils {
+
+  public static void writeIntPackZeros(int i, @NotNull OutputStream outStream) throws IOException {
+    byte[] bs = encodeIntPackZeros(i);
+    int len = bs.length;
+    byte[] first = new byte[1];
+    first[0] = (byte) len;
+    outStream.write(first);
+    outStream.write(bs);
+  }
 
   public static byte[] encodeIntNoPackZeros(int i) {
     return encodeNumberNoPackZeros(i, 4);

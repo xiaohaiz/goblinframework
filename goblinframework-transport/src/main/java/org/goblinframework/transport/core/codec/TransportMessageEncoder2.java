@@ -5,11 +5,16 @@ import io.netty.buffer.ByteBufOutputStream;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import kotlin.text.Charsets;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
+import org.goblinframework.core.util.JsonUtils;
+import org.goblinframework.core.util.TranscoderUtils;
 import org.goblinframework.transport.core.protocol.TransportMessage;
 import org.goblinframework.transport.core.protocol.TransportPayload;
 import org.goblinframework.transport.core.protocol.TransportProtocol;
+
+import java.io.OutputStream;
 
 @ChannelHandler.Sharable
 public class TransportMessageEncoder2 extends MessageToByteEncoder<TransportMessage> {
@@ -51,8 +56,21 @@ public class TransportMessageEncoder2 extends MessageToByteEncoder<TransportMess
     bos.writeShort(TransportProtocol.MAGIC);
     bos.writeByte(header);
 
-    // TBC
-
+    if (msg.message instanceof TransportPayload) {
+      TransportPayload tp = (TransportPayload) msg.message;
+      byte[] payload = tp.drainPayload();
+      assert payload != null;
+      TranscoderUtils.writeIntPackZeros(payload.length, bos);
+      bos.write(payload);
+    }
+    if (serializer == null) {
+      byte[] type = msg.message.getClass().getName().getBytes(Charsets.UTF_8);
+      TranscoderUtils.writeIntPackZeros(type.length, bos);
+      bos.write(type);
+      JsonUtils.getDefaultObjectMapper().writeValue((OutputStream) bos, msg.message);
+    } else {
+      serializer.serialize(msg.message, bos);
+    }
     bos.flush();
     bos.close();
     int endIdx = out.writerIndex();
