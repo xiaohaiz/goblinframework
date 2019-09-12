@@ -4,13 +4,13 @@ import org.goblinframework.bootstrap.core.StandaloneServer
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.container.UseSpringContainer
 import org.goblinframework.transport.server.channel.TransportServerManager
-import org.goblinframework.transport.server.setting.ServerSetting
+import org.goblinframework.transport.server.module.TransportServerSetting
 
 @UseSpringContainer("/config/goblinframework-example-transport-server.xml")
 class Server : StandaloneServer() {
 
   override fun doService(container: SpringContainer?) {
-    val setting = ServerSetting.builder()
+    val setting = TransportServerSetting.builder()
         .name("goblinframework-example-transport-server")
         .port(59766)
         .enableDebugMode()

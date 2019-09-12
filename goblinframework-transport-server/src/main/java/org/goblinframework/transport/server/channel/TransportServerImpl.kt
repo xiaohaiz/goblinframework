@@ -9,12 +9,12 @@ import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
 import org.goblinframework.transport.core.codec.TransportMessageDecoder
 import org.goblinframework.transport.core.codec.TransportMessageEncoder
-import org.goblinframework.transport.server.setting.ServerSetting
+import org.goblinframework.transport.server.module.TransportServerSetting
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import java.util.concurrent.TimeUnit
 
-class TransportServerImpl(val setting: ServerSetting) {
+class TransportServerImpl(val setting: TransportServerSetting) {
 
   companion object {
     private val logger = LoggerFactory.getLogger(TransportServerImpl::class.java)

@@ -1,4 +1,4 @@
-package org.goblinframework.transport.server.setting;
+package org.goblinframework.transport.server.module;
 
 import org.goblinframework.core.util.NetworkUtils;
 import org.goblinframework.core.util.SystemUtils;
@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-final public class ServerSetting {
+final public class TransportServerSetting {
 
   private final String name;
   private final String host;
@@ -18,7 +18,7 @@ final public class ServerSetting {
   private final HandshakeRequestHandler handshakeRequestHandler;
   private final boolean debugMode;
 
-  private ServerSetting(@NotNull ServerSettingBuilder builder) {
+  private TransportServerSetting(@NotNull ServerSettingBuilder builder) {
     this.name = Objects.requireNonNull(builder.name);
     this.host = Objects.requireNonNull(builder.host);
     this.port = builder.port;
@@ -120,8 +120,8 @@ final public class ServerSetting {
     }
 
     @NotNull
-    public ServerSetting build() {
-      return new ServerSetting(this);
+    public TransportServerSetting build() {
+      return new TransportServerSetting(this);
     }
   }
 }

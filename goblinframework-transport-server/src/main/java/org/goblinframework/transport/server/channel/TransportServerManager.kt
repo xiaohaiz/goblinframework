@@ -5,7 +5,7 @@ import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.common.DuplicateException
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
-import org.goblinframework.transport.server.setting.ServerSetting
+import org.goblinframework.transport.server.module.TransportServerSetting
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
@@ -35,7 +35,7 @@ class TransportServerManager private constructor() : GoblinManagedObject(), Tran
    * null. Raise [DuplicateException] in case of server name
    * already created.
    */
-  fun createTransportServer(setting: ServerSetting): TransportServer {
+  fun createTransportServer(setting: TransportServerSetting): TransportServer {
     val name = setting.name()
     return lock.write {
       buffer[name]?.run {
