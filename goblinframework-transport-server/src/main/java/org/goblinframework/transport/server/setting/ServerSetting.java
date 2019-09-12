@@ -13,6 +13,7 @@ final public class ServerSetting {
   private final int port;
   private final int bossThreads;
   private final int workerThreads;
+  private final HandshakeRequestHandler handshakeRequestHandler;
 
   private ServerSetting(@NotNull ServerSettingBuilder builder) {
     this.name = Objects.requireNonNull(builder.name);
@@ -20,6 +21,7 @@ final public class ServerSetting {
     this.port = builder.port;
     this.bossThreads = builder.bossThreads;
     this.workerThreads = builder.workerThreads;
+    this.handshakeRequestHandler = Objects.requireNonNull(builder.handshakeRequestHandler);
   }
 
   @NotNull
@@ -45,6 +47,11 @@ final public class ServerSetting {
   }
 
   @NotNull
+  public HandshakeRequestHandler handshakeRequestHandler() {
+    return handshakeRequestHandler;
+  }
+
+  @NotNull
   public static ServerSettingBuilder builder() {
     return new ServerSettingBuilder();
   }
@@ -56,6 +63,7 @@ final public class ServerSetting {
     private int port = NetworkUtils.RANDOM_PORT;
     private int bossThreads = 1;
     private int workerThreads = SystemUtils.estimateThreads();
+    private HandshakeRequestHandler handshakeRequestHandler = DefaultHandshakeRequestHandler.INSTANCE;
 
     private ServerSettingBuilder() {
     }
@@ -87,6 +95,12 @@ final public class ServerSetting {
     @NotNull
     public ServerSettingBuilder workerThreads(int workerThreads) {
       this.workerThreads = SystemUtils.estimateThreads(workerThreads);
+      return this;
+    }
+
+    @NotNull
+    public ServerSettingBuilder handshakeRequestHandler(@NotNull HandshakeRequestHandler handshakeRequestHandler) {
+      this.handshakeRequestHandler = handshakeRequestHandler;
       return this;
     }
 

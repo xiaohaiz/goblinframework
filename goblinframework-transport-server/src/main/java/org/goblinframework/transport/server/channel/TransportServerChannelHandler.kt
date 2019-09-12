@@ -5,13 +5,13 @@ import io.netty.channel.SimpleChannelInboundHandler
 import org.slf4j.LoggerFactory
 
 class TransportServerChannelHandler(private val channelManager: TransportServerChannelManager)
-  : SimpleChannelInboundHandler<Any?>() {
+  : SimpleChannelInboundHandler<Any>() {
 
   companion object {
     private val logger = LoggerFactory.getLogger(TransportServerChannelHandler::class.java)
   }
 
-  override fun channelRead0(ctx: ChannelHandlerContext, msg: Any?) {
+  override fun channelRead0(ctx: ChannelHandlerContext, msg: Any) {
     channelManager.getChannel(ctx.channel().id())?.onMessage(msg)
   }
 

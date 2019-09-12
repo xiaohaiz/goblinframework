@@ -9,10 +9,7 @@ import org.goblinframework.core.util.JsonUtils;
 import org.goblinframework.core.util.TranscoderUtils;
 import org.goblinframework.serialization.core.Serializer;
 import org.goblinframework.serialization.core.manager.SerializerManager;
-import org.goblinframework.transport.core.protocol.HandshakeRequest;
-import org.goblinframework.transport.core.protocol.HandshakeResponse;
-import org.goblinframework.transport.core.protocol.TransportPayload;
-import org.goblinframework.transport.core.protocol.TransportProtocol;
+import org.goblinframework.transport.core.protocol.*;
 
 public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
 
@@ -33,14 +30,14 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
   protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
     ByteBuf frame = (ByteBuf) super.decode(ctx, in);
     if (frame == null) {
-      return null;
+      return UnrecognizedMessage.INSTANCE;
     }
     if (frame.readableBytes() < TransportProtocol.MAGIC_AND_HEADER_LENGTH) {
-      return null;
+      return UnrecognizedMessage.INSTANCE;
     }
     short magic = frame.readShort();
     if (magic != TransportProtocol.MAGIC) {
-      return null;
+      return UnrecognizedMessage.INSTANCE;
     }
     byte header = frame.readByte();
     boolean payloadEnabled = TransportProtocol.isPayloadEnabled(header);
@@ -52,7 +49,7 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
 
     Serializer serializer = SerializerManager.INSTANCE.getSerializer(serializerId);
     if (serializer == null) {
-      return null;
+      return UnrecognizedMessage.INSTANCE;
     }
     byte[] payload = extractPayloadIfNecessary(frame, payloadEnabled);
     ByteBufInputStream bis = new ByteBufInputStream(frame);
@@ -81,11 +78,11 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
     JsonNode root = JsonUtils.getDefaultObjectMapper().readTree(bis);
     bis.close();
     if (root == null || !root.isObject()) {
-      return null;
+      return UnrecognizedMessage.INSTANCE;
     }
     JsonNode node = root.get("id");
     if (node == null || !node.isTextual()) {
-      return null;
+      return UnrecognizedMessage.INSTANCE;
     }
     String id = node.asText();
     Object ret;
@@ -99,7 +96,7 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
         break;
       }
       default: {
-        return null;
+        return UnrecognizedMessage.INSTANCE;
       }
     }
     if (payloadEnabled && ret instanceof TransportPayload) {
