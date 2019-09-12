@@ -31,9 +31,11 @@ public class TransportMessageEncoder extends MessageToByteEncoder<Object> {
     bos.write(LENGTH_PLACEHOLDER);
     bos.writeShort(TransportProtocol.MAGIC);
     if (msg instanceof HandshakeRequest) {
+      bos.writeByte(0);
       LinkedHashMap<String, Object> map = ((HandshakeRequest) msg).asMap();
       JsonUtils.getDefaultObjectMapper().writeValue((OutputStream) bos, map);
     } else if (msg instanceof HandshakeResponse) {
+      bos.writeByte(0);
       LinkedHashMap<String, Object> map = ((HandshakeResponse) msg).asMap();
       JsonUtils.getDefaultObjectMapper().writeValue((OutputStream) bos, map);
     } else {

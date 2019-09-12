@@ -78,7 +78,7 @@ internal constructor(private val client: TransportClient) {
       }
       stateChannelRef.set(sc)
       if (logger.isDebugEnabled) {
-        logger.debug("{}} state changed: {} -> {}", this, previous, sc.state)
+        logger.debug("{} state changed: {} -> {}", this, previous, sc.state)
       }
       client.onStateChange(sc.state)
     }
