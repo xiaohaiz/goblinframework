@@ -16,7 +16,7 @@ class Client : StandaloneClient() {
         .serverHost(NetworkUtils.getLocalAddress())
         .serverPort(59766)
         .autoReconnect(true)
-        .debugMode(true)
+        .enableDebugMode()
         .build()
     val client = TransportClientManager.INSTANCE.createConnection(setting)
     client.connectFuture().awaitUninterruptibly()

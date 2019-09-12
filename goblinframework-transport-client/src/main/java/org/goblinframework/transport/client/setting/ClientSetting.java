@@ -15,6 +15,7 @@ public class ClientSetting {
   private final boolean keepAlive;
   private final int connectTimeoutInMillis;
   private final boolean autoReconnect;
+  private final boolean sendHeartbeat;
   private final boolean debugMode;
 
   private ClientSetting(ClientSettingBuilder builder) {
@@ -26,6 +27,7 @@ public class ClientSetting {
     this.keepAlive = builder.keepAlive;
     this.connectTimeoutInMillis = builder.connectTimeoutInMillis;
     this.autoReconnect = builder.autoReconnect;
+    this.sendHeartbeat = builder.sendHeartbeat;
     this.debugMode = builder.debugMode;
   }
 
@@ -63,6 +65,10 @@ public class ClientSetting {
     return autoReconnect;
   }
 
+  public boolean sendHeartbeat() {
+    return sendHeartbeat;
+  }
+
   public boolean debugMode() {
     return debugMode;
   }
@@ -82,6 +88,7 @@ public class ClientSetting {
     private boolean keepAlive = true;
     private int connectTimeoutInMillis = 30000;
     private boolean autoReconnect = true;
+    private boolean sendHeartbeat = false;
     private boolean debugMode = false;
 
     public ClientSettingBuilder name(String name) {
@@ -125,8 +132,14 @@ public class ClientSetting {
     }
 
     @NotNull
-    public ClientSettingBuilder debugMode(boolean debugMode) {
-      this.debugMode = debugMode;
+    public ClientSettingBuilder enableSendHeartbeat() {
+      this.sendHeartbeat = true;
+      return this;
+    }
+
+    @NotNull
+    public ClientSettingBuilder enableDebugMode() {
+      this.debugMode = true;
       return this;
     }
 

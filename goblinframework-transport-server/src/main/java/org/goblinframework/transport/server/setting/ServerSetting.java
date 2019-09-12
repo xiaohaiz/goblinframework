@@ -112,8 +112,8 @@ final public class ServerSetting {
     }
 
     @NotNull
-    public ServerSettingBuilder debugMode(boolean debugMode) {
-      this.debugMode = debugMode;
+    public ServerSettingBuilder enableDebugMode() {
+      this.debugMode = true;
       return this;
     }
 

@@ -13,7 +13,7 @@ class Server : StandaloneServer() {
     val setting = ServerSetting.builder()
         .name("goblinframework-example-transport-server")
         .port(59766)
-        .debugMode(true)
+        .enableDebugMode()
         .build()
     TransportServerManager.INSTANCE.createTransportServer(setting).start()
   }
