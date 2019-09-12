@@ -10,4 +10,14 @@ public class HandshakeRequest implements Serializable {
   public String clientId;
   public LinkedHashMap<String, Object> extensions;
 
+  public LinkedHashMap<String, Object> asMap() {
+    LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+    map.put("_id", "HandshakeRequest");
+    map.put("serverId", serverId);
+    map.put("clientId", clientId);
+    if (extensions != null) {
+      map.put("extensions", extensions);
+    }
+    return map;
+  }
 }

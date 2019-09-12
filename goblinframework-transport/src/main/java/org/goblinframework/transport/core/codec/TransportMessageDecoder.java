@@ -80,7 +80,7 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
     if (root == null || !root.isObject()) {
       return UnrecognizedMessage.INSTANCE;
     }
-    JsonNode node = root.get("id");
+    JsonNode node = root.get("_id");
     if (node == null || !node.isTextual()) {
       return UnrecognizedMessage.INSTANCE;
     }

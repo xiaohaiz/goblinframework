@@ -9,4 +9,13 @@ public class HandshakeResponse implements Serializable {
   public boolean success;
   public LinkedHashMap<String, Object> extensions;
 
+  public LinkedHashMap<String, Object> asMap() {
+    LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+    map.put("_id", "HandshakeResponse");
+    map.put("success", success);
+    if (extensions != null) {
+      map.put("extensions", extensions);
+    }
+    return map;
+  }
 }

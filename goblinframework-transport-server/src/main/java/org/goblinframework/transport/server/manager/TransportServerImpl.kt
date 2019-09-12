@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import java.util.concurrent.TimeUnit
 
-class TransportServerImpl(private val setting: ServerSetting) {
+class TransportServerImpl(val setting: ServerSetting) {
 
   companion object {
     private val logger = LoggerFactory.getLogger(TransportServerImpl::class.java)

@@ -5,11 +5,13 @@ import io.netty.buffer.ByteBufOutputStream;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import org.goblinframework.core.util.JsonUtils;
 import org.goblinframework.transport.core.protocol.HandshakeRequest;
 import org.goblinframework.transport.core.protocol.HandshakeResponse;
 import org.goblinframework.transport.core.protocol.TransportProtocol;
-import org.goblinframework.transport.core.protocol.encoder.HandshakeRequestEncoder;
-import org.goblinframework.transport.core.protocol.encoder.HandshakeResponseEncoder;
+
+import java.io.OutputStream;
+import java.util.LinkedHashMap;
 
 @ChannelHandler.Sharable
 public class TransportMessageEncoder extends MessageToByteEncoder<Object> {
@@ -29,9 +31,11 @@ public class TransportMessageEncoder extends MessageToByteEncoder<Object> {
     bos.write(LENGTH_PLACEHOLDER);
     bos.writeShort(TransportProtocol.MAGIC);
     if (msg instanceof HandshakeRequest) {
-      HandshakeRequestEncoder.INSTANCE.encode(bos, (HandshakeRequest) msg);
+      LinkedHashMap<String, Object> map = ((HandshakeRequest) msg).asMap();
+      JsonUtils.getDefaultObjectMapper().writeValue((OutputStream) bos, map);
     } else if (msg instanceof HandshakeResponse) {
-      HandshakeResponseEncoder.INSTANCE.encode(bos, (HandshakeResponse) msg);
+      LinkedHashMap<String, Object> map = ((HandshakeResponse) msg).asMap();
+      JsonUtils.getDefaultObjectMapper().writeValue((OutputStream) bos, map);
     } else {
       throw new UnsupportedOperationException("Unrecognized message to be encoded: " + msg);
     }
