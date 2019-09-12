@@ -5,7 +5,9 @@ import org.apache.commons.collections4.MapUtils
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.transport.core.protocol.*
+import org.goblinframework.transport.server.handler.TransportRequestContext
 import org.slf4j.LoggerFactory
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicReference
 
 @GoblinManagedBean("TRANSPORT.SERVER")
@@ -18,12 +20,13 @@ internal constructor(private val server: TransportServerImpl,
     private val logger = LoggerFactory.getLogger(TransportServerChannel::class.java)
   }
 
+  private val setting = server.setting
   private val handshake = AtomicReference<HandshakeRequest>()
 
   fun onMessage(msg: Any) {
     when (msg) {
       is HandshakeRequest -> {
-        val handler = server.setting.handlerSetting().handshakeRequestHandler()
+        val handler = setting.handlerSetting().handshakeRequestHandler()
         val success = handler.handleHandshakeRequest(msg)
         if (success) {
           handshake.set(msg)
@@ -37,6 +40,14 @@ internal constructor(private val server: TransportServerImpl,
         val response = HeartbeatResponse()
         response.token = msg.token
         writeMessage(response)
+        return
+      }
+      is TransportRequest -> {
+        val ctx = TransportRequestContext()
+        ctx.channel = this
+        ctx.extensions = ConcurrentHashMap()
+        val handler = setting.handlerSetting().transportRequestHandler()
+        handler.handleTransportRequest(ctx)
         return
       }
       else -> logger.error("Unrecognized message received: $msg")

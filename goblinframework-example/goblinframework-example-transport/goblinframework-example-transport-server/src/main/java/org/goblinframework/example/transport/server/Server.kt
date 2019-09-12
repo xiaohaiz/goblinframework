@@ -5,6 +5,8 @@ import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.container.UseSpringContainer
 import org.goblinframework.core.util.SystemUtils
 import org.goblinframework.transport.server.channel.TransportServerManager
+import org.goblinframework.transport.server.handler.TransportRequestContext
+import org.goblinframework.transport.server.handler.TransportRequestHandler
 import org.goblinframework.transport.server.setting.TransportServerSetting
 
 @UseSpringContainer("/config/goblinframework-example-transport-server.xml")
@@ -18,6 +20,13 @@ class Server : StandaloneServer() {
         .applyThreadPoolSetting {
           it.bossThreads(1)
           it.workerThreads(SystemUtils.estimateThreads())
+        }
+        .applyHandlerSetting {
+          it.transportRequestHandler(object : TransportRequestHandler {
+            override fun handleTransportRequest(ctx: TransportRequestContext) {
+              println(ctx)
+            }
+          })
         }
         .build()
     TransportServerManager.INSTANCE.createTransportServer(setting).start()
