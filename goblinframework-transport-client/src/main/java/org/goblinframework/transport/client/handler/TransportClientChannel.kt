@@ -8,6 +8,7 @@ class TransportClientChannel(val state: TransportClientState,
     @JvmField val CONNECT_FAILED = TransportClientChannel(TransportClientState.CONNECT_FAILED, null)
     @JvmField val HANDSHAKE_FAILED = TransportClientChannel(TransportClientState.HANDSHAKE_FAILED, null)
     @JvmField val DISCONNECTED = TransportClientChannel(TransportClientState.DISCONNECTED, null)
+    @JvmField val HEARTBEAT_LOST = TransportClientChannel(TransportClientState.HEARTBEAT_LOST, null)
     @JvmField val SHUTDOWN = TransportClientChannel(TransportClientState.SHUTDOWN, null)
   }
 

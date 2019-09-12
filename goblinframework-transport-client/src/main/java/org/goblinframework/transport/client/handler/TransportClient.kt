@@ -30,6 +30,9 @@ class TransportClient internal constructor(val setting: ClientSetting,
     return clientRef.get().disconnectFuture
   }
 
+  internal fun sendHeartbeat() {
+    clientRef.get().sendHeartbeat()
+  }
 
   fun onStateChange(state: TransportClientState) {
     when (state) {

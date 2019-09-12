@@ -15,6 +15,10 @@ abstract public class GoblinEventBus {
     EventBusBoss.INSTANCE.subscribe(listener);
   }
 
+  public static void unsubscribe(@NotNull GoblinEventListener listener) {
+    EventBusBoss.INSTANCE.unsubscribe(listener);
+  }
+
   @NotNull
   public static GoblinEventFuture publish(@NotNull GoblinEvent event) {
     return EventBusBoss.INSTANCE.publish(event);

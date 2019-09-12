@@ -10,11 +10,13 @@ import io.netty.handler.logging.LoggingHandler
 import org.apache.commons.collections4.map.LRUMap
 import org.goblinframework.core.bootstrap.GoblinSystem
 import org.goblinframework.core.util.RandomUtils
+import org.goblinframework.transport.client.module.TransportClientModule
 import org.goblinframework.transport.core.codec.TransportMessageDecoder
 import org.goblinframework.transport.core.codec.TransportMessageEncoder
 import org.goblinframework.transport.core.protocol.HandshakeRequest
 import org.goblinframework.transport.core.protocol.HandshakeResponse
 import org.goblinframework.transport.core.protocol.HeartbeatRequest
+import org.goblinframework.transport.core.protocol.HeartbeatResponse
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import java.util.*
@@ -27,7 +29,7 @@ internal constructor(private val client: TransportClient) {
     private val logger = LoggerFactory.getLogger(TransportClientImpl::class.java)
   }
 
-  private val heartbeatInProgress = Collections.synchronizedMap(LRUMap<String, HeartbeatRequest>())
+  private val heartbeatInProgress = Collections.synchronizedMap(LRUMap<String, HeartbeatRequest>(32))
   private val stateChannelRef = AtomicReference<TransportClientChannel>(TransportClientChannel.CONNECTING)
   private val channelRef = AtomicReference<Channel>()
   private val worker: NioEventLoopGroup
@@ -104,6 +106,9 @@ internal constructor(private val client: TransportClient) {
     request.token = RandomUtils.nextObjectId()
     writeMessage(request)
     heartbeatInProgress[request.token] = request
+    if (heartbeatInProgress.size >= TransportClientModule.maxSufferanceHeartLost) {
+      updateStateChannel(TransportClientChannel.HEARTBEAT_LOST)
+    }
   }
 
   fun writeMessage(msg: Any) {
@@ -121,12 +126,19 @@ internal constructor(private val client: TransportClient) {
         connectFuture.complete(client)
         return
       }
+      is HeartbeatResponse -> {
+        msg.token?.run {
+          heartbeatInProgress.remove(this)
+        }
+        return
+      }
       else -> logger.error("Unrecognized message received: $msg")
     }
   }
 
   internal fun close() {
     updateStateChannel(TransportClientChannel.SHUTDOWN)
+    heartbeatInProgress.clear()
     worker.shutdownGracefully().addListener {
       if (!it.isSuccess) {
         val cause = TransportClientException("Exception closing connection", it.cause())

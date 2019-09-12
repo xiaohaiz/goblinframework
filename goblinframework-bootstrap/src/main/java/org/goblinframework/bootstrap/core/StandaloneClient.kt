@@ -9,6 +9,13 @@ abstract class StandaloneClient {
 
   fun bootstrap(args: Array<String>) {
     GoblinBootstrap.initialize()
+    if (useShutdownHook()) {
+      Runtime.getRuntime().addShutdownHook(object : Thread("StandaloneServerShutdownHook") {
+        override fun run() {
+          shutdown()
+        }
+      })
+    }
     val container = SpringContainerLoader.load(this)
     var success = true
     try {
@@ -21,6 +28,10 @@ abstract class StandaloneClient {
       val status = if (success) 0 else -1
       exitProcess(status)
     }
+  }
+
+  open fun useShutdownHook(): Boolean {
+    return true
   }
 
   fun shutdown() {

@@ -4,6 +4,7 @@ import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.common.DuplicateException
 import org.goblinframework.core.concurrent.SynchronizedCountLatch
+import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.transport.client.setting.ClientSetting
@@ -26,6 +27,10 @@ class TransportClientManager private constructor() : GoblinManagedObject(), Tran
   private val lock = ReentrantReadWriteLock()
   private val buffer = mutableMapOf<String, TransportClient>()
 
+  fun initialize() {
+    EventBus.subscribe(TransportClientHeartbeatGenerator.INSTANCE)
+  }
+
   fun getConnection(name: String): TransportClient? {
     return lock.read { buffer[name] }
   }
@@ -46,8 +51,13 @@ class TransportClientManager private constructor() : GoblinManagedObject(), Tran
     lock.write { buffer.remove(name) }?.close()
   }
 
+  fun sendHeartbeat() {
+    lock.read { buffer.values.forEach { it.sendHeartbeat() } }
+  }
+
   fun close() {
     unregisterIfNecessary()
+    EventBus.unsubscribe(TransportClientHeartbeatGenerator.INSTANCE)
     lock.write {
       buffer.values.forEach { it.close() }
       buffer.clear()
