@@ -14,6 +14,9 @@ dependencies {
   compile("org.springframework:spring-context:${spring_version}")
   compile("org.springframework:spring-web:${spring_version}")
   compile("javax.inject:javax.inject:${javax_inject_version}")
+  compile("de.ruedigermoeller:fst:${fst_version}")
+  compile("org.objenesis:objenesis:${objenesis_version}")
+  compile("com.caucho:hessian:${hessian_version}")
 
   testCompile("junit:junit:${junit_version}")
   testCompile("org.easymock:easymock:${easymock_version}")

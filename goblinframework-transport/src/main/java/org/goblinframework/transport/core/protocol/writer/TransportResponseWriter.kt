@@ -3,7 +3,7 @@ package org.goblinframework.transport.core.protocol.writer
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.core.compression.CompressorManager
 import org.goblinframework.core.compression.CompressorMode
-import org.goblinframework.serialization.core.manager.SerializerManager
+import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.transport.core.protocol.TransportResponse
 import org.goblinframework.transport.core.protocol.reader.TransportRequestReader
 

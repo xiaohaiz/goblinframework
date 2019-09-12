@@ -5,10 +5,10 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import org.goblinframework.core.serialization.Serializer;
+import org.goblinframework.core.serialization.SerializerManager;
 import org.goblinframework.core.util.JsonUtils;
 import org.goblinframework.core.util.TranscoderUtils;
-import org.goblinframework.serialization.core.Serializer;
-import org.goblinframework.serialization.core.manager.SerializerManager;
 import org.goblinframework.transport.core.protocol.*;
 
 public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {

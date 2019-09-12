@@ -2,8 +2,8 @@ package org.goblinframework.transport.core.protocol.reader
 
 import org.goblinframework.core.compression.CompressorManager
 import org.goblinframework.core.compression.CompressorMode
+import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.core.util.StringUtils
-import org.goblinframework.serialization.core.manager.SerializerManager
 import org.goblinframework.transport.core.protocol.TransportRequest
 
 class TransportRequestReader(private val request: TransportRequest) {

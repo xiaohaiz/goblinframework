@@ -1,7 +1,7 @@
 package org.goblinframework.transport.core.protocol;
 
-import org.goblinframework.serialization.core.Serializer;
-import org.goblinframework.serialization.core.manager.SerializerManager;
+import org.goblinframework.core.serialization.Serializer;
+import org.goblinframework.core.serialization.SerializerManager;
 
 /**
  * <pre>

@@ -3,7 +3,6 @@ description = "goblinframework-bootstrap"
 dependencies {
   compile(project(":goblinframework-core"))
   compile(project(":goblinframework-monitor"))
-  compile(project(":goblinframework-serialization"))
   compile(project(":goblinframework-webmvc"))
   compile(project(":goblinframework-embedded"))
   compile(project(":goblinframework-cache"))

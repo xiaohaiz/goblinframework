@@ -5,10 +5,10 @@ import io.netty.buffer.ByteBufOutputStream;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import org.goblinframework.core.serialization.Serializer;
+import org.goblinframework.core.serialization.SerializerManager;
 import org.goblinframework.core.util.JsonUtils;
 import org.goblinframework.core.util.TranscoderUtils;
-import org.goblinframework.serialization.core.Serializer;
-import org.goblinframework.serialization.core.manager.SerializerManager;
 import org.goblinframework.transport.core.protocol.*;
 
 import java.io.OutputStream;
