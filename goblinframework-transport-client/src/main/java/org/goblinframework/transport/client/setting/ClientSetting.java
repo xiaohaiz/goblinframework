@@ -17,6 +17,7 @@ public class ClientSetting {
   private final boolean autoReconnect;
   private final boolean receiveShutdown;
   private final boolean sendHeartbeat;
+  private final ShutdownRequestHandler shutdownRequestHandler;
   private final boolean debugMode;
 
   private ClientSetting(ClientSettingBuilder builder) {
@@ -30,6 +31,7 @@ public class ClientSetting {
     this.autoReconnect = builder.autoReconnect;
     this.receiveShutdown = builder.receiveShutdown;
     this.sendHeartbeat = builder.sendHeartbeat;
+    this.shutdownRequestHandler = builder.shutdownRequestHandler;
     this.debugMode = builder.debugMode;
   }
 
@@ -75,6 +77,11 @@ public class ClientSetting {
     return sendHeartbeat;
   }
 
+  @NotNull
+  public ShutdownRequestHandler shutdownRequestHandler() {
+    return shutdownRequestHandler;
+  }
+
   public boolean debugMode() {
     return debugMode;
   }
@@ -96,6 +103,7 @@ public class ClientSetting {
     private boolean autoReconnect = true;
     private boolean receiveShutdown = false;
     private boolean sendHeartbeat = false;
+    private ShutdownRequestHandler shutdownRequestHandler = DefaultShutdownRequestHandler.INSTANCE;
     private boolean debugMode = false;
 
     public ClientSettingBuilder name(String name) {
@@ -148,6 +156,12 @@ public class ClientSetting {
     @NotNull
     public ClientSettingBuilder enableSendHeartbeat() {
       this.sendHeartbeat = true;
+      return this;
+    }
+
+    @NotNull
+    public ClientSettingBuilder shutdownRequestHandler(ShutdownRequestHandler shutdownRequestHandler) {
+      this.shutdownRequestHandler = shutdownRequestHandler;
       return this;
     }
 
