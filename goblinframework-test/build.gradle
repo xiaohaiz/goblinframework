@@ -3,7 +3,9 @@ description = "goblinframework-test"
 dependencies {
   compile(project(":goblinframework-core"))
   compile("junit:junit:${junit_version}")
-  compile("org.easymock:easymock:${easymock_version}")
+  compile("org.easymock:easymock:${easymock_version}") {
+    exclude(group: "org.objenesis", module: "objenesis")
+  }
   compile("org.springframework:spring-test:${spring_version}")
   compile("org.slf4j:jcl-over-slf4j:${slf4j_version}")
   compile("org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}")
