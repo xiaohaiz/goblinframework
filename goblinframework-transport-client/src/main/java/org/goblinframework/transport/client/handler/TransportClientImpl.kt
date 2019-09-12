@@ -95,6 +95,10 @@ internal constructor(private val client: TransportClient) {
     return stateChannelRef.get().available()
   }
 
+  fun stateChannel(): TransportClientChannel {
+    return stateChannelRef.get()
+  }
+
   fun sendHeartbeat() {
     if (!client.setting.sendHeartbeat()) {
       return

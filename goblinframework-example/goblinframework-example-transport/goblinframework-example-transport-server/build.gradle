@@ -1,6 +1,8 @@
 description = "goblinframework-example-transport-server"
 
 dependencies {
+  compile(project(":goblinframework-serialization-hessian"))
+  compile(project(":goblinframework-serialization-fst"))
   compile(project(":goblinframework-transport-server"))
   compile(project(":goblinframework-bootstrap"))
 }

@@ -22,6 +22,10 @@ class TransportClient internal constructor(val setting: ClientSetting,
     return clientRef.get().available()
   }
 
+  fun stateChannel(): TransportClientChannel {
+    return clientRef.get().stateChannel()
+  }
+
   fun connectFuture(): TransportClientConnectFuture {
     return clientRef.get().connectFuture
   }

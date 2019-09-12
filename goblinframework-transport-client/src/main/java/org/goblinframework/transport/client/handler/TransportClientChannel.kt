@@ -15,4 +15,8 @@ class TransportClientChannel(val state: TransportClientState,
   fun available(): Boolean {
     return state === TransportClientState.HANDSHAKED
   }
+
+  fun writeMessage(msg: Any) {
+    client?.writeMessage(msg)
+  }
 }

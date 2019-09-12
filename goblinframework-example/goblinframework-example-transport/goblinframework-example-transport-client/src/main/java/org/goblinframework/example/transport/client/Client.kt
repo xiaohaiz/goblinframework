@@ -6,6 +6,7 @@ import org.goblinframework.core.container.UseSpringContainer
 import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.transport.client.handler.TransportClientManager
 import org.goblinframework.transport.client.setting.ClientSetting
+import org.goblinframework.transport.core.protocol.TransportRequest
 
 @UseSpringContainer("/config/goblinframework-example-transport-client.xml")
 class Client : StandaloneClient() {
@@ -22,6 +23,13 @@ class Client : StandaloneClient() {
         .build()
     val client = TransportClientManager.INSTANCE.createConnection(setting)
     client.connectFuture().awaitUninterruptibly()
+    if (client.available()) {
+      val request = TransportRequest()
+      request.requestId = 1
+      request.requestCreateTime = System.currentTimeMillis()
+      request.response = false
+      client.stateChannel().writeMessage(request)
+    }
     Thread.currentThread().join()
     TransportClientManager.INSTANCE.closeConnection("goblinframework-example-transport-client")
   }

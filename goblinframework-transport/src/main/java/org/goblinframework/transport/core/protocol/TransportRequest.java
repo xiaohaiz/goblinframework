@@ -10,7 +10,7 @@ public class TransportRequest implements Serializable, TransportPayload {
 
   public long requestId;                            // 唯一的请求id
   public long requestCreateTime;                    // 请求创建时间
-  public byte response;                             // 是否需要服务端响应
+  public boolean response;                          // 是否需要服务端响应
   public byte compressor;                           // 是否使用了压缩，0表示无
   public byte serializer;                           // 是否使用了序列化，0表示是字符串对应的字节数组
   public byte[] payload;                            // 负载数据
