@@ -26,6 +26,7 @@ abstract class StandaloneServer {
   }
 
   fun shutdown() {
+    doShutdown()
     GoblinBootstrap.close()
   }
 
@@ -36,6 +37,8 @@ abstract class StandaloneServer {
   open fun runDaemonMode(): Boolean {
     return true
   }
+
+  open fun doShutdown() {}
 
   open fun doService(container: SpringContainer?) {
   }
