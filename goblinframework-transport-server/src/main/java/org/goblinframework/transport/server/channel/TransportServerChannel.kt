@@ -1,12 +1,10 @@
 package org.goblinframework.transport.server.channel
 
 import io.netty.channel.Channel
+import org.apache.commons.collections4.MapUtils
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
-import org.goblinframework.transport.core.protocol.HandshakeRequest
-import org.goblinframework.transport.core.protocol.HandshakeResponse
-import org.goblinframework.transport.core.protocol.HeartbeatRequest
-import org.goblinframework.transport.core.protocol.HeartbeatResponse
+import org.goblinframework.transport.core.protocol.*
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicReference
 
@@ -27,6 +25,9 @@ internal constructor(private val server: TransportServerImpl,
       is HandshakeRequest -> {
         val handler = server.setting.handshakeRequestHandler()
         val success = handler.handleHandshakeRequest(msg)
+        if (success) {
+          handshake.set(msg)
+        }
         val response = HandshakeResponse()
         response.success = success
         writeMessage(response)
@@ -48,10 +49,25 @@ internal constructor(private val server: TransportServerImpl,
   }
 
   internal fun terminate() {
+    if (!getClientReceiveShutdown()) {
+      return
+    }
+    val request = ShutdownRequest()
+    request.clientId = getClientId()
+    writeMessage(request)
   }
 
   internal fun close() {
     unregisterIfNecessary()
     handshake.set(null)
+  }
+
+  override fun getClientId(): String? {
+    return handshake.get()?.clientId
+  }
+
+  override fun getClientReceiveShutdown(): Boolean {
+    val request = handshake.get() ?: return false
+    return MapUtils.getBoolean(request.extensions, "receiveShutdown", false)
   }
 }
