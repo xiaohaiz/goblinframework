@@ -55,7 +55,6 @@ public class TransportMessageEncoder2 extends MessageToByteEncoder<TransportMess
     bos.write(LENGTH_PLACEHOLDER);
     bos.writeShort(TransportProtocol.MAGIC);
     bos.writeByte(header);
-
     if (msg.message instanceof TransportPayload) {
       TransportPayload tp = (TransportPayload) msg.message;
       byte[] payload = tp.drainPayload();
