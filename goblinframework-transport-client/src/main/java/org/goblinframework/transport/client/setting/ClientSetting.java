@@ -15,8 +15,9 @@ public class ClientSetting {
   private final boolean keepAlive;
   private final int connectTimeoutInMillis;
   private final boolean autoReconnect;
+  private final boolean debugMode;
 
-  private ClientSetting(Builder builder) {
+  private ClientSetting(ClientSettingBuilder builder) {
     this.name = Objects.requireNonNull(builder.name);
     this.serverId = builder.serverId;
     this.serverHost = Objects.requireNonNull(builder.serverHost);
@@ -25,6 +26,7 @@ public class ClientSetting {
     this.keepAlive = builder.keepAlive;
     this.connectTimeoutInMillis = builder.connectTimeoutInMillis;
     this.autoReconnect = builder.autoReconnect;
+    this.debugMode = builder.debugMode;
   }
 
   @NotNull
@@ -32,40 +34,45 @@ public class ClientSetting {
     return name;
   }
 
-  public String getServerId() {
+  public String serverId() {
     return serverId;
   }
 
-  public String getServerHost() {
+  @NotNull
+  public String serverHost() {
     return serverHost;
   }
 
-  public int getServerPort() {
+  public int serverPort() {
     return serverPort;
   }
 
-  public int getWorkerThreads() {
+  public int workerThreads() {
     return workerThreads;
   }
 
-  public boolean isKeepAlive() {
+  public boolean keepAlive() {
     return keepAlive;
   }
 
-  public int getConnectTimeoutInMillis() {
+  public int connectTimeoutInMillis() {
     return connectTimeoutInMillis;
   }
 
-  public boolean isAutoReconnect() {
+  public boolean autoReconnect() {
     return autoReconnect;
   }
 
-  @NotNull
-  public static Builder builder() {
-    return new Builder();
+  public boolean debugMode() {
+    return debugMode;
   }
 
-  final public static class Builder {
+  @NotNull
+  public static ClientSettingBuilder builder() {
+    return new ClientSettingBuilder();
+  }
+
+  final public static class ClientSettingBuilder {
 
     private String name;
     private String serverId;
@@ -75,44 +82,51 @@ public class ClientSetting {
     private boolean keepAlive = true;
     private int connectTimeoutInMillis = 30000;
     private boolean autoReconnect = true;
+    private boolean debugMode = false;
 
-    public Builder name(String name) {
+    public ClientSettingBuilder name(String name) {
       this.name = name;
       return this;
     }
 
-    public Builder serverId(String serverId) {
+    public ClientSettingBuilder serverId(String serverId) {
       this.serverId = serverId;
       return this;
     }
 
-    public Builder serverHost(String serverHost) {
+    public ClientSettingBuilder serverHost(String serverHost) {
       this.serverHost = serverHost;
       return this;
     }
 
-    public Builder serverPort(int serverPort) {
+    public ClientSettingBuilder serverPort(int serverPort) {
       this.serverPort = serverPort;
       return this;
     }
 
-    public Builder workerThreads(int workerThreads) {
+    public ClientSettingBuilder workerThreads(int workerThreads) {
       this.workerThreads = workerThreads;
       return this;
     }
 
-    public Builder keepAlive(boolean keepAlive) {
+    public ClientSettingBuilder keepAlive(boolean keepAlive) {
       this.keepAlive = keepAlive;
       return this;
     }
 
-    public Builder connectTimeoutInMillis(int connectTimeoutInMillis) {
+    public ClientSettingBuilder connectTimeoutInMillis(int connectTimeoutInMillis) {
       this.connectTimeoutInMillis = connectTimeoutInMillis;
       return this;
     }
 
-    public Builder autoReconnect(boolean autoReconnect) {
+    public ClientSettingBuilder autoReconnect(boolean autoReconnect) {
       this.autoReconnect = autoReconnect;
+      return this;
+    }
+
+    @NotNull
+    public ClientSettingBuilder debugMode(boolean debugMode) {
+      this.debugMode = debugMode;
       return this;
     }
 

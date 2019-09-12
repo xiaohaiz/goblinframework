@@ -40,7 +40,7 @@ class TransportClient internal constructor(val setting: ClientSetting,
   }
 
   private fun terminate(reconnect: Boolean = false) {
-    if (reconnect && setting.isAutoReconnect) {
+    if (reconnect && setting.autoReconnect()) {
       clientRef.getAndSet(TransportClientImpl(this)).close()
       reconnectTimes.increment()
     } else {

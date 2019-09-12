@@ -14,6 +14,7 @@ final public class ServerSetting {
   private final int bossThreads;
   private final int workerThreads;
   private final HandshakeRequestHandler handshakeRequestHandler;
+  private final boolean debugMode;
 
   private ServerSetting(@NotNull ServerSettingBuilder builder) {
     this.name = Objects.requireNonNull(builder.name);
@@ -22,6 +23,7 @@ final public class ServerSetting {
     this.bossThreads = builder.bossThreads;
     this.workerThreads = builder.workerThreads;
     this.handshakeRequestHandler = Objects.requireNonNull(builder.handshakeRequestHandler);
+    this.debugMode = builder.debugMode;
   }
 
   @NotNull
@@ -51,6 +53,10 @@ final public class ServerSetting {
     return handshakeRequestHandler;
   }
 
+  public boolean debugMode() {
+    return debugMode;
+  }
+
   @NotNull
   public static ServerSettingBuilder builder() {
     return new ServerSettingBuilder();
@@ -64,6 +70,7 @@ final public class ServerSetting {
     private int bossThreads = 1;
     private int workerThreads = SystemUtils.estimateThreads();
     private HandshakeRequestHandler handshakeRequestHandler = DefaultHandshakeRequestHandler.INSTANCE;
+    private boolean debugMode = false;
 
     private ServerSettingBuilder() {
     }
@@ -101,6 +108,12 @@ final public class ServerSetting {
     @NotNull
     public ServerSettingBuilder handshakeRequestHandler(@NotNull HandshakeRequestHandler handshakeRequestHandler) {
       this.handshakeRequestHandler = handshakeRequestHandler;
+      return this;
+    }
+
+    @NotNull
+    public ServerSettingBuilder debugMode(boolean debugMode) {
+      this.debugMode = debugMode;
       return this;
     }
 

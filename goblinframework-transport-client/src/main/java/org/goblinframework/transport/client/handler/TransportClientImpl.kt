@@ -5,6 +5,8 @@ import io.netty.channel.*
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioSocketChannel
+import io.netty.handler.logging.LogLevel
+import io.netty.handler.logging.LoggingHandler
 import org.goblinframework.core.bootstrap.GoblinSystem
 import org.goblinframework.transport.core.codec.TransportMessageDecoder
 import org.goblinframework.transport.core.codec.TransportMessageEncoder
@@ -33,23 +35,24 @@ internal constructor(private val client: TransportClient) {
 
   init {
     val setting = client.setting
-    val threads = client.setting.workerThreads
+    val threads = client.setting.workerThreads()
     worker = NioEventLoopGroup(threads)
     val bootstrap = Bootstrap()
     bootstrap.group(worker)
     bootstrap.channel(NioSocketChannel::class.java)
-    bootstrap.option(ChannelOption.SO_KEEPALIVE, setting.isKeepAlive)
-    bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, setting.connectTimeoutInMillis)
+    bootstrap.option(ChannelOption.SO_KEEPALIVE, setting.keepAlive())
+    bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, setting.connectTimeoutInMillis())
     val initializer = object : ChannelInitializer<SocketChannel>() {
       override fun initChannel(ch: SocketChannel) {
         val pipeline = ch.pipeline()
+        pipeline.addLast(LoggingHandler(LogLevel.DEBUG))
         pipeline.addLast("encoder", TransportMessageEncoder.getInstance())
         pipeline.addLast("decoder", TransportMessageDecoder.newInstance())
         pipeline.addLast(TransportClientChannelHandler(this@TransportClientImpl))
       }
     }
     bootstrap.handler(initializer)
-    val remoteAddress = InetSocketAddress(setting.serverHost, setting.serverPort)
+    val remoteAddress = InetSocketAddress(setting.serverHost(), setting.serverPort())
     bootstrap.connect(remoteAddress).addListener(object : ChannelFutureListener {
       override fun operationComplete(future: ChannelFuture) {
         if (!future.isSuccess) {
@@ -63,7 +66,7 @@ internal constructor(private val client: TransportClient) {
         updateStateChannel(TransportClientChannel(TransportClientState.CONNECTED, this@TransportClientImpl))
 
         val request = HandshakeRequest()
-        request.serverId = setting.serverId
+        request.serverId = setting.serverId()
         request.clientId = GoblinSystem.applicationId()
         writeMessage(request)
       }
