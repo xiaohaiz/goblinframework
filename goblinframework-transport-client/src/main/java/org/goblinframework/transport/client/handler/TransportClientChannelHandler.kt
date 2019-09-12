@@ -13,7 +13,11 @@ class TransportClientChannelHandler(private val client: TransportClientImpl)
   }
 
   override fun channelRead0(ctx: ChannelHandlerContext, msg: Any) {
+    client.onMessage(msg)
+  }
 
+  override fun channelInactive(ctx: ChannelHandlerContext) {
+    client.updateStateChannel(TransportClientChannel.DISCONNECTED)
   }
 
   override fun exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable?) {

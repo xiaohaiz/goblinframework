@@ -11,6 +11,7 @@ import org.goblinframework.transport.client.handler.TransportClientChannelHandle
 import org.goblinframework.transport.core.codec.TransportMessageDecoder
 import org.goblinframework.transport.core.codec.TransportMessageEncoder
 import org.goblinframework.transport.core.protocol.HandshakeRequest
+import org.goblinframework.transport.core.protocol.HandshakeResponse
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import java.util.concurrent.atomic.AtomicReference
@@ -27,9 +28,10 @@ internal constructor(private val client: TransportClient) {
   private val stateChannelLock = ReentrantLock()
   private val stateChannelRef = AtomicReference<TransportClientChannel>(TransportClientChannel.CONNECTING)
   private val channelRef = AtomicReference<Channel>()
-  private val connectFuture = TransportClientConnectFuture()
-  private val disconnectFuture = TransportClientDisconnectFuture(client.clientManager)
   private val worker: NioEventLoopGroup
+
+  val connectFuture = TransportClientConnectFuture()
+  val disconnectFuture = TransportClientDisconnectFuture(client.clientManager)
 
   init {
     val setting = client.setting
@@ -86,6 +88,33 @@ internal constructor(private val client: TransportClient) {
 
   fun writeMessage(msg: Any) {
     channelRef.get()?.writeAndFlush(msg)
+  }
+
+  fun onMessage(msg: Any) {
+    when (msg) {
+      is HandshakeResponse -> {
+        if (msg.success) {
+          updateStateChannel(TransportClientChannel(TransportClientState.HANDSHAKED, this))
+        } else {
+          updateStateChannel(TransportClientChannel.HANDSHAKE_FAILED)
+        }
+        connectFuture.complete(client)
+        return
+      }
+      else -> logger.error("Unrecognized message received: $msg")
+    }
+  }
+
+  internal fun close() {
+    updateStateChannel(TransportClientChannel.SHUTDOWN)
+    worker.shutdownGracefully().addListener {
+      if (!it.isSuccess) {
+        val cause = TransportClientException("Exception closing connection", it.cause())
+        disconnectFuture.complete(client, cause)
+      } else {
+        disconnectFuture.complete(client)
+      }
+    }
   }
 
 }
