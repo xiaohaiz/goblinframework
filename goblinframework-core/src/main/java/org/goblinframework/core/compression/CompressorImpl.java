@@ -2,8 +2,11 @@ package org.goblinframework.core.compression;
 
 import org.goblinframework.core.mbean.GoblinManagedBean;
 import org.goblinframework.core.mbean.GoblinManagedObject;
+import org.goblinframework.core.util.IOUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -30,6 +33,28 @@ final class CompressorImpl extends GoblinManagedObject implements Compressor, Co
   @Override
   public void decompress(@NotNull InputStream inStream, @NotNull OutputStream outStream) {
     CompressionUtils.decompress(mode, inStream, outStream);
+  }
+
+  @NotNull
+  @Override
+  public byte[] decompress(@NotNull InputStream inStream) {
+    ByteArrayOutputStream bos = new ByteArrayOutputStream(512);
+    decompress(inStream, bos);
+    byte[] decompressed = bos.toByteArray();
+    IOUtils.closeStream(bos);
+    return decompressed;
+  }
+
+  @NotNull
+  @Override
+  public byte[] decompress(@NotNull byte[] compressed) {
+    ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
+    ByteArrayOutputStream bos = new ByteArrayOutputStream(512);
+    decompress(bis, bos);
+    byte[] decompressed = bos.toByteArray();
+    IOUtils.closeStream(bis);
+    IOUtils.closeStream(bos);
+    return decompressed;
   }
 
   @NotNull

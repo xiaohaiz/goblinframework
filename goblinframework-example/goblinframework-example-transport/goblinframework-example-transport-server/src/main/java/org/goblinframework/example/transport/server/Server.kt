@@ -24,7 +24,8 @@ class Server : StandaloneServer() {
         .applyHandlerSetting {
           it.transportRequestHandler(object : TransportRequestHandler {
             override fun handleTransportRequest(ctx: TransportRequestContext) {
-              println(ctx)
+              val payload = ctx.requestReader.readPayload()
+              println(payload)
             }
           })
         }

@@ -28,6 +28,8 @@ class Client : StandaloneClient() {
       request.requestId = 1
       request.requestCreateTime = System.currentTimeMillis()
       request.response = false
+      request.hasPayload = true
+      request.payload = "HELLO, WORLD!".toByteArray(Charsets.UTF_8)
       client.stateChannel().writeMessage(request)
     }
     Thread.currentThread().join()

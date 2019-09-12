@@ -5,6 +5,7 @@ import org.apache.commons.collections4.MapUtils
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.transport.core.protocol.*
+import org.goblinframework.transport.core.protocol.reader.TransportRequestReader
 import org.goblinframework.transport.server.handler.TransportRequestContext
 import org.slf4j.LoggerFactory
 import java.util.concurrent.ConcurrentHashMap
@@ -45,6 +46,7 @@ internal constructor(private val server: TransportServerImpl,
       is TransportRequest -> {
         val ctx = TransportRequestContext()
         ctx.channel = this
+        ctx.requestReader = TransportRequestReader(msg)
         ctx.extensions = ConcurrentHashMap()
         val handler = setting.handlerSetting().transportRequestHandler()
         handler.handleTransportRequest(ctx)
