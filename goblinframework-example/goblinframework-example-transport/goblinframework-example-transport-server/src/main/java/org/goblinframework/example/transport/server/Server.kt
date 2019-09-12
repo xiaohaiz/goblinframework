@@ -3,7 +3,7 @@ package org.goblinframework.example.transport.server
 import org.goblinframework.bootstrap.core.StandaloneServer
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.container.UseSpringContainer
-import org.goblinframework.transport.server.manager.TransportServerManager
+import org.goblinframework.transport.server.channel.TransportServerManager
 import org.goblinframework.transport.server.setting.ServerSetting
 
 @UseSpringContainer("/config/goblinframework-example-transport-server.xml")

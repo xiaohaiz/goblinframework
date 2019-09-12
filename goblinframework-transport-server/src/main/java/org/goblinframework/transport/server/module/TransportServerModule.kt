@@ -2,7 +2,7 @@ package org.goblinframework.transport.server.module
 
 import org.goblinframework.core.bootstrap.GoblinChildModule
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.transport.server.manager.TransportServerManager
+import org.goblinframework.transport.server.channel.TransportServerManager
 
 class TransportServerModule : GoblinChildModule {
 

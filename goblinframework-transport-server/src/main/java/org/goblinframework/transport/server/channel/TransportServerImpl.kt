@@ -1,4 +1,4 @@
-package org.goblinframework.transport.server.manager
+package org.goblinframework.transport.server.channel
 
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelInitializer
@@ -7,8 +7,6 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import org.goblinframework.transport.core.codec.TransportMessageDecoder
 import org.goblinframework.transport.core.codec.TransportMessageEncoder
-import org.goblinframework.transport.server.channel.TransportServerChannelHandler
-import org.goblinframework.transport.server.channel.TransportServerChannelManager
 import org.goblinframework.transport.server.setting.ServerSetting
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress

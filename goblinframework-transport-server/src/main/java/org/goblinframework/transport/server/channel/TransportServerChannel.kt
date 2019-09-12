@@ -5,7 +5,6 @@ import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.transport.core.protocol.HandshakeRequest
 import org.goblinframework.transport.core.protocol.HandshakeResponse
-import org.goblinframework.transport.server.manager.TransportServerImpl
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicReference
 

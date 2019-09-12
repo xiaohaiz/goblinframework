@@ -1,4 +1,4 @@
-package org.goblinframework.transport.server.manager
+package org.goblinframework.transport.server.channel
 
 import org.goblinframework.api.common.Lifecycle
 import org.goblinframework.core.mbean.GoblinManagedBean
