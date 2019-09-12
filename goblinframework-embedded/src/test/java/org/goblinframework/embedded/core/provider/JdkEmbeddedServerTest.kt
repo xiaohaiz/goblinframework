@@ -2,9 +2,12 @@ package org.goblinframework.embedded.core.provider
 
 import org.bson.types.ObjectId
 import org.goblinframework.embedded.core.EmbeddedServerMode
+import org.goblinframework.embedded.core.handler.ServletHandler
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting
 import org.goblinframework.test.runner.GoblinTestRunner
+import org.goblinframework.webmvc.servlet.ServletRequest
+import org.goblinframework.webmvc.servlet.ServletResponse
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
@@ -19,6 +22,17 @@ class JdkEmbeddedServerTest {
     val setting = ServerSetting.builder()
         .name(name)
         .mode(EmbeddedServerMode.JDK)
+        .applyHandlerSetting {
+          it.servletHandler(object : ServletHandler {
+
+            override fun transformLookupPath(path: String): String {
+              return path
+            }
+
+            override fun handle(request: ServletRequest, response: ServletResponse) {
+            }
+          })
+        }
         .build()
     val server = EmbeddedServerManager.INSTANCE.createServer(setting)
     server.start()
