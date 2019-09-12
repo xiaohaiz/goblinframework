@@ -6,6 +6,9 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import org.goblinframework.core.util.JsonUtils;
+import org.goblinframework.core.util.TranscoderUtils;
+import org.goblinframework.serialization.core.Serializer;
+import org.goblinframework.serialization.core.manager.SerializerManager;
 import org.goblinframework.transport.core.protocol.*;
 
 import java.io.OutputStream;
@@ -48,6 +51,32 @@ public class TransportMessageEncoder extends MessageToByteEncoder<Object> {
       bos.writeByte(0);
       LinkedHashMap<String, Object> map = ((ShutdownRequest) msg).asMap();
       JsonUtils.getDefaultObjectMapper().writeValue((OutputStream) bos, map);
+    } else if (msg instanceof TransportRequest) {
+      byte serializerId = TransportProtocol.DEFAULT_SERIALIZER_ID;
+      Serializer serializer = SerializerManager.INSTANCE.getSerializer(serializerId);
+      assert serializer != null;
+      byte header = (byte) (TransportProtocol.PAYLOAD_FLAG | serializerId);
+      bos.writeByte(header);
+      byte[] payload = ((TransportRequest) msg).drainPayload();
+      assert payload != null;
+      byte[] lb = TranscoderUtils.encodeIntPackZeros(payload.length);
+      bos.write(lb.length);
+      bos.write(lb);
+      bos.write(payload);
+      serializer.serialize(msg, bos);
+    } else if (msg instanceof TransportResponse) {
+      byte serializerId = TransportProtocol.DEFAULT_SERIALIZER_ID;
+      Serializer serializer = SerializerManager.INSTANCE.getSerializer(serializerId);
+      assert serializer != null;
+      byte header = (byte) (TransportProtocol.PAYLOAD_FLAG | serializerId);
+      bos.writeByte(header);
+      byte[] payload = ((TransportResponse) msg).drainPayload();
+      assert payload != null;
+      byte[] lb = TranscoderUtils.encodeIntPackZeros(payload.length);
+      bos.write(lb.length);
+      bos.write(lb);
+      bos.write(payload);
+      serializer.serialize(msg, bos);
     } else {
       throw new UnsupportedOperationException("Unrecognized message to be encoded: " + msg);
     }
