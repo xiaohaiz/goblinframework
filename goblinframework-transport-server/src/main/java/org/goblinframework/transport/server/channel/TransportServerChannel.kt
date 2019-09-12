@@ -5,6 +5,8 @@ import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.transport.core.protocol.HandshakeRequest
 import org.goblinframework.transport.core.protocol.HandshakeResponse
+import org.goblinframework.transport.core.protocol.HeartbeatRequest
+import org.goblinframework.transport.core.protocol.HeartbeatResponse
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicReference
 
@@ -27,6 +29,12 @@ internal constructor(private val server: TransportServerImpl,
         val success = handler.handleHandshakeRequest(msg)
         val response = HandshakeResponse()
         response.success = success
+        writeMessage(response)
+        return
+      }
+      is HeartbeatRequest -> {
+        val response = HeartbeatResponse()
+        response.token = msg.token
         writeMessage(response)
         return
       }
