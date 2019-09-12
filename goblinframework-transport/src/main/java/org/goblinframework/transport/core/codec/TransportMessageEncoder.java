@@ -44,6 +44,10 @@ public class TransportMessageEncoder extends MessageToByteEncoder<Object> {
       bos.writeByte(0);
       LinkedHashMap<String, Object> map = ((HeartbeatResponse) msg).asMap();
       JsonUtils.getDefaultObjectMapper().writeValue((OutputStream) bos, map);
+    } else if (msg instanceof ShutdownRequest) {
+      bos.writeByte(0);
+      LinkedHashMap<String, Object> map = ((ShutdownRequest) msg).asMap();
+      JsonUtils.getDefaultObjectMapper().writeValue((OutputStream) bos, map);
     } else {
       throw new UnsupportedOperationException("Unrecognized message to be encoded: " + msg);
     }

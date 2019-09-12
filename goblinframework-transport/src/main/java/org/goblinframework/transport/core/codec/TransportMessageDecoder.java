@@ -103,6 +103,10 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
         ret = JsonUtils.getDefaultObjectMapper().readValue(root.traverse(), HeartbeatResponse.class);
         break;
       }
+      case "ShutdownRequest": {
+        ret = JsonUtils.getDefaultObjectMapper().readValue(root.traverse(), ShutdownRequest.class);
+        break;
+      }
       default: {
         return UnrecognizedMessage.INSTANCE;
       }
