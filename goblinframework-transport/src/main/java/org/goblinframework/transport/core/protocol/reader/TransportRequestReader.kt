@@ -33,7 +33,7 @@ class TransportRequestReader(private val request: TransportRequest) {
       if (data.isEmpty()) StringUtils.EMPTY else String(data, Charsets.UTF_8)
     } else {
       val serializer = SerializerManager.INSTANCE.getSerializer(request.serializer)
-          ?: throw IllegalArgumentException("Unrecognized serializer ${request.compressor}")
+          ?: throw IllegalArgumentException("Unrecognized serializer ${request.serializer}")
       serializer.deserialize(data)
     }
   }
