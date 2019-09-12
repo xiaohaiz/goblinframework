@@ -13,10 +13,7 @@ import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.transport.client.module.TransportClientModule
 import org.goblinframework.transport.core.codec.TransportMessageDecoder
 import org.goblinframework.transport.core.codec.TransportMessageEncoder
-import org.goblinframework.transport.core.protocol.HandshakeRequest
-import org.goblinframework.transport.core.protocol.HandshakeResponse
-import org.goblinframework.transport.core.protocol.HeartbeatRequest
-import org.goblinframework.transport.core.protocol.HeartbeatResponse
+import org.goblinframework.transport.core.protocol.*
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import java.util.*
@@ -132,6 +129,15 @@ internal constructor(private val client: TransportClient) {
       is HeartbeatResponse -> {
         msg.token?.run {
           heartbeatInProgress.remove(this)
+        }
+        return
+      }
+      is ShutdownRequest -> {
+        val handler = client.setting.shutdownRequestHandler()
+        val success = handler.handleShutdownRequest(msg)
+        if (success) {
+          val name = client.setting.name()
+          client.clientManager.closeConnection(name)
         }
         return
       }
