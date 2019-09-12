@@ -11,7 +11,7 @@ public class HeartbeatResponse implements Serializable {
 
   public LinkedHashMap<String, Object> asMap() {
     LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-    map.put("_id", "HeartbeatRequest");
+    map.put("_id", "HeartbeatResponse");
     if (token != null) {
       map.put("token", token);
     }

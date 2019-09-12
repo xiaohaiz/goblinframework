@@ -6,9 +6,7 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import org.goblinframework.core.util.JsonUtils;
-import org.goblinframework.transport.core.protocol.HandshakeRequest;
-import org.goblinframework.transport.core.protocol.HandshakeResponse;
-import org.goblinframework.transport.core.protocol.TransportProtocol;
+import org.goblinframework.transport.core.protocol.*;
 
 import java.io.OutputStream;
 import java.util.LinkedHashMap;
@@ -37,6 +35,14 @@ public class TransportMessageEncoder extends MessageToByteEncoder<Object> {
     } else if (msg instanceof HandshakeResponse) {
       bos.writeByte(0);
       LinkedHashMap<String, Object> map = ((HandshakeResponse) msg).asMap();
+      JsonUtils.getDefaultObjectMapper().writeValue((OutputStream) bos, map);
+    } else if (msg instanceof HeartbeatRequest) {
+      bos.writeByte(0);
+      LinkedHashMap<String, Object> map = ((HeartbeatRequest) msg).asMap();
+      JsonUtils.getDefaultObjectMapper().writeValue((OutputStream) bos, map);
+    } else if (msg instanceof HeartbeatResponse) {
+      bos.writeByte(0);
+      LinkedHashMap<String, Object> map = ((HeartbeatResponse) msg).asMap();
       JsonUtils.getDefaultObjectMapper().writeValue((OutputStream) bos, map);
     } else {
       throw new UnsupportedOperationException("Unrecognized message to be encoded: " + msg);
