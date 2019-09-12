@@ -1,4 +1,4 @@
-package org.goblinframework.transport.client.manager
+package org.goblinframework.transport.client.handler
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe

@@ -2,7 +2,6 @@ package org.goblinframework.transport.client.handler
 
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
-import org.goblinframework.transport.client.manager.TransportClientImpl
 import org.slf4j.LoggerFactory
 
 class TransportClientChannelHandler(private val client: TransportClientImpl)

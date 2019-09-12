@@ -1,4 +1,4 @@
-package org.goblinframework.transport.client.manager
+package org.goblinframework.transport.client.handler
 
 enum class TransportClientState {
 

@@ -1,8 +1,5 @@
 package org.goblinframework.transport.client.handler
 
-import org.goblinframework.transport.client.manager.TransportClientImpl
-import org.goblinframework.transport.client.manager.TransportClientState
-
 class TransportClientChannel(val state: TransportClientState,
                              val client: TransportClientImpl?) {
 

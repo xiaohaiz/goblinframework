@@ -1,4 +1,4 @@
-package org.goblinframework.transport.client.manager
+package org.goblinframework.transport.client.handler
 
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.*
@@ -6,8 +6,6 @@ import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioSocketChannel
 import org.goblinframework.core.bootstrap.GoblinSystem
-import org.goblinframework.transport.client.handler.TransportClientChannel
-import org.goblinframework.transport.client.handler.TransportClientChannelHandler
 import org.goblinframework.transport.core.codec.TransportMessageDecoder
 import org.goblinframework.transport.core.codec.TransportMessageEncoder
 import org.goblinframework.transport.core.protocol.HandshakeRequest
