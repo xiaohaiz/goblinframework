@@ -1,5 +1,6 @@
 package org.goblinframework.transport.client.setting;
 
+import org.goblinframework.api.function.Block1;
 import org.goblinframework.core.util.SystemUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,6 +20,7 @@ public class TransportClientSetting {
   private final boolean sendHeartbeat;
   private final ShutdownRequestHandler shutdownRequestHandler;
   private final boolean debugMode;
+  private final TransportClientHandlerSetting handlerSetting;
 
   private TransportClientSetting(TransportClientSettingBuilder builder) {
     this.name = Objects.requireNonNull(builder.name);
@@ -33,6 +35,7 @@ public class TransportClientSetting {
     this.sendHeartbeat = builder.sendHeartbeat;
     this.shutdownRequestHandler = builder.shutdownRequestHandler;
     this.debugMode = builder.debugMode;
+    this.handlerSetting = builder.handlerSettingBuilder.build();
   }
 
   @NotNull
@@ -87,6 +90,11 @@ public class TransportClientSetting {
   }
 
   @NotNull
+  public TransportClientHandlerSetting handlerSetting() {
+    return handlerSetting;
+  }
+
+  @NotNull
   public static TransportClientSettingBuilder builder() {
     return new TransportClientSettingBuilder();
   }
@@ -105,6 +113,7 @@ public class TransportClientSetting {
     private boolean sendHeartbeat = false;
     private ShutdownRequestHandler shutdownRequestHandler = DefaultShutdownRequestHandler.INSTANCE;
     private boolean debugMode = false;
+    private final TransportClientHandlerSetting.TransportClientHandlerSettingBuilder handlerSettingBuilder = TransportClientHandlerSetting.builder();
 
     public TransportClientSettingBuilder name(String name) {
       this.name = name;
@@ -168,6 +177,12 @@ public class TransportClientSetting {
     @NotNull
     public TransportClientSettingBuilder enableDebugMode() {
       this.debugMode = true;
+      return this;
+    }
+
+    @NotNull
+    public TransportClientSettingBuilder applyHandlerSetting(@NotNull Block1<TransportClientHandlerSetting.TransportClientHandlerSettingBuilder> block) {
+      block.apply(handlerSettingBuilder);
       return this;
     }
 

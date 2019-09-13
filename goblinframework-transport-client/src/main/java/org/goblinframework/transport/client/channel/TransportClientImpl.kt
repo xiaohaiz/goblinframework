@@ -47,7 +47,9 @@ internal constructor(private val client: TransportClient) {
     val initializer = object : ChannelInitializer<SocketChannel>() {
       override fun initChannel(ch: SocketChannel) {
         val pipeline = ch.pipeline()
-        pipeline.addLast(LoggingHandler(LogLevel.DEBUG))
+        if (setting.debugMode()) {
+          pipeline.addLast(LoggingHandler(LogLevel.DEBUG))
+        }
         pipeline.addLast("encoder", TransportMessageEncoder.getInstance())
         pipeline.addLast("decoder", TransportMessageDecoder.newInstance())
         pipeline.addLast(TransportClientChannelHandler(this@TransportClientImpl))
