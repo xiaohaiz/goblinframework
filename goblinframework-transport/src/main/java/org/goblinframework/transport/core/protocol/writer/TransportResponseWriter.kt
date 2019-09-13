@@ -5,7 +5,9 @@ import org.goblinframework.core.compression.CompressorManager
 import org.goblinframework.core.compression.CompressorMode
 import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.transport.core.protocol.TransportResponse
+import org.goblinframework.transport.core.protocol.TransportResponseException
 import org.goblinframework.transport.core.protocol.reader.TransportRequestReader
+import java.util.*
 
 @ThreadSafe
 class TransportResponseWriter(reader: TransportRequestReader) {
@@ -35,6 +37,26 @@ class TransportResponseWriter(reader: TransportRequestReader) {
     response.hasPayload = false
     response.rawPayload = false
     response.extensions = null
+  }
+
+  @Synchronized
+  fun writeException(tme: TransportResponseException?) {
+    if (tme == null) {
+      return
+    }
+    reset()
+    if (response.extensions == null) {
+      response.extensions = LinkedHashMap()
+    }
+    response.code = tme.code.id
+    val cause = tme.cause
+    if (cause != null) {
+      response.extensions["EXCEPTION_CAUSE"] = cause.javaClass.name
+    }
+    val message = tme.message
+    if (message != null) {
+      response.extensions["EXCEPTION_MESSAGE"] = message
+    }
   }
 
   @Synchronized

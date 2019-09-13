@@ -2,10 +2,7 @@ package org.goblinframework.transport.client.flight
 
 import org.goblinframework.api.function.Block1
 import org.goblinframework.transport.client.channel.TransportClient
-import org.goblinframework.transport.core.protocol.TransportRequest
-import org.goblinframework.transport.core.protocol.TransportRequestId
-import org.goblinframework.transport.core.protocol.TransportResponse
-import org.goblinframework.transport.core.protocol.TransportResponseReference
+import org.goblinframework.transport.core.protocol.*
 import org.goblinframework.transport.core.protocol.reader.TransportRequestReader
 import org.goblinframework.transport.core.protocol.reader.TransportResponseReader
 import org.goblinframework.transport.core.protocol.writer.TransportRequestWriter
@@ -50,7 +47,7 @@ internal constructor(private val flightManager: MessageFlightManager,
     val channel = client.stateChannel()
     if (!channel.available()) {
       val responseWriter = TransportResponseWriter(TransportRequestReader(requestWriter.request()))
-      //responseWriter.writeException(NoTransportClientChannelException())
+      responseWriter.writeException(TransportResponseException(TransportResponseCode.CLIENT_ERROR, "NO_TRANSPORT_CLIENT"))
       flightManager.onResponse(responseWriter.response())
       return flightFuture
     }

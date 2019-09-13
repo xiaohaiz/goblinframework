@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.LongAdder
 
-@GoblinManagedBean("TRANSPORT:CLIENT")
+@GoblinManagedBean("TRANSPORT.CLIENT")
 class MessageFlightPartition
 internal constructor(private val id: Int)
   : GoblinManagedObject(), MessageFlightPartitionMXBean {

@@ -1,14 +1,13 @@
 package org.goblinframework.example.transport.client
 
+import org.goblinframework.api.function.Block1
 import org.goblinframework.bootstrap.core.StandaloneClient
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.container.UseSpringContainer
 import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.transport.client.channel.TransportClientManager
-import org.goblinframework.transport.client.handler.TransportResponseContext
-import org.goblinframework.transport.client.handler.TransportResponseHandler
+import org.goblinframework.transport.client.flight.MessageFlightManager
 import org.goblinframework.transport.client.setting.TransportClientSetting
-import org.goblinframework.transport.core.protocol.TransportRequest
 
 @UseSpringContainer("/config/goblinframework-example-transport-client.xml")
 class Client : StandaloneClient() {
@@ -22,26 +21,26 @@ class Client : StandaloneClient() {
         .enableReceiveShutdown()
         //.enableSendHeartbeat()
         .applyHandlerSetting {
-          it.transportResponseHandler(object : TransportResponseHandler {
-            override fun handleTransportResponse(ctx: TransportResponseContext) {
-              println(ctx.response)
-            }
-          })
+          it.enableMessageFlight()
         }
         .enableDebugMode()
         .build()
     val client = TransportClientManager.INSTANCE.createConnection(setting)
     client.connectFuture().awaitUninterruptibly()
     if (client.available()) {
-      val request = TransportRequest()
-      request.requestId = 1
-      request.requestCreateTime = System.currentTimeMillis()
-      request.response = true
-      request.hasPayload = true
-      request.payload = "HELLO, WORLD!".toByteArray(Charsets.UTF_8)
-      client.stateChannel().writeMessage(request)
+      val flight = MessageFlightManager.INSTANCE.createMessageFlight(true)
+          .prepareRequest(Block1 {
+            it.writePayload("HELLO, WORLD!")
+          })
+          .sendRequest(client)
+      val reader = flight.uninterruptibly.responseReader()
+      val ret = reader.readPayload()
+      println(ret)
     }
     Thread.currentThread().join()
+  }
+
+  override fun doShutdown() {
     TransportClientManager.INSTANCE.closeConnection("goblinframework-example-transport-client")
   }
 }

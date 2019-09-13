@@ -1,5 +1,6 @@
 package org.goblinframework.transport.client.setting;
 
+import org.goblinframework.transport.client.flight.MessageFlightResponseHandler;
 import org.goblinframework.transport.client.handler.TransportResponseHandler;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,6 +34,12 @@ final public class TransportClientHandlerSetting {
     @NotNull
     public TransportClientHandlerSettingBuilder transportResponseHandler(@NotNull TransportResponseHandler transportResponseHandler) {
       this.transportResponseHandler = transportResponseHandler;
+      return this;
+    }
+
+    @NotNull
+    public TransportClientHandlerSettingBuilder enableMessageFlight() {
+      transportResponseHandler(MessageFlightResponseHandler.INSTANCE);
       return this;
     }
 
