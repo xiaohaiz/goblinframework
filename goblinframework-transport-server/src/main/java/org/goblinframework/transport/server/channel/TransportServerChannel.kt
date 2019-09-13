@@ -1,9 +1,9 @@
 package org.goblinframework.transport.server.channel
 
 import io.netty.channel.Channel
-import org.apache.commons.collections4.MapUtils
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.core.util.MapUtils
 import org.goblinframework.transport.core.protocol.*
 import org.goblinframework.transport.core.protocol.reader.TransportRequestReader
 import org.goblinframework.transport.core.protocol.writer.TransportResponseWriter

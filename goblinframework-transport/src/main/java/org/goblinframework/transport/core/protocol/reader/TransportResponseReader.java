@@ -1,13 +1,13 @@
 package org.goblinframework.transport.core.protocol.reader;
 
 import kotlin.text.Charsets;
-import org.apache.commons.collections4.MapUtils;
 import org.goblinframework.api.annotation.ThreadSafe;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.compression.CompressorManager;
 import org.goblinframework.core.compression.CompressorMode;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
+import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.transport.core.protocol.TransportResponse;
 import org.goblinframework.transport.core.protocol.TransportResponseCode;
