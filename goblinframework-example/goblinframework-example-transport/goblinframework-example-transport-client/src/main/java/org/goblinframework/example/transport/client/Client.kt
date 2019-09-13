@@ -5,6 +5,8 @@ import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.container.UseSpringContainer
 import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.transport.client.channel.TransportClientManager
+import org.goblinframework.transport.client.handler.TransportResponseContext
+import org.goblinframework.transport.client.handler.TransportResponseHandler
 import org.goblinframework.transport.client.setting.TransportClientSetting
 import org.goblinframework.transport.core.protocol.TransportRequest
 
@@ -19,6 +21,13 @@ class Client : StandaloneClient() {
         .autoReconnect(true)
         .enableReceiveShutdown()
         //.enableSendHeartbeat()
+        .applyHandlerSetting {
+          it.transportResponseHandler(object : TransportResponseHandler {
+            override fun handleTransportResponse(ctx: TransportResponseContext) {
+              println(ctx.response)
+            }
+          })
+        }
         .enableDebugMode()
         .build()
     val client = TransportClientManager.INSTANCE.createConnection(setting)

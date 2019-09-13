@@ -10,6 +10,7 @@ import io.netty.handler.logging.LoggingHandler
 import org.apache.commons.collections4.map.LRUMap
 import org.goblinframework.core.bootstrap.GoblinSystem
 import org.goblinframework.core.util.RandomUtils
+import org.goblinframework.transport.client.handler.TransportResponseContext
 import org.goblinframework.transport.client.module.TransportClientModule
 import org.goblinframework.transport.core.codec.TransportMessageDecoder
 import org.goblinframework.transport.core.codec.TransportMessageEncoder
@@ -17,6 +18,7 @@ import org.goblinframework.transport.core.protocol.*
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicReference
 
 class TransportClientImpl
@@ -147,6 +149,14 @@ internal constructor(private val client: TransportClient) {
           val name = client.setting.name()
           client.clientManager.closeConnection(name)
         }
+        return
+      }
+      is TransportResponse -> {
+        val handler = client.setting.handlerSetting().transportResponseHandler()
+        val ctx = TransportResponseContext()
+        ctx.response = message
+        ctx.extensions = ConcurrentHashMap()
+        handler.handleTransportResponse(ctx)
         return
       }
       else -> logger.error("Unrecognized message received: $message")
