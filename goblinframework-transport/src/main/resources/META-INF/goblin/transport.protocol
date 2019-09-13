@@ -1,4 +1,4 @@
-org.goblinframework.transport.core.protocol.HandshakeRequest=2
-org.goblinframework.transport.core.protocol.HeartbeatRequest=2
+org.goblinframework.transport.core.protocol.HandshakeRequest=0
+org.goblinframework.transport.core.protocol.HeartbeatRequest=0
 org.goblinframework.transport.core.protocol.ShutdownRequest=0
-org.goblinframework.transport.core.protocol.TransportRequest=2
+org.goblinframework.transport.core.protocol.TransportRequest=0
