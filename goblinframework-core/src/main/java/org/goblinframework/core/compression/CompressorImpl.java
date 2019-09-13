@@ -1,14 +1,11 @@
 package org.goblinframework.core.compression;
 
+import org.goblinframework.core.exception.GoblinCompressionException;
 import org.goblinframework.core.mbean.GoblinManagedBean;
 import org.goblinframework.core.mbean.GoblinManagedObject;
-import org.goblinframework.core.util.IOUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 @GoblinManagedBean(type = "CORE", name = "Compressor")
 final class CompressorImpl extends GoblinManagedObject implements Compressor, CompressorMXBean {
@@ -33,23 +30,24 @@ final class CompressorImpl extends GoblinManagedObject implements Compressor, Co
   @NotNull
   @Override
   public byte[] compress(@NotNull InputStream inStream) {
-    ByteArrayOutputStream bos = new ByteArrayOutputStream(512);
-    compress(inStream, bos);
-    byte[] compressed = bos.toByteArray();
-    IOUtils.closeStream(bos);
-    return compressed;
+    try (ByteArrayOutputStream bos = new ByteArrayOutputStream(512)) {
+      compress(inStream, bos);
+      return bos.toByteArray();
+    } catch (IOException ex) {
+      throw new GoblinCompressionException(ex);
+    }
   }
 
   @NotNull
   @Override
   public byte[] compress(@NotNull byte[] data) {
-    ByteArrayInputStream bis = new ByteArrayInputStream(data);
-    ByteArrayOutputStream bos = new ByteArrayOutputStream(512);
-    compress(bis, bos);
-    byte[] compressed = bos.toByteArray();
-    IOUtils.closeStream(bis);
-    IOUtils.closeStream(bos);
-    return compressed;
+    try (ByteArrayInputStream bis = new ByteArrayInputStream(data);
+         ByteArrayOutputStream bos = new ByteArrayOutputStream(512)) {
+      compress(bis, bos);
+      return bos.toByteArray();
+    } catch (IOException ex) {
+      throw new GoblinCompressionException(ex);
+    }
   }
 
   @Override
@@ -60,28 +58,33 @@ final class CompressorImpl extends GoblinManagedObject implements Compressor, Co
   @NotNull
   @Override
   public byte[] decompress(@NotNull InputStream inStream) {
-    ByteArrayOutputStream bos = new ByteArrayOutputStream(512);
-    decompress(inStream, bos);
-    byte[] decompressed = bos.toByteArray();
-    IOUtils.closeStream(bos);
-    return decompressed;
+    try (ByteArrayOutputStream bos = new ByteArrayOutputStream(512)) {
+      decompress(inStream, bos);
+      return bos.toByteArray();
+    } catch (IOException ex) {
+      throw new GoblinCompressionException(ex);
+    }
   }
 
   @NotNull
   @Override
   public byte[] decompress(@NotNull byte[] data) {
-    ByteArrayInputStream bis = new ByteArrayInputStream(data);
-    ByteArrayOutputStream bos = new ByteArrayOutputStream(512);
-    decompress(bis, bos);
-    byte[] decompressed = bos.toByteArray();
-    IOUtils.closeStream(bis);
-    IOUtils.closeStream(bos);
-    return decompressed;
+    try (ByteArrayInputStream bis = new ByteArrayInputStream(data);
+         ByteArrayOutputStream bos = new ByteArrayOutputStream(512)) {
+      decompress(bis, bos);
+      return bos.toByteArray();
+    } catch (IOException ex) {
+      throw new GoblinCompressionException(ex);
+    }
   }
 
   @NotNull
   @Override
   public CompressorMode getMode() {
     return mode();
+  }
+
+  void close() {
+    unregisterIfNecessary();
   }
 }

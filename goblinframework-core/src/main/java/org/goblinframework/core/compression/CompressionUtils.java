@@ -25,7 +25,7 @@ final public class CompressionUtils {
       cos = FACTORY.createCompressorOutputStream(mode.getAlgorithm(), outStream);
       IOUtils.copy(inStream, cos);
     } catch (Exception ex) {
-      throw GoblinCompressionException.newInstance(ex);
+      throw new GoblinCompressionException(ex);
     } finally {
       IOUtils.closeQuietly(cos);
     }
@@ -39,7 +39,7 @@ final public class CompressionUtils {
       cis = FACTORY.createCompressorInputStream(mode.getAlgorithm(), inStream);
       IOUtils.copy(cis, outStream);
     } catch (Exception ex) {
-      throw GoblinCompressionException.newInstance(ex);
+      throw new GoblinCompressionException(ex);
     } finally {
       IOUtils.closeQuietly(cis);
     }

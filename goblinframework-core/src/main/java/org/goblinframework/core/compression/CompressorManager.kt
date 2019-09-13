@@ -29,6 +29,6 @@ class CompressorManager private constructor() : GoblinManagedObject(), Compresso
 
   fun close() {
     unregisterIfNecessary()
-    buffer.values.forEach { it.unregisterIfNecessary() }
+    buffer.values.forEach { it.close() }
   }
 }
