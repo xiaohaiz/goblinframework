@@ -1,5 +1,8 @@
 package org.goblinframework.core.exception;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public class GoblinSerializationException extends GoblinException {
   private static final long serialVersionUID = 6366045869964789428L;
 
@@ -16,5 +19,11 @@ public class GoblinSerializationException extends GoblinException {
 
   public GoblinSerializationException(Throwable cause) {
     super(cause);
+  }
+
+  @NotNull
+  public static GoblinSerializationException requiredSerializable(@Nullable Object obj) {
+    String className = (obj == null ? "null" : obj.getClass().getName());
+    return new GoblinSerializationException("Class " + className + " does not implement java.io.Serializable");
   }
 }
