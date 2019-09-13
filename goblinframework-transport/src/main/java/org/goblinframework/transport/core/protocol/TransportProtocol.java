@@ -1,6 +1,6 @@
 package org.goblinframework.transport.core.protocol;
 
-import org.goblinframework.api.common.GoblinException;
+import org.goblinframework.core.exception.GoblinException;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.transport.core.codec.ClassResolver;
 import org.jetbrains.annotations.NotNull;

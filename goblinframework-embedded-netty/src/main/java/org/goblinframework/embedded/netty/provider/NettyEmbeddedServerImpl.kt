@@ -7,7 +7,7 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.codec.http.*
 import io.netty.handler.timeout.IdleStateHandler
-import org.goblinframework.api.common.InitializeException
+import org.goblinframework.core.exception.GoblinInitializeException
 import org.goblinframework.embedded.core.setting.ServerSetting
 import java.net.InetSocketAddress
 import java.util.concurrent.LinkedBlockingQueue
@@ -59,7 +59,7 @@ class NettyEmbeddedServerImpl(private val setting: ServerSetting) {
         })
     val future = bootstrap.bind().sync()
     if (!future.isSuccess) {
-      throw InitializeException(future.cause())
+      throw GoblinInitializeException(future.cause())
     }
     val channel = future.channel()
     host = (channel.localAddress() as InetSocketAddress).address.hostAddress

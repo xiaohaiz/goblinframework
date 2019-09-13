@@ -2,9 +2,9 @@ package org.goblinframework.transport.client.channel
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
-import org.goblinframework.api.common.DuplicateException
 import org.goblinframework.core.concurrent.SynchronizedCountLatch
 import org.goblinframework.core.event.EventBus
+import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.transport.client.setting.TransportClientSetting
@@ -39,7 +39,7 @@ class TransportClientManager private constructor() : GoblinManagedObject(), Tran
     val name = setting.name()
     return lock.write {
       buffer[name]?.run {
-        throw DuplicateException("Transport client [$name] already created")
+        throw GoblinDuplicateException("Transport client [$name] already created")
       }
       val client = TransportClient(setting, this)
       buffer[name] = client

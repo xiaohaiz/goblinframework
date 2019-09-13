@@ -1,6 +1,6 @@
 package org.goblinframework.core.util
 
-import org.goblinframework.api.common.GoblinException
+import org.goblinframework.core.exception.GoblinException
 
 class NetworkException : GoblinException {
 

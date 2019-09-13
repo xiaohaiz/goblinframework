@@ -2,7 +2,7 @@ package org.goblinframework.transport.server.channel
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
-import org.goblinframework.api.common.DuplicateException
+import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.transport.server.setting.TransportServerSetting
@@ -32,14 +32,14 @@ class TransportServerManager private constructor() : GoblinManagedObject(), Tran
 
   /**
    * Create transport server of specified setting, never return
-   * null. Raise [DuplicateException] in case of server name
+   * null. Raise [GoblinDuplicateException] in case of server name
    * already created.
    */
   fun createTransportServer(setting: TransportServerSetting): TransportServer {
     val name = setting.name()
     return lock.write {
       buffer[name]?.run {
-        throw DuplicateException("Transport server [$name] already created")
+        throw GoblinDuplicateException("Transport server [$name] already created")
       }
       val server = TransportServer(setting)
       buffer[name] = server

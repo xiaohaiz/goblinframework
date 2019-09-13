@@ -1,6 +1,6 @@
 package org.goblinframework.core.util;
 
-import org.goblinframework.api.concurrent.GoblinInterruptedException;
+import org.goblinframework.core.exception.GoblinInterruptedException;
 
 abstract public class ThreadUtils extends org.apache.commons.lang3.ThreadUtils {
 

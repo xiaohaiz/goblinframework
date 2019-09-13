@@ -1,6 +1,6 @@
 package org.goblinframework.transport.core.codec
 
-import org.goblinframework.api.common.GoblinException
+import org.goblinframework.core.exception.GoblinException
 
 class SerializerNotFoundException(serializer: Byte)
   : GoblinException("Serializer [$serializer] not found") {
