@@ -1,4 +1,4 @@
-package org.goblinframework.transport.client.handler
+package org.goblinframework.transport.client.channel
 
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject

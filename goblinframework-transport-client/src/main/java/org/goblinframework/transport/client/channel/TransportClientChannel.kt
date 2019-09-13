@@ -1,4 +1,4 @@
-package org.goblinframework.transport.client.handler
+package org.goblinframework.transport.client.channel
 
 import org.goblinframework.transport.core.protocol.TransportMessage
 import org.goblinframework.transport.core.protocol.TransportProtocol

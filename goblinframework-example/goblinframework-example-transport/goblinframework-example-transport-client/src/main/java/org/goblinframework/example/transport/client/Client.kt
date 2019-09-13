@@ -4,7 +4,7 @@ import org.goblinframework.bootstrap.core.StandaloneClient
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.container.UseSpringContainer
 import org.goblinframework.core.util.NetworkUtils
-import org.goblinframework.transport.client.handler.TransportClientManager
+import org.goblinframework.transport.client.channel.TransportClientManager
 import org.goblinframework.transport.client.setting.ClientSetting
 import org.goblinframework.transport.core.protocol.TransportRequest
 

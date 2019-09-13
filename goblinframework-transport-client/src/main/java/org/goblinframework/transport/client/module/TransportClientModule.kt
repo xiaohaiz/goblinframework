@@ -4,7 +4,7 @@ import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.bootstrap.GoblinChildModule
 import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.transport.client.handler.TransportClientManager
+import org.goblinframework.transport.client.channel.TransportClientManager
 import org.slf4j.LoggerFactory
 
 @Install
