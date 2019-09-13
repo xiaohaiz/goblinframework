@@ -2,6 +2,7 @@ package org.goblinframework.transport.core.codec
 
 import org.goblinframework.core.exception.GoblinException
 
+@Deprecated("TBR")
 class SerializerNotFoundException(serializer: Byte)
   : GoblinException("Serializer [$serializer] not found") {
 

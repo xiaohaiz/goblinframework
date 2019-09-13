@@ -3,6 +3,7 @@ package org.goblinframework.transport.core.protocol;
 import org.goblinframework.core.util.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated
 public interface TransportPayload {
 
   @Nullable
