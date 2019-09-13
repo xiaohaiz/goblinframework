@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 public class TransportRequest implements Serializable, TransportPayload {
   private static final long serialVersionUID = 1686136429375478570L;
 
+  public byte id = 4;
   public long requestId;                            // 唯一的请求id
   public long requestCreateTime;                    // 请求创建时间
   public boolean response;                          // 是否需要服务端响应
