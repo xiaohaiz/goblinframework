@@ -11,8 +11,8 @@ import org.apache.commons.collections4.map.LRUMap
 import org.goblinframework.core.bootstrap.GoblinSystem
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.transport.client.module.TransportClientModule
-import org.goblinframework.transport.core.codec.TransportMessageDecoder
-import org.goblinframework.transport.core.codec.TransportMessageEncoder
+import org.goblinframework.transport.core.codec.TransportMessageDecoder2
+import org.goblinframework.transport.core.codec.TransportMessageEncoder2
 import org.goblinframework.transport.core.protocol.*
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
@@ -48,8 +48,8 @@ internal constructor(private val client: TransportClient) {
       override fun initChannel(ch: SocketChannel) {
         val pipeline = ch.pipeline()
         pipeline.addLast(LoggingHandler(LogLevel.DEBUG))
-        pipeline.addLast("encoder", TransportMessageEncoder.getInstance())
-        pipeline.addLast("decoder", TransportMessageDecoder.newInstance())
+        pipeline.addLast("encoder", TransportMessageEncoder2.getInstance())
+        pipeline.addLast("decoder", TransportMessageDecoder2.newInstance())
         pipeline.addLast(TransportClientChannelHandler(this@TransportClientImpl))
       }
     }
