@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class ClientSetting {
+public class TransportClientSetting {
 
   private final String name;
   private final String serverId;
@@ -20,7 +20,7 @@ public class ClientSetting {
   private final ShutdownRequestHandler shutdownRequestHandler;
   private final boolean debugMode;
 
-  private ClientSetting(ClientSettingBuilder builder) {
+  private TransportClientSetting(TransportClientSettingBuilder builder) {
     this.name = Objects.requireNonNull(builder.name);
     this.serverId = builder.serverId;
     this.serverHost = Objects.requireNonNull(builder.serverHost);
@@ -87,11 +87,11 @@ public class ClientSetting {
   }
 
   @NotNull
-  public static ClientSettingBuilder builder() {
-    return new ClientSettingBuilder();
+  public static TransportClientSettingBuilder builder() {
+    return new TransportClientSettingBuilder();
   }
 
-  final public static class ClientSettingBuilder {
+  final public static class TransportClientSettingBuilder {
 
     private String name;
     private String serverId;
@@ -106,74 +106,74 @@ public class ClientSetting {
     private ShutdownRequestHandler shutdownRequestHandler = DefaultShutdownRequestHandler.INSTANCE;
     private boolean debugMode = false;
 
-    public ClientSettingBuilder name(String name) {
+    public TransportClientSettingBuilder name(String name) {
       this.name = name;
       return this;
     }
 
-    public ClientSettingBuilder serverId(String serverId) {
+    public TransportClientSettingBuilder serverId(String serverId) {
       this.serverId = serverId;
       return this;
     }
 
-    public ClientSettingBuilder serverHost(String serverHost) {
+    public TransportClientSettingBuilder serverHost(String serverHost) {
       this.serverHost = serverHost;
       return this;
     }
 
-    public ClientSettingBuilder serverPort(int serverPort) {
+    public TransportClientSettingBuilder serverPort(int serverPort) {
       this.serverPort = serverPort;
       return this;
     }
 
-    public ClientSettingBuilder workerThreads(int workerThreads) {
+    public TransportClientSettingBuilder workerThreads(int workerThreads) {
       this.workerThreads = workerThreads;
       return this;
     }
 
-    public ClientSettingBuilder keepAlive(boolean keepAlive) {
+    public TransportClientSettingBuilder keepAlive(boolean keepAlive) {
       this.keepAlive = keepAlive;
       return this;
     }
 
-    public ClientSettingBuilder connectTimeoutInMillis(int connectTimeoutInMillis) {
+    public TransportClientSettingBuilder connectTimeoutInMillis(int connectTimeoutInMillis) {
       this.connectTimeoutInMillis = connectTimeoutInMillis;
       return this;
     }
 
     @NotNull
-    public ClientSettingBuilder autoReconnect(boolean autoReconnect) {
+    public TransportClientSettingBuilder autoReconnect(boolean autoReconnect) {
       this.autoReconnect = autoReconnect;
       return this;
     }
 
     @NotNull
-    public ClientSettingBuilder enableReceiveShutdown() {
+    public TransportClientSettingBuilder enableReceiveShutdown() {
       this.receiveShutdown = true;
       return this;
     }
 
     @NotNull
-    public ClientSettingBuilder enableSendHeartbeat() {
+    public TransportClientSettingBuilder enableSendHeartbeat() {
       this.sendHeartbeat = true;
       return this;
     }
 
     @NotNull
-    public ClientSettingBuilder shutdownRequestHandler(ShutdownRequestHandler shutdownRequestHandler) {
+    public TransportClientSettingBuilder shutdownRequestHandler(ShutdownRequestHandler shutdownRequestHandler) {
       this.shutdownRequestHandler = shutdownRequestHandler;
       return this;
     }
 
     @NotNull
-    public ClientSettingBuilder enableDebugMode() {
+    public TransportClientSettingBuilder enableDebugMode() {
       this.debugMode = true;
       return this;
     }
 
     @NotNull
-    public ClientSetting build() {
-      return new ClientSetting(this);
+    public TransportClientSetting build() {
+      return new TransportClientSetting(this);
     }
 
   }

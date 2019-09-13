@@ -5,14 +5,14 @@ import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.container.UseSpringContainer
 import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.transport.client.channel.TransportClientManager
-import org.goblinframework.transport.client.setting.ClientSetting
+import org.goblinframework.transport.client.setting.TransportClientSetting
 import org.goblinframework.transport.core.protocol.TransportRequest
 
 @UseSpringContainer("/config/goblinframework-example-transport-client.xml")
 class Client : StandaloneClient() {
 
   override fun doExecute(container: SpringContainer?) {
-    val setting = ClientSetting.builder()
+    val setting = TransportClientSetting.builder()
         .name("goblinframework-example-transport-client")
         .serverHost(NetworkUtils.getLocalAddress())
         .serverPort(59766)

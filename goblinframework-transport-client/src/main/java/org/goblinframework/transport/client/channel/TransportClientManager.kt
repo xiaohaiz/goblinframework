@@ -7,7 +7,7 @@ import org.goblinframework.core.concurrent.SynchronizedCountLatch
 import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
-import org.goblinframework.transport.client.setting.ClientSetting
+import org.goblinframework.transport.client.setting.TransportClientSetting
 import java.time.Instant
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -35,7 +35,7 @@ class TransportClientManager private constructor() : GoblinManagedObject(), Tran
     return lock.read { buffer[name] }
   }
 
-  fun createConnection(setting: ClientSetting): TransportClient {
+  fun createConnection(setting: TransportClientSetting): TransportClient {
     val name = setting.name()
     return lock.write {
       buffer[name]?.run {
