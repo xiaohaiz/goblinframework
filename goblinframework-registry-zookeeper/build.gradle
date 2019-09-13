@@ -9,6 +9,10 @@ dependencies {
     exclude(group: "org.slf4j", module: "slf4j-api")
     exclude(group: "org.slf4j", module: "slf4j-log4j12")
   }
+  compile("com.101tec:zkclient:${zkclient_version}") {
+    exclude(group: "org.apache.zookeeper", module: "zookeeper")
+    exclude(group: "org.slf4j", module: "slf4j-api")
+  }
 
   testCompile(project(":goblinframework-test"))
 }
