@@ -32,9 +32,6 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
     if (frame == null) {
       return UnrecognizedMessage.INSTANCE;
     }
-    if (frame.readableBytes() < TransportProtocol.MAGIC_AND_HEADER_LENGTH) {
-      return UnrecognizedMessage.INSTANCE;
-    }
     short magic = frame.readShort();
     if (magic != TransportProtocol.MAGIC) {
       return UnrecognizedMessage.INSTANCE;
