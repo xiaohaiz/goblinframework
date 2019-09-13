@@ -86,6 +86,9 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
       int len = buf.readByte();
       byte[] dst = new byte[len];
       buf.readBytes(dst);
+      int typeLen = TranscoderUtils.decodeInt(dst);
+      dst = new byte[typeLen];
+      buf.readBytes(dst);
       type = new String(dst, Charsets.UTF_8);
     }
     try (ByteBufInputStream bis = new ByteBufInputStream(buf)) {
