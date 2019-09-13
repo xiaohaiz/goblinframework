@@ -8,7 +8,6 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
 import org.goblinframework.core.transcoder.Transcoder;
-import org.goblinframework.transport.core.protocol.TransportMessage;
 
 @ChannelHandler.Sharable
 public class TransportMessageEncoder extends MessageToByteEncoder<TransportMessage> {

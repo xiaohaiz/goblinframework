@@ -1,4 +1,4 @@
-package org.goblinframework.transport.core.protocol;
+package org.goblinframework.transport.core.codec;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -1,6 +1,9 @@
 package org.goblinframework.core.transcoder;
 
-public class DecodedObject {
+import java.io.Serializable;
+
+public class DecodedObject implements Serializable {
+  private static final long serialVersionUID = 1697647414761808900L;
 
   public Object decoded;
   public byte serializer;

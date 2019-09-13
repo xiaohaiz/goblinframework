@@ -4,6 +4,7 @@ import io.netty.channel.Channel
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.MapUtils
+import org.goblinframework.transport.core.codec.TransportMessage
 import org.goblinframework.transport.core.protocol.*
 import org.goblinframework.transport.core.protocol.reader.TransportRequestReader
 import org.goblinframework.transport.core.protocol.writer.TransportResponseWriter

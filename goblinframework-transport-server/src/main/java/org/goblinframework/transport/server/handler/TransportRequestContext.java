@@ -1,6 +1,6 @@
 package org.goblinframework.transport.server.handler;
 
-import org.goblinframework.transport.core.protocol.TransportMessage;
+import org.goblinframework.transport.core.codec.TransportMessage;
 import org.goblinframework.transport.core.protocol.TransportResponse;
 import org.goblinframework.transport.core.protocol.reader.TransportRequestReader;
 import org.goblinframework.transport.core.protocol.writer.TransportResponseWriter;
