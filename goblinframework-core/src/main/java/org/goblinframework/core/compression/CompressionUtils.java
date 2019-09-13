@@ -4,6 +4,7 @@ import org.apache.commons.compress.compressors.CompressorInputStream;
 import org.apache.commons.compress.compressors.CompressorOutputStream;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.commons.compress.utils.IOUtils;
+import org.goblinframework.core.exception.GoblinCompressionException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
@@ -24,7 +25,7 @@ final public class CompressionUtils {
       cos = FACTORY.createCompressorOutputStream(mode.getAlgorithm(), outStream);
       IOUtils.copy(inStream, cos);
     } catch (Exception ex) {
-      throw CompressionException.newInstance(ex);
+      throw GoblinCompressionException.newInstance(ex);
     } finally {
       IOUtils.closeQuietly(cos);
     }
@@ -38,7 +39,7 @@ final public class CompressionUtils {
       cis = FACTORY.createCompressorInputStream(mode.getAlgorithm(), inStream);
       IOUtils.copy(cis, outStream);
     } catch (Exception ex) {
-      throw CompressionException.newInstance(ex);
+      throw GoblinCompressionException.newInstance(ex);
     } finally {
       IOUtils.closeQuietly(cis);
     }
