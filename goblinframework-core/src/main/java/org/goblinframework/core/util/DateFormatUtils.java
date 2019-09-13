@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 abstract public class DateFormatUtils extends org.apache.commons.lang3.time.DateFormatUtils {
 
@@ -15,6 +16,11 @@ abstract public class DateFormatUtils extends org.apache.commons.lang3.time.Date
   @NotNull
   public static FastDateFormat getDefaultFormatter() {
     return FastDateFormat.getInstance(DEFAULT_PATTERN);
+  }
+
+  @NotNull
+  public static String format(final long timestamp) {
+    return Objects.requireNonNull(format(new Date(timestamp)));
   }
 
   @Nullable
