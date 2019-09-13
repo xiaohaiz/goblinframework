@@ -1,4 +1,4 @@
-package org.goblinframework.core.util;
+package org.goblinframework.core.transcoder;
 
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;

@@ -2,7 +2,6 @@ package org.goblinframework.core.transcoder;
 
 import kotlin.text.Charsets;
 import org.goblinframework.core.exception.GoblinTranscodingException;
-import org.goblinframework.core.util.TranscoderUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.OutputStream;

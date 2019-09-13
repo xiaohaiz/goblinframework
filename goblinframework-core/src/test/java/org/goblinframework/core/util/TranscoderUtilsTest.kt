@@ -1,5 +1,6 @@
 package org.goblinframework.core.util
 
+import org.goblinframework.core.transcoder.TranscoderUtils
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
