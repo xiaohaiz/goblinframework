@@ -1,6 +1,6 @@
 package org.goblinframework.core.conversion
 
-import org.goblinframework.core.exception.GoblinInitializeException
+import org.goblinframework.core.exception.GoblinInitializationException
 import org.goblinframework.core.util.ServiceInstaller
 import org.springframework.context.support.ConversionServiceFactoryBean
 import org.springframework.core.convert.TypeDescriptor
@@ -21,7 +21,7 @@ class ConversionService private constructor() : org.springframework.core.convert
       factoryBean.setConverters(customizedConverters.toSet())
     }
     factoryBean.afterPropertiesSet()
-    conversionService = factoryBean.`object` ?: throw GoblinInitializeException()
+    conversionService = factoryBean.`object` ?: throw GoblinInitializationException()
   }
 
   fun getNativeConversionService(): org.springframework.core.convert.ConversionService {

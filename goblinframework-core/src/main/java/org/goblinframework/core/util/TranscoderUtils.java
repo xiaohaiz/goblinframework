@@ -8,6 +8,13 @@ import java.io.OutputStream;
 
 abstract public class TranscoderUtils {
 
+  public static byte[] shortToBytes(short s) {
+    byte[] bs = new byte[2];
+    bs[0] = (byte) ((s >> 8) & 0xff);
+    bs[1] = (byte) (s & 0xff);
+    return bs;
+  }
+
   public static void writeIntPackZeros(int i, @NotNull OutputStream outStream) throws IOException {
     byte[] bs = encodeIntPackZeros(i);
     int len = bs.length;
