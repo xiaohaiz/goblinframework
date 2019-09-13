@@ -1,28 +1,27 @@
-package org.goblinframework.core.serialization.java;
+package org.goblinframework.core.serialization.hessian;
 
-import org.apache.commons.lang3.SerializationUtils;
+import com.caucho.hessian.io.Hessian2Input;
+import com.caucho.hessian.io.Hessian2Output;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.core.exception.GoblinSerializationException;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerMode;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
+import java.io.*;
 
 @Singleton
-final public class JavaSerializer implements Serializer {
+final public class Hessian2Serializer implements Serializer {
 
-  public static final JavaSerializer INSTANCE = new JavaSerializer();
+  public static final Hessian2Serializer INSTANCE = new Hessian2Serializer();
 
-  private JavaSerializer() {
+  private Hessian2Serializer() {
   }
 
   @NotNull
   @Override
   public SerializerMode mode() {
-    return SerializerMode.JAVA;
+    return SerializerMode.HESSIAN2;
   }
 
   @Override
@@ -30,10 +29,15 @@ final public class JavaSerializer implements Serializer {
     if (!(obj instanceof Serializable)) {
       throw GoblinSerializationException.requiredSerializable(obj);
     }
+    Hessian2Output ho = null;
     try {
-      SerializationUtils.serialize((Serializable) obj, outStream);
+      ho = GoblinHessianFactory.INSTANCE.createHessian2Output(outStream);
+      ho.writeObject(obj);
+      ho.flush();
     } catch (Exception ex) {
       throw new GoblinSerializationException(ex);
+    } finally {
+      GoblinHessianFactory.INSTANCE.freeHessian2Output(ho);
     }
   }
 
@@ -43,9 +47,10 @@ final public class JavaSerializer implements Serializer {
     if (!(obj instanceof Serializable)) {
       throw GoblinSerializationException.requiredSerializable(obj);
     }
-    try {
-      return SerializationUtils.serialize((Serializable) obj);
-    } catch (Exception ex) {
+    try (ByteArrayOutputStream bos = new ByteArrayOutputStream(512)) {
+      serialize(obj, bos);
+      return bos.toByteArray();
+    } catch (IOException ex) {
       throw new GoblinSerializationException(ex);
     }
   }
@@ -53,19 +58,23 @@ final public class JavaSerializer implements Serializer {
   @NotNull
   @Override
   public Object deserialize(@NotNull InputStream inStream) {
+    Hessian2Input hi = null;
     try {
-      return SerializationUtils.deserialize(inStream);
+      hi = GoblinHessianFactory.INSTANCE.createHessian2Input(inStream);
+      return hi.readObject();
     } catch (Exception ex) {
       throw new GoblinSerializationException(ex);
+    } finally {
+      GoblinHessianFactory.INSTANCE.freeHessian2Input(hi);
     }
   }
 
   @NotNull
   @Override
   public Object deserialize(@NotNull byte[] bs) {
-    try {
-      return SerializationUtils.deserialize(bs);
-    } catch (Exception ex) {
+    try (ByteArrayInputStream bis = new ByteArrayInputStream(bs)) {
+      return deserialize(bis);
+    } catch (IOException ex) {
       throw new GoblinSerializationException(ex);
     }
   }

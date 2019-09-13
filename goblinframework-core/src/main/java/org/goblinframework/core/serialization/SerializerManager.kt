@@ -19,7 +19,7 @@ class SerializerManager private constructor() : GoblinManagedObject(), Serialize
   init {
     buffer[SerializerMode.JAVA] = SerializerImpl(JavaSerializer.INSTANCE)
     buffer[SerializerMode.FST] = SerializerImpl(FstSerializer.INSTANCE)
-    buffer[SerializerMode.HESSIAN2] = SerializerImpl(Hessian2Serializer())
+    buffer[SerializerMode.HESSIAN2] = SerializerImpl(Hessian2Serializer.INSTANCE)
   }
 
   fun getSerializer(id: Byte): Serializer? {

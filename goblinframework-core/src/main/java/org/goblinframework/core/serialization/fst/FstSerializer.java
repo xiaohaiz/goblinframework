@@ -1,5 +1,6 @@
 package org.goblinframework.core.serialization.fst;
 
+import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.core.exception.GoblinSerializationException;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerMode;
@@ -13,6 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
+@Singleton
 final public class FstSerializer implements Serializer {
 
   public static final FstSerializer INSTANCE = new FstSerializer();
