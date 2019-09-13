@@ -9,11 +9,4 @@ public class ShutdownRequest implements Serializable {
   public String clientId;
   public LinkedHashMap<String, Object> extensions;
 
-  public LinkedHashMap<String, Object> asMap() {
-    LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-    map.put("_id", "ShutdownRequest");
-    map.put("clientId", clientId);
-    map.put("extensions", extensions);
-    return map;
-  }
 }
