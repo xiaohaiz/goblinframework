@@ -7,8 +7,8 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
-import org.goblinframework.transport.core.codec.TransportMessageDecoder2
-import org.goblinframework.transport.core.codec.TransportMessageEncoder2
+import org.goblinframework.transport.core.codec.TransportMessageDecoder
+import org.goblinframework.transport.core.codec.TransportMessageEncoder
 import org.goblinframework.transport.server.setting.TransportServerSetting
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
@@ -45,8 +45,8 @@ class TransportServerImpl(val setting: TransportServerSetting) {
         if (setting.debugMode()) {
           pipeline.addLast(LoggingHandler(LogLevel.DEBUG))
         }
-        pipeline.addLast("encoder", TransportMessageEncoder2.getInstance())
-        pipeline.addLast("decoder", TransportMessageDecoder2.newInstance())
+        pipeline.addLast("encoder", TransportMessageEncoder.getInstance())
+        pipeline.addLast("decoder", TransportMessageDecoder.newInstance())
         pipeline.addLast(TransportServerChannelHandler(channelManager))
       }
     }

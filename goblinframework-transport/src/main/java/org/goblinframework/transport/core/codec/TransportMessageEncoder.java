@@ -17,17 +17,17 @@ import org.goblinframework.transport.core.protocol.TransportProtocol;
 import java.io.OutputStream;
 
 @ChannelHandler.Sharable
-public class TransportMessageEncoder2 extends MessageToByteEncoder<Object> {
+public class TransportMessageEncoder extends MessageToByteEncoder<Object> {
 
   private static final byte[] LENGTH_PLACEHOLDER = new byte[4];
 
-  private static final TransportMessageEncoder2 instance = new TransportMessageEncoder2();
+  private static final TransportMessageEncoder instance = new TransportMessageEncoder();
 
-  public static TransportMessageEncoder2 getInstance() {
+  public static TransportMessageEncoder getInstance() {
     return instance;
   }
 
-  private TransportMessageEncoder2() {
+  private TransportMessageEncoder() {
   }
 
   @Override

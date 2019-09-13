@@ -17,13 +17,13 @@ import org.goblinframework.transport.core.protocol.TransportProtocol;
 
 import java.io.InputStream;
 
-public class TransportMessageDecoder2 extends LengthFieldBasedFrameDecoder {
+public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
 
-  public static TransportMessageDecoder2 newInstance() {
-    return new TransportMessageDecoder2();
+  public static TransportMessageDecoder newInstance() {
+    return new TransportMessageDecoder();
   }
 
-  private TransportMessageDecoder2() {
+  private TransportMessageDecoder() {
     super(Integer.MAX_VALUE, 0, 4, 0, 4);
   }
 
