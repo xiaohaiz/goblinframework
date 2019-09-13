@@ -3,14 +3,21 @@ package org.goblinframework.core.compression;
 import org.goblinframework.core.exception.GoblinCompressionException;
 import org.goblinframework.core.mbean.GoblinManagedBean;
 import org.goblinframework.core.mbean.GoblinManagedObject;
+import org.goblinframework.core.util.StopWatch;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.util.concurrent.atomic.LongAdder;
 
 @GoblinManagedBean(type = "CORE", name = "Compressor")
 final class CompressorImpl extends GoblinManagedObject implements Compressor, CompressorMXBean {
 
   private final CompressorMode mode;
+  private final StopWatch watch = new StopWatch();
+  private final LongAdder compressCount = new LongAdder();
+  private final LongAdder compressExceptionCount = new LongAdder();
+  private final LongAdder decompressCount = new LongAdder();
+  private final LongAdder decompressExceptionCount = new LongAdder();
 
   CompressorImpl(@NotNull CompressorMode mode) {
     this.mode = mode;
@@ -24,7 +31,14 @@ final class CompressorImpl extends GoblinManagedObject implements Compressor, Co
 
   @Override
   public void compress(@NotNull InputStream inStream, @NotNull OutputStream outStream) {
-    CompressionUtils.compress(mode, inStream, outStream);
+    try {
+      CompressionUtils.compress(mode, inStream, outStream);
+    } catch (GoblinCompressionException ex) {
+      compressExceptionCount.increment();
+      throw ex;
+    } finally {
+      compressCount.increment();
+    }
   }
 
   @NotNull
@@ -52,7 +66,14 @@ final class CompressorImpl extends GoblinManagedObject implements Compressor, Co
 
   @Override
   public void decompress(@NotNull InputStream inStream, @NotNull OutputStream outStream) {
-    CompressionUtils.decompress(mode, inStream, outStream);
+    try {
+      CompressionUtils.decompress(mode, inStream, outStream);
+    } catch (GoblinCompressionException ex) {
+      decompressExceptionCount.increment();
+      throw ex;
+    } finally {
+      decompressCount.increment();
+    }
   }
 
   @NotNull
@@ -80,11 +101,38 @@ final class CompressorImpl extends GoblinManagedObject implements Compressor, Co
 
   @NotNull
   @Override
+  public String getUpTime() {
+    return watch.toString();
+  }
+
+  @NotNull
+  @Override
   public CompressorMode getMode() {
     return mode();
   }
 
+  @Override
+  public long getCompressCount() {
+    return compressCount.sum();
+  }
+
+  @Override
+  public long getCompressExceptionCount() {
+    return compressExceptionCount.sum();
+  }
+
+  @Override
+  public long getDecompressCount() {
+    return decompressCount.sum();
+  }
+
+  @Override
+  public long getDecompressExceptionCount() {
+    return decompressExceptionCount.sum();
+  }
+
   void close() {
     unregisterIfNecessary();
+    watch.stop();
   }
 }
