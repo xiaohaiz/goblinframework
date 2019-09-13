@@ -26,6 +26,8 @@ class Server : StandaloneServer() {
             override fun handleTransportRequest(ctx: TransportRequestContext) {
               val payload = ctx.requestReader.readPayload()
               println(payload)
+              ctx.responseWriter.writePayload("ONE WORLD, ONE DREAM.")
+              ctx.sendResponse()
             }
           })
         }

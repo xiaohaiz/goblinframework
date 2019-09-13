@@ -7,7 +7,7 @@ import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.transport.core.protocol.TransportResponse
 import org.goblinframework.transport.core.protocol.reader.TransportRequestReader
 
-@ThreadSafe(false)
+@ThreadSafe
 class TransportResponseWriter(reader: TransportRequestReader) {
 
   private val response: TransportResponse
@@ -21,10 +21,12 @@ class TransportResponseWriter(reader: TransportRequestReader) {
     response.code = 0
   }
 
+  @Synchronized
   fun response(): TransportResponse {
     return response
   }
 
+  @Synchronized
   fun reset() {
     response.code = 0
     response.compressor = 0
@@ -35,6 +37,7 @@ class TransportResponseWriter(reader: TransportRequestReader) {
     response.extensions = null
   }
 
+  @Synchronized
   fun writePayload(payload: Any?) {
     if (payload == null) {
       return

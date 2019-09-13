@@ -27,7 +27,7 @@ class Client : StandaloneClient() {
       val request = TransportRequest()
       request.requestId = 1
       request.requestCreateTime = System.currentTimeMillis()
-      request.response = false
+      request.response = true
       request.hasPayload = true
       request.payload = "HELLO, WORLD!".toByteArray(Charsets.UTF_8)
       client.stateChannel().writeMessage(request)
