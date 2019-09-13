@@ -27,7 +27,7 @@ abstract public class NetworkUtils {
     try {
       ia = InetAddress.getLocalHost();
     } catch (Exception ex) {
-      throw new GoblinNetworkException(ex);
+      throw new NetworkException(ex);
     }
     if (isValidAddress(ia)) {
       return ia.getHostAddress();
@@ -45,13 +45,13 @@ abstract public class NetworkUtils {
         list.add(la);
       }
     } catch (Exception ex) {
-      throw new GoblinNetworkException(ex);
+      throw new NetworkException(ex);
     }
     Enumeration<NetworkInterface> it;
     try {
       it = NetworkInterface.getNetworkInterfaces();
     } catch (Exception ex) {
-      throw new GoblinNetworkException(ex);
+      throw new NetworkException(ex);
     }
     if (it == null) {
       return Collections.emptyList();
