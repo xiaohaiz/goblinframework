@@ -13,11 +13,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
-final public class FS implements Serializer {
+final public class FstSerializer implements Serializer {
 
-  public static final FS INSTANCE = new FS();
+  public static final FstSerializer INSTANCE = new FstSerializer();
 
-  private FS() {
+  private FstSerializer() {
   }
 
   @NotNull
