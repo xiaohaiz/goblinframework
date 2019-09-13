@@ -13,6 +13,30 @@ enum class SerializerMode constructor(val id: Byte) {
       values().forEach { modes[it.id] = it }
     }
 
+    fun resolve(input: Any?): SerializerMode? {
+      if (input == null) {
+        return null
+      }
+      if (input is SerializerMode) {
+        return input
+      }
+      if (input is Number) {
+        return modes[input.toByte()]
+      }
+      if (input is String) {
+        return try {
+          valueOf(input)
+        } catch (ex: Exception) {
+          try {
+            modes[input.toByte()]
+          } catch (e: Exception) {
+            null
+          }
+        }
+      }
+      return null
+    }
+
     fun parse(id: Byte): SerializerMode? {
       return modes[id]
     }
