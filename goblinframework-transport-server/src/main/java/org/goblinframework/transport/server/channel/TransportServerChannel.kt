@@ -24,40 +24,44 @@ internal constructor(private val server: TransportServerImpl,
   private val setting = server.setting
   private val handshake = AtomicReference<HandshakeRequest>()
 
-  fun onMessage(msg: Any) {
-    when (msg) {
+  fun onTransportMessage(msg: TransportMessage) {
+    if (msg.message == null) {
+      // unrecognized message received, ignore and return directly
+      return
+    }
+    when (val message = msg.message) {
       is HandshakeRequest -> {
         val handler = setting.handlerSetting().handshakeRequestHandler()
-        val success = handler.handleHandshakeRequest(msg)
+        val success = handler.handleHandshakeRequest(message)
         if (success) {
-          handshake.set(msg)
+          handshake.set(message)
         }
         val response = HandshakeResponse()
         response.success = success
-        writeMessage(response)
+        writeTransportMessage(TransportMessage(response, msg.serializer))
         return
       }
       is HeartbeatRequest -> {
         val response = HeartbeatResponse()
-        response.token = msg.token
-        writeMessage(response)
+        response.token = message.token
+        writeTransportMessage(TransportMessage(response, msg.serializer))
         return
       }
       is TransportRequest -> {
         val ctx = TransportRequestContext()
         ctx.channel = this
-        ctx.requestReader = TransportRequestReader(msg)
+        ctx.serializer = msg.serializer
+        ctx.requestReader = TransportRequestReader(message)
         ctx.extensions = ConcurrentHashMap()
         val handler = setting.handlerSetting().transportRequestHandler()
         handler.handleTransportRequest(ctx)
         return
       }
-      else -> logger.error("Unrecognized message received: $msg")
+      else -> logger.error("Unrecognized message received: ${msg.message}")
     }
-
   }
 
-  fun writeMessage(msg: Any) {
+  fun writeTransportMessage(msg: TransportMessage) {
     channel.writeAndFlush(msg)
   }
 
@@ -67,7 +71,8 @@ internal constructor(private val server: TransportServerImpl,
     }
     val request = ShutdownRequest()
     request.clientId = getClientId()
-    writeMessage(request)
+    val serializer = TransportProtocol.getSerializerId(ShutdownRequest::class.java)
+    writeTransportMessage(TransportMessage(request, serializer))
   }
 
   internal fun close() {

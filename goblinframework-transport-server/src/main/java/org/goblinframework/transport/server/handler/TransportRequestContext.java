@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TransportRequestContext {
 
   public TransportServerChannel channel;
+  public byte serializer;
   public TransportRequestReader requestReader;
   public ConcurrentHashMap<String, Object> extensions;
 
