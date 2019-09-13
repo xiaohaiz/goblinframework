@@ -17,7 +17,7 @@ import org.goblinframework.transport.core.protocol.TransportProtocol;
 import java.io.OutputStream;
 
 @ChannelHandler.Sharable
-public class TransportMessageEncoder2 extends MessageToByteEncoder<TransportMessage> {
+public class TransportMessageEncoder2 extends MessageToByteEncoder<Object> {
 
   private static final byte[] LENGTH_PLACEHOLDER = new byte[4];
 
@@ -31,7 +31,18 @@ public class TransportMessageEncoder2 extends MessageToByteEncoder<TransportMess
   }
 
   @Override
-  protected void encode(ChannelHandlerContext ctx, TransportMessage msg, ByteBuf out) throws Exception {
+  protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
+    if (msg instanceof TransportMessage) {
+      encodeTransportMessage(ctx, (TransportMessage) msg, out);
+    } else {
+      byte serializer = TransportProtocol.getSerializerId(msg.getClass());
+      encodeTransportMessage(ctx, new TransportMessage(msg, serializer), out);
+    }
+  }
+
+  private void encodeTransportMessage(ChannelHandlerContext ctx,
+                                      TransportMessage msg,
+                                      ByteBuf out) throws Exception {
     if (msg.message == null) {
       throw new UnsupportedOperationException("Encoding unrecognized message not allowed");
     }
