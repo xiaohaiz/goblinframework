@@ -10,6 +10,7 @@ object GoblinModuleDefinition {
       "EMBEDDED",
       "CACHE",
       "TRANSPORT",
+      "REGISTRY",
       "SCHEDULE",
       "MANAGEMENT",
       "BOOTSTRAP",
