@@ -2,7 +2,6 @@ package org.goblinframework.core.mbean;
 
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.core.util.ManagementUtils;
 import org.goblinframework.core.util.StringUtils;
 
 import javax.management.ObjectName;
@@ -27,7 +26,7 @@ abstract public class GoblinManagedObject implements PlatformManagedObject {
     }
     registerMBean = (objectName != null && annotation.register());
     if (registerMBean) {
-      ManagementUtils.registerMBean(this);
+      ManagedBeanUtils.registerMBean(this);
     }
   }
 
@@ -38,7 +37,7 @@ abstract public class GoblinManagedObject implements PlatformManagedObject {
 
   public void unregisterIfNecessary() {
     if (registerMBean) {
-      ManagementUtils.unregisterMBean(objectName);
+      ManagedBeanUtils.unregisterMBean(objectName);
     }
   }
 }

@@ -1,5 +1,6 @@
 package org.goblinframework.core.util;
 
+import org.goblinframework.core.exception.GoblinNetworkException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,7 +28,7 @@ abstract public class NetworkUtils {
     try {
       ia = InetAddress.getLocalHost();
     } catch (Exception ex) {
-      throw new NetworkException(ex);
+      throw new GoblinNetworkException(ex);
     }
     if (isValidAddress(ia)) {
       return ia.getHostAddress();
@@ -45,13 +46,13 @@ abstract public class NetworkUtils {
         list.add(la);
       }
     } catch (Exception ex) {
-      throw new NetworkException(ex);
+      throw new GoblinNetworkException(ex);
     }
     Enumeration<NetworkInterface> it;
     try {
       it = NetworkInterface.getNetworkInterfaces();
     } catch (Exception ex) {
-      throw new NetworkException(ex);
+      throw new GoblinNetworkException(ex);
     }
     if (it == null) {
       return Collections.emptyList();

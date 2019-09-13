@@ -1,4 +1,4 @@
-package org.goblinframework.core.util;
+package org.goblinframework.core.mbean;
 
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -11,8 +11,8 @@ import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.lang.management.PlatformManagedObject;
 
-abstract public class ManagementUtils {
-  private static final Logger logger = LoggerFactory.getLogger(ManagementUtils.class);
+abstract public class ManagedBeanUtils {
+  private static final Logger logger = LoggerFactory.getLogger(ManagedBeanUtils.class);
 
   public static void registerMBean(@NotNull PlatformManagedObject pmo) {
     ObjectName objectName = pmo.getObjectName();
