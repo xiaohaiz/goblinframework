@@ -73,7 +73,8 @@ internal constructor(private val client: TransportClient) {
         request.extensions = linkedMapOf()
         request.extensions["clientLanguage"] = "java/kotlin"
         request.extensions["receiveShutdown"] = setting.receiveShutdown()
-        writeMessage(request)
+        val serializer = TransportProtocol.getSerializerId(request.javaClass)
+        writeTransportMessage(TransportMessage(request, serializer))
       }
     })
   }
@@ -108,21 +109,22 @@ internal constructor(private val client: TransportClient) {
     }
     val request = HeartbeatRequest()
     request.token = RandomUtils.nextObjectId()
-    writeMessage(request)
+    val serializer = TransportProtocol.getSerializerId(request::class.java)
+    writeTransportMessage(TransportMessage(request, serializer))
     heartbeatInProgress[request.token] = request
     if (heartbeatInProgress.size >= TransportClientModule.maxSufferanceHeartLost) {
       updateStateChannel(TransportClientChannel.HEARTBEAT_LOST)
     }
   }
 
-  fun writeMessage(msg: Any) {
-    channelRef.get()?.writeAndFlush(msg)
-  }
-
-  fun onMessage(msg: Any) {
-    when (msg) {
+  fun onTransportMessage(msg: TransportMessage) {
+    if (msg.message == null) {
+      // unrecognized message received, ignore and return directly
+      return
+    }
+    when (val message = msg.message) {
       is HandshakeResponse -> {
-        if (msg.success) {
+        if (message.success) {
           updateStateChannel(TransportClientChannel(TransportClientState.HANDSHAKED, this))
         } else {
           updateStateChannel(TransportClientChannel.HANDSHAKE_FAILED)
@@ -131,22 +133,26 @@ internal constructor(private val client: TransportClient) {
         return
       }
       is HeartbeatResponse -> {
-        msg.token?.run {
+        message.token?.run {
           heartbeatInProgress.remove(this)
         }
         return
       }
       is ShutdownRequest -> {
         val handler = client.setting.shutdownRequestHandler()
-        val success = handler.handleShutdownRequest(msg)
+        val success = handler.handleShutdownRequest(message)
         if (success) {
           val name = client.setting.name()
           client.clientManager.closeConnection(name)
         }
         return
       }
-      else -> logger.error("Unrecognized message received: $msg")
+      else -> logger.error("Unrecognized message received: $message")
     }
+  }
+
+  fun writeTransportMessage(msg: TransportMessage) {
+    channelRef.get()?.writeAndFlush(msg)
   }
 
   internal fun close() {

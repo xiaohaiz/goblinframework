@@ -1,5 +1,8 @@
 package org.goblinframework.transport.client.handler
 
+import org.goblinframework.transport.core.protocol.TransportMessage
+import org.goblinframework.transport.core.protocol.TransportProtocol
+
 class TransportClientChannel(val state: TransportClientState,
                              val client: TransportClientImpl?) {
 
@@ -17,6 +20,11 @@ class TransportClientChannel(val state: TransportClientState,
   }
 
   fun writeMessage(msg: Any) {
-    client?.writeMessage(msg)
+    if (msg is TransportMessage) {
+      client?.writeTransportMessage(msg)
+    } else {
+      val serializer = TransportProtocol.getSerializerId(msg.javaClass)
+      client?.writeTransportMessage(TransportMessage(msg, serializer))
+    }
   }
 }

@@ -2,17 +2,18 @@ package org.goblinframework.transport.client.handler
 
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
+import org.goblinframework.transport.core.protocol.TransportMessage
 import org.slf4j.LoggerFactory
 
 class TransportClientChannelHandler(private val client: TransportClientImpl)
-  : SimpleChannelInboundHandler<Any>() {
+  : SimpleChannelInboundHandler<TransportMessage>() {
 
   companion object {
     private val logger = LoggerFactory.getLogger(TransportClientChannelHandler::class.java)
   }
 
-  override fun channelRead0(ctx: ChannelHandlerContext, msg: Any) {
-    client.onMessage(msg)
+  override fun channelRead0(ctx: ChannelHandlerContext, msg: TransportMessage) {
+    client.onTransportMessage(msg)
   }
 
   override fun channelInactive(ctx: ChannelHandlerContext) {
