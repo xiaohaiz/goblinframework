@@ -17,7 +17,7 @@ class SerializerManager private constructor() : GoblinManagedObject(), Serialize
   private val buffer = EnumMap<SerializerMode, SerializerImpl>(SerializerMode::class.java)
 
   init {
-    buffer[SerializerMode.JAVA] = SerializerImpl(JavaSerializer())
+    buffer[SerializerMode.JAVA] = SerializerImpl(JavaSerializer.INSTANCE)
     buffer[SerializerMode.FST] = SerializerImpl(FstSerializer())
     buffer[SerializerMode.HESSIAN2] = SerializerImpl(Hessian2Serializer())
   }

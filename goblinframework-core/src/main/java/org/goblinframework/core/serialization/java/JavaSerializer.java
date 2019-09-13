@@ -10,11 +10,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
-final public class JS implements Serializer {
+final public class JavaSerializer implements Serializer {
 
-  public static final JS INSTANCE = new JS();
+  public static final JavaSerializer INSTANCE = new JavaSerializer();
 
-  private JS() {
+  private JavaSerializer() {
   }
 
   @NotNull
@@ -28,7 +28,11 @@ final public class JS implements Serializer {
     if (!(obj instanceof Serializable)) {
       throw GoblinSerializationException.requiredSerializable(obj);
     }
-    SerializationUtils.serialize((Serializable) obj, outStream);
+    try {
+      SerializationUtils.serialize((Serializable) obj, outStream);
+    } catch (Exception ex) {
+      throw new GoblinSerializationException(ex);
+    }
   }
 
   @NotNull
@@ -37,18 +41,30 @@ final public class JS implements Serializer {
     if (!(obj instanceof Serializable)) {
       throw GoblinSerializationException.requiredSerializable(obj);
     }
-    return SerializationUtils.serialize((Serializable) obj);
+    try {
+      return SerializationUtils.serialize((Serializable) obj);
+    } catch (Exception ex) {
+      throw new GoblinSerializationException(ex);
+    }
   }
 
   @NotNull
   @Override
   public Object deserialize(@NotNull InputStream inStream) {
-    return SerializationUtils.deserialize(inStream);
+    try {
+      return SerializationUtils.deserialize(inStream);
+    } catch (Exception ex) {
+      throw new GoblinSerializationException(ex);
+    }
   }
 
   @NotNull
   @Override
   public Object deserialize(@NotNull byte[] bs) {
-    return SerializationUtils.deserialize(bs);
+    try {
+      return SerializationUtils.deserialize(bs);
+    } catch (Exception ex) {
+      throw new GoblinSerializationException(ex);
+    }
   }
 }
