@@ -15,6 +15,6 @@ final public class TranscoderFactoryImpl implements TranscoderFactory, Ordered {
   @NotNull
   @Override
   public Transcoder buildTranscoder(@NotNull TranscoderSetting setting) {
-    return new TranscoderImpl();
+    return new TranscoderImpl(setting);
   }
 }
