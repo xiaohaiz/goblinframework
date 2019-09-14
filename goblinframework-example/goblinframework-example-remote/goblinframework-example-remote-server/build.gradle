@@ -1,0 +1,6 @@
+description = "goblinframework-example-remote-server"
+
+dependencies {
+  compile(project(":goblinframework-remote-server"))
+  compile(project(":goblinframework-bootstrap"))
+}
