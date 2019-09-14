@@ -4,6 +4,7 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import org.goblinframework.api.annotation.Install;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.core.util.ClassUtils;
+import org.jetbrains.annotations.NotNull;
 
 @Singleton
 public class ClassResolver implements org.goblinframework.core.transcoder.ClassResolver {
@@ -21,15 +22,17 @@ public class ClassResolver implements org.goblinframework.core.transcoder.ClassR
     return delegator;
   }
 
+  @NotNull
   @Override
-  public Class<?> resolve(String className) throws ClassNotFoundException {
+  public Class<?> resolve(@NotNull String className) throws ClassNotFoundException {
     return delegator.resolve(className);
   }
 
   @Install
   public static class Installer implements org.goblinframework.core.transcoder.ClassResolver {
+    @NotNull
     @Override
-    public Class<?> resolve(String className) throws ClassNotFoundException {
+    public Class<?> resolve(@NotNull String className) throws ClassNotFoundException {
       return INSTANCE.resolve(className);
     }
   }

@@ -1,7 +1,10 @@
 package org.goblinframework.core.transcoder;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface ClassResolver {
 
-  Class<?> resolve(String className) throws ClassNotFoundException;
+  @NotNull
+  Class<?> resolve(@NotNull String className) throws ClassNotFoundException;
 
 }
