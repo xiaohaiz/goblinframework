@@ -5,6 +5,7 @@ import org.goblinframework.bootstrap.core.StandaloneClient
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.example.remote.api.EchoService
+import org.goblinframework.example.remote.api.TimeService
 import org.goblinframework.remote.core.protocol.RemoteRequest
 import org.goblinframework.remote.core.protocol.RemoteResponse
 import org.goblinframework.transport.client.channel.TransportClientManager
@@ -28,7 +29,7 @@ class Client : StandaloneClient() {
     val client = TransportClientManager.INSTANCE.createConnection(setting)
     client.connectFuture().awaitUninterruptibly()
     if (client.available()) {
-      val flight = MessageFlightManager.INSTANCE.createMessageFlight(true)
+      var flight = MessageFlightManager.INSTANCE.createMessageFlight(true)
           .prepareRequest(Block1 {
             val request = RemoteRequest()
             request.serviceInterface = EchoService::class.java.name
@@ -42,7 +43,27 @@ class Client : StandaloneClient() {
           })
           .sendRequest(client)
           .uninterruptibly
-      val response = flight.responseReader().readPayload() as RemoteResponse
+      var response = flight.responseReader().readPayload() as RemoteResponse
+      println("==================================")
+      println(response.result)
+      println("==================================")
+
+
+      flight = MessageFlightManager.INSTANCE.createMessageFlight(true)
+          .prepareRequest(Block1 {
+            val request = RemoteRequest()
+            request.serviceInterface = TimeService::class.java.name
+            request.serviceGroup = "goblin"
+            request.serviceVersion = "1.0"
+            request.methodName = "currentTimeMillis"
+            request.parameterTypes = emptyArray()
+            request.returnType = Long::class.java.name
+            request.arguments = emptyArray()
+            it.writePayload(request)
+          })
+          .sendRequest(client)
+          .uninterruptibly
+      response = flight.responseReader().readPayload() as RemoteResponse
       println("==================================")
       println(response.result)
       println("==================================")
