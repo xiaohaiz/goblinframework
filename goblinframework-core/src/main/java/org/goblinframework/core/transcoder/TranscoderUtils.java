@@ -8,12 +8,20 @@ import org.goblinframework.core.exception.GoblinTranscodingException;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
 import org.goblinframework.core.util.IOUtils;
+import org.goblinframework.core.util.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.util.Arrays;
 
 abstract public class TranscoderUtils {
+
+  private static final TranscoderFactory transcoderFactory;
+
+  static {
+    transcoderFactory = ServiceInstaller.installedFirst(TranscoderFactory.class);
+  }
 
   public static byte[] shortToBytes(short s) {
     byte[] bs = new byte[2];
@@ -92,6 +100,11 @@ abstract public class TranscoderUtils {
   }
 
   @NotNull
+  public static TranscoderSettingBuilder encoder() {
+    return new TranscoderSettingBuilder();
+  }
+
+  @NotNull
   public static DecodeResult decode(@NotNull InputStream inStream) {
     try {
       return internalDecode(inStream);
@@ -166,5 +179,30 @@ abstract public class TranscoderUtils {
       dr.result = serializer.deserialize(nextInStream);
     }
     return dr;
+  }
+
+  final public static class TranscoderSettingBuilder {
+    Compressor compressor;
+    Serializer serializer;
+
+    private TranscoderSettingBuilder() {
+    }
+
+    @NotNull
+    public TranscoderSettingBuilder compressor(@Nullable Compressor compressor) {
+      this.compressor = compressor;
+      return this;
+    }
+
+    @NotNull
+    public TranscoderSettingBuilder serializer(@Nullable Serializer serializer) {
+      this.serializer = serializer;
+      return this;
+    }
+
+    public Transcoder buildTranscoder() {
+      TranscoderSetting setting = new TranscoderSetting(this);
+      return transcoderFactory.buildTranscoder(setting);
+    }
   }
 }
