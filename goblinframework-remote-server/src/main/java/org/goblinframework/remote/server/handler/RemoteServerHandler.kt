@@ -1,6 +1,7 @@
 package org.goblinframework.remote.server.handler
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.core.event.EventBus
 import org.goblinframework.transport.server.handler.TransportRequestContext
 import org.goblinframework.transport.server.handler.TransportRequestHandler
 
@@ -12,6 +13,6 @@ class RemoteServerHandler private constructor() : TransportRequestHandler {
   }
 
   override fun handleTransportRequest(ctx: TransportRequestContext) {
-
+    EventBus.publish(RemoteServerEvent(ctx))
   }
 }
