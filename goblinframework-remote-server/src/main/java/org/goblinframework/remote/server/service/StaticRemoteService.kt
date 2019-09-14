@@ -11,4 +11,12 @@ class StaticRemoteService(id: ExposeServiceId,
   override fun getMode(): String {
     return "STATIC"
   }
+
+  override fun type(): Class<*> {
+    return bean.javaClass
+  }
+
+  override fun bean(): Any {
+    return bean
+  }
 }

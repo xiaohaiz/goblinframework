@@ -12,4 +12,12 @@ class ManagedRemoteService(id: ExposeServiceId,
   override fun getMode(): String {
     return "MANAGED"
   }
+
+  override fun type(): Class<*> {
+    return bean.type!!
+  }
+
+  override fun bean(): Any {
+    return bean.getBean()!!
+  }
 }

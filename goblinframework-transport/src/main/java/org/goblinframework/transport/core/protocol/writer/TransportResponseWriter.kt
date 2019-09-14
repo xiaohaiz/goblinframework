@@ -75,8 +75,8 @@ class TransportResponseWriter(reader: TransportRequestReader) {
         response.payload = payload.toByteArray(Charsets.UTF_8)
       }
       else -> {
-        response.serializer = 1
-        val serializer = SerializerManager.INSTANCE.getSerializer(1)!!
+        response.serializer = 2
+        val serializer = SerializerManager.INSTANCE.getSerializer(2)!!
         response.payload = serializer.serialize(payload)
       }
     }

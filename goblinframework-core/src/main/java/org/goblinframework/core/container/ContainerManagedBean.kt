@@ -5,6 +5,11 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
 class ContainerManagedBean(val beanName: String, val beanFactory: BeanFactory) {
 
+  val type = try {
+    beanFactory.getType(beanName)
+  } catch (ex: NoSuchBeanDefinitionException) {
+    null
+  }
   val singleton: Boolean = try {
     beanFactory.isSingleton(beanName)
   } catch (ex: NoSuchBeanDefinitionException) {

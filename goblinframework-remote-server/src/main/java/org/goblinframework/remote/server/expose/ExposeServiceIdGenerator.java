@@ -42,7 +42,7 @@ abstract public class ExposeServiceIdGenerator {
 
   private static ExposeServiceId generateExposeServiceId(Class<?> clazz, ExposeService annotation) {
     Class<?> interfaceClass = annotation.interfaceClass();
-    if (interfaceClass.isAssignableFrom(clazz)) {
+    if (!interfaceClass.isAssignableFrom(clazz)) {
       throw new GoblinMalformedException(clazz.getName() + " does not implement " + interfaceClass.getName());
     }
     return new ExposeServiceId(interfaceClass, "goblin", "1.0");

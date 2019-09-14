@@ -15,4 +15,8 @@ abstract class RemoteService(private val id: ExposeServiceId)
   fun id(): ExposeServiceId {
     return id
   }
+
+  abstract fun type(): Class<*>
+
+  abstract fun bean(): Any
 }

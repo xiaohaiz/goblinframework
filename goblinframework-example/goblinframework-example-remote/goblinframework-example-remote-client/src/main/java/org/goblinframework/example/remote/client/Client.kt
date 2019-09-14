@@ -6,6 +6,7 @@ import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.example.remote.api.EchoService
 import org.goblinframework.remote.core.protocol.RemoteRequest
+import org.goblinframework.remote.core.protocol.RemoteResponse
 import org.goblinframework.transport.client.channel.TransportClientManager
 import org.goblinframework.transport.client.flight.MessageFlightManager
 import org.goblinframework.transport.client.setting.TransportClientSetting
@@ -27,7 +28,7 @@ class Client : StandaloneClient() {
     val client = TransportClientManager.INSTANCE.createConnection(setting)
     client.connectFuture().awaitUninterruptibly()
     if (client.available()) {
-      MessageFlightManager.INSTANCE.createMessageFlight(false)
+      val flight = MessageFlightManager.INSTANCE.createMessageFlight(true)
           .prepareRequest(Block1 {
             val request = RemoteRequest()
             request.serviceInterface = EchoService::class.java.name
@@ -40,7 +41,11 @@ class Client : StandaloneClient() {
             it.writePayload(request)
           })
           .sendRequest(client)
-          .awaitUninterruptibly()
+          .uninterruptibly
+      val response = flight.responseReader().readPayload() as RemoteResponse
+      println("==================================")
+      println(response.result)
+      println("==================================")
     }
     TransportClientManager.INSTANCE.closeConnection(setting.name())
   }
