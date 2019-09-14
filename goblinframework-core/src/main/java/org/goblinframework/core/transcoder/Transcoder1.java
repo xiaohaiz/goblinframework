@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-abstract public class Transcoder {
+abstract public class Transcoder1 {
 
   public static void encode(@NotNull OutputStream outStream,
                             @NotNull Object obj,
