@@ -3,7 +3,6 @@ package org.goblinframework.webmvc.interceptor
 import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.core.util.ObjectUtils
 import org.goblinframework.webmvc.setting.InterceptorSetting
-import org.springframework.beans.factory.BeanFactoryUtils
 
 class InterceptorLocator(setting: InterceptorSetting) {
 
@@ -14,7 +13,7 @@ class InterceptorLocator(setting: InterceptorSetting) {
   init {
     staticInterceptors.addAll(setting.interceptors())
     setting.applicationContext()?.run {
-      BeanFactoryUtils.beanNamesForTypeIncludingAncestors(this, Interceptor::class.java, true, false)
+      this.getBeanNamesForType(Interceptor::class.java, true, false)
           .map { ContainerManagedBean(it, this) }
           .forEach { managedInterceptors.add(it) }
     }

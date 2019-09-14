@@ -5,7 +5,6 @@ import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.core.util.ClassUtils
 import org.goblinframework.webmvc.mapping.MalformedMappingException
 import org.goblinframework.webmvc.setting.ControllerSetting
-import org.springframework.beans.factory.BeanFactoryUtils
 import org.springframework.web.bind.annotation.RequestMapping
 import java.lang.reflect.Modifier
 import java.util.*
@@ -16,7 +15,7 @@ object MethodMappingBuilder {
     val types = IdentityHashMap<Class<*>, Long>()
     val mappings = mutableListOf<MethodMapping>()
     setting.applicationContext()?.run {
-      BeanFactoryUtils.beanNamesForTypeIncludingAncestors(this, Any::class.java, true, false)
+      this.getBeanNamesForType(Any::class.java, true, false)
           .map { ImmutablePair.of(it, getType(it)) }
           .filter { it.right != null }
           .map { ImmutablePair.of(it.left, ClassUtils.filterCglibProxyClass(it.right!!)) }

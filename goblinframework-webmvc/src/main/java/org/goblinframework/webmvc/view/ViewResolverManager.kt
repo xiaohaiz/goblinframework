@@ -2,7 +2,6 @@ package org.goblinframework.webmvc.view
 
 import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.webmvc.setting.ViewResolverSetting
-import org.springframework.beans.factory.BeanFactoryUtils
 import org.springframework.core.OrderComparator
 
 class ViewResolverManager(setting: ViewResolverSetting) {
@@ -13,7 +12,7 @@ class ViewResolverManager(setting: ViewResolverSetting) {
   init {
     staticResolvers.addAll(setting.viewResolvers())
     setting.applicationContext()?.run {
-      BeanFactoryUtils.beanNamesForTypeIncludingAncestors(this, ViewResolver::class.java, true, false)
+      this.getBeanNamesForType(ViewResolver::class.java, true, false)
           .map { ContainerManagedBean(it, this) }
           .forEach { managedResolvers.add(it) }
     }
