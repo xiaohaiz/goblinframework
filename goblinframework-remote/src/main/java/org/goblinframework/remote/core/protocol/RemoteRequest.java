@@ -12,6 +12,7 @@ public class RemoteRequest implements Serializable {
   public String methodName;
   public String[] parameterTypes;
   public String returnType;
+  public Object[] arguments;
   public LinkedHashMap<String, Object> extensions;
 
 }

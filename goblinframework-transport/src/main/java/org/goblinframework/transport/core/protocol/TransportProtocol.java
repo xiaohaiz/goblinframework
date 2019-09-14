@@ -2,7 +2,7 @@ package org.goblinframework.transport.core.protocol;
 
 import org.goblinframework.core.exception.GoblinException;
 import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.transport.core.codec.ClassResolver;
+import org.goblinframework.transport.core.codec.ClassResolver1;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.io.ClassPathResource;
 
@@ -36,7 +36,7 @@ abstract public class TransportProtocol {
       props.load(inStream);
       for (String name : props.stringPropertyNames()) {
         String value = props.getProperty(name);
-        Class<?> clazz = ClassResolver.INSTANCE.resolve(name);
+        Class<?> clazz = ClassResolver1.INSTANCE.resolve(name);
         byte serializerId = Byte.parseByte(value);
         serializerIds.put(clazz, serializerId);
       }

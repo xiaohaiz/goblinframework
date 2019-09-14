@@ -4,13 +4,13 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;
 
-final public class ClassResolver implements io.netty.handler.codec.serialization.ClassResolver {
+final public class ClassResolver1 implements io.netty.handler.codec.serialization.ClassResolver {
 
-  public static final ClassResolver INSTANCE = new ClassResolver();
+  public static final ClassResolver1 INSTANCE = new ClassResolver1();
 
   private final io.netty.handler.codec.serialization.ClassResolver delegator;
 
-  private ClassResolver() {
+  private ClassResolver1() {
     ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
     this.delegator = ClassResolvers.softCachingConcurrentResolver(classLoader);
   }

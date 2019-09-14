@@ -36,6 +36,7 @@ class Client : StandaloneClient() {
             request.methodName = "echo"
             request.parameterTypes = arrayOf(String::class.java.name)
             request.returnType = String::class.java.name
+            request.arguments = arrayOf("HELLO, WORLD!")
             it.writePayload(request)
           })
           .sendRequest(client)
