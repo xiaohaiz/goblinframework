@@ -17,5 +17,8 @@ class RemoteServerEventListener : GoblinEventListener {
   override fun onEvent(context: GoblinEventContext) {
     val event = context.event as RemoteServerEvent
     val request = event.ctx.requestReader.readPayload()!! as RemoteRequest
+    println("==========================")
+    println(request)
+    println("==========================")
   }
 }

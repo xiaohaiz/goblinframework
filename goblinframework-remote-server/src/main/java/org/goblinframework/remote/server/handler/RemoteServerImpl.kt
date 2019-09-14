@@ -12,6 +12,7 @@ class RemoteServerImpl internal constructor() {
   init {
     val setting = TransportServerSetting.builder()
         .name(SERVER_NAME)
+        .port(57213)
         .enableDebugMode()
         .applyHandlerSetting {
           it.transportRequestHandler(RemoteServerHandler.INSTANCE)

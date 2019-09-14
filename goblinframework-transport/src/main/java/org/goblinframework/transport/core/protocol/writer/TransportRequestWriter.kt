@@ -40,8 +40,8 @@ class TransportRequestWriter(private val request: TransportRequest) {
         request.payload = payload.toByteArray(Charsets.UTF_8)
       }
       else -> {
-        request.serializer = 1
-        val serializer = SerializerManager.INSTANCE.getSerializer(1)!!
+        request.serializer = 2
+        val serializer = SerializerManager.INSTANCE.getSerializer(2)!!
         request.payload = serializer.serialize(payload)
       }
     }
