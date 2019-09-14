@@ -19,7 +19,7 @@ class TransportRequestReader(private val request: TransportRequest) {
     var data = request.payload
 
     if (request.compressor != 0.toByte()) {
-      val mode = CompressorMode.mode(request.compressor)
+      val mode = CompressorMode.resolve(request.compressor)
           ?: throw IllegalArgumentException("Unrecognized compressor ${request.compressor}")
       val compressor = CompressorManager.INSTANCE.getCompressor(mode)
       data = compressor.decompress(data)

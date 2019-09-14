@@ -47,7 +47,7 @@ public class TransportResponseReader {
     }
     byte[] payload = response.payload;
     if (response.compressor != 0) {
-      CompressorMode mode = CompressorMode.Companion.mode(response.compressor);
+      CompressorMode mode = CompressorMode.Companion.resolve(response.compressor);
       Objects.requireNonNull(mode);
       Compressor compressor = CompressorManager.INSTANCE.getCompressor(mode);
       payload = compressor.decompress(payload);

@@ -19,6 +19,11 @@ class CompressorManager private constructor() : GoblinManagedObject(), Compresso
     }
   }
 
+  fun getCompressor(id: Byte): Compressor? {
+    val mode = CompressorMode.resolve(id) ?: return null
+    return getCompressor(mode)
+  }
+
   fun getCompressor(compressor: CompressorMode): Compressor {
     return buffer[compressor]!!
   }

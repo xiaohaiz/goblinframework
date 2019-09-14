@@ -15,7 +15,7 @@ enum class CompressorMode(val id: Byte, val algorithm: String) {
       }
     }
 
-    fun mode(id: Byte): CompressorMode? {
+    fun resolve(id: Byte): CompressorMode? {
       return modes[id]
     }
   }
