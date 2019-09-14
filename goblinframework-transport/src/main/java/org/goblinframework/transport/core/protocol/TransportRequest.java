@@ -1,12 +1,11 @@
 package org.goblinframework.transport.core.protocol;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
-public class TransportRequest implements Serializable, TransportPayload {
+public class TransportRequest implements Serializable {
   private static final long serialVersionUID = 1686136429375478570L;
 
   @JsonProperty("_id")
@@ -21,14 +20,4 @@ public class TransportRequest implements Serializable, TransportPayload {
   public boolean rawPayload;                        // 直接写入字节数组作为负载数据
   public LinkedHashMap<String, Object> extensions;
 
-  @Nullable
-  @Override
-  public byte[] readPayload() {
-    return payload;
-  }
-
-  @Override
-  public void writePayload(@Nullable byte[] payload) {
-    this.payload = payload;
-  }
 }

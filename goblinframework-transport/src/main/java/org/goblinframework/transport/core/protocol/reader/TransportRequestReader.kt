@@ -16,7 +16,7 @@ class TransportRequestReader(private val request: TransportRequest) {
     if (!request.hasPayload) {
       return null
     }
-    var data = request.readPayload()!!
+    var data = request.payload
 
     if (request.compressor != 0.toByte()) {
       val mode = CompressorMode.mode(request.compressor)
