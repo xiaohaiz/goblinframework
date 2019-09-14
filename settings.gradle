@@ -27,6 +27,7 @@ include "goblinframework-example:goblinframework-example-embedded"
 include "goblinframework-example:goblinframework-example-webmvc"
 include "goblinframework-example:goblinframework-example-transport:goblinframework-example-transport-client"
 include "goblinframework-example:goblinframework-example-transport:goblinframework-example-transport-server"
+include "goblinframework-example:goblinframework-example-remote:goblinframework-example-remote-api"
 include "goblinframework-example:goblinframework-example-remote:goblinframework-example-remote-server"
 
 
