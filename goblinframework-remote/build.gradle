@@ -1,0 +1,8 @@
+description = "goblinframework-remote"
+
+dependencies {
+  compile(project(":goblinframework-transport"))
+  compile(project(":goblinframework-registry"))
+
+  testCompile(project(":goblinframework-test"))
+}
