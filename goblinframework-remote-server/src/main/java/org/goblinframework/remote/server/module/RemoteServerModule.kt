@@ -5,6 +5,7 @@ import org.goblinframework.core.bootstrap.GoblinChildModule
 import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
 import org.goblinframework.remote.server.handler.RemoteServer
+import org.goblinframework.remote.server.service.RemoteServiceManager
 
 @Install
 class RemoteServerModule : GoblinChildModule {
@@ -19,5 +20,6 @@ class RemoteServerModule : GoblinChildModule {
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
     RemoteServer.INSTANCE.close()
+    RemoteServiceManager.INSTANCE.close()
   }
 }

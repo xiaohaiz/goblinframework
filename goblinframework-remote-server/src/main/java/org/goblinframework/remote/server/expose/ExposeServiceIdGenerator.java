@@ -6,7 +6,9 @@ import org.goblinframework.core.exception.GoblinMalformedException;
 import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 abstract public class ExposeServiceIdGenerator {
 
@@ -18,11 +20,11 @@ abstract public class ExposeServiceIdGenerator {
     if (annotations.isEmpty()) {
       return Collections.emptyList();
     }
-    Set<ExposeServiceId> idList = new LinkedHashSet<>();
+    List<ExposeServiceId> idList = new LinkedList<>();
     for (ExposeService annotation : annotations) {
       idList.add(generateExposeServiceId(clazz, annotation));
     }
-    return new ArrayList<>(idList);
+    return idList;
   }
 
   private static List<ExposeService> findExposeService(Class<?> clazz) {

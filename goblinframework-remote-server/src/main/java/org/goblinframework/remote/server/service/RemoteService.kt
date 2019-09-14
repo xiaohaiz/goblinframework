@@ -1,0 +1,18 @@
+package org.goblinframework.remote.server.service
+
+import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.remote.server.expose.ExposeServiceId
+
+@GoblinManagedBean("REMOTE.SERVER")
+abstract class RemoteService(private val id: ExposeServiceId)
+  : GoblinManagedObject(), RemoteServiceMXBean {
+
+  internal fun close() {
+    unregisterIfNecessary()
+  }
+
+  fun id(): ExposeServiceId {
+    return id
+  }
+}
