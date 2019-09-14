@@ -1,5 +1,6 @@
 package org.goblinframework.core.util;
 
+import org.apache.commons.lang3.Validate;
 import org.bson.types.ObjectId;
 import org.goblinframework.core.module.spi.RandomProvider;
 import org.jetbrains.annotations.NotNull;
@@ -52,5 +53,12 @@ abstract public class RandomUtils {
 
   public static long nextLong() {
     return RANDOM.nextLong();
+  }
+
+  public static byte[] nextBytes(final int count) {
+    Validate.isTrue(count >= 0, "Count cannot be negative.");
+    final byte[] result = new byte[count];
+    RANDOM.nextBytes(result);
+    return result;
   }
 }
