@@ -1,5 +1,6 @@
 package org.goblinframework.transport.core.protocol;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.util.LinkedHashMap;
 public class TransportRequest implements Serializable, TransportPayload {
   private static final long serialVersionUID = 1686136429375478570L;
 
+  @JsonProperty("_id")
   public byte id = 4;
   public long requestId;                            // 唯一的请求id
   public long requestCreateTime;                    // 请求创建时间
