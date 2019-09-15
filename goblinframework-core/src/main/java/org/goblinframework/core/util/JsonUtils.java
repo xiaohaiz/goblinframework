@@ -36,16 +36,34 @@ abstract public class JsonUtils {
     return mapper;
   }
 
-  @Nullable
   public static String toJson(@Nullable Object value) {
     try {
       return DEFAULT_OBJECT_MAPPER.writeValueAsString(value);
     } catch (JsonProcessingException ex) {
-      return null;
+      throw new GoblinMappingException(ex);
     }
   }
 
-  public static <E> List<E> asList(@NotNull InputStream inStream, @NotNull Class<E> elementType) {
+  public static <E> E asObject(@NotNull InputStream inStream,
+                               @NotNull Class<E> valueType) {
+    try {
+      return getDefaultObjectMapper().readValue(inStream, valueType);
+    } catch (IOException ex) {
+      throw new GoblinMappingException(ex);
+    }
+  }
+
+  public static <E> E asObject(@NotNull String s,
+                               @NotNull Class<E> valueType) {
+    try {
+      return getDefaultObjectMapper().readValue(s, valueType);
+    } catch (IOException ex) {
+      throw new GoblinMappingException(ex);
+    }
+  }
+
+  public static <E> List<E> asList(@NotNull InputStream inStream,
+                                   @NotNull Class<E> elementType) {
     JavaType jt = getDefaultObjectMapper().getTypeFactory().constructCollectionLikeType(LinkedList.class, elementType);
     try {
       return getDefaultObjectMapper().readValue(inStream, jt);
