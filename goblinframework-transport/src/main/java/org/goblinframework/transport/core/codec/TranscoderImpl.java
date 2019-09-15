@@ -48,68 +48,73 @@ final class TranscoderImpl implements Transcoder {
 
     Compressor compressor = setting.compressor;
     Serializer serializer = setting.serializer;
-    if (compressor != null && setting.compressionThreshold > 0) {
-      byte header = 0;
-      byte[] bs;
-      ByteBuf buf = ByteBufAllocator.DEFAULT.buffer();
-      if (obj instanceof String) {
-        buf.writeCharSequence((String) obj, Charsets.UTF_8);
-      } else if (serializer == null) {
-        ObjectMapper mapper = JsonUtils.getDefaultObjectMapper();
-        ByteBufOutputStream bos = new ByteBufOutputStream(buf);
-        mapper.writeValue((OutputStream) bos, obj);
-        bos.flush();
-        bos.close();
-      } else {
-        header = (byte) (header | serializer.mode().getId());
-        ByteBufOutputStream bos = new ByteBufOutputStream(buf);
-        serializer.serialize(obj, bos);
-        bos.flush();
-        bos.close();
-      }
-      bs = ByteBufUtil.getBytes(buf);
-      if (bs.length >= setting.compressionThreshold) {
-        try (ByteBufInputStream bis = new ByteBufInputStream(buf, true)) {
-          int originalSize = buf.readableBytes();
-          byte[] compressed = compressor.compress(bis);
-          if (compressed.length < originalSize) {
-            header = (byte) (header | ((compressor.mode().getId() << 4) & 0xf0));
-            outStream.write(header);
-            outStream.write(compressed);
-          } else {
-            outStream.write(header);
-            buf.resetReaderIndex();
-            IOUtils.copy(bis, outStream);
-          }
-        }
-      } else {
-        try (ByteBufInputStream bis = new ByteBufInputStream(buf, true)) {
-          outStream.write(header);
-          IOUtils.copy(bis, outStream);
-        }
-      }
+
+    ByteBuf buf = ByteBufAllocator.DEFAULT.buffer();
+    buf.writeByte(0);   // write header placeholder
+    if (obj instanceof String) {
+      buf.writeCharSequence((String) obj, Charsets.UTF_8);
+    } else if (serializer == null) {
+      ObjectMapper mapper = JsonUtils.getDefaultObjectMapper();
+      ByteBufOutputStream bos = new ByteBufOutputStream(buf);
+      mapper.writeValue((OutputStream) bos, obj);
+      bos.flush();
+      bos.close();
     } else {
-      ByteBuf buf = ByteBufAllocator.DEFAULT.buffer();
-      buf.writeByte(0); // write header place holder
-      if (obj instanceof String) {
-        buf.writeCharSequence((String) obj, Charsets.UTF_8);
-      } else if (serializer == null) {
-        ObjectMapper mapper = JsonUtils.getDefaultObjectMapper();
-        ByteBufOutputStream bos = new ByteBufOutputStream(buf);
-        mapper.writeValue((OutputStream) bos, obj);
-        bos.flush();
-        bos.close();
-      } else {
-        byte header = serializer.mode().getId();
-        ByteBufOutputStream bos = new ByteBufOutputStream(buf);
-        serializer.serialize(obj, bos);
-        bos.flush();
-        bos.close();
-        buf.setByte(0, header);
-      }
+      ByteBufOutputStream bos = new ByteBufOutputStream(buf);
+      serializer.serialize(obj, bos);
+      bos.flush();
+      bos.close();
+      // reset header
+      buf.setByte(0, serializer.mode().getId());
+    }
+
+    if (compressor == null || setting.compressionThreshold <= 0) {
       try (ByteBufInputStream bis = new ByteBufInputStream(buf, true)) {
         IOUtils.copy(bis, outStream);
       }
+      return;
+    }
+
+    // validate if compression is necessary or not
+    int endIdx = buf.writerIndex();
+    int actualSize = endIdx - 1;
+    if (actualSize < setting.compressionThreshold) {
+      try (ByteBufInputStream bis = new ByteBufInputStream(buf, true)) {
+        IOUtils.copy(bis, outStream);
+      }
+      return;
+    }
+
+    // do compress now
+    buf.readerIndex(1);
+    ByteBuf data = buf.readBytes(buf.readableBytes());
+    ByteBuf compressed = ByteBufAllocator.DEFAULT.buffer();
+    try {
+      try (ByteBufInputStream bis = new ByteBufInputStream(data, true)) {
+        ByteBufOutputStream bos = new ByteBufOutputStream(compressed);
+        compressor.compress(bis, bos);
+        bos.flush();
+        bos.close();
+      }
+      int compressedSize = compressed.readableBytes();
+      if (compressedSize >= actualSize) {
+        // give up compress, size enlarged
+        buf.readerIndex(0);
+        try (ByteBufInputStream bis = new ByteBufInputStream(buf, true)) {
+          IOUtils.copy(bis, outStream);
+        }
+      } else {
+        buf.setIndex(1, 1);
+        buf.writeBytes(ByteBufUtil.getBytes(compressed));
+        byte header = buf.getByte(0);
+        header = (byte) (header | ((compressor.mode().getId() << 4) & 0xf0));
+        buf.setByte(0, header);
+        try (ByteBufInputStream bis = new ByteBufInputStream(buf, true)) {
+          IOUtils.copy(bis, outStream);
+        }
+      }
+    } finally {
+      compressed.release();
     }
   }
 
