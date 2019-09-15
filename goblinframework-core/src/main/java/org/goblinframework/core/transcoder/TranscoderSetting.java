@@ -8,9 +8,11 @@ final public class TranscoderSetting {
 
   public final Compressor compressor;
   public final Serializer serializer;
+  public final int compressionThreshold;
 
   TranscoderSetting(@NotNull TranscoderUtils.TranscoderSettingBuilder builder) {
     this.compressor = builder.compressor;
     this.serializer = builder.serializer;
+    this.compressionThreshold = builder.compressionThreshold;
   }
 }

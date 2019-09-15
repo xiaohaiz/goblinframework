@@ -25,6 +25,7 @@ class ZkTranscoderManagerTest {
 
   private fun transcoder(transcoder: ZkTranscoder) {
     val bs = RandomUtils.nextBytes(512)
+    bs[0] = 0
     var obj = transcoder.deserialize(transcoder.serialize(bs))
     assertArrayEquals(bs, obj as ByteArray)
 

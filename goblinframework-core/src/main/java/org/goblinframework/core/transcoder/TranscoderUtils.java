@@ -184,6 +184,7 @@ abstract public class TranscoderUtils {
   final public static class TranscoderSettingBuilder {
     Compressor compressor;
     Serializer serializer;
+    int compressionThreshold;
 
     private TranscoderSettingBuilder() {
     }
