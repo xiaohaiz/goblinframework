@@ -6,7 +6,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.goblinframework.core.exception.GoblinMappingException;
+import org.goblinframework.core.util.json.Deserializers;
+import org.goblinframework.core.util.json.Serializers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,6 +36,14 @@ abstract public class JsonUtils {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     mapper.configure(DeserializationFeature.FAIL_ON_NUMBERS_FOR_ENUMS, true);
     mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    mapper.registerModule(new SimpleModule() {
+      @Override
+      public void setupModule(SetupContext context) {
+        super.setupModule(context);
+        context.addSerializers(new Serializers());
+        context.addDeserializers(new Deserializers());
+      }
+    });
     return mapper;
   }
 
