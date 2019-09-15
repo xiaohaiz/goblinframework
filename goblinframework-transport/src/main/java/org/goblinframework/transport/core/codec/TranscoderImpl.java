@@ -104,7 +104,7 @@ final class TranscoderImpl implements Transcoder {
           IOUtils.copy(bis, outStream);
         }
       } else {
-        buf.setIndex(1, 1);
+        buf.setIndex(0, 1);
         buf.writeBytes(ByteBufUtil.getBytes(compressed));
         byte header = buf.getByte(0);
         header = (byte) (header | ((compressor.mode().getId() << 4) & 0xf0));
