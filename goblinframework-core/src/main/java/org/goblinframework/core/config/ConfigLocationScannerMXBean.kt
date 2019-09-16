@@ -4,9 +4,11 @@ import java.lang.management.PlatformManagedObject
 
 interface ConfigLocationScannerMXBean : PlatformManagedObject {
 
+  fun getConfigFile(): String
+
   fun getConfigPath(): String
 
-  fun getAvailable(): Boolean
+  fun getConfigPathUrl(): String?
 
   fun getFoundInFileSystem(): Boolean
 

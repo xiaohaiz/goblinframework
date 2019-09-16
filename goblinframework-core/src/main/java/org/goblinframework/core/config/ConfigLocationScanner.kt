@@ -1,9 +1,11 @@
 package org.goblinframework.core.config
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.spi.ConfigFileProvider
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.ClassUtils
+import org.goblinframework.core.util.ServiceInstaller
 import org.goblinframework.core.util.StringUtils
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.Resource
@@ -20,12 +22,16 @@ class ConfigLocationScanner private constructor() : GoblinManagedObject(), Confi
     val INSTANCE = ConfigLocationScanner()
   }
 
-  private val configPath = "config/goblin.ini"
-  private val foundInFilesystem = AtomicBoolean()
+  private val configFile: String
+  private val configPath: String
   private var configPathUrl: URL? = null
+  private val foundInFilesystem = AtomicBoolean()
   private val candidatePaths = mutableListOf<File>()
 
   init {
+    val provider = ServiceInstaller.installedFirst(ConfigFileProvider::class.java)
+    configFile = provider?.configFile() ?: "goblin.ini"
+    configPath = "config/$configFile"
     initialize()
   }
 
@@ -61,7 +67,7 @@ class ConfigLocationScanner private constructor() : GoblinManagedObject(), Confi
     }
   }
 
-  fun scan(filename: String): List<Resource> {
+  fun scan(filename: String): MutableList<Resource> {
     return candidatePaths
         .asSequence()
         .map { it.path }
@@ -69,15 +75,19 @@ class ConfigLocationScanner private constructor() : GoblinManagedObject(), Confi
         .filter { it.exists() && it.isFile }
         .map { FileSystemResource(it) }
         .filter { it.exists() && it.isReadable }
-        .toList()
+        .toMutableList()
+  }
+
+  override fun getConfigFile(): String {
+    return configFile
   }
 
   override fun getConfigPath(): String {
     return configPath
   }
 
-  override fun getAvailable(): Boolean {
-    return configPathUrl != null
+  override fun getConfigPathUrl(): String? {
+    return configPathUrl?.toString()
   }
 
   override fun getFoundInFileSystem(): Boolean {
