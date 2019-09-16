@@ -24,21 +24,25 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
     @JvmField val INSTANCE = ConfigLoader()
   }
 
+  private val configLocationScanner = ConfigLocationScanner()
+  private val configMappingLoader = ConfigMappingLoader()
+
   private val loadTimes = AtomicLong()
   private val resourceFiles = mutableListOf<String>()
   private val md5 = AtomicReference<String>()
   private val config = AtomicReference<Config>()
   private val applicationName = AtomicReference<String>()
-  private val configMappingLoader: ConfigMappingLoader
   private val scheduler: ConfigLoaderScheduler
-
 
   init {
     internalReload()
-    configMappingLoader = ConfigMappingLoader()
-    configMappingLoader.initialize(ConfigLocationScanner.INSTANCE)
+    configMappingLoader.initialize(configLocationScanner)
     scheduler = ConfigLoaderScheduler(this)
     EventBus.subscribe(scheduler)
+  }
+
+  fun getMapping(): ConfigMapping {
+    return configMappingLoader.mapping.get()
   }
 
   fun getConfig(section: String, name: String): String? {
@@ -62,14 +66,13 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   private fun internalReload(): Boolean {
     loadTimes.incrementAndGet()
 
-    val scanner = ConfigLocationScanner.INSTANCE
-    if (scanner.getConfigPathUrl() == null) {
+    if (configLocationScanner.getConfigPathUrl() == null) {
       return false
     }
-    val configFile = scanner.getConfigFile()
-    val resources = scanner.scan(configFile)
-    if (!scanner.getFoundInFileSystem()) {
-      resources.add(0, ClassPathResource(scanner.getConfigPath()))
+    val configFile = configLocationScanner.getConfigFile()
+    val resources = configLocationScanner.scan(configFile)
+    if (!configLocationScanner.getFoundInFileSystem()) {
+      resources.add(0, ClassPathResource(configLocationScanner.getConfigPath()))
     }
 
     val dataList = resources.map {
@@ -127,9 +130,9 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
 
   fun close() {
     unregisterIfNecessary()
-    configMappingLoader.close()
     EventBus.unsubscribe(scheduler)
-    ConfigLocationScanner.INSTANCE.close()
+    configMappingLoader.close()
+    configLocationScanner.close()
   }
 
   override fun getApplicationName(): String {

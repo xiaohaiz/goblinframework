@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicReference
 @GoblinManagedBean("CORE")
 class ConfigMappingLoader internal constructor() : GoblinManagedObject(), ConfigMappingLoaderMXBean {
 
-  private val mapping = AtomicReference<ConfigMapping>()
+  val mapping = AtomicReference<ConfigMapping>()
 
   init {
     mapping.set(ConfigMapping())

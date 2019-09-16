@@ -1,6 +1,5 @@
 package org.goblinframework.core.config
 
-import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.spi.ConfigFileProvider
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
@@ -14,13 +13,8 @@ import java.net.URL
 import java.util.concurrent.atomic.AtomicBoolean
 
 
-@Singleton
 @GoblinManagedBean("CORE")
-class ConfigLocationScanner private constructor() : GoblinManagedObject(), ConfigLocationScannerMXBean {
-
-  companion object {
-    val INSTANCE = ConfigLocationScanner()
-  }
+class ConfigLocationScanner internal constructor() : GoblinManagedObject(), ConfigLocationScannerMXBean {
 
   private val configFile: String
   private val configPath: String
