@@ -36,6 +36,7 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   init {
     internalReload()
     configMappingLoader = ConfigMappingLoader()
+    configMappingLoader.initialize(ConfigLocationScanner.INSTANCE)
     scheduler = ConfigLoaderScheduler(this)
     EventBus.subscribe(scheduler)
   }
