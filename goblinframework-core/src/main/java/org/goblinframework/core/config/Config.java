@@ -2,6 +2,7 @@ package org.goblinframework.core.config;
 
 import org.goblinframework.api.annotation.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
@@ -13,8 +14,13 @@ public class Config implements Serializable {
   private final LinkedHashMap<String, Section> sections = new LinkedHashMap<>();
 
   @NotNull
-  public Section section(@NotNull String sectionName) {
+  public Section createSection(@NotNull String sectionName) {
     return sections.computeIfAbsent(sectionName, s -> new Section());
+  }
+
+  @Nullable
+  public Section getSection(@NotNull String sectionName) {
+    return sections.get(sectionName);
   }
 
   final public static class Section extends LinkedHashMap<String, String> {

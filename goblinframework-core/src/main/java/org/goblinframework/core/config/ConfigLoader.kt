@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
+import java.util.function.Supplier
 
 
 @Singleton
@@ -29,6 +30,14 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
 
   init {
     internalReload()
+  }
+
+  fun getConfig(section: String, name: String): String? {
+    return getConfig(section, name, null)
+  }
+
+  fun getConfig(section: String, name: String, defaultValue: Supplier<String>?): String? {
+    return config.get().getSection(section)?.get(name) ?: defaultValue?.get()
   }
 
   @Synchronized
@@ -83,7 +92,7 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
       ini.load(ByteArrayInputStream(bs))
       for (section in ini.values) {
         val sectionName = section.name
-        config.section(sectionName).putAll(section)
+        config.createSection(sectionName).putAll(section)
       }
     }
     this.config.set(config)
