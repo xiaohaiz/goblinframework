@@ -18,6 +18,7 @@ class ConfigLocationScanner private constructor() : GoblinManagedObject(), Confi
     val INSTANCE = ConfigLocationScanner()
   }
 
+  private val configPath = "config/goblin.ini"
   private val foundInFilesystem = AtomicBoolean()
   private var configPathUrl: URL? = null
   private val candidatePaths = mutableListOf<File>()
@@ -27,7 +28,6 @@ class ConfigLocationScanner private constructor() : GoblinManagedObject(), Confi
   }
 
   private fun initialize() {
-    val configPath = "config/goblin.ini"
     val classLoader = ClassUtils.getDefaultClassLoader()
     val url = classLoader.getResource(configPath)
     if (url == null) {
@@ -57,5 +57,21 @@ class ConfigLocationScanner private constructor() : GoblinManagedObject(), Confi
       candidatePaths.add(parent)
       parent = parent.parentFile ?: break
     }
+  }
+
+  override fun getConfigPath(): String {
+    return configPath
+  }
+
+  override fun getAvailable(): Boolean {
+    return configPathUrl != null
+  }
+
+  override fun getFoundInFileSystem(): Boolean {
+    return foundInFilesystem.get()
+  }
+
+  override fun getCandidatePathList(): Array<String> {
+    return candidatePaths.map { it.path }.toTypedArray()
   }
 }
