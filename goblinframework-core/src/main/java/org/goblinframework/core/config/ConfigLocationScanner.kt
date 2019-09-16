@@ -1,50 +1,52 @@
 package org.goblinframework.core.config
 
-import org.goblinframework.api.spi.ConfigFileProvider
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.ClassUtils
-import org.goblinframework.core.util.ServiceInstaller
 import org.goblinframework.core.util.StringUtils
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.Resource
 import java.io.File
-import java.net.URL
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicReference
 
 
 @GoblinManagedBean("CORE")
 class ConfigLocationScanner internal constructor() : GoblinManagedObject(), ConfigLocationScannerMXBean {
 
-  private val configFile: String
-  private val configPath: String
-  private var configPathUrl: URL? = null
+  companion object {
+    private val SCAN_SEQUENCE = listOf(
+        "config/goblin-test.ini",
+        "META-INF/goblin/goblin-test.ini",
+        "config/goblin.ini",
+        "META-INF/goblin/goblin.ini")
+  }
+
+  private val configLocation = AtomicReference<ConfigLocation>()
   private val foundInFilesystem = AtomicBoolean()
   private val candidatePaths = mutableListOf<File>()
 
   init {
-    val provider = ServiceInstaller.installedFirst(ConfigFileProvider::class.java)
-    configFile = provider?.configFile() ?: "goblin.ini"
-    configPath = "config/$configFile"
-    initialize()
+    val classLoader = ClassUtils.getDefaultClassLoader()
+    for (path in SCAN_SEQUENCE) {
+      val url = classLoader.getResource(path)
+      if (url != null) {
+        configLocation.set(ConfigLocation(path, url))
+        break
+      }
+    }
+    configLocation.get()?.run { initialize(this) }
   }
 
-  private fun initialize() {
-    val classLoader = ClassUtils.getDefaultClassLoader()
-    val url = classLoader.getResource(configPath)
-    if (url == null) {
-      logger.warn("No config [$configPath] found in classpath, ignore loading config(s)")
-      return
-    }
-    configPathUrl = url
-
+  private fun initialize(location: ConfigLocation) {
+    val url = location.url
     var foundInFileSystem = false
     var file: String
     when {
       StringUtils.equals("jar", url.protocol) -> {
         file = url.file
-        file = StringUtils.substringAfter(file, "file:");
-        file = StringUtils.substringBeforeLast(file, "!");
+        file = StringUtils.substringAfter(file, "file:")
+        file = StringUtils.substringBeforeLast(file, "!")
       }
       StringUtils.equals("file", url.protocol) -> {
         foundInFileSystem = true
@@ -76,16 +78,12 @@ class ConfigLocationScanner internal constructor() : GoblinManagedObject(), Conf
     unregisterIfNecessary()
   }
 
-  override fun getConfigFile(): String {
-    return configFile
+  internal fun getConfigLocation(): ConfigLocation? {
+    return configLocation.get()
   }
 
   override fun getConfigPath(): String {
-    return configPath
-  }
-
-  override fun getConfigPathUrl(): String? {
-    return configPathUrl?.toString()
+    return configLocation.get()?.url.toString()
   }
 
   override fun getFoundInFileSystem(): Boolean {

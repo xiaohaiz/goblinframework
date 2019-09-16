@@ -66,10 +66,10 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   private fun internalReload(): Boolean {
     loadTimes.incrementAndGet()
 
-    if (configLocationScanner.getConfigPathUrl() == null) {
+    if (configLocationScanner.getConfigLocation() == null) {
       return false
     }
-    val configFile = configLocationScanner.getConfigFile()
+    val configFile = configLocationScanner.getConfigLocation()!!.filename()
     val resources = configLocationScanner.scan(configFile)
     if (!configLocationScanner.getFoundInFileSystem()) {
       resources.add(0, ClassPathResource(configLocationScanner.getConfigPath()))

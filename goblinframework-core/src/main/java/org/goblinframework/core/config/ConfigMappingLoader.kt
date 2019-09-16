@@ -15,7 +15,7 @@ class ConfigMappingLoader internal constructor() : GoblinManagedObject(), Config
   }
 
   internal fun initialize(scanner: ConfigLocationScanner) {
-    if (scanner.getConfigPathUrl() == null) {
+    if (scanner.getConfigLocation() == null) {
       return
     }
     val resource = scanner.scan("goblin.json").firstOrNull() ?: return
