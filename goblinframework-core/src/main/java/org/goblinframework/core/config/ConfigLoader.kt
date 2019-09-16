@@ -6,10 +6,13 @@ import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.DigestUtils
 import org.goblinframework.core.util.IOUtils
 import org.goblinframework.core.util.StringUtils
+import org.ini4j.Ini
 import org.springframework.core.io.ClassPathResource
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
+
 
 @Singleton
 @GoblinManagedBean("CORE")
@@ -22,6 +25,7 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   private val loadTimes = AtomicLong()
   private val resourceFiles = mutableListOf<String>()
   private val md5 = AtomicReference<String>()
+  private val config = AtomicReference<Config>()
 
   init {
     internalReload()
@@ -73,6 +77,15 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   }
 
   private fun internalLoad(dataList: List<Pair<String, ByteArray>>) {
-
+    val config = Config()
+    dataList.map { it.second }.forEach { bs ->
+      val ini = Ini()
+      ini.load(ByteArrayInputStream(bs))
+      for (section in ini.values) {
+        val sectionName = section.name
+        config.section(sectionName).putAll(section)
+      }
+    }
+    this.config.set(config)
   }
 }
