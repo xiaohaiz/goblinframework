@@ -99,7 +99,10 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
       this.md5.set(md5)
     }
     if (firstTime) {
-      val applicationName = getConfig("core", "org.goblinframework.core.applicationName", Supplier { "UNKNOWN" })
+      var applicationName = System.getProperty("org.goblinframework.core.applicationName")
+      if (applicationName == null) {
+        applicationName = getConfig("core", "org.goblinframework.core.applicationName", Supplier { "UNKNOWN" })
+      }
       this.applicationName.set(applicationName!!)
     }
     return needLoad
