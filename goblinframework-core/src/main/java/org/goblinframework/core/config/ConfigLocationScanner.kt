@@ -10,9 +10,9 @@ import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 
-
 @GoblinManagedBean("CORE")
-class ConfigLocationScanner internal constructor() : GoblinManagedObject(), ConfigLocationScannerMXBean {
+class ConfigLocationScanner internal constructor()
+  : GoblinManagedObject(), ConfigLocationScannerMXBean {
 
   companion object {
     private val SCAN_SEQUENCE = listOf(

@@ -18,7 +18,8 @@ import java.util.function.Supplier
 
 @Singleton
 @GoblinManagedBean("CORE")
-class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMXBean {
+class ConfigLoader private constructor()
+  : GoblinManagedObject(), ConfigLoaderMXBean {
 
   companion object {
     @JvmField val INSTANCE = ConfigLoader()
@@ -31,11 +32,13 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   private val resourceFiles = mutableListOf<String>()
   private val md5 = AtomicReference<String>()
   private val config = AtomicReference<ConfigSection>()
-  private val applicationName = AtomicReference<String>()
+  private val applicationName = AtomicReference<String>("UNKNOWN")
   private val scheduler: ConfigLoaderScheduler
 
   init {
-    internalReload()
+    configLocationScanner.getConfigLocation()?.run {
+      loadConfiguration(this)
+    }
     configMappingLoader.initialize(configLocationScanner)
     scheduler = ConfigLoaderScheduler(this)
     EventBus.subscribe(scheduler)
@@ -55,40 +58,26 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
 
   @Synchronized
   fun reload(): Boolean {
-    return try {
-      internalReload()
-    } catch (ex: Exception) {
-      logger.error("Exception raised when reloading config(s)", ex)
-      false
-    }
+    return configLocationScanner.getConfigLocation()?.run { loadConfiguration(this) } ?: false
   }
 
-  private fun internalReload(): Boolean {
+  private fun loadConfiguration(location: ConfigLocation): Boolean {
     loadTimes.incrementAndGet()
-
-    if (configLocationScanner.getConfigLocation() == null) {
-      return false
-    }
-    val configFile = configLocationScanner.getConfigLocation()!!.filename()
-    val resources = configLocationScanner.scan(configFile)
+    val resources = configLocationScanner.scan(location.filename())
     if (!configLocationScanner.getFoundInFileSystem()) {
-      resources.add(0, ClassPathResource(configLocationScanner.getConfigPath()))
+      resources.add(0, ClassPathResource(location.path))
     }
-
     val dataList = resources.map {
       val url = it.url.toString()
       val data = it.inputStream.use { s -> IOUtils.toByteArray(s) }
       Pair(url, data)
     }.toList()
-
     resourceFiles.clear()
     dataList.forEach { resourceFiles.add(it.first) }
-
     val md5 = DigestUtils.md5Hex(ByteArrayOutputStream(512).use { s ->
       dataList.forEach { s.write(it.second) }
       s.toByteArray()
     })
-
     var firstTime = false
     var needLoad = false
     if (loadTimes.get() == 1.toLong()) {
@@ -102,20 +91,22 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
       }
     }
     if (needLoad) {
-      internalLoad(dataList)
+      loadConfiguration(dataList)
       this.md5.set(md5)
     }
     if (firstTime) {
       var applicationName = System.getProperty("org.goblinframework.core.applicationName")
       if (applicationName == null) {
-        applicationName = getConfig("core", "org.goblinframework.core.applicationName", Supplier { "UNKNOWN" })
+        applicationName = getConfig("core", "org.goblinframework.core.applicationName")
       }
-      this.applicationName.set(applicationName!!)
+      applicationName?.run {
+        this@ConfigLoader.applicationName.set(this)
+      }
     }
     return needLoad
   }
 
-  private fun internalLoad(dataList: List<Pair<String, ByteArray>>) {
+  private fun loadConfiguration(dataList: List<Pair<String, ByteArray>>) {
     val config = ConfigSection()
     dataList.map { it.second }.forEach { bs ->
       val ini = Ini()
