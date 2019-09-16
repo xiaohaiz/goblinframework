@@ -30,7 +30,7 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   private val loadTimes = AtomicLong()
   private val resourceFiles = mutableListOf<String>()
   private val md5 = AtomicReference<String>()
-  private val config = AtomicReference<Config>()
+  private val config = AtomicReference<ConfigSection>()
   private val applicationName = AtomicReference<String>()
   private val scheduler: ConfigLoaderScheduler
 
@@ -116,7 +116,7 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   }
 
   private fun internalLoad(dataList: List<Pair<String, ByteArray>>) {
-    val config = Config()
+    val config = ConfigSection()
     dataList.map { it.second }.forEach { bs ->
       val ini = Ini()
       ini.load(ByteArrayInputStream(bs))

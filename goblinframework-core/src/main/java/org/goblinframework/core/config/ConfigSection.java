@@ -1,14 +1,12 @@
 package org.goblinframework.core.config;
 
-import org.goblinframework.api.annotation.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
-@ThreadSafe(false)
-public class Config implements Serializable {
+public class ConfigSection implements Serializable {
   private static final long serialVersionUID = 6458401883269302954L;
 
   private final LinkedHashMap<String, Section> sections = new LinkedHashMap<>();
