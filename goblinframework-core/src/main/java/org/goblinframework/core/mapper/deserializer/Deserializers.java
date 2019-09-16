@@ -1,4 +1,4 @@
-package org.goblinframework.core.util.json;
+package org.goblinframework.core.mapper.deserializer;
 
 import com.fasterxml.jackson.databind.module.SimpleDeserializers;
 import org.bson.types.ObjectId;
