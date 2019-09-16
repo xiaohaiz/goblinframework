@@ -2,6 +2,7 @@ package org.goblinframework.core.config
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.event.EventBus
+import org.goblinframework.core.mapper.JsonMapper
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.DigestUtils
@@ -25,12 +26,13 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   }
 
   private val configLocationScanner = ConfigLocationScanner()
-  private val configMappingLoader = ConfigMappingLoader(configLocationScanner)
+  private val mappingLocationScanner = MappingLocationScanner(configLocationScanner)
 
   private val loadTimes = AtomicLong()
   private val resourceFiles = mutableListOf<String>()
   private val md5 = AtomicReference<String>()
   private val config = AtomicReference<ConfigSection>()
+  private val mapping = AtomicReference<ConfigMapping>(ConfigMapping())
   private val applicationName = AtomicReference<String>("UNKNOWN")
   private val scheduler: ConfigLoaderScheduler
 
@@ -44,20 +46,20 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
         an = getConfig("core", "org.goblinframework.core.applicationName")
       }
       an?.run { applicationName.set(this) }
+    }
 
-      // parse config mapping
-      var cmf = System.getProperty("org.goblinframework.core.configMappingFile")
-      if (cmf == null) {
-        cmf = getConfig("core", "org.goblinframework.core.configMappingFile", Supplier { "goblin.json" })
+    mappingLocationScanner.getMappingLocation()?.run {
+      val mapping = resource.inputStream.use {
+        JsonMapper.asObject(it, ConfigMapping::class.java)
       }
-      configMappingLoader.initialize(cmf!!)
+      this@ConfigLoader.mapping.set(mapping)
     }
     scheduler = ConfigLoaderScheduler(this)
     EventBus.subscribe(scheduler)
   }
 
   fun getMapping(): ConfigMapping {
-    return configMappingLoader.mapping.get()
+    return mapping.get()
   }
 
   fun getConfig(section: String, name: String): String? {
@@ -123,7 +125,7 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   fun close() {
     unregisterIfNecessary()
     EventBus.unsubscribe(scheduler)
-    configMappingLoader.close()
+    mappingLocationScanner.close()
     configLocationScanner.close()
   }
 
