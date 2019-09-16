@@ -5,6 +5,8 @@ import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.ClassUtils
 import org.goblinframework.core.util.StringUtils
+import org.springframework.core.io.FileSystemResource
+import org.springframework.core.io.Resource
 import java.io.File
 import java.net.URL
 import java.util.concurrent.atomic.AtomicBoolean
@@ -57,6 +59,17 @@ class ConfigLocationScanner private constructor() : GoblinManagedObject(), Confi
       candidatePaths.add(parent)
       parent = parent.parentFile ?: break
     }
+  }
+
+  fun scan(filename: String): List<Resource> {
+    return candidatePaths
+        .asSequence()
+        .map { it.path }
+        .map { File(it + File.separator + filename) }
+        .filter { it.exists() && it.isFile }
+        .map { FileSystemResource(it) }
+        .filter { it.exists() && it.isReadable }
+        .toList()
   }
 
   override fun getConfigPath(): String {
