@@ -1,14 +1,12 @@
 package org.goblinframework.core.serialization
 
 import org.bson.types.ObjectId
+import org.goblinframework.core.container.SpringManagedBean
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.slf4j.LoggerFactory
 import java.time.Instant
 
-abstract class SerializerTest {
-
-  private val logger = LoggerFactory.getLogger(javaClass)
+abstract class SerializerTest : SpringManagedBean() {
 
   abstract fun serializer(): Serializer
 

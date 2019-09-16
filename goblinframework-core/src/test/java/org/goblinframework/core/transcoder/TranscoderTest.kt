@@ -1,14 +1,20 @@
 package org.goblinframework.core.transcoder
 
 import org.bson.types.ObjectId
+import org.goblinframework.core.container.SpringManagedBean
 import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.core.serialization.SerializerMode
+import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.springframework.test.context.ContextConfiguration
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
-class TranscoderTest {
+@RunWith(GoblinTestRunner::class)
+@ContextConfiguration("/UT.xml")
+class TranscoderTest : SpringManagedBean() {
 
   @Test
   fun transcode() {

@@ -1,18 +1,19 @@
 package org.goblinframework.core.conversion
 
+import org.goblinframework.core.container.SpringManagedBean
 import org.goblinframework.core.util.DateFormatUtils
-import org.junit.Assert.*
+import org.goblinframework.test.runner.GoblinTestRunner
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.springframework.test.context.ContextConfiguration
 import java.time.Instant
 import java.util.*
 
-class ConversionServiceTest {
-
-  @Test
-  fun getNativeConversionService() {
-    val cs = ConversionService.INSTANCE.getNativeConversionService()
-    assertNotNull(cs)
-  }
+@RunWith(GoblinTestRunner::class)
+@ContextConfiguration("/UT.xml")
+class ConversionServiceTest : SpringManagedBean() {
 
   @Test
   fun calendarToLong() {
