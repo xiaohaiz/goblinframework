@@ -18,15 +18,14 @@ import java.util.function.Supplier
 
 @Singleton
 @GoblinManagedBean("CORE")
-class ConfigLoader private constructor()
-  : GoblinManagedObject(), ConfigLoaderMXBean {
+class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMXBean {
 
   companion object {
     @JvmField val INSTANCE = ConfigLoader()
   }
 
   private val configLocationScanner = ConfigLocationScanner()
-  private val configMappingLoader = ConfigMappingLoader()
+  private val configMappingLoader = ConfigMappingLoader(configLocationScanner)
 
   private val loadTimes = AtomicLong()
   private val resourceFiles = mutableListOf<String>()
@@ -38,8 +37,21 @@ class ConfigLoader private constructor()
   init {
     configLocationScanner.getConfigLocation()?.run {
       loadConfiguration(this)
+
+      // parse application name
+      var an = System.getProperty("org.goblinframework.core.applicationName")
+      if (an == null) {
+        an = getConfig("core", "org.goblinframework.core.applicationName")
+      }
+      an?.run { applicationName.set(this) }
+
+      // parse config mapping
+      var cmf = System.getProperty("org.goblinframework.core.configMappingFile")
+      if (cmf == null) {
+        cmf = getConfig("core", "org.goblinframework.core.configMappingFile", Supplier { "goblin.json" })
+      }
+      configMappingLoader.initialize(cmf!!)
     }
-    configMappingLoader.initialize(configLocationScanner)
     scheduler = ConfigLoaderScheduler(this)
     EventBus.subscribe(scheduler)
   }
@@ -78,10 +90,8 @@ class ConfigLoader private constructor()
       dataList.forEach { s.write(it.second) }
       s.toByteArray()
     })
-    var firstTime = false
     var needLoad = false
     if (loadTimes.get() == 1.toLong()) {
-      firstTime = true
       needLoad = true
     } else {
       val previous = this.md5.get()
@@ -93,15 +103,6 @@ class ConfigLoader private constructor()
     if (needLoad) {
       loadConfiguration(dataList)
       this.md5.set(md5)
-    }
-    if (firstTime) {
-      var applicationName = System.getProperty("org.goblinframework.core.applicationName")
-      if (applicationName == null) {
-        applicationName = getConfig("core", "org.goblinframework.core.applicationName")
-      }
-      applicationName?.run {
-        this@ConfigLoader.applicationName.set(this)
-      }
     }
     return needLoad
   }
