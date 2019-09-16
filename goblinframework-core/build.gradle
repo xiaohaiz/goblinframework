@@ -23,6 +23,7 @@ dependencies {
   compile("org.javassist:javassist:${javassist_version}")
   compile("org.objenesis:objenesis:${objenesis_version}")
   compile("com.caucho:hessian:${hessian_version}")
+  compile("org.ini4j:ini4j:${ini4j_version}")
 
   testCompile("junit:junit:${junit_version}")
   testCompile("org.easymock:easymock:${easymock_version}") {
