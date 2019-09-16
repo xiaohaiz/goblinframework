@@ -25,9 +25,5 @@ dependencies {
   compile("com.caucho:hessian:${hessian_version}")
   compile("org.ini4j:ini4j:${ini4j_version}")
 
-  testCompile("junit:junit:${junit_version}")
-  testCompile("org.easymock:easymock:${easymock_version}") {
-    exclude(group: "org.objenesis", module: "objenesis")
-  }
-  testCompile("org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}")
+  testCompile(project(":goblinframework-test"))
 }

@@ -1,12 +1,17 @@
 package org.goblinframework.core.compression
 
 import org.apache.commons.lang3.RandomStringUtils
+import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.slf4j.LoggerFactory
+import org.springframework.test.context.ContextConfiguration
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
+@RunWith(GoblinTestRunner::class)
+@ContextConfiguration("/UT.xml")
 class CompressorManagerTest {
 
   companion object {
@@ -14,7 +19,7 @@ class CompressorManagerTest {
   }
 
   @Test
-  fun testCompression() {
+  fun compression() {
     val cm = CompressorManager.INSTANCE
     for (mode in CompressorMode.values()) {
       val c = cm.getCompressor(mode)
