@@ -11,13 +11,16 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.module.SimpleSerializers;
 import org.bson.types.ObjectId;
 import org.goblinframework.core.exception.GoblinMappingException;
+import org.goblinframework.core.mapper.deserializer.InstantDeserializer;
 import org.goblinframework.core.mapper.deserializer.ObjectIdDeserializer;
+import org.goblinframework.core.mapper.serializer.InstantSerializer;
 import org.goblinframework.core.mapper.serializer.ObjectIdSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,10 +45,12 @@ abstract public class JsonMapper {
 
         SimpleSerializers serializers = new SimpleSerializers();
         serializers.addSerializer(ObjectId.class, new ObjectIdSerializer());
+        serializers.addSerializer(Instant.class, new InstantSerializer());
         context.addSerializers(serializers);
 
         SimpleDeserializers deserializers = new SimpleDeserializers();
         deserializers.addDeserializer(ObjectId.class, new ObjectIdDeserializer());
+        deserializers.addDeserializer(Instant.class, new InstantDeserializer());
         context.addDeserializers(deserializers);
       }
     });
