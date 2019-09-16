@@ -1,6 +1,7 @@
 package org.goblinframework.core.config
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.DigestUtils
@@ -28,9 +29,12 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   private val md5 = AtomicReference<String>()
   private val config = AtomicReference<Config>()
   private val applicationName = AtomicReference<String>()
+  private val scheduler: ConfigLoaderScheduler
 
   init {
     internalReload()
+    scheduler = ConfigLoaderScheduler(this)
+    EventBus.subscribe(scheduler)
   }
 
   fun getConfig(section: String, name: String): String? {
@@ -42,6 +46,15 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   }
 
   @Synchronized
+  fun reload(): Boolean {
+    return try {
+      internalReload()
+    } catch (ex: Exception) {
+      logger.error("Exception raised when reloading config(s)", ex)
+      false
+    }
+  }
+
   private fun internalReload(): Boolean {
     loadTimes.incrementAndGet()
 
@@ -107,6 +120,7 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
 
   fun close() {
     unregisterIfNecessary()
+    EventBus.unsubscribe(scheduler)
     ConfigLocationScanner.INSTANCE.close()
   }
 
