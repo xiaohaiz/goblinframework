@@ -29,10 +29,13 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   private val md5 = AtomicReference<String>()
   private val config = AtomicReference<Config>()
   private val applicationName = AtomicReference<String>()
+  private val configMappingLoader: ConfigMappingLoader
   private val scheduler: ConfigLoaderScheduler
+
 
   init {
     internalReload()
+    configMappingLoader = ConfigMappingLoader()
     scheduler = ConfigLoaderScheduler(this)
     EventBus.subscribe(scheduler)
   }
@@ -123,6 +126,7 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
 
   fun close() {
     unregisterIfNecessary()
+    configMappingLoader.close()
     EventBus.unsubscribe(scheduler)
     ConfigLocationScanner.INSTANCE.close()
   }
