@@ -78,6 +78,10 @@ class ConfigLocationScanner private constructor() : GoblinManagedObject(), Confi
         .toMutableList()
   }
 
+  internal fun close() {
+    unregisterIfNecessary()
+  }
+
   override fun getConfigFile(): String {
     return configFile
   }

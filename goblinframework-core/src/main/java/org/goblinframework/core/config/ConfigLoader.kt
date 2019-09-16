@@ -27,6 +27,7 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   private val resourceFiles = mutableListOf<String>()
   private val md5 = AtomicReference<String>()
   private val config = AtomicReference<Config>()
+  private val applicationName = AtomicReference<String>()
 
   init {
     internalReload()
@@ -68,8 +69,10 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
       s.toByteArray()
     })
 
+    var firstTime = false
     var needLoad = false
     if (loadTimes.get() == 1.toLong()) {
+      firstTime = true
       needLoad = true
     } else {
       val previous = this.md5.get()
@@ -81,6 +84,10 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
     if (needLoad) {
       internalLoad(dataList)
       this.md5.set(md5)
+    }
+    if (firstTime) {
+      val applicationName = getConfig("core", "org.goblinframework.core.applicationName", Supplier { "UNKNOWN" })
+      this.applicationName.set(applicationName!!)
     }
     return needLoad
   }
@@ -96,5 +103,14 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
       }
     }
     this.config.set(config)
+  }
+
+  fun close() {
+    unregisterIfNecessary()
+    ConfigLocationScanner.INSTANCE.close()
+  }
+
+  override fun getApplicationName(): String {
+    return applicationName.get()
   }
 }
