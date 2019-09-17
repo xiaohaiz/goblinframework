@@ -5,7 +5,7 @@ import org.I0Itec.zkclient.serialize.ZkSerializer
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.serialization.Serializer
-import org.goblinframework.core.transcoder.Transcoder1
+import org.goblinframework.core.transcoder.TranscoderUtils
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
@@ -16,7 +16,8 @@ class ZkTranscoder internal constructor(private val serializer: Serializer)
   override fun serialize(data: Any): ByteArray {
     try {
       return ByteArrayOutputStream(512).use {
-        Transcoder1.encode(it, data, serializer)
+        val transcoder = TranscoderUtils.encoder().serializer(serializer).buildTranscoder()
+        transcoder.encode(it, data)
         it.toByteArray()
       }
     } catch (ex: Exception) {
@@ -27,7 +28,7 @@ class ZkTranscoder internal constructor(private val serializer: Serializer)
   override fun deserialize(bytes: ByteArray): Any {
     try {
       return ByteArrayInputStream(bytes).use {
-        Transcoder1.decode(it).decoded
+        TranscoderUtils.decode(it).result
       }
     } catch (ex: Exception) {
       throw ZkMarshallingError(ex)

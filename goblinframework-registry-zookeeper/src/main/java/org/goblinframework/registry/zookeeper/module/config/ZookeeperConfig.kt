@@ -1,7 +1,5 @@
 package org.goblinframework.registry.zookeeper.module.config
 
-import org.goblinframework.core.compression.CompressionThreshold
-import org.goblinframework.core.compression.CompressorMode
 import org.goblinframework.core.config.Config
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
@@ -22,14 +20,6 @@ internal constructor(val mapper: ZookeeperConfigMapper)
 
   override fun getSerializer(): SerializerMode {
     return mapper.serializer!!
-  }
-
-  override fun getCompressor(): CompressorMode? {
-    return mapper.compressor
-  }
-
-  override fun getCompressionThreshold(): CompressionThreshold? {
-    return mapper.compressionThreshold
   }
 
   override fun destroy() {
