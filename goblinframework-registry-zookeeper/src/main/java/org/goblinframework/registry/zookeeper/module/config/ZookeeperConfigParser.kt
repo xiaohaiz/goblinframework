@@ -9,6 +9,10 @@ import org.goblinframework.core.util.StringUtils
 class ZookeeperConfigParser internal constructor()
   : BufferedConfigParser<ZookeeperConfig>() {
 
+  companion object {
+    private const val DEFAULT_ZOOKEEPER_PORT = 2181
+  }
+
   override fun initialize() {
     val mapping = ConfigLoader.INSTANCE.getMapping()
     parseToMap(mapping, "zookeeper", ZookeeperConfigMapper::class.java)
@@ -22,29 +26,10 @@ class ZookeeperConfigParser internal constructor()
     mapper.servers ?: kotlin.run {
       throw GoblinConfigException("servers is required")
     }
-    mapper.servers = formalizeSevers(mapper.servers!!)
+    mapper.servers = StringUtils.formalizeServers(mapper.servers!!, "") { DEFAULT_ZOOKEEPER_PORT }
     mapper.serializer ?: kotlin.run {
       mapper.serializer = SerializerMode.HESSIAN2
     }
   }
 
-  private fun formalizeSevers(servers: String): String {
-    var s = StringUtils.replace(servers, ",", " ")
-    s = StringUtils.replace(s, ";", " ")
-    val list = StringUtils.split(s, " ")
-        .asSequence()
-        .filter { StringUtils.isNotBlank(it) }
-        .map { StringUtils.trim(it) }
-        .map {
-          if (StringUtils.contains(it, ":")) {
-            it
-          } else {
-            "$it:2181"
-          }
-        }
-        .distinct()
-        .sorted()
-        .toList()
-    return StringUtils.join(list, ",")
-  }
 }
