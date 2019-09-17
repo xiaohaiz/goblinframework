@@ -9,7 +9,7 @@ import org.goblinframework.core.serialization.SerializerMode
 
 @GoblinManagedBean("REGISTRY.ZOOKEEPER")
 class ZookeeperConfig
-internal constructor(private val mapper: ZookeeperConfigMapper)
+internal constructor(val mapper: ZookeeperConfigMapper)
   : GoblinManagedObject(), ZookeeperConfigMXBean, Config {
 
   override fun getName(): String {

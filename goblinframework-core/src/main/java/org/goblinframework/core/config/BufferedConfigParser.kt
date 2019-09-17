@@ -2,6 +2,7 @@ package org.goblinframework.core.config
 
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.core.exception.GoblinDuplicateException
+import org.goblinframework.core.mapper.JsonMapper
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
@@ -17,6 +18,7 @@ abstract class BufferedConfigParser<E : Config> {
       buffer[name]?.run {
         throw GoblinDuplicateException("Duplicated [name=$name,config=$config]")
       }
+      doProcessConfig(config)
       buffer[name] = config
     }
   }
@@ -25,5 +27,37 @@ abstract class BufferedConfigParser<E : Config> {
     return lock.read { buffer[name] }
   }
 
+  fun destroy() {
+    lock.write {
+      buffer.values.forEach { it.destroy() }
+      buffer.clear()
+    }
+  }
+
   abstract fun initialize()
+
+  open fun doProcessConfig(config: E) {}
+
+  fun <T> parseToMap(mapping: ConfigMapping,
+                     name: String,
+                     elementType: Class<T>): MutableMap<String, T> {
+    val node = mapping[name]
+    if (node !is Map<*, *>) {
+      return mutableMapOf()
+    }
+    if (node.isEmpty()) {
+      return mutableMapOf()
+    }
+    val parsed = mutableMapOf<String, T>()
+    node.forEach { (k, u) ->
+      val name = k!!.toString()
+      if (u is Map<*, *>) {
+        val mapper = JsonMapper.getDefaultObjectMapper()
+        mapper.convertValue(u, elementType)?.run {
+          parsed.put(name, this)
+        }
+      }
+    }
+    return parsed
+  }
 }
