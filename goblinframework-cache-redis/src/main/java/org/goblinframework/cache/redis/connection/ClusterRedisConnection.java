@@ -3,18 +3,17 @@ package org.goblinframework.cache.redis.connection;
 import io.lettuce.core.api.StatefulRedisConnection;
 import org.apache.commons.pool2.ObjectPool;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public class SingleRedisConnection extends RedisConnection {
+public class ClusterRedisConnection extends RedisConnection {
 
   private final StatefulRedisConnection<String, Object> connection;
   private ObjectPool<RedisConnection> connectionPool;
 
-  SingleRedisConnection(@NotNull StatefulRedisConnection<String, Object> connection) {
+  ClusterRedisConnection(@NotNull StatefulRedisConnection<String, Object> connection) {
     this.connection = connection;
   }
 
-  public void setConnectionPool(@Nullable ObjectPool<RedisConnection> connectionPool) {
+  public void setConnectionPool(@NotNull ObjectPool<RedisConnection> connectionPool) {
     this.connectionPool = connectionPool;
   }
 
