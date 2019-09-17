@@ -4,11 +4,15 @@ import io.lettuce.core.codec.RedisCodec;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.ByteBufOutputStream;
+import io.netty.buffer.ByteBufUtil;
 import kotlin.text.Charsets;
 import org.goblinframework.core.compression.CompressionThreshold;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.exception.GoblinTranscodingException;
+import org.goblinframework.core.mbean.GoblinManagedBean;
+import org.goblinframework.core.mbean.GoblinManagedObject;
 import org.goblinframework.core.serialization.Serializer;
+import org.goblinframework.core.transcoder.DecodeResult;
 import org.goblinframework.core.transcoder.Transcoder;
 import org.goblinframework.core.transcoder.TranscoderUtils;
 import org.goblinframework.core.util.StringUtils;
@@ -19,7 +23,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-final public class RedisTranscoder implements RedisCodec<String, Object> {
+@GoblinManagedBean(type = "CORE.REDIS")
+final public class RedisTranscoder extends GoblinManagedObject
+    implements RedisCodec<String, Object>, RedisTranscoderMXBean {
 
   private final Transcoder transcoder;
 
@@ -46,7 +52,16 @@ final public class RedisTranscoder implements RedisCodec<String, Object> {
   public Object decodeValue(ByteBuffer bytes) {
     byte[] bs = getBytes(bytes);
     try (ByteArrayInputStream bis = new ByteArrayInputStream(bs)) {
-      return transcoder.decode(bis).result;
+      DecodeResult dr = transcoder.decode(bis);
+      if (dr.magic) {
+        return dr.result;
+      } else {
+        if (!(dr.result instanceof byte[])) {
+          throw new UnsupportedOperationException();
+        }
+        byte[] value = (byte[]) dr.result;
+        return new String(value, Charsets.UTF_8);
+      }
     } catch (IOException ex) {
       throw new GoblinTranscodingException(ex);
     }
@@ -69,9 +84,8 @@ final public class RedisTranscoder implements RedisCodec<String, Object> {
     try {
       ByteBufOutputStream bos = new ByteBufOutputStream(buf);
       transcoder.encode(bos, value);
-      ByteBuffer dst = ByteBuffer.allocate(buf.readableBytes());
-      buf.readBytes(dst);
-      return dst;
+      byte[] bs = ByteBufUtil.getBytes(buf);
+      return ByteBuffer.wrap(bs);
     } finally {
       buf.release();
     }
@@ -81,5 +95,9 @@ final public class RedisTranscoder implements RedisCodec<String, Object> {
     byte[] bs = new byte[buffer.remaining()];
     buffer.get(bs);
     return bs;
+  }
+
+  public void destroy() {
+    unregisterIfNecessary();
   }
 }
