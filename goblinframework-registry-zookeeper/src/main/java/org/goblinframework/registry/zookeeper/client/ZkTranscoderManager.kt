@@ -29,7 +29,7 @@ class ZkTranscoderManager private constructor()
     return transcoders[mode]!!
   }
 
-  fun close() {
+  fun destroy() {
     unregisterIfNecessary()
     transcoders.values.forEach { it.close() }
   }
