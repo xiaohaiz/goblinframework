@@ -3,6 +3,7 @@ package org.goblinframework.cache.redis.module.config
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigLoader
 import org.goblinframework.core.exception.GoblinConfigException
+import org.goblinframework.core.serialization.SerializerMode
 import org.goblinframework.core.util.StringUtils
 
 class RedisConfigParser internal constructor() : BufferedConfigParser<RedisConfig>() {
@@ -29,5 +30,9 @@ class RedisConfigParser internal constructor() : BufferedConfigParser<RedisConfi
     }
     val servers = StringUtils.formalizeServers(mapper.servers, " ") { DEFAULT_REDIS_PORT }
     mapper.servers = servers
+
+    mapper.serializer ?: kotlin.run {
+      mapper.serializer = SerializerMode.HESSIAN2
+    }
   }
 }

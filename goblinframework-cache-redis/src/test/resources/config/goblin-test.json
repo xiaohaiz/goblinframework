@@ -2,7 +2,10 @@
   "redis": {
     "goblin": {
       "servers": "127.0.0.1",
-      "mode": "SINGLE"
+      "mode": "SINGLE",
+      "serializer": "FST",
+      "compressor": "DEFLATE",
+      "compressionThreshold": "_1K"
     }
   }
 }
