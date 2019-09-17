@@ -5,8 +5,8 @@ import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import org.goblinframework.core.conversion.ConversionService;
-import org.goblinframework.core.transcoder.DecodedObject;
-import org.goblinframework.core.transcoder.Transcoder1;
+import org.goblinframework.core.transcoder.DecodeResult;
+import org.goblinframework.core.transcoder.TranscoderUtils;
 
 public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
 
@@ -30,7 +30,7 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
       return TransportMessage.unrecognized();
     }
     try (ByteBufInputStream bis = new ByteBufInputStream(frame)) {
-      DecodedObject decoded = Transcoder1.decode(bis);
+      DecodeResult decoded = TranscoderUtils.decode(bis);
       return ConversionService.INSTANCE.convert(decoded, TransportMessage.class);
     }
   }

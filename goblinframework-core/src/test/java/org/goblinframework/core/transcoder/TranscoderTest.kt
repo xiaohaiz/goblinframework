@@ -6,6 +6,7 @@ import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.core.serialization.SerializerMode
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
@@ -21,12 +22,13 @@ class TranscoderTest : SpringManagedBean() {
     val serializer = SerializerManager.INSTANCE.getSerializer(SerializerMode.FST)
     val source = ObjectId()
     val bos = ByteArrayOutputStream()
-    Transcoder1.encode(bos, source, serializer)
+    TranscoderUtils.encoder().serializer(serializer).buildTranscoder().encode(bos, source)
     val bis = ByteArrayInputStream(bos.toByteArray())
     bos.close()
-    val obj = Transcoder1.decode(bis)
+    val obj = TranscoderUtils.decode(bis)
     assertEquals(serializer.mode().id, obj.serializer)
-    assertEquals(source, obj.decoded)
+    assertEquals(source, obj.result)
+    assertTrue(obj.magic)
     bis.close()
   }
 }
