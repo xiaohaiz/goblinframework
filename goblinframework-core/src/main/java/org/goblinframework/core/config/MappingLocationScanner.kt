@@ -31,14 +31,14 @@ internal constructor(configLocationScanner: ConfigLocationScanner)
           val bs = IOUtils.toByteArray(it)
           ByteArrayResource(bs)
         }
-        mappingLocation.set(MappingLocation(resource))
+        mappingLocation.set(MappingLocation(url, resource))
         break
       }
     }
     if (mappingLocation.get() == null) {
       val resource = configLocationScanner.scan("goblin.json").firstOrNull()
       resource?.run {
-        mappingLocation.set(MappingLocation(this))
+        mappingLocation.set(MappingLocation(this.url, this))
       }
     }
   }

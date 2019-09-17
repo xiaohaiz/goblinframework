@@ -74,7 +74,7 @@ internal constructor(private val client: TransportClient) {
 
         val request = HandshakeRequest()
         request.serverId = setting.serverId()
-        request.clientId = GoblinSystem.applicationId()
+        request.clientId = GoblinSystem.getApplicationId()
         request.extensions = linkedMapOf()
         request.extensions["clientLanguage"] = "java/kotlin"
         request.extensions["receiveShutdown"] = setting.receiveShutdown()

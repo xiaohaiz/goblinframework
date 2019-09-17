@@ -15,16 +15,16 @@ class GoblinTestRunner(clazz: Class<*>) : SpringJUnit4ClassRunner(clazz) {
     init {
       val classLoader = ClassUtils.getDefaultClassLoader()!!
       val goblinBootstrapClass = try {
-        classLoader.loadClass("org.goblinframework.core.bootstrap.GoblinBootstrap")
+        classLoader.loadClass("org.goblinframework.core.bootstrap.GoblinSystem")
       } catch (ex: ClassNotFoundException) {
         null
       }
       goblinBootstrapClass?.run {
         val clazz = this
-        clazz.getMethod("initialize").invoke(null)
+        clazz.getMethod("install").invoke(null)
         Runtime.getRuntime().addShutdownHook(object : Thread("GoblinTestRunnerShutdownHook") {
           override fun run() {
-            clazz.getMethod("close").invoke(null)
+            clazz.getMethod("uninstall").invoke(null)
           }
         })
       }

@@ -1,6 +1,6 @@
 package org.goblinframework.webmvc.listener
 
-import org.goblinframework.core.bootstrap.GoblinBootstrap
+import org.goblinframework.core.bootstrap.GoblinSystem
 import org.goblinframework.webmvc.container.WebappSpringContainer
 import javax.servlet.ServletContext
 import javax.servlet.ServletContextEvent
@@ -12,12 +12,12 @@ open class ContextLoaderListener : org.springframework.web.context.ContextLoader
   }
 
   override fun contextInitialized(event: ServletContextEvent) {
-    GoblinBootstrap.initialize()
+    GoblinSystem.install()
     super.contextInitialized(event)
   }
 
   override fun contextDestroyed(event: ServletContextEvent) {
     super.contextDestroyed(event)
-    GoblinBootstrap.close()
+    GoblinSystem.uninstall()
   }
 }

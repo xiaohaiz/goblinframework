@@ -1,13 +1,13 @@
 package org.goblinframework.bootstrap.core
 
-import org.goblinframework.core.bootstrap.GoblinBootstrap
+import org.goblinframework.core.bootstrap.GoblinSystem
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.util.ThreadUtils
 
 abstract class StandaloneServer {
 
   fun bootstrap(args: Array<String>) {
-    GoblinBootstrap.initialize()
+    GoblinSystem.install()
     val container = SpringContainerLoader.load(this)
 
     if (useShutdownHook()) {
@@ -27,7 +27,7 @@ abstract class StandaloneServer {
 
   fun shutdown() {
     doShutdown()
-    GoblinBootstrap.close()
+    GoblinSystem.uninstall()
   }
 
   open fun useShutdownHook(): Boolean {

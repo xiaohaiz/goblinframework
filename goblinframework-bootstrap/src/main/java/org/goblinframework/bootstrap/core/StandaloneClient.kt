@@ -1,6 +1,6 @@
 package org.goblinframework.bootstrap.core
 
-import org.goblinframework.core.bootstrap.GoblinBootstrap
+import org.goblinframework.core.bootstrap.GoblinSystem
 import org.goblinframework.core.container.SpringContainer
 import org.slf4j.LoggerFactory
 import kotlin.system.exitProcess
@@ -8,7 +8,7 @@ import kotlin.system.exitProcess
 abstract class StandaloneClient {
 
   fun bootstrap(args: Array<String>) {
-    GoblinBootstrap.initialize()
+    GoblinSystem.install()
     if (useShutdownHook()) {
       Runtime.getRuntime().addShutdownHook(object : Thread("StandaloneServerShutdownHook") {
         override fun run() {
@@ -36,7 +36,7 @@ abstract class StandaloneClient {
 
   fun shutdown() {
     doShutdown()
-    GoblinBootstrap.close()
+    GoblinSystem.uninstall()
   }
 
   open fun doShutdown() {}

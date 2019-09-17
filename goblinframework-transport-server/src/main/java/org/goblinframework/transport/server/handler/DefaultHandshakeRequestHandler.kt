@@ -12,6 +12,6 @@ class DefaultHandshakeRequestHandler private constructor() : HandshakeRequestHan
   }
 
   override fun handleHandshakeRequest(request: HandshakeRequest): Boolean {
-    return request.serverId == null || request.serverId == GoblinSystem.applicationId()
+    return request.serverId == null || request.serverId == GoblinSystem.getApplicationId()
   }
 }

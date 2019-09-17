@@ -27,11 +27,11 @@ class GoblinModuleManager private constructor() {
     for (name in GoblinModuleDefinition.moduleNames) {
       val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
       module.initialize(ctx)
-      GoblinBootstrap.LOGGER.info("Initialize {${module.name()}}")
+      GoblinSystem.LOGGER.info("Initialize {${module.name()}}")
     }
     for (module in GoblinExtensionModuleLoader.INSTANCE.getGoblinExtensionModules()) {
       module.initialize(ctx)
-      GoblinBootstrap.LOGGER.info("Initialize (${module.name()})")
+      GoblinSystem.LOGGER.info("Initialize (${module.name()})")
     }
     return this
   }
@@ -44,11 +44,11 @@ class GoblinModuleManager private constructor() {
     for (name in GoblinModuleDefinition.moduleNames) {
       val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
       module.bootstrap(ctx)
-      GoblinBootstrap.LOGGER.info("Bootstrap {${module.name()}}")
+      GoblinSystem.LOGGER.info("Bootstrap {${module.name()}}")
     }
     for (module in GoblinExtensionModuleLoader.INSTANCE.getGoblinExtensionModules()) {
       module.bootstrap(ctx)
-      GoblinBootstrap.LOGGER.info("Bootstrap (${module.name()})")
+      GoblinSystem.LOGGER.info("Bootstrap (${module.name()})")
     }
   }
 
@@ -61,11 +61,11 @@ class GoblinModuleManager private constructor() {
       for (name in GoblinModuleDefinition.moduleNames.reversed()) {
         val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
         module.finalize(ctx)
-        GoblinBootstrap.LOGGER.info("Finalize {${module.name()}}")
+        GoblinSystem.LOGGER.info("Finalize {${module.name()}}")
       }
       for (module in GoblinExtensionModuleLoader.INSTANCE.getGoblinExtensionModules().reversed()) {
         module.finalize(ctx)
-        GoblinBootstrap.LOGGER.info("Finalize (${module.name()})")
+        GoblinSystem.LOGGER.info("Finalize (${module.name()})")
       }
     }
     try {

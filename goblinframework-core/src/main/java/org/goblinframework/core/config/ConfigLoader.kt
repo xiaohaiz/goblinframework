@@ -1,6 +1,7 @@
 package org.goblinframework.core.config
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.common.Lifecycle
 import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.mapper.JsonMapper
 import org.goblinframework.core.mbean.GoblinManagedBean
@@ -19,7 +20,8 @@ import java.util.function.Supplier
 
 @Singleton
 @GoblinManagedBean("CORE")
-class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMXBean {
+class ConfigLoader private constructor()
+  : GoblinManagedObject(), ConfigLoaderMXBean, Lifecycle {
 
   companion object {
     @JvmField val INSTANCE = ConfigLoader()
@@ -34,7 +36,7 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   private val config = AtomicReference<ConfigSection>()
   private val mapping = AtomicReference<ConfigMapping>(ConfigMapping())
   private val applicationName = AtomicReference<String>("UNKNOWN")
-  private val scheduler: ConfigLoaderScheduler
+  private val scheduler = AtomicReference<ConfigLoaderScheduler>()
 
   init {
     configLocationScanner.getConfigLocation()?.run {
@@ -54,8 +56,27 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
       }
       this@ConfigLoader.mapping.set(mapping)
     }
-    scheduler = ConfigLoaderScheduler(this)
-    EventBus.subscribe(scheduler)
+  }
+
+  fun initialize() {}
+
+  @Synchronized
+  override fun start() {
+    if (scheduler.get() == null) {
+      val s = ConfigLoaderScheduler(this)
+      EventBus.subscribe(s)
+      scheduler.set(s)
+    }
+  }
+
+  override fun stop() {
+    scheduler.getAndSet(null)?.run {
+      EventBus.unsubscribe(this)
+    }
+  }
+
+  override fun isRunning(): Boolean {
+    return scheduler.get() != null
   }
 
   fun getMapping(): ConfigMapping {
@@ -123,8 +144,8 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
   }
 
   fun destroy() {
+    stop()
     unregisterIfNecessary()
-    EventBus.unsubscribe(scheduler)
     mappingLocationScanner.close()
     configLocationScanner.close()
   }

@@ -12,6 +12,6 @@ class DefaultShutdownRequestHandler private constructor() : ShutdownRequestHandl
   }
 
   override fun handleShutdownRequest(request: ShutdownRequest): Boolean {
-    return request.clientId == null || request.clientId == GoblinSystem.applicationId()
+    return request.clientId == null || request.clientId == GoblinSystem.getApplicationId()
   }
 }
