@@ -8,6 +8,7 @@ import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
 import io.lettuce.core.internal.HostAndPort;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.goblinframework.cache.redis.command.ClusterRedisCommands;
 import org.goblinframework.cache.redis.command.RedisCommands;
 import org.goblinframework.cache.redis.connection.ClusterRedisConnection;
 import org.goblinframework.cache.redis.connection.ClusterRedisConnectionFactory;
@@ -26,6 +27,7 @@ public class ClusterRedisClient extends RedisClient {
   private final RedisClusterClient client;
   private final ClusterRedisConnection connection;
   private final ObjectPool<RedisConnection> connectionPool;
+  private final RedisCommands commands;
 
   public ClusterRedisClient(@NotNull RedisConfig config) {
     super(config);
@@ -46,7 +48,7 @@ public class ClusterRedisClient extends RedisClient {
     this.client = RedisClusterClient.create(uriList);
     this.connection = ClusterRedisConnectionFactory.createClusterRedisConnection(client, getTranscoder());
     this.connectionPool = new GenericObjectPool<>(new ClusterRedisConnectionFactory(client, getTranscoder()), getPoolConfig());
-
+    this.commands = new ClusterRedisCommands(connection.getNativeConnection());
   }
 
   @Override
@@ -97,6 +99,6 @@ public class ClusterRedisClient extends RedisClient {
   @NotNull
   @Override
   public RedisCommands getRedisCommands() {
-    return null;
+    return commands;
   }
 }

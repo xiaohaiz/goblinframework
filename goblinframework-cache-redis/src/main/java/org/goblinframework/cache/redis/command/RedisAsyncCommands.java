@@ -1,54 +1,26 @@
 package org.goblinframework.cache.redis.command;
 
-import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.async.*;
-import org.jetbrains.annotations.NotNull;
 
-public class RedisAsyncCommands {
+abstract public class RedisAsyncCommands {
 
-  private final StatefulRedisConnection<String, Object> connection;
+  abstract public RedisHashAsyncCommands<String, Object> getRedisHashAsyncCommands();
 
-  public RedisAsyncCommands(@NotNull StatefulRedisConnection<String, Object> connection) {
-    this.connection = connection;
-  }
+  abstract public RedisKeyAsyncCommands<String, Object> getRedisKeyAsyncCommands();
 
-  public RedisHashAsyncCommands<String, Object> getRedisHashAsyncCommands() {
-    return connection.async();
-  }
+  abstract public RedisStringAsyncCommands<String, Object> getRedisStringAsyncCommands();
 
-  public RedisKeyAsyncCommands<String, Object> getRedisKeyAsyncCommands() {
-    return connection.async();
-  }
+  abstract public RedisListAsyncCommands<String, Object> getRedisListAsyncCommands();
 
-  public RedisStringAsyncCommands<String, Object> getRedisStringAsyncCommands() {
-    return connection.async();
-  }
+  abstract public RedisSetAsyncCommands<String, Object> getRedisSetAsyncCommands();
 
-  public RedisListAsyncCommands<String, Object> getRedisListAsyncCommands() {
-    return connection.async();
-  }
+  abstract public RedisSortedSetAsyncCommands<String, Object> getRedisSortedSetAsyncCommands();
 
-  public RedisSetAsyncCommands<String, Object> getRedisSetAsyncCommands() {
-    return connection.async();
-  }
+  abstract public RedisScriptingAsyncCommands<String, Object> getRedisScriptingAsyncCommands();
 
-  public RedisSortedSetAsyncCommands<String, Object> getRedisSortedSetAsyncCommands() {
-    return connection.async();
-  }
+  abstract public RedisServerAsyncCommands<String, Object> getRedisServerAsyncCommands();
 
-  public RedisScriptingAsyncCommands<String, Object> getRedisScriptingAsyncCommands() {
-    return connection.async();
-  }
+  abstract public RedisHLLAsyncCommands<String, Object> getRedisHLLAsyncCommands();
 
-  public RedisServerAsyncCommands<String, Object> getRedisServerAsyncCommands() {
-    return connection.async();
-  }
-
-  public RedisHLLAsyncCommands<String, Object> getRedisHLLAsyncCommands() {
-    return connection.async();
-  }
-
-  public RedisGeoAsyncCommands<String, Object> getRedisGeoAsyncCommands() {
-    return connection.async();
-  }
+  abstract public RedisGeoAsyncCommands<String, Object> getRedisGeoAsyncCommands();
 }

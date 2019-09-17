@@ -1,54 +1,26 @@
 package org.goblinframework.cache.redis.command;
 
-import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.*;
-import org.jetbrains.annotations.NotNull;
 
-public class RedisSyncCommands {
+abstract public class RedisSyncCommands {
 
-  private final StatefulRedisConnection<String, Object> connection;
+  abstract public RedisHashCommands<String, Object> getRedisHashCommands();
 
-  public RedisSyncCommands(@NotNull StatefulRedisConnection<String, Object> connection) {
-    this.connection = connection;
-  }
+  abstract public RedisKeyCommands<String, Object> getRedisKeyCommands();
 
-  public RedisHashCommands<String, Object> getRedisHashCommands() {
-    return connection.sync();
-  }
+  abstract public RedisStringCommands<String, Object> getRedisStringCommands();
 
-  public RedisKeyCommands<String, Object> getRedisKeyCommands() {
-    return connection.sync();
-  }
+  abstract public RedisListCommands<String, Object> getRedisListCommands();
 
-  public RedisStringCommands<String, Object> getRedisStringCommands() {
-    return connection.sync();
-  }
+  abstract public RedisSetCommands<String, Object> getRedisSetCommands();
 
-  public RedisListCommands<String, Object> getRedisListCommands() {
-    return connection.sync();
-  }
+  abstract public RedisSortedSetCommands<String, Object> getRedisSortedSetCommands();
 
-  public RedisSetCommands<String, Object> getRedisSetCommands() {
-    return connection.sync();
-  }
+  abstract public RedisScriptingCommands<String, Object> getRedisScriptingCommands();
 
-  public RedisSortedSetCommands<String, Object> getRedisSortedSetCommands() {
-    return connection.sync();
-  }
+  abstract public RedisServerCommands<String, Object> getRedisServerCommands();
 
-  public RedisScriptingCommands<String, Object> getRedisScriptingCommands() {
-    return connection.sync();
-  }
+  abstract public RedisHLLCommands<String, Object> getRedisHLLCommands();
 
-  public RedisServerCommands<String, Object> getRedisServerCommands() {
-    return connection.sync();
-  }
-
-  public RedisHLLCommands<String, Object> getRedisHLLCommands() {
-    return connection.sync();
-  }
-
-  public RedisGeoCommands<String, Object> getRedisGeoCommands() {
-    return connection.sync();
-  }
+  abstract public RedisGeoCommands<String, Object> getRedisGeoCommands();
 }
