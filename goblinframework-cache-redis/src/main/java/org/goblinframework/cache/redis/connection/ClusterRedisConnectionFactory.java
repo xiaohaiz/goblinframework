@@ -1,7 +1,7 @@
 package org.goblinframework.cache.redis.connection;
 
-import io.lettuce.core.RedisClient;
-import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.cluster.RedisClusterClient;
+import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
@@ -10,10 +10,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class ClusterRedisConnectionFactory extends BasePooledObjectFactory<RedisConnection> {
 
-  private final RedisClient redisClient;
+  private final RedisClusterClient redisClient;
   private final RedisTranscoder redisTranscoder;
 
-  public ClusterRedisConnectionFactory(@NotNull RedisClient redisClient,
+  public ClusterRedisConnectionFactory(@NotNull RedisClusterClient redisClient,
                                        @NotNull RedisTranscoder redisTranscoder) {
     this.redisClient = redisClient;
     this.redisTranscoder = redisTranscoder;
@@ -30,9 +30,9 @@ public class ClusterRedisConnectionFactory extends BasePooledObjectFactory<Redis
   }
 
   @NotNull
-  public static ClusterRedisConnection createClusterRedisConnection(@NotNull RedisClient redisClient,
+  public static ClusterRedisConnection createClusterRedisConnection(@NotNull RedisClusterClient redisClient,
                                                                     @NotNull RedisTranscoder redisTranscoder) {
-    StatefulRedisConnection<String, Object> connection = redisClient.connect(redisTranscoder);
+    StatefulRedisClusterConnection<String, Object> connection = redisClient.connect(redisTranscoder);
     return new ClusterRedisConnection(connection);
   }
 }
