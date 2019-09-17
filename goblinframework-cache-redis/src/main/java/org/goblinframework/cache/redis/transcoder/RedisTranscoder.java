@@ -12,6 +12,7 @@ import org.goblinframework.core.exception.GoblinTranscodingException;
 import org.goblinframework.core.mbean.GoblinManagedBean;
 import org.goblinframework.core.mbean.GoblinManagedObject;
 import org.goblinframework.core.serialization.Serializer;
+import org.goblinframework.core.transcoder.ByteArrayWrapper;
 import org.goblinframework.core.transcoder.DecodeResult;
 import org.goblinframework.core.transcoder.Transcoder;
 import org.goblinframework.core.transcoder.TranscoderUtils;
@@ -83,7 +84,11 @@ final public class RedisTranscoder extends GoblinManagedObject
     ByteBuf buf = ByteBufAllocator.DEFAULT.buffer();
     try {
       ByteBufOutputStream bos = new ByteBufOutputStream(buf);
-      transcoder.encode(bos, value);
+      Object using = value;
+      if (value instanceof byte[]) {
+        using = new ByteArrayWrapper((byte[]) value);
+      }
+      transcoder.encode(bos, using);
       byte[] bs = ByteBufUtil.getBytes(buf);
       return ByteBuffer.wrap(bs);
     } finally {

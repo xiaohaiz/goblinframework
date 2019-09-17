@@ -9,5 +9,6 @@ public class DecodeResult implements Serializable {
   public boolean magic;     // if MAGIC number found
   public byte compressor;   // 0 means no compressor
   public byte serializer;   // 0 means UTF-8 encoded string
+  public boolean wrapper;   // true means ByteArrayWrapper detected
 
 }

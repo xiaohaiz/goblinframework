@@ -179,6 +179,10 @@ abstract public class TranscoderUtils {
       dr.serializer = serializer.mode().getId();
       dr.result = serializer.deserialize(nextInStream);
     }
+    if (dr.result instanceof ByteArrayWrapper) {
+      dr.result = ((ByteArrayWrapper) dr.result).getContent();
+      dr.wrapper = true;
+    }
     return dr;
   }
 

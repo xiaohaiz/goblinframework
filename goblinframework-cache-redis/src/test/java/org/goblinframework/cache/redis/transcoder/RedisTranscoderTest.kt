@@ -4,7 +4,9 @@ import org.apache.commons.lang3.RandomStringUtils
 import org.bson.types.ObjectId
 import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.core.serialization.SerializerMode
+import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
+import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,6 +32,10 @@ class RedisTranscoderTest {
       val id = ObjectId()
       kb = transcoder.encodeValue(id)
       assertEquals(id, transcoder.decodeValue(kb))
+
+      val bs = RandomUtils.nextBytes(512)
+      kb = transcoder.encodeValue(bs)
+      assertArrayEquals(bs, transcoder.decodeValue(kb) as ByteArray)
     } finally {
       transcoder.destroy()
     }
