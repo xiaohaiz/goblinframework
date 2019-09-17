@@ -50,11 +50,11 @@ abstract class BufferedConfigParser<E : Config> {
     }
     val parsed = mutableMapOf<String, T>()
     node.forEach { (k, u) ->
-      val name = k!!.toString()
+      val n = k!!.toString()
       if (u is Map<*, *>) {
         val mapper = JsonMapper.getDefaultObjectMapper()
         mapper.convertValue(u, elementType)?.run {
-          parsed.put(name, this)
+          parsed.put(n, this)
         }
       }
     }

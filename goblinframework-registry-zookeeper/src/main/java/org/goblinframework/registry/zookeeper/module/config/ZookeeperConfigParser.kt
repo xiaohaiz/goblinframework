@@ -1,17 +1,11 @@
 package org.goblinframework.registry.zookeeper.module.config
 
-import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigLoader
 import org.goblinframework.core.serialization.SerializerMode
 
-@Singleton
-class ZookeeperConfigParser private constructor()
+class ZookeeperConfigParser internal constructor()
   : BufferedConfigParser<ZookeeperConfig>() {
-
-  companion object {
-    @JvmField val INSTANCE = ZookeeperConfigParser()
-  }
 
   override fun initialize() {
     val mapping = ConfigLoader.INSTANCE.getMapping()
