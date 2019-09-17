@@ -1,6 +1,7 @@
 package org.goblinframework.cache.core.module
 
 import org.goblinframework.api.annotation.Install
+import org.goblinframework.cache.core.cache.GoblinCacheBuilderManager
 import org.goblinframework.core.bootstrap.GoblinModule
 import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
@@ -32,5 +33,6 @@ class CacheModule : GoblinModule {
         .module("CACHE:COUCHBASE")
         .module("CACHE:REDIS")
         .finalize(ctx)
+    GoblinCacheBuilderManager.INSTANCE.destroy()
   }
 }

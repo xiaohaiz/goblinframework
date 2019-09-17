@@ -3,8 +3,8 @@ package org.goblinframework.cache.redis.provider
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
-import org.goblinframework.cache.core.api.CacheSystem
-import org.goblinframework.cache.core.api.GoblinCache
+import org.goblinframework.cache.core.cache.CacheSystem
+import org.goblinframework.cache.core.cache.GoblinCache
 import org.goblinframework.cache.core.spi.GoblinCacheBuilder
 import org.goblinframework.cache.redis.client.RedisClientManager
 import org.goblinframework.cache.redis.module.config.RedisConfig
@@ -43,6 +43,15 @@ class RedisCacheBuilder private constructor() : GoblinCacheBuilder {
       }
     }
     return cache
+  }
+
+  override fun destroy() {
+    creationLock.withLock {
+      createBuffer.values.forEach { it.destroy() }
+      createBuffer.clear()
+    }
+    accessBuffer.values.forEach { it.destroy() }
+    accessBuffer.clear()
   }
 
   private fun createRedisCache(config: RedisConfig): RedisCacheImpl {

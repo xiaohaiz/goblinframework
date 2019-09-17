@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.api;
+package org.goblinframework.cache.core.cache;
 
 public enum CacheSystem {
 
