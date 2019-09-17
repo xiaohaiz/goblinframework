@@ -1,4 +1,4 @@
-package org.goblinframework.cache.redis.module
+package org.goblinframework.cache.redis.module.config
 
 enum class RedisServerMode {
 
