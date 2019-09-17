@@ -29,10 +29,10 @@ class CacheModule : GoblinModule {
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
+    GoblinCacheBuilderManager.INSTANCE.destroy()
     ctx.createChildModuleManager()
         .module("CACHE:COUCHBASE")
         .module("CACHE:REDIS")
         .finalize(ctx)
-    GoblinCacheBuilderManager.INSTANCE.destroy()
   }
 }

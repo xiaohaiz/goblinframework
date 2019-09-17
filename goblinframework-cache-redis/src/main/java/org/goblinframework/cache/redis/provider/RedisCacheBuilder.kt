@@ -50,7 +50,6 @@ class RedisCacheBuilder private constructor() : GoblinCacheBuilder {
       createBuffer.values.forEach { it.destroy() }
       createBuffer.clear()
     }
-    accessBuffer.values.forEach { it.destroy() }
     accessBuffer.clear()
   }
 
