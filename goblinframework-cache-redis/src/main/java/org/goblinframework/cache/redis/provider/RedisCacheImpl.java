@@ -1,6 +1,7 @@
 package org.goblinframework.cache.redis.provider;
 
 import io.lettuce.core.RedisFuture;
+import io.lettuce.core.api.async.RedisKeyAsyncCommands;
 import io.lettuce.core.api.async.RedisStringAsyncCommands;
 import org.goblinframework.cache.core.cache.*;
 import org.goblinframework.cache.redis.client.RedisClient;
@@ -58,5 +59,26 @@ final class RedisCacheImpl extends GoblinCacheImpl {
       gr.value = (T) cached;
     }
     return gr;
+  }
+
+  @Nullable
+  @Override
+  public Boolean delete(@Nullable String key) {
+    if (key == null) {
+      return false;
+    }
+    RedisKeyAsyncCommands<String, Object> commands = client.getRedisCommands()
+        .async().getRedisKeyAsyncCommands();
+    RedisFuture<Long> future = commands.del(key);
+    Long count;
+    try {
+      count = future.get();
+    } catch (InterruptedException ex) {
+      throw new GoblinInterruptedException(ex);
+    } catch (ExecutionException ex) {
+      logger.error("RDS.del({})", key, ex);
+      return null;
+    }
+    return count != null && count > 0;
   }
 }

@@ -7,4 +7,7 @@ public interface GoblinCache extends CacheSystemLocationProvider {
   @Nullable
   <T> GetResult<T> get(@Nullable String key);
 
+  @Nullable
+  Boolean delete(@Nullable String key);
+
 }
