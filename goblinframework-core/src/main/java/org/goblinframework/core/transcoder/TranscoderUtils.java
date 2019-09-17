@@ -2,6 +2,7 @@ package org.goblinframework.core.transcoder;
 
 import kotlin.text.Charsets;
 import org.apache.commons.lang3.Validate;
+import org.goblinframework.core.compression.CompressionThreshold;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.compression.CompressorManager;
 import org.goblinframework.core.exception.GoblinTranscodingException;
@@ -184,7 +185,7 @@ abstract public class TranscoderUtils {
   final public static class TranscoderSettingBuilder {
     Compressor compressor;
     Serializer serializer;
-    int compressionThreshold = 1;
+    CompressionThreshold compressionThreshold;
 
     private TranscoderSettingBuilder() {
     }
@@ -198,6 +199,12 @@ abstract public class TranscoderUtils {
     @NotNull
     public TranscoderSettingBuilder serializer(@Nullable Serializer serializer) {
       this.serializer = serializer;
+      return this;
+    }
+
+    @NotNull
+    public TranscoderSettingBuilder compressionThreshold(@Nullable CompressionThreshold compressionThreshold) {
+      this.compressionThreshold = compressionThreshold;
       return this;
     }
 

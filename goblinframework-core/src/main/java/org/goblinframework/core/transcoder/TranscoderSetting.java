@@ -13,6 +13,6 @@ final public class TranscoderSetting {
   TranscoderSetting(@NotNull TranscoderUtils.TranscoderSettingBuilder builder) {
     this.compressor = builder.compressor;
     this.serializer = builder.serializer;
-    this.compressionThreshold = builder.compressionThreshold;
+    this.compressionThreshold = builder.compressionThreshold == null ? 0 : builder.compressionThreshold.getSize();
   }
 }
