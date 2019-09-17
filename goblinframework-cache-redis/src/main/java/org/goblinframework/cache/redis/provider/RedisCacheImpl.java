@@ -1,6 +1,7 @@
 package org.goblinframework.cache.redis.provider;
 
 import io.lettuce.core.RedisFuture;
+import io.lettuce.core.SetArgs;
 import io.lettuce.core.api.async.RedisKeyAsyncCommands;
 import io.lettuce.core.api.async.RedisStringAsyncCommands;
 import org.goblinframework.cache.core.cache.*;
@@ -76,9 +77,43 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     } catch (InterruptedException ex) {
       throw new GoblinInterruptedException(ex);
     } catch (ExecutionException ex) {
-      logger.error("RDS.del({})", key, ex);
+      logger.error("RDS.delete({})", key, ex);
       return null;
     }
     return count != null && count > 0;
+  }
+
+  @Nullable
+  @Override
+  public <T> Boolean add(@Nullable String key, int expirationInSeconds, @Nullable T value) {
+    if (key == null || expirationInSeconds < 0 || value == null) {
+      return false;
+    }
+    RedisStringAsyncCommands<String, Object> commands = client.getRedisCommands()
+        .async().getRedisStringAsyncCommands();
+    Boolean ret;
+    if (expirationInSeconds > 0) {
+      SetArgs args = new SetArgs().ex(expirationInSeconds).nx();
+      String response;
+      try {
+        response = commands.set(key, value, args).get();
+      } catch (InterruptedException ex) {
+        throw new GoblinInterruptedException(ex);
+      } catch (ExecutionException ex) {
+        logger.error("RDS.add({})", key, ex);
+        return null;
+      }
+      ret = "OK".equalsIgnoreCase(response);
+    } else {
+      try {
+        ret = commands.setnx(key, value).get();
+      } catch (InterruptedException ex) {
+        throw new GoblinInterruptedException(ex);
+      } catch (ExecutionException ex) {
+        logger.error("RDS.add({})", key, ex);
+        return null;
+      }
+    }
+    return ret;
   }
 }
