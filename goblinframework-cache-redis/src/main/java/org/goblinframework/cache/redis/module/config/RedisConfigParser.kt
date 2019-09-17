@@ -31,8 +31,14 @@ class RedisConfigParser internal constructor() : BufferedConfigParser<RedisConfi
     val servers = StringUtils.formalizeServers(mapper.servers, " ") { DEFAULT_REDIS_PORT }
     mapper.servers = servers
 
-    mapper.serializer ?: kotlin.run {
-      mapper.serializer = SerializerMode.HESSIAN2
-    }
+    mapper.serializer ?: kotlin.run { mapper.serializer = SerializerMode.HESSIAN2 }
+    mapper.maxTotal ?: kotlin.run { mapper.maxTotal = 16 }
+    mapper.maxIdle ?: kotlin.run { mapper.maxIdle = 2 }
+    mapper.minIdle ?: kotlin.run { mapper.minIdle = 0 }
+    mapper.maxWaitMillis ?: kotlin.run { mapper.maxWaitMillis = -1L }
+    mapper.testOnCreate ?: kotlin.run { mapper.testOnCreate = false }
+    mapper.testOnBorrow ?: kotlin.run { mapper.testOnBorrow = false }
+    mapper.testOnReturn ?: kotlin.run { mapper.testOnReturn = false }
+    mapper.testWhileIdle ?: kotlin.run { mapper.testWhileIdle = false }
   }
 }

@@ -2,6 +2,11 @@ package org.goblinframework.cache.redis.client;
 
 import io.lettuce.core.RedisURI;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.goblinframework.cache.redis.connection.RedisConnection;
+import org.goblinframework.cache.redis.connection.SingleRedisConnection;
+import org.goblinframework.cache.redis.connection.SingleRedisConnectionFactory;
 import org.goblinframework.cache.redis.module.config.RedisConfig;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -9,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 final public class SingleRedisClient extends RedisClient {
 
   private final io.lettuce.core.RedisClient client;
+  private final SingleRedisConnection connection;
+  private final ObjectPool<RedisConnection> connectionPool;
 
   public SingleRedisClient(@NotNull RedisConfig config) {
     super(config);
@@ -25,10 +32,40 @@ final public class SingleRedisClient extends RedisClient {
     }
     RedisURI uri = builder.build();
     this.client = io.lettuce.core.RedisClient.create(uri);
+    this.connection = SingleRedisConnectionFactory.createSingleRedisConnection(client, getTranscoder());
+    this.connectionPool = new GenericObjectPool<>(new SingleRedisConnectionFactory(client, getTranscoder()), getPoolConfig());
+  }
+
+  @NotNull
+  @Override
+  public SingleRedisConnection getConnection() {
+    return connection;
+  }
+
+  @NotNull
+  @Override
+  public SingleRedisConnection openPooledConnection() {
+    try {
+      SingleRedisConnection connection = (SingleRedisConnection) connectionPool.borrowObject();
+      connection.setConnectionPool(connectionPool);
+      return connection;
+    } catch (Exception ex) {
+      throw new RedisClientException("No more available REDIS connection", ex);
+    }
+  }
+
+  @Override
+  public void returnPooledConnection(@NotNull RedisConnection connection) {
+    try {
+      connectionPool.returnObject(connection);
+    } catch (Exception ignore) {
+    }
   }
 
   @Override
   public void doDestroy() {
+    connection.getNativeConnection().close();
+    connectionPool.close();
     client.shutdown();
     logger.debug("REDIS client [{}] shutdown", getConfig().getName());
   }

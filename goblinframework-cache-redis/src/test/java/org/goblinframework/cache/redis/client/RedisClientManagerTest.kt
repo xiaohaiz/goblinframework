@@ -14,6 +14,10 @@ class RedisClientManagerTest {
   fun getRedisClient() {
     val client = RedisClientManager.INSTANCE.getRedisClient("goblin")
     assertNotNull(client)
+    client?.run {
+      val connection = openPooledConnection()
+      returnPooledConnection(connection)
+    }
     RedisClientManager.INSTANCE.closeRedisClient("goblin")
   }
 }

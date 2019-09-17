@@ -14,6 +14,14 @@ class RedisConfigMapper : Serializable {
   var serializer: SerializerMode? = null
   var compressor: CompressorMode? = null
   var compressionThreshold: CompressionThreshold? = null
+  var maxTotal: Int? = null
+  var maxIdle: Int? = null
+  var minIdle: Int? = null
+  var maxWaitMillis: Long? = null
+  var testOnCreate: Boolean? = null
+  var testOnBorrow: Boolean? = null
+  var testOnReturn: Boolean? = null
+  var testWhileIdle: Boolean? = null
 
   companion object {
     private const val serialVersionUID = -3756108596956143695L

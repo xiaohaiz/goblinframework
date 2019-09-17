@@ -40,6 +40,38 @@ internal constructor(val mapper: RedisConfigMapper)
     return mapper.compressionThreshold
   }
 
+  override fun getMaxTotal(): Int {
+    return mapper.maxTotal!!
+  }
+
+  override fun getMaxIdle(): Int {
+    return mapper.maxIdle!!
+  }
+
+  override fun getMinIdle(): Int {
+    return mapper.minIdle!!
+  }
+
+  override fun getMaxWaitMillis(): Long {
+    return mapper.maxWaitMillis!!
+  }
+
+  override fun getTestOnCreate(): Boolean {
+    return mapper.testOnCreate!!
+  }
+
+  override fun getTestOnBorrow(): Boolean {
+    return mapper.testOnBorrow!!
+  }
+
+  override fun getTestOnReturn(): Boolean {
+    return mapper.testOnReturn!!
+  }
+
+  override fun getTestWhileIdle(): Boolean {
+    return mapper.testWhileIdle!!
+  }
+
   override fun destroy() {
     unregisterIfNecessary()
   }

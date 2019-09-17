@@ -21,4 +21,20 @@ interface RedisConfigMXBean : PlatformManagedObject {
 
   fun getCompressionThreshold(): CompressionThreshold?
 
+  fun getMaxTotal(): Int
+
+  fun getMaxIdle(): Int
+
+  fun getMinIdle(): Int
+
+  fun getMaxWaitMillis(): Long
+
+  fun getTestOnCreate(): Boolean
+
+  fun getTestOnBorrow(): Boolean
+
+  fun getTestOnReturn(): Boolean
+
+  fun getTestWhileIdle(): Boolean
+
 }
