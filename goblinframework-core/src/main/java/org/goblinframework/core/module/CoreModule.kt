@@ -25,6 +25,6 @@ class CoreModule : GoblinModule {
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
     CompressorManager.INSTANCE.close()
     SerializerManager.INSTANCE.close()
-    ConfigLoader.INSTANCE.close()
+    ConfigLoader.INSTANCE.destroy()
   }
 }

@@ -43,7 +43,7 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
       // parse application name
       var an = System.getProperty("org.goblinframework.core.applicationName")
       if (an == null) {
-        an = getConfig("core", "org.goblinframework.core.applicationName")
+        an = getConfig("core", "applicationName")
       }
       an?.run { applicationName.set(this) }
     }
@@ -122,7 +122,7 @@ class ConfigLoader private constructor() : GoblinManagedObject(), ConfigLoaderMX
     this.config.set(config)
   }
 
-  fun close() {
+  fun destroy() {
     unregisterIfNecessary()
     EventBus.unsubscribe(scheduler)
     mappingLocationScanner.close()
