@@ -1,6 +1,7 @@
 package org.goblinframework.cache.redis.client
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig
+import org.goblinframework.cache.redis.command.RedisCommands
 import org.goblinframework.cache.redis.connection.RedisConnection
 import org.goblinframework.cache.redis.connection.TransactionCallback
 import org.goblinframework.cache.redis.module.config.RedisConfig
@@ -58,4 +59,6 @@ abstract class RedisClient(val config: RedisConfig)
   abstract fun returnPooledConnection(connection: RedisConnection)
 
   abstract fun <E> executeTransaction(key: String, callback: TransactionCallback<E>): E
+
+  abstract fun getRedisCommands(): RedisCommands
 }

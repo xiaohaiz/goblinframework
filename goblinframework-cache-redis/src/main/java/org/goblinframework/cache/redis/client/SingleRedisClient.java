@@ -5,6 +5,7 @@ import io.lettuce.core.api.StatefulRedisConnection;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.goblinframework.cache.redis.command.RedisCommands;
 import org.goblinframework.cache.redis.connection.RedisConnection;
 import org.goblinframework.cache.redis.connection.SingleRedisConnection;
 import org.goblinframework.cache.redis.connection.SingleRedisConnectionFactory;
@@ -18,6 +19,7 @@ final public class SingleRedisClient extends RedisClient {
   private final io.lettuce.core.RedisClient client;
   private final SingleRedisConnection connection;
   private final ObjectPool<RedisConnection> connectionPool;
+  private final RedisCommands commands;
 
   public SingleRedisClient(@NotNull RedisConfig config) {
     super(config);
@@ -36,6 +38,7 @@ final public class SingleRedisClient extends RedisClient {
     this.client = io.lettuce.core.RedisClient.create(uri);
     this.connection = SingleRedisConnectionFactory.createSingleRedisConnection(client, getTranscoder());
     this.connectionPool = new GenericObjectPool<>(new SingleRedisConnectionFactory(client, getTranscoder()), getPoolConfig());
+    this.commands = new RedisCommands(connection.getNativeConnection());
   }
 
   @NotNull
@@ -70,6 +73,12 @@ final public class SingleRedisClient extends RedisClient {
       StatefulRedisConnection<String, Object> c = connection.getNativeConnection();
       return callback.execute(key, c);
     }
+  }
+
+  @NotNull
+  @Override
+  public RedisCommands getRedisCommands() {
+    return commands;
   }
 
   @Override
