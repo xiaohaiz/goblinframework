@@ -1,4 +1,4 @@
-package org.goblinframework.cache.redis.module.client
+package org.goblinframework.cache.redis.client
 
 import org.goblinframework.cache.redis.module.config.RedisConfig
 import org.goblinframework.cache.redis.transcoder.RedisTranscoder

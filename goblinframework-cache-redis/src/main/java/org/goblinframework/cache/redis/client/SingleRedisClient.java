@@ -1,4 +1,4 @@
-package org.goblinframework.cache.redis.module.client;
+package org.goblinframework.cache.redis.client;
 
 import io.lettuce.core.RedisURI;
 import org.apache.commons.lang3.math.NumberUtils;

@@ -1,4 +1,4 @@
-package org.goblinframework.cache.redis.module.client
+package org.goblinframework.cache.redis.client
 
 import java.lang.management.PlatformManagedObject
 
