@@ -37,7 +37,7 @@ abstract public class GoblinSystem {
     SpringContainerManager.INSTANCE.close();
     GoblinModuleManager.INSTANCE.executeFinalize();
     ConfigLoader.INSTANCE.stop();
-    EventBusBoss.INSTANCE.close();
+    EventBusBoss.INSTANCE.destroy();
     ConfigLoader.INSTANCE.destroy();
     LOGGER.info("FAREWELL");
     shutdownLog4j2IfNecessary();

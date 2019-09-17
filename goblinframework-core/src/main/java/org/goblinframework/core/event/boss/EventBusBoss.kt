@@ -16,7 +16,6 @@ import org.goblinframework.core.module.spi.GoblinTimerEventGenerator
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.ServiceInstaller
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
@@ -35,7 +34,6 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   private val disruptor: Disruptor<EventBusBossEvent>
   private val lock = ReentrantReadWriteLock()
   private val workers = mutableMapOf<String, EventBusWorker>()
-  private val closed = AtomicBoolean()
 
   init {
     val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusBoss")
@@ -120,10 +118,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     return lock.read { workers[channel] }
   }
 
-  fun close() {
-    if (!closed.compareAndSet(false, true)) {
-      return
-    }
+  fun destroy() {
     unregisterIfNecessary()
     ServiceInstaller.installedFirst(GoblinTimerEventGenerator::class.java)?.stop()
     try {
