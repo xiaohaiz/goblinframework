@@ -34,6 +34,10 @@ class RedisClientManager private constructor() : GoblinManagedObject(), RedisCli
     }
   }
 
+  fun closeRedisClient(name: String) {
+    lock.write { buffer.remove(name) }?.destroy()
+  }
+
   fun destroy() {
     unregisterIfNecessary()
     lock.write {

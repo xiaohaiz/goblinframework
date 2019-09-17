@@ -30,5 +30,6 @@ final public class SingleRedisClient extends RedisClient {
   @Override
   public void doDestroy() {
     client.shutdown();
+    logger.debug("REDIS client [{}] shutdown", getConfig().getName());
   }
 }
