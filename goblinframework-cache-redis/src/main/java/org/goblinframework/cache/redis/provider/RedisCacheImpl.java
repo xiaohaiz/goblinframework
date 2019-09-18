@@ -11,6 +11,8 @@ import org.goblinframework.cache.redis.client.RedisClient;
 import org.goblinframework.core.exception.GoblinExecutionException;
 import org.goblinframework.core.exception.GoblinInterruptedException;
 import org.goblinframework.core.mbean.GoblinManagedBean;
+import org.goblinframework.core.util.NumberUtils;
+import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,12 +40,11 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     return client;
   }
 
-  @SuppressWarnings("unchecked")
-  @Nullable
+  @NotNull
   @Override
   public <T> GetResult<T> get(@Nullable String key) {
     if (key == null) {
-      return new GetResult<>();
+      return new GetResult<>(null);
     }
     RedisStringAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisStringAsyncCommands();
     RedisFuture<Object> future = commands.get(key);
@@ -54,24 +55,24 @@ final class RedisCacheImpl extends GoblinCacheImpl {
       throw new GoblinInterruptedException(ex);
     } catch (ExecutionException ex) {
       logger.error("RDS.get({})", key, ex);
-      return null;
+      throw new GoblinExecutionException(ex);
     }
     if (cached == null) {
-      return new GetResult<>();
+      return new GetResult<>(key);
     }
-    GetResult<T> gr = new GetResult<>();
+    GetResult<T> gr = new GetResult<>(key);
     gr.cas = 0;
     gr.hit = true;
     if (cached instanceof CacheValueWrapper) {
       gr.wrapper = true;
-      gr.value = (T) ((CacheValueWrapper) cached).getValue();
+      gr.uncheckedSetValue(((CacheValueWrapper) cached).getValue());
     } else {
-      gr.value = (T) cached;
+      gr.uncheckedSetValue(cached);
     }
     return gr;
   }
 
-  @SuppressWarnings("unchecked")
+  @NotNull
   @Override
   public <T> Map<String, GetResult<T>> gets(@Nullable Collection<String> keys) {
     if (keys == null || keys.isEmpty()) {
@@ -86,23 +87,24 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     } catch (InterruptedException ex) {
       throw new GoblinInterruptedException(ex);
     } catch (ExecutionException ex) {
+      logger.error("RDS.gets({})", StringUtils.join(ids, " "), ex);
       throw new GoblinExecutionException(ex);
     }
     Map<String, GetResult<T>> result = new LinkedHashMap<>();
     for (KeyValue<String, Object> kv : kvs) {
       String id = kv.getKey();
       if (!kv.hasValue()) {
-        result.put(id, new GetResult<>());
+        result.put(id, new GetResult<>(id));
       } else {
         Object cached = kv.getValue();
-        GetResult<T> gr = new GetResult<>();
+        GetResult<T> gr = new GetResult<>(id);
         gr.cas = 0;
         gr.hit = true;
         if (cached instanceof CacheValueWrapper) {
           gr.wrapper = true;
-          gr.value = (T) ((CacheValueWrapper) cached).getValue();
+          gr.uncheckedSetValue(((CacheValueWrapper) cached).getValue());
         } else {
-          gr.value = (T) cached;
+          gr.uncheckedSetValue(cached);
         }
         result.put(id, gr);
       }
@@ -110,9 +112,8 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     return result;
   }
 
-  @Nullable
   @Override
-  public Boolean delete(@Nullable String key) {
+  public boolean delete(@Nullable String key) {
     if (key == null) {
       return false;
     }
@@ -125,19 +126,18 @@ final class RedisCacheImpl extends GoblinCacheImpl {
       throw new GoblinInterruptedException(ex);
     } catch (ExecutionException ex) {
       logger.error("RDS.delete({})", key, ex);
-      return null;
+      throw new GoblinExecutionException(ex);
     }
     return count != null && count > 0;
   }
 
-  @Nullable
   @Override
-  public <T> Boolean add(@Nullable String key, int expirationInSeconds, @Nullable T value) {
+  public <T> boolean add(@Nullable String key, int expirationInSeconds, @Nullable T value) {
     if (key == null || expirationInSeconds < 0 || value == null) {
       return false;
     }
     RedisStringAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisStringAsyncCommands();
-    Boolean ret;
+    boolean ret;
     if (expirationInSeconds > 0) {
       SetArgs args = new SetArgs().ex(expirationInSeconds).nx();
       String response;
@@ -147,7 +147,7 @@ final class RedisCacheImpl extends GoblinCacheImpl {
         throw new GoblinInterruptedException(ex);
       } catch (ExecutionException ex) {
         logger.error("RDS.add({})", key, ex);
-        return null;
+        throw new GoblinExecutionException(ex);
       }
       ret = "OK".equalsIgnoreCase(response);
     } else {
@@ -157,15 +157,14 @@ final class RedisCacheImpl extends GoblinCacheImpl {
         throw new GoblinInterruptedException(ex);
       } catch (ExecutionException ex) {
         logger.error("RDS.add({})", key, ex);
-        return null;
+        throw new GoblinExecutionException(ex);
       }
     }
     return ret;
   }
 
-  @Nullable
   @Override
-  public <T> Boolean set(@Nullable String key, int expirationInSeconds, @Nullable T value) {
+  public <T> boolean set(@Nullable String key, int expirationInSeconds, @Nullable T value) {
     if (key == null || expirationInSeconds < 0 || value == null) {
       return false;
     }
@@ -178,7 +177,7 @@ final class RedisCacheImpl extends GoblinCacheImpl {
         throw new GoblinInterruptedException(ex);
       } catch (ExecutionException ex) {
         logger.error("RDS.set({})", key, ex);
-        return null;
+        throw new GoblinExecutionException(ex);
       }
     } else {
       try {
@@ -187,15 +186,14 @@ final class RedisCacheImpl extends GoblinCacheImpl {
         throw new GoblinInterruptedException(ex);
       } catch (ExecutionException ex) {
         logger.error("RDS.set({})", key, ex);
-        return null;
+        throw new GoblinExecutionException(ex);
       }
     }
     return "OK".equalsIgnoreCase(ret);
   }
 
-  @Nullable
   @Override
-  public <T> Boolean replace(@Nullable String key, int expirationInSeconds, @Nullable T value) {
+  public <T> boolean replace(@Nullable String key, int expirationInSeconds, @Nullable T value) {
     if (key == null || value == null || expirationInSeconds < 0) {
       return false;
     }
@@ -209,7 +207,7 @@ final class RedisCacheImpl extends GoblinCacheImpl {
         throw new GoblinInterruptedException(ex);
       } catch (ExecutionException ex) {
         logger.error("RDS.replace({})", key, ex);
-        return null;
+        throw new GoblinExecutionException(ex);
       }
     } else {
       SetArgs args = new SetArgs().xx();
@@ -219,29 +217,32 @@ final class RedisCacheImpl extends GoblinCacheImpl {
         throw new GoblinInterruptedException(ex);
       } catch (ExecutionException ex) {
         logger.error("RDS.replace({})", key, ex);
-        return null;
+        throw new GoblinExecutionException(ex);
       }
     }
     return "OK".equalsIgnoreCase(ret);
   }
 
-  @Nullable
   @Override
-  public <T> Boolean append(@Nullable String key, @Nullable T value) {
-    if (key == null || !(value instanceof String)) {
+  public <T> boolean append(@Nullable String key, @Nullable T value) {
+    if (key == null || !(value instanceof CharSequence)) {
       return false;
     }
-    String s = (String) value;
+    String s = ((CharSequence) value).toString();
+    if (s.isEmpty()) {
+      return false;
+    }
     RedisStringAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisStringAsyncCommands();
+    Long ret;
     try {
-      commands.append(key, s).get();
+      ret = commands.append(key, s).get();
     } catch (InterruptedException ex) {
       throw new GoblinInterruptedException(ex);
     } catch (ExecutionException ex) {
       logger.error("RDS.append({})", key, ex);
-      return null;
+      throw new GoblinExecutionException(ex);
     }
-    return true;
+    return NumberUtils.toLong(ret) > s.length();
   }
 
   @Nullable

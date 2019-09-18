@@ -29,10 +29,10 @@ abstract public class GoblinCacheImpl extends GoblinManagedObject implements Gob
   @Override
   public <T> T load(@Nullable String key) {
     GetResult<T> gr = get(key);
-    return gr == null ? null : gr.value;
+    return gr.value;
   }
 
-  @Nullable
+  @NotNull
   @Override
   public <T> Map<String, GetResult<T>> gets(@Nullable Collection<String> keys) {
     if (keys == null || keys.isEmpty()) {
@@ -41,9 +41,7 @@ abstract public class GoblinCacheImpl extends GoblinManagedObject implements Gob
     Map<String, GetResult<T>> result = new LinkedHashMap<>();
     keys.stream().distinct().forEach(id -> {
       GetResult<T> gr = get(id);
-      if (gr != null) {
-        result.put(id, gr);
-      }
+      result.put(id, gr);
     });
     return result;
   }

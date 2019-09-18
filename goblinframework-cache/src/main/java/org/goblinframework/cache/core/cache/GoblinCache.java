@@ -14,26 +14,21 @@ public interface GoblinCache extends CacheSystemLocationProvider {
   @Nullable
   <T> T load(@Nullable String key);
 
-  @Nullable
+  @NotNull
   <T> GetResult<T> get(@Nullable String key);
 
   @Nullable
   <T> Map<String, GetResult<T>> gets(@Nullable Collection<String> keys);
 
-  @Nullable
-  Boolean delete(@Nullable String key);
+  boolean delete(@Nullable String key);
 
-  @Nullable
-  <T> Boolean add(@Nullable String key, int expirationInSeconds, @Nullable T value);
+  <T> boolean add(@Nullable String key, int expirationInSeconds, @Nullable T value);
 
-  @Nullable
-  <T> Boolean set(@Nullable String key, int expirationInSeconds, @Nullable T value);
+  <T> boolean set(@Nullable String key, int expirationInSeconds, @Nullable T value);
 
-  @Nullable
-  <T> Boolean replace(@Nullable String key, int expirationInSeconds, @Nullable T value);
+  <T> boolean replace(@Nullable String key, int expirationInSeconds, @Nullable T value);
 
-  @Nullable
-  <T> Boolean append(@Nullable String key, @Nullable T value);
+  <T> boolean append(@Nullable String key, @Nullable T value);
 
   @Nullable
   Boolean touch(@Nullable String key, int expirationInSeconds);

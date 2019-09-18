@@ -23,8 +23,8 @@ class RedisCacheTest {
     val key = RandomUtils.nextObjectId()
     val value = ObjectId()
     val ret = cache.add(key, 1800, value)
-    assertTrue(ret!!)
-    val gr = cache.get<ObjectId>(key)!!
+    assertTrue(ret)
+    val gr = cache.get<ObjectId>(key)
     assertEquals(value, gr.value)
     assertTrue(gr.hit)
     assertFalse(gr.wrapper)
@@ -115,7 +115,7 @@ class RedisCacheTest {
     }
     latch.await()
     assertFalse(success.isEmpty())
-    val map = cache.get<MutableMap<Int, String>>(key)!!.value
+    val map = cache.get<MutableMap<Int, String>>(key).value
     for (i in success) {
       assertTrue(map.containsKey(i))
     }
