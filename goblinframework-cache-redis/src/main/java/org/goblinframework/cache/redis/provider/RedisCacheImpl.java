@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @GoblinManagedBean(type = "CACHE.REDIS")
-final class RedisCacheImpl extends GoblinCacheImpl {
+final class RedisCacheImpl extends AbstractGoblinCache {
 
   private final RedisClient client;
 

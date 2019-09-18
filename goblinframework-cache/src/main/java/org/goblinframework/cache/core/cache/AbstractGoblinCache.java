@@ -11,11 +11,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @GoblinManagedBean(type = "CACHE")
-abstract public class GoblinCacheImpl extends GoblinManagedObject implements GoblinCache {
+abstract public class AbstractGoblinCache extends GoblinManagedObject implements GoblinCache {
 
   private final CacheSystemLocation location;
 
-  protected GoblinCacheImpl(@NotNull CacheSystemLocation location) {
+  protected AbstractGoblinCache(@NotNull CacheSystemLocation location) {
     this.location = location;
   }
 
