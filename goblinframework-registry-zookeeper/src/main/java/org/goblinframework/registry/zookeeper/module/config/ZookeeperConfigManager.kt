@@ -20,10 +20,7 @@ class ZookeeperConfigManager : GoblinManagedObject(), ZookeeperConfigManagerMXBe
     return configParser.getFromBuffer(name)
   }
 
-  fun initialize() {}
-
-  fun destroy() {
-    unregisterIfNecessary()
-    configParser.destroy()
+  override fun disposeBean() {
+    configParser.dispose()
   }
 }

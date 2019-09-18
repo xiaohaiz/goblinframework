@@ -13,7 +13,7 @@ class ZookeeperConfigParser internal constructor()
     private const val DEFAULT_ZOOKEEPER_PORT = 2181
   }
 
-  override fun initialize() {
+  override fun initializeBean() {
     val mapping = ConfigLoader.INSTANCE.getMapping()
     parseToMap(mapping, "zookeeper", ZookeeperConfigMapper::class.java)
         .map { it.value.also { c -> c.name = it.key } }

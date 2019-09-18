@@ -29,8 +29,7 @@ class ZkTranscoderManager private constructor()
     return transcoders[mode]!!
   }
 
-  fun destroy() {
-    unregisterIfNecessary()
-    transcoders.values.forEach { it.close() }
+  override fun disposeBean() {
+    transcoders.values.forEach { it.dispose() }
   }
 }

@@ -47,9 +47,5 @@ class ManagementServerManager private constructor() : GoblinManagedObject(), Man
     return setting.get() != null
   }
 
-  fun close() {
-    unregisterIfNecessary()
-  }
-
   class Installer : ManagementServerLifecycle by INSTANCE
 }

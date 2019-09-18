@@ -60,8 +60,7 @@ class TransportClient internal constructor(val setting: TransportClientSetting,
     }
   }
 
-  internal fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     clientRef.get().close()
   }
 }

@@ -17,7 +17,7 @@ class MessageFlightManager private constructor() : GoblinManagedObject(), Messag
   private val partitions = Array(PARTITION_COUNT) { MessageFlightPartition(it) }
   private val active = AtomicBoolean()
 
-  fun initialize() {
+  override fun initializeBean() {
     EventBus.subscribe(MessageFlightManagerSweeper.INSTANCE)
   }
 
@@ -37,10 +37,9 @@ class MessageFlightManager private constructor() : GoblinManagedObject(), Messag
     }
   }
 
-  fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     EventBus.unsubscribe(MessageFlightManagerSweeper.INSTANCE)
-    partitions.forEach { it.close() }
+    partitions.forEach { it.dispose() }
   }
 
   internal fun clearExpired() {

@@ -22,7 +22,4 @@ internal constructor(val mapper: ZookeeperConfigMapper)
     return mapper.serializer!!
   }
 
-  override fun destroy() {
-    unregisterIfNecessary()
-  }
 }

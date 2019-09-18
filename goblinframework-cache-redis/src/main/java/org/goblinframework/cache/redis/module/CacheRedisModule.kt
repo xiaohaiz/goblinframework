@@ -19,7 +19,7 @@ class CacheRedisModule : GoblinChildModule {
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    RedisClientManager.INSTANCE.destroy()
-    RedisConfigManager.INSTANCE.destroy()
+    RedisClientManager.INSTANCE.dispose()
+    RedisConfigManager.INSTANCE.dispose()
   }
 }

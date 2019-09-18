@@ -62,7 +62,7 @@ class TransportServerImpl(val setting: TransportServerSetting) {
   internal fun close() {
     channelManager.terminate()
     channelManager.awaitTermination(15, TimeUnit.SECONDS)
-    channelManager.close()
+    channelManager.dispose()
     boss.shutdownGracefully().awaitUninterruptibly()
     worker.shutdownGracefully().awaitUninterruptibly()
     logger.debug("Transport server [${setting.name()}] closed")

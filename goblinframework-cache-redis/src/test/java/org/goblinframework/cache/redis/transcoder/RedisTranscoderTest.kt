@@ -37,7 +37,7 @@ class RedisTranscoderTest {
       kb = transcoder.encodeValue(bs)
       assertArrayEquals(bs, transcoder.decodeValue(kb) as ByteArray)
     } finally {
-      transcoder.destroy()
+      transcoder.dispose()
     }
   }
 }

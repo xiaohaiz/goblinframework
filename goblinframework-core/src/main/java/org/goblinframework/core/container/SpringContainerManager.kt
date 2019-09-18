@@ -37,11 +37,10 @@ class SpringContainerManager private constructor() : GoblinManagedObject(), Spri
       throw UnsupportedOperationException()
     }
     val id = (ctx as SpringContainerId).uniqueId()
-    lock.write { containers.remove(id) }?.close()
+    lock.write { containers.remove(id) }?.dispose()
   }
 
-  fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     lock.write {
       containers.values.map { it.applicationContext }
           .filterIsInstance<ConfigurableApplicationContext>()

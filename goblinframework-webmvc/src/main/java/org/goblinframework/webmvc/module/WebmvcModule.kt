@@ -21,6 +21,6 @@ class WebmvcModule : GoblinModule {
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    RequestHandlerManagerBuilder.INSTANCE.close()
+    RequestHandlerManagerBuilder.INSTANCE.dispose()
   }
 }

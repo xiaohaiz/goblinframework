@@ -56,16 +56,15 @@ class EmbeddedServerManager private constructor()
   fun closeServer(name: String) {
     lock.write { servers.remove(name) }?.run {
       this.stop()
-      this.unregisterIfNecessary()
+      this.dispose()
     }
   }
 
-  fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     lock.write {
       servers.values.forEach {
         it.stop()
-        it.unregisterIfNecessary()
+        it.dispose()
       }
       servers.clear()
     }

@@ -12,7 +12,7 @@ class RedisConfigParser internal constructor() : BufferedConfigParser<RedisConfi
     private const val DEFAULT_REDIS_PORT = 6379
   }
 
-  override fun initialize() {
+  override fun initializeBean() {
     val mapping = ConfigLoader.INSTANCE.getMapping()
     parseToMap(mapping, "redis", RedisConfigMapper::class.java)
         .map { it.value.also { c -> c.name = it.key } }

@@ -34,11 +34,11 @@ abstract public class GoblinSystem {
     if (!uninstalled.compareAndSet(false, true)) {
       return;
     }
-    SpringContainerManager.INSTANCE.close();
+    SpringContainerManager.INSTANCE.dispose();
     GoblinModuleManager.INSTANCE.executeFinalize();
     ConfigLoader.INSTANCE.stop();
-    EventBusBoss.INSTANCE.destroy();
-    ConfigLoader.INSTANCE.destroy();
+    EventBusBoss.INSTANCE.dispose();
+    ConfigLoader.INSTANCE.dispose();
     LOGGER.info("FAREWELL");
     shutdownLog4j2IfNecessary();
   }

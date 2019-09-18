@@ -81,10 +81,6 @@ class RequestHandlerManager(private val setting: RequestHandlerSetting)
     return StringUtils.join(list, "/")
   }
 
-  internal fun close() {
-    unregisterIfNecessary()
-  }
-
   override fun getName(): String {
     return setting.name()
   }

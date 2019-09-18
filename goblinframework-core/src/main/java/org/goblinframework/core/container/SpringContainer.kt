@@ -11,7 +11,4 @@ class SpringContainer(val applicationContext: ApplicationContext) : GoblinManage
     return (applicationContext as? SpringContainerId)?.uniqueId() ?: throw UnsupportedOperationException()
   }
 
-  internal fun close() {
-    unregisterIfNecessary()
-  }
 }

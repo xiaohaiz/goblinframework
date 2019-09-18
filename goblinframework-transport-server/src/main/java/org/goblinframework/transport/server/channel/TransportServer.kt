@@ -30,8 +30,7 @@ internal constructor(private val setting: TransportServerSetting)
     return server.get() != null
   }
 
-  internal fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     watch.stop()
     stop()
   }

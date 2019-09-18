@@ -5,6 +5,7 @@ import org.goblinframework.core.bootstrap.GoblinChildModule
 import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
 import org.goblinframework.transport.client.channel.TransportClientManager
+import org.goblinframework.transport.client.flight.MessageFlightManager
 import org.slf4j.LoggerFactory
 
 @Install
@@ -19,7 +20,8 @@ class TransportClientModule : GoblinChildModule {
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    TransportClientManager.INSTANCE.close()
+    TransportClientManager.INSTANCE.dispose()
+    MessageFlightManager.INSTANCE.dispose()
   }
 
   companion object {

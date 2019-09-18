@@ -10,10 +10,9 @@ class MysqlConfig(private val name: String,
                   private val slaves: List<DataSourceConfig>)
   : GoblinManagedObject(), MysqlConfigMXBean, Config {
 
-  override fun destroy() {
-    unregisterIfNecessary()
-    master.destroy()
-    slaves.forEach { it.destroy() }
+  override fun disposeBean() {
+    master.dispose()
+    slaves.forEach { it.dispose() }
   }
 
   override fun getName(): String {

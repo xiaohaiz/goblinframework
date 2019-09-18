@@ -29,10 +29,10 @@ final public class MysqlClient extends GoblinManagedObject implements MysqlClien
     return master.getDataSource();
   }
 
-  void destroy() {
-    unregisterIfNecessary();
-    master.destroy();
-    slaves.forEach(DataSource::destroy);
+  @Override
+  protected void disposeBean() {
+    master.dispose();
+    slaves.forEach(DataSource::dispose);
   }
 
   @NotNull

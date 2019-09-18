@@ -8,10 +8,6 @@ import org.goblinframework.remote.server.expose.ExposeServiceId
 abstract class RemoteService(private val id: ExposeServiceId)
   : GoblinManagedObject(), RemoteServiceMXBean {
 
-  internal fun close() {
-    unregisterIfNecessary()
-  }
-
   fun id(): ExposeServiceId {
     return id
   }

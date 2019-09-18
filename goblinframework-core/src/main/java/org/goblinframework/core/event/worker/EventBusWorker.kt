@@ -73,8 +73,7 @@ internal constructor(private val config: EventBusConfig)
     }
   }
 
-  internal fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
       EventBus.LOGGER.info("EventBusWorker [${config.channel}] closed")

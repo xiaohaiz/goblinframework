@@ -76,7 +76,4 @@ internal constructor(val mapper: RedisConfigMapper)
     return mapper.flushable!!
   }
 
-  override fun destroy() {
-    unregisterIfNecessary()
-  }
 }

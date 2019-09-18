@@ -31,10 +31,9 @@ class RequestHandlerManagerBuilder private constructor()
     }
   }
 
-  fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     lock.write {
-      buffer.values.forEach { it.close() }
+      buffer.values.forEach { it.dispose() }
       buffer.clear()
     }
   }

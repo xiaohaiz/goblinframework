@@ -47,7 +47,4 @@ internal constructor(configLocationScanner: ConfigLocationScanner)
     return mappingLocation.get()
   }
 
-  internal fun close() {
-    unregisterIfNecessary()
-  }
 }

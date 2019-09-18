@@ -24,10 +24,7 @@ class RedisConfigManager private constructor() : GoblinManagedObject(), RedisCon
     return configParser.asList()
   }
 
-  fun initialize() {}
-
-  fun destroy() {
-    unregisterIfNecessary()
-    configParser.destroy()
+  override fun disposeBean() {
+    configParser.dispose()
   }
 }

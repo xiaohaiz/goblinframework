@@ -89,7 +89,7 @@ final public class SingleRedisClient extends RedisClient {
   }
 
   @Override
-  public void doDestroy() {
+  public void doDispose() {
     connection.getNativeConnection().close();
     connectionPool.close();
     client.shutdown();

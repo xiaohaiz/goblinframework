@@ -35,7 +35,4 @@ class ZkTranscoder internal constructor(private val serializer: Serializer)
     }
   }
 
-  internal fun close() {
-    unregisterIfNecessary()
-  }
 }

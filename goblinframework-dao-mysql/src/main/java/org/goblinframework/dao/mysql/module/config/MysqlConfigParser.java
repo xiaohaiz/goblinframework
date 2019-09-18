@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 final class MysqlConfigParser extends BufferedConfigParser<MysqlConfig> {
 
   @Override
-  public void initialize() {
+  public void initializeBean() {
     ConfigMapping mapping = ConfigLoader.INSTANCE.getMapping();
     Object mysql = mapping.get("mysql");
     if (!(mysql instanceof Map)) {

@@ -27,7 +27,7 @@ class TransportClientManager private constructor() : GoblinManagedObject(), Tran
   private val lock = ReentrantReadWriteLock()
   private val buffer = mutableMapOf<String, TransportClient>()
 
-  fun initialize() {
+  override fun initializeBean() {
     EventBus.subscribe(TransportClientHeartbeatGenerator.INSTANCE)
   }
 
@@ -48,21 +48,20 @@ class TransportClientManager private constructor() : GoblinManagedObject(), Tran
   }
 
   fun closeConnection(name: String) {
-    lock.write { buffer.remove(name) }?.close()
+    lock.write { buffer.remove(name) }?.dispose()
   }
 
   fun sendHeartbeat() {
     lock.read { buffer.values.forEach { it.sendHeartbeat() } }
   }
 
-  fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     EventBus.unsubscribe(TransportClientHeartbeatGenerator.INSTANCE)
     lock.write {
-      buffer.values.forEach { it.close() }
+      buffer.values.forEach { it.dispose() }
       buffer.clear()
     }
-    DisconnectFutureManager.INSTANCE.close()
+    DisconnectFutureManager.INSTANCE.dispose()
   }
 
   internal fun registerDisconnectFuture(future: TransportClientDisconnectFuture) {
@@ -97,7 +96,7 @@ class TransportClientManager private constructor() : GoblinManagedObject(), Tran
       }
     }
 
-    internal fun close(): Boolean {
+    internal fun dispose(): Boolean {
       return try {
         latch.awaitUninterruptibly(15, TimeUnit.SECONDS)
         true

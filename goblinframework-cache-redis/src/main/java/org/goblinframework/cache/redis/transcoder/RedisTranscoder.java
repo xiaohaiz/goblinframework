@@ -102,7 +102,4 @@ final public class RedisTranscoder extends GoblinManagedObject
     return bs;
   }
 
-  public void destroy() {
-    unregisterIfNecessary();
-  }
 }

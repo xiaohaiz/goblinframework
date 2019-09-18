@@ -37,10 +37,9 @@ class RemoteServiceManager private constructor()
     return lock.read { services[id] }
   }
 
-  fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     lock.write {
-      services.values.forEach { it.close() }
+      services.values.forEach { it.dispose() }
       services.clear()
     }
   }

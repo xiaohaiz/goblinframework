@@ -32,8 +32,7 @@ class RemoteServer private constructor()
     return server.get() != null
   }
 
-  fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     stop()
   }
 }

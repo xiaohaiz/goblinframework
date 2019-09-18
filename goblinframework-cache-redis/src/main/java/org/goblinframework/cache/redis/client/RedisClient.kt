@@ -44,10 +44,9 @@ abstract class RedisClient(val config: RedisConfig)
     return poolConfig
   }
 
-  fun destroy() {
-    unregisterIfNecessary()
-    doDestroy()
-    transcoder.destroy()
+  override fun disposeBean() {
+    doDispose()
+    transcoder.dispose()
   }
 
   fun flush() {
@@ -58,7 +57,7 @@ abstract class RedisClient(val config: RedisConfig)
 
   abstract fun doFlush()
 
-  abstract fun doDestroy()
+  abstract fun doDispose()
 
   abstract fun getConnection(): RedisConnection
 

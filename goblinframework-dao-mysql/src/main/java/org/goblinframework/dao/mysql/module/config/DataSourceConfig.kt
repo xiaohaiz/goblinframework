@@ -8,10 +8,6 @@ class DataSourceConfig
 internal constructor(val mapper: DataSourceConfigMapper)
   : GoblinManagedObject(), DataSourceConfigMXBean {
 
-  internal fun destroy() {
-    unregisterIfNecessary()
-  }
-
   override fun getDataSourceClassName(): String? {
     return mapper.dataSourceClassName
   }

@@ -26,10 +26,7 @@ class MysqlConfigManager private constructor() : GoblinManagedObject(), MysqlCon
     return configParser.getFromBuffer(name)
   }
 
-  fun initialize() {}
-
-  fun destroy() {
-    unregisterIfNecessary()
-    configParser.destroy()
+  override fun disposeBean() {
+    configParser.dispose()
   }
 }

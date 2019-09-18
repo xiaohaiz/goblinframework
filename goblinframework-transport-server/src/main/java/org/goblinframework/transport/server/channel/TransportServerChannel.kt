@@ -78,8 +78,7 @@ internal constructor(private val server: TransportServerImpl,
     writeTransportMessage(TransportMessage(request, serializer))
   }
 
-  internal fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     handshake.set(null)
   }
 

@@ -91,8 +91,7 @@ internal class SerializerImpl(private val serializer: Serializer)
     return deserializeExceptionCount.sum()
   }
 
-  fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     watch.stop()
   }
 }

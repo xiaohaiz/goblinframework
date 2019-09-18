@@ -32,8 +32,7 @@ class CompressorManager private constructor() : GoblinManagedObject(), Compresso
     return buffer.values.sortedBy { it.mode() }.toTypedArray()
   }
 
-  fun close() {
-    unregisterIfNecessary()
-    buffer.values.forEach { it.close() }
+  override fun disposeBean() {
+    buffer.values.forEach { it.dispose() }
   }
 }

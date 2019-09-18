@@ -52,13 +52,12 @@ class TransportServerManager private constructor() : GoblinManagedObject(), Tran
    * of server name not found.
    */
   fun closeTransportServer(name: String) {
-    lock.write { buffer.remove(name) }?.close()
+    lock.write { buffer.remove(name) }?.dispose()
   }
 
-  fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     lock.write {
-      buffer.values.forEach { it.close() }
+      buffer.values.forEach { it.dispose() }
       buffer.clear()
     }
   }

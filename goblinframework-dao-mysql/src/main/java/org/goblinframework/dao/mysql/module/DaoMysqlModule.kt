@@ -19,7 +19,7 @@ class DaoMysqlModule : GoblinChildModule {
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    MysqlClientManager.INSTANCE.destroy()
-    MysqlConfigManager.INSTANCE.destroy()
+    MysqlClientManager.INSTANCE.dispose()
+    MysqlConfigManager.INSTANCE.dispose()
   }
 }

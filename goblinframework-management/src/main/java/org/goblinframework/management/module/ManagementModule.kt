@@ -17,6 +17,6 @@ class ManagementModule : GoblinModule {
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    ManagementServerManager.INSTANCE.close()
+    ManagementServerManager.INSTANCE.dispose()
   }
 }

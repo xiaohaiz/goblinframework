@@ -31,9 +31,8 @@ class SerializerManager private constructor() : GoblinManagedObject(), Serialize
     return buffer[mode]!!
   }
 
-  fun close() {
-    unregisterIfNecessary()
-    buffer.values.forEach { it.close() }
+  override fun disposeBean() {
+    buffer.values.forEach { it.dispose() }
   }
 
   override fun getSerializerList(): Array<SerializerMXBean> {

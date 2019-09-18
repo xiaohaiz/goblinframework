@@ -13,6 +13,6 @@ class TransportServerModule : GoblinChildModule {
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    TransportServerManager.INSTANCE.close()
+    TransportServerManager.INSTANCE.dispose()
   }
 }

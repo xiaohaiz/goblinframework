@@ -1,6 +1,7 @@
 package org.goblinframework.core.mbean;
 
 import org.goblinframework.api.common.Disposable;
+import org.goblinframework.api.common.Initializable;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.core.util.StringUtils;
@@ -12,12 +13,14 @@ import java.lang.management.PlatformManagedObject;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
-abstract public class GoblinManagedObject implements PlatformManagedObject, Disposable {
+abstract public class GoblinManagedObject
+    implements PlatformManagedObject, Initializable, Disposable {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   private final ObjectName objectName;
   private final boolean registerMBean;
+  private final AtomicBoolean initialized = new AtomicBoolean();
   private final AtomicBoolean disposed = new AtomicBoolean();
 
   protected GoblinManagedObject() {
@@ -43,18 +46,24 @@ abstract public class GoblinManagedObject implements PlatformManagedObject, Disp
     return objectName;
   }
 
-  public void unregisterIfNecessary() {
-    if (registerMBean) {
-      ManagedBeanUtils.unregisterMBean(objectName);
+  @Override
+  final public void initialize() {
+    if (initialized.compareAndSet(false, true)) {
+      initializeBean();
     }
   }
 
   @Override
   final public void dispose() {
     if (disposed.compareAndSet(false, true)) {
-      unregisterIfNecessary();
+      if (registerMBean) {
+        ManagedBeanUtils.unregisterMBean(objectName);
+      }
       disposeBean();
     }
+  }
+
+  protected void initializeBean() {
   }
 
   protected void disposeBean() {

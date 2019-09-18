@@ -58,8 +58,6 @@ class ConfigLoader private constructor()
     }
   }
 
-  fun initialize() {}
-
   @Synchronized
   override fun start() {
     if (scheduler.get() == null) {
@@ -143,11 +141,10 @@ class ConfigLoader private constructor()
     this.config.set(config)
   }
 
-  fun destroy() {
+  override fun disposeBean() {
     stop()
-    unregisterIfNecessary()
-    mappingLocationScanner.close()
-    configLocationScanner.close()
+    mappingLocationScanner.dispose()
+    configLocationScanner.dispose()
   }
 
   override fun getApplicationName(): String {

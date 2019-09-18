@@ -41,7 +41,7 @@ class TransportServerChannelManager(private val server: TransportServerImpl)
   fun unregister(id: ChannelId) {
     lock.write {
       buffer.remove(id)?.run {
-        this.close()
+        this.dispose()
         latch.countDown()
       }
     }
@@ -63,10 +63,9 @@ class TransportServerChannelManager(private val server: TransportServerImpl)
     }
   }
 
-  fun close() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     lock.write {
-      buffer.values.forEach { it.close() }
+      buffer.values.forEach { it.dispose() }
       buffer.clear()
     }
   }

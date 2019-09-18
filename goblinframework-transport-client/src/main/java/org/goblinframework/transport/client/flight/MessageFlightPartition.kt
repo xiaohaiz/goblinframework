@@ -45,10 +45,6 @@ internal constructor(private val id: Int)
     }
   }
 
-  internal fun close() {
-    unregisterIfNecessary()
-  }
-
   override fun getId(): Int {
     return id
   }

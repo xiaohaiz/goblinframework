@@ -31,6 +31,6 @@ class EmbeddedModule : GoblinModule {
         .module("EMBEDDED:JETTY")
         .module("EMBEDDED:NETTY")
         .finalize(ctx)
-    EmbeddedServerManager.INSTANCE.close()
+    EmbeddedServerManager.INSTANCE.dispose()
   }
 }

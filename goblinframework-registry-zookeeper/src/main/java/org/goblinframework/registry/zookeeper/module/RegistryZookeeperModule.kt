@@ -19,7 +19,7 @@ class RegistryZookeeperModule : GoblinChildModule {
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    ZkTranscoderManager.INSTANCE.destroy()
-    ZookeeperConfigManager.INSTANCE.destroy()
+    ZkTranscoderManager.INSTANCE.dispose()
+    ZookeeperConfigManager.INSTANCE.dispose()
   }
 }

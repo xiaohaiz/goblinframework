@@ -19,7 +19,7 @@ class RemoteServerModule : GoblinChildModule {
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    RemoteServer.INSTANCE.close()
-    RemoteServiceManager.INSTANCE.close()
+    RemoteServer.INSTANCE.dispose()
+    RemoteServiceManager.INSTANCE.dispose()
   }
 }

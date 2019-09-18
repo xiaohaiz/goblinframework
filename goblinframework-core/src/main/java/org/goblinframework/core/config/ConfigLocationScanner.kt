@@ -74,10 +74,6 @@ class ConfigLocationScanner internal constructor()
         .toMutableList()
   }
 
-  internal fun close() {
-    unregisterIfNecessary()
-  }
-
   internal fun getConfigLocation(): ConfigLocation? {
     return configLocation.get()
   }

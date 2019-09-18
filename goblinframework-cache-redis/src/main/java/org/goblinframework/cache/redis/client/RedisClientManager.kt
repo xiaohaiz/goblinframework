@@ -35,13 +35,12 @@ class RedisClientManager private constructor() : GoblinManagedObject(), RedisCli
   }
 
   fun closeRedisClient(name: String) {
-    lock.write { buffer.remove(name) }?.destroy()
+    lock.write { buffer.remove(name) }?.dispose()
   }
 
-  fun destroy() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     lock.write {
-      buffer.values.forEach { it.destroy() }
+      buffer.values.forEach { it.dispose() }
       buffer.clear()
     }
   }

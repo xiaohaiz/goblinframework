@@ -131,8 +131,8 @@ final class CompressorImpl extends GoblinManagedObject implements Compressor, Co
     return decompressExceptionCount.sum();
   }
 
-  void close() {
-    unregisterIfNecessary();
+  @Override
+  protected void disposeBean() {
     watch.stop();
   }
 }

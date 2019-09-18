@@ -35,10 +35,9 @@ class MysqlClientManager : GoblinManagedObject(), MysqlClientManagerMXBean {
     }
   }
 
-  fun destroy() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     lock.withLock {
-      buffer.values.forEach { it.destroy() }
+      buffer.values.forEach { it.dispose() }
       buffer.clear()
     }
   }

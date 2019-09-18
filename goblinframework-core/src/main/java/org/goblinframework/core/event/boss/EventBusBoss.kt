@@ -51,8 +51,6 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     ServiceInstaller.installedFirst(GoblinTimerEventGenerator::class.java)?.start()
   }
 
-  fun initialize() {}
-
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
     return register(EventBusConfig(channel, ringBufferSize, workerHandlers))
   }
@@ -67,7 +65,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   }
 
   fun unregister(channel: String) {
-    lock.write { workers.remove(channel) }?.run { close() }
+    lock.write { workers.remove(channel) }?.dispose()
   }
 
   fun subscribe(listener: GoblinEventListener) {
@@ -118,8 +116,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     return lock.read { workers[channel] }
   }
 
-  fun destroy() {
-    unregisterIfNecessary()
+  override fun disposeBean() {
     ServiceInstaller.installedFirst(GoblinTimerEventGenerator::class.java)?.stop()
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
@@ -128,7 +125,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
       EventBus.LOGGER.warn("EventBusBoss close timeout", ex)
     }
     lock.write {
-      workers.values.reversed().forEach { it.close() }
+      workers.values.reversed().forEach { it.dispose() }
       workers.clear()
     }
     EventBus.LOGGER.info("EventBus closed")

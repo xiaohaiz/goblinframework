@@ -54,8 +54,8 @@ final class DataSource extends GoblinManagedObject implements DataSourceMXBean {
     return effectiveDataSource;
   }
 
-  void destroy() {
-    unregisterIfNecessary();
+  @Override
+  protected void disposeBean() {
     hikariDataSource.close();
   }
 }
