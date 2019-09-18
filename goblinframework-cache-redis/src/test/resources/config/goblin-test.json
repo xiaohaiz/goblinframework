@@ -5,7 +5,8 @@
       "mode": "SINGLE",
       "serializer": "FST",
       "compressor": "DEFLATE",
-      "compressionThreshold": "_1K"
+      "compressionThreshold": "_1K",
+      "flushable": true
     }
   }
 }

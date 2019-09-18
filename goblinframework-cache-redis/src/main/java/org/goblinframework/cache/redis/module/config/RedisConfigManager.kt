@@ -20,6 +20,10 @@ class RedisConfigManager private constructor() : GoblinManagedObject(), RedisCon
     return configParser.getFromBuffer(name)
   }
 
+  fun getRedisConfigs(): List<RedisConfig> {
+    return configParser.asList()
+  }
+
   fun initialize() {}
 
   fun destroy() {

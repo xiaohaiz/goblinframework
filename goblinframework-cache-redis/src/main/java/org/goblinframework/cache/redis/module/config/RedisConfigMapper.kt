@@ -22,6 +22,7 @@ class RedisConfigMapper : Serializable {
   var testOnBorrow: Boolean? = null
   var testOnReturn: Boolean? = null
   var testWhileIdle: Boolean? = null
+  var flushable: Boolean? = null
 
   companion object {
     private const val serialVersionUID = -3756108596956143695L

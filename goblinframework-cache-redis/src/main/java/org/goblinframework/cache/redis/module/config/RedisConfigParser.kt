@@ -40,5 +40,6 @@ class RedisConfigParser internal constructor() : BufferedConfigParser<RedisConfi
     mapper.testOnBorrow ?: kotlin.run { mapper.testOnBorrow = false }
     mapper.testOnReturn ?: kotlin.run { mapper.testOnReturn = false }
     mapper.testWhileIdle ?: kotlin.run { mapper.testWhileIdle = false }
+    mapper.flushable ?: kotlin.run { mapper.flushable = false }
   }
 }

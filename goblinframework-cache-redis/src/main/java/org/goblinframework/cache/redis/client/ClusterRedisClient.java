@@ -52,6 +52,11 @@ public class ClusterRedisClient extends RedisClient {
   }
 
   @Override
+  public void doFlush() {
+    connection.getNativeConnection().sync().flushall();
+  }
+
+  @Override
   public void doDestroy() {
     connection.getNativeConnection().close();
     connectionPool.close();

@@ -13,6 +13,10 @@ abstract class BufferedConfigParser<E : Config> {
   private val lock = ReentrantReadWriteLock()
   private val buffer = mutableMapOf<String, E>()
 
+  fun asList(): List<E> {
+    return lock.read { buffer.values.toList() }
+  }
+
   fun putIntoBuffer(name: String, config: E) {
     lock.write {
       buffer[name]?.run {

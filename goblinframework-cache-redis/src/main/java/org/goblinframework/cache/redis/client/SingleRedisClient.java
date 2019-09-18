@@ -83,6 +83,11 @@ final public class SingleRedisClient extends RedisClient {
   }
 
   @Override
+  public void doFlush() {
+    connection.getNativeConnection().sync().flushall();
+  }
+
+  @Override
   public void doDestroy() {
     connection.getNativeConnection().close();
     connectionPool.close();

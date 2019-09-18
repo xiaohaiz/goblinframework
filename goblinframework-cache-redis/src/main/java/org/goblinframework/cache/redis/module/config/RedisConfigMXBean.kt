@@ -37,4 +37,6 @@ interface RedisConfigMXBean : PlatformManagedObject {
 
   fun getTestWhileIdle(): Boolean
 
+  fun getFlushable(): Boolean
+
 }

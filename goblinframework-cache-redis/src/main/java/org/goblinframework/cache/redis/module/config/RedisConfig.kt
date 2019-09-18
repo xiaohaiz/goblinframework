@@ -72,6 +72,10 @@ internal constructor(val mapper: RedisConfigMapper)
     return mapper.testWhileIdle!!
   }
 
+  override fun getFlushable(): Boolean {
+    return mapper.flushable!!
+  }
+
   override fun destroy() {
     unregisterIfNecessary()
   }

@@ -50,6 +50,14 @@ abstract class RedisClient(val config: RedisConfig)
     transcoder.destroy()
   }
 
+  fun flush() {
+    if (config.getFlushable()) {
+      doFlush()
+    }
+  }
+
+  abstract fun doFlush()
+
   abstract fun doDestroy()
 
   abstract fun getConnection(): RedisConnection
