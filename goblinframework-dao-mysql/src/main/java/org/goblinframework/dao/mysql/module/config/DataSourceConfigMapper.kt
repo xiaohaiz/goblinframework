@@ -150,13 +150,6 @@ class DataSourceConfigMapper : Serializable {
   // Infrequently used
 
   /**
-   * This property controls whether the pool will "fail fast" if the pool cannot be seeded with initial
-   * connections successfully. If you want your application to start even when the database is down/unavailable,
-   * set this property to false. Default: true
-   */
-  var initializationFailFast: Boolean? = null
-
-  /**
    * This property determines whether HikariCP isolates internal pool queries, such as the connection alive test,
    * in their own transaction. Since these are typically read-only queries, it is rarely necessary to encapsulate
    * them in their own transaction. This property only applies if autoCommit is disabled.

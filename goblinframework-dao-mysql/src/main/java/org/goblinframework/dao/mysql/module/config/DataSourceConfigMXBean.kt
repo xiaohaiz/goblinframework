@@ -32,8 +32,6 @@ interface DataSourceConfigMXBean : PlatformManagedObject {
 
   fun getPoolName(): String?
 
-  fun getInitializationFailFast(): Boolean
-
   fun getIsolateInternalQueries(): Boolean
 
   fun getAllowPoolSuspension(): Boolean

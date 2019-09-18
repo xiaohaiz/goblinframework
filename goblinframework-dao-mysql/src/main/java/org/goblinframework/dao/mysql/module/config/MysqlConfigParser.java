@@ -53,7 +53,6 @@ final class MysqlConfigParser extends BufferedConfigParser<MysqlConfig> {
     if (mapper.getMaxLifetime() == null) mapper.setMaxLifetime(1800000L);
     if (mapper.getMaximumPoolSize() == null) mapper.setMaximumPoolSize(10);
     if (mapper.getMinimumIdle() == null) mapper.setMinimumIdle(1);
-    if (mapper.getInitializationFailFast() == null) mapper.setInitializationFailFast(true);
     if (mapper.getIsolateInternalQueries() == null) mapper.setIsolateInternalQueries(false);
     if (mapper.getAllowPoolSuspension() == null) mapper.setAllowPoolSuspension(false);
     if (mapper.getReadOnly() == null) mapper.setReadOnly(false);

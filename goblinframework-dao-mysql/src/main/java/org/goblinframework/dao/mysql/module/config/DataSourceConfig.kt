@@ -68,10 +68,6 @@ internal constructor(val mapper: DataSourceConfigMapper)
     return mapper.poolName
   }
 
-  override fun getInitializationFailFast(): Boolean {
-    return mapper.initializationFailFast!!
-  }
-
   override fun getIsolateInternalQueries(): Boolean {
     return mapper.isolateInternalQueries!!
   }
