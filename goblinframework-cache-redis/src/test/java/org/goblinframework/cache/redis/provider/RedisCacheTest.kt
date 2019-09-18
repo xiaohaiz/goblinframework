@@ -98,11 +98,10 @@ class RedisCacheTest {
         override fun run() {
           try {
             val co = CasOperation<MutableMap<Int, String>> { currentValue ->
-              currentValue?.run { currentValue[i] = RandomUtils.nextObjectId() }
+              currentValue?.run { this[i] = RandomUtils.nextObjectId() }
               currentValue
             }
-            val ret = cache.cas(key, 1800, null, 0, co)
-            if (ret != null && ret) {
+            if (cache.cas(key, 1800, null, 0, co)) {
               success.add(i)
             }
           } finally {

@@ -355,9 +355,8 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     });
   }
 
-  @SuppressWarnings("unchecked")
   @Override
-  public <T> Boolean cas(@Nullable String key, int expirationInSeconds,
+  public <T> boolean cas(@Nullable String key, int expirationInSeconds,
                          @Nullable GetResult<T> getResult,  /* useless argument */
                          int maxTries, @Nullable CasOperation<T> casOperation) {
     if (key == null || expirationInSeconds < 0 || maxTries < 0 || casOperation == null) {
@@ -376,6 +375,7 @@ final class RedisCacheImpl extends GoblinCacheImpl {
           if (cached instanceof CacheValueWrapper) {
             current = ((CacheValueWrapper) cached).getValue();
           }
+          @SuppressWarnings("unchecked")
           Object modified = casOperation.changeCacheObject((T) current);
           if (modified == null) {
             modified = new CacheValueWrapper(null);
@@ -393,7 +393,7 @@ final class RedisCacheImpl extends GoblinCacheImpl {
               return true;
             }
           }
-          return null;
+          return false;
         } finally {
           connection.sync().unwatch();
         }
