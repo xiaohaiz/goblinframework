@@ -2,6 +2,7 @@ package org.goblinframework.cache.redis.provider;
 
 import io.lettuce.core.RedisFuture;
 import io.lettuce.core.SetArgs;
+import io.lettuce.core.TransactionResult;
 import io.lettuce.core.api.async.RedisKeyAsyncCommands;
 import io.lettuce.core.api.async.RedisStringAsyncCommands;
 import org.goblinframework.cache.core.cache.*;
@@ -243,5 +244,79 @@ final class RedisCacheImpl extends GoblinCacheImpl {
       logger.error("RDS.ttl({})", key, ex);
       return null;
     }
+  }
+
+  @Nullable
+  @Override
+  public Long incr(@Nullable String key, long delta, long initialValue, int expirationInSeconds) {
+    if (key == null || expirationInSeconds < 0) {
+      return null;
+    }
+    if (delta < 0) {
+      return decr(key, -delta, initialValue, expirationInSeconds);
+    }
+    long init = initialValue - delta;
+    return client.executeTransaction(key, (id, connection) -> {
+      connection.sync().multi();
+
+      // execution 1
+      if (expirationInSeconds > 0) {
+        SetArgs args = new SetArgs().ex(expirationInSeconds).nx();
+        connection.sync().set(id, Long.toString(init), args);
+      } else {
+        connection.sync().setnx(id, Long.toString(init));
+      }
+
+      // execution 2
+      connection.sync().incrby(id, delta);
+
+      TransactionResult tr = connection.sync().exec();
+      if (tr.size() != 2) {
+        // should not reach here
+        return null;
+      }
+      Object last = tr.get(1);
+      if (!(last instanceof Long)) {
+        return null;
+      }
+      return (Long) last;
+    });
+  }
+
+  @Nullable
+  @Override
+  public Long decr(@Nullable String key, long delta, long initialValue, int expirationInSeconds) {
+    if (key == null || expirationInSeconds < 0) {
+      return null;
+    }
+    if (delta < 0) {
+      return incr(key, -delta, initialValue, expirationInSeconds);
+    }
+    long init = initialValue + delta;
+    return client.executeTransaction(key, (id, connection) -> {
+      connection.sync().multi();
+
+      // execution 1
+      if (expirationInSeconds > 0) {
+        SetArgs args = new SetArgs().nx().ex(expirationInSeconds);
+        connection.sync().set(id, Long.toString(init), args);
+      } else {
+        connection.sync().setnx(id, Long.toString(init));
+      }
+
+      // execution 2
+      connection.sync().decrby(id, delta);
+
+      TransactionResult tr = connection.sync().exec();
+      if (tr.size() != 2) {
+        // should not reach here
+        return null;
+      }
+      Object last = tr.get(1);
+      if (!(last instanceof Long)) {
+        return null;
+      }
+      return (Long) last;
+    });
   }
 }

@@ -28,4 +28,10 @@ public interface GoblinCache extends CacheSystemLocationProvider {
   @Nullable
   Long ttl(@Nullable String key);
 
+  @Nullable
+  Long incr(@Nullable String key, long delta, long initialValue, int expirationInSeconds);
+
+  @Nullable
+  Long decr(@Nullable String key, long delta, long initialValue, int expirationInSeconds);
+
 }
