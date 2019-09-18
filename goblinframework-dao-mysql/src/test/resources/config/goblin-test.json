@@ -1,6 +1,6 @@
 {
   "mysql": {
-    "ut": {
+    "_ut": {
       "master": {
         "jdbcUrl": "jdbc:mysql://127.0.0.1:3306/test",
         "username": "test",

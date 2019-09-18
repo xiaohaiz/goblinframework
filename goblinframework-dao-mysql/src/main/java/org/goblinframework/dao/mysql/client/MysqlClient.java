@@ -24,6 +24,11 @@ final public class MysqlClient extends GoblinManagedObject implements MysqlClien
         .forEach(slaves::add);
   }
 
+  @NotNull
+  public javax.sql.DataSource getMasterDataSource() {
+    return master.getDataSource();
+  }
+
   void destroy() {
     unregisterIfNecessary();
     master.destroy();

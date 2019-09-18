@@ -1,4 +1,4 @@
-package org.goblinframework.dao.mysql.module.config
+package org.goblinframework.dao.mysql.client
 
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertNotNull
@@ -8,12 +8,11 @@ import org.springframework.test.context.ContextConfiguration
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class MysqlConfigManagerTest {
+class MysqlClientManagerTest {
 
   @Test
-  fun config() {
-    val configManager = MysqlConfigManager.INSTANCE
-    val config = configManager.getMysqlConfig("_ut")
-    assertNotNull(config)
+  fun client() {
+    val client = MysqlClientManager.INSTANCE.getMysqlClient("_ut")
+    assertNotNull(client)
   }
 }
