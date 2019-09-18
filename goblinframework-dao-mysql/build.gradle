@@ -1,0 +1,11 @@
+description = "goblinframework-dao-mysql"
+
+dependencies {
+  compile(project(":goblinframework-dao"))
+  compile("com.zaxxer:HikariCP:${hikaricp_version}") {
+    exclude(group: "org.slf4j", module: "slf4j-api")
+  }
+  runtimeOnly("mysql:mysql-connector-java:${mysql_version}")
+
+  testCompile(project(":goblinframework-test"))
+}
