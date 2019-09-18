@@ -178,4 +178,23 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     }
     return "OK".equalsIgnoreCase(ret);
   }
+
+  @Nullable
+  @Override
+  public <T> Boolean append(@Nullable String key, @Nullable T value) {
+    if (key == null || !(value instanceof String)) {
+      return false;
+    }
+    String s = (String) value;
+    RedisStringAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisStringAsyncCommands();
+    try {
+      commands.append(key, s).get();
+    } catch (InterruptedException ex) {
+      throw new GoblinInterruptedException(ex);
+    } catch (ExecutionException ex) {
+      logger.error("RDS.append({})", key, ex);
+      return null;
+    }
+    return true;
+  }
 }

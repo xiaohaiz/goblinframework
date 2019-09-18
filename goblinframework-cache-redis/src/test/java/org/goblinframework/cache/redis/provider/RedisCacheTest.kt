@@ -28,4 +28,16 @@ class RedisCacheTest {
       cache.delete(key)
     }
   }
+
+  @Test
+  fun append() {
+    val cache = RedisCacheBuilder.INSTANCE.getCache("goblin")!!
+    val key = RandomUtils.nextObjectId()
+    try {
+      cache.set(key, 1800, "HELLO")
+      cache.append(key, " WORLD")
+    } finally {
+      cache.delete(key)
+    }
+  }
 }
