@@ -38,9 +38,6 @@ class GoblinCacheBuilderImpl(private val delegator: GoblinCacheBuilder)
     }
   }
 
-  override fun destroy() {
-  }
-
   override fun disposeBean() {
     lock.withLock {
       buffer.values.mapNotNull { it.value }.forEach { it.dispose() }

@@ -11,5 +11,4 @@ public interface GoblinCacheBuilder {
   @Nullable
   GoblinCache getCache(@NotNull String name);
 
-  void destroy();
 }

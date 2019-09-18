@@ -17,7 +17,4 @@ class RedisCacheBuilder : GoblinCacheBuilder {
     val client = RedisClientManager.INSTANCE.getRedisClient(name) ?: return null
     return RedisCacheImpl(name, client)
   }
-
-  override fun destroy() {
-  }
 }
