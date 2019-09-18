@@ -15,28 +15,25 @@ class GoblinCacheBuilderImpl(private val delegator: GoblinCacheBuilder)
 
   private val lock = ReentrantLock()
   private val buffer = ConcurrentHashMap<String, MutableObject<GoblinCacheImpl>>()
-  private val skipBuffer = delegator.javaClass.isAnnotationPresent(GoblinCacheBuilderSkipBuffer::class.java)
 
   override fun getCacheSystem(): CacheSystem {
     return delegator.cacheSystem
   }
 
   override fun getCache(name: String): GoblinCache? {
-    if (skipBuffer) {
-      return delegator.getCache(name)
-    }
-    var ref = buffer[name]
+    val id = delegator.decorateCacheName(name)
+    var ref = buffer[id]
     ref?.run { return value }
     lock.withLock {
-      ref = buffer[name]
+      ref = buffer[id]
       ref?.run { return value }
-      val cache = delegator.getCache(name)
+      val cache = delegator.getCache(id)
       cache?.run {
         val ret = GoblinCacheImpl(this)
-        buffer[name] = MutableObject(ret)
+        buffer[id] = MutableObject(ret)
         return ret
       } ?: kotlin.run {
-        buffer[name] = MutableObject<GoblinCacheImpl>(null)
+        buffer[id] = MutableObject<GoblinCacheImpl>(null)
         return null
       }
     }
