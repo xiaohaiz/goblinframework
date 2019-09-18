@@ -9,6 +9,7 @@ object GoblinModuleDefinition {
       "WEBMVC",
       "EMBEDDED",
       "CACHE",
+      "DAO",
       "TRANSPORT",
       "REGISTRY",
       "REMOTE",
