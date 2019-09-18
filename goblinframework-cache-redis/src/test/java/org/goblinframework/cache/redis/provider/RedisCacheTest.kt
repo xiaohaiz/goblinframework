@@ -1,6 +1,7 @@
 package org.goblinframework.cache.redis.provider
 
 import org.bson.types.ObjectId
+import org.goblinframework.cache.redis.module.test.FlushRedisCache
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.*
@@ -10,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
+@FlushRedisCache
 class RedisCacheTest {
 
   @Test
@@ -17,27 +19,19 @@ class RedisCacheTest {
     val cache = RedisCacheBuilder.INSTANCE.getCache("goblin")!!
     val key = RandomUtils.nextObjectId()
     val value = ObjectId()
-    try {
-      val ret = cache.add(key, 1800, value)
-      assertTrue(ret!!)
-      val gr = cache.get<ObjectId>(key)!!
-      assertEquals(value, gr.value)
-      assertTrue(gr.hit)
-      assertFalse(gr.wrapper)
-    } finally {
-      cache.delete(key)
-    }
+    val ret = cache.add(key, 1800, value)
+    assertTrue(ret!!)
+    val gr = cache.get<ObjectId>(key)!!
+    assertEquals(value, gr.value)
+    assertTrue(gr.hit)
+    assertFalse(gr.wrapper)
   }
 
   @Test
   fun append() {
     val cache = RedisCacheBuilder.INSTANCE.getCache("goblin")!!
     val key = RandomUtils.nextObjectId()
-    try {
-      cache.set(key, 1800, "HELLO")
-      cache.append(key, " WORLD")
-    } finally {
-      cache.delete(key)
-    }
+    cache.set(key, 1800, "HELLO")
+    cache.append(key, " WORLD")
   }
 }

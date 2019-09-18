@@ -4,18 +4,30 @@ import org.goblinframework.api.common.Ordered;
 
 public interface TestExecutionListener extends Ordered {
 
-  void prepareTestInstance(TestContext testContext) throws Exception;
+  @Override
+  default int getOrder() {
+    return 0;
+  }
 
-  void beforeTestExecution(TestContext testContext) throws Exception;
+  default void prepareTestInstance(TestContext testContext) throws Exception {
+  }
 
-  void beforeTestClass(TestContext testContext) throws Exception;
+  default void beforeTestExecution(TestContext testContext) throws Exception {
+  }
 
-  void beforeTestMethod(TestContext testContext) throws Exception;
+  default void beforeTestClass(TestContext testContext) throws Exception {
+  }
 
-  void afterTestExecution(TestContext testContext) throws Exception;
+  default void beforeTestMethod(TestContext testContext) throws Exception {
+  }
 
-  void afterTestClass(TestContext testContext) throws Exception;
+  default void afterTestExecution(TestContext testContext) throws Exception {
+  }
 
-  void afterTestMethod(TestContext testContext) throws Exception;
+  default void afterTestClass(TestContext testContext) throws Exception {
+  }
+
+  default void afterTestMethod(TestContext testContext) throws Exception {
+  }
 
 }

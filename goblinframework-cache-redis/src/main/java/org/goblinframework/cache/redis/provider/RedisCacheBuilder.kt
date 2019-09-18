@@ -22,7 +22,6 @@ class RedisCacheBuilder private constructor() : GoblinCacheBuilder {
   }
 
   private val accessBuffer = ConcurrentHashMap<String, RedisCacheImpl>()
-  private val createBuffer = HashMap<String, RedisCacheImpl>()
   private val creationLock = ReentrantLock()
 
   override fun getCacheSystem(): CacheSystem {
@@ -38,7 +37,6 @@ class RedisCacheBuilder private constructor() : GoblinCacheBuilder {
         if (cache == null) {
           cache = createRedisCache(config)
           accessBuffer[config.getName()] = cache!!
-          createBuffer[config.getName()] = cache!!
         }
       }
     }
@@ -47,10 +45,9 @@ class RedisCacheBuilder private constructor() : GoblinCacheBuilder {
 
   override fun destroy() {
     creationLock.withLock {
-      createBuffer.values.forEach { it.destroy() }
-      createBuffer.clear()
+      accessBuffer.values.forEach { it.destroy() }
+      accessBuffer.clear()
     }
-    accessBuffer.clear()
   }
 
   private fun createRedisCache(config: RedisConfig): RedisCacheImpl {

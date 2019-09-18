@@ -54,6 +54,7 @@ public class ClusterRedisClient extends RedisClient {
   @Override
   public void doFlush() {
     connection.getNativeConnection().sync().flushall();
+    logger.info("REDIS client [{}] flushed", getConfig().getName());
   }
 
   @Override
