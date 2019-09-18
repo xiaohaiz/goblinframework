@@ -29,11 +29,6 @@ final class RedisCacheImpl extends AbstractGoblinCache {
     this.client = client;
   }
 
-  void destroy() {
-    unregisterIfNecessary();
-    logger.debug("REDIS cache [{}] closed", getName());
-  }
-
   @NotNull
   @Override
   public RedisClient getNativeCache() {

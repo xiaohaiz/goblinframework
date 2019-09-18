@@ -1,17 +1,18 @@
 package org.goblinframework.cache.core.cache;
 
-import org.goblinframework.core.mbean.GoblinManagedBean;
-import org.goblinframework.core.mbean.GoblinManagedObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@GoblinManagedBean(type = "CACHE")
-abstract public class AbstractGoblinCache extends GoblinManagedObject implements GoblinCache {
+abstract public class AbstractGoblinCache implements GoblinCache {
+
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   private final CacheSystemLocation location;
 

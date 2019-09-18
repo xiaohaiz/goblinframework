@@ -17,4 +17,7 @@ internal constructor(private val delegator: GoblinCache)
     return delegator.name
   }
 
+  override fun disposeBean() {
+    logger.debug("GOBLIN cache [$cacheSystem/${getCacheName()}] disposed")
+  }
 }
