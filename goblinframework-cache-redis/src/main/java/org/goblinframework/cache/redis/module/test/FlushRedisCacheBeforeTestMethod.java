@@ -15,7 +15,7 @@ import java.util.List;
 final public class FlushRedisCacheBeforeTestMethod implements TestExecutionListener {
 
   @Override
-  public void beforeTestMethod(TestContext testContext) throws Exception {
+  public void beforeTestMethod(TestContext testContext) {
     if (!flushAvailable(testContext)) {
       return;
     }
