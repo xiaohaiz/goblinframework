@@ -1,6 +1,7 @@
 package org.goblinframework.cache.redis.provider
 
 import org.bson.types.ObjectId
+import org.goblinframework.cache.core.cache.CasOperation
 import org.goblinframework.cache.redis.module.test.FlushRedisCache
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
@@ -8,6 +9,7 @@ import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
+import java.util.concurrent.CountDownLatch
 import kotlin.math.abs
 
 @RunWith(GoblinTestRunner::class)
@@ -80,5 +82,40 @@ class RedisCacheTest {
     assertEquals(30, value!!.toLong())
     ttl = cache.ttl(key)
     assertTrue(abs(ttl!!.toLong() - 1800) < 10)
+  }
+
+  @Test
+  fun cas() {
+    val cache = RedisCacheBuilder.INSTANCE.getCache("goblin")!!
+    val key = RandomUtils.nextObjectId()
+    cache.set(key, 1800, mutableMapOf<Int, String>())
+    val success = mutableListOf<Int>()
+    val latch = CountDownLatch(10)
+    for (i in 0..9) {
+      val thread = object : Thread() {
+        override fun run() {
+          try {
+            val co = CasOperation<MutableMap<Int, String>> { currentValue ->
+              currentValue?.run { currentValue[i] = RandomUtils.nextObjectId() }
+              currentValue
+            }
+            val ret = cache.cas(key, 1800, null, 0, co)
+            if (ret != null && ret) {
+              success.add(i)
+            }
+          } finally {
+            latch.countDown()
+          }
+        }
+      }
+      thread.isDaemon = true
+      thread.start()
+    }
+    latch.await()
+    assertFalse(success.isEmpty())
+    val map = cache.get<MutableMap<Int, String>>(key)!!.value
+    for (i in success) {
+      assertTrue(map.containsKey(i))
+    }
   }
 }

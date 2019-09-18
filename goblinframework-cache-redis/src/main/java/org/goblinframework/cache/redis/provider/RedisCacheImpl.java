@@ -319,4 +319,55 @@ final class RedisCacheImpl extends GoblinCacheImpl {
       return (Long) last;
     });
   }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public <T> Boolean cas(@Nullable String key, int expirationInSeconds,
+                         @Nullable GetResult<T> getResult,  /* useless argument */
+                         int maxTries, @Nullable CasOperation<T> casOperation) {
+    if (key == null || expirationInSeconds < 0 || maxTries < 0 || casOperation == null) {
+      return false;
+    }
+    int tries = 0;
+    while (tries <= maxTries) {
+      Boolean ret = client.executeTransaction(key, (id, connection) -> {
+        connection.sync().watch(id);
+        try {
+          Object cached = connection.sync().get(id);
+          if (cached == null) {
+            return false;
+          }
+          Object current = cached;
+          if (cached instanceof CacheValueWrapper) {
+            current = ((CacheValueWrapper) cached).getValue();
+          }
+          Object modified = casOperation.changeCacheObject((T) current);
+          if (modified == null) {
+            modified = new CacheValueWrapper(null);
+          }
+
+          connection.sync().multi();
+          if (expirationInSeconds > 0) {
+            connection.sync().setex(id, expirationInSeconds, modified);
+          } else {
+            connection.sync().set(id, modified);
+          }
+          TransactionResult tr = connection.sync().exec();
+          for (Object o : tr) {
+            if (o != null && "OK".equalsIgnoreCase(o.toString())) {
+              return true;
+            }
+          }
+          return null;
+        } finally {
+          connection.sync().unwatch();
+        }
+      });
+      if (ret != null) {
+        return ret;
+      }
+      tries++;
+    }
+    return false;
+  }
 }
