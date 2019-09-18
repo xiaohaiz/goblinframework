@@ -227,4 +227,21 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     }
     return ret;
   }
+
+  @Nullable
+  @Override
+  public Long ttl(@Nullable String key) {
+    if (key == null) {
+      return null;
+    }
+    RedisKeyAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisKeyAsyncCommands();
+    try {
+      return commands.ttl(key).get();
+    } catch (InterruptedException ex) {
+      throw new GoblinInterruptedException(ex);
+    } catch (ExecutionException ex) {
+      logger.error("RDS.ttl({})", key, ex);
+      return null;
+    }
+  }
 }

@@ -25,4 +25,7 @@ public interface GoblinCache extends CacheSystemLocationProvider {
   @Nullable
   Boolean touch(@Nullable String key, int expirationInSeconds);
 
+  @Nullable
+  Long ttl(@Nullable String key);
+
 }
