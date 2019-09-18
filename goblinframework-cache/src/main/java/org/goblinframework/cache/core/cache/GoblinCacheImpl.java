@@ -3,6 +3,7 @@ package org.goblinframework.cache.core.cache;
 import org.goblinframework.core.mbean.GoblinManagedBean;
 import org.goblinframework.core.mbean.GoblinManagedObject;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @GoblinManagedBean(type = "CACHE")
 abstract public class GoblinCacheImpl extends GoblinManagedObject implements GoblinCache {
@@ -17,5 +18,12 @@ abstract public class GoblinCacheImpl extends GoblinManagedObject implements Gob
   @Override
   public CacheSystemLocation getCacheSystemLocation() {
     return location;
+  }
+
+  @Nullable
+  @Override
+  public <T> Boolean cas(@Nullable String key, int expirationInSeconds, @Nullable GetResult<T> getResult, @Nullable CasOperation<T> casOperation) {
+    int maxTries = casOperation == null ? 0 : casOperation.getMaxTries();
+    return cas(key, expirationInSeconds, getResult, maxTries, casOperation);
   }
 }
