@@ -1,6 +1,6 @@
 {
   "redis": {
-    "goblin": {
+    "_ut": {
       "servers": "127.0.0.1",
       "mode": "SINGLE",
       "serializer": "FST",

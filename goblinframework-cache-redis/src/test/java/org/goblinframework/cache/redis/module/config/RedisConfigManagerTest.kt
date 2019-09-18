@@ -12,7 +12,7 @@ class RedisConfigManagerTest {
 
   @Test
   fun redisConfig() {
-    val config = RedisConfigManager.INSTANCE.getRedisConfig("goblin")
+    val config = RedisConfigManager.INSTANCE.getRedisConfig("_ut")
     assertNotNull(config)
   }
 }

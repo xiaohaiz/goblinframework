@@ -14,14 +14,15 @@ class GoblinCacheBuilderManager private constructor()
     @JvmField val INSTANCE = GoblinCacheBuilderManager()
   }
 
-  private val buffer = EnumMap<CacheSystem, GoblinCacheBuilder>(CacheSystem::class.java)
+  private val buffer = EnumMap<CacheSystem, GoblinCacheBuilderImpl>(CacheSystem::class.java)
 
   init {
     ServiceInstaller.installedList(GoblinCacheBuilder::class.java).forEach {
-      val previous = buffer.put(it.cacheSystem, it)
-      previous?.run {
-        throw GoblinDuplicateException("Cache builder [${it.cacheSystem}] duplicated")
+      val system = it.cacheSystem
+      buffer[system]?.run {
+        throw GoblinDuplicateException("Duplicated GOBLIN cache builder: $system")
       }
+      buffer[system] = GoblinCacheBuilderImpl(it)
     }
   }
 
@@ -29,8 +30,8 @@ class GoblinCacheBuilderManager private constructor()
     return buffer[system]
   }
 
-  fun destroy() {
-    unregisterIfNecessary()
-    buffer.values.forEach { it.destroy() }
+  override fun disposeBean() {
+    buffer.values.forEach { it.dispose() }
   }
+
 }
