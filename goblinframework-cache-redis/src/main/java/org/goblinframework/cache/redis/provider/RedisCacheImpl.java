@@ -29,6 +29,12 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     logger.debug("REDIS cache [{}] closed", getName());
   }
 
+  @NotNull
+  @Override
+  public RedisClient getNativeCache() {
+    return client;
+  }
+
   @SuppressWarnings("unchecked")
   @Nullable
   @Override

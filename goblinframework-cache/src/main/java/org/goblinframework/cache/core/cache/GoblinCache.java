@@ -1,8 +1,12 @@
 package org.goblinframework.cache.core.cache;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface GoblinCache extends CacheSystemLocationProvider {
+
+  @NotNull
+  Object getNativeCache();
 
   @Nullable
   <T> GetResult<T> get(@Nullable String key);
