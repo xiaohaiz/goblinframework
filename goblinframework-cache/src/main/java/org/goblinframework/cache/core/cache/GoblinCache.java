@@ -16,4 +16,7 @@ public interface GoblinCache extends CacheSystemLocationProvider {
   @Nullable
   <T> Boolean set(@Nullable String key, int expirationInSeconds, @Nullable T value);
 
+  @Nullable
+  <T> Boolean replace(@Nullable String key, int expirationInSeconds, @Nullable T value);
+
 }

@@ -146,4 +146,36 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     }
     return "OK".equalsIgnoreCase(ret);
   }
+
+  @Nullable
+  @Override
+  public <T> Boolean replace(@Nullable String key, int expirationInSeconds, @Nullable T value) {
+    if (key == null || value == null || expirationInSeconds < 0) {
+      return false;
+    }
+    RedisStringAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisStringAsyncCommands();
+    String ret;
+    if (expirationInSeconds > 0) {
+      SetArgs args = new SetArgs().ex(expirationInSeconds).xx();
+      try {
+        ret = commands.set(key, value, args).get();
+      } catch (InterruptedException ex) {
+        throw new GoblinInterruptedException(ex);
+      } catch (ExecutionException ex) {
+        logger.error("RDS.replace({})", key, ex);
+        return null;
+      }
+    } else {
+      SetArgs args = new SetArgs().xx();
+      try {
+        ret = commands.set(key, value, args).get();
+      } catch (InterruptedException ex) {
+        throw new GoblinInterruptedException(ex);
+      } catch (ExecutionException ex) {
+        logger.error("RDS.replace({})", key, ex);
+        return null;
+      }
+    }
+    return "OK".equalsIgnoreCase(ret);
+  }
 }
