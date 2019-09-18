@@ -27,7 +27,6 @@ class RedisClientManager private constructor() : GoblinManagedObject(), RedisCli
         val client = when (config.getMode()) {
           RedisServerMode.SINGLE -> SingleRedisClient(config)
           RedisServerMode.CLUSTER -> ClusterRedisClient(config)
-          else -> throw UnsupportedOperationException()
         }
         buffer[name] = client
         client

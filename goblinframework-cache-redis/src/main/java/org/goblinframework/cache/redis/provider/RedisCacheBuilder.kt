@@ -5,7 +5,7 @@ import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.cache.core.cache.CacheSystem
 import org.goblinframework.cache.core.cache.GoblinCache
-import org.goblinframework.cache.core.spi.GoblinCacheBuilder
+import org.goblinframework.cache.core.cache.GoblinCacheBuilder
 import org.goblinframework.cache.redis.client.RedisClientManager
 import org.goblinframework.cache.redis.module.config.RedisConfig
 import org.goblinframework.cache.redis.module.config.RedisConfigManager

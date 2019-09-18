@@ -1,6 +1,5 @@
 package org.goblinframework.cache.core.cache;
 
-import org.goblinframework.cache.core.spi.GoblinCacheBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
