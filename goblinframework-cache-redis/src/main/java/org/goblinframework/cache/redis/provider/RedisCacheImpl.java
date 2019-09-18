@@ -277,7 +277,7 @@ final class RedisCacheImpl extends GoblinCacheImpl {
   @Override
   public long ttl(@Nullable String key) {
     if (key == null) {
-      return 0;
+      throw new IllegalArgumentException();
     }
     RedisKeyAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisKeyAsyncCommands();
     try {
@@ -291,11 +291,10 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     }
   }
 
-  @Nullable
   @Override
-  public Long incr(@Nullable String key, long delta, long initialValue, int expirationInSeconds) {
+  public long incr(@Nullable String key, long delta, long initialValue, int expirationInSeconds) {
     if (key == null || expirationInSeconds < 0) {
-      return null;
+      throw new IllegalArgumentException();
     }
     if (delta < 0) {
       return decr(key, -delta, initialValue, expirationInSeconds);
@@ -317,22 +316,17 @@ final class RedisCacheImpl extends GoblinCacheImpl {
 
       TransactionResult tr = connection.sync().exec();
       if (tr.size() != 2) {
-        // should not reach here
-        return null;
+        throw new UnsupportedOperationException();
       }
       Object last = tr.get(1);
-      if (!(last instanceof Long)) {
-        return null;
-      }
-      return (Long) last;
+      return NumberUtils.toLong(last);
     });
   }
 
-  @Nullable
   @Override
-  public Long decr(@Nullable String key, long delta, long initialValue, int expirationInSeconds) {
+  public long decr(@Nullable String key, long delta, long initialValue, int expirationInSeconds) {
     if (key == null || expirationInSeconds < 0) {
-      return null;
+      throw new IllegalArgumentException();
     }
     if (delta < 0) {
       return incr(key, -delta, initialValue, expirationInSeconds);
@@ -354,14 +348,10 @@ final class RedisCacheImpl extends GoblinCacheImpl {
 
       TransactionResult tr = connection.sync().exec();
       if (tr.size() != 2) {
-        // should not reach here
-        return null;
+        throw new UnsupportedOperationException();
       }
       Object last = tr.get(1);
-      if (!(last instanceof Long)) {
-        return null;
-      }
-      return (Long) last;
+      return NumberUtils.toLong(last);
     });
   }
 
