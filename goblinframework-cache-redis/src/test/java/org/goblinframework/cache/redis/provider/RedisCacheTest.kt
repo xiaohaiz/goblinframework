@@ -36,6 +36,8 @@ class RedisCacheTest {
     val key = RandomUtils.nextObjectId()
     cache.set(key, 1800, "HELLO")
     cache.append(key, " WORLD")
+    val s = cache.load<String>(key)
+    assertEquals("HELLO WORLD", s)
   }
 
   @Test

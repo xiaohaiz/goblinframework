@@ -42,8 +42,7 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     if (key == null) {
       return new GetResult<>();
     }
-    RedisStringAsyncCommands<String, Object> commands = client.getRedisCommands()
-        .async().getRedisStringAsyncCommands();
+    RedisStringAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisStringAsyncCommands();
     RedisFuture<Object> future = commands.get(key);
     Object cached;
     try {
@@ -75,8 +74,7 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     if (key == null) {
       return false;
     }
-    RedisKeyAsyncCommands<String, Object> commands = client.getRedisCommands()
-        .async().getRedisKeyAsyncCommands();
+    RedisKeyAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisKeyAsyncCommands();
     RedisFuture<Long> future = commands.del(key);
     Long count;
     try {
@@ -96,8 +94,7 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     if (key == null || expirationInSeconds < 0 || value == null) {
       return false;
     }
-    RedisStringAsyncCommands<String, Object> commands = client.getRedisCommands()
-        .async().getRedisStringAsyncCommands();
+    RedisStringAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisStringAsyncCommands();
     Boolean ret;
     if (expirationInSeconds > 0) {
       SetArgs args = new SetArgs().ex(expirationInSeconds).nx();

@@ -9,6 +9,9 @@ public interface GoblinCache extends CacheSystemLocationProvider {
   Object getNativeCache();
 
   @Nullable
+  <T> T load(@Nullable String key);
+
+  @Nullable
   <T> GetResult<T> get(@Nullable String key);
 
   @Nullable

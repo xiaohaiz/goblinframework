@@ -22,6 +22,13 @@ abstract public class GoblinCacheImpl extends GoblinManagedObject implements Gob
 
   @Nullable
   @Override
+  public <T> T load(@Nullable String key) {
+    GetResult<T> gr = get(key);
+    return gr == null ? null : gr.value;
+  }
+
+  @Nullable
+  @Override
   public <T> Boolean cas(@Nullable String key, int expirationInSeconds, @Nullable GetResult<T> getResult, @Nullable CasOperation<T> casOperation) {
     int maxTries = casOperation == null ? 0 : casOperation.getMaxTries();
     return cas(key, expirationInSeconds, getResult, maxTries, casOperation);
