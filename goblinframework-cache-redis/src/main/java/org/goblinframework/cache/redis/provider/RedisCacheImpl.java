@@ -245,9 +245,8 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     return NumberUtils.toLong(ret) > s.length();
   }
 
-  @Nullable
   @Override
-  public Boolean touch(@Nullable String key, int expirationInSeconds) {
+  public boolean touch(@Nullable String key, int expirationInSeconds) {
     if (key == null || expirationInSeconds < 0) {
       return false;
     }
@@ -260,7 +259,7 @@ final class RedisCacheImpl extends GoblinCacheImpl {
         throw new GoblinInterruptedException(ex);
       } catch (ExecutionException ex) {
         logger.error("RDS.touch({})", key, ex);
-        return null;
+        throw new GoblinExecutionException(ex);
       }
     } else {
       try {
@@ -269,26 +268,26 @@ final class RedisCacheImpl extends GoblinCacheImpl {
         throw new GoblinInterruptedException(ex);
       } catch (ExecutionException ex) {
         logger.error("RDS.touch({})", key, ex);
-        return null;
+        throw new GoblinExecutionException(ex);
       }
     }
-    return ret;
+    return ret != null && ret;
   }
 
-  @Nullable
   @Override
-  public Long ttl(@Nullable String key) {
+  public long ttl(@Nullable String key) {
     if (key == null) {
-      return null;
+      return 0;
     }
     RedisKeyAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisKeyAsyncCommands();
     try {
-      return commands.ttl(key).get();
+      Long ret = commands.ttl(key).get();
+      return NumberUtils.toLong(ret);
     } catch (InterruptedException ex) {
       throw new GoblinInterruptedException(ex);
     } catch (ExecutionException ex) {
       logger.error("RDS.ttl({})", key, ex);
-      return null;
+      throw new GoblinExecutionException(ex);
     }
   }
 

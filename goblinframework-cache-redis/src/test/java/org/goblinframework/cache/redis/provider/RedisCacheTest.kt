@@ -50,7 +50,7 @@ class RedisCacheTest {
     value = cache.incr(key, 10, 200, 7200) // initial and expiration skipped
     assertEquals(110, value!!.toLong())
     var ttl = cache.ttl(key)
-    assertTrue(abs(ttl!!.toLong() - 3600) < 10)
+    assertTrue(abs(ttl - 3600) < 10)
 
     // initial value present
     key = RandomUtils.nextObjectId()
@@ -60,7 +60,7 @@ class RedisCacheTest {
     value = cache.incr(key, 10, 200, 3600) // initial and expiration skipped
     assertEquals(70, value!!.toLong())
     ttl = cache.ttl(key)
-    assertTrue(abs(ttl!!.toLong() - 1800) < 10)
+    assertTrue(abs(ttl - 1800) < 10)
   }
 
   @Test
@@ -73,7 +73,7 @@ class RedisCacheTest {
     value = cache.decr(key, 10, 200, 7200) // initial and expiration skipped
     assertEquals(90, value!!.toLong())
     var ttl = cache.ttl(key)
-    assertTrue(abs(ttl!!.toLong() - 3600) < 10)
+    assertTrue(abs(ttl - 3600) < 10)
 
     // initial value present
     key = RandomUtils.nextObjectId()
@@ -83,7 +83,7 @@ class RedisCacheTest {
     value = cache.decr(key, 10, 200, 3600) // initial and expiration skipped
     assertEquals(30, value!!.toLong())
     ttl = cache.ttl(key)
-    assertTrue(abs(ttl!!.toLong() - 1800) < 10)
+    assertTrue(abs(ttl - 1800) < 10)
   }
 
   @Test

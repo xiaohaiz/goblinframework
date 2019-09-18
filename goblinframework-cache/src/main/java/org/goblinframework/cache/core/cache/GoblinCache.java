@@ -30,11 +30,9 @@ public interface GoblinCache extends CacheSystemLocationProvider {
 
   <T> boolean append(@Nullable String key, @Nullable T value);
 
-  @Nullable
-  Boolean touch(@Nullable String key, int expirationInSeconds);
+  boolean touch(@Nullable String key, int expirationInSeconds);
 
-  @Nullable
-  Long ttl(@Nullable String key);
+  long ttl(@Nullable String key);
 
   @Nullable
   Long incr(@Nullable String key, long delta, long initialValue, int expirationInSeconds);
