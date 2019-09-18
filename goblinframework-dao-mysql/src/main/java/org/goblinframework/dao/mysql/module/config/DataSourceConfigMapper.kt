@@ -18,14 +18,14 @@ class DataSourceConfigMapper : Serializable {
    * For MySQL, the dataSourceClassName is "com.mysql.jdbc.jdbc2.optional.MysqlDataSource"
    * This is HikariCP only.
    */
-  val dataSourceClassName: String? = null
+  var dataSourceClassName: String? = null
 
   /**
    * In case of using [.dataSourceClassName], the database name must be specified via
    * data source properties.
    * Default: none
    */
-  val databaseName: String? = null
+  var databaseName: String? = null
 
   /**
    * This property directs HikariCP to use "DriverManager-based" configuration. We feel that DataSource-based
@@ -36,7 +36,7 @@ class DataSourceConfigMapper : Serializable {
    * parameters specified in the URL itself.
    * Default: none
    */
-  val jdbcUrl: String? = null
+  var jdbcUrl: String? = null
 
   /**
    * HikariCP will attempt to resolve a driver through the DriverManager based solely on the jdbcUrl,
@@ -44,7 +44,7 @@ class DataSourceConfigMapper : Serializable {
    * you get an obvious error message indicating that the driver was not found.
    * Default: none
    */
-  val driverClass: String? = null
+  var driverClass: String? = null
 
   /**
    * This property sets the default authentication username used when obtaining Connections from the underlying
@@ -56,7 +56,7 @@ class DataSourceConfigMapper : Serializable {
    * and call addDataSourceProperty("username", ...), for example.
    * Default: none
    */
-  val username: String? = null
+  var username: String? = null
 
   /**
    * This property sets the default authentication password used when obtaining Connections from the underlying
@@ -68,7 +68,7 @@ class DataSourceConfigMapper : Serializable {
    * and call addDataSourceProperty("pass", ...), for example.
    * Default: none
    */
-  val password: String? = null
+  var password: String? = null
 
   // ========================================================================
   // HikariCP specified configurations
@@ -81,7 +81,7 @@ class DataSourceConfigMapper : Serializable {
    * boolean value.
    * Default: true
    */
-  val autoCommit: Boolean? = null
+  var autoCommit: Boolean? = null
 
   /**
    * This property controls the maximum number of milliseconds that a client (that's you) will wait for a
@@ -89,7 +89,7 @@ class DataSourceConfigMapper : Serializable {
    * will be thrown. 1000ms is the minimum value.
    * Default: 30000 (30 seconds)
    */
-  val connectionTimeout: Long? = null
+  var connectionTimeout: Long? = null
 
   /**
    * This property controls the maximum amount of time that a connection is allowed to sit idle in the pool.
@@ -98,7 +98,7 @@ class DataSourceConfigMapper : Serializable {
    * of 0 means that idle connections are never removed from the pool.
    * Default: 600000 (10 minutes)
    */
-  val idleTimeout: Long? = null
+  var idleTimeout: Long? = null
 
   /**
    * This property controls the maximum lifetime of a connection in the pool. When a connection reaches this
@@ -109,7 +109,7 @@ class DataSourceConfigMapper : Serializable {
    * setting.
    * Default: 1800000 (30 minutes)
    */
-  val maxLifetime: Long? = null
+  var maxLifetime: Long? = null
 
   /**
    * If your driver supports JDBC4 we strongly recommend not setting this property. This is for "legacy"
@@ -119,7 +119,7 @@ class DataSourceConfigMapper : Serializable {
    * is not JDBC4 compliant to let you know.
    * Default: none
    */
-  val connectionTestQuery: String? = null
+  var connectionTestQuery: String? = null
 
   /**
    * This property controls the minimum number of idle connections that HikariCP tries to maintain in the pool.
@@ -128,7 +128,7 @@ class DataSourceConfigMapper : Serializable {
    * not setting this value and instead allowing HikariCP to act as a fixed size connection pool.
    * Default: same as maximumPoolSize
    */
-  val minimumIdle: Int? = null
+  var minimumIdle: Int? = null
 
   /**
    * This property controls the maximum size that the pool is allowed to reach, including both idle and in-use
@@ -138,14 +138,14 @@ class DataSourceConfigMapper : Serializable {
    * connectionTimeout milliseconds before timing out.
    * Default: 10
    */
-  val maximumPoolSize: Int? = null
+  var maximumPoolSize: Int? = null
 
   /**
    * This property represents a user-defined name for the connection pool and appears mainly in logging and
    * JMX management consoles to identify pools and pool configurations.
    * Default: auto-generated
    */
-  val poolName: String? = null
+  var poolName: String? = null
 
   // Infrequently used
 
@@ -154,7 +154,7 @@ class DataSourceConfigMapper : Serializable {
    * connections successfully. If you want your application to start even when the database is down/unavailable,
    * set this property to false. Default: true
    */
-  val initializationFailFast: Boolean? = null
+  var initializationFailFast: Boolean? = null
 
   /**
    * This property determines whether HikariCP isolates internal pool queries, such as the connection alive test,
@@ -162,7 +162,7 @@ class DataSourceConfigMapper : Serializable {
    * them in their own transaction. This property only applies if autoCommit is disabled.
    * Default: false
    */
-  val isolateInternalQueries: Boolean? = null
+  var isolateInternalQueries: Boolean? = null
 
   /**
    * This property controls whether the pool can be suspended and resumed through JMX. This is useful for certain
@@ -170,7 +170,7 @@ class DataSourceConfigMapper : Serializable {
    * will be held until the pool is resumed.
    * Default: false
    */
-  val allowPoolSuspension: Boolean? = null
+  var allowPoolSuspension: Boolean? = null
 
   /**
    * This property controls whether Connections obtained from the pool are in read-only mode by default. Note some
@@ -179,20 +179,20 @@ class DataSourceConfigMapper : Serializable {
    * and database.
    * Default: false
    */
-  val readOnly: Boolean? = null
+  var readOnly: Boolean? = null
 
   /**
    * This property controls whether or not JMX Management Beans ("MBeans") are registered or not.
    * Default: false
    */
-  val registerMbeans: Boolean? = null
+  var registerMbeans: Boolean? = null
 
   /**
    * This property sets the default catalog for databases that support the concept of catalogs. If this property
    * is not specified, the default catalog defined by the JDBC driver is used.
    * Default: driver default
    */
-  val catalog: String? = null
+  var catalog: String? = null
 
   /**
    * This property sets a SQL statement that will be executed after every new connection creation before adding
@@ -200,7 +200,7 @@ class DataSourceConfigMapper : Serializable {
    * and the standard retry logic will be followed.
    * Default: none
    */
-  val connectionInitSql: String? = null
+  var connectionInitSql: String? = null
 
   /**
    * This property controls the default transaction isolation level of connections returned from the pool. If this
@@ -210,21 +210,21 @@ class DataSourceConfigMapper : Serializable {
    * TRANSACTION_REPEATABLE_READ, etc.
    * Default: driver default
    */
-  val transactionIsolation: String? = null
+  var transactionIsolation: String? = null
 
   /**
    * This property controls the maximum amount of time that a connection will be tested for aliveness. This value
    * must be less than the connectionTimeout. The lowest accepted validation timeout is 1000ms (1 second).
    * Default: 5000
    */
-  val validationTimeout: Long? = null
+  var validationTimeout: Long? = null
 
   /**
    * This property controls the amount of time that a connection can be out of the pool before a message is logged
    * indicating a possible connection leak. A value of 0 means leak detection is disabled. Lowest acceptable
    * value for enabling leak detection is 2000 (2 secs). Default: 0
    */
-  val leakDetectionThreshold: Long? = null
+  var leakDetectionThreshold: Long? = null
 
   // Statement Cache:
   // Most major database JDBC drivers already have a Statement cache that can be configured (MySQL, PostgreSQL,
@@ -243,7 +243,7 @@ class DataSourceConfigMapper : Serializable {
    * See the Metrics wiki page for details.
    * Default: none
    */
-  val metricRegistry: String? = null
+  var metricRegistry: String? = null
 
   /**
    * This property is only available via programmatic configuration or IoC container. This property allows you to
@@ -251,7 +251,7 @@ class DataSourceConfigMapper : Serializable {
    * health information. See the Health Checks wiki page for details.
    * Default: none
    */
-  val healthCheckRegistry: String? = null
+  var healthCheckRegistry: String? = null
 
   /**
    * This property is only available via programmatic configuration or IoC container. This property allows you to
@@ -260,7 +260,7 @@ class DataSourceConfigMapper : Serializable {
    * the dataSourceClassName property and all DataSource-specific properties will be ignored.
    * Default: none
    */
-  val dataSource: String? = null
+  var dataSource: String? = null
 
   /**
    * This property is only available via programmatic configuration or IoC container. This property allows you to
@@ -269,12 +269,12 @@ class DataSourceConfigMapper : Serializable {
    * ThreadFactory provided by the application container.
    * Default: none
    */
-  val threadFactory: String? = null
+  var threadFactory: String? = null
 
   /**
    * Properties for data source.
    */
-  val dataSourceProperties: LinkedHashMap<String, String>? = null
+  var dataSourceProperties: LinkedHashMap<String, String>? = null
 
   companion object {
     private const val serialVersionUID = -5837755439301118610L
