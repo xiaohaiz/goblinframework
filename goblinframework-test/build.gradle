@@ -11,4 +11,10 @@ dependencies {
   compile("org.springframework:spring-test:${spring_version}")
   compile("org.slf4j:jcl-over-slf4j:${slf4j_version}")
   compile("org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}")
+  compile("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:${log4jdbc_version}") {
+    exclude(group: "org.apache.logging.log4j", module: "log4j-core")
+    exclude(group: "org.apache.logging.log4j", module: "log4j-api")
+    exclude(group: "org.slf4j", module: "slf4j-api")
+  }
+
 }
