@@ -5,7 +5,8 @@ import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 
 @GoblinManagedBean("CACHE")
-class GoblinCacheImpl(private val delegator: GoblinCache)
+internal class GoblinCacheImpl
+internal constructor(private val delegator: GoblinCache)
   : GoblinManagedObject(), Disposable, GoblinCacheMXBean, GoblinCache by delegator {
 
   override fun getCacheSystem(): CacheSystem {

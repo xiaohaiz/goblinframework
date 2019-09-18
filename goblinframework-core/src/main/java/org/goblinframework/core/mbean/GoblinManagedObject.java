@@ -50,7 +50,7 @@ abstract public class GoblinManagedObject implements PlatformManagedObject, Disp
   }
 
   @Override
-  public void dispose() {
+  final public void dispose() {
     if (disposed.compareAndSet(false, true)) {
       unregisterIfNecessary();
       disposeBean();
