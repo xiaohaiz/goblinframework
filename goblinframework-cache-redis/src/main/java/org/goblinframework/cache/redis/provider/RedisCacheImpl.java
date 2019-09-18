@@ -197,4 +197,34 @@ final class RedisCacheImpl extends GoblinCacheImpl {
     }
     return true;
   }
+
+  @Nullable
+  @Override
+  public Boolean touch(@Nullable String key, int expirationInSeconds) {
+    if (key == null || expirationInSeconds < 0) {
+      return false;
+    }
+    RedisKeyAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisKeyAsyncCommands();
+    Boolean ret;
+    if (expirationInSeconds == 0) {
+      try {
+        ret = commands.persist(key).get();
+      } catch (InterruptedException ex) {
+        throw new GoblinInterruptedException(ex);
+      } catch (ExecutionException ex) {
+        logger.error("RDS.touch({})", key, ex);
+        return null;
+      }
+    } else {
+      try {
+        ret = commands.expire(key, expirationInSeconds).get();
+      } catch (InterruptedException ex) {
+        throw new GoblinInterruptedException(ex);
+      } catch (ExecutionException ex) {
+        logger.error("RDS.touch({})", key, ex);
+        return null;
+      }
+    }
+    return ret;
+  }
 }
