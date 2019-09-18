@@ -3,6 +3,9 @@ package org.goblinframework.cache.core.cache;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+import java.util.Map;
+
 public interface GoblinCache extends CacheSystemLocationProvider {
 
   @NotNull
@@ -13,6 +16,9 @@ public interface GoblinCache extends CacheSystemLocationProvider {
 
   @Nullable
   <T> GetResult<T> get(@Nullable String key);
+
+  @Nullable
+  <T> Map<String, GetResult<T>> gets(@Nullable Collection<String> keys);
 
   @Nullable
   Boolean delete(@Nullable String key);

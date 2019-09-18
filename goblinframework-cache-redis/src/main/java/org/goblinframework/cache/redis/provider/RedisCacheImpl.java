@@ -1,5 +1,6 @@
 package org.goblinframework.cache.redis.provider;
 
+import io.lettuce.core.KeyValue;
 import io.lettuce.core.RedisFuture;
 import io.lettuce.core.SetArgs;
 import io.lettuce.core.TransactionResult;
@@ -7,11 +8,13 @@ import io.lettuce.core.api.async.RedisKeyAsyncCommands;
 import io.lettuce.core.api.async.RedisStringAsyncCommands;
 import org.goblinframework.cache.core.cache.*;
 import org.goblinframework.cache.redis.client.RedisClient;
+import org.goblinframework.core.exception.GoblinExecutionException;
 import org.goblinframework.core.exception.GoblinInterruptedException;
 import org.goblinframework.core.mbean.GoblinManagedBean;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @GoblinManagedBean(type = "CACHE.REDIS")
@@ -66,6 +69,45 @@ final class RedisCacheImpl extends GoblinCacheImpl {
       gr.value = (T) cached;
     }
     return gr;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public <T> Map<String, GetResult<T>> gets(@Nullable Collection<String> keys) {
+    if (keys == null || keys.isEmpty()) {
+      return Collections.emptyMap();
+    }
+    String[] ids = keys.stream().distinct().toArray(String[]::new);
+    RedisStringAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisStringAsyncCommands();
+    RedisFuture<List<KeyValue<String, Object>>> future = commands.mget(ids);
+    List<KeyValue<String, Object>> kvs;
+    try {
+      kvs = future.get();
+    } catch (InterruptedException ex) {
+      throw new GoblinInterruptedException(ex);
+    } catch (ExecutionException ex) {
+      throw new GoblinExecutionException(ex);
+    }
+    Map<String, GetResult<T>> result = new LinkedHashMap<>();
+    for (KeyValue<String, Object> kv : kvs) {
+      String id = kv.getKey();
+      if (!kv.hasValue()) {
+        result.put(id, new GetResult<>());
+      } else {
+        Object cached = kv.getValue();
+        GetResult<T> gr = new GetResult<>();
+        gr.cas = 0;
+        gr.hit = true;
+        if (cached instanceof CacheValueWrapper) {
+          gr.wrapper = true;
+          gr.value = (T) ((CacheValueWrapper) cached).getValue();
+        } else {
+          gr.value = (T) cached;
+        }
+        result.put(id, gr);
+      }
+    }
+    return result;
   }
 
   @Nullable

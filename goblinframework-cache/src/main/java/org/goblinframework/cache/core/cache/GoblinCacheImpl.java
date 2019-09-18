@@ -5,6 +5,11 @@ import org.goblinframework.core.mbean.GoblinManagedObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @GoblinManagedBean(type = "CACHE")
 abstract public class GoblinCacheImpl extends GoblinManagedObject implements GoblinCache {
 
@@ -25,6 +30,22 @@ abstract public class GoblinCacheImpl extends GoblinManagedObject implements Gob
   public <T> T load(@Nullable String key) {
     GetResult<T> gr = get(key);
     return gr == null ? null : gr.value;
+  }
+
+  @Nullable
+  @Override
+  public <T> Map<String, GetResult<T>> gets(@Nullable Collection<String> keys) {
+    if (keys == null || keys.isEmpty()) {
+      return Collections.emptyMap();
+    }
+    Map<String, GetResult<T>> result = new LinkedHashMap<>();
+    keys.stream().distinct().forEach(id -> {
+      GetResult<T> gr = get(id);
+      if (gr != null) {
+        result.put(id, gr);
+      }
+    });
+    return result;
   }
 
   @Nullable
