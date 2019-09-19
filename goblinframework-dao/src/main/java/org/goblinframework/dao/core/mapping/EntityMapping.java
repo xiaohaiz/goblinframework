@@ -4,6 +4,8 @@ import org.goblinframework.core.mbean.GoblinManagedBean;
 import org.goblinframework.core.mbean.GoblinManagedObject;
 import org.goblinframework.core.reflection.GoblinReflectionException;
 import org.goblinframework.dao.core.mapping.field.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -56,5 +58,17 @@ public class EntityMapping extends GoblinManagedObject implements EntityMappingM
 
   public void setId(Object entity, Object id) {
     idField.getField().set(entity, id);
+  }
+
+  @NotNull
+  @Override
+  public String getIdFieldName() {
+    return idField.getName();
+  }
+
+  @Nullable
+  @Override
+  public String getRevisionFieldName() {
+    return revisionField == null ? null : revisionField.getName();
   }
 }
