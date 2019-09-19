@@ -40,7 +40,11 @@ final class MysqlConfigParser extends BufferedConfigParser<MysqlConfig> {
       slaves = mapper.convertValue(s, jt);
     }
     return new MysqlConfig(name, processDataSourceConfig(new DataSourceConfig(master)),
-        slaves.stream().map(e -> processDataSourceConfig(new DataSourceConfig(e))).collect(Collectors.toList()));
+        slaves.stream().map(e -> {
+          DataSourceConfig config = processDataSourceConfig(new DataSourceConfig(e));
+          config.getMapper().setReadOnly(true);
+          return config;
+        }).collect(Collectors.toList()));
   }
 
   private DataSourceConfig processDataSourceConfig(DataSourceConfig config) {
