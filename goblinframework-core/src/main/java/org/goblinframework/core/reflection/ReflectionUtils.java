@@ -6,8 +6,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.aop.framework.ProxyFactory;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.*;
+import java.util.stream.Collectors;
 
 abstract public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
 
@@ -36,5 +40,35 @@ abstract public class ReflectionUtils extends org.springframework.util.Reflectio
     proxyFactory.setInterfaces(interfaceClass);
     proxyFactory.addAdvice(interceptor);
     return (T) proxyFactory.getProxy(ClassUtils.getDefaultClassLoader());
+  }
+
+  public static List<java.lang.reflect.Field> allFieldsIncludingAncestors(@NotNull Class<?> clazz,
+                                                                          boolean includeStatic,
+                                                                          boolean eliminateDuplicationNames) {
+    List<java.lang.reflect.Field> list = new LinkedList<>();
+    List<Class<?>> hierarchy = ClassUtils.getClassInheritanceHierarchy(clazz, false);
+    for (Class<?> clz : hierarchy) {
+      List<java.lang.reflect.Field> fields = Arrays.asList(clz.getDeclaredFields());
+      if (!includeStatic) {
+        fields = fields.stream()
+            .filter(f -> !Modifier.isStatic(f.getModifiers()))
+            .collect(Collectors.toList());
+      }
+      list.addAll(fields);
+    }
+    Set<String> fieldNames = new HashSet<>();
+    List<Field> result = new LinkedList<>();
+    if (eliminateDuplicationNames) {
+      list.forEach(field -> {
+        String fieldName = field.getName();
+        if (!fieldNames.contains(fieldName)) {
+          fieldNames.add(fieldName);
+          result.add(field);
+        }
+      });
+    } else {
+      result.addAll(list);
+    }
+    return result;
   }
 }
