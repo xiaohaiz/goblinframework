@@ -71,4 +71,10 @@ class ConversionServiceTest : SpringManagedBean() {
     val date = DateFormatUtils.parse(target)
     assertEquals(source.toEpochMilli(), date!!.time)
   }
+
+  @Test
+  fun longToInstant() {
+    val cs = ConversionService.INSTANCE
+    assertTrue(cs.canConvert(Long::class.java, Instant::class.java))
+  }
 }

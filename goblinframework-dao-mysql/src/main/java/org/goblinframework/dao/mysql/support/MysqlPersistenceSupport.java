@@ -12,10 +12,15 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 
 import java.util.Collection;
+import java.util.Collections;
 
 abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupport<E, ID> {
 
-  public void $inserts(@NotNull Collection<E> entities) {
+  public void __insert(@NotNull E entity) {
+    __inserts(Collections.singleton(entity));
+  }
+
+  public void __inserts(@NotNull Collection<E> entities) {
     if (entities.isEmpty()) return;
     long millis = System.currentTimeMillis();
     for (E entity : entities) {
@@ -25,25 +30,25 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
       touchUpdateTime(entity, millis);
       initializeRevision(entity);
     }
-    if (entities.size() == 1) {
-      internalInserts(entities);
-    } else {
+    if (isNestedTransactionEnabled()) {
       client.getMasterTransactionTemplate().execute(new TransactionCallbackWithoutResult() {
         @Override
         protected void doInTransactionWithoutResult(TransactionStatus status) {
-          internalInserts(entities);
+          executeInserts(entities);
         }
       });
+    } else {
+      executeInserts(entities);
     }
   }
 
-  private void internalInserts(Collection<E> entities) {
+  private void executeInserts(final Collection<E> entities) {
     groupEntities(entities).forEach((tableName, list) -> {
       list.forEach(e -> executeInsert(e, tableName));
     });
   }
 
-  protected void executeInsert(final E entity, final String tableName) {
+  private void executeInsert(final E entity, final String tableName) {
     MysqlInsertOperation insertOperation = new MysqlInsertOperation(entityMapping, entity, tableName);
     String sql = insertOperation.generateSQL();
     PreparedStatementCreatorFactory factory = insertOperation.newPreparedStatementCreatorFactory(sql);
