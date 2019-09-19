@@ -17,7 +17,7 @@ abstract public class MysqlPrimaryKeySupport<E, ID> extends MysqlTableSupport<E,
     supported = EnumSet.of(Id.Generator.NONE, Id.Generator.AUTO_INC, Id.Generator.OBJECT_ID);
   }
 
-  private final Id.Generator generator;
+  protected final Id.Generator generator;
 
   protected MysqlPrimaryKeySupport() {
     EntityIdField idField = entityMapping.idField;
