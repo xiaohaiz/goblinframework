@@ -10,7 +10,6 @@ import org.goblinframework.cache.core.cache.*;
 import org.goblinframework.cache.redis.client.RedisClient;
 import org.goblinframework.core.exception.GoblinExecutionException;
 import org.goblinframework.core.exception.GoblinInterruptedException;
-import org.goblinframework.core.mbean.GoblinManagedBean;
 import org.goblinframework.core.util.NumberUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-@GoblinManagedBean(type = "CACHE.REDIS")
 final class RedisCacheImpl extends AbstractGoblinCache {
 
   private final RedisClient client;
