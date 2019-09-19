@@ -9,7 +9,7 @@
     <Root level="debug">
       <AppenderRef ref="Console"/>
     </Root>
-    <logger name="jdbc.connection" level="DEBUG"/>
-    <logger name="jdbc" level="OFF"/>
+    <logger name="jdbc.resultsettable" level="OFF"/>
+    <logger name="jdbc.sqltiming" level="OFF"/>
   </Loggers>
 </Configuration>

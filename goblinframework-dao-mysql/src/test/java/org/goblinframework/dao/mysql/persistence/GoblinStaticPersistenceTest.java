@@ -6,6 +6,7 @@ import org.goblinframework.api.annotation.Revision;
 import org.goblinframework.api.annotation.Table;
 import org.goblinframework.core.container.SpringManagedBean;
 import org.goblinframework.core.util.RandomUtils;
+import org.goblinframework.dao.mysql.module.test.RebuildMysqlTable;
 import org.goblinframework.dao.mysql.support.UseMysqlClient;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.junit.Test;
@@ -42,6 +43,7 @@ public class GoblinStaticPersistenceTest extends SpringManagedBean {
   @Inject private MockDataPersistence persistence;
 
   @Test
+  @RebuildMysqlTable(name = "_ut", entity = MockData.class)
   public void persistence() {
     MockData data = new MockData();
     data.name = RandomUtils.nextObjectId();
