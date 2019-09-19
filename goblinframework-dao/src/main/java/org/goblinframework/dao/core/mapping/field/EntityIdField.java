@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EntityIdField extends EntityField {
+final public class EntityIdField extends EntityField {
 
   private static final Set<Class<?>> ALLOWED;
 

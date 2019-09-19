@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
-public class EntityEmbedField extends EntityField {
+final public class EntityEmbedField extends EntityField {
 
   private final Field parent;
 

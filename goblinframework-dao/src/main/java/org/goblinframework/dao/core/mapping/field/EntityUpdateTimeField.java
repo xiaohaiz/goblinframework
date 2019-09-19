@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import java.time.Instant;
 import java.util.*;
 
-public class EntityUpdateTimeField extends EntityField {
+final public class EntityUpdateTimeField extends EntityField {
 
   private static final Set<Class<?>> ALLOWED;
 
