@@ -46,4 +46,18 @@ abstract public class EntityMappingSupport<E, ID> extends SpringManagedBean {
 
   @NotNull
   abstract protected EntityMappingBuilder getEntityMappingBuilder();
+
+  @SuppressWarnings("unchecked")
+  protected E newEntityInstance() {
+    return (E) entityMapping.newInstance();
+  }
+
+  @SuppressWarnings("unchecked")
+  protected ID getEntityId(E document) {
+    return (ID) entityMapping.getId(document);
+  }
+
+  protected void setEntityId(E document, ID id) {
+    entityMapping.setId(document, id);
+  }
 }

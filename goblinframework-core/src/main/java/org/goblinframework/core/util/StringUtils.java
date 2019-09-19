@@ -53,4 +53,23 @@ abstract public class StringUtils extends org.apache.commons.lang3.StringUtils {
         .collect(Collectors.toList());
     return join(formalized, (separator == null ? " " : separator));
   }
+
+  public static String formatMessage(String messagePattern, Object... params) {
+    if (!contains(messagePattern, "{}")) {
+      return messagePattern;
+    }
+    if (params == null || params.length == 0) {
+      return messagePattern;
+    }
+
+    String message = messagePattern;
+    String[] replacementList = new String[params.length];
+    for (int i = 0; i < replacementList.length; i++) {
+      replacementList[i] = String.valueOf(params[i]);
+    }
+    for (String replacement : replacementList) {
+      message = replaceOnce(message, "{}", replacement);
+    }
+    return message;
+  }
 }

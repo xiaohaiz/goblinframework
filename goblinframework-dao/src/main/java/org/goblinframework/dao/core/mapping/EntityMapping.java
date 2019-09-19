@@ -49,4 +49,12 @@ public class EntityMapping extends GoblinManagedObject implements EntityMappingM
       throw new GoblinReflectionException(ex);
     }
   }
+
+  public Object getId(Object entity) {
+    return idField.getField().get(entity);
+  }
+
+  public void setId(Object entity, Object id) {
+    idField.getField().set(entity, id);
+  }
 }
