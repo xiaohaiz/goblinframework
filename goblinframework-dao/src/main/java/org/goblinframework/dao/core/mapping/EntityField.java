@@ -1,5 +1,6 @@
 package org.goblinframework.dao.core.mapping;
 
+import org.apache.commons.lang3.mutable.MutableObject;
 import org.goblinframework.core.reflection.Field;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,8 +10,9 @@ import java.util.Set;
 
 abstract public class EntityField {
 
-  protected final EntityFieldNameResolver nameResolver;
-  protected final Field field;
+  private final EntityFieldNameResolver nameResolver;
+  private final Field field;
+  private final MutableObject<String> resolvedName = new MutableObject<>(null);
 
   public EntityField(@NotNull EntityFieldNameResolver nameResolver,
                      @NotNull Field field) {
@@ -24,8 +26,17 @@ abstract public class EntityField {
   }
 
   @NotNull
-  public String getName() {
-    return nameResolver.resolve(this);
+  public synchronized String getName() {
+    String resolved = resolvedName.getValue();
+    if (resolved != null) return resolved;
+    resolved = nameResolver.resolve(this);
+    resolvedName.setValue(resolved);
+    return resolved;
+  }
+
+  @NotNull
+  public Field getField() {
+    return field;
   }
 
   public Object getValue(@NotNull Object obj) {

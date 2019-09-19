@@ -30,7 +30,7 @@ final public class EntityEmbedField extends EntityField {
   }
 
   public Field getChild() {
-    return field;
+    return getField();
   }
 
   @Override
