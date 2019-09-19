@@ -17,7 +17,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 @ThreadSafe
 final public class InJvmCache extends AbstractGoblinCache implements Disposable {
 
-  static final InJvmCache INSTANCE = new InJvmCache();
+  public static final InJvmCache INSTANCE = new InJvmCache();
 
   private final Timer watchdogTimer;
   private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
@@ -258,6 +258,16 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
   @Override
   public void dispose() {
     watchdogTimer.cancel();
+  }
+
+  public void flush() {
+    lock.writeLock().lock();
+    try {
+      buffer.clear();
+      logger.info("JVM cache flushed");
+    } finally {
+      lock.writeLock().unlock();
+    }
   }
 
   private void clean() {
