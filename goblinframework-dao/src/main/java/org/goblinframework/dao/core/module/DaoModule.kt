@@ -5,6 +5,7 @@ import org.goblinframework.core.bootstrap.GoblinModule
 import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
 import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
+import org.goblinframework.dao.core.mapping.EntityMappingBuilderManager
 
 @Install
 class DaoModule : GoblinModule {
@@ -29,5 +30,6 @@ class DaoModule : GoblinModule {
     ctx.createChildModuleManager()
         .module("DAO:MYSQL")
         .finalize(ctx)
+    EntityMappingBuilderManager.INSTANCE.dispose()
   }
 }
