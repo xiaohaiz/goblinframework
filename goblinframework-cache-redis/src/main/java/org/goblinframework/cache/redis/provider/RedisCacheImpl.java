@@ -275,7 +275,7 @@ final class RedisCacheImpl extends AbstractGoblinCache {
     RedisKeyAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisKeyAsyncCommands();
     try {
       Long ret = commands.ttl(key).get();
-      return NumberUtils.toLong(ret);
+      return NumberUtils.toLong(ret, -1);
     } catch (InterruptedException ex) {
       throw new GoblinInterruptedException(ex);
     } catch (ExecutionException ex) {

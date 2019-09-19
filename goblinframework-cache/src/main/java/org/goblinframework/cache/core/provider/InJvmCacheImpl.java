@@ -7,6 +7,8 @@ import org.goblinframework.cache.core.cache.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
+import java.util.ConcurrentModificationException;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -167,26 +169,80 @@ final public class InJvmCacheImpl extends AbstractGoblinCache {
 
   @Override
   public boolean touch(@Nullable String key, int expirationInSeconds) {
-    return false;
+    if (key == null || expirationInSeconds < 0) {
+      return false;
+    }
+    CacheItem ci = retrieve(key);
+    if (ci == null) return false;
+    ci.touchExpirationInSeconds(expirationInSeconds);
+    return true;
   }
 
   @Override
   public long ttl(@Nullable String key) {
-    return 0;
+    if (key == null) {
+      throw new IllegalArgumentException();
+    }
+    CacheItem ci = retrieve(key);
+    if (ci == null) return -1;
+    long e = ci.expireAt.get();
+    if (e == 0) return 0;
+    long delta = e - System.currentTimeMillis();
+    if (delta < 0) return -1;
+    long ttl = new BigDecimal(delta).divide(new BigDecimal(1000), 0, BigDecimal.ROUND_UP).longValue();
+    return Math.max(ttl, 1);
   }
 
   @Override
   public long incr(@Nullable String key, long delta, long initialValue, int expirationInSeconds) {
-    return 0;
+    if (key == null || expirationInSeconds < 0) {
+      throw new IllegalArgumentException();
+    }
+    CacheItem ci = retrieve(key);
+    if (ci == null) {
+      if (add(key, expirationInSeconds, Long.toString(initialValue))) {
+        return initialValue;
+      } else {
+        throw new ConcurrentModificationException();
+      }
+    }
+    long v = Long.parseLong(ci.value.toString()) + delta;
+    ci.touchExpirationInSeconds(expirationInSeconds);
+    ci.value = Long.toString(v);
+    ci.cas.incrementAndGet();
+    return v;
   }
 
   @Override
   public long decr(@Nullable String key, long delta, long initialValue, int expirationInSeconds) {
-    return 0;
+    return incr(key, -delta, initialValue, expirationInSeconds);
   }
 
   @Override
   public <T> boolean cas(@Nullable String key, int expirationInSeconds, @Nullable GetResult<T> getResult, int maxTries, @Nullable CasOperation<T> casOperation) {
+    if (key == null || expirationInSeconds < 0 || getResult == null || casOperation == null) {
+      return false;
+    }
+    int max = Math.max(0, maxTries);
+    int retries = 0;
+    GetResult<T> gr = getResult;
+    while (retries <= max) {
+      if (retries > 0) {
+        gr = get(key);
+        if (!gr.hit) return false;
+      }
+      CacheItem ci = retrieve(key);
+      if (ci == null) return false;
+      if (ci.cas.longValue() == gr.cas) {
+        @SuppressWarnings("unchecked")
+        T newValue = casOperation.changeCacheObject((T) ci.value);
+        ci.value = newValue;
+        ci.touchExpirationInSeconds(expirationInSeconds);
+        ci.cas.incrementAndGet();
+        return true;
+      }
+      retries++;
+    }
     return false;
   }
 }
