@@ -1,1 +1,2 @@
 org.goblinframework.cache.core.provider.InJvmCacheBuilder
+org.goblinframework.cache.core.provider.NoOpCacheBuilder
