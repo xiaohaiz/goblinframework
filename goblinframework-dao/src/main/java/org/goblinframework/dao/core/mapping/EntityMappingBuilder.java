@@ -110,7 +110,7 @@ public class EntityMappingBuilder extends GoblinManagedObject implements EntityM
     mapping.updateTimeFields = updateTimeFields;
     mapping.embedFields = embedFields;
     mapping.normalFields = normalFields;
-    return new EntityMapping();
+    return mapping;
   }
 
   private List<EntityIdField> drainEntityIdFields(List<Field> allFields) {
