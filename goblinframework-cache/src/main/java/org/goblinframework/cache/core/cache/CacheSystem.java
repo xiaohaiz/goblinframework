@@ -22,4 +22,9 @@ public enum CacheSystem {
     return cacheBuilder == null ? null : cacheBuilder.getCache(name);
   }
 
+  @Nullable
+  public GoblinCache defaultCache() {
+    return getCache(name());
+  }
+
 }

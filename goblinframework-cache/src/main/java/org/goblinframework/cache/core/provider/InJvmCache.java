@@ -3,27 +3,36 @@ package org.goblinframework.cache.core.provider;
 import org.apache.commons.collections4.map.LRUMap;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.annotation.ThreadSafe;
+import org.goblinframework.api.common.Disposable;
 import org.goblinframework.cache.core.cache.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
-import java.util.ConcurrentModificationException;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Singleton
 @ThreadSafe
-final public class InJvmCacheImpl extends AbstractGoblinCache {
+final public class InJvmCache extends AbstractGoblinCache implements Disposable {
 
-  public static final InJvmCacheImpl INSTANCE = new InJvmCacheImpl();
+  static final InJvmCache INSTANCE = new InJvmCache();
 
-  private InJvmCacheImpl() {
-    super(new CacheSystemLocation(CacheSystem.JVM, "JVM"));
-  }
-
+  private final Timer watchdogTimer;
   private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
   private final LRUMap<String, CacheItem> buffer = new LRUMap<>(65536);
+
+  private InJvmCache() {
+    super(new CacheSystemLocation(CacheSystem.JVM, "JVM"));
+    watchdogTimer = new Timer("InJvmCacheWatchdogTimer", true);
+    watchdogTimer.scheduleAtFixedRate(new TimerTask() {
+      @Override
+      public void run() {
+        clean();
+      }
+    }, 10000, 10000);
+  }
 
   private static class CacheItem {
     private AtomicLong expireAt = new AtomicLong();
@@ -244,5 +253,26 @@ final public class InJvmCacheImpl extends AbstractGoblinCache {
       retries++;
     }
     return false;
+  }
+
+  @Override
+  public void dispose() {
+    watchdogTimer.cancel();
+  }
+
+  private void clean() {
+    List<String> expires = new LinkedList<>();
+    lock.readLock().lock();
+    try {
+      buffer.forEach((key, ci) -> {
+        if (ci.isExpired()) expires.add(key);
+      });
+    } finally {
+      lock.readLock().unlock();
+    }
+    if (expires.isEmpty()) return;
+    for (String key : expires) {
+      retrieve(key);
+    }
   }
 }
