@@ -1,11 +1,16 @@
 package org.goblinframework.dao.core.support;
 
+import org.goblinframework.api.annotation.CreateTime;
+import org.goblinframework.api.annotation.UpdateTime;
 import org.goblinframework.core.container.SpringManagedBean;
 import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.util.ClassUtils;
+import org.goblinframework.core.util.DateFormatUtils;
 import org.goblinframework.dao.core.mapping.EntityField;
 import org.goblinframework.dao.core.mapping.EntityMapping;
 import org.goblinframework.dao.core.mapping.EntityMappingBuilder;
+import org.goblinframework.dao.core.mapping.field.EntityCreateTimeField;
+import org.goblinframework.dao.core.mapping.field.EntityUpdateTimeField;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.ParameterizedType;
@@ -46,6 +51,36 @@ abstract public class EntityMappingSupport<E, ID> extends SpringManagedBean {
 
   @NotNull
   abstract protected EntityMappingBuilder getEntityMappingBuilder();
+
+  protected void touchCreateTime(E entity, long millis) {
+    for (EntityCreateTimeField createTimeField : entityMapping.createTimeFields) {
+      Class<?> ft = createTimeField.getField().getFieldType();
+      if (ft == String.class) {
+        CreateTime annotation = createTimeField.getAnnotation(CreateTime.class);
+        assert annotation != null;
+        String pattern = annotation.pattern();
+        String s = DateFormatUtils.format(millis, pattern);
+        createTimeField.getField().set(entity, s);
+      } else {
+        createTimeField.getField().set(entity, millis);
+      }
+    }
+  }
+
+  protected void touchUpdateTime(E entity, long millis) {
+    for (EntityUpdateTimeField updateTimeField : entityMapping.updateTimeFields) {
+      Class<?> ft = updateTimeField.getField().getFieldType();
+      if (ft == String.class) {
+        UpdateTime annotation = updateTimeField.getAnnotation(UpdateTime.class);
+        assert annotation != null;
+        String pattern = annotation.pattern();
+        String s = DateFormatUtils.format(millis, pattern);
+        updateTimeField.getField().set(entity, s);
+      } else {
+        updateTimeField.getField().set(entity, millis);
+      }
+    }
+  }
 
   @SuppressWarnings("unchecked")
   protected E newEntityInstance() {

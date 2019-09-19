@@ -4,7 +4,9 @@ import org.goblinframework.api.annotation.Table;
 import org.goblinframework.dao.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.util.LinkedMultiValueMap;
 
+import java.util.Collection;
 import java.util.Objects;
 
 abstract public class MysqlTableSupport<E, ID> extends MysqlClientSupport<E, ID> {
@@ -22,14 +24,37 @@ abstract public class MysqlTableSupport<E, ID> extends MysqlClientSupport<E, ID>
     this.dynamic = annotation.dynamic();
   }
 
-  /**
-   * 必须根据主键计算分表的才能调用此方法
-   */
+
+  protected LinkedMultiValueMap<String, E> groupEntities(Collection<E> entities) {
+    LinkedMultiValueMap<String, E> map = new LinkedMultiValueMap<>();
+    if (entities == null || entities.isEmpty()) {
+      return map;
+    }
+    for (E entity : entities) {
+      String tableName = getEntityTableName(entity);
+      map.add(tableName, entity);
+    }
+    return map;
+  }
+
+  protected LinkedMultiValueMap<String, ID> groupIds(Collection<ID> ids) {
+    LinkedMultiValueMap<String, ID> map = new LinkedMultiValueMap<>();
+    if (ids == null || ids.isEmpty()) {
+      return map;
+    }
+    for (ID id : ids) {
+      String tableName = getIdTableName(id);
+      map.add(tableName, id);
+    }
+    return map;
+  }
+
   @NotNull
   protected String getIdTableName(@Nullable ID id) {
     if (!dynamic) {
       return table;
     } else {
+      // 必须根据主键计算分表的才能调用这里
       Objects.requireNonNull(id);
       E entity = newEntityInstance();
       setEntityId(entity, id);
