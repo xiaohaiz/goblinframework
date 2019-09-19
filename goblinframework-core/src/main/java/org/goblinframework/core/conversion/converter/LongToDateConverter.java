@@ -4,14 +4,14 @@ import org.goblinframework.api.annotation.Install;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 
-import java.time.Instant;
+import java.util.Date;
 
 @Install
-final public class LongToInstantConverter implements Converter<Long, Instant> {
+final public class LongToDateConverter implements Converter<Long, Date> {
 
   @NotNull
   @Override
-  public Instant convert(@NotNull Long source) {
-    return Instant.ofEpochMilli(source);
+  public Date convert(@NotNull Long source) {
+    return new Date(source);
   }
 }
