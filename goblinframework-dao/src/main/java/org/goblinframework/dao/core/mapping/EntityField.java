@@ -1,6 +1,7 @@
 package org.goblinframework.dao.core.mapping;
 
 import org.apache.commons.lang3.mutable.MutableObject;
+import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.reflection.Field;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,6 +19,15 @@ abstract public class EntityField {
                      @NotNull Field field) {
     this.nameResolver = nameResolver;
     this.field = field;
+
+    Set<Class<?>> allowed = allowedFieldTypes();
+    if (allowed != null) {
+      Class<?> fieldType = field.getFieldType();
+      if (!allowed.contains(fieldType)) {
+        throw new GoblinMappingException("Field type [" + fieldType.getName()
+            + "] not allowed when creating [" + getClass().getName() + "]");
+      }
+    }
   }
 
   @Nullable
