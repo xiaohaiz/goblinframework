@@ -1,7 +1,5 @@
 package org.goblinframework.dao.core.mapping.field;
 
-import org.goblinframework.api.annotation.CreateTime;
-import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.reflection.Field;
 import org.goblinframework.dao.core.mapping.EntityField;
 import org.goblinframework.dao.core.mapping.EntityFieldNameResolver;
@@ -27,9 +25,6 @@ final public class EntityCreateTimeField extends EntityField {
 
   public EntityCreateTimeField(@NotNull EntityFieldNameResolver nameResolver, @NotNull Field field) {
     super(nameResolver, field);
-    if (getAnnotation(CreateTime.class) == null) {
-      throw new GoblinMappingException("No @CreateTime presented");
-    }
   }
 
   @Nullable

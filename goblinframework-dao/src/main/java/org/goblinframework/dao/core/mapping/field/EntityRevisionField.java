@@ -1,7 +1,5 @@
 package org.goblinframework.dao.core.mapping.field;
 
-import org.goblinframework.api.annotation.Revision;
-import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.reflection.Field;
 import org.goblinframework.dao.core.mapping.EntityField;
 import org.goblinframework.dao.core.mapping.EntityFieldNameResolver;
@@ -25,9 +23,6 @@ final public class EntityRevisionField extends EntityField {
 
   public EntityRevisionField(@NotNull EntityFieldNameResolver nameResolver, @NotNull Field field) {
     super(nameResolver, field);
-    if (getAnnotation(Revision.class) == null) {
-      throw new GoblinMappingException("No @Revision presented");
-    }
   }
 
   @Nullable

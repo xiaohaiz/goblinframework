@@ -1,7 +1,5 @@
 package org.goblinframework.dao.core.mapping.field;
 
-import org.goblinframework.api.annotation.Embed;
-import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.reflection.Field;
 import org.goblinframework.core.reflection.GoblinReflectionException;
 import org.goblinframework.dao.core.mapping.EntityField;
@@ -20,9 +18,6 @@ final public class EntityEmbedField extends EntityField {
                           @NotNull Field parent) {
     super(nameResolver, child);
     this.parent = parent;
-    if (getAnnotation(Embed.class) == null) {
-      throw new GoblinMappingException("No @Embed presented");
-    }
   }
 
   public Field getParent() {

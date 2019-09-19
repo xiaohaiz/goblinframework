@@ -5,6 +5,7 @@ import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -28,6 +29,10 @@ public class Field {
     this.fieldType = field.getType();
     this.getter = initializeGetter();
     this.setter = initializeSetter();
+  }
+
+  public boolean isAnnotationPresent(@NotNull Class<? extends Annotation> annotationClass) {
+    return field.isAnnotationPresent(annotationClass);
   }
 
   public Class<?> getClazz() {

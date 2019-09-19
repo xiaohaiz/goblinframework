@@ -1,7 +1,5 @@
 package org.goblinframework.dao.core.mapping.field;
 
-import org.goblinframework.api.annotation.UpdateTime;
-import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.reflection.Field;
 import org.goblinframework.dao.core.mapping.EntityField;
 import org.goblinframework.dao.core.mapping.EntityFieldNameResolver;
@@ -27,9 +25,6 @@ final public class EntityUpdateTimeField extends EntityField {
 
   public EntityUpdateTimeField(@NotNull EntityFieldNameResolver nameResolver, @NotNull Field field) {
     super(nameResolver, field);
-    if (getAnnotation(UpdateTime.class) == null) {
-      throw new GoblinMappingException("No @UpdateTime presented");
-    }
   }
 
   @Nullable

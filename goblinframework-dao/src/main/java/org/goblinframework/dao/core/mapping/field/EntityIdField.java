@@ -1,8 +1,6 @@
 package org.goblinframework.dao.core.mapping.field;
 
 import org.bson.types.ObjectId;
-import org.goblinframework.api.annotation.Id;
-import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.reflection.Field;
 import org.goblinframework.dao.core.mapping.EntityField;
 import org.goblinframework.dao.core.mapping.EntityFieldNameResolver;
@@ -28,9 +26,6 @@ final public class EntityIdField extends EntityField {
 
   public EntityIdField(@NotNull EntityFieldNameResolver nameResolver, @NotNull Field field) {
     super(nameResolver, field);
-    if (getAnnotation(Id.class) == null) {
-      throw new GoblinMappingException("No @Id presented");
-    }
   }
 
   @Nullable
