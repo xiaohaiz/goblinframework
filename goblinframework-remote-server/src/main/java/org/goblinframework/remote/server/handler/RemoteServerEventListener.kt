@@ -4,8 +4,8 @@ import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.event.GoblinEventChannel
 import org.goblinframework.core.event.GoblinEventContext
 import org.goblinframework.core.event.GoblinEventListener
+import org.goblinframework.core.reflection.ReflectionUtils
 import org.goblinframework.core.util.ClassUtils
-import org.goblinframework.core.util.ReflectionUtils
 import org.goblinframework.remote.core.protocol.RemoteRequest
 import org.goblinframework.remote.core.protocol.RemoteResponse
 import org.goblinframework.remote.server.expose.ExposeServiceId
