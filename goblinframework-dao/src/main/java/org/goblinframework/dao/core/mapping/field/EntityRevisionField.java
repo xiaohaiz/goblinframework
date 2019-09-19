@@ -1,7 +1,6 @@
 package org.goblinframework.dao.core.mapping.field;
 
-import org.bson.types.ObjectId;
-import org.goblinframework.api.annotation.Id;
+import org.goblinframework.api.annotation.Revision;
 import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.reflection.Field;
 import org.goblinframework.dao.core.mapping.EntityField;
@@ -13,7 +12,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EntityIdField extends EntityField {
+final public class EntityRevisionField extends EntityField {
 
   private static final Set<Class<?>> ALLOWED;
 
@@ -21,15 +20,13 @@ public class EntityIdField extends EntityField {
     Set<Class<?>> allowed = new HashSet<>();
     allowed.add(Long.class);
     allowed.add(Integer.class);
-    allowed.add(String.class);
-    allowed.add(ObjectId.class);
     ALLOWED = Collections.unmodifiableSet(allowed);
   }
 
-  public EntityIdField(@NotNull EntityFieldNameResolver nameResolver, @NotNull Field field) {
+  public EntityRevisionField(@NotNull EntityFieldNameResolver nameResolver, @NotNull Field field) {
     super(nameResolver, field);
-    if (getAnnotation(Id.class) == null) {
-      throw new GoblinMappingException("No @Id presented");
+    if (getAnnotation(Revision.class) == null) {
+      throw new GoblinMappingException("No @Revision presented");
     }
   }
 

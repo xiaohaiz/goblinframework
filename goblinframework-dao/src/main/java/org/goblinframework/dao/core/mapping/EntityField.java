@@ -4,6 +4,7 @@ import org.goblinframework.core.reflection.Field;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.annotation.Annotation;
 import java.util.Set;
 
 abstract public class EntityField {
@@ -15,6 +16,11 @@ abstract public class EntityField {
                      @NotNull Field field) {
     this.nameResolver = nameResolver;
     this.field = field;
+  }
+
+  @Nullable
+  public <T extends Annotation> T getAnnotation(@NotNull Class<T> annotationClass) {
+    return field.getField().getAnnotation(annotationClass);
   }
 
   @NotNull
