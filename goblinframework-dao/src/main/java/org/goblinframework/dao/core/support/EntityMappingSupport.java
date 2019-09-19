@@ -1,8 +1,11 @@
-package org.goblinframework.dao.core.mapping;
+package org.goblinframework.dao.core.support;
 
 import org.goblinframework.core.container.SpringManagedBean;
 import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.util.ClassUtils;
+import org.goblinframework.dao.core.mapping.EntityField;
+import org.goblinframework.dao.core.mapping.EntityMapping;
+import org.goblinframework.dao.core.mapping.EntityMappingBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.ParameterizedType;
