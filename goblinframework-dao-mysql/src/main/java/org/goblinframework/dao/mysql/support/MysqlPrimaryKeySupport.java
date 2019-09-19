@@ -45,6 +45,9 @@ abstract public class MysqlPrimaryKeySupport<E, ID> extends MysqlTableSupport<E,
   }
 
   protected void requireEntityId(@NotNull E entity) {
+    if (generator == Id.Generator.AUTO_INC) {
+      return;
+    }
     ID id = getEntityId(entity);
     if (id == null) {
       throw new GoblinPersistenceException("Entity id is required");

@@ -3,6 +3,7 @@ package org.goblinframework.dao.core.support;
 import org.goblinframework.api.annotation.CreateTime;
 import org.goblinframework.api.annotation.UpdateTime;
 import org.goblinframework.core.container.SpringManagedBean;
+import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.core.util.DateFormatUtils;
@@ -10,6 +11,7 @@ import org.goblinframework.dao.core.mapping.EntityField;
 import org.goblinframework.dao.core.mapping.EntityMapping;
 import org.goblinframework.dao.core.mapping.EntityMappingBuilder;
 import org.goblinframework.dao.core.mapping.field.EntityCreateTimeField;
+import org.goblinframework.dao.core.mapping.field.EntityRevisionField;
 import org.goblinframework.dao.core.mapping.field.EntityUpdateTimeField;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,7 +54,7 @@ abstract public class EntityMappingSupport<E, ID> extends SpringManagedBean {
   @NotNull
   abstract protected EntityMappingBuilder getEntityMappingBuilder();
 
-  protected void touchCreateTime(E entity, long millis) {
+  protected void touchCreateTime(@NotNull E entity, long millis) {
     for (EntityCreateTimeField createTimeField : entityMapping.createTimeFields) {
       Class<?> ft = createTimeField.getField().getFieldType();
       if (ft == String.class) {
@@ -67,7 +69,7 @@ abstract public class EntityMappingSupport<E, ID> extends SpringManagedBean {
     }
   }
 
-  protected void touchUpdateTime(E entity, long millis) {
+  protected void touchUpdateTime(@NotNull E entity, long millis) {
     for (EntityUpdateTimeField updateTimeField : entityMapping.updateTimeFields) {
       Class<?> ft = updateTimeField.getField().getFieldType();
       if (ft == String.class) {
@@ -80,6 +82,16 @@ abstract public class EntityMappingSupport<E, ID> extends SpringManagedBean {
         updateTimeField.getField().set(entity, millis);
       }
     }
+  }
+
+  protected void initializeRevision(@NotNull E entity) {
+    EntityRevisionField revisionField = entityMapping.revisionField;
+    if (revisionField == null) {
+      return;
+    }
+    ConversionService conversionService = ConversionService.INSTANCE;
+    Object revision = conversionService.convert("1", revisionField.getField().getFieldType());
+    revisionField.setValue(entity, revision);
   }
 
   @SuppressWarnings("unchecked")
