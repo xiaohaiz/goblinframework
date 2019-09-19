@@ -53,11 +53,11 @@ abstract public class EntityMappingSupport<E, ID> extends SpringManagedBean {
   }
 
   @SuppressWarnings("unchecked")
-  protected ID getEntityId(E document) {
-    return (ID) entityMapping.getId(document);
+  protected ID getEntityId(E entity) {
+    return (ID) entityMapping.getId(entity);
   }
 
-  protected void setEntityId(E document, ID id) {
-    entityMapping.setId(document, id);
+  protected void setEntityId(E entity, ID id) {
+    entityMapping.setId(entity, id);
   }
 }

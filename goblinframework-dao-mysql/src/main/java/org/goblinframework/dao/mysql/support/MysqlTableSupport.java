@@ -22,6 +22,9 @@ abstract public class MysqlTableSupport<E, ID> extends MysqlClientSupport<E, ID>
     this.dynamic = annotation.dynamic();
   }
 
+  /**
+   * 必须根据主键计算分表的才能调用此方法
+   */
   @NotNull
   protected String getIdTableName(@Nullable ID id) {
     if (!dynamic) {
