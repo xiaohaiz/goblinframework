@@ -1,4 +1,4 @@
-package org.goblinframework.dao.mysql.persistence;
+package org.goblinframework.dao.mysql.module;
 
 import org.goblinframework.core.exception.GoblinException;
 

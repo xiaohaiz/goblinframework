@@ -6,7 +6,7 @@ import org.goblinframework.dao.mysql.client.MysqlClient;
 import org.goblinframework.dao.mysql.client.MysqlClientManager;
 import org.goblinframework.dao.mysql.client.MysqlMasterConnection;
 import org.goblinframework.dao.mysql.client.MysqlSlaveConnection;
-import org.goblinframework.dao.mysql.persistence.GoblinPersistenceException;
+import org.goblinframework.dao.mysql.module.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 
 abstract public class MysqlClientSupport<E, ID> extends MysqlEntityMappingSupport<E, ID> {
