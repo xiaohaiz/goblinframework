@@ -1,10 +1,11 @@
 package org.goblinframework.dao.mysql.support;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.goblinframework.api.annotation.Id;
 import org.goblinframework.core.conversion.ConversionService;
+import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.dao.core.cql.Criteria;
 import org.goblinframework.dao.core.cql.Query;
+import org.goblinframework.dao.mysql.client.MysqlConnection;
 import org.goblinframework.dao.mysql.cql.*;
 import org.goblinframework.dao.mysql.mapping.MysqlEntityRowMapper;
 import org.jetbrains.annotations.NotNull;
@@ -37,13 +38,15 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
   }
 
   @Nullable
-  public E $load(@Nullable final ID id) {
+  public E directLoad(@NotNull final MysqlConnection connection,
+                      @Nullable final ID id) {
     if (id == null) return null;
-    return $loads(Collections.singleton(id)).get(id);
+    return directLoads(connection, Collections.singleton(id)).get(id);
   }
 
   @NotNull
-  public Map<ID, E> $loads(@Nullable final Collection<ID> ids) {
+  public Map<ID, E> directLoads(@NotNull final MysqlConnection connection,
+                                @Nullable final Collection<ID> ids) {
     if (ids == null || ids.isEmpty()) return Collections.emptyMap();
     List<E> entities = new LinkedList<>();
     groupIds(ids).forEach((tableName, idList) -> {
@@ -56,20 +59,10 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
         criteria = Criteria.where(entityMapping.getIdFieldName()).in(idList);
       }
       Query query = Query.query(criteria);
-      entities.addAll(executeQuery(query, tableName));
+      entities.addAll(executeQuery(connection, query, tableName));
     });
-    Map<ID, E> map = entities.stream()
-        .collect(Collectors.toMap(this::getEntityId, Function.identity()));
-    Map<ID, E> result = new LinkedHashMap<>();
-    ids.stream()
-        .map(id -> {
-          E e = map.get(id);
-          if (e == null) return null;
-          return ImmutablePair.of(id, e);
-        })
-        .filter(Objects::nonNull)
-        .forEach(p -> result.put(p.left, p.right));
-    return result;
+    Map<ID, E> map = entities.stream().collect(Collectors.toMap(this::getEntityId, Function.identity()));
+    return MapUtils.resort(map, ids);
   }
 
   public void __insert(@NotNull E entity) {
@@ -132,9 +125,12 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
         (resultSet, i) -> resultSet.getLong(1)).iterator().next();
   }
 
-  private List<E> executeQuery(final Query query, final String tableName) {
+  @NotNull
+  private List<E> executeQuery(@NotNull final MysqlConnection connection,
+                               @NotNull final Query query,
+                               @NotNull final String tableName) {
     TranslatedCriteria tc = queryTranslator.translateQuery(query, tableName);
-    NamedParameterJdbcTemplate jdbcTemplate = client.getMasterNamedParameterJdbcTemplate();
+    NamedParameterJdbcTemplate jdbcTemplate = connection.getNamedParameterJdbcTemplate();
     return jdbcTemplate.query(tc.sql, tc.parameterSource, entityRowMapper);
   }
 }
