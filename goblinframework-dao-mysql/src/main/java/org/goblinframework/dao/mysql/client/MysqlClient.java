@@ -5,6 +5,7 @@ import org.goblinframework.core.mbean.GoblinManagedObject;
 import org.goblinframework.dao.mysql.module.config.DataSourceConfig;
 import org.goblinframework.dao.mysql.module.config.MysqlConfig;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -12,10 +13,12 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @GoblinManagedBean(type = "DAO.MYSQL")
 final public class MysqlClient extends GoblinManagedObject implements MysqlClientMXBean {
 
+  private final AtomicLong counter = new AtomicLong(0);
   private final DataSource master;
   private final List<DataSource> slaves = new LinkedList<>();
 
@@ -56,6 +59,14 @@ final public class MysqlClient extends GoblinManagedObject implements MysqlClien
   @NotNull
   public javax.sql.DataSource getMasterDataSource() {
     return master.getDataSource();
+  }
+
+  @Nullable
+  public javax.sql.DataSource getSlaveDataSource() {
+    if (slaves.isEmpty()) return null;
+    if (slaves.size() == 1) return slaves.get(0).getDataSource();
+    int idx = (int) (counter.getAndIncrement() % slaves.size());
+    return slaves.get(idx).getDataSource();
   }
 
   @Override
