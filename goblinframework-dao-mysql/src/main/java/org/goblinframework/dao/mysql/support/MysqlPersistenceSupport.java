@@ -38,26 +38,30 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
   }
 
   public void directInsert(@NotNull E entity) {
-    MysqlConnection connection = client.getMasterConnection();
-    directInsert(connection, entity);
+    directInsert(getMasterConnection(), entity);
   }
 
   public void directInserts(@Nullable final Collection<E> entities) {
-    MysqlConnection connection = client.getMasterConnection();
-    directInserts(connection, entities);
+    directInserts(getMasterConnection(), entities);
   }
 
   @Nullable
   public E directLoad(@Nullable final ID id) {
-    MysqlConnection connection = client.getMasterConnection();
-    return directLoad(connection, id);
+    return directLoad(getMasterConnection(), id);
   }
 
   @NotNull
   public Map<ID, E> directLoads(@Nullable final Collection<ID> ids) {
-    MysqlConnection connection = client.getMasterConnection();
-    return directLoads(connection, ids);
+    return directLoads(getMasterConnection(), ids);
   }
+
+  public boolean directExists(@Nullable ID id) {
+    return directExists(getMasterConnection(), id);
+  }
+
+  // ==========================================================================
+  // Direct database access methods
+  // ==========================================================================
 
   final public void directInsert(@NotNull MysqlConnection connection,
                                  @NotNull E entity) {
@@ -124,6 +128,19 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     Map<ID, E> map = entities.stream().collect(Collectors.toMap(this::getEntityId, Function.identity()));
     return MapUtils.resort(map, ids);
   }
+
+  final public boolean directExists(@NotNull final MysqlConnection connection,
+                                    @Nullable ID id) {
+    if (id == null) return false;
+    Criteria criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
+    Query query = Query.query(criteria);
+    String tableName = getIdTableName(id);
+    return executeCount(connection, query, tableName) > 0;
+  }
+
+  // ==========================================================================
+  // Helper methods
+  // ==========================================================================
 
   protected void executeInsert(@NotNull final MysqlConnection connection,
                                @NotNull final E entity,
