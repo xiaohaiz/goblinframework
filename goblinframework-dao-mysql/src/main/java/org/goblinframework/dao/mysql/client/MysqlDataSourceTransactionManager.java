@@ -1,4 +1,4 @@
-package org.goblinframework.dao.mysql.transaction;
+package org.goblinframework.dao.mysql.client;
 
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
