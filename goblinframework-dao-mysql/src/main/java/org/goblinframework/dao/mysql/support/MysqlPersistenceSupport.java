@@ -65,7 +65,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
   }
 
   public boolean replace(@Nullable E entity) {
-    return directReplace(getMasterConnection(), entity);
+    return directReplace(entity);
   }
 
   public boolean upsert(@Nullable E entity) {
@@ -157,8 +157,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return executeCount(connection, query, tableName) > 0;
   }
 
-  final public boolean directReplace(@NotNull MysqlConnection connection,
-                                     @Nullable E entity) {
+  final public boolean directReplace(@Nullable E entity) {
     if (entity == null) return false;
     ID id = getEntityId(entity);
     if (id == null) {
@@ -189,7 +188,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     MapSqlParameterSource parameterSource = new MapSqlParameterSource();
     parameterSource.addValues(tc2.parameterSource.getValues());
     parameterSource.addValues(tc1.parameterSource.getValues());
-    NamedParameterJdbcTemplate jdbcTemplate = connection.getNamedParameterJdbcTemplate();
+    NamedParameterJdbcTemplate jdbcTemplate = getMasterConnection().getNamedParameterJdbcTemplate();
     int rows = jdbcTemplate.update(sql, parameterSource);
     return rows > 0;
   }
