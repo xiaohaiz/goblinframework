@@ -1,7 +1,7 @@
 package org.goblinframework.cache.redis.provider
 
 import org.bson.types.ObjectId
-import org.goblinframework.cache.core.cache.CacheSystem
+import org.goblinframework.cache.core.annotation.CacheSystem
 import org.goblinframework.cache.core.cache.CasOperation
 import org.goblinframework.cache.redis.module.test.FlushRedisCache
 import org.goblinframework.core.util.RandomUtils

@@ -2,6 +2,7 @@ package org.goblinframework.cache.core.cache
 
 import org.apache.commons.lang3.mutable.MutableObject
 import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.cache.core.annotation.CacheSystem
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap

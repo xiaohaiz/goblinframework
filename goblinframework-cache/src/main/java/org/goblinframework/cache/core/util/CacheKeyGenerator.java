@@ -1,7 +1,7 @@
 package org.goblinframework.cache.core.util;
 
-import org.goblinframework.cache.core.cache.CacheKeyPrefix;
-import org.goblinframework.cache.core.cache.CacheKeyRevision;
+import org.goblinframework.cache.core.annotation.GoblinCacheKeyPrefix;
+import org.goblinframework.cache.core.annotation.GoblinCacheKeyRevision;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,7 +17,7 @@ abstract public class CacheKeyGenerator {
 
   public static String generateCacheKeyPrefix(@NotNull Class<?> type) {
     String prefix = type.getName();
-    CacheKeyPrefix cacheKeyPrefix = type.getAnnotation(CacheKeyPrefix.class);
+    GoblinCacheKeyPrefix cacheKeyPrefix = type.getAnnotation(GoblinCacheKeyPrefix.class);
     if (cacheKeyPrefix != null) {
       String s = cacheKeyPrefix.prefix();
       if (s.trim().length() > 0) {
@@ -81,8 +81,8 @@ abstract public class CacheKeyGenerator {
   @Nullable
   public static String getCacheRevision(@NotNull Class<?> type) {
     String revision = null;
-    if (type.isAnnotationPresent(CacheKeyRevision.class)) {
-      CacheKeyRevision annotation = type.getAnnotation(CacheKeyRevision.class);
+    if (type.isAnnotationPresent(GoblinCacheKeyRevision.class)) {
+      GoblinCacheKeyRevision annotation = type.getAnnotation(GoblinCacheKeyRevision.class);
       revision = annotation.revision().trim();
     }
     return revision;

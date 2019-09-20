@@ -4,6 +4,7 @@ import org.apache.commons.collections4.map.LRUMap;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.annotation.ThreadSafe;
 import org.goblinframework.api.common.Disposable;
+import org.goblinframework.cache.core.annotation.CacheSystem;
 import org.goblinframework.cache.core.cache.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -1,6 +1,7 @@
 package org.goblinframework.cache.core.cache
 
 import org.goblinframework.api.common.Disposable
+import org.goblinframework.cache.core.annotation.CacheSystem
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 
