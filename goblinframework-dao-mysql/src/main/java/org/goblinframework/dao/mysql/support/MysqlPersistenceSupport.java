@@ -23,6 +23,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -182,6 +183,41 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return rows > 0;
   }
 
+  public boolean directDelete(@NotNull MysqlConnection connection,
+                              @Nullable final ID id) {
+    if (id == null) return false;
+    return directDeletes(connection, Collections.singleton(id)) > 0;
+  }
+
+  public long directDeletes(@NotNull MysqlConnection connection,
+                            @Nullable final Collection<ID> ids) {
+    if (ids == null || ids.isEmpty()) return 0;
+    if (ids.size() > 1) {
+      AtomicLong deletedCount = new AtomicLong();
+      connection.executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
+        @Override
+        protected void doInTransactionWithoutResult(TransactionStatus status) {
+          groupIds(ids).forEach((tableName, idList) -> {
+            Criteria criteria;
+            if (idList.size() == 1) {
+              ID id = idList.iterator().next();
+              criteria = Criteria.where(entityMapping.idField.getName()).is(id);
+            } else {
+              criteria = Criteria.where(entityMapping.idField.getName()).in(idList);
+            }
+            long rows = executeDelete(connection, criteria, tableName);
+            deletedCount.addAndGet(rows);
+          });
+        }
+      });
+      return deletedCount.get();
+    } else {
+      ID id = ids.iterator().next();
+      String tableName = getIdTableName(id);
+      Criteria criteria = Criteria.where(entityMapping.idField.getName()).is(id);
+      return executeDelete(connection, criteria, tableName);
+    }
+  }
 
   // ==========================================================================
   // Helper methods
