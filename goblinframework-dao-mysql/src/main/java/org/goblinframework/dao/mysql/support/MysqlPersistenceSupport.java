@@ -23,7 +23,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupport<E, ID> {
+abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSupport<E, ID> {
 
   protected final RowMapper<E> entityRowMapper;
   protected final MysqlCriteriaTranslator criteriaTranslator;
@@ -55,6 +55,12 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
   public void directInserts(@NotNull MysqlConnection connection,
                             @Nullable final Collection<E> entities) {
     if (entities == null || entities.isEmpty()) return;
+
+    for (E entity : entities) {
+      for (BeforeInsertListener<E> listener : beforeInsertListeners) {
+        listener.beforeInsert(entity);
+      }
+    }
     long millis = System.currentTimeMillis();
     for (E entity : entities) {
       generateEntityId(entity);
