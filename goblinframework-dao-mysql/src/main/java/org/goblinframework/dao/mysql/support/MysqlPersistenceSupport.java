@@ -61,6 +61,10 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return directExists(getMasterConnection(), id);
   }
 
+  public boolean replace(@Nullable E entity) {
+    return directReplace(getMasterConnection(), entity);
+  }
+
   // ==========================================================================
   // Direct database access methods
   // ==========================================================================

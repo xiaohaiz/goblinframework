@@ -6,7 +6,6 @@ import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.dao.mysql.module.test.RebuildMysqlTable;
 import org.goblinframework.dao.mysql.support.UseMysqlClient;
 import org.goblinframework.test.runner.GoblinTestRunner;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.stereotype.Repository;
@@ -17,6 +16,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
+
+import static org.junit.Assert.*;
 
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
@@ -64,10 +65,20 @@ public class GoblinStaticPersistenceTest extends SpringManagedBean {
     persistence.insert(data);
 
     Long id = data.id;
-
-    Assert.assertTrue(persistence.exists(id));
+    assertTrue(persistence.exists(id));
 
     data = persistence.load(id);
-    System.out.println(data);
+    assertNotNull(data);
+
+    data = new MockData();
+    data.id = id;
+    data.ext = new Ext();
+    data.ext.field3 = "GEE";
+    boolean ret = persistence.replace(data);
+    assertTrue(ret);
+
+    data = persistence.load(id);
+    assertNotNull(data);
+    assertEquals("GEE", data.ext.field3);
   }
 }
