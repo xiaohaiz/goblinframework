@@ -1,36 +1,40 @@
 package org.goblinframework.dao.mysql.client;
 
 import org.jetbrains.annotations.NotNull;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.jetbrains.annotations.Nullable;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 
-public class MysqlSlaveConnection {
-
-  private final DataSource dataSource;
-  private final JdbcTemplate jdbcTemplate;
-  private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+public class MysqlSlaveConnection extends MysqlConnection {
 
   public MysqlSlaveConnection(@NotNull DataSource dataSource) {
-    this.dataSource = dataSource;
-    this.jdbcTemplate = new JdbcTemplate(dataSource);
-    this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
+    super(dataSource);
   }
 
   @NotNull
-  public DataSource getDataSource() {
-    return dataSource;
+  @Override
+  public PlatformTransactionManager getTransactionManager() {
+    throw new UnsupportedOperationException("MYSQL slave connection has not transaction supported");
   }
 
   @NotNull
-  public JdbcTemplate getJdbcTemplate() {
-    return jdbcTemplate;
+  @Override
+  public TransactionTemplate getTransactionTemplate() {
+    throw new UnsupportedOperationException("MYSQL slave connection has not transaction supported");
   }
 
-  @NotNull
-  public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate() {
-    return namedParameterJdbcTemplate;
+  @Nullable
+  @Override
+  public <E> E executeTransaction(@NotNull TransactionCallback<E> action) {
+    throw new UnsupportedOperationException("MYSQL slave connection has not transaction supported");
   }
 
+  @Override
+  public void executeTransactionWithoutResult(@NotNull TransactionCallbackWithoutResult action) {
+    throw new UnsupportedOperationException("MYSQL slave connection has not transaction supported");
+  }
 }
