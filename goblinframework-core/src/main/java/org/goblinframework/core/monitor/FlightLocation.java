@@ -49,6 +49,11 @@ final public class FlightLocation {
     return attributes.get(name);
   }
 
+  @Override
+  public String toString() {
+    return id;
+  }
+
   @NotNull
   public static FlightLocationBuilder builder() {
     return new FlightLocationBuilder();
