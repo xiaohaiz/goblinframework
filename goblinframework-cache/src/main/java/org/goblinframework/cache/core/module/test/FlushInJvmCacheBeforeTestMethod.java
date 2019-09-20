@@ -4,6 +4,7 @@ import org.goblinframework.api.annotation.Install;
 import org.goblinframework.api.test.TestContext;
 import org.goblinframework.api.test.TestExecutionListener;
 import org.goblinframework.cache.core.provider.InJvmCache;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 
@@ -11,7 +12,7 @@ import java.lang.reflect.Method;
 final public class FlushInJvmCacheBeforeTestMethod implements TestExecutionListener {
 
   @Override
-  public void beforeTestMethod(TestContext testContext) {
+  public void beforeTestMethod(@NotNull TestContext testContext) {
     if (!flushAvailable(testContext)) {
       return;
     }

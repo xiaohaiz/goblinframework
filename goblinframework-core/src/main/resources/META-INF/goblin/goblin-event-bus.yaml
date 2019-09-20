@@ -5,5 +5,5 @@
   ringBufferSize: 32768
   workHandlers: 4
 - channel: "/goblin/monitor"
-  ringBufferSize: 65535
+  ringBufferSize: 65536
   workHandlers: 8

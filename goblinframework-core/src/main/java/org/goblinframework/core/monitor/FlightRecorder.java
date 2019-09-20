@@ -24,4 +24,14 @@ abstract public class FlightRecorder {
   static FlightMonitor getFlightMonitor() {
     return flightMonitor;
   }
+
+  @Nullable
+  public static Flight terminateFlight() {
+    if (flightMonitor != null) {
+      return flightMonitor.terminateFlight();
+    } else {
+      return null;
+    }
+  }
+
 }

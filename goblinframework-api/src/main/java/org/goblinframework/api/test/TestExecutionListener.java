@@ -1,6 +1,7 @@
 package org.goblinframework.api.test;
 
 import org.goblinframework.api.common.Ordered;
+import org.jetbrains.annotations.NotNull;
 
 public interface TestExecutionListener extends Ordered {
 
@@ -9,25 +10,25 @@ public interface TestExecutionListener extends Ordered {
     return 0;
   }
 
-  default void prepareTestInstance(TestContext testContext) throws Exception {
+  default void prepareTestInstance(@NotNull TestContext testContext) {
   }
 
-  default void beforeTestExecution(TestContext testContext) throws Exception {
+  default void beforeTestExecution(@NotNull TestContext testContext) {
   }
 
-  default void beforeTestClass(TestContext testContext) throws Exception {
+  default void beforeTestClass(@NotNull TestContext testContext) {
   }
 
-  default void beforeTestMethod(TestContext testContext) throws Exception {
+  default void beforeTestMethod(@NotNull TestContext testContext) {
   }
 
-  default void afterTestExecution(TestContext testContext) throws Exception {
+  default void afterTestExecution(@NotNull TestContext testContext) {
   }
 
-  default void afterTestClass(TestContext testContext) throws Exception {
+  default void afterTestClass(@NotNull TestContext testContext) throws Exception {
   }
 
-  default void afterTestMethod(TestContext testContext) throws Exception {
+  default void afterTestMethod(@NotNull TestContext testContext) throws Exception {
   }
 
 }

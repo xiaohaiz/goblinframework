@@ -5,6 +5,6 @@ package org.goblinframework.core.monitor;
  */
 public enum StartPoint {
 
-  GUT,    // GoblinUnitTest
+  UTM,    // UnitTestMethod
   PRG     // Programmatic
 }

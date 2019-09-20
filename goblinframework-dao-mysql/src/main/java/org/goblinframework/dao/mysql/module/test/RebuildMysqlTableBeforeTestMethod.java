@@ -12,6 +12,7 @@ import org.goblinframework.core.util.IOUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.dao.mysql.client.MysqlClient;
 import org.goblinframework.dao.mysql.client.MysqlClientManager;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -31,7 +32,7 @@ import java.util.List;
 final public class RebuildMysqlTableBeforeTestMethod implements TestExecutionListener {
 
   @Override
-  public void beforeTestMethod(TestContext testContext) {
+  public void beforeTestMethod(@NotNull TestContext testContext) {
     List<RebuildMysqlTable> annotations = lookupAnnotations(testContext);
     if (annotations.isEmpty()) return;
     annotations.forEach(this::executeRebuild);

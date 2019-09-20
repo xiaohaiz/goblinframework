@@ -7,6 +7,7 @@ import org.goblinframework.cache.redis.client.RedisClient;
 import org.goblinframework.cache.redis.client.RedisClientManager;
 import org.goblinframework.cache.redis.module.config.RedisConfig;
 import org.goblinframework.cache.redis.module.config.RedisConfigManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 final public class FlushRedisCacheBeforeTestMethod implements TestExecutionListener {
 
   @Override
-  public void beforeTestMethod(TestContext testContext) {
+  public void beforeTestMethod(@NotNull TestContext testContext) {
     if (!flushAvailable(testContext)) {
       return;
     }
