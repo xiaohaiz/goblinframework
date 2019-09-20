@@ -38,6 +38,12 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
   }
 
   @Nullable
+  public E directLoad(@Nullable final ID id) {
+    MysqlConnection connection = client.getMasterConnection();
+    return directLoad(connection, id);
+  }
+
+  @Nullable
   public E directLoad(@NotNull final MysqlConnection connection,
                       @Nullable final ID id) {
     if (id == null) return null;
