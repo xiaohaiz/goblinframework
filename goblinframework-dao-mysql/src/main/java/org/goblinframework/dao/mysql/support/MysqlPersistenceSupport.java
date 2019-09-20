@@ -4,6 +4,7 @@ import org.apache.commons.lang3.mutable.MutableObject;
 import org.goblinframework.api.annotation.Id;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.MapUtils;
+import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.dao.core.cql.Criteria;
 import org.goblinframework.dao.core.cql.Query;
 import org.goblinframework.dao.core.mapping.field.EntityRevisionField;
@@ -65,6 +66,10 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
 
   public boolean replace(@Nullable E entity) {
     return directReplace(getMasterConnection(), entity);
+  }
+
+  public boolean upsert(@Nullable E entity) {
+    return directUpsert(getMasterConnection(), entity);
   }
 
   public boolean delete(@Nullable ID id) {
@@ -191,13 +196,45 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return rows > 0;
   }
 
-  public boolean directDelete(@NotNull MysqlConnection connection,
+  public boolean directUpsert(@NotNull final MysqlConnection connection,
+                              @Nullable final E entity) {
+    if (entity == null) return false;
+    ID id = getEntityId(entity);
+    if (id == null) {
+      directInsert(connection, entity);
+      return true;
+    }
+    long millis = System.currentTimeMillis();
+    touchCreateTime(entity, millis);
+    touchUpdateTime(entity, millis);
+    initializeRevision(entity);
+    String tableName = getIdTableName(id);
+    MysqlInsertOperation insertOperation = new MysqlInsertOperation(entityMapping, entity, tableName);
+    MysqlUpdateOperation updateOperation = new MysqlUpdateOperation(entityMapping, entity, tableName);
+
+    StringBuilder sql = new StringBuilder(insertOperation.generateSQL());
+    String updateFields = updateOperation.toFields();
+    Object[] params;
+    if (StringUtils.isEmpty(updateFields)) {
+      params = insertOperation.toParams();
+    } else {
+      sql.append(" ON DUPLICATE KEY UPDATE ").append(updateFields);
+      List<Object> list = new ArrayList<>();
+      Collections.addAll(list, insertOperation.toParams());
+      Collections.addAll(list, updateOperation.toParams());
+      params = list.toArray(new Object[0]);
+    }
+    JdbcTemplate jdbcTemplate = connection.getJdbcTemplate();
+    return jdbcTemplate.update(sql.toString(), params) > 0;
+  }
+
+  public boolean directDelete(@NotNull final MysqlConnection connection,
                               @Nullable final ID id) {
     if (id == null) return false;
     return directDeletes(connection, Collections.singleton(id)) > 0;
   }
 
-  public long directDeletes(@NotNull MysqlConnection connection,
+  public long directDeletes(@NotNull final MysqlConnection connection,
                             @Nullable final Collection<ID> ids) {
     if (ids == null || ids.isEmpty()) return 0;
     if (ids.size() > 1) {

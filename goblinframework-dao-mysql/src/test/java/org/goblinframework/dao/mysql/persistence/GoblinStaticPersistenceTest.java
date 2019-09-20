@@ -80,5 +80,23 @@ public class GoblinStaticPersistenceTest extends SpringManagedBean {
     data = persistence.load(id);
     assertNotNull(data);
     assertEquals("GEE", data.ext.field3);
+
+    ret = persistence.delete(id);
+    assertTrue(ret);
+    assertFalse(persistence.exists(id));
+
+    data = new MockData();
+    ret = persistence.upsert(data);
+    assertTrue(ret);
+    id = data.id;
+
+    data = new MockData();
+    data.id = id;
+    data.name = "N";
+    persistence.upsert(data);
+
+    data = persistence.load(id);
+    assertNotNull(data);
+    assertEquals("N", data.name);
   }
 }
