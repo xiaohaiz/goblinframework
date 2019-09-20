@@ -1,20 +1,76 @@
 package org.goblinframework.dao.mysql.support;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.goblinframework.api.annotation.Id;
 import org.goblinframework.core.conversion.ConversionService;
-import org.goblinframework.dao.mysql.cql.MysqlInsertOperation;
+import org.goblinframework.dao.core.cql.Criteria;
+import org.goblinframework.dao.core.cql.Query;
+import org.goblinframework.dao.mysql.cql.*;
+import org.goblinframework.dao.mysql.mapping.MysqlEntityRowMapper;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupport<E, ID> {
+
+  protected final RowMapper<E> entityRowMapper;
+  protected final MysqlCriteriaTranslator criteriaTranslator;
+  protected final MysqlQueryTranslator queryTranslator;
+  protected final MysqlUpdateTranslator updateTranslator;
+
+  protected MysqlPersistenceSupport() {
+    entityRowMapper = new MysqlEntityRowMapper<>(entityMapping);
+    criteriaTranslator = MysqlCriteriaTranslator.INSTANCE;
+    queryTranslator = new MysqlQueryTranslator(entityMapping);
+    updateTranslator = MysqlUpdateTranslator.INSTANCE;
+  }
+
+  @Nullable
+  public E $load(@Nullable final ID id) {
+    if (id == null) return null;
+    return $loads(Collections.singleton(id)).get(id);
+  }
+
+  @NotNull
+  public Map<ID, E> $loads(@Nullable final Collection<ID> ids) {
+    if (ids == null || ids.isEmpty()) return Collections.emptyMap();
+    List<E> entities = new LinkedList<>();
+    groupIds(ids).forEach((tableName, idList) -> {
+      assert !idList.isEmpty();
+      Criteria criteria;
+      if (idList.size() == 1) {
+        ID id = idList.iterator().next();
+        criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
+      } else {
+        criteria = Criteria.where(entityMapping.getIdFieldName()).in(idList);
+      }
+      Query query = Query.query(criteria);
+      entities.addAll(executeQuery(query, tableName));
+    });
+    Map<ID, E> map = entities.stream()
+        .collect(Collectors.toMap(this::getEntityId, Function.identity()));
+    Map<ID, E> result = new LinkedHashMap<>();
+    ids.stream()
+        .map(id -> {
+          E e = map.get(id);
+          if (e == null) return null;
+          return ImmutablePair.of(id, e);
+        })
+        .filter(Objects::nonNull)
+        .forEach(p -> result.put(p.left, p.right));
+    return result;
+  }
 
   public void __insert(@NotNull E entity) {
     __inserts(Collections.singleton(entity));
@@ -67,5 +123,18 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
       JdbcTemplate jdbcTemplate = client.getMasterJdbcTemplate();
       jdbcTemplate.update(creator);
     }
+  }
+
+  private long executeCount(final Query query, final String tableName) {
+    TranslatedCriteria tc = queryTranslator.translateCount(query, tableName);
+    NamedParameterJdbcTemplate jdbcTemplate = client.getMasterNamedParameterJdbcTemplate();
+    return jdbcTemplate.query(tc.sql, tc.parameterSource,
+        (resultSet, i) -> resultSet.getLong(1)).iterator().next();
+  }
+
+  private List<E> executeQuery(final Query query, final String tableName) {
+    TranslatedCriteria tc = queryTranslator.translateQuery(query, tableName);
+    NamedParameterJdbcTemplate jdbcTemplate = client.getMasterNamedParameterJdbcTemplate();
+    return jdbcTemplate.query(tc.sql, tc.parameterSource, entityRowMapper);
   }
 }
