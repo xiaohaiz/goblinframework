@@ -43,11 +43,11 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
   }
 
   public void insert(@NotNull E entity) {
-    directInsert(getMasterConnection(), entity);
+    directInsert(entity);
   }
 
   public void inserts(@Nullable final Collection<E> entities) {
-    directInserts(getMasterConnection(), entities);
+    directInserts(entities);
   }
 
   @Nullable
@@ -69,7 +69,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
   }
 
   public boolean upsert(@Nullable E entity) {
-    return directUpsert(getMasterConnection(), entity);
+    return directUpsert(entity);
   }
 
   public boolean delete(@Nullable ID id) {
@@ -84,13 +84,11 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
   // Direct database access methods
   // ==========================================================================
 
-  final public void directInsert(@NotNull MysqlConnection connection,
-                                 @NotNull E entity) {
-    directInserts(connection, Collections.singleton(entity));
+  final public void directInsert(@NotNull E entity) {
+    directInserts(Collections.singleton(entity));
   }
 
-  final public void directInserts(@NotNull MysqlConnection connection,
-                                  @Nullable final Collection<E> entities) {
+  final public void directInserts(@Nullable final Collection<E> entities) {
     if (entities == null || entities.isEmpty()) return;
 
     for (E entity : entities) {
@@ -107,18 +105,18 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
       initializeRevision(entity);
     }
     if (entities.size() > 1) {
-      connection.executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
+      getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
         @Override
         protected void doInTransactionWithoutResult(TransactionStatus status) {
           groupEntities(entities).forEach((tableName, list) -> {
-            list.forEach(e -> executeInsert(connection, e, tableName));
+            list.forEach(e -> executeInsert(e, tableName));
           });
         }
       });
     } else {
       E entity = entities.iterator().next();
       String tableName = getEntityTableName(entity);
-      executeInsert(connection, entity, tableName);
+      executeInsert(entity, tableName);
     }
   }
 
@@ -196,12 +194,11 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return rows > 0;
   }
 
-  public boolean directUpsert(@NotNull final MysqlConnection connection,
-                              @Nullable final E entity) {
+  public boolean directUpsert(@Nullable final E entity) {
     if (entity == null) return false;
     ID id = getEntityId(entity);
     if (id == null) {
-      directInsert(connection, entity);
+      directInsert(entity);
       return true;
     }
     long millis = System.currentTimeMillis();
@@ -224,7 +221,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
       Collections.addAll(list, updateOperation.toParams());
       params = list.toArray(new Object[0]);
     }
-    JdbcTemplate jdbcTemplate = connection.getJdbcTemplate();
+    JdbcTemplate jdbcTemplate = getMasterConnection().getJdbcTemplate();
     return jdbcTemplate.update(sql.toString(), params) > 0;
   }
 
@@ -266,8 +263,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
   // Helper methods
   // ==========================================================================
 
-  protected void executeInsert(@NotNull final MysqlConnection connection,
-                               @NotNull final E entity,
+  protected void executeInsert(@NotNull final E entity,
                                @NotNull final String tableName) {
     MysqlInsertOperation insertOperation = new MysqlInsertOperation(entityMapping, entity, tableName);
     String sql = insertOperation.generateSQL();
@@ -276,7 +272,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
       factory.setReturnGeneratedKeys(true);
       PreparedStatementCreator creator = factory.newPreparedStatementCreator(insertOperation.toParams());
       GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-      JdbcTemplate jdbcTemplate = connection.getJdbcTemplate();
+      JdbcTemplate jdbcTemplate = getMasterConnection().getJdbcTemplate();
       jdbcTemplate.update(creator, keyHolder);
 
       ConversionService conversionService = ConversionService.INSTANCE;
@@ -284,7 +280,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
       entityMapping.idField.setValue(entity, id);
     } else {
       PreparedStatementCreator creator = factory.newPreparedStatementCreator(insertOperation.toParams());
-      JdbcTemplate jdbcTemplate = connection.getJdbcTemplate();
+      JdbcTemplate jdbcTemplate = getMasterConnection().getJdbcTemplate();
       jdbcTemplate.update(creator);
     }
   }
