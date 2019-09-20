@@ -8,17 +8,29 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 final public class Flight implements org.goblinframework.core.monitor.Flight, ReferenceCount {
 
+  private final String flightId;
+  private final FlightLocation location;
+
+  Flight(@NotNull String flightId, @NotNull FlightLocation location) {
+    this.flightId = flightId;
+    this.location = location;
+  }
+
   @NotNull
   @Override
   public String flightId() {
-    return null;
+    return flightId;
   }
 
   @NotNull
   @Override
   public FlightLocation location() {
-    return null;
+    return location;
   }
+
+  // ==========================================================================
+  // org.goblinframework.api.common.ReferenceCount supported
+  // ==========================================================================
 
   private final AtomicInteger referenceCount = new AtomicInteger();
 
@@ -29,11 +41,11 @@ final public class Flight implements org.goblinframework.core.monitor.Flight, Re
 
   @Override
   public void retain(int increment) {
-
+    referenceCount.addAndGet(increment);
   }
 
   @Override
   public boolean release(int decrement) {
-    return false;
+    return referenceCount.addAndGet(-decrement) <= 0;
   }
 }
