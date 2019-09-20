@@ -1,5 +1,6 @@
 package org.goblinframework.dao.mysql.support;
 
+import org.apache.commons.lang3.mutable.MutableObject;
 import org.goblinframework.api.annotation.Id;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.MapUtils;
@@ -181,6 +182,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return rows > 0;
   }
 
+
   // ==========================================================================
   // Helper methods
   // ==========================================================================
@@ -206,6 +208,19 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
       JdbcTemplate jdbcTemplate = connection.getJdbcTemplate();
       jdbcTemplate.update(creator);
     }
+  }
+
+  protected long executeDelete(@NotNull MysqlConnection connection,
+                               @NotNull final Criteria criteria,
+                               @NotNull final String tableName) {
+    TranslatedCriteria tc = criteriaTranslator.translate(criteria);
+    MapSqlParameterSource source = new MapSqlParameterSource();
+    source.addValues(tc.parameterSource.getValues());
+    String s = "DELETE FROM `%s`%s";
+    s = String.format(s, tableName, tc.sql);
+    MutableObject<String> sql = new MutableObject<>(s);
+    NamedParameterJdbcTemplate jdbcTemplate = connection.getNamedParameterJdbcTemplate();
+    return jdbcTemplate.update(sql.getValue(), source);
   }
 
   protected long executeCount(@NotNull final MysqlConnection connection,
