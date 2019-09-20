@@ -4,6 +4,7 @@ import org.goblinframework.core.mbean.GoblinManagedBean;
 import org.goblinframework.core.mbean.GoblinManagedObject;
 import org.goblinframework.dao.mysql.module.config.DataSourceConfig;
 import org.goblinframework.dao.mysql.module.config.MysqlConfig;
+import org.goblinframework.dao.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,8 +20,10 @@ import java.util.concurrent.atomic.AtomicLong;
 final public class MysqlClient extends GoblinManagedObject implements MysqlClientMXBean {
 
   private final AtomicLong counter = new AtomicLong(0);
+  private final MysqlConfig config;
   private final DataSource master;
   private final List<DataSource> slaves = new LinkedList<>();
+  private final MysqlMasterConnection masterConnection;
 
   private final MysqlDataSourceTransactionManager masterTransactionManager;
   private final TransactionTemplate masterTransactionTemplate;
@@ -28,16 +31,46 @@ final public class MysqlClient extends GoblinManagedObject implements MysqlClien
   private final NamedParameterJdbcTemplate masterNamedParameterJdbcTemplate;
 
   public MysqlClient(@NotNull MysqlConfig config) {
+    this.config = config;
     this.master = DataSourceBuilder.buildDataSource((DataSourceConfig) config.getMaster());
     Arrays.stream(config.getSlaveList())
         .map(e -> (DataSourceConfig) e)
         .map(DataSourceBuilder::buildDataSource)
         .forEach(slaves::add);
+    this.masterConnection = new MysqlMasterConnection(this.master.getDataSource());
 
     this.masterTransactionManager = new MysqlDataSourceTransactionManager(getMasterDataSource());
     this.masterTransactionTemplate = new TransactionTemplate(masterTransactionManager);
     this.masterJdbcTemplate = new JdbcTemplate(getMasterDataSource());
     this.masterNamedParameterJdbcTemplate = new NamedParameterJdbcTemplate(masterJdbcTemplate);
+  }
+
+  @NotNull
+  public MysqlMasterConnection getMasterConnection() {
+    return masterConnection;
+  }
+
+  @NotNull
+  public MysqlSlaveConnection createSlaveConnection() {
+    MysqlSlaveConnection connection = createSlaveConnection(true);
+    assert connection != null;
+    return connection;
+  }
+
+  @Nullable
+  public MysqlSlaveConnection createSlaveConnection(boolean failOnNoSlave) {
+    javax.sql.DataSource dataSource = getSlaveDataSource();
+    if (dataSource == null) {
+      if (failOnNoSlave) {
+        String errMsg = "MYSQL client [%s] No slave(s) configured";
+        errMsg = String.format(errMsg, config.getName());
+        throw new GoblinPersistenceException(errMsg);
+      } else {
+        return null;
+      }
+    } else {
+      return new MysqlSlaveConnection(dataSource);
+    }
   }
 
   public MysqlDataSourceTransactionManager getMasterTransactionManager() {
