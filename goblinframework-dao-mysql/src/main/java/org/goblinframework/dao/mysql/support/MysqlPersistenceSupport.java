@@ -86,7 +86,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
       touchUpdateTime(entity, millis);
       initializeRevision(entity);
     }
-    if (isNestedTransactionEnabled()) {
+    if (entities.size() > 1 && isNestedTransactionEnabled()) {
       client.getMasterTransactionTemplate().execute(new TransactionCallbackWithoutResult() {
         @Override
         protected void doInTransactionWithoutResult(TransactionStatus status) {
