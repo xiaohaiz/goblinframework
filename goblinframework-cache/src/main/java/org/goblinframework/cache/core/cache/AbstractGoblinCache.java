@@ -5,10 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 abstract public class AbstractGoblinCache implements GoblinCache {
 
@@ -45,6 +42,12 @@ abstract public class AbstractGoblinCache implements GoblinCache {
       result.put(id, gr);
     });
     return result;
+  }
+
+  @Override
+  public void deletes(@Nullable Collection<String> keys) {
+    if (keys == null || keys.isEmpty()) return;
+    keys.stream().filter(Objects::nonNull).distinct().forEach(this::delete);
   }
 
   @Override

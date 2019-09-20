@@ -126,6 +126,22 @@ final class RedisCacheImpl extends AbstractGoblinCache {
   }
 
   @Override
+  public void deletes(@Nullable Collection<String> keys) {
+    if (keys == null || keys.isEmpty()) return;
+    String[] keyList = keys.stream().filter(Objects::nonNull).distinct().toArray(String[]::new);
+    if (keyList.length == 0) return;
+    RedisKeyAsyncCommands<String, Object> commands = client.getRedisCommands().async().getRedisKeyAsyncCommands();
+    try {
+      commands.del(keyList).get();
+    } catch (InterruptedException ex) {
+      throw new GoblinInterruptedException(ex);
+    } catch (ExecutionException ex) {
+      logger.error("RDS.deletes({})", StringUtils.join(keyList, " "), ex);
+      throw new GoblinExecutionException(ex);
+    }
+  }
+
+  @Override
   public <T> boolean add(@Nullable String key, int expirationInSeconds, @Nullable T value) {
     if (key == null || expirationInSeconds < 0 || value == null) {
       return false;

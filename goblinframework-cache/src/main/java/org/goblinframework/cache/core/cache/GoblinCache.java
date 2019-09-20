@@ -22,6 +22,8 @@ public interface GoblinCache extends CacheSystemLocationProvider {
 
   boolean delete(@Nullable String key);
 
+  void deletes(@Nullable Collection<String> keys);
+
   <T> boolean add(@Nullable String key, int expirationInSeconds, @Nullable T value);
 
   <T> boolean set(@Nullable String key, int expirationInSeconds, @Nullable T value);
