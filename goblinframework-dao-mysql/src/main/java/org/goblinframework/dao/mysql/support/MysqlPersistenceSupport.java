@@ -45,6 +45,12 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
   }
 
   @NotNull
+  public Map<ID, E> directLoads(@Nullable final Collection<ID> ids) {
+    MysqlConnection connection = client.getMasterConnection();
+    return directLoads(connection, ids);
+  }
+
+  @NotNull
   public Map<ID, E> directLoads(@NotNull final MysqlConnection connection,
                                 @Nullable final Collection<ID> ids) {
     if (ids == null || ids.isEmpty()) return Collections.emptyMap();
