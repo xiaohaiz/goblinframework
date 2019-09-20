@@ -11,7 +11,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 
-public class MasterMysqlConnection {
+public class MysqlMasterConnection {
 
   private final DataSource dataSource;
   private final PlatformTransactionManager transactionManager;
@@ -19,7 +19,7 @@ public class MasterMysqlConnection {
   private final JdbcTemplate jdbcTemplate;
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-  public MasterMysqlConnection(@NotNull DataSource dataSource) {
+  public MysqlMasterConnection(@NotNull DataSource dataSource) {
     this.dataSource = dataSource;
     this.transactionManager = new MysqlDataSourceTransactionManager(dataSource);
     this.transactionTemplate = new TransactionTemplate(transactionManager);
