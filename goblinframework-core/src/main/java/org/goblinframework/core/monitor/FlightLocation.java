@@ -1,6 +1,7 @@
 package org.goblinframework.core.monitor;
 
 import org.goblinframework.api.annotation.ThreadSafe;
+import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,12 +11,15 @@ import java.util.*;
 
 final public class FlightLocation {
 
+  private final StartPoint startPoint;
   private final String id;
   private final String clazz;
   private final String method;
   private final LinkedHashMap<String, Object> attributes;
 
   private FlightLocation(@NotNull FlightLocationBuilder builder) {
+    this.startPoint = Objects.requireNonNull(builder.startPoint);
+
     this.clazz = StringUtils.defaultIfBlank(builder.clazz, "unspecified");
 
     String methodName = StringUtils.defaultIfBlank(builder.method, "unspecified");
@@ -27,6 +31,11 @@ final public class FlightLocation {
     this.id = this.clazz + "::" + this.method;
 
     this.attributes = builder.attributes;
+  }
+
+  @NotNull
+  public StartPoint startPoint() {
+    return startPoint;
   }
 
   @NotNull
@@ -51,7 +60,17 @@ final public class FlightLocation {
 
   @Override
   public String toString() {
-    return id;
+    return startPoint + " " + id;
+  }
+
+  @NotNull
+  public String launch() {
+    String flightId = RandomUtils.nextObjectId();
+    FlightMonitor monitor = FlightRecorder.getFlightMonitor();
+    if (monitor != null) {
+      monitor.createFlight(flightId, this);
+    }
+    return flightId;
   }
 
   @NotNull
@@ -62,6 +81,7 @@ final public class FlightLocation {
   @ThreadSafe(false)
   final public static class FlightLocationBuilder {
 
+    private StartPoint startPoint;
     private String clazz;
     private String method;
     private String[] parameters;
@@ -71,8 +91,9 @@ final public class FlightLocation {
     }
 
     @NotNull
-    public FlightLocation build() {
-      return new FlightLocation(this);
+    public FlightLocationBuilder startPoint(@NotNull StartPoint startPoint) {
+      this.startPoint = startPoint;
+      return this;
     }
 
     @NotNull
@@ -128,6 +149,11 @@ final public class FlightLocation {
     public FlightLocationBuilder attribute(@NotNull String name, @NotNull Object value) {
       attributes.put(name, value);
       return this;
+    }
+
+    @NotNull
+    public FlightLocation build() {
+      return new FlightLocation(this);
     }
   }
 }
