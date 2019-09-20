@@ -5,6 +5,7 @@ import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.dao.core.cql.Criteria;
 import org.goblinframework.dao.core.cql.Query;
+import org.goblinframework.dao.core.mapping.field.EntityRevisionField;
 import org.goblinframework.dao.mysql.client.MysqlConnection;
 import org.goblinframework.dao.mysql.cql.*;
 import org.goblinframework.dao.mysql.mapping.MysqlEntityRowMapper;
@@ -14,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.transaction.TransactionStatus;
@@ -136,6 +138,43 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     Query query = Query.query(criteria);
     String tableName = getIdTableName(id);
     return executeCount(connection, query, tableName) > 0;
+  }
+
+  final public boolean directReplace(@NotNull MysqlConnection connection,
+                                     @Nullable E entity) {
+    if (entity == null) return false;
+    ID id = getEntityId(entity);
+    if (id == null) {
+      logger.warn("ID must not be null when executing replace operation.");
+      return false;
+    }
+    long millis = System.currentTimeMillis();
+    touchUpdateTime(entity, millis);
+    Criteria criteria = Criteria.where(entityMapping.idField.getName()).is(id);
+    EntityRevisionField revisionField = entityMapping.revisionField;
+    if (revisionField != null) {
+      // revision specified, use it for optimistic concurrency checks
+      Object revision = revisionField.getValue(entity);
+      if (revision != null) {
+        criteria = criteria.and(revisionField.getName()).is(revision);
+      }
+    }
+    String tableName = getIdTableName(id);
+    TranslatedCriteria tc1 = criteriaTranslator.translate(criteria);
+    MysqlUpdateOperation updateOperation = new MysqlUpdateOperation(entityMapping, entity, tableName);
+    TranslatedCriteria tc2 = updateOperation.generateSQL();
+    if (tc2 == null) {
+      logger.warn("Nothing found when executing replace operation.");
+      return false;
+    }
+
+    String sql = tc2.sql + tc1.sql;
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+    parameterSource.addValues(tc2.parameterSource.getValues());
+    parameterSource.addValues(tc1.parameterSource.getValues());
+    NamedParameterJdbcTemplate jdbcTemplate = connection.getNamedParameterJdbcTemplate();
+    int rows = jdbcTemplate.update(sql, parameterSource);
+    return rows > 0;
   }
 
   // ==========================================================================
