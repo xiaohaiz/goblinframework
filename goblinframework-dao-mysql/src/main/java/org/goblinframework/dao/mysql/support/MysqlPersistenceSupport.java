@@ -37,6 +37,38 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
     updateTranslator = MysqlUpdateTranslator.INSTANCE;
   }
 
+  public void directInserts(@Nullable final Collection<E> entities) {
+    MysqlConnection connection = client.getMasterConnection();
+    directInserts(connection, entities);
+  }
+
+  public void directInserts(@NotNull MysqlConnection connection,
+                            @Nullable final Collection<E> entities) {
+    if (entities == null || entities.isEmpty()) return;
+    long millis = System.currentTimeMillis();
+    for (E entity : entities) {
+      generateEntityId(entity);
+      requireEntityId(entity);
+      touchCreateTime(entity, millis);
+      touchUpdateTime(entity, millis);
+      initializeRevision(entity);
+    }
+    if (entities.size() > 1) {
+      connection.executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
+        @Override
+        protected void doInTransactionWithoutResult(TransactionStatus status) {
+          groupEntities(entities).forEach((tableName, list) -> {
+            list.forEach(e -> executeInsert(connection, e, tableName));
+          });
+        }
+      });
+    } else {
+      E entity = entities.iterator().next();
+      String tableName = getEntityTableName(entity);
+      executeInsert(connection, entity, tableName);
+    }
+  }
+
   @Nullable
   public E directLoad(@Nullable final ID id) {
     MysqlConnection connection = client.getMasterConnection();
@@ -81,8 +113,8 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
     __inserts(Collections.singleton(entity));
   }
 
-  public void __inserts(@NotNull Collection<E> entities) {
-    if (entities.isEmpty()) return;
+  public void __inserts(@Nullable final Collection<E> entities) {
+    if (entities == null || entities.isEmpty()) return;
     long millis = System.currentTimeMillis();
     for (E entity : entities) {
       generateEntityId(entity);
@@ -105,11 +137,13 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
 
   private void executeInserts(final Collection<E> entities) {
     groupEntities(entities).forEach((tableName, list) -> {
-      list.forEach(e -> executeInsert(e, tableName));
+      list.forEach(e -> executeInsert(client.getMasterConnection(), e, tableName));
     });
   }
 
-  private void executeInsert(final E entity, final String tableName) {
+  private void executeInsert(@NotNull final MysqlConnection connection,
+                             @NotNull final E entity,
+                             @NotNull final String tableName) {
     MysqlInsertOperation insertOperation = new MysqlInsertOperation(entityMapping, entity, tableName);
     String sql = insertOperation.generateSQL();
     PreparedStatementCreatorFactory factory = insertOperation.newPreparedStatementCreatorFactory(sql);
@@ -117,7 +151,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
       factory.setReturnGeneratedKeys(true);
       PreparedStatementCreator creator = factory.newPreparedStatementCreator(insertOperation.toParams());
       GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-      JdbcTemplate jdbcTemplate = client.getMasterJdbcTemplate();
+      JdbcTemplate jdbcTemplate = connection.getJdbcTemplate();
       jdbcTemplate.update(creator, keyHolder);
 
       ConversionService conversionService = ConversionService.INSTANCE;
@@ -125,16 +159,9 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
       entityMapping.idField.setValue(entity, id);
     } else {
       PreparedStatementCreator creator = factory.newPreparedStatementCreator(insertOperation.toParams());
-      JdbcTemplate jdbcTemplate = client.getMasterJdbcTemplate();
+      JdbcTemplate jdbcTemplate = connection.getJdbcTemplate();
       jdbcTemplate.update(creator);
     }
-  }
-
-  private long executeCount(final Query query, final String tableName) {
-    TranslatedCriteria tc = queryTranslator.translateCount(query, tableName);
-    NamedParameterJdbcTemplate jdbcTemplate = client.getMasterNamedParameterJdbcTemplate();
-    return jdbcTemplate.query(tc.sql, tc.parameterSource,
-        (resultSet, i) -> resultSet.getLong(1)).iterator().next();
   }
 
   @NotNull
