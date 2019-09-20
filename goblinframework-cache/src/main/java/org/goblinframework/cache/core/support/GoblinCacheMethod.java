@@ -7,7 +7,7 @@ public class GoblinCacheMethod {
 
   public Class<?> type;
 
-  public List<GoblinCacheMethodParameter> parameterList = new LinkedList<>();
+  public final List<GoblinCacheMethodParameter> parameterList = new LinkedList<>();
   public int annotationCount = 0;
   public int multipleCount = 0;
   public int multipleIndex = -1;

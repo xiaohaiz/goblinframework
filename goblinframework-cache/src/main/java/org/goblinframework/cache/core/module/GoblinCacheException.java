@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.cache;
+package org.goblinframework.cache.core.module;
 
 import org.goblinframework.core.exception.GoblinException;
 
