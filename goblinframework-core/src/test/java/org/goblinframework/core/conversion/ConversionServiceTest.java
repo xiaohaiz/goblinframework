@@ -17,6 +17,16 @@ import static org.junit.Assert.*;
 public class ConversionServiceTest extends SpringManagedBean {
 
   @Test
+  public void calendarToInstant() {
+    ConversionService cs = ConversionService.INSTANCE;
+    assertTrue(cs.canConvert(Calendar.class, Instant.class));
+    Calendar calendar = Calendar.getInstance();
+    Instant instant = cs.convert(calendar, Instant.class);
+    assertNotNull(instant);
+    assertEquals(calendar.getTimeInMillis(), instant.toEpochMilli());
+  }
+
+  @Test
   public void longToCalendar() {
     ConversionService cs = ConversionService.INSTANCE;
     assertTrue(cs.canConvert(Long.class, Calendar.class));
