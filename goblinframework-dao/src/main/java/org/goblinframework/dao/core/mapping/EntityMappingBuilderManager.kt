@@ -4,7 +4,7 @@ import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.ServiceInstaller
-import org.goblinframework.dao.core.module.DatabaseSystem
+import org.goblinframework.dao.core.annotation.GoblinDatabaseSystem
 import java.util.*
 
 @Singleton
@@ -15,7 +15,7 @@ class EntityMappingBuilderManager private constructor()
     @JvmField val INSTANCE = EntityMappingBuilderManager()
   }
 
-  private val buffer = EnumMap<DatabaseSystem, EntityMappingBuilder>(DatabaseSystem::class.java)
+  private val buffer = EnumMap<GoblinDatabaseSystem, EntityMappingBuilder>(GoblinDatabaseSystem::class.java)
 
   init {
     ServiceInstaller.installedList(EntityMappingBuilderProvider::class.java).forEach {
@@ -27,7 +27,7 @@ class EntityMappingBuilderManager private constructor()
     }
   }
 
-  fun getEntityMappingBuilder(databaseSystem: DatabaseSystem): EntityMappingBuilder? {
+  fun getEntityMappingBuilder(databaseSystem: GoblinDatabaseSystem): EntityMappingBuilder? {
     return buffer[databaseSystem]
   }
 

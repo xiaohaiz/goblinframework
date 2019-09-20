@@ -1,10 +1,10 @@
 package org.goblinframework.dao.core.mapping;
 
-import org.goblinframework.dao.core.module.DatabaseSystem;
+import org.goblinframework.dao.core.annotation.GoblinDatabaseSystem;
 
 public interface EntityMappingBuilderProvider {
 
-  DatabaseSystem getDatabaseSystem();
+  GoblinDatabaseSystem getDatabaseSystem();
 
   EntityMappingBuilder getEntityMappingBuilder();
 
