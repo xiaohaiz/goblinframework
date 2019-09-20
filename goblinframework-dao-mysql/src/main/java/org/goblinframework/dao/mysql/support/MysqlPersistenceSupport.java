@@ -73,11 +73,11 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
   }
 
   public boolean delete(@Nullable ID id) {
-    return directDelete(getMasterConnection(), id);
+    return directDelete(id);
   }
 
   public long deletes(@Nullable Collection<ID> ids) {
-    return directDeletes(getMasterConnection(), ids);
+    return directDeletes(ids);
   }
 
   // ==========================================================================
@@ -228,18 +228,16 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return jdbcTemplate.update(sql.toString(), params) > 0;
   }
 
-  public boolean directDelete(@NotNull final MysqlConnection connection,
-                              @Nullable final ID id) {
+  public boolean directDelete(@Nullable final ID id) {
     if (id == null) return false;
-    return directDeletes(connection, Collections.singleton(id)) > 0;
+    return directDeletes(Collections.singleton(id)) > 0;
   }
 
-  public long directDeletes(@NotNull final MysqlConnection connection,
-                            @Nullable final Collection<ID> ids) {
+  public long directDeletes(@Nullable final Collection<ID> ids) {
     if (ids == null || ids.isEmpty()) return 0;
     if (ids.size() > 1) {
       AtomicLong deletedCount = new AtomicLong();
-      connection.executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
+      getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
         @Override
         protected void doInTransactionWithoutResult(TransactionStatus status) {
           groupIds(ids).forEach((tableName, idList) -> {
@@ -250,7 +248,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
             } else {
               criteria = Criteria.where(entityMapping.idField.getName()).in(idList);
             }
-            long rows = executeDelete(connection, criteria, tableName);
+            long rows = executeDelete(criteria, tableName);
             deletedCount.addAndGet(rows);
           });
         }
@@ -260,7 +258,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
       ID id = ids.iterator().next();
       String tableName = getIdTableName(id);
       Criteria criteria = Criteria.where(entityMapping.idField.getName()).is(id);
-      return executeDelete(connection, criteria, tableName);
+      return executeDelete(criteria, tableName);
     }
   }
 
@@ -291,8 +289,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     }
   }
 
-  protected long executeDelete(@NotNull MysqlConnection connection,
-                               @NotNull final Criteria criteria,
+  protected long executeDelete(@NotNull final Criteria criteria,
                                @NotNull final String tableName) {
     TranslatedCriteria tc = criteriaTranslator.translate(criteria);
     MapSqlParameterSource source = new MapSqlParameterSource();
@@ -300,7 +297,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     String s = "DELETE FROM `%s`%s";
     s = String.format(s, tableName, tc.sql);
     MutableObject<String> sql = new MutableObject<>(s);
-    NamedParameterJdbcTemplate jdbcTemplate = connection.getNamedParameterJdbcTemplate();
+    NamedParameterJdbcTemplate jdbcTemplate = getMasterConnection().getNamedParameterJdbcTemplate();
     return jdbcTemplate.update(sql.getValue(), source);
   }
 
