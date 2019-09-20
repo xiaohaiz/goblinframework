@@ -42,18 +42,30 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     directInsert(connection, entity);
   }
 
-  public void directInsert(@NotNull MysqlConnection connection,
-                           @NotNull E entity) {
-    directInserts(connection, Collections.singleton(entity));
-  }
-
   public void directInserts(@Nullable final Collection<E> entities) {
     MysqlConnection connection = client.getMasterConnection();
     directInserts(connection, entities);
   }
 
-  public void directInserts(@NotNull MysqlConnection connection,
-                            @Nullable final Collection<E> entities) {
+  @Nullable
+  public E directLoad(@Nullable final ID id) {
+    MysqlConnection connection = client.getMasterConnection();
+    return directLoad(connection, id);
+  }
+
+  @NotNull
+  public Map<ID, E> directLoads(@Nullable final Collection<ID> ids) {
+    MysqlConnection connection = client.getMasterConnection();
+    return directLoads(connection, ids);
+  }
+
+  final public void directInsert(@NotNull MysqlConnection connection,
+                                 @NotNull E entity) {
+    directInserts(connection, Collections.singleton(entity));
+  }
+
+  final public void directInserts(@NotNull MysqlConnection connection,
+                                  @Nullable final Collection<E> entities) {
     if (entities == null || entities.isEmpty()) return;
 
     for (E entity : entities) {
@@ -86,27 +98,15 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
   }
 
   @Nullable
-  public E directLoad(@Nullable final ID id) {
-    MysqlConnection connection = client.getMasterConnection();
-    return directLoad(connection, id);
-  }
-
-  @Nullable
-  public E directLoad(@NotNull final MysqlConnection connection,
-                      @Nullable final ID id) {
+  final public E directLoad(@NotNull final MysqlConnection connection,
+                            @Nullable final ID id) {
     if (id == null) return null;
     return directLoads(connection, Collections.singleton(id)).get(id);
   }
 
   @NotNull
-  public Map<ID, E> directLoads(@Nullable final Collection<ID> ids) {
-    MysqlConnection connection = client.getMasterConnection();
-    return directLoads(connection, ids);
-  }
-
-  @NotNull
-  public Map<ID, E> directLoads(@NotNull final MysqlConnection connection,
-                                @Nullable final Collection<ID> ids) {
+  final public Map<ID, E> directLoads(@NotNull final MysqlConnection connection,
+                                      @Nullable final Collection<ID> ids) {
     if (ids == null || ids.isEmpty()) return Collections.emptyMap();
     List<E> entities = new LinkedList<>();
     groupIds(ids).forEach((tableName, idList) -> {
@@ -125,9 +125,9 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return MapUtils.resort(map, ids);
   }
 
-  private void executeInsert(@NotNull final MysqlConnection connection,
-                             @NotNull final E entity,
-                             @NotNull final String tableName) {
+  protected void executeInsert(@NotNull final MysqlConnection connection,
+                               @NotNull final E entity,
+                               @NotNull final String tableName) {
     MysqlInsertOperation insertOperation = new MysqlInsertOperation(entityMapping, entity, tableName);
     String sql = insertOperation.generateSQL();
     PreparedStatementCreatorFactory factory = insertOperation.newPreparedStatementCreatorFactory(sql);
@@ -149,9 +149,9 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
   }
 
   @NotNull
-  private List<E> executeQuery(@NotNull final MysqlConnection connection,
-                               @NotNull final Query query,
-                               @NotNull final String tableName) {
+  protected List<E> executeQuery(@NotNull final MysqlConnection connection,
+                                 @NotNull final Query query,
+                                 @NotNull final String tableName) {
     TranslatedCriteria tc = queryTranslator.translateQuery(query, tableName);
     NamedParameterJdbcTemplate jdbcTemplate = connection.getNamedParameterJdbcTemplate();
     return jdbcTemplate.query(tc.sql, tc.parameterSource, entityRowMapper);
