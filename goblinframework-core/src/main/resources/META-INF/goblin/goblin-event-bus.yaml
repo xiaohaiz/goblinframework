@@ -4,3 +4,6 @@
 - channel: "/goblin/timer"
   ringBufferSize: 32768
   workHandlers: 4
+- channel: "/goblin/monitor"
+  ringBufferSize: 65535
+  workHandlers: 8
