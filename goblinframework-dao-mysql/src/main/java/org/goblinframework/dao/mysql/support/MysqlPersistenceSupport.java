@@ -148,6 +148,15 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     }
   }
 
+  protected long executeCount(@NotNull final MysqlConnection connection,
+                              @NotNull final Query query,
+                              @NotNull final String tableName) {
+    TranslatedCriteria tc = queryTranslator.translateCount(query, tableName);
+    NamedParameterJdbcTemplate jdbcTemplate = connection.getNamedParameterJdbcTemplate();
+    return jdbcTemplate.query(tc.sql, tc.parameterSource,
+        (resultSet, i) -> resultSet.getLong(1)).iterator().next();
+  }
+
   @NotNull
   protected List<E> executeQuery(@NotNull final MysqlConnection connection,
                                  @NotNull final Query query,
