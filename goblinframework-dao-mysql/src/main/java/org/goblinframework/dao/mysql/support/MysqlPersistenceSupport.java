@@ -67,6 +67,14 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return directReplace(getMasterConnection(), entity);
   }
 
+  public boolean delete(@Nullable ID id) {
+    return directDelete(getMasterConnection(), id);
+  }
+
+  public long deletes(@Nullable Collection<ID> ids) {
+    return directDeletes(getMasterConnection(), ids);
+  }
+
   // ==========================================================================
   // Direct database access methods
   // ==========================================================================
