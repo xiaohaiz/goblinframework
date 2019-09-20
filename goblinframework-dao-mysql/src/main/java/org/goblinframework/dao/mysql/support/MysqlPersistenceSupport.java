@@ -37,6 +37,16 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
     updateTranslator = MysqlUpdateTranslator.INSTANCE;
   }
 
+  public void directInsert(@NotNull E entity) {
+    MysqlConnection connection = client.getMasterConnection();
+    directInsert(connection, entity);
+  }
+
+  public void directInsert(@NotNull MysqlConnection connection,
+                           @NotNull E entity) {
+    directInserts(connection, Collections.singleton(entity));
+  }
+
   public void directInserts(@Nullable final Collection<E> entities) {
     MysqlConnection connection = client.getMasterConnection();
     directInserts(connection, entities);
@@ -107,38 +117,6 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
     });
     Map<ID, E> map = entities.stream().collect(Collectors.toMap(this::getEntityId, Function.identity()));
     return MapUtils.resort(map, ids);
-  }
-
-  public void __insert(@NotNull E entity) {
-    __inserts(Collections.singleton(entity));
-  }
-
-  public void __inserts(@Nullable final Collection<E> entities) {
-    if (entities == null || entities.isEmpty()) return;
-    long millis = System.currentTimeMillis();
-    for (E entity : entities) {
-      generateEntityId(entity);
-      requireEntityId(entity);
-      touchCreateTime(entity, millis);
-      touchUpdateTime(entity, millis);
-      initializeRevision(entity);
-    }
-    if (entities.size() > 1 && isNestedTransactionEnabled()) {
-      client.getMasterTransactionTemplate().execute(new TransactionCallbackWithoutResult() {
-        @Override
-        protected void doInTransactionWithoutResult(TransactionStatus status) {
-          executeInserts(entities);
-        }
-      });
-    } else {
-      executeInserts(entities);
-    }
-  }
-
-  private void executeInserts(final Collection<E> entities) {
-    groupEntities(entities).forEach((tableName, list) -> {
-      list.forEach(e -> executeInsert(client.getMasterConnection(), e, tableName));
-    });
   }
 
   private void executeInsert(@NotNull final MysqlConnection connection,

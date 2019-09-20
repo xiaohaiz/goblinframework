@@ -60,10 +60,10 @@ public class GoblinStaticPersistenceTest extends SpringManagedBean {
     data.ext.field1 = "foo";
     data.ext.field2 = "bar";
     data.ext.field3 = "gee";
-    persistence.__insert(data);
+    persistence.directInsert(data);
 
-//    Long id = data.id;
-//    data = persistence.$load(id);
-//    System.out.println(data);
+    Long id = data.id;
+    data = persistence.directLoad(id);
+    System.out.println(data);
   }
 }
