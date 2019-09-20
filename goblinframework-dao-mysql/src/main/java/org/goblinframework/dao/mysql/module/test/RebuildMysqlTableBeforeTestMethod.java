@@ -118,7 +118,7 @@ final public class RebuildMysqlTableBeforeTestMethod implements TestExecutionLis
 
   private void dropTable(MysqlClient client, String table) {
     MutableObject<String> sql = new MutableObject<>("DROP TABLE IF EXISTS " + table);
-    client.getMasterJdbcTemplate().update(sql.getValue());
+    client.getMasterConnection().getJdbcTemplate().update(sql.getValue());
   }
 
   private void createTable(MysqlClient client, String script) {
