@@ -37,25 +37,25 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     updateTranslator = MysqlUpdateTranslator.INSTANCE;
   }
 
-  public void directInsert(@NotNull E entity) {
+  public void insert(@NotNull E entity) {
     directInsert(getMasterConnection(), entity);
   }
 
-  public void directInserts(@Nullable final Collection<E> entities) {
+  public void inserts(@Nullable final Collection<E> entities) {
     directInserts(getMasterConnection(), entities);
   }
 
   @Nullable
-  public E directLoad(@Nullable final ID id) {
+  public E load(@Nullable final ID id) {
     return directLoad(getMasterConnection(), id);
   }
 
   @NotNull
-  public Map<ID, E> directLoads(@Nullable final Collection<ID> ids) {
+  public Map<ID, E> loads(@Nullable final Collection<ID> ids) {
     return directLoads(getMasterConnection(), ids);
   }
 
-  public boolean directExists(@Nullable ID id) {
+  public boolean exists(@Nullable ID id) {
     return directExists(getMasterConnection(), id);
   }
 

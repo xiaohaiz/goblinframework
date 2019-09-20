@@ -6,6 +6,7 @@ import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.dao.mysql.module.test.RebuildMysqlTable;
 import org.goblinframework.dao.mysql.support.UseMysqlClient;
 import org.goblinframework.test.runner.GoblinTestRunner;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.stereotype.Repository;
@@ -60,10 +61,13 @@ public class GoblinStaticPersistenceTest extends SpringManagedBean {
     data.ext.field1 = "foo";
     data.ext.field2 = "bar";
     data.ext.field3 = "gee";
-    persistence.directInsert(data);
+    persistence.insert(data);
 
     Long id = data.id;
-    data = persistence.directLoad(id);
+
+    Assert.assertTrue(persistence.exists(id));
+
+    data = persistence.load(id);
     System.out.println(data);
   }
 }
