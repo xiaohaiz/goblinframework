@@ -21,6 +21,12 @@ public interface Instruction extends Lifecycle, AutoCloseable {
 
   long effectiveDurationMillis();
 
+  boolean isStarted();
+
+  boolean isStopped();
+
+  boolean isCompleted();
+
   @Override
   void start();
 

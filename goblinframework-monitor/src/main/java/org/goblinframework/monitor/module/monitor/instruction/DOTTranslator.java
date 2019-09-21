@@ -22,12 +22,12 @@ final public class DOTTranslator implements InstructionTranslator<DOT> {
     if (!(flight instanceof org.goblinframework.monitor.flight.Flight)) {
       return StringUtils.EMPTY;
     }
-    long millis = instruction.startTime().toEpochMilli();
+    long millis = instruction.dotTime().toEpochMilli();
     long delta = ((org.goblinframework.monitor.flight.Flight) flight).updateDot(millis);
     if (pretty) {
-      return String.format("+%sms %s", delta, instruction.getDotName());
+      return String.format("+%sms %s", delta, instruction.dotName());
     } else {
-      return String.format("(%s)+%dms", instruction.getDotName(), delta);
+      return String.format("(%s)+%dms", instruction.dotName(), delta);
     }
   }
 }

@@ -19,8 +19,13 @@ final public class DOT implements Instruction, Flight.Aware {
   }
 
   @Nullable
-  public String getDotName() {
+  String dotName() {
     return dotName;
+  }
+
+  @NotNull
+  Instant dotTime() {
+    return dotTime;
   }
 
   @Nullable
@@ -45,39 +50,57 @@ final public class DOT implements Instruction, Flight.Aware {
 
   @Override
   public Instant startTime() {
-    return dotTime;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public Instant stopTime() {
-    return dotTime;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public Instant completeTime() {
-    return dotTime;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public long actualDurationMillis() {
-    return 0;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public long effectiveDurationMillis() {
-    return 0;
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public boolean isStarted() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public boolean isStopped() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public boolean isCompleted() {
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void start() {
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void stop() {
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void complete() {
+    throw new UnsupportedOperationException();
   }
 
   @NotNull
