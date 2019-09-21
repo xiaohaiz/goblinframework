@@ -24,10 +24,10 @@ final public class MysqlClient extends GoblinManagedObject implements MysqlClien
 
   public MysqlClient(@NotNull MysqlConfig config) {
     this.config = config;
-    this.master = DataSourceBuilder.buildDataSource((DataSourceConfig) config.getMaster());
+    this.master = DataSourceBuilder.buildDataSource(config.getName(), "MASTER", (DataSourceConfig) config.getMaster());
     Arrays.stream(config.getSlaveList())
         .map(e -> (DataSourceConfig) e)
-        .map(DataSourceBuilder::buildDataSource)
+        .map(e -> DataSourceBuilder.buildDataSource(config.getName(), "SLAVE", e))
         .forEach(slaves::add);
     this.masterConnection = new MysqlMasterConnection(this.master.getDataSource());
   }

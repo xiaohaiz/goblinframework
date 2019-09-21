@@ -3,7 +3,9 @@ package org.goblinframework.dao.mysql.client;
 import com.zaxxer.hikari.HikariDataSource;
 import org.goblinframework.core.mbean.GoblinManagedBean;
 import org.goblinframework.core.mbean.GoblinManagedObject;
+import org.goblinframework.core.reflection.ReflectionUtils;
 import org.goblinframework.core.util.ClassUtils;
+import org.goblinframework.dao.mysql.interceptor.DataSourceInterceptor;
 import org.goblinframework.dao.mysql.module.config.DataSourceConfig;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,7 +33,9 @@ final class DataSource extends GoblinManagedObject implements DataSourceMXBean {
   private final HikariDataSource hikariDataSource;
   private final javax.sql.DataSource effectiveDataSource;
 
-  DataSource(@NotNull DataSourceConfig config,
+  DataSource(@NotNull String name,
+             @NotNull String mode,
+             @NotNull DataSourceConfig config,
              @NotNull HikariDataSource hikariDataSource) {
     this.config = config;
     this.hikariDataSource = hikariDataSource;
@@ -47,7 +51,9 @@ final class DataSource extends GoblinManagedObject implements DataSourceMXBean {
     } else {
       effective = hikariDataSource;
     }
-    this.effectiveDataSource = effective;
+
+    DataSourceInterceptor interceptor = new DataSourceInterceptor(name, mode, effective);
+    this.effectiveDataSource = ReflectionUtils.createProxy(javax.sql.DataSource.class, interceptor);
   }
 
   javax.sql.DataSource getDataSource() {

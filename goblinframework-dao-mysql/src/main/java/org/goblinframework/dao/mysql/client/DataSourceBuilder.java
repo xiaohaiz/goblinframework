@@ -10,7 +10,9 @@ import java.util.LinkedHashMap;
 abstract class DataSourceBuilder {
 
   @NotNull
-  static DataSource buildDataSource(@NotNull DataSourceConfig config) {
+  static DataSource buildDataSource(@NotNull String name,
+                                    @NotNull String mode,
+                                    @NotNull DataSourceConfig config) {
     HikariConfig hikariConfig = new HikariConfig();
     if (config.getDataSourceClassName() != null && config.getDatabaseName() != null) {
       hikariConfig.setDataSourceClassName(config.getDataSourceClassName());
@@ -55,6 +57,6 @@ abstract class DataSourceBuilder {
     }
 
     HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
-    return new DataSource(config, hikariDataSource);
+    return new DataSource(name, mode, config, hikariDataSource);
   }
 }
