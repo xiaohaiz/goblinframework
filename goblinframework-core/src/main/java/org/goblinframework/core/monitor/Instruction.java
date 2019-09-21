@@ -1,6 +1,7 @@
 package org.goblinframework.core.monitor;
 
 import org.goblinframework.api.common.Lifecycle;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 
@@ -14,6 +15,24 @@ public interface Instruction extends Lifecycle, AutoCloseable {
 
   Instant completeTime();
 
+  long actualDurationMillis();
+
+  long effectiveDurationMillis();
+
+  @Override
+  void start();
+
+  @Override
+  void stop();
+
+  void complete();
+
+  @NotNull
+  String asLongText();
+
+  @NotNull
+  String asShortText();
+
   @Override
   void close();
 
@@ -23,6 +42,6 @@ public interface Instruction extends Lifecycle, AutoCloseable {
   }
 
   enum Id {
-
+    DOT
   }
 }
