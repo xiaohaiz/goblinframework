@@ -1,5 +1,6 @@
 package org.goblinframework.management.controller
 
+import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.module.spi.RegisterManagementController
 import java.util.*
 
@@ -21,5 +22,6 @@ class ManagementControllerManager private constructor() : RegisterManagementCont
     return drained
   }
 
+  @Install
   class Installer : RegisterManagementController by INSTANCE
 }
