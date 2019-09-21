@@ -16,13 +16,13 @@ class RegistryModule : GoblinModule {
   override fun install(ctx: GoblinModuleInstallContext) {
     ctx.createChildModuleManager()
         .module("REGISTRY:ZOOKEEPER")
-        .initialize(ctx)
+        .install(ctx)
   }
 
   override fun initialize(ctx: GoblinModuleInitializeContext) {
     ctx.createChildModuleManager()
         .module("REGISTRY:ZOOKEEPER")
-        .bootstrap(ctx)
+        .initialize(ctx)
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {

@@ -17,13 +17,13 @@ class DaoModule : GoblinModule {
   override fun install(ctx: GoblinModuleInstallContext) {
     ctx.createChildModuleManager()
         .module("DAO:MYSQL")
-        .initialize(ctx)
+        .install(ctx)
   }
 
   override fun initialize(ctx: GoblinModuleInitializeContext) {
     ctx.createChildModuleManager()
         .module("DAO:MYSQL")
-        .bootstrap(ctx)
+        .initialize(ctx)
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {

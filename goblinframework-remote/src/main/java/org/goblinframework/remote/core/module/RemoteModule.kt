@@ -18,7 +18,7 @@ class RemoteModule : GoblinModule {
         .module("REMOTE:CLIENT")
         .next()
         .module("REMOTE:SERVER")
-        .initialize(ctx)
+        .install(ctx)
   }
 
   override fun initialize(ctx: GoblinModuleInitializeContext) {
@@ -26,7 +26,7 @@ class RemoteModule : GoblinModule {
         .module("REMOTE:CLIENT")
         .next()
         .module("REMOTE:SERVER")
-        .bootstrap(ctx)
+        .initialize(ctx)
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {

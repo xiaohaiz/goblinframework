@@ -21,14 +21,14 @@ class CacheModule : GoblinModule {
     ctx.createChildModuleManager()
         .module("CACHE:COUCHBASE")
         .module("CACHE:REDIS")
-        .initialize(ctx)
+        .install(ctx)
   }
 
   override fun initialize(ctx: GoblinModuleInitializeContext) {
     ctx.createChildModuleManager()
         .module("CACHE:COUCHBASE")
         .module("CACHE:REDIS")
-        .bootstrap(ctx)
+        .initialize(ctx)
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {

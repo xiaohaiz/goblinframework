@@ -16,14 +16,14 @@ class EmbeddedModule : GoblinModule {
     ctx.createChildModuleManager()
         .module("EMBEDDED:JETTY")
         .module("EMBEDDED:NETTY")
-        .initialize(ctx)
+        .install(ctx)
   }
 
   override fun initialize(ctx: GoblinModuleInitializeContext) {
     ctx.createChildModuleManager()
         .module("EMBEDDED:JETTY")
         .module("EMBEDDED:NETTY")
-        .bootstrap(ctx)
+        .initialize(ctx)
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {

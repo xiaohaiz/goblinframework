@@ -16,7 +16,7 @@ class TransportModule : GoblinModule {
         .module("TRANSPORT:CLIENT")
         .next()
         .module("TRANSPORT:SERVER")
-        .initialize(ctx)
+        .install(ctx)
   }
 
   override fun initialize(ctx: GoblinModuleInitializeContext) {
@@ -24,7 +24,7 @@ class TransportModule : GoblinModule {
         .module("TRANSPORT:CLIENT")
         .next()
         .module("TRANSPORT:SERVER")
-        .bootstrap(ctx)
+        .initialize(ctx)
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {
