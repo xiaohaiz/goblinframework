@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
+import java.util.concurrent.atomic.AtomicLong;
 
 final public class Flight implements org.goblinframework.core.monitor.Flight {
 
@@ -13,12 +14,14 @@ final public class Flight implements org.goblinframework.core.monitor.Flight {
   private final FlightLocation location;
   private final Instant startTime;
   private Instant stopTime;
+  private final AtomicLong lastDotTime;
   private final FlightInvocationList instructions = new FlightInvocationList();
 
   Flight(@NotNull FlightId flightId, @NotNull FlightLocation location) {
     this.flightId = flightId;
     this.location = location;
     this.startTime = Instant.now();
+    this.lastDotTime = new AtomicLong(this.startTime.toEpochMilli());
   }
 
   @NotNull
@@ -43,6 +46,11 @@ final public class Flight implements org.goblinframework.core.monitor.Flight {
   @Override
   public Instant stopTime() {
     return stopTime;
+  }
+
+  public long updateDot(long millis) {
+    long previous = lastDotTime.getAndSet(millis);
+    return millis - previous;
   }
 
   void stop() {
