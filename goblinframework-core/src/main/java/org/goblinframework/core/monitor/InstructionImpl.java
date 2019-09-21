@@ -14,7 +14,8 @@ abstract public class InstructionImpl implements Instruction {
   private Instant stopTime;
   private Instant completeTime;
 
-  public InstructionImpl(@NotNull Id id, @NotNull Mode mode, boolean autoStart) {
+  public InstructionImpl(@NotNull Id id, @NotNull Mode mode,
+                         boolean autoStart, boolean autoAttach) {
     if (mode == Mode.DOT) {
       throw new IllegalArgumentException();
     }
@@ -22,6 +23,12 @@ abstract public class InstructionImpl implements Instruction {
     this.mode = mode;
     if (autoStart) {
       start();
+    }
+    if (autoAttach) {
+      FlightMonitor monitor = FlightRecorder.getFlightMonitor();
+      if (monitor != null) {
+        monitor.attachFlight(this);
+      }
     }
   }
 

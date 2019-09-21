@@ -6,6 +6,7 @@ import org.goblinframework.api.annotation.ThreadSafe;
 import org.goblinframework.api.common.Disposable;
 import org.goblinframework.cache.core.annotation.CacheSystem;
 import org.goblinframework.cache.core.cache.*;
+import org.goblinframework.cache.core.module.monitor.instruction.VMC;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,20 +87,25 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
     if (key == null) {
       return new GetResult<>(null);
     }
-    CacheItem ci = retrieve(key);
-    if (ci == null) {
-      return new GetResult<>(key);
+    try (VMC instruction = new VMC()) {
+      instruction.operation = "get";
+      instruction.keys = Collections.singletonList(key);
+
+      CacheItem ci = retrieve(key);
+      if (ci == null) {
+        return new GetResult<>(key);
+      }
+      GetResult<T> gr = new GetResult<>(key);
+      gr.cas = ci.cas.get();
+      gr.hit = true;
+      if (ci.value instanceof CacheValueWrapper) {
+        gr.wrapper = true;
+        gr.uncheckedSetValue(((CacheValueWrapper) ci.value).getValue());
+      } else {
+        gr.uncheckedSetValue(ci.value);
+      }
+      return gr;
     }
-    GetResult<T> gr = new GetResult<>(key);
-    gr.cas = ci.cas.get();
-    gr.hit = true;
-    if (ci.value instanceof CacheValueWrapper) {
-      gr.wrapper = true;
-      gr.uncheckedSetValue(((CacheValueWrapper) ci.value).getValue());
-    } else {
-      gr.uncheckedSetValue(ci.value);
-    }
-    return gr;
   }
 
   @Override
@@ -107,14 +113,19 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
     if (key == null) {
       return false;
     }
-    CacheItem ci;
-    lock.writeLock().lock();
-    try {
-      ci = buffer.remove(key);
-    } finally {
-      lock.writeLock().unlock();
+    try (VMC instruction = new VMC()) {
+      instruction.operation = "delete";
+      instruction.keys = Collections.singletonList(key);
+
+      CacheItem ci;
+      lock.writeLock().lock();
+      try {
+        ci = buffer.remove(key);
+      } finally {
+        lock.writeLock().unlock();
+      }
+      return ci != null && !ci.isExpired();
     }
-    return ci != null && !ci.isExpired();
   }
 
   @Override
@@ -122,14 +133,19 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
     if (key == null || expirationInSeconds < 0) {
       return false;
     }
-    CacheItem ci = new CacheItem();
-    ci.value = value;
-    ci.touchExpirationInSeconds(expirationInSeconds);
-    lock.writeLock().lock();
-    try {
-      return buffer.putIfAbsent(key, ci) == null;
-    } finally {
-      lock.writeLock().unlock();
+    try (VMC instruction = new VMC()) {
+      instruction.operation = "add";
+      instruction.keys = Collections.singletonList(key);
+
+      CacheItem ci = new CacheItem();
+      ci.value = value;
+      ci.touchExpirationInSeconds(expirationInSeconds);
+      lock.writeLock().lock();
+      try {
+        return buffer.putIfAbsent(key, ci) == null;
+      } finally {
+        lock.writeLock().unlock();
+      }
     }
   }
 
@@ -138,14 +154,19 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
     if (key == null || expirationInSeconds < 0) {
       return false;
     }
-    CacheItem ci = retrieve(key);
-    if (ci != null) {
-      ci.touchExpirationInSeconds(expirationInSeconds);
-      ci.value = value;
-      ci.cas.incrementAndGet();
-      return true;
+    try (VMC instruction = new VMC()) {
+      instruction.operation = "set";
+      instruction.keys = Collections.singletonList(key);
+
+      CacheItem ci = retrieve(key);
+      if (ci != null) {
+        ci.touchExpirationInSeconds(expirationInSeconds);
+        ci.value = value;
+        ci.cas.incrementAndGet();
+        return true;
+      }
+      return add(key, expirationInSeconds, value);
     }
-    return add(key, expirationInSeconds, value);
   }
 
   @Override
@@ -153,14 +174,19 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
     if (key == null || expirationInSeconds < 0) {
       return false;
     }
-    CacheItem ci = retrieve(key);
-    if (ci == null) {
-      return false;
+    try (VMC instruction = new VMC()) {
+      instruction.operation = "replace";
+      instruction.keys = Collections.singletonList(key);
+
+      CacheItem ci = retrieve(key);
+      if (ci == null) {
+        return false;
+      }
+      ci.touchExpirationInSeconds(expirationInSeconds);
+      ci.value = value;
+      ci.cas.incrementAndGet();
+      return true;
     }
-    ci.touchExpirationInSeconds(expirationInSeconds);
-    ci.value = value;
-    ci.cas.incrementAndGet();
-    return true;
   }
 
   @Override
@@ -168,13 +194,18 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
     if (key == null || !(value instanceof CharSequence)) {
       return false;
     }
-    CacheItem ci = retrieve(key);
-    if (ci == null || !(ci.value instanceof String)) {
-      return false;
+    try (VMC instruction = new VMC()) {
+      instruction.operation = "append";
+      instruction.keys = Collections.singletonList(key);
+
+      CacheItem ci = retrieve(key);
+      if (ci == null || !(ci.value instanceof String)) {
+        return false;
+      }
+      ci.value = ci.value.toString() + value.toString();
+      ci.cas.incrementAndGet();
+      return true;
     }
-    ci.value = ci.value.toString() + value.toString();
-    ci.cas.incrementAndGet();
-    return true;
   }
 
   @Override
@@ -182,10 +213,15 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
     if (key == null || expirationInSeconds < 0) {
       return false;
     }
-    CacheItem ci = retrieve(key);
-    if (ci == null) return false;
-    ci.touchExpirationInSeconds(expirationInSeconds);
-    return true;
+    try (VMC instruction = new VMC()) {
+      instruction.operation = "touch";
+      instruction.keys = Collections.singletonList(key);
+
+      CacheItem ci = retrieve(key);
+      if (ci == null) return false;
+      ci.touchExpirationInSeconds(expirationInSeconds);
+      return true;
+    }
   }
 
   @Override
@@ -193,14 +229,19 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
     if (key == null) {
       throw new IllegalArgumentException();
     }
-    CacheItem ci = retrieve(key);
-    if (ci == null) return -1;
-    long e = ci.expireAt.get();
-    if (e == 0) return 0;
-    long delta = e - System.currentTimeMillis();
-    if (delta < 0) return -1;
-    long ttl = new BigDecimal(delta).divide(new BigDecimal(1000), 0, BigDecimal.ROUND_UP).longValue();
-    return Math.max(ttl, 1);
+    try (VMC instruction = new VMC()) {
+      instruction.operation = "ttl";
+      instruction.keys = Collections.singletonList(key);
+
+      CacheItem ci = retrieve(key);
+      if (ci == null) return -1;
+      long e = ci.expireAt.get();
+      if (e == 0) return 0;
+      long delta = e - System.currentTimeMillis();
+      if (delta < 0) return -1;
+      long ttl = new BigDecimal(delta).divide(new BigDecimal(1000), 0, BigDecimal.ROUND_UP).longValue();
+      return Math.max(ttl, 1);
+    }
   }
 
   @Override
@@ -208,19 +249,24 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
     if (key == null || expirationInSeconds < 0) {
       throw new IllegalArgumentException();
     }
-    CacheItem ci = retrieve(key);
-    if (ci == null) {
-      if (add(key, expirationInSeconds, Long.toString(initialValue))) {
-        return initialValue;
-      } else {
-        throw new ConcurrentModificationException();
+    try (VMC instruction = new VMC()) {
+      instruction.operation = "incr";
+      instruction.keys = Collections.singletonList(key);
+
+      CacheItem ci = retrieve(key);
+      if (ci == null) {
+        if (add(key, expirationInSeconds, Long.toString(initialValue))) {
+          return initialValue;
+        } else {
+          throw new ConcurrentModificationException();
+        }
       }
+      long v = Long.parseLong(ci.value.toString()) + delta;
+      ci.touchExpirationInSeconds(expirationInSeconds);
+      ci.value = Long.toString(v);
+      ci.cas.incrementAndGet();
+      return v;
     }
-    long v = Long.parseLong(ci.value.toString()) + delta;
-    ci.touchExpirationInSeconds(expirationInSeconds);
-    ci.value = Long.toString(v);
-    ci.cas.incrementAndGet();
-    return v;
   }
 
   @Override
@@ -233,27 +279,32 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
     if (key == null || expirationInSeconds < 0 || getResult == null || casOperation == null) {
       return false;
     }
-    int max = Math.max(0, maxTries);
-    int retries = 0;
-    GetResult<T> gr = getResult;
-    while (retries <= max) {
-      if (retries > 0) {
-        gr = get(key);
-        if (!gr.hit) return false;
+    try (VMC instruction = new VMC()) {
+      instruction.operation = "cas";
+      instruction.keys = Collections.singletonList(key);
+
+      int max = Math.max(0, maxTries);
+      int retries = 0;
+      GetResult<T> gr = getResult;
+      while (retries <= max) {
+        if (retries > 0) {
+          gr = get(key);
+          if (!gr.hit) return false;
+        }
+        CacheItem ci = retrieve(key);
+        if (ci == null) return false;
+        if (ci.cas.longValue() == gr.cas) {
+          @SuppressWarnings("unchecked")
+          T newValue = casOperation.changeCacheObject((T) ci.value);
+          ci.value = newValue;
+          ci.touchExpirationInSeconds(expirationInSeconds);
+          ci.cas.incrementAndGet();
+          return true;
+        }
+        retries++;
       }
-      CacheItem ci = retrieve(key);
-      if (ci == null) return false;
-      if (ci.cas.longValue() == gr.cas) {
-        @SuppressWarnings("unchecked")
-        T newValue = casOperation.changeCacheObject((T) ci.value);
-        ci.value = newValue;
-        ci.touchExpirationInSeconds(expirationInSeconds);
-        ci.cas.incrementAndGet();
-        return true;
-      }
-      retries++;
+      return false;
     }
-    return false;
   }
 
   @Override

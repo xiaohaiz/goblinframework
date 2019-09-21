@@ -50,7 +50,8 @@ public interface Instruction extends Lifecycle, AutoCloseable {
   }
 
   enum Id {
-    DOT
+    DOT,
+    VMC
   }
 
   enum Mode {
