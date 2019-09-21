@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 public interface Flight {
 
   @NotNull
-  String flightId();
+  FlightId flightId();
 
   @NotNull
   default StartPoint startPoint() {

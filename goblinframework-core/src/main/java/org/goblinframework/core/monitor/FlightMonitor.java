@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 public interface FlightMonitor {
 
   @NotNull
-  String createFlight(@NotNull FlightLocation location);
+  FlightId createFlight(@NotNull FlightLocation location);
 
   @Nullable
   Flight terminateFlight();

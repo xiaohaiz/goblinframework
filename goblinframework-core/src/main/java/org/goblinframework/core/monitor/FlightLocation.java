@@ -63,7 +63,7 @@ final public class FlightLocation {
   }
 
   @Nullable
-  public String launch() {
+  public FlightId launch() {
     FlightMonitor monitor = FlightRecorder.getFlightMonitor();
     if (monitor != null) {
       return monitor.createFlight(this);

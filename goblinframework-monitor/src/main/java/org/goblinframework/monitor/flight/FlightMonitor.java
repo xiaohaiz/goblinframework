@@ -12,7 +12,7 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
 
   public static final FlightMonitor INSTANCE = new FlightMonitor();
 
-  private final ThreadLocal<Flight> threadLocal = new ThreadLocal<>();
+  private final ThreadLocal<FlightId> threadLocal = new ThreadLocal<>();
 
   private FlightMonitor() {
   }
@@ -24,21 +24,36 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
 
   @NotNull
   @Override
-  public String createFlight(@NotNull FlightLocation location) {
-    return null;
+  public FlightId createFlight(@NotNull FlightLocation location) {
+    FlightId id = threadLocal.get();
+    if (id != null) {
+      // currently flight already exists.
+      id.retain();
+      return id;
+    }
+    // create a new flight
+    id = new FlightId();
+    id.retain();
+    threadLocal.set(id);
+    Flight flight = new Flight(id, location);
+    FlightPool.INSTANCE.put(id, flight);
+    return id;
   }
 
   @Nullable
   @Override
   public Flight terminateFlight() {
-    Flight flight = threadLocal.get();
-    if (flight == null) {
+    FlightId id = threadLocal.get();
+    if (id == null) {
       return null;
     }
-    if (!flight.release()) {
+    if (!id.release()) {
       return null;
     }
     threadLocal.remove();
+
+    Flight flight = FlightPool.INSTANCE.remove(id);
+
     // Now, terminate the current flight
 
     return flight;
@@ -49,7 +64,7 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
 
     @NotNull
     @Override
-    public String createFlight(@NotNull FlightLocation location) {
+    public FlightId createFlight(@NotNull FlightLocation location) {
       return INSTANCE.createFlight(location);
     }
 

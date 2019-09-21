@@ -7,12 +7,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class FlightId implements ReferenceCount {
+public class FlightId implements org.goblinframework.core.monitor.FlightId, ReferenceCount {
 
   private final String id = RandomUtils.nextObjectId();
   private final AtomicInteger referenceCount = new AtomicInteger();
 
+  FlightId() {
+  }
+
   @NotNull
+  @Override
   public String id() {
     return id;
   }
