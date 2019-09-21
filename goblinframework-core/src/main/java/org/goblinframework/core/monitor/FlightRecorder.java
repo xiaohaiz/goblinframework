@@ -22,29 +22,8 @@ abstract public class FlightRecorder {
   }
 
   @Nullable
-  static FlightMonitor getFlightMonitor() {
+  public static FlightMonitor getFlightMonitor() {
     return flightMonitor;
-  }
-
-  @Nullable
-  public static Flight terminateFlight() {
-    if (flightMonitor != null) {
-      return flightMonitor.terminateFlight();
-    } else {
-      return null;
-    }
-  }
-
-  public static void attachFlight(@NotNull Instruction instruction) {
-    if (flightMonitor != null) {
-      flightMonitor.attachFlight(instruction);
-    }
-  }
-
-  public static void attachFlight(@Nullable FlightId flightId, @NotNull Instruction instruction) {
-    if (flightMonitor != null) {
-      flightMonitor.attachFlight(flightId, instruction);
-    }
   }
 
   public static void dot(@NotNull String name) {

@@ -31,8 +31,8 @@ class UnitTestFlightRecorder : TestExecutionListener, Ordered {
   }
 
   override fun afterTestMethod(testContext: TestContext) {
-    FlightRecorder.terminateFlight()?.run {
-      val flightId = this.flightId()
+    FlightRecorder.getFlightMonitor()?.terminateFlight()?.run {
+      val flightId = flightId()
       synchronized(lock) {
         while (flightIds.contains(flightId)) {
           lock.wait()
