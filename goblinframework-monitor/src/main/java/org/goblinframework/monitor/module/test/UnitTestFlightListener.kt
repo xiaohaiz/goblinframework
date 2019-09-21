@@ -1,27 +1,26 @@
-package org.goblinframework.monitor.module.test;
+package org.goblinframework.monitor.module.test
 
-import org.goblinframework.api.annotation.Install;
-import org.goblinframework.api.common.Ordered;
-import org.goblinframework.core.event.GoblinEventContext;
-import org.goblinframework.core.event.GoblinEventListener;
-import org.goblinframework.monitor.flight.FlightEvent;
-import org.jetbrains.annotations.NotNull;
+import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.common.Ordered
+import org.goblinframework.core.event.GoblinEventChannel
+import org.goblinframework.core.event.GoblinEventContext
+import org.goblinframework.core.event.GoblinEventListener
+import org.goblinframework.monitor.flight.FlightEvent
 
 @Install
-final public class UnitTestFlightListener implements GoblinEventListener, Ordered {
+@GoblinEventChannel("/goblin/monitor")
+class UnitTestFlightListener : GoblinEventListener, Ordered {
 
-  @Override
-  public int getOrder() {
-    return LOWEST_PRECEDENCE;
+  override fun getOrder(): Int {
+    return Ordered.LOWEST_PRECEDENCE
   }
 
-  @Override
-  public boolean accept(@NotNull GoblinEventContext context) {
-    return context.getEvent() instanceof FlightEvent;
+  override fun accept(context: GoblinEventContext): Boolean {
+    return context.event is FlightEvent
   }
 
-  @Override
-  public void onEvent(@NotNull GoblinEventContext context) {
-    FlightEvent event = (FlightEvent) context.getEvent();
+  override fun onEvent(context: GoblinEventContext) {
+    val event = context.event as FlightEvent
+    UnitTestFlightRecorder.onFlightFinished(event.flight.flightId())
   }
 }

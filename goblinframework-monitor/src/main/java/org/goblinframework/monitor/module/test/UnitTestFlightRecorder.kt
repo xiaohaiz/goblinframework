@@ -4,6 +4,7 @@ import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.test.TestContext
 import org.goblinframework.api.test.TestExecutionListener
+import org.goblinframework.core.monitor.FlightId
 import org.goblinframework.core.monitor.FlightLocation
 import org.goblinframework.core.monitor.FlightRecorder
 import org.goblinframework.core.monitor.StartPoint
@@ -16,15 +17,40 @@ class UnitTestFlightRecorder : TestExecutionListener, Ordered {
   }
 
   override fun beforeTestMethod(testContext: TestContext) {
-    FlightLocation.builder()
+    val flightId = FlightLocation.builder()
         .startPoint(StartPoint.UTM)
         .clazz(testContext.testClass)
         .method(testContext.testMethod)
         .build()
         .launch()
+    flightId?.run {
+      synchronized(lock) {
+        flightIds.add(this)
+      }
+    }
   }
 
   override fun afterTestMethod(testContext: TestContext) {
-    FlightRecorder.terminateFlight();
+    FlightRecorder.terminateFlight()?.run {
+      val flightId = this.flightId()
+      synchronized(lock) {
+        while (flightIds.contains(flightId)) {
+          lock.wait()
+        }
+      }
+    }
+  }
+
+  companion object {
+    private val lock = Object()
+    private val flightIds = LinkedHashSet<FlightId>()
+
+    fun onFlightFinished(flightId: FlightId) {
+      synchronized(lock) {
+        if (flightIds.remove(flightId)) {
+          lock.notifyAll()
+        }
+      }
+    }
   }
 }

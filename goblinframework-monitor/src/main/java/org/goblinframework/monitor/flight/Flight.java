@@ -13,6 +13,7 @@ final public class Flight implements org.goblinframework.core.monitor.Flight {
   private final FlightLocation location;
   private final Instant startTime;
   private Instant stopTime;
+  private final FlightInvocationList instructions = new FlightInvocationList();
 
   Flight(@NotNull FlightId flightId, @NotNull FlightLocation location) {
     this.flightId = flightId;
@@ -52,6 +53,6 @@ final public class Flight implements org.goblinframework.core.monitor.Flight {
   }
 
   void addInstruction(@NotNull Instruction instruction) {
-
+    instructions.add(instruction);
   }
 }
