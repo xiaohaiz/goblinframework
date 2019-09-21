@@ -14,4 +14,10 @@ public interface Flight {
 
   @NotNull
   FlightLocation location();
+
+  interface Aware {
+
+    void setFlight(@NotNull Flight flight);
+
+  }
 }
