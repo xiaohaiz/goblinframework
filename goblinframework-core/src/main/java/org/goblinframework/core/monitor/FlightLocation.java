@@ -10,7 +10,7 @@ import java.util.*;
 
 final public class FlightLocation {
 
-  private final StartPoint startPoint;
+  private final Flight.StartPoint startPoint;
   private final String id;
   private final String clazz;
   private final String method;
@@ -33,7 +33,7 @@ final public class FlightLocation {
   }
 
   @NotNull
-  public StartPoint startPoint() {
+  public Flight.StartPoint startPoint() {
     return startPoint;
   }
 
@@ -80,7 +80,7 @@ final public class FlightLocation {
   @ThreadSafe(false)
   final public static class FlightLocationBuilder {
 
-    private StartPoint startPoint;
+    private Flight.StartPoint startPoint;
     private String clazz;
     private String method;
     private String[] parameters;
@@ -90,7 +90,7 @@ final public class FlightLocation {
     }
 
     @NotNull
-    public FlightLocationBuilder startPoint(@NotNull StartPoint startPoint) {
+    public FlightLocationBuilder startPoint(@NotNull Flight.StartPoint startPoint) {
       this.startPoint = startPoint;
       return this;
     }

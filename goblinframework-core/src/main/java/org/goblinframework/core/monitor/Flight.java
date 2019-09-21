@@ -33,9 +33,13 @@ public interface Flight {
     return stopTime.toEpochMilli() - startTime.toEpochMilli();
   }
 
-  interface Aware {
-
-    void setFlight(@NotNull Flight flight);
-
+  enum StartPoint {
+    UTM,    // UnitTestMethod
+    PRG     // Programmatic
   }
+
+  interface Aware {
+    void setFlight(@NotNull Flight flight);
+  }
+
 }

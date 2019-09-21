@@ -4,10 +4,10 @@ import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.test.TestContext
 import org.goblinframework.api.test.TestExecutionListener
+import org.goblinframework.core.monitor.Flight.StartPoint
 import org.goblinframework.core.monitor.FlightId
 import org.goblinframework.core.monitor.FlightLocation
 import org.goblinframework.core.monitor.FlightRecorder
-import org.goblinframework.core.monitor.StartPoint
 
 @Install
 class UnitTestFlightRecorder : TestExecutionListener, Ordered {
