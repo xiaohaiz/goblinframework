@@ -1,0 +1,5 @@
+package org.goblinframework.monitor.message
+
+import java.lang.management.PlatformManagedObject
+
+interface TimedTouchableMessageBufferManagerMXBean : PlatformManagedObject
