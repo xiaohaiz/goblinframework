@@ -1,0 +1,5 @@
+package org.goblinframework.monitor.instruction
+
+import java.lang.management.PlatformManagedObject
+
+interface InstructionTranslatorMXBean : PlatformManagedObject
