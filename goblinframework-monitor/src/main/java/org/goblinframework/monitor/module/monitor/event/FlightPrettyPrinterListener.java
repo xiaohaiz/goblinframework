@@ -1,4 +1,4 @@
-package org.goblinframework.monitor.module.monitor;
+package org.goblinframework.monitor.module.monitor.event;
 
 import org.goblinframework.api.annotation.Install;
 import org.goblinframework.api.common.Ordered;

@@ -8,12 +8,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-final class FlightInvocationList extends LinkedList<Instruction> {
+final public class FlightInvocationList extends LinkedList<Instruction> {
 
   private static final int MAX_CAPACITY = 4096;
   private final AtomicInteger instructionCount = new AtomicInteger();
 
-  int instructionCount() {
+  public int instructionCount() {
     return instructionCount.get();
   }
 
@@ -26,7 +26,7 @@ final class FlightInvocationList extends LinkedList<Instruction> {
     return super.add(instruction);
   }
 
-  synchronized List<Instruction> asList() {
+  public synchronized List<Instruction> asList() {
     return new ArrayList<>(this);
   }
 }

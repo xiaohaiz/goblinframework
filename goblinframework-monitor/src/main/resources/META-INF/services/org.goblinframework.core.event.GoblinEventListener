@@ -1,2 +1,2 @@
-org.goblinframework.monitor.module.monitor.FlightPrettyPrinterListener
+org.goblinframework.monitor.module.monitor.event.FlightPrettyPrinterListener
 org.goblinframework.monitor.module.test.UnitTestFlightListener

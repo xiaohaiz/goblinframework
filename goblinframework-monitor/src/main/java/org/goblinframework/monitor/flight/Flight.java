@@ -53,6 +53,10 @@ final public class Flight implements org.goblinframework.core.monitor.Flight {
     return millis - previous;
   }
 
+  public FlightInvocationList getInstructions() {
+    return instructions;
+  }
+
   void stop() {
     if (stopTime != null) {
       throw new IllegalStateException();
