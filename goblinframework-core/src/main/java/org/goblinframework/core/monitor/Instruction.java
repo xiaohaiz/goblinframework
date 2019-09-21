@@ -9,6 +9,8 @@ public interface Instruction extends Lifecycle, AutoCloseable {
 
   Id id();
 
+  Mode mode();
+
   Instant startTime();
 
   Instant stopTime();
@@ -43,5 +45,11 @@ public interface Instruction extends Lifecycle, AutoCloseable {
 
   enum Id {
     DOT
+  }
+
+  enum Mode {
+    DOT,
+    ASY,
+    SYN
   }
 }
