@@ -2,7 +2,7 @@ package org.goblinframework.webmvc.module
 
 import org.goblinframework.core.bootstrap.GoblinModule
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
 import org.goblinframework.webmvc.handler.RequestHandlerManagerBuilder
 import org.goblinframework.webmvc.module.management.WebmvcManagementController
 
@@ -16,7 +16,7 @@ class WebmvcModule : GoblinModule {
     return "/webmvc/index.do"
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
+  override fun initialize(ctx: GoblinModuleInstallContext) {
     ctx.registerManagementController(WebmvcManagementController.INSTANCE)
   }
 

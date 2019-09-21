@@ -2,7 +2,7 @@ package org.goblinframework.core.module
 
 import org.goblinframework.core.bootstrap.GoblinModule
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
 import org.goblinframework.core.compression.CompressorManager
 import org.goblinframework.core.module.management.CoreManagement
 import org.goblinframework.core.serialization.SerializerManager
@@ -17,7 +17,7 @@ class CoreModule : GoblinModule {
     return "/goblin/core/index.do"
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
+  override fun initialize(ctx: GoblinModuleInstallContext) {
     ctx.registerManagementController(CoreManagement.INSTANCE)
   }
 

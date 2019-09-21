@@ -2,7 +2,7 @@ package org.goblinframework.management.module
 
 import org.goblinframework.core.bootstrap.GoblinModule
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
 import org.goblinframework.management.controller.ManagementController
 import org.goblinframework.management.server.ManagementServerManager
 
@@ -12,7 +12,7 @@ class ManagementModule : GoblinModule {
     return "MANAGEMENT"
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
+  override fun initialize(ctx: GoblinModuleInstallContext) {
     ctx.registerManagementController(ManagementController.INSTANCE)
   }
 

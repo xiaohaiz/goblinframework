@@ -18,7 +18,7 @@ class GoblinChildModuleEventListener private constructor() : GoblinEventListener
   override fun onEvent(context: GoblinEventContext) {
     val event = context.event as GoblinChildModuleEvent
     when (event.ctx) {
-      is GoblinModuleInitializeContext -> {
+      is GoblinModuleInstallContext -> {
         event.childModules.forEach {
           it.initialize(event.ctx)
           GoblinSystem.LOGGER.info("Initialize [${it.name()}]")

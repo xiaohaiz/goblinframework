@@ -3,10 +3,10 @@ package org.goblinframework.core.bootstrap
 import org.goblinframework.core.module.spi.RegisterManagementController
 import org.goblinframework.core.util.ServiceInstaller
 
-class GoblinModuleInitializeContext private constructor() : GoblinModuleContext() {
+class GoblinModuleInstallContext private constructor() : GoblinModuleContext() {
 
   companion object {
-    @JvmField val INSTANCE = GoblinModuleInitializeContext()
+    @JvmField val INSTANCE = GoblinModuleInstallContext()
   }
 
   fun registerManagementController(controller: Any?) {

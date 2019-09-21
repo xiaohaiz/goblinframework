@@ -14,7 +14,7 @@ interface GoblinExtensionModule : Ordered {
     return 0
   }
 
-  fun initialize(ctx: GoblinModuleInitializeContext) {}
+  fun initialize(ctx: GoblinModuleInstallContext) {}
 
   fun bootstrap(ctx: GoblinModuleBootstrapContext) {}
 

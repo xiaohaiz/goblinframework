@@ -4,7 +4,7 @@ import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.bootstrap.GoblinModule
 import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
 
 @Install
 class RemoteModule : GoblinModule {
@@ -13,7 +13,7 @@ class RemoteModule : GoblinModule {
     return "REMOTE"
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
+  override fun initialize(ctx: GoblinModuleInstallContext) {
     ctx.createChildModuleManager()
         .module("REMOTE:CLIENT")
         .next()

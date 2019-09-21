@@ -5,7 +5,7 @@ import org.goblinframework.cache.core.cache.GoblinCacheBuilderManager
 import org.goblinframework.core.bootstrap.GoblinModule
 import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
 
 @Install
 class CacheModule : GoblinModule {
@@ -14,7 +14,7 @@ class CacheModule : GoblinModule {
     return "CACHE"
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
+  override fun initialize(ctx: GoblinModuleInstallContext) {
     ctx.createChildModuleManager()
         .module("CACHE:COUCHBASE")
         .module("CACHE:REDIS")

@@ -3,7 +3,7 @@ package org.goblinframework.embedded.core.module
 import org.goblinframework.core.bootstrap.GoblinModule
 import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 
 class EmbeddedModule : GoblinModule {
@@ -12,7 +12,7 @@ class EmbeddedModule : GoblinModule {
     return "EMBEDDED"
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
+  override fun initialize(ctx: GoblinModuleInstallContext) {
     ctx.createChildModuleManager()
         .module("EMBEDDED:JETTY")
         .module("EMBEDDED:NETTY")

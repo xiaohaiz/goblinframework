@@ -21,7 +21,7 @@ class GoblinChildModuleManager {
     return this
   }
 
-  fun initialize(ctx: GoblinModuleInitializeContext) {
+  fun initialize(ctx: GoblinModuleInstallContext) {
     execute(ctx)
   }
 

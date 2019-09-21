@@ -8,7 +8,7 @@ interface GoblinChildModule {
     return null
   }
 
-  fun initialize(ctx: GoblinModuleInitializeContext) {}
+  fun initialize(ctx: GoblinModuleInstallContext) {}
 
   fun bootstrap(ctx: GoblinModuleBootstrapContext) {}
 
