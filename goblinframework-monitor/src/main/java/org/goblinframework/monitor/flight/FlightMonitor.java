@@ -55,6 +55,7 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
     threadLocal.remove();
 
     Flight flight = FlightPool.INSTANCE.remove(id);
+    flight.stop();
 
     // Now, terminate the current flight
     FlightEvent event = new FlightEvent(flight);

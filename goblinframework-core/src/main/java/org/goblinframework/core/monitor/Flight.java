@@ -1,6 +1,9 @@
 package org.goblinframework.core.monitor;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.time.Instant;
 
 public interface Flight {
 
@@ -14,6 +17,21 @@ public interface Flight {
 
   @NotNull
   FlightLocation location();
+
+  @NotNull
+  Instant startTime();
+
+  @Nullable
+  Instant stopTime();
+
+  default long durationMillis() {
+    Instant startTime = startTime();
+    Instant stopTime = stopTime();
+    if (stopTime == null) {
+      throw new IllegalStateException();
+    }
+    return stopTime.toEpochMilli() - startTime.toEpochMilli();
+  }
 
   interface Aware {
 
