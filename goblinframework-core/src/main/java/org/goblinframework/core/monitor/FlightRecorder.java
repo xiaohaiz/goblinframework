@@ -1,6 +1,7 @@
 package org.goblinframework.core.monitor;
 
 import org.goblinframework.core.util.ServiceInstaller;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,12 @@ abstract public class FlightRecorder {
       return flightMonitor.terminateFlight();
     } else {
       return null;
+    }
+  }
+
+  public static void attachFlight(@NotNull Instruction instruction) {
+    if (flightMonitor != null) {
+      flightMonitor.attachFlight(instruction);
     }
   }
 

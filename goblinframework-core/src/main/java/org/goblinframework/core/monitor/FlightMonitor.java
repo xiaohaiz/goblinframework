@@ -15,4 +15,6 @@ public interface FlightMonitor {
   @Nullable
   Flight terminateFlight();
 
+  void attachFlight(@NotNull Instruction instruction);
+
 }

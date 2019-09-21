@@ -3,7 +3,9 @@ package org.goblinframework.monitor.flight;
 import org.goblinframework.api.annotation.Install;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.common.Ordered;
+import org.goblinframework.core.event.EventBus;
 import org.goblinframework.core.monitor.FlightLocation;
+import org.goblinframework.core.monitor.Instruction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -55,8 +57,15 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
     Flight flight = FlightPool.INSTANCE.remove(id);
 
     // Now, terminate the current flight
+    FlightFinishedEvent event = new FlightFinishedEvent(flight);
+    EventBus.publish(event);
 
     return flight;
+  }
+
+  @Override
+  public void attachFlight(@NotNull Instruction instruction) {
+
   }
 
   @Install
@@ -72,6 +81,11 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
     @Override
     public Flight terminateFlight() {
       return INSTANCE.terminateFlight();
+    }
+
+    @Override
+    public void attachFlight(@NotNull Instruction instruction) {
+      INSTANCE.attachFlight(instruction);
     }
   }
 }
