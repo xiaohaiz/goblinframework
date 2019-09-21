@@ -47,4 +47,10 @@ abstract public class FlightRecorder {
     }
   }
 
+  public static void dot(@NotNull String name) {
+    if (flightMonitor != null) {
+      flightMonitor.dot(name);
+    }
+  }
+
 }

@@ -6,6 +6,8 @@ import org.goblinframework.api.common.Ordered;
 import org.goblinframework.core.event.EventBus;
 import org.goblinframework.core.monitor.FlightLocation;
 import org.goblinframework.core.monitor.Instruction;
+import org.goblinframework.core.util.StringUtils;
+import org.goblinframework.monitor.module.monitor.instruction.DOT;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -87,6 +89,12 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
     }
   }
 
+  @Override
+  public void dot(@Nullable String name) {
+    String dotName = StringUtils.defaultString(name, "unspecified");
+    attachFlight(new DOT(dotName));
+  }
+
   @Install
   final public static class Installer implements org.goblinframework.core.monitor.FlightMonitor {
 
@@ -110,6 +118,11 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
     @Override
     public void attachFlight(@Nullable org.goblinframework.core.monitor.FlightId flightId, @NotNull Instruction instruction) {
       INSTANCE.attachFlight(flightId, instruction);
+    }
+
+    @Override
+    public void dot(@Nullable String name) {
+      INSTANCE.dot(name);
     }
   }
 }
