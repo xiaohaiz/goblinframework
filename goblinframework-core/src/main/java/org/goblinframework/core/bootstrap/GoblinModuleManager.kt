@@ -14,24 +14,23 @@ class GoblinModuleManager private constructor() {
     EventBus.subscribe(GoblinChildModuleEventListener.INSTANCE)
   }
 
-  private val initialize = AtomicBoolean()
+  private val install = AtomicBoolean()
   private val bootstrap = AtomicBoolean()
-  private val shutdown = AtomicBoolean()
   private val finalize = AtomicBoolean()
 
-  fun executeInitialize(): GoblinModuleManager {
-    if (!initialize.compareAndSet(false, true)) {
+  fun executeInstall(): GoblinModuleManager {
+    if (!install.compareAndSet(false, true)) {
       return this
     }
     val ctx = GoblinModuleInstallContext.INSTANCE
     for (name in GoblinModuleDefinition.moduleNames) {
       val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
       module.install(ctx)
-      GoblinSystem.LOGGER.info("Initialize {${module.name()}}")
+      GoblinSystem.LOGGER.info("Install {${module.name()}}")
     }
     for (module in GoblinExtensionModuleLoader.INSTANCE.getGoblinExtensionModules()) {
       module.install(ctx)
-      GoblinSystem.LOGGER.info("Initialize (${module.name()})")
+      GoblinSystem.LOGGER.info("Install (${module.name()})")
     }
     return this
   }

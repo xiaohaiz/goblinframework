@@ -21,7 +21,7 @@ class GoblinChildModuleEventListener private constructor() : GoblinEventListener
       is GoblinModuleInstallContext -> {
         event.childModules.forEach {
           it.install(event.ctx)
-          GoblinSystem.LOGGER.info("Initialize [${it.name()}]")
+          GoblinSystem.LOGGER.info("Install [${it.name()}]")
         }
       }
       is GoblinModuleBootstrapContext -> {
