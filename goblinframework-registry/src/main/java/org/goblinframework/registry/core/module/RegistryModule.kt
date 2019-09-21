@@ -13,7 +13,7 @@ class RegistryModule : GoblinModule {
     return "REGISTRY"
   }
 
-  override fun initialize(ctx: GoblinModuleInstallContext) {
+  override fun install(ctx: GoblinModuleInstallContext) {
     ctx.createChildModuleManager()
         .module("REGISTRY:ZOOKEEPER")
         .initialize(ctx)

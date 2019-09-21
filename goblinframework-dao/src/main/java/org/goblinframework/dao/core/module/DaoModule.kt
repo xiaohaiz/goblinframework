@@ -14,7 +14,7 @@ class DaoModule : GoblinModule {
     return "DAO"
   }
 
-  override fun initialize(ctx: GoblinModuleInstallContext) {
+  override fun install(ctx: GoblinModuleInstallContext) {
     ctx.createChildModuleManager()
         .module("DAO:MYSQL")
         .initialize(ctx)

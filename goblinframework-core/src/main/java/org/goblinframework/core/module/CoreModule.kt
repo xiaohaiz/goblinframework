@@ -17,7 +17,7 @@ class CoreModule : GoblinModule {
     return "/goblin/core/index.do"
   }
 
-  override fun initialize(ctx: GoblinModuleInstallContext) {
+  override fun install(ctx: GoblinModuleInstallContext) {
     ctx.registerManagementController(CoreManagement.INSTANCE)
   }
 

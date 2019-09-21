@@ -13,7 +13,7 @@ class RemoteModule : GoblinModule {
     return "REMOTE"
   }
 
-  override fun initialize(ctx: GoblinModuleInstallContext) {
+  override fun install(ctx: GoblinModuleInstallContext) {
     ctx.createChildModuleManager()
         .module("REMOTE:CLIENT")
         .next()

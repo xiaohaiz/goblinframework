@@ -26,11 +26,11 @@ class GoblinModuleManager private constructor() {
     val ctx = GoblinModuleInstallContext.INSTANCE
     for (name in GoblinModuleDefinition.moduleNames) {
       val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
-      module.initialize(ctx)
+      module.install(ctx)
       GoblinSystem.LOGGER.info("Initialize {${module.name()}}")
     }
     for (module in GoblinExtensionModuleLoader.INSTANCE.getGoblinExtensionModules()) {
-      module.initialize(ctx)
+      module.install(ctx)
       GoblinSystem.LOGGER.info("Initialize (${module.name()})")
     }
     return this

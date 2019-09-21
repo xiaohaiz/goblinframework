@@ -20,7 +20,7 @@ class GoblinChildModuleEventListener private constructor() : GoblinEventListener
     when (event.ctx) {
       is GoblinModuleInstallContext -> {
         event.childModules.forEach {
-          it.initialize(event.ctx)
+          it.install(event.ctx)
           GoblinSystem.LOGGER.info("Initialize [${it.name()}]")
         }
       }

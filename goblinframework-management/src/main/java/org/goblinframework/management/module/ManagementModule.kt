@@ -12,7 +12,7 @@ class ManagementModule : GoblinModule {
     return "MANAGEMENT"
   }
 
-  override fun initialize(ctx: GoblinModuleInstallContext) {
+  override fun install(ctx: GoblinModuleInstallContext) {
     ctx.registerManagementController(ManagementController.INSTANCE)
   }
 

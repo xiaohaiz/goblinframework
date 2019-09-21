@@ -16,7 +16,7 @@ class WebmvcModule : GoblinModule {
     return "/webmvc/index.do"
   }
 
-  override fun initialize(ctx: GoblinModuleInstallContext) {
+  override fun install(ctx: GoblinModuleInstallContext) {
     ctx.registerManagementController(WebmvcManagementController.INSTANCE)
   }
 

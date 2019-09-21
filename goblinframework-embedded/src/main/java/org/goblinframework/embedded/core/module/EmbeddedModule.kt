@@ -12,7 +12,7 @@ class EmbeddedModule : GoblinModule {
     return "EMBEDDED"
   }
 
-  override fun initialize(ctx: GoblinModuleInstallContext) {
+  override fun install(ctx: GoblinModuleInstallContext) {
     ctx.createChildModuleManager()
         .module("EMBEDDED:JETTY")
         .module("EMBEDDED:NETTY")

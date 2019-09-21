@@ -14,7 +14,7 @@ class CacheModule : GoblinModule {
     return "CACHE"
   }
 
-  override fun initialize(ctx: GoblinModuleInstallContext) {
+  override fun install(ctx: GoblinModuleInstallContext) {
     ctx.createChildModuleManager()
         .module("CACHE:COUCHBASE")
         .module("CACHE:REDIS")
