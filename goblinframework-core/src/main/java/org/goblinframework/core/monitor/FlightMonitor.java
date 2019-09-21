@@ -17,4 +17,6 @@ public interface FlightMonitor {
 
   void attachFlight(@NotNull Instruction instruction);
 
+  void attachFlight(@Nullable FlightId flightId, @NotNull Instruction instruction);
+
 }

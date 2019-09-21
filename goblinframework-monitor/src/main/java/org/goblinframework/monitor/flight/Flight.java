@@ -1,6 +1,7 @@
 package org.goblinframework.monitor.flight;
 
 import org.goblinframework.core.monitor.FlightLocation;
+import org.goblinframework.core.monitor.Instruction;
 import org.jetbrains.annotations.NotNull;
 
 final public class Flight implements org.goblinframework.core.monitor.Flight {
@@ -25,4 +26,7 @@ final public class Flight implements org.goblinframework.core.monitor.Flight {
     return location;
   }
 
+  void addInstruction(@NotNull Instruction instruction) {
+
+  }
 }

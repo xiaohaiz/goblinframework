@@ -65,7 +65,25 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
 
   @Override
   public void attachFlight(@NotNull Instruction instruction) {
+    attachFlight(null, instruction);
+  }
 
+  @Override
+  public void attachFlight(@Nullable org.goblinframework.core.monitor.FlightId flightId, @NotNull Instruction instruction) {
+    org.goblinframework.core.monitor.FlightId id = flightId;
+    if (id == null) {
+      id = threadLocal.get();
+    }
+    if (id == null) {
+      return;
+    }
+    Flight flight = FlightPool.INSTANCE.get(id);
+    if (flight != null) {
+      if (instruction instanceof org.goblinframework.core.monitor.Flight.Aware) {
+        ((org.goblinframework.core.monitor.Flight.Aware) instruction).setFlight(flight);
+      }
+      flight.addInstruction(instruction);
+    }
   }
 
   @Install
@@ -86,6 +104,11 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
     @Override
     public void attachFlight(@NotNull Instruction instruction) {
       INSTANCE.attachFlight(instruction);
+    }
+
+    @Override
+    public void attachFlight(@Nullable org.goblinframework.core.monitor.FlightId flightId, @NotNull Instruction instruction) {
+      INSTANCE.attachFlight(flightId, instruction);
     }
   }
 }

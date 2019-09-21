@@ -41,4 +41,10 @@ abstract public class FlightRecorder {
     }
   }
 
+  public static void attachFlight(@Nullable FlightId flightId, @NotNull Instruction instruction) {
+    if (flightMonitor != null) {
+      flightMonitor.attachFlight(flightId, instruction);
+    }
+  }
+
 }
