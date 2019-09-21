@@ -4,6 +4,7 @@ import org.goblinframework.api.annotation.Install;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.common.Ordered;
 import org.goblinframework.core.event.EventBus;
+import org.goblinframework.core.monitor.FlightEvent;
 import org.goblinframework.core.monitor.FlightLocation;
 import org.goblinframework.core.monitor.Instruction;
 import org.goblinframework.core.util.StringUtils;
@@ -61,6 +62,7 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
 
     // Now, terminate the current flight
     FlightEvent event = new FlightEvent(flight);
+    event.setFair(true);
     EventBus.publish(event);
 
     return flight;

@@ -4,7 +4,7 @@ import org.goblinframework.api.annotation.Install;
 import org.goblinframework.api.common.Ordered;
 import org.goblinframework.core.event.GoblinEventContext;
 import org.goblinframework.core.event.GoblinEventListener;
-import org.goblinframework.monitor.flight.FlightEvent;
+import org.goblinframework.core.monitor.FlightEvent;
 import org.jetbrains.annotations.NotNull;
 
 @Install
