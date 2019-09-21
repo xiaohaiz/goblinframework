@@ -26,7 +26,7 @@ abstract public class GoblinSystem {
     ConfigLoader.INSTANCE.initialize();
     EventBusBoss.INSTANCE.initialize();
     ConfigLoader.INSTANCE.start();
-    GoblinModuleManager.INSTANCE.executeInstall().executeBootstrap();
+    GoblinModuleManager.INSTANCE.executeInstall().executeInitialize();
     LOGGER.info("WELCOME");
   }
 

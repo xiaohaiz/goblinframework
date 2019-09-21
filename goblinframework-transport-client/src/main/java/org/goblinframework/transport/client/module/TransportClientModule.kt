@@ -2,8 +2,8 @@ package org.goblinframework.transport.client.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.bootstrap.GoblinChildModule
-import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
 import org.goblinframework.transport.client.channel.TransportClientManager
 import org.goblinframework.transport.client.flight.MessageFlightManager
 import org.slf4j.LoggerFactory
@@ -15,7 +15,7 @@ class TransportClientModule : GoblinChildModule {
     return "TRANSPORT:CLIENT"
   }
 
-  override fun bootstrap(ctx: GoblinModuleBootstrapContext) {
+  override fun initialize(ctx: GoblinModuleInitializeContext) {
     TransportClientManager.INSTANCE.initialize()
   }
 

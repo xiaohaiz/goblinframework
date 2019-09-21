@@ -2,8 +2,8 @@ package org.goblinframework.registry.zookeeper.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.bootstrap.GoblinChildModule
-import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
 import org.goblinframework.registry.zookeeper.client.ZkTranscoderManager
 import org.goblinframework.registry.zookeeper.module.config.ZookeeperConfigManager
 
@@ -14,7 +14,7 @@ class RegistryZookeeperModule : GoblinChildModule {
     return "REGISTRY:ZOOKEEPER"
   }
 
-  override fun bootstrap(ctx: GoblinModuleBootstrapContext) {
+  override fun initialize(ctx: GoblinModuleInitializeContext) {
     ZookeeperConfigManager.INSTANCE.initialize()
   }
 

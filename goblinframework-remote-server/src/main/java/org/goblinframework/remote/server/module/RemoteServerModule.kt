@@ -2,8 +2,8 @@ package org.goblinframework.remote.server.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.bootstrap.GoblinChildModule
-import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
 import org.goblinframework.remote.server.handler.RemoteServer
 import org.goblinframework.remote.server.service.RemoteServiceManager
 
@@ -14,7 +14,7 @@ class RemoteServerModule : GoblinChildModule {
     return "REMOTE:SERVER"
   }
 
-  override fun bootstrap(ctx: GoblinModuleBootstrapContext) {
+  override fun initialize(ctx: GoblinModuleInitializeContext) {
     RemoteServer.INSTANCE.start()
   }
 

@@ -25,7 +25,7 @@ class GoblinChildModuleManager {
     execute(ctx)
   }
 
-  fun bootstrap(ctx: GoblinModuleBootstrapContext) {
+  fun bootstrap(ctx: GoblinModuleInitializeContext) {
     execute(ctx)
   }
 

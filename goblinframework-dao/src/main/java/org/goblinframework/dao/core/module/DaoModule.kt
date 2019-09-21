@@ -2,8 +2,8 @@ package org.goblinframework.dao.core.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.bootstrap.GoblinModule
-import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
 import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
 import org.goblinframework.dao.core.mapping.EntityMappingBuilderManager
 
@@ -20,7 +20,7 @@ class DaoModule : GoblinModule {
         .initialize(ctx)
   }
 
-  override fun bootstrap(ctx: GoblinModuleBootstrapContext) {
+  override fun initialize(ctx: GoblinModuleInitializeContext) {
     ctx.createChildModuleManager()
         .module("DAO:MYSQL")
         .bootstrap(ctx)

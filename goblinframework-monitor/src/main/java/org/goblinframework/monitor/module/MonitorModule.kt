@@ -2,8 +2,8 @@ package org.goblinframework.monitor.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.bootstrap.GoblinModule
-import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
 import org.goblinframework.monitor.message.TimedTouchableMessageBufferManager
 
 @Install
@@ -13,7 +13,7 @@ class MonitorModule : GoblinModule {
     return "MONITOR"
   }
 
-  override fun bootstrap(ctx: GoblinModuleBootstrapContext) {
+  override fun initialize(ctx: GoblinModuleInitializeContext) {
     TimedTouchableMessageBufferManager.INSTANCE.initialize()
   }
 

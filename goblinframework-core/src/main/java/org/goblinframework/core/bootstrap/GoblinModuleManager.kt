@@ -15,7 +15,7 @@ class GoblinModuleManager private constructor() {
   }
 
   private val install = AtomicBoolean()
-  private val bootstrap = AtomicBoolean()
+  private val initialize = AtomicBoolean()
   private val finalize = AtomicBoolean()
 
   fun executeInstall(): GoblinModuleManager {
@@ -35,19 +35,19 @@ class GoblinModuleManager private constructor() {
     return this
   }
 
-  fun executeBootstrap() {
-    if (!bootstrap.compareAndSet(false, true)) {
+  fun executeInitialize() {
+    if (!initialize.compareAndSet(false, true)) {
       return
     }
-    val ctx = GoblinModuleBootstrapContext()
+    val ctx = GoblinModuleInitializeContext()
     for (name in GoblinModuleDefinition.moduleNames) {
       val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
-      module.bootstrap(ctx)
-      GoblinSystem.LOGGER.info("Bootstrap {${module.name()}}")
+      module.initialize(ctx)
+      GoblinSystem.LOGGER.info("Initialize {${module.name()}}")
     }
     for (module in GoblinExtensionModuleLoader.INSTANCE.getGoblinExtensionModules()) {
-      module.bootstrap(ctx)
-      GoblinSystem.LOGGER.info("Bootstrap (${module.name()})")
+      module.initialize(ctx)
+      GoblinSystem.LOGGER.info("Initialize (${module.name()})")
     }
   }
 

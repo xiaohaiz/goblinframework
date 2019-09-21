@@ -10,7 +10,7 @@ interface GoblinModule {
 
   fun install(ctx: GoblinModuleInstallContext) {}
 
-  fun bootstrap(ctx: GoblinModuleBootstrapContext) {}
+  fun initialize(ctx: GoblinModuleInitializeContext) {}
 
   fun finalize(ctx: GoblinModuleFinalizeContext) {}
 

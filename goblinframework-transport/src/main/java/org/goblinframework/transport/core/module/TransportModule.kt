@@ -1,8 +1,8 @@
 package org.goblinframework.transport.core.module
 
 import org.goblinframework.core.bootstrap.GoblinModule
-import org.goblinframework.core.bootstrap.GoblinModuleBootstrapContext
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
+import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
 import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
 
 class TransportModule : GoblinModule {
@@ -19,7 +19,7 @@ class TransportModule : GoblinModule {
         .initialize(ctx)
   }
 
-  override fun bootstrap(ctx: GoblinModuleBootstrapContext) {
+  override fun initialize(ctx: GoblinModuleInitializeContext) {
     ctx.createChildModuleManager()
         .module("TRANSPORT:CLIENT")
         .next()
