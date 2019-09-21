@@ -33,8 +33,18 @@ class InstructionTranslatorManager private constructor()
     }
   }
 
-  fun getInstructionTranslator(type: Class<out Instruction>): InstructionTranslator<out Instruction>? {
-    return lock.read { translators[type] }
+  fun getInstructionTranslator(type: Class<out Instruction>): InstructionTranslator<out Instruction> {
+    return lock.read { translators[type] } ?: kotlin.run {
+      object : InstructionTranslator<Instruction> {
+        override fun type(): Class<Instruction> {
+          throw UnsupportedOperationException()
+        }
+
+        override fun translate(instruction: Instruction, pretty: Boolean): String {
+          return if (pretty) instruction.asLongText() else instruction.asShortText()
+        }
+      }
+    }
   }
 
   @Install
