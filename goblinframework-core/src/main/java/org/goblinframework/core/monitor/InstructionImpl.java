@@ -137,13 +137,37 @@ abstract public class InstructionImpl implements Instruction {
   @NotNull
   @Override
   public String asLongText() {
-    return null;
+    switch (mode) {
+      case SYN:
+        return String.format("%s:%s %sms", id(), mode(), effectiveDurationMillis());
+      case ASY: {
+        if (isCompleted()) {
+          return String.format("%s:%s %sms (%sms)", id(), mode(), actualDurationMillis(), effectiveDurationMillis());
+        } else {
+          return String.format("%s:%s %sms (UNCOMPLETED)", id(), mode(), actualDurationMillis());
+        }
+      }
+      default:
+        throw new UnsupportedOperationException();
+    }
   }
 
   @NotNull
   @Override
   public String asShortText() {
-    return null;
+    switch (mode) {
+      case SYN:
+        return String.format("%s:%s(%s)", id(), mode(), effectiveDurationMillis());
+      case ASY: {
+        if (isCompleted()) {
+          return String.format("%s:%s(%s.%s)", id(), mode(), actualDurationMillis(), effectiveDurationMillis());
+        } else {
+          return String.format("%s:%s(%s.UC)", id(), mode(), actualDurationMillis());
+        }
+      }
+      default:
+        throw new UnsupportedOperationException();
+    }
   }
 
   @Override
