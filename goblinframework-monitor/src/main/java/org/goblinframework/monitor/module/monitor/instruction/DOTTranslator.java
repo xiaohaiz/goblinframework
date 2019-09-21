@@ -1,18 +1,17 @@
 package org.goblinframework.monitor.module.monitor.instruction;
 
-import org.goblinframework.api.annotation.Install;
+import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.core.monitor.Flight;
 import org.goblinframework.core.monitor.InstructionTranslator;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-@Install
+@Singleton
 final public class DOTTranslator implements InstructionTranslator<DOT> {
 
-  @NotNull
-  @Override
-  public Class<DOT> type() {
-    return DOT.class;
+  public static final DOTTranslator INSTANCE = new DOTTranslator();
+
+  private DOTTranslator() {
   }
 
   @NotNull

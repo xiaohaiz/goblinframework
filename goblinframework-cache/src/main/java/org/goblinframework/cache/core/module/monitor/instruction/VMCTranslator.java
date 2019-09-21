@@ -1,17 +1,16 @@
 package org.goblinframework.cache.core.module.monitor.instruction;
 
-import org.goblinframework.api.annotation.Install;
+import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.core.monitor.InstructionTranslator;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-@Install
+@Singleton
 final public class VMCTranslator implements InstructionTranslator<VMC> {
 
-  @NotNull
-  @Override
-  public Class<VMC> type() {
-    return VMC.class;
+  public static final VMCTranslator INSTANCE = new VMCTranslator();
+
+  private VMCTranslator() {
   }
 
   @NotNull

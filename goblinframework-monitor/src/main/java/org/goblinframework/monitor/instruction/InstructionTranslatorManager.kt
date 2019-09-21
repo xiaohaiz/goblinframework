@@ -26,6 +26,13 @@ class InstructionTranslatorManager private constructor()
 
   private val lock = ReentrantReadWriteLock()
   private val translators = IdentityHashMap<Class<out Instruction>, InstructionTranslator<out Instruction>>()
+  private val defaultTranslator: InstructionTranslator<Instruction>
+
+  init {
+    defaultTranslator = InstructionTranslator { instruction, pretty ->
+      if (pretty) instruction.asLongText() else instruction.asShortText()
+    }
+  }
 
   override fun <E : Instruction> register(type: Class<E>, translator: InstructionTranslator<E>) {
     lock.write {
@@ -33,18 +40,11 @@ class InstructionTranslatorManager private constructor()
     }
   }
 
-  fun getInstructionTranslator(type: Class<out Instruction>): InstructionTranslator<out Instruction> {
-    return lock.read { translators[type] } ?: kotlin.run {
-      object : InstructionTranslator<Instruction> {
-        override fun type(): Class<Instruction> {
-          throw UnsupportedOperationException()
-        }
-
-        override fun translate(instruction: Instruction, pretty: Boolean): String {
-          return if (pretty) instruction.asLongText() else instruction.asShortText()
-        }
-      }
-    }
+  @Suppress("UNCHECKED_CAST")
+  fun translator(instruction: Instruction): InstructionTranslator<Instruction> {
+    return lock.read {
+      translators[instruction.javaClass]
+    } as? InstructionTranslator<Instruction> ?: defaultTranslator
   }
 
   @Install
