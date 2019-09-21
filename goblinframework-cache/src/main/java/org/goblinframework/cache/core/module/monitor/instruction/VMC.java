@@ -10,6 +10,6 @@ final public class VMC extends InstructionImpl {
   public List<String> keys;
 
   public VMC() {
-    super(Id.VMC, Mode.SYN, true, true);
+    super(Id.VMC, Mode.SYN, true);
   }
 }

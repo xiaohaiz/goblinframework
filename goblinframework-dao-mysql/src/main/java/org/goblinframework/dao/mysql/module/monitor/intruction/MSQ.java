@@ -12,7 +12,7 @@ final public class MSQ extends InstructionImpl {
   public List<String> sqlList;
 
   public MSQ() {
-    super(Id.MSQ, Mode.SYN, true, true);
+    super(Id.MSQ, Mode.SYN, true);
   }
 
 }
