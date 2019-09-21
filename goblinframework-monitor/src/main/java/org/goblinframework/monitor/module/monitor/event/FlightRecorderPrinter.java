@@ -75,7 +75,7 @@ abstract class FlightRecorderPrinter {
       while (true) {
         String a = StringUtils.substring(s, 0, 100);
         list.add(a);
-        String b = " |-            " + StringUtils.substring(s, 100);
+        String b = " |             " + StringUtils.substring(s, 100);
         s = b;
         if (b.length() <= 100) {
           list.add(b);
@@ -96,7 +96,7 @@ abstract class FlightRecorderPrinter {
       while (true) {
         String a = StringUtils.substring(s, 0, 100);
         list.add(a);
-        String b = " |-            " + StringUtils.substring(s, 100);
+        String b = " |             " + StringUtils.substring(s, 100);
         s = b;
         if (b.length() <= 100) {
           list.add(b);

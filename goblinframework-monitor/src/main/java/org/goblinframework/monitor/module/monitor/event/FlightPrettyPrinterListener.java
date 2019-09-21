@@ -2,13 +2,19 @@ package org.goblinframework.monitor.module.monitor.event;
 
 import org.goblinframework.api.annotation.Install;
 import org.goblinframework.api.common.Ordered;
+import org.goblinframework.core.event.GoblinEventChannel;
 import org.goblinframework.core.event.GoblinEventContext;
 import org.goblinframework.core.event.GoblinEventListener;
+import org.goblinframework.core.monitor.Flight;
 import org.goblinframework.core.monitor.FlightEvent;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Install
+@GoblinEventChannel("/goblin/monitor")
 final public class FlightPrettyPrinterListener implements GoblinEventListener, Ordered {
+  private static final Logger logger = LoggerFactory.getLogger(FlightPrettyPrinterListener.class);
 
   @Override
   public int getOrder() {
@@ -23,5 +29,10 @@ final public class FlightPrettyPrinterListener implements GoblinEventListener, O
   @Override
   public void onEvent(@NotNull GoblinEventContext context) {
     FlightEvent event = (FlightEvent) context.getEvent();
+    Flight flight = event.getFlight();
+    if (flight instanceof org.goblinframework.monitor.flight.Flight) {
+      String message = FlightRecorderPrinter.generatePrettyLog((org.goblinframework.monitor.flight.Flight) flight);
+      logger.info("\n{}", message);
+    }
   }
 }
