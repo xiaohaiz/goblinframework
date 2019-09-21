@@ -1,7 +1,6 @@
 package org.goblinframework.core.monitor;
 
 import org.goblinframework.api.annotation.ThreadSafe;
-import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -63,14 +62,14 @@ final public class FlightLocation {
     return startPoint + " " + id;
   }
 
-  @NotNull
+  @Nullable
   public String launch() {
-    String flightId = RandomUtils.nextObjectId();
     FlightMonitor monitor = FlightRecorder.getFlightMonitor();
     if (monitor != null) {
-      monitor.createFlight(flightId, this);
+      return monitor.createFlight(this);
+    } else {
+      return null;
     }
-    return flightId;
   }
 
   @NotNull

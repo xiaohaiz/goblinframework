@@ -22,16 +22,10 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
     return HIGHEST_PRECEDENCE;
   }
 
+  @NotNull
   @Override
-  public void createFlight(@NotNull String flightId, @NotNull FlightLocation location) {
-    Flight flight = threadLocal.get();
-    if (flight != null) {
-      flight.retain();
-      return;
-    }
-    flight = new Flight(flightId, location);
-    flight.retain();
-    threadLocal.set(flight);
+  public String createFlight(@NotNull FlightLocation location) {
+    return null;
   }
 
   @Nullable
@@ -53,9 +47,10 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
   @Install
   final public static class Installer implements org.goblinframework.core.monitor.FlightMonitor {
 
+    @NotNull
     @Override
-    public void createFlight(@NotNull String flightId, @NotNull FlightLocation location) {
-      INSTANCE.createFlight(flightId, location);
+    public String createFlight(@NotNull FlightLocation location) {
+      return INSTANCE.createFlight(location);
     }
 
     @Nullable

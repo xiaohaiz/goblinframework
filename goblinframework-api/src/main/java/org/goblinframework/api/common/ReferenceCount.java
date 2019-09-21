@@ -4,15 +4,11 @@ public interface ReferenceCount {
 
   int count();
 
-  default void retain() {
-    retain(1);
-  }
+  void retain();
 
   void retain(int increment);
 
-  default boolean release() {
-    return release(1);
-  }
+  boolean release();
 
   boolean release(int decrement);
 }
