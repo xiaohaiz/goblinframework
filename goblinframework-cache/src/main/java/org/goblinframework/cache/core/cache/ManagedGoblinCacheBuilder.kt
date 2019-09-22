@@ -4,7 +4,6 @@ import org.apache.commons.lang3.mutable.MutableObject
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.core.cache.GoblinCache
 import org.goblinframework.core.cache.GoblinCacheBuilder
-import org.goblinframework.core.cache.GoblinCacheSystem
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap
@@ -19,10 +18,6 @@ internal constructor(private val delegator: GoblinCacheBuilder)
 
   private val lock = ReentrantLock()
   private val buffer = ConcurrentHashMap<String, MutableObject<GoblinCacheImpl>>()
-
-  override fun getCacheSystem(): GoblinCacheSystem {
-    return delegator.cacheSystem
-  }
 
   override fun getCache(name: String): GoblinCache? {
     val id = delegator.decorateCacheName(name)

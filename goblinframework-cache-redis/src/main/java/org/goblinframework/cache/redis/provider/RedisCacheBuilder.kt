@@ -1,16 +1,15 @@
 package org.goblinframework.cache.redis.provider
 
-import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.cache.redis.client.RedisClientManager
 import org.goblinframework.core.cache.GoblinCache
 import org.goblinframework.core.cache.GoblinCacheBuilder
-import org.goblinframework.core.cache.GoblinCacheSystem
 
-@Install
-class RedisCacheBuilder : GoblinCacheBuilder {
+@Singleton
+class RedisCacheBuilder private constructor() : GoblinCacheBuilder {
 
-  override fun getCacheSystem(): GoblinCacheSystem {
-    return GoblinCacheSystem.RDS
+  companion object {
+    @JvmField val INSTANCE = RedisCacheBuilder()
   }
 
   override fun getCache(name: String): GoblinCache? {

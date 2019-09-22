@@ -4,10 +4,13 @@ import org.goblinframework.api.annotation.Install
 import org.goblinframework.cache.core.cache.GoblinCacheBuilderManager
 import org.goblinframework.cache.core.module.monitor.instruction.VMC
 import org.goblinframework.cache.core.module.monitor.instruction.VMCTranslator
+import org.goblinframework.cache.core.provider.InJvmCacheBuilder
+import org.goblinframework.cache.core.provider.NoOpCacheBuilder
 import org.goblinframework.core.bootstrap.GoblinModule
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
 import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
 import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
+import org.goblinframework.core.cache.GoblinCacheSystem
 
 @Install
 class CacheModule : GoblinModule {
@@ -17,6 +20,8 @@ class CacheModule : GoblinModule {
   }
 
   override fun install(ctx: GoblinModuleInstallContext) {
+    ctx.registerGoblinCacheBuilder(GoblinCacheSystem.JVM, InJvmCacheBuilder.INSTANCE)
+    ctx.registerGoblinCacheBuilder(GoblinCacheSystem.NOP, NoOpCacheBuilder.INSTANCE)
     ctx.registerInstructionTranslator(VMC::class.java, VMCTranslator.INSTANCE)
     ctx.createChildModuleManager()
         .module("CACHE:COUCHBASE")

@@ -1,19 +1,18 @@
 package org.goblinframework.cache.core.provider
 
-import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.cache.GoblinCache
 import org.goblinframework.core.cache.GoblinCacheBuilder
-import org.goblinframework.core.cache.GoblinCacheSystem
 
-@Install
-class InJvmCacheBuilder : GoblinCacheBuilder {
+@Singleton
+class InJvmCacheBuilder private constructor() : GoblinCacheBuilder {
+
+  companion object {
+    @JvmField val INSTANCE = InJvmCacheBuilder()
+  }
 
   override fun decorateCacheName(name: String): String {
     return "JVM"
-  }
-
-  override fun getCacheSystem(): GoblinCacheSystem {
-    return GoblinCacheSystem.JVM
   }
 
   override fun getCache(name: String): GoblinCache? {
