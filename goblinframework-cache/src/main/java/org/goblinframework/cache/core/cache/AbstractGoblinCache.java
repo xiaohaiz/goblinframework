@@ -2,6 +2,7 @@ package org.goblinframework.cache.core.cache;
 
 import org.goblinframework.core.cache.CasOperation;
 import org.goblinframework.core.cache.GetResult;
+import org.goblinframework.core.cache.GoblinCacheSystemLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -13,15 +14,15 @@ abstract public class AbstractGoblinCache implements GoblinCache {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private final CacheSystemLocation location;
+  private final GoblinCacheSystemLocation location;
 
-  protected AbstractGoblinCache(@NotNull CacheSystemLocation location) {
+  protected AbstractGoblinCache(@NotNull GoblinCacheSystemLocation location) {
     this.location = location;
   }
 
   @NotNull
   @Override
-  public CacheSystemLocation getCacheSystemLocation() {
+  public GoblinCacheSystemLocation getCacheSystemLocation() {
     return location;
   }
 

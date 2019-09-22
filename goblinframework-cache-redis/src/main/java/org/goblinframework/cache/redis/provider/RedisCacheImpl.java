@@ -7,13 +7,13 @@ import io.lettuce.core.TransactionResult;
 import io.lettuce.core.api.async.RedisKeyAsyncCommands;
 import io.lettuce.core.api.async.RedisStringAsyncCommands;
 import org.goblinframework.cache.core.cache.AbstractGoblinCache;
-import org.goblinframework.cache.core.cache.CacheSystemLocation;
 import org.goblinframework.cache.core.cache.CacheValueModifier;
 import org.goblinframework.cache.core.cache.CacheValueWrapper;
 import org.goblinframework.cache.redis.client.RedisClient;
 import org.goblinframework.core.cache.CasOperation;
 import org.goblinframework.core.cache.GetResult;
 import org.goblinframework.core.cache.GoblinCacheSystem;
+import org.goblinframework.core.cache.GoblinCacheSystemLocation;
 import org.goblinframework.core.exception.GoblinExecutionException;
 import org.goblinframework.core.exception.GoblinInterruptedException;
 import org.goblinframework.core.util.NumberUtils;
@@ -29,7 +29,7 @@ final class RedisCacheImpl extends AbstractGoblinCache {
   private final RedisClient client;
 
   RedisCacheImpl(@NotNull String name, @NotNull RedisClient client) {
-    super(new CacheSystemLocation(GoblinCacheSystem.RDS, name));
+    super(new GoblinCacheSystemLocation(GoblinCacheSystem.RDS, name));
     this.client = client;
   }
 

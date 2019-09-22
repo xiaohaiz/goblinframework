@@ -1,13 +1,13 @@
 package org.goblinframework.cache.core.support;
 
 import org.goblinframework.cache.core.annotation.GoblinCacheExpiration;
-import org.goblinframework.cache.core.cache.CacheSystemLocation;
 import org.goblinframework.cache.core.util.CacheExpirationCalculator;
+import org.goblinframework.core.cache.GoblinCacheSystemLocation;
 
 public class GoblinCache {
 
   public Class<?> type;
-  public CacheSystemLocation location;
+  public GoblinCacheSystemLocation location;
   public boolean wrapper;
   public GoblinCacheExpiration.Policy expirationPolicy = GoblinCacheExpiration.Policy.FIXED;
   public int expirationValue = GoblinCacheExpiration.DEFAULT_EXPIRATION;
