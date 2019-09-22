@@ -312,6 +312,7 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
     watchdogTimer.cancel();
   }
 
+  @Override
   public void flush() {
     lock.writeLock().lock();
     try {

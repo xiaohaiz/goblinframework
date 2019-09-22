@@ -421,4 +421,9 @@ final class RedisCacheImpl extends AbstractGoblinCache {
     }
     return false;
   }
+
+  @Override
+  public void flush() {
+    client.flush();
+  }
 }

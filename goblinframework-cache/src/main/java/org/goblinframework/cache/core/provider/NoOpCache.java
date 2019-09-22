@@ -79,4 +79,8 @@ final public class NoOpCache extends AbstractGoblinCache {
   public <T> boolean cas(@Nullable String key, int expirationInSeconds, @Nullable GetResult<T> getResult, int maxTries, @Nullable CasOperation<T> casOperation) {
     return true;
   }
+
+  @Override
+  public void flush() {
+  }
 }
