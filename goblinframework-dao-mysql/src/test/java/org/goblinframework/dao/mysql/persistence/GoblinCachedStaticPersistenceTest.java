@@ -60,5 +60,8 @@ public class GoblinCachedStaticPersistenceTest {
     data = persistence.load(1L);
     assertNotNull(data);
     assertEquals("replace", data.name);
+
+    ret = persistence.delete(1L);
+    assertTrue(ret);
   }
 }

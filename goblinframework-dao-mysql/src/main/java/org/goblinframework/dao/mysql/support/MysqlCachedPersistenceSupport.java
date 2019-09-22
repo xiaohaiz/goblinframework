@@ -1,6 +1,7 @@
 package org.goblinframework.dao.mysql.support;
 
 import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.apache.commons.lang3.mutable.MutableLong;
 import org.goblinframework.cache.core.support.GoblinCache;
 import org.goblinframework.cache.core.support.GoblinCacheBean;
 import org.goblinframework.cache.core.support.GoblinCacheBeanManager;
@@ -18,6 +19,8 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersistenceSupport<E, ID> {
 
@@ -206,6 +209,57 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
       }
     });
     return result.booleanValue();
+  }
+
+  @Override
+  public boolean delete(@Nullable ID id) {
+    if (id == null) {
+      return false;
+    }
+    return deletes(Collections.singleton(id)) > 0;
+  }
+
+  @Override
+  public long deletes(@Nullable Collection<ID> ids) {
+    if (ids == null || ids.isEmpty()) {
+      return 0;
+    }
+    if (distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.NONE) {
+      return directDeletes(ids);
+    }
+    switch (distribution) {
+      case ID_FIELD: {
+        long deletedCount = directDeletes(ids);
+        if (deletedCount > 0) {
+          Set<String> keys = ids.stream()
+              .map(this::generateCacheKey)
+              .collect(Collectors.toSet());
+          getDefaultCache().cache().deletes(keys);
+        }
+        return deletedCount;
+      }
+      case ID_AND_OTHER_FIELDS:
+      case OTHER_FIELDS: {
+        MutableLong result = new MutableLong();
+        getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
+          @Override
+          protected void doInTransactionWithoutResult(TransactionStatus status) {
+            Map<ID, E> map = directLoads(getMasterConnection(), ids);
+            long deletedCount = directDeletes(ids);
+            if (deletedCount > 0) {
+              GoblinCacheDimension gcd = new GoblinCacheDimension(entityMapping.entityClass, goblinCacheBean);
+              map.values().forEach(e -> calculateCacheDimensions(e, gcd));
+              gcd.evict();
+            }
+            result.setValue(deletedCount);
+          }
+        });
+        return result.longValue();
+      }
+      default: {
+        throw new UnsupportedOperationException();
+      }
+    }
   }
 
   private boolean hasIdCache() {
