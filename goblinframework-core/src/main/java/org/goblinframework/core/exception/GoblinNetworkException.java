@@ -1,5 +1,7 @@
 package org.goblinframework.core.exception;
 
+import org.goblinframework.api.common.GoblinException;
+
 public class GoblinNetworkException extends GoblinException {
   private static final long serialVersionUID = 2387665840385166671L;
 

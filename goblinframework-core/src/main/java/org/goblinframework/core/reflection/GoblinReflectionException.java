@@ -1,6 +1,6 @@
 package org.goblinframework.core.reflection;
 
-import org.goblinframework.core.exception.GoblinException;
+import org.goblinframework.api.common.GoblinException;
 
 public class GoblinReflectionException extends GoblinException {
   private static final long serialVersionUID = -3704257696280083921L;

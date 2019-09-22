@@ -1,6 +1,6 @@
 package org.goblinframework.transport.core.codec;
 
-import org.goblinframework.core.exception.GoblinException;
+import org.goblinframework.api.common.GoblinException;
 
 public class TransportCodecException extends GoblinException {
   private static final long serialVersionUID = 7622251455025410317L;

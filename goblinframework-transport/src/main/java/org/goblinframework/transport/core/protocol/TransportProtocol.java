@@ -1,6 +1,6 @@
 package org.goblinframework.transport.core.protocol;
 
-import org.goblinframework.core.exception.GoblinException;
+import org.goblinframework.api.common.GoblinException;
 import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.io.ClassPathResource;

@@ -1,6 +1,6 @@
 package org.goblinframework.transport.client.channel
 
-import org.goblinframework.core.exception.GoblinException
+import org.goblinframework.api.common.GoblinException
 
 class TransportClientException : GoblinException {
 
