@@ -1,8 +1,8 @@
 package org.goblinframework.cache.core.support;
 
 import org.goblinframework.cache.core.annotation.GoblinCacheExpiration;
-import org.goblinframework.cache.core.cache.GoblinCacheBuilder;
 import org.goblinframework.cache.core.cache.GoblinCacheBuilderManager;
+import org.goblinframework.core.cache.GoblinCacheBuilder;
 import org.goblinframework.core.cache.GoblinCacheException;
 import org.goblinframework.core.cache.GoblinCacheSystem;
 import org.goblinframework.core.cache.GoblinCacheSystemLocation;

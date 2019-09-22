@@ -1,6 +1,7 @@
 package org.goblinframework.cache.core.cache
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.core.cache.GoblinCacheBuilder
 import org.goblinframework.core.cache.GoblinCacheSystem
 import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.mbean.GoblinManagedObject
