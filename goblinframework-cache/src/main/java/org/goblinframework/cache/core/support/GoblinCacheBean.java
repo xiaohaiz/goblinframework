@@ -3,6 +3,8 @@ package org.goblinframework.cache.core.support;
 import org.goblinframework.cache.core.annotation.CacheSystem;
 import org.goblinframework.cache.core.annotation.GoblinCacheExpiration;
 import org.goblinframework.cache.core.cache.CacheSystemLocation;
+import org.goblinframework.cache.core.cache.GoblinCacheBuilder;
+import org.goblinframework.cache.core.cache.GoblinCacheBuilderManager;
 import org.goblinframework.core.cache.GoblinCacheException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +36,11 @@ public class GoblinCacheBean {
       }
       CacheSystem cacheSystem = gc.location.getSystem();
       String cacheName = gc.location.getName();
-      org.goblinframework.cache.core.cache.GoblinCache cache = cacheSystem.getCache(cacheName);
+      org.goblinframework.cache.core.cache.GoblinCache cache = null;
+      GoblinCacheBuilder builder = GoblinCacheBuilderManager.INSTANCE.getCacheBuilder(cacheSystem);
+      if (builder != null) {
+        cache = builder.getCache(cacheName);
+      }
       if (cache == null) {
         String errMsg = "GOBLIN cache [%s/%s] not available";
         errMsg = String.format(errMsg, cacheSystem, cacheName);

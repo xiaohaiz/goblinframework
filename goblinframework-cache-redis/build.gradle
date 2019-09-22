@@ -11,4 +11,5 @@ dependencies {
   compile("org.apache.commons:commons-pool2:${commons_pool2_version}")
 
   testCompile(project(":goblinframework-test"))
+  testCompile(project(":goblinframework-monitor"))
 }
