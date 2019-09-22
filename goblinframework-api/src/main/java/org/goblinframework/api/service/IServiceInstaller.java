@@ -14,5 +14,7 @@ public interface IServiceInstaller {
 
   <E> E firstOrNull(@NotNull Class<E> serviceType);
 
-
+  static IServiceInstaller instance() {
+    return null;
+  }
 }
