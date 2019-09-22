@@ -29,8 +29,10 @@ class TestExecutionListenerManager private constructor() : ITestExecutionListene
     lock.write { listeners.add(listener) }
   }
 
-  fun asList(): List<TestExecutionListener> {
-    return lock.read { listeners.sortedBy { it.order }.toList() }
+  fun asList(): List<TestExecutionListenerAdapter> {
+    return lock.read {
+      listeners.sortedBy { it.order }.map { TestExecutionListenerAdapter(it) }.toList()
+    }
   }
 
   @Install
