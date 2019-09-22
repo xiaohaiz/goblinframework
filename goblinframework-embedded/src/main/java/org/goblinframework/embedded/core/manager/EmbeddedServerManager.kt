@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-@GoblinManagedBean("EMBEDDED")
+@GoblinManagedBean(type = "embedded")
 class EmbeddedServerManager private constructor()
   : GoblinManagedObject(), EmbeddedServerManagerMXBean {
 

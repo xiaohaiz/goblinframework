@@ -9,7 +9,7 @@ import org.goblinframework.core.transcoder.TranscoderUtils
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
-@GoblinManagedBean("REGISTRY.ZOOKEEPER")
+@GoblinManagedBean(type = "registry.zookeeper")
 class ZkTranscoder internal constructor(private val serializer: Serializer)
   : GoblinManagedObject(), ZkSerializer {
 

@@ -4,7 +4,7 @@ import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import java.util.*
 
-@GoblinManagedBean("CORE")
+@GoblinManagedBean(type = "core")
 class CompressorManager private constructor() : GoblinManagedObject(), CompressorManagerMXBean {
 
   companion object {

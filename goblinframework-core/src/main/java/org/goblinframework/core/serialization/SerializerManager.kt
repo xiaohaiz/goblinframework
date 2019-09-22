@@ -7,7 +7,7 @@ import org.goblinframework.core.serialization.hessian.Hessian2Serializer
 import org.goblinframework.core.serialization.java.JavaSerializer
 import java.util.*
 
-@GoblinManagedBean("CORE")
+@GoblinManagedBean(type = "core")
 class SerializerManager private constructor() : GoblinManagedObject(), SerializerManagerMXBean {
 
   companion object {

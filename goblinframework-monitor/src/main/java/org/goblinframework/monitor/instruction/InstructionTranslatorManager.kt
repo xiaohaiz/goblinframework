@@ -3,8 +3,8 @@ package org.goblinframework.monitor.instruction
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
-import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.api.service.GoblinManagedBean
+import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.module.spi.RegisterInstructionTranslator
 import org.goblinframework.core.monitor.Instruction
@@ -16,7 +16,7 @@ import kotlin.concurrent.write
 
 @Singleton
 @ThreadSafe
-@GoblinManagedBean("monitor")
+@GoblinManagedBean(type = "monitor")
 class InstructionTranslatorManager private constructor()
   : GoblinManagedObject(), InstructionTranslatorManagerMXBean, RegisterInstructionTranslator {
 

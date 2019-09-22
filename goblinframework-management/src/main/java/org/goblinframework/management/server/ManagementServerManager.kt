@@ -8,7 +8,7 @@ import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting
 import java.util.concurrent.atomic.AtomicReference
 
-@GoblinManagedBean("MANAGEMENT")
+@GoblinManagedBean(type = "management")
 class ManagementServerManager private constructor() : GoblinManagedObject(), ManagementServerLifecycle {
 
   companion object {

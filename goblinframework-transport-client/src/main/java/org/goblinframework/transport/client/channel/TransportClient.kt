@@ -6,7 +6,7 @@ import org.goblinframework.transport.client.setting.TransportClientSetting
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.atomic.LongAdder
 
-@GoblinManagedBean("TRANSPORT.CLIENT")
+@GoblinManagedBean(type = "transport.client")
 class TransportClient internal constructor(val setting: TransportClientSetting,
                                            val clientManager: TransportClientManager)
   : GoblinManagedObject(), TransportClientMXBean {

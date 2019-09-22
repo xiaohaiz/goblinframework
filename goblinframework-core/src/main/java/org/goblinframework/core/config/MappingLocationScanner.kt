@@ -7,7 +7,7 @@ import org.goblinframework.core.util.IOUtils
 import org.springframework.core.io.ByteArrayResource
 import java.util.concurrent.atomic.AtomicReference
 
-@GoblinManagedBean("CORE")
+@GoblinManagedBean(type = "core")
 class MappingLocationScanner
 internal constructor(configLocationScanner: ConfigLocationScanner)
   : GoblinManagedObject(), MappingLocationScannerMXBean {

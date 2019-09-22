@@ -4,7 +4,7 @@ import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.remote.server.expose.ExposeServiceId
 
-@GoblinManagedBean("REMOTE.SERVER")
+@GoblinManagedBean(type = "remote.server")
 abstract class RemoteService(private val id: ExposeServiceId)
   : GoblinManagedObject(), RemoteServiceMXBean {
 

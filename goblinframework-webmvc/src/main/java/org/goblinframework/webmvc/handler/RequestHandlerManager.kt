@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.max
 import kotlin.math.min
 
-@GoblinManagedBean("WEBMVC")
+@GoblinManagedBean(type = "webmvc")
 class RequestHandlerManager(private val setting: RequestHandlerSetting)
   : GoblinManagedObject(), RequestHandlerManagerMXBean {
 

@@ -3,7 +3,7 @@ package org.goblinframework.dao.mysql.module.config
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 
-@GoblinManagedBean("DAO.MYSQL")
+@GoblinManagedBean(type = "dao.mysql")
 class DataSourceConfig
 internal constructor(val mapper: DataSourceConfigMapper)
   : GoblinManagedObject(), DataSourceConfigMXBean {

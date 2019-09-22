@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-@GoblinManagedBean("CORE")
+@GoblinManagedBean(type = "core")
 class SpringContainerManager private constructor() : GoblinManagedObject(), SpringContainerManagerMXBean {
 
   companion object {

@@ -8,7 +8,7 @@ import org.goblinframework.core.serialization.SerializerMode
 import java.util.*
 
 @Singleton
-@GoblinManagedBean("REGISTRY.ZOOKEEPER")
+@GoblinManagedBean(type = "registry.zookeeper")
 class ZkTranscoderManager private constructor()
   : GoblinManagedObject(), ZkTranscoderManagerMXBean {
 

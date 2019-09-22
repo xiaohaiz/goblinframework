@@ -3,10 +3,10 @@ package org.goblinframework.cache.core.cache
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.cache.GoblinCacheBuilder
 import org.goblinframework.core.cache.GoblinCacheSystem
 import org.goblinframework.core.exception.GoblinDuplicateException
-import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.module.spi.RegisterGoblinCacheBuilder
 import java.util.*
@@ -16,7 +16,7 @@ import kotlin.concurrent.write
 
 @Singleton
 @ThreadSafe
-@GoblinManagedBean("cache")
+@GoblinManagedBean(type = "cache")
 class GoblinCacheBuilderManager private constructor()
   : GoblinManagedObject(), GoblinCacheBuilderManagerMXBean, RegisterGoblinCacheBuilder {
 

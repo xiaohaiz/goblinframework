@@ -1,14 +1,14 @@
 package org.goblinframework.webmvc.handler
 
-import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.api.service.GoblinManagedBean
+import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.webmvc.setting.RequestHandlerSetting
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-@GoblinManagedBean("WEBMVC")
+@GoblinManagedBean(type = "webmvc")
 class RequestHandlerManagerBuilder private constructor()
   : GoblinManagedObject(), RequestHandlerManagerBuilderMXBean {
 

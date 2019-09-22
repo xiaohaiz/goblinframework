@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicReference
 
-@GoblinManagedBean("TRANSPORT.SERVER")
+@GoblinManagedBean(type = "transport.server")
 class TransportServerChannel
 internal constructor(private val server: TransportServerImpl,
                      private val channel: Channel)

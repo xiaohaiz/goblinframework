@@ -2,10 +2,10 @@ package org.goblinframework.transport.client.channel
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.concurrent.SynchronizedCountLatch
 import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.exception.GoblinDuplicateException
-import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.transport.client.setting.TransportClientSetting
 import java.time.Instant
@@ -17,7 +17,7 @@ import kotlin.concurrent.write
 
 @Singleton
 @ThreadSafe
-@GoblinManagedBean("TRANSPORT.CLIENT")
+@GoblinManagedBean(type = "transport.client")
 class TransportClientManager private constructor() : GoblinManagedObject(), TransportClientManagerMXBean {
 
   companion object {

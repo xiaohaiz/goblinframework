@@ -13,7 +13,7 @@ import kotlin.concurrent.write
 
 @Singleton
 @ThreadSafe
-@GoblinManagedBean("MONITOR")
+@GoblinManagedBean(type = "monitor")
 class MonitorPointManager private constructor()
   : GoblinManagedObject(), MonitorPointManagerMXBean, RegisterMonitorPoint {
 

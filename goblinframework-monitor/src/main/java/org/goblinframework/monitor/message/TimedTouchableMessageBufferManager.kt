@@ -3,8 +3,8 @@ package org.goblinframework.monitor.message
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.function.Block0
-import org.goblinframework.core.event.EventBus
 import org.goblinframework.api.service.GoblinManagedBean
+import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.mbean.GoblinManagedObject
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
@@ -12,7 +12,7 @@ import kotlin.concurrent.write
 
 @Singleton
 @ThreadSafe
-@GoblinManagedBean("MONITOR")
+@GoblinManagedBean(type = "monitor")
 class TimedTouchableMessageBufferManager private constructor()
   : GoblinManagedObject(), TimedTouchableMessageBufferManagerMXBean {
 

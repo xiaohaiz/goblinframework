@@ -1,17 +1,17 @@
 package org.goblinframework.cache.redis.client
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.cache.redis.command.RedisCommands
 import org.goblinframework.cache.redis.connection.RedisConnection
 import org.goblinframework.cache.redis.connection.TransactionCallback
 import org.goblinframework.cache.redis.module.config.RedisConfig
 import org.goblinframework.cache.redis.transcoder.RedisTranscoder
 import org.goblinframework.core.compression.CompressorManager
-import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.serialization.SerializerManager
 
-@GoblinManagedBean("CACHE.REDIS")
+@GoblinManagedBean(type = "cache.redis")
 abstract class RedisClient(val config: RedisConfig)
   : GoblinManagedObject(), RedisClientMXBean {
 

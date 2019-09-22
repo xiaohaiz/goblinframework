@@ -7,7 +7,7 @@ import org.goblinframework.core.util.StopWatch
 import org.goblinframework.transport.server.setting.TransportServerSetting
 import java.util.concurrent.atomic.AtomicReference
 
-@GoblinManagedBean("TRANSPORT.SERVER")
+@GoblinManagedBean(type = "transport.server")
 class TransportServer
 internal constructor(private val setting: TransportServerSetting)
   : GoblinManagedObject(), Lifecycle, TransportServerMXBean {

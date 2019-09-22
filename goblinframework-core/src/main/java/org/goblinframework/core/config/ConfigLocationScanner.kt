@@ -10,7 +10,7 @@ import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 
-@GoblinManagedBean("CORE")
+@GoblinManagedBean(type = "core")
 class ConfigLocationScanner internal constructor()
   : GoblinManagedObject(), ConfigLocationScannerMXBean {
 

@@ -5,7 +5,7 @@ import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 
 @Singleton
-@GoblinManagedBean("DAO.MYSQL")
+@GoblinManagedBean(type = "dao.mysql")
 class MysqlConfigManager private constructor() : GoblinManagedObject(), MysqlConfigManagerMXBean {
 
   companion object {
