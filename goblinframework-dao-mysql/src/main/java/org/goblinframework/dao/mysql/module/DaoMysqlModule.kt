@@ -9,6 +9,7 @@ import org.goblinframework.dao.mysql.client.MysqlClientManager
 import org.goblinframework.dao.mysql.module.config.MysqlConfigManager
 import org.goblinframework.dao.mysql.module.monitor.intruction.MSQ
 import org.goblinframework.dao.mysql.module.monitor.intruction.MSQTranslator
+import org.goblinframework.dao.mysql.module.test.RebuildMysqlTableBeforeTestMethod
 
 @Install
 class DaoMysqlModule : GoblinChildModule {
@@ -19,6 +20,7 @@ class DaoMysqlModule : GoblinChildModule {
 
   override fun install(ctx: GoblinModuleInstallContext) {
     ctx.registerInstructionTranslator(MSQ::class.java, MSQTranslator.INSTANCE)
+    ctx.registerTestExecutionListener(RebuildMysqlTableBeforeTestMethod.INSTANCE)
   }
 
   override fun initialize(ctx: GoblinModuleInitializeContext) {

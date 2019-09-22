@@ -1,6 +1,6 @@
 package org.goblinframework.cache.redis.module.test;
 
-import org.goblinframework.api.annotation.Install;
+import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.test.TestContext;
 import org.goblinframework.api.test.TestExecutionListener;
 import org.goblinframework.cache.redis.client.RedisClient;
@@ -12,8 +12,13 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Method;
 import java.util.List;
 
-@Install
+@Singleton
 final public class FlushRedisCacheBeforeTestMethod implements TestExecutionListener {
+
+  public static final FlushRedisCacheBeforeTestMethod INSTANCE = new FlushRedisCacheBeforeTestMethod();
+
+  private FlushRedisCacheBeforeTestMethod() {
+  }
 
   @Override
   public void beforeTestMethod(@NotNull TestContext testContext) {

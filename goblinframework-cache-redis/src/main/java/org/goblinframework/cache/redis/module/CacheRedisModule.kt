@@ -3,6 +3,7 @@ package org.goblinframework.cache.redis.module
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.cache.redis.client.RedisClientManager
 import org.goblinframework.cache.redis.module.config.RedisConfigManager
+import org.goblinframework.cache.redis.module.test.FlushRedisCacheBeforeTestMethod
 import org.goblinframework.cache.redis.provider.RedisCacheBuilder
 import org.goblinframework.core.bootstrap.GoblinChildModule
 import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
@@ -19,6 +20,7 @@ class CacheRedisModule : GoblinChildModule {
 
   override fun install(ctx: GoblinModuleInstallContext) {
     ctx.registerGoblinCacheBuilder(GoblinCacheSystem.RDS, RedisCacheBuilder.INSTANCE)
+    ctx.registerTestExecutionListener(FlushRedisCacheBeforeTestMethod.INSTANCE)
   }
 
   override fun initialize(ctx: GoblinModuleInitializeContext) {

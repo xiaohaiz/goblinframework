@@ -1,6 +1,6 @@
 package org.goblinframework.monitor.module.test
 
-import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.test.TestContext
 import org.goblinframework.api.test.TestExecutionListener
@@ -9,8 +9,22 @@ import org.goblinframework.core.monitor.FlightId
 import org.goblinframework.core.monitor.FlightLocation
 import org.goblinframework.core.monitor.FlightRecorder
 
-@Install
-class UnitTestFlightRecorder : TestExecutionListener, Ordered {
+@Singleton
+class UnitTestFlightRecorder private constructor() : TestExecutionListener, Ordered {
+
+  companion object {
+    @JvmField val INSTANCE = UnitTestFlightRecorder()
+    private val lock = Object()
+    private val flightIds = LinkedHashSet<FlightId>()
+
+    fun onFlightFinished(flightId: FlightId) {
+      synchronized(lock) {
+        if (flightIds.remove(flightId)) {
+          lock.notifyAll()
+        }
+      }
+    }
+  }
 
   override fun getOrder(): Int {
     return Ordered.HIGHEST_PRECEDENCE
@@ -41,16 +55,4 @@ class UnitTestFlightRecorder : TestExecutionListener, Ordered {
     }
   }
 
-  companion object {
-    private val lock = Object()
-    private val flightIds = LinkedHashSet<FlightId>()
-
-    fun onFlightFinished(flightId: FlightId) {
-      synchronized(lock) {
-        if (flightIds.remove(flightId)) {
-          lock.notifyAll()
-        }
-      }
-    }
-  }
 }

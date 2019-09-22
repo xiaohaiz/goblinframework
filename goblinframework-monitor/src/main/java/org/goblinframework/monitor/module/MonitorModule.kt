@@ -8,6 +8,7 @@ import org.goblinframework.monitor.instruction.InstructionTranslatorManager
 import org.goblinframework.monitor.message.TimedTouchableMessageBufferManager
 import org.goblinframework.monitor.module.monitor.instruction.DOT
 import org.goblinframework.monitor.module.monitor.instruction.DOTTranslator
+import org.goblinframework.monitor.module.test.UnitTestFlightRecorder
 import org.goblinframework.monitor.point.MonitorPointManager
 
 @Install
@@ -19,6 +20,7 @@ class MonitorModule : GoblinModule {
 
   override fun install(ctx: GoblinModuleInstallContext) {
     ctx.registerInstructionTranslator(DOT::class.java, DOTTranslator.INSTANCE)
+    ctx.registerTestExecutionListener(UnitTestFlightRecorder.INSTANCE)
   }
 
   override fun finalize(ctx: GoblinModuleFinalizeContext) {

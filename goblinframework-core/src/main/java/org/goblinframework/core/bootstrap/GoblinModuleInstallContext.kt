@@ -1,5 +1,7 @@
 package org.goblinframework.core.bootstrap
 
+import org.goblinframework.api.test.ITestExecutionListenerManager
+import org.goblinframework.api.test.TestExecutionListener
 import org.goblinframework.core.cache.GoblinCacheBuilder
 import org.goblinframework.core.cache.GoblinCacheSystem
 import org.goblinframework.core.module.spi.RegisterGoblinCacheBuilder
@@ -44,4 +46,9 @@ class GoblinModuleInstallContext private constructor() : GoblinModuleContext() {
   fun registerGoblinCacheBuilder(system: GoblinCacheSystem, builder: GoblinCacheBuilder) {
     registerGoblinCacheBuilder?.register(system, builder)
   }
+
+  fun registerTestExecutionListener(listener: TestExecutionListener) {
+    ITestExecutionListenerManager.instance()?.register(listener)
+  }
+
 }

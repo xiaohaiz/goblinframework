@@ -4,6 +4,7 @@ import org.goblinframework.api.annotation.Install
 import org.goblinframework.cache.core.cache.GoblinCacheBuilderManager
 import org.goblinframework.cache.core.module.monitor.instruction.VMC
 import org.goblinframework.cache.core.module.monitor.instruction.VMCTranslator
+import org.goblinframework.cache.core.module.test.FlushInJvmCacheBeforeTestMethod
 import org.goblinframework.cache.core.provider.InJvmCacheBuilder
 import org.goblinframework.cache.core.provider.NoOpCacheBuilder
 import org.goblinframework.core.bootstrap.GoblinModule
@@ -23,6 +24,7 @@ class CacheModule : GoblinModule {
     ctx.registerGoblinCacheBuilder(GoblinCacheSystem.JVM, InJvmCacheBuilder.INSTANCE)
     ctx.registerGoblinCacheBuilder(GoblinCacheSystem.NOP, NoOpCacheBuilder.INSTANCE)
     ctx.registerInstructionTranslator(VMC::class.java, VMCTranslator.INSTANCE)
+    ctx.registerTestExecutionListener(FlushInJvmCacheBeforeTestMethod.INSTANCE)
     ctx.createChildModuleManager()
         .module("CACHE:COUCHBASE")
         .module("CACHE:REDIS")
