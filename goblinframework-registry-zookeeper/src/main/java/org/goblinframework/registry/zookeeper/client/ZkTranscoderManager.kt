@@ -1,7 +1,7 @@
 package org.goblinframework.registry.zookeeper.client
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.core.serialization.SerializerMode

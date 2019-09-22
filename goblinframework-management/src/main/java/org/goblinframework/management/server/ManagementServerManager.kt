@@ -1,6 +1,6 @@
 package org.goblinframework.management.server
 
-import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.module.spi.ManagementServerLifecycle
 import org.goblinframework.embedded.core.EmbeddedServerMode

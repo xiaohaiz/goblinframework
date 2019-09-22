@@ -2,7 +2,7 @@ package org.goblinframework.dao.core.mapping;
 
 import org.goblinframework.api.annotation.*;
 import org.goblinframework.core.exception.GoblinMappingException;
-import org.goblinframework.core.mbean.GoblinManagedBean;
+import org.goblinframework.api.service.GoblinManagedBean;
 import org.goblinframework.core.mbean.GoblinManagedObject;
 import org.goblinframework.core.reflection.Field;
 import org.goblinframework.dao.core.mapping.field.*;

@@ -9,7 +9,7 @@ import kotlin.text.Charsets;
 import org.goblinframework.core.compression.CompressionThreshold;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.exception.GoblinTranscodingException;
-import org.goblinframework.core.mbean.GoblinManagedBean;
+import org.goblinframework.api.service.GoblinManagedBean;
 import org.goblinframework.core.mbean.GoblinManagedObject;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.transcoder.ByteArrayWrapper;

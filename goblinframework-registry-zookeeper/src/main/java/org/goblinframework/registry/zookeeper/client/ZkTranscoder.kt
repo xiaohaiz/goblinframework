@@ -2,7 +2,7 @@ package org.goblinframework.registry.zookeeper.client
 
 import org.I0Itec.zkclient.exception.ZkMarshallingError
 import org.I0Itec.zkclient.serialize.ZkSerializer
-import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.serialization.Serializer
 import org.goblinframework.core.transcoder.TranscoderUtils

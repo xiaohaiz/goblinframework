@@ -2,6 +2,7 @@ package org.goblinframework.core.mbean;
 
 import org.goblinframework.api.common.Disposable;
 import org.goblinframework.api.common.Initializable;
+import org.goblinframework.api.service.GoblinManagedBean;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.core.util.StringUtils;

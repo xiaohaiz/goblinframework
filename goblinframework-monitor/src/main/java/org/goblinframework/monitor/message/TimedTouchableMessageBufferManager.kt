@@ -4,7 +4,7 @@ import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.function.Block0
 import org.goblinframework.core.event.EventBus
-import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read

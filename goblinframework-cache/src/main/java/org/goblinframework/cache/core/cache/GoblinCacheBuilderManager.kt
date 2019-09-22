@@ -6,7 +6,7 @@ import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.core.cache.GoblinCacheBuilder
 import org.goblinframework.core.cache.GoblinCacheSystem
 import org.goblinframework.core.exception.GoblinDuplicateException
-import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.module.spi.RegisterGoblinCacheBuilder
 import java.util.*

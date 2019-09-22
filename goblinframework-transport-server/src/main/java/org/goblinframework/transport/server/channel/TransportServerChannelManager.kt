@@ -3,7 +3,7 @@ package org.goblinframework.transport.server.channel
 import io.netty.channel.Channel
 import io.netty.channel.ChannelId
 import org.goblinframework.core.concurrent.SynchronizedCountLatch
-import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean

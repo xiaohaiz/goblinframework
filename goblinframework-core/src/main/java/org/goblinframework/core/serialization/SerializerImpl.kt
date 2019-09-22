@@ -1,7 +1,7 @@
 package org.goblinframework.core.serialization
 
 import org.goblinframework.core.exception.GoblinSerializationException
-import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.StopWatch
 

@@ -4,7 +4,7 @@ import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.common.Lifecycle
 import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.mapper.JsonMapper
-import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.DigestUtils
 import org.goblinframework.core.util.IOUtils

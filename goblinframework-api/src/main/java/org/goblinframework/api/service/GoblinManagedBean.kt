@@ -1,4 +1,4 @@
-package org.goblinframework.core.mbean
+package org.goblinframework.api.service
 
 @MustBeDocumented
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)

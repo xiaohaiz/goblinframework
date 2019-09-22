@@ -1,7 +1,7 @@
 package org.goblinframework.core.compression;
 
 import org.goblinframework.core.exception.GoblinCompressionException;
-import org.goblinframework.core.mbean.GoblinManagedBean;
+import org.goblinframework.api.service.GoblinManagedBean;
 import org.goblinframework.core.mbean.GoblinManagedObject;
 import org.goblinframework.core.util.StopWatch;
 import org.jetbrains.annotations.NotNull;

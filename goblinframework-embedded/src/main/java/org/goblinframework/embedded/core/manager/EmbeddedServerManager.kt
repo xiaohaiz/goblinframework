@@ -1,6 +1,6 @@
 package org.goblinframework.embedded.core.manager
 
-import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.ServiceInstaller
 import org.goblinframework.embedded.core.EmbeddedServer

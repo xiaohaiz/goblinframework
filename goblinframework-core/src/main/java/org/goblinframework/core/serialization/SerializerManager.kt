@@ -1,6 +1,6 @@
 package org.goblinframework.core.serialization
 
-import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.serialization.fst.FstSerializer
 import org.goblinframework.core.serialization.hessian.Hessian2Serializer

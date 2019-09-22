@@ -3,7 +3,7 @@ package org.goblinframework.transport.server.channel
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.core.exception.GoblinDuplicateException
-import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.transport.server.setting.TransportServerSetting
 import java.util.concurrent.locks.ReentrantReadWriteLock

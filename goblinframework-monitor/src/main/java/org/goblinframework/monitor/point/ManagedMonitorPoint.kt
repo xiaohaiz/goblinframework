@@ -1,6 +1,6 @@
 package org.goblinframework.monitor.point
 
-import org.goblinframework.core.mbean.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.monitor.MonitorPoint
 

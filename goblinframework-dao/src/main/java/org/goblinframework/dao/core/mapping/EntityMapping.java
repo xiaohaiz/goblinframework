@@ -1,6 +1,6 @@
 package org.goblinframework.dao.core.mapping;
 
-import org.goblinframework.core.mbean.GoblinManagedBean;
+import org.goblinframework.api.service.GoblinManagedBean;
 import org.goblinframework.core.mbean.GoblinManagedObject;
 import org.goblinframework.core.reflection.GoblinReflectionException;
 import org.goblinframework.dao.core.mapping.field.*;
