@@ -164,6 +164,50 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
     return result.booleanValue();
   }
 
+  @Override
+  public boolean upsert(@Nullable E entity) {
+    if (entity == null) return false;
+    if (distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.NONE) {
+      return directUpsert(entity);
+    }
+    ID id = getEntityId(entity);
+    if (id == null) {
+      insert(entity);
+      return true;
+    }
+    MutableBoolean result = new MutableBoolean();
+    getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
+      @Override
+      protected void doInTransactionWithoutResult(TransactionStatus status) {
+        E original = null;
+        if (distribution != org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.ID_FIELD) {
+          original = directLoad(getMasterConnection(), id);
+        }
+        if (!directUpsert(entity)) {
+          return;
+        }
+        E upserted = directLoad(getMasterConnection(), id);
+        assert upserted != null;
+        if (distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.ID_FIELD) {
+          GoblinCache gc = getDefaultCache();
+          gc.cache().modifier()
+              .key(generateCacheKey(id))
+              .expiration(gc.calculateExpiration())
+              .modifier(currentValue -> upserted).execute();
+        } else {
+          GoblinCacheDimension gcd = new GoblinCacheDimension(entityMapping.entityClass, goblinCacheBean);
+          if (original != null) {
+            calculateCacheDimensions(original, gcd);
+          }
+          calculateCacheDimensions(upserted, gcd);
+          gcd.evict();
+        }
+        result.setTrue();
+      }
+    });
+    return result.booleanValue();
+  }
+
   private boolean hasIdCache() {
     return distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.ID_FIELD
         || distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.ID_AND_OTHER_FIELDS;
