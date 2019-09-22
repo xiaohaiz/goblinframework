@@ -23,6 +23,12 @@ abstract public class AbstractGoblinCache implements GoblinCache {
     return location;
   }
 
+  @NotNull
+  @Override
+  public <K, V> CacheValueLoader<K, V> createCacheValueLoader() {
+    return new CacheValueLoaderImpl<>(this);
+  }
+
   @Nullable
   @Override
   public <T> T load(@Nullable String key) {
