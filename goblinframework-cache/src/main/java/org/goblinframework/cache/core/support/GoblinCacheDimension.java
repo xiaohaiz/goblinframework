@@ -1,6 +1,6 @@
 package org.goblinframework.cache.core.support;
 
-import org.goblinframework.cache.core.module.GoblinCacheException;
+import org.goblinframework.core.cache.GoblinCacheException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

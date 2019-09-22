@@ -1,5 +1,7 @@
 package org.goblinframework.cache.core.cache;
 
+import org.goblinframework.core.cache.CasOperation;
+
 public interface CacheValueModifier<V> {
 
   CacheValueModifier<V> key(String key);

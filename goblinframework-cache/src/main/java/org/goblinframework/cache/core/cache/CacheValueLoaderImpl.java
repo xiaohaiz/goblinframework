@@ -1,6 +1,9 @@
 package org.goblinframework.cache.core.cache;
 
 import org.goblinframework.cache.core.annotation.GoblinCacheExpiration;
+import org.goblinframework.core.cache.CacheHitListener;
+import org.goblinframework.core.cache.CacheMissListener;
+import org.goblinframework.core.cache.GetResult;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.NumberUtils;
 import org.jetbrains.annotations.NotNull;

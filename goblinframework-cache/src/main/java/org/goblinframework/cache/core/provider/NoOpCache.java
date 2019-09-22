@@ -4,8 +4,8 @@ import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.cache.core.annotation.CacheSystem;
 import org.goblinframework.cache.core.cache.AbstractGoblinCache;
 import org.goblinframework.cache.core.cache.CacheSystemLocation;
-import org.goblinframework.cache.core.cache.CasOperation;
-import org.goblinframework.cache.core.cache.GetResult;
+import org.goblinframework.core.cache.CasOperation;
+import org.goblinframework.core.cache.GetResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

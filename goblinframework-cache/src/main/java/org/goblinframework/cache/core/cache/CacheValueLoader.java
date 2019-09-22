@@ -1,5 +1,8 @@
 package org.goblinframework.cache.core.cache;
 
+import org.goblinframework.core.cache.CacheHitListener;
+import org.goblinframework.core.cache.CacheMissListener;
+
 import java.util.Collection;
 import java.util.Map;
 

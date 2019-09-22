@@ -1,6 +1,6 @@
 package org.goblinframework.dao.mysql.support;
 
-import org.goblinframework.cache.core.cache.GetResult;
+import org.goblinframework.core.cache.GetResult;
 import org.goblinframework.cache.core.support.GoblinCache;
 import org.goblinframework.cache.core.support.GoblinCacheBean;
 import org.goblinframework.cache.core.support.GoblinCacheBeanManager;

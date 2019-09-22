@@ -3,7 +3,7 @@ package org.goblinframework.cache.core.support;
 import org.goblinframework.cache.core.annotation.CacheSystem;
 import org.goblinframework.cache.core.annotation.GoblinCacheExpiration;
 import org.goblinframework.cache.core.cache.CacheSystemLocation;
-import org.goblinframework.cache.core.module.GoblinCacheException;
+import org.goblinframework.core.cache.GoblinCacheException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

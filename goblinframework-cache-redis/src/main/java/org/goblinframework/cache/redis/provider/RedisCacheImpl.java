@@ -9,6 +9,8 @@ import io.lettuce.core.api.async.RedisStringAsyncCommands;
 import org.goblinframework.cache.core.annotation.CacheSystem;
 import org.goblinframework.cache.core.cache.*;
 import org.goblinframework.cache.redis.client.RedisClient;
+import org.goblinframework.core.cache.CasOperation;
+import org.goblinframework.core.cache.GetResult;
 import org.goblinframework.core.exception.GoblinExecutionException;
 import org.goblinframework.core.exception.GoblinInterruptedException;
 import org.goblinframework.core.util.NumberUtils;

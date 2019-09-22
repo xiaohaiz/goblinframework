@@ -7,6 +7,8 @@ import org.goblinframework.api.common.Disposable;
 import org.goblinframework.cache.core.annotation.CacheSystem;
 import org.goblinframework.cache.core.cache.*;
 import org.goblinframework.cache.core.module.monitor.instruction.VMC;
+import org.goblinframework.core.cache.CasOperation;
+import org.goblinframework.core.cache.GetResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

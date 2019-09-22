@@ -1,5 +1,7 @@
 package org.goblinframework.cache.core.cache;
 
+import org.goblinframework.core.cache.CasOperation;
+import org.goblinframework.core.cache.GetResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
