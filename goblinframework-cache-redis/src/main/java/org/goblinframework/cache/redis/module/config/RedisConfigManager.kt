@@ -1,7 +1,7 @@
 package org.goblinframework.cache.redis.module.config
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.api.service.GoblinManagedObject
 
 @Singleton
 class RedisConfigManager private constructor() : GoblinManagedObject(), RedisConfigManagerMXBean {

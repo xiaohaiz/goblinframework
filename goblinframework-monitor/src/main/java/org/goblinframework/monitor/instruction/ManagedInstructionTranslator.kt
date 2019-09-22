@@ -1,7 +1,7 @@
 package org.goblinframework.monitor.instruction
 
 import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.monitor.Instruction
 import org.goblinframework.core.monitor.InstructionTranslator
 

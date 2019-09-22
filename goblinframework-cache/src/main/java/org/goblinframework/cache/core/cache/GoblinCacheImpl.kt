@@ -2,9 +2,9 @@ package org.goblinframework.cache.core.cache
 
 import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.service.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.cache.GoblinCache
 import org.goblinframework.core.cache.GoblinCacheSystem
-import org.goblinframework.core.mbean.GoblinManagedObject
 
 @GoblinManagedBean(type = "cache")
 internal class GoblinCacheImpl

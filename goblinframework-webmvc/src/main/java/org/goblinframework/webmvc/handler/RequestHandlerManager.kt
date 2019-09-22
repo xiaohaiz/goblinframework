@@ -1,7 +1,7 @@
 package org.goblinframework.webmvc.handler
 
 import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.util.StringUtils
 import org.goblinframework.webmvc.mapping.controller.ControllerMappingBuilder
 import org.goblinframework.webmvc.mapping.method.MethodMappingBuilder

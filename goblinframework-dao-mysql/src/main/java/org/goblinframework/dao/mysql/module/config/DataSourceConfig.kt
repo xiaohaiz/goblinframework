@@ -1,7 +1,7 @@
 package org.goblinframework.dao.mysql.module.config
 
 import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.api.service.GoblinManagedObject
 
 @GoblinManagedBean(type = "dao.mysql")
 class DataSourceConfig

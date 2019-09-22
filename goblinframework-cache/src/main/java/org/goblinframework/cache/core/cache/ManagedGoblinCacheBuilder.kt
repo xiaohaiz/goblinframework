@@ -3,9 +3,9 @@ package org.goblinframework.cache.core.cache
 import org.apache.commons.lang3.mutable.MutableObject
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.service.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.cache.GoblinCache
 import org.goblinframework.core.cache.GoblinCacheBuilder
-import org.goblinframework.core.mbean.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock

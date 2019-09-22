@@ -3,6 +3,7 @@ package org.goblinframework.core.event.boss
 import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.api.service.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.concurrent.NamedDaemonThreadFactory
 import org.goblinframework.core.event.*
 import org.goblinframework.core.event.config.EventBusConfig
@@ -11,7 +12,6 @@ import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.dsl.GoblinCallbackEventListener
 import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusWorker
-import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.module.spi.GoblinTimerEventGenerator
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.ServiceInstaller

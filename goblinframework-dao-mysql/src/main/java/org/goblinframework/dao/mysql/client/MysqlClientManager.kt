@@ -3,7 +3,7 @@ package org.goblinframework.dao.mysql.client
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.dao.mysql.module.config.MysqlConfigManager
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock

@@ -1,7 +1,7 @@
 package org.goblinframework.core.container
 
 import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.api.service.GoblinManagedObject
 import org.springframework.context.ApplicationContext
 
 @GoblinManagedBean(type = "core")

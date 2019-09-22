@@ -1,10 +1,10 @@
 package org.goblinframework.cache.redis.module.config
 
 import org.goblinframework.api.service.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.compression.CompressionThreshold
 import org.goblinframework.core.compression.CompressorMode
 import org.goblinframework.core.config.Config
-import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.serialization.SerializerMode
 
 @GoblinManagedBean(type = "cache.redis")

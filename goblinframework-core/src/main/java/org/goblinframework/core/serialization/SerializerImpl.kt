@@ -1,10 +1,9 @@
 package org.goblinframework.core.serialization
 
-import org.goblinframework.core.exception.GoblinSerializationException
 import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.core.exception.GoblinSerializationException
 import org.goblinframework.core.util.StopWatch
-
 import java.io.InputStream
 import java.io.OutputStream
 import java.util.concurrent.atomic.LongAdder

@@ -4,7 +4,7 @@ import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.module.spi.RegisterMonitorPoint
 import org.goblinframework.core.monitor.MonitorPoint
 import org.goblinframework.core.util.ServiceInstaller

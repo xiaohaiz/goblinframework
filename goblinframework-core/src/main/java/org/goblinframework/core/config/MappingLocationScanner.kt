@@ -1,7 +1,7 @@
 package org.goblinframework.core.config
 
 import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.util.ClassUtils
 import org.goblinframework.core.util.IOUtils
 import org.springframework.core.io.ByteArrayResource

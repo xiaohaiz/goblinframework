@@ -2,9 +2,9 @@ package org.goblinframework.cache.redis.client
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.cache.redis.module.config.RedisConfigManager
 import org.goblinframework.cache.redis.module.config.RedisServerMode
-import org.goblinframework.core.mbean.GoblinManagedObject
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write

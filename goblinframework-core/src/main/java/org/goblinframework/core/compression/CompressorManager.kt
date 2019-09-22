@@ -1,7 +1,7 @@
 package org.goblinframework.core.compression
 
 import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.api.service.GoblinManagedObject
 import java.util.*
 
 @GoblinManagedBean(type = "core")

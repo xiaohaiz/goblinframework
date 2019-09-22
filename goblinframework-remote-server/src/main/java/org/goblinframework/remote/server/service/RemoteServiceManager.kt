@@ -3,8 +3,8 @@ package org.goblinframework.remote.server.service
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.service.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.exception.GoblinDuplicateException
-import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.remote.server.expose.ExposeServiceId
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read

@@ -1,18 +1,17 @@
-package org.goblinframework.core.mbean;
+package org.goblinframework.api.service;
 
 import org.goblinframework.api.common.Disposable;
 import org.goblinframework.api.common.Initializable;
-import org.goblinframework.api.service.GoblinManagedBean;
-import org.goblinframework.core.util.AnnotationUtils;
-import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
 import java.lang.management.PlatformManagedObject;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
 
 abstract public class GoblinManagedObject
     implements PlatformManagedObject, Initializable, Disposable {
@@ -25,20 +24,26 @@ abstract public class GoblinManagedObject
   private final AtomicBoolean disposed = new AtomicBoolean();
 
   protected GoblinManagedObject() {
-    Class<?> clazz = ClassUtils.filterCglibProxyClass(getClass());
-    GoblinManagedBean annotation = AnnotationUtils.findAnnotation(clazz, GoblinManagedBean.class);
+    GoblinManagedBean annotation = ServiceAnnotation.getAnnotation(getClass(), GoblinManagedBean.class);
     if (annotation != null) {
-      String type = StringUtils.defaultIfBlank(annotation.type(), "GOBLIN");
-      String name = StringUtils.defaultIfBlank(annotation.name(),
-          (Supplier<String>) () -> StringUtils.defaultIfBlank(clazz.getSimpleName(), "UNNAMED"));
-      assert name != null;
-      objectName = ObjectNameGenerator.INSTANCE.generate(type, name);
+      String type = annotation.type();
+      if (type.isEmpty()) type = "goblin";
+      String name = annotation.name();
+      if (name.isEmpty()) name = getClass().getSimpleName();
+      if (name.isEmpty()) name = "unnamed";
+      objectName = ObjectNameGenerator.generate(type, name);
     } else {
       objectName = null;
     }
     registerMBean = (objectName != null && annotation.register());
     if (registerMBean) {
-      ManagedBeanUtils.registerMBean(this);
+      try {
+        MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+        server.registerMBean(this, objectName);
+      } catch (InstanceAlreadyExistsException ex) {
+        logger.trace("MBean '{}' already registered, ignore.", objectName);
+      } catch (Exception ignore) {
+      }
     }
   }
 
@@ -58,7 +63,15 @@ abstract public class GoblinManagedObject
   final public void dispose() {
     if (disposed.compareAndSet(false, true)) {
       if (registerMBean) {
-        ManagedBeanUtils.unregisterMBean(objectName);
+        MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+        if (server.isRegistered(objectName)) {
+          try {
+            server.unregisterMBean(objectName);
+          } catch (InstanceNotFoundException e) {
+            logger.trace("MBean '{}' not found, ignore.", objectName);
+          } catch (Exception ignore) {
+          }
+        }
       }
       disposeBean();
     }
