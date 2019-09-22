@@ -41,6 +41,9 @@ final public class ServiceInstaller implements IServiceInstaller {
     if (!serviceType.isInterface()) {
       throw new GoblinServiceException("Service type must be interface");
     }
+    if (serviceType == IServiceInstaller.class) {
+      return (List<E>) Collections.singletonList(INSTANCE);
+    }
     lock.readLock().lock();
     try {
       Object cached = buffer.get(serviceType);
