@@ -9,9 +9,9 @@ import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.module.spi.RegisterGoblinCacheBuilder
-import org.goblinframework.core.util.ServiceInstaller
 import java.util.*
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 @Singleton
@@ -25,29 +25,23 @@ class GoblinCacheBuilderManager private constructor()
   }
 
   private val lock = ReentrantReadWriteLock()
-  private val buffer = EnumMap<GoblinCacheSystem, GoblinCacheBuilderImpl>(GoblinCacheSystem::class.java)
-
-  init {
-    ServiceInstaller.installedList(GoblinCacheBuilder::class.java).forEach {
-      val system = it.cacheSystem
-      buffer[system]?.run {
-        throw GoblinDuplicateException("Duplicated GOBLIN cache builder: $system")
-      }
-      buffer[system] = GoblinCacheBuilderImpl(it)
-    }
-  }
+  private val buffer = EnumMap<GoblinCacheSystem, ManagedGoblinCacheBuilder>(GoblinCacheSystem::class.java)
 
   fun getCacheBuilder(system: GoblinCacheSystem): GoblinCacheBuilder? {
-    return buffer[system]
+    return lock.read { buffer[system] }
   }
 
   override fun disposeBean() {
-    buffer.values.forEach { it.dispose() }
+    lock.write {
+      buffer.values.forEach { it.dispose() }
+      buffer.clear()
+    }
   }
 
   override fun register(system: GoblinCacheSystem, builder: GoblinCacheBuilder) {
     lock.write {
       buffer[system]?.run { throw GoblinDuplicateException() }
+      buffer[system] = ManagedGoblinCacheBuilder(builder)
     }
   }
 
