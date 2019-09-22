@@ -11,6 +11,8 @@ import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.module.spi.RegisterGoblinCacheBuilder
 import org.goblinframework.core.util.ServiceInstaller
 import java.util.*
+import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.write
 
 @Singleton
 @ThreadSafe
@@ -22,6 +24,7 @@ class GoblinCacheBuilderManager private constructor()
     @JvmField val INSTANCE = GoblinCacheBuilderManager()
   }
 
+  private val lock = ReentrantReadWriteLock()
   private val buffer = EnumMap<GoblinCacheSystem, GoblinCacheBuilderImpl>(GoblinCacheSystem::class.java)
 
   init {
@@ -43,7 +46,9 @@ class GoblinCacheBuilderManager private constructor()
   }
 
   override fun register(system: GoblinCacheSystem, builder: GoblinCacheBuilder) {
-
+    lock.write {
+      buffer[system]?.run { throw GoblinDuplicateException() }
+    }
   }
 
   @Install
