@@ -9,7 +9,12 @@ import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.dao.mysql.module.GoblinPersistenceException;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersistenceSupport<E, ID> {
 
@@ -45,6 +50,37 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
       throw new GoblinPersistenceException(errMsg);
     }
     return gc;
+  }
+
+  @Nullable
+  @Override
+  public E load(@Nullable ID id) {
+    if (id == null) {
+      return null;
+    }
+    return loads(Collections.singleton(id)).get(id);
+  }
+
+  @NotNull
+  @Override
+  public Map<ID, E> loads(@Nullable Collection<ID> ids) {
+    if (ids == null || ids.isEmpty()) {
+      return Collections.emptyMap();
+    }
+    if (!hasIdCache()) {
+      return directLoads(getMasterConnection(), ids);
+    }
+    GoblinCache gc = getDefaultCache();
+    return gc.cache.<ID, E>loader()
+        .keyGenerator(this::generateCacheKey)
+        .externalLoader(missed -> directLoads(getMasterConnection(), missed))
+        .keys(ids)
+        .loads()
+        .loadsMissed()
+        .useValueWrapper(gc.wrapper)
+        .expiration(gc.calculateExpiration())
+        .write()
+        .getAndResortResult();
   }
 
   @Override
