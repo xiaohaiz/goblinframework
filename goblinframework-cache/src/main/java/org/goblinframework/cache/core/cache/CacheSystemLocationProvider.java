@@ -1,6 +1,6 @@
 package org.goblinframework.cache.core.cache;
 
-import org.goblinframework.cache.core.annotation.CacheSystem;
+import org.goblinframework.core.cache.GoblinCacheSystem;
 import org.jetbrains.annotations.NotNull;
 
 public interface CacheSystemLocationProvider {
@@ -9,7 +9,7 @@ public interface CacheSystemLocationProvider {
   CacheSystemLocation getCacheSystemLocation();
 
   @NotNull
-  default CacheSystem getCacheSystem() {
+  default GoblinCacheSystem getCacheSystem() {
     return getCacheSystemLocation().getSystem();
   }
 

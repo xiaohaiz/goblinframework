@@ -1,5 +1,7 @@
 package org.goblinframework.cache.core.annotation;
 
+import org.goblinframework.core.cache.GoblinCacheSystem;
+
 import java.lang.annotation.*;
 
 @Documented
@@ -9,7 +11,7 @@ public @interface GoblinCacheBean {
 
   Class<?> type();
 
-  CacheSystem system() default CacheSystem.CBS;
+  GoblinCacheSystem system() default GoblinCacheSystem.CBS;
 
   String name();
 

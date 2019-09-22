@@ -1,7 +1,7 @@
 package org.goblinframework.cache.redis.provider
 
-import org.goblinframework.cache.core.annotation.CacheSystem
 import org.goblinframework.cache.core.cache.GoblinCacheBuilderManager
+import org.goblinframework.core.cache.GoblinCacheSystem
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertNotNull
 import org.junit.Test
@@ -14,7 +14,7 @@ class RedisCacheBuilderTest {
 
   @Test
   fun getCache() {
-    val builder = GoblinCacheBuilderManager.INSTANCE.getCacheBuilder(CacheSystem.RDS)!!
+    val builder = GoblinCacheBuilderManager.INSTANCE.getCacheBuilder(GoblinCacheSystem.RDS)!!
     val cache = builder.getCache("_ut")
     assertNotNull(cache)
   }

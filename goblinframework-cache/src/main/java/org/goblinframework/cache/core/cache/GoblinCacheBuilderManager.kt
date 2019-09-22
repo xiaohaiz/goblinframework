@@ -1,7 +1,7 @@
 package org.goblinframework.cache.core.cache
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.cache.core.annotation.CacheSystem
+import org.goblinframework.core.cache.GoblinCacheSystem
 import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.mbean.GoblinManagedObject
 import org.goblinframework.core.util.ServiceInstaller
@@ -15,7 +15,7 @@ class GoblinCacheBuilderManager private constructor()
     @JvmField val INSTANCE = GoblinCacheBuilderManager()
   }
 
-  private val buffer = EnumMap<CacheSystem, GoblinCacheBuilderImpl>(CacheSystem::class.java)
+  private val buffer = EnumMap<GoblinCacheSystem, GoblinCacheBuilderImpl>(GoblinCacheSystem::class.java)
 
   init {
     ServiceInstaller.installedList(GoblinCacheBuilder::class.java).forEach {
@@ -27,7 +27,7 @@ class GoblinCacheBuilderManager private constructor()
     }
   }
 
-  fun getCacheBuilder(system: CacheSystem): GoblinCacheBuilder? {
+  fun getCacheBuilder(system: GoblinCacheSystem): GoblinCacheBuilder? {
     return buffer[system]
   }
 

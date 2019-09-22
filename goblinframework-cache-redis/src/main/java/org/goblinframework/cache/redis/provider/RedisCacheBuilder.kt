@@ -1,16 +1,16 @@
 package org.goblinframework.cache.redis.provider
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.cache.core.annotation.CacheSystem
 import org.goblinframework.cache.core.cache.GoblinCache
 import org.goblinframework.cache.core.cache.GoblinCacheBuilder
 import org.goblinframework.cache.redis.client.RedisClientManager
+import org.goblinframework.core.cache.GoblinCacheSystem
 
 @Install
 class RedisCacheBuilder : GoblinCacheBuilder {
 
-  override fun getCacheSystem(): CacheSystem {
-    return CacheSystem.RDS
+  override fun getCacheSystem(): GoblinCacheSystem {
+    return GoblinCacheSystem.RDS
   }
 
   override fun getCache(name: String): GoblinCache? {

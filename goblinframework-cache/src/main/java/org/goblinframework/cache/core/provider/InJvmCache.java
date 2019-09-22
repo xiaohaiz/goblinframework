@@ -4,11 +4,13 @@ import org.apache.commons.collections4.map.LRUMap;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.annotation.ThreadSafe;
 import org.goblinframework.api.common.Disposable;
-import org.goblinframework.cache.core.annotation.CacheSystem;
-import org.goblinframework.cache.core.cache.*;
+import org.goblinframework.cache.core.cache.AbstractGoblinCache;
+import org.goblinframework.cache.core.cache.CacheSystemLocation;
+import org.goblinframework.cache.core.cache.CacheValueWrapper;
 import org.goblinframework.cache.core.module.monitor.instruction.VMC;
 import org.goblinframework.core.cache.CasOperation;
 import org.goblinframework.core.cache.GetResult;
+import org.goblinframework.core.cache.GoblinCacheSystem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,7 +30,7 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
   private final LRUMap<String, CacheItem> buffer = new LRUMap<>(65536);
 
   private InJvmCache() {
-    super(new CacheSystemLocation(CacheSystem.JVM, "JVM"));
+    super(new CacheSystemLocation(GoblinCacheSystem.JVM, "JVM"));
     watchdogTimer = new Timer("InJvmCacheWatchdogTimer", true);
     watchdogTimer.scheduleAtFixedRate(new TimerTask() {
       @Override

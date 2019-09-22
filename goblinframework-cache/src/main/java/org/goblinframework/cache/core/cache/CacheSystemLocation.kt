@@ -1,5 +1,5 @@
 package org.goblinframework.cache.core.cache
 
-import org.goblinframework.cache.core.annotation.CacheSystem
+import org.goblinframework.core.cache.GoblinCacheSystem
 
-data class CacheSystemLocation(val system: CacheSystem, val name: String)
+data class CacheSystemLocation(val system: GoblinCacheSystem, val name: String)

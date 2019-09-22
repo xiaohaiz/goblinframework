@@ -1,9 +1,9 @@
 package org.goblinframework.cache.core.provider
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.cache.core.annotation.CacheSystem
 import org.goblinframework.cache.core.cache.GoblinCache
 import org.goblinframework.cache.core.cache.GoblinCacheBuilder
+import org.goblinframework.core.cache.GoblinCacheSystem
 
 @Install
 class InJvmCacheBuilder : GoblinCacheBuilder {
@@ -12,8 +12,8 @@ class InJvmCacheBuilder : GoblinCacheBuilder {
     return "JVM"
   }
 
-  override fun getCacheSystem(): CacheSystem {
-    return CacheSystem.JVM
+  override fun getCacheSystem(): GoblinCacheSystem {
+    return GoblinCacheSystem.JVM
   }
 
   override fun getCache(name: String): GoblinCache? {
