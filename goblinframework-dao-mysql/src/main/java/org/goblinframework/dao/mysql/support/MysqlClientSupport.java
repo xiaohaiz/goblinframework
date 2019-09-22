@@ -15,7 +15,7 @@ abstract public class MysqlClientSupport<E, ID> extends MysqlEntityMappingSuppor
 
   protected MysqlClientSupport() {
     Class<?> clazz = ClassUtils.filterCglibProxyClass(getClass());
-    UseMysqlClient annotation = AnnotationUtils.findAnnotation(clazz, UseMysqlClient.class);
+    UseMysqlClient annotation = AnnotationUtils.getAnnotation(clazz, UseMysqlClient.class);
     if (annotation == null) {
       throw new GoblinPersistenceException("No @UseMysqlClient presented on " + clazz.getName());
     }

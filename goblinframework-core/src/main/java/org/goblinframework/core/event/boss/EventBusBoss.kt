@@ -69,7 +69,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   }
 
   fun subscribe(listener: GoblinEventListener) {
-    val annotation = AnnotationUtils.findAnnotation(listener.javaClass, GoblinEventChannel::class.java)
+    val annotation = AnnotationUtils.getAnnotation(listener.javaClass, GoblinEventChannel::class.java)
     if (annotation == null || annotation.value.isBlank()) {
       throw GoblinEventException("No available channel found from [$listener]")
     }
@@ -82,7 +82,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   }
 
   fun unsubscribe(listener: GoblinEventListener) {
-    val annotation = AnnotationUtils.findAnnotation(listener.javaClass, GoblinEventChannel::class.java)
+    val annotation = AnnotationUtils.getAnnotation(listener.javaClass, GoblinEventChannel::class.java)
     if (annotation == null || annotation.value.isBlank()) {
       throw GoblinEventException("No available channel found from [$listener]")
     }
@@ -95,7 +95,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   }
 
   fun publish(event: GoblinEvent): GoblinEventFuture {
-    val annotation = AnnotationUtils.findAnnotation(event.javaClass, GoblinEventChannel::class.java)
+    val annotation = AnnotationUtils.getAnnotation(event.javaClass, GoblinEventChannel::class.java)
     if (annotation == null || annotation.value.isBlank()) {
       throw GoblinEventException("No available channel found from [$event]")
     }

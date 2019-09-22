@@ -27,11 +27,11 @@ class GoblinCacheBeanBuilder {
 
   private static GoblinCacheBean generate(Class<?> realClass) {
     List<org.goblinframework.cache.core.annotation.GoblinCacheBean> annotations = new LinkedList<>();
-    org.goblinframework.cache.core.annotation.GoblinCacheBean cacheBean = AnnotationUtils.findAnnotation(realClass, org.goblinframework.cache.core.annotation.GoblinCacheBean.class);
+    org.goblinframework.cache.core.annotation.GoblinCacheBean cacheBean = AnnotationUtils.getAnnotation(realClass, org.goblinframework.cache.core.annotation.GoblinCacheBean.class);
     if (cacheBean != null && cacheBean.enable()) {
       annotations.add(cacheBean);
     }
-    GoblinCacheBeans cacheBeans = AnnotationUtils.findAnnotation(realClass, GoblinCacheBeans.class);
+    GoblinCacheBeans cacheBeans = AnnotationUtils.getAnnotation(realClass, GoblinCacheBeans.class);
     if (cacheBeans != null) {
       Arrays.stream(cacheBeans.value()).filter(org.goblinframework.cache.core.annotation.GoblinCacheBean::enable).forEach(annotations::add);
     }

@@ -7,6 +7,18 @@ import java.lang.annotation.Annotation;
 
 abstract public class ServiceAnnotation {
 
+  public static boolean isAnnotationPresent(@NotNull Class<?> clazz,
+                                            @NotNull Class<? extends Annotation> annotationClass) {
+    Class<?> classForUse = clazz;
+    while (classForUse != null) {
+      if (classForUse.isAnnotationPresent(annotationClass)) {
+        return true;
+      }
+      classForUse = classForUse.getSuperclass();
+    }
+    return false;
+  }
+
   @Nullable
   public static <A extends Annotation> A getAnnotation(@NotNull Class<?> clazz,
                                                        @NotNull Class<A> annotationClass) {

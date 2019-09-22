@@ -32,7 +32,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
     if (this.goblinCacheBean.isEmpty()) {
       distribution = org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.NONE;
     } else {
-      org.goblinframework.cache.core.annotation.GoblinCacheDimension annotation = AnnotationUtils.findAnnotation(getClass(), org.goblinframework.cache.core.annotation.GoblinCacheDimension.class);
+      org.goblinframework.cache.core.annotation.GoblinCacheDimension annotation = AnnotationUtils.getAnnotation(getClass(), org.goblinframework.cache.core.annotation.GoblinCacheDimension.class);
       if (annotation == null) {
         String errMsg = "No @GoblinCacheDimension presented on %s";
         errMsg = String.format(errMsg, ClassUtils.filterCglibProxyClass(getClass()));
