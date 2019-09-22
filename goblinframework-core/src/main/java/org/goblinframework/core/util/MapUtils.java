@@ -7,6 +7,14 @@ import java.util.Objects;
 
 abstract public class MapUtils {
 
+  public static boolean isEmpty(final Map<?, ?> map) {
+    return org.apache.commons.collections4.MapUtils.isEmpty(map);
+  }
+
+  public static boolean isNotEmpty(final Map<?, ?> map) {
+    return org.apache.commons.collections4.MapUtils.isNotEmpty(map);
+  }
+
   public static <K> Boolean getBoolean(final Map<? super K, ?> map, final K key, final Boolean defaultValue) {
     return org.apache.commons.collections4.MapUtils.getBoolean(map, key, defaultValue);
   }
