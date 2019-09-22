@@ -36,6 +36,12 @@ final class RedisCacheImpl extends AbstractGoblinCache {
 
   @NotNull
   @Override
+  public <V> CacheValueModifier<V> modifier() {
+    return new RedisCacheValueModifier<>(this);
+  }
+
+  @NotNull
+  @Override
   public <T> GetResult<T> get(@Nullable String key) {
     if (key == null) {
       return new GetResult<>(null);
