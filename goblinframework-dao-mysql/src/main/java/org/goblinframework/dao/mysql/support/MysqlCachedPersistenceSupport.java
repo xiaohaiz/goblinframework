@@ -1,16 +1,19 @@
 package org.goblinframework.dao.mysql.support;
 
-import org.goblinframework.core.cache.GetResult;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.goblinframework.cache.core.support.GoblinCache;
 import org.goblinframework.cache.core.support.GoblinCacheBean;
 import org.goblinframework.cache.core.support.GoblinCacheBeanManager;
 import org.goblinframework.cache.core.support.GoblinCacheDimension;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
+import org.goblinframework.core.cache.GetResult;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.dao.mysql.module.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -116,6 +119,49 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
     } else {
       return directExists(getMasterConnection(), id);
     }
+  }
+
+  @Override
+  public boolean replace(@Nullable E entity) {
+    if (distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.NONE) {
+      return directReplace(entity);
+    }
+    if (entity == null) return false;
+    ID id = getEntityId(entity);
+    if (id == null) {
+      logger.warn("ID must not be null when executing replace operation.");
+      return false;
+    }
+    MutableBoolean result = new MutableBoolean();
+    getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
+      @Override
+      protected void doInTransactionWithoutResult(TransactionStatus status) {
+        E original = directLoad(getMasterConnection(), id);
+        if (original == null) {
+          return;
+        }
+        boolean ret = directReplace(entity);
+        if (!ret) {
+          return;
+        }
+        E replaced = directLoad(getMasterConnection(), id);
+        assert replaced != null;
+        if (distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.ID_FIELD) {
+          GoblinCache gc = getDefaultCache();
+          gc.cache().modifier()
+              .key(generateCacheKey(id))
+              .expiration(gc.calculateExpiration())
+              .modifier(currentValue -> replaced).execute();
+        } else {
+          GoblinCacheDimension gcd = new GoblinCacheDimension(entityMapping.entityClass, goblinCacheBean);
+          calculateCacheDimensions(original, gcd);
+          calculateCacheDimensions(replaced, gcd);
+          gcd.evict();
+        }
+        result.setTrue();
+      }
+    });
+    return result.booleanValue();
   }
 
   private boolean hasIdCache() {

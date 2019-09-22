@@ -50,5 +50,15 @@ public class GoblinCachedStaticPersistenceTest {
     assertNotNull(data);
     ret = persistence.exists(1L);
     assertTrue(ret);
+
+    data = new GoblinStaticPersistenceTest.MockData();
+    data.id = 1L;
+    data.name = "replace";
+    ret = persistence.replace(data);
+    assertTrue(ret);
+
+    data = persistence.load(1L);
+    assertNotNull(data);
+    assertEquals("replace", data.name);
   }
 }
