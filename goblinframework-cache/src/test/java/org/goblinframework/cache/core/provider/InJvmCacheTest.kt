@@ -2,6 +2,7 @@ package org.goblinframework.cache.core.provider
 
 import org.bson.types.ObjectId
 import org.goblinframework.cache.core.annotation.CacheSystem
+import org.goblinframework.cache.core.cache.GoblinCacheBuilderManager
 import org.goblinframework.cache.core.module.test.FlushInJvmCache
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
@@ -18,7 +19,9 @@ class InJvmCacheTest {
 
   @Test
   fun get() {
-    val cache = CacheSystem.JVM.defaultCache()!!
+    val builderManager = GoblinCacheBuilderManager.INSTANCE
+    val builder = builderManager.getCacheBuilder(CacheSystem.JVM)
+    val cache = builder?.getCache("JVM")!!
     val key = RandomUtils.nextObjectId()
     cache.add(key, 5, ObjectId())
 
