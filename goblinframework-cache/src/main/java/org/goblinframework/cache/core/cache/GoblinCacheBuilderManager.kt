@@ -1,16 +1,22 @@
 package org.goblinframework.cache.core.cache
 
+import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.core.cache.GoblinCacheBuilder
 import org.goblinframework.core.cache.GoblinCacheSystem
 import org.goblinframework.core.exception.GoblinDuplicateException
+import org.goblinframework.core.mbean.GoblinManagedBean
 import org.goblinframework.core.mbean.GoblinManagedObject
+import org.goblinframework.core.module.spi.RegisterGoblinCacheBuilder
 import org.goblinframework.core.util.ServiceInstaller
 import java.util.*
 
 @Singleton
+@ThreadSafe
+@GoblinManagedBean("cache")
 class GoblinCacheBuilderManager private constructor()
-  : GoblinManagedObject(), GoblinCacheBuilderManagerMXBean {
+  : GoblinManagedObject(), GoblinCacheBuilderManagerMXBean, RegisterGoblinCacheBuilder {
 
   companion object {
     @JvmField val INSTANCE = GoblinCacheBuilderManager()
@@ -36,4 +42,10 @@ class GoblinCacheBuilderManager private constructor()
     buffer.values.forEach { it.dispose() }
   }
 
+  override fun register(system: GoblinCacheSystem, builder: GoblinCacheBuilder) {
+
+  }
+
+  @Install
+  class Installer : RegisterGoblinCacheBuilder by INSTANCE
 }
