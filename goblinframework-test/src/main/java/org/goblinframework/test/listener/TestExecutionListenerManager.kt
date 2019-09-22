@@ -5,6 +5,9 @@ import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.api.test.TestExecutionListener
+import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
+import kotlin.concurrent.write
 
 /**
  * Default [ITestExecutionListenerManager] SPI implementation.
@@ -19,8 +22,15 @@ class TestExecutionListenerManager private constructor() : ITestExecutionListene
     @JvmField val INSTANCE = TestExecutionListenerManager()
   }
 
-  override fun register(listener: TestExecutionListener) {
+  private val lock = ReentrantReadWriteLock()
+  private val listeners = mutableListOf<TestExecutionListener>()
 
+  override fun register(listener: TestExecutionListener) {
+    lock.write { listeners.add(listener) }
+  }
+
+  fun asList(): List<TestExecutionListener> {
+    return lock.read { listeners.sortedBy { it.order }.toList() }
   }
 
   @Install
