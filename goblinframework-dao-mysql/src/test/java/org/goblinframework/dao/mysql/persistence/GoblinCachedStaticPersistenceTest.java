@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import javax.inject.Inject;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
@@ -41,5 +41,14 @@ public class GoblinCachedStaticPersistenceTest {
   public void persistence() {
     boolean ret = persistence.exists(1L);
     assertFalse(ret);
+
+    GoblinStaticPersistenceTest.MockData data = new GoblinStaticPersistenceTest.MockData();
+    data.id = 1L;
+    persistence.insert(data);
+
+    data = persistence.load(1L);
+    assertNotNull(data);
+    ret = persistence.exists(1L);
+    assertTrue(ret);
   }
 }

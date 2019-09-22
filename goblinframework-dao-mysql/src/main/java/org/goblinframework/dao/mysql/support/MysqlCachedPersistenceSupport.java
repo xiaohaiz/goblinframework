@@ -52,6 +52,25 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
     return gc;
   }
 
+  @Override
+  public void insert(@NotNull E entity) {
+    inserts(Collections.singleton(entity));
+  }
+
+  @Override
+  public void inserts(@Nullable Collection<E> entities) {
+    if (entities == null || entities.isEmpty()) {
+      return;
+    }
+    directInserts(entities);
+    if (distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.NONE) {
+      return;
+    }
+    GoblinCacheDimension gcd = new GoblinCacheDimension(entityMapping.entityClass, goblinCacheBean);
+    entities.forEach(e -> calculateCacheDimensions(e, gcd));
+    gcd.evict();
+  }
+
   @Nullable
   @Override
   public E load(@Nullable ID id) {
