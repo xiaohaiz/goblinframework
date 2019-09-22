@@ -1,5 +1,6 @@
 package org.goblinframework.core.util;
 
+import org.goblinframework.api.service.ServiceClassLoader;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -13,11 +14,7 @@ abstract public class ClassUtils extends org.apache.commons.lang3.ClassUtils {
 
   @NotNull
   public static ClassLoader getDefaultClassLoader() {
-    ClassLoader classLoader = org.springframework.util.ClassUtils.getDefaultClassLoader();
-    if (classLoader == null) {
-      throw new UnsupportedOperationException("Cannot access ClassLoader");
-    }
-    return classLoader;
+    return ServiceClassLoader.defaultClassLoader();
   }
 
   @NotNull

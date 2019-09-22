@@ -14,7 +14,12 @@ public interface IServiceInstaller {
 
   <E> E firstOrNull(@NotNull Class<E> serviceType);
 
+  @NotNull
   static IServiceInstaller instance() {
-    return null;
+    IServiceInstaller installer = ServiceInstallerLoader.installer;
+    if (installer == null) {
+      throw new GoblinServiceException("No IServiceInstaller installed");
+    }
+    return installer;
   }
 }
