@@ -25,8 +25,14 @@ abstract public class AbstractGoblinCache implements GoblinCache {
 
   @NotNull
   @Override
-  public <K, V> CacheValueLoader<K, V> createCacheValueLoader() {
+  public <K, V> CacheValueLoader<K, V> loader() {
     return new CacheValueLoaderImpl<>(this);
+  }
+
+  @NotNull
+  @Override
+  public <V> CacheValueModifier<V> modifier() {
+    return new CacheValueModifierImpl<>(this);
   }
 
   @Nullable

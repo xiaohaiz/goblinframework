@@ -12,7 +12,10 @@ public interface GoblinCache extends CacheSystemLocationProvider {
   Object getNativeCache();
 
   @NotNull
-  <K, V> CacheValueLoader<K, V> createCacheValueLoader();
+  <K, V> CacheValueLoader<K, V> loader();
+
+  @NotNull
+  <V> CacheValueModifier<V> modifier();
 
   @Nullable
   <T> T load(@Nullable String key);
