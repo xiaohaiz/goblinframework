@@ -25,10 +25,10 @@ public interface TestExecutionListener extends Ordered {
   default void afterTestExecution(@NotNull TestContext testContext) {
   }
 
-  default void afterTestClass(@NotNull TestContext testContext) throws Exception {
+  default void afterTestClass(@NotNull TestContext testContext) {
   }
 
-  default void afterTestMethod(@NotNull TestContext testContext) throws Exception {
+  default void afterTestMethod(@NotNull TestContext testContext) {
   }
 
 }
