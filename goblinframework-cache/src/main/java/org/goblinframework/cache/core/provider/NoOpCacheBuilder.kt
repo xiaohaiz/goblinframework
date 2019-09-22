@@ -1,8 +1,8 @@
 package org.goblinframework.cache.core.provider
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.cache.core.cache.GoblinCache
 import org.goblinframework.cache.core.cache.GoblinCacheBuilder
+import org.goblinframework.core.cache.GoblinCache
 import org.goblinframework.core.cache.GoblinCacheSystem
 
 @Install

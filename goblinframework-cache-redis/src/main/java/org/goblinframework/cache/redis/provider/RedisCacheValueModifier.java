@@ -1,8 +1,8 @@
 package org.goblinframework.cache.redis.provider;
 
-import org.goblinframework.cache.core.cache.CacheValueModifier;
+import org.goblinframework.core.cache.CacheValueModifier;
 import org.goblinframework.core.cache.CasOperation;
-import org.goblinframework.cache.core.cache.GoblinCache;
+import org.goblinframework.core.cache.GoblinCache;
 import org.jetbrains.annotations.NotNull;
 
 final public class RedisCacheValueModifier<V> implements CacheValueModifier<V> {

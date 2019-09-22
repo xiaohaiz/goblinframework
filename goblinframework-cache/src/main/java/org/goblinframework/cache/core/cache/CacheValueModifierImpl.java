@@ -1,7 +1,9 @@
 package org.goblinframework.cache.core.cache;
 
+import org.goblinframework.core.cache.CacheValueModifier;
 import org.goblinframework.core.cache.CasOperation;
 import org.goblinframework.core.cache.GetResult;
+import org.goblinframework.core.cache.GoblinCache;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

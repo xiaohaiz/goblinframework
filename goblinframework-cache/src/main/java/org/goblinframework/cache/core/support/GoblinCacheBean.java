@@ -36,7 +36,7 @@ public class GoblinCacheBean {
       }
       GoblinCacheSystem cacheSystem = gc.location.getSystem();
       String cacheName = gc.location.getName();
-      org.goblinframework.cache.core.cache.GoblinCache cache = null;
+      org.goblinframework.core.cache.GoblinCache cache = null;
       GoblinCacheBuilder builder = GoblinCacheBuilderManager.INSTANCE.getCacheBuilder(cacheSystem);
       if (builder != null) {
         cache = builder.getCache(cacheName);

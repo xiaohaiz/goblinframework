@@ -1,7 +1,5 @@
-package org.goblinframework.cache.core.cache;
+package org.goblinframework.core.cache;
 
-import org.goblinframework.core.cache.GoblinCacheSystem;
-import org.goblinframework.core.cache.GoblinCacheSystemLocation;
 import org.jetbrains.annotations.NotNull;
 
 public interface CacheSystemLocationProvider {
