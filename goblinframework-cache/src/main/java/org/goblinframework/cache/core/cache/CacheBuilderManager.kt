@@ -3,10 +3,7 @@ package org.goblinframework.cache.core.cache
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
-import org.goblinframework.api.cache.CacheBuilder
-import org.goblinframework.api.cache.CacheSystem
-import org.goblinframework.api.cache.GoblinCacheException
-import org.goblinframework.api.cache.ICacheBuilderManager
+import org.goblinframework.api.cache.*
 import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
@@ -34,6 +31,10 @@ class CacheBuilderManager private constructor()
 
   override fun cacheBuilder(system: CacheSystem): CacheBuilder? {
     return buffer[system]
+  }
+
+  fun asCacheList(system: CacheSystem): List<Cache> {
+    return buffer[system]?.asList() ?: emptyList()
   }
 
   override fun disposeBean() {
