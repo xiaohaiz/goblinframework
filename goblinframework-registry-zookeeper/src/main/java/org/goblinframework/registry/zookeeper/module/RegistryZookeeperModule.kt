@@ -6,6 +6,7 @@ import org.goblinframework.api.system.ISubModule
 import org.goblinframework.api.system.ModuleFinalizeContext
 import org.goblinframework.api.system.ModuleInstallContext
 import org.goblinframework.registry.zookeeper.client.ZkTranscoderManager
+import org.goblinframework.registry.zookeeper.client.ZookeeperClientManager
 import org.goblinframework.registry.zookeeper.module.config.ZookeeperConfigManager
 
 @Install
@@ -21,6 +22,7 @@ class RegistryZookeeperModule : ISubModule {
 
   override fun finalize(ctx: ModuleFinalizeContext) {
     ZkTranscoderManager.INSTANCE.dispose()
+    ZookeeperClientManager.INSTANCE.dispose()
     ZookeeperConfigManager.INSTANCE.dispose()
   }
 }
