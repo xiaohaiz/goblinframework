@@ -2,8 +2,8 @@ package org.goblinframework.core.util;
 
 import org.apache.commons.lang3.Validate;
 import org.bson.types.ObjectId;
+import org.goblinframework.api.common.IRandomProvider;
 import org.goblinframework.api.service.ServiceInstaller;
-import org.goblinframework.core.module.spi.RandomProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.SecureRandom;
@@ -15,7 +15,7 @@ abstract public class RandomUtils {
 
   static {
     Random random;
-    RandomProvider provider = ServiceInstaller.firstOrNull(RandomProvider.class);
+    IRandomProvider provider = ServiceInstaller.firstOrNull(IRandomProvider.class);
     if (provider != null) {
       random = provider.getRandom();
     } else {
