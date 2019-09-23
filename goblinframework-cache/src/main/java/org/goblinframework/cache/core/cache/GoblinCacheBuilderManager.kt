@@ -3,8 +3,8 @@ package org.goblinframework.cache.core.cache
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
-import org.goblinframework.api.cache.GoblinCacheBuilder
 import org.goblinframework.api.cache.CacheSystem
+import org.goblinframework.api.cache.GoblinCacheBuilder
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.exception.GoblinDuplicateException
@@ -14,6 +14,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
+@Deprecated("TBR")
 @Singleton
 @ThreadSafe
 @GoblinManagedBean(type = "cache")
