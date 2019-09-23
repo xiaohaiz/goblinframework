@@ -2,7 +2,7 @@ package org.goblinframework.monitor.module.monitor;
 
 import org.goblinframework.api.monitor.Instruction;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.monitor.flight.Flight;
+import org.goblinframework.monitor.flight.FlightImpl;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,7 +10,7 @@ import java.util.List;
 
 abstract class FlightRecorderPrinter {
 
-  public static String generatePrettyLog(Flight flight) {
+  public static String generatePrettyLog(FlightImpl flight) {
     List<String> list = new ArrayList<>();
     list.add("[" + flight.startPoint() + "]");
     Object request = flight.location().attribute("request");
@@ -108,7 +108,7 @@ abstract class FlightRecorderPrinter {
     return list;
   }
 
-  private static String[] getHeaders(int i, Flight flight, Instruction instruction) {
+  private static String[] getHeaders(int i, FlightImpl flight, Instruction instruction) {
     if (instruction.id() == Instruction.Id.DOT) {
       if (i != flight.getInstructions().size() - 1)
         return new String[]{"      |- (DOT) ", "      |        "};

@@ -6,7 +6,7 @@ import org.goblinframework.api.monitor.FlightId;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
-final class FlightPool extends ConcurrentHashMap<FlightId, Flight> {
+final class FlightPool extends ConcurrentHashMap<FlightId, FlightImpl> {
 
   static final FlightPool INSTANCE = new FlightPool();
 

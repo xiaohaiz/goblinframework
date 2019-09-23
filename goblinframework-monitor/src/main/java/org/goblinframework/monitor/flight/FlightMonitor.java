@@ -18,7 +18,7 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
 
   public static final FlightMonitor INSTANCE = new FlightMonitor();
 
-  private final ThreadLocal<FlightId> threadLocal = new ThreadLocal<>();
+  private final ThreadLocal<FlightIdImpl> threadLocal = new ThreadLocal<>();
 
   private FlightMonitor() {
   }
@@ -30,26 +30,26 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
 
   @NotNull
   @Override
-  public FlightId createFlight(@NotNull FlightLocation location) {
-    FlightId id = threadLocal.get();
+  public FlightIdImpl createFlight(@NotNull FlightLocation location) {
+    FlightIdImpl id = threadLocal.get();
     if (id != null) {
       // currently flight already exists.
       id.retain();
       return id;
     }
     // create a new flight
-    id = new FlightId();
+    id = new FlightIdImpl();
     id.retain();
     threadLocal.set(id);
-    Flight flight = new Flight(id, location);
+    FlightImpl flight = new FlightImpl(id, location);
     FlightPool.INSTANCE.put(id, flight);
     return id;
   }
 
   @Nullable
   @Override
-  public Flight terminateFlight() {
-    FlightId id = threadLocal.get();
+  public FlightImpl terminateFlight() {
+    FlightIdImpl id = threadLocal.get();
     if (id == null) {
       return null;
     }
@@ -58,7 +58,7 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
     }
     threadLocal.remove();
 
-    Flight flight = FlightPool.INSTANCE.remove(id);
+    FlightImpl flight = FlightPool.INSTANCE.remove(id);
     flight.stop();
 
     // Now, terminate the current flight
@@ -83,7 +83,7 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
     if (id == null) {
       return;
     }
-    Flight flight = FlightPool.INSTANCE.get(id);
+    FlightImpl flight = FlightPool.INSTANCE.get(id);
     if (flight != null) {
       if (instruction instanceof org.goblinframework.api.monitor.Flight.Aware) {
         ((org.goblinframework.api.monitor.Flight.Aware) instruction).setFlight(flight);
@@ -103,13 +103,13 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
 
     @NotNull
     @Override
-    public FlightId createFlight(@NotNull FlightLocation location) {
+    public FlightIdImpl createFlight(@NotNull FlightLocation location) {
       return INSTANCE.createFlight(location);
     }
 
     @Nullable
     @Override
-    public Flight terminateFlight() {
+    public FlightImpl terminateFlight() {
       return INSTANCE.terminateFlight();
     }
 

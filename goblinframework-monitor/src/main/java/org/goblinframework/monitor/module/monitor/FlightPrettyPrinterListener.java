@@ -7,6 +7,7 @@ import org.goblinframework.core.event.GoblinEventChannel;
 import org.goblinframework.core.event.GoblinEventContext;
 import org.goblinframework.core.event.GoblinEventListener;
 import org.goblinframework.core.monitor.FlightEvent;
+import org.goblinframework.monitor.flight.FlightImpl;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +36,8 @@ final public class FlightPrettyPrinterListener implements GoblinEventListener, O
   public void onEvent(@NotNull GoblinEventContext context) {
     FlightEvent event = (FlightEvent) context.getEvent();
     Flight flight = event.getFlight();
-    if (flight instanceof org.goblinframework.monitor.flight.Flight) {
-      String message = FlightRecorderPrinter.generatePrettyLog((org.goblinframework.monitor.flight.Flight) flight);
+    if (flight instanceof FlightImpl) {
+      String message = FlightRecorderPrinter.generatePrettyLog((FlightImpl) flight);
       logger.info("\n{}", message);
     }
   }

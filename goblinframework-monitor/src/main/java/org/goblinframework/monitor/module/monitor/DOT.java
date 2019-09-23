@@ -4,6 +4,7 @@ import org.goblinframework.api.monitor.Flight;
 import org.goblinframework.api.monitor.Instruction;
 import org.goblinframework.api.monitor.InstructionTranslator;
 import org.goblinframework.core.util.StringUtils;
+import org.goblinframework.monitor.flight.FlightImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -121,11 +122,11 @@ final public class DOT implements Instruction, Flight.Aware {
   @Override
   public InstructionTranslator translator() {
     return pretty -> {
-      if (!(flight instanceof org.goblinframework.monitor.flight.Flight)) {
+      if (!(flight instanceof FlightImpl)) {
         return StringUtils.EMPTY;
       }
       long millis = dotTime().toEpochMilli();
-      long delta = ((org.goblinframework.monitor.flight.Flight) flight).updateDot(millis);
+      long delta = ((FlightImpl) flight).updateDot(millis);
       if (pretty) {
         return String.format("+%sms %s", delta, dotName());
       } else {

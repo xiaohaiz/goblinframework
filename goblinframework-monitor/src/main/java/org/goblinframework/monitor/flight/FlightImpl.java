@@ -1,5 +1,6 @@
 package org.goblinframework.monitor.flight;
 
+import org.goblinframework.api.monitor.Flight;
 import org.goblinframework.api.monitor.FlightLocation;
 import org.goblinframework.api.monitor.Instruction;
 import org.jetbrains.annotations.NotNull;
@@ -8,16 +9,16 @@ import org.jetbrains.annotations.Nullable;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicLong;
 
-final public class Flight implements org.goblinframework.api.monitor.Flight {
+final public class FlightImpl implements Flight {
 
-  private final FlightId flightId;
+  private final FlightIdImpl flightId;
   private final FlightLocation location;
   private final Instant startTime;
   private Instant stopTime;
   private final AtomicLong lastDotTime;
   private final FlightInvocationList instructions = new FlightInvocationList();
 
-  Flight(@NotNull FlightId flightId, @NotNull FlightLocation location) {
+  FlightImpl(@NotNull FlightIdImpl flightId, @NotNull FlightLocation location) {
     this.flightId = flightId;
     this.location = location;
     this.startTime = Instant.now();
@@ -26,7 +27,7 @@ final public class Flight implements org.goblinframework.api.monitor.Flight {
 
   @NotNull
   @Override
-  public FlightId flightId() {
+  public FlightIdImpl flightId() {
     return flightId;
   }
 

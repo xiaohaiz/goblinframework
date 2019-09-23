@@ -1,18 +1,19 @@
 package org.goblinframework.monitor.flight;
 
 import org.goblinframework.api.common.ReferenceCount;
+import org.goblinframework.api.monitor.FlightId;
 import org.goblinframework.core.util.RandomUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class FlightId implements org.goblinframework.api.monitor.FlightId, ReferenceCount {
+public class FlightIdImpl implements FlightId, ReferenceCount {
 
   private final String id = RandomUtils.nextObjectId();
   private final AtomicInteger referenceCount = new AtomicInteger();
 
-  FlightId() {
+  FlightIdImpl() {
   }
 
   @NotNull
@@ -50,7 +51,7 @@ public class FlightId implements org.goblinframework.api.monitor.FlightId, Refer
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    FlightId flightId = (FlightId) o;
+    FlightIdImpl flightId = (FlightIdImpl) o;
     return id.equals(flightId.id);
   }
 
