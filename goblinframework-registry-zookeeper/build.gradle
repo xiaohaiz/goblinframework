@@ -15,4 +15,5 @@ dependencies {
   }
 
   testCompile(project(":goblinframework-test"))
+  testCompile(project(":goblinframework-monitor"))
 }

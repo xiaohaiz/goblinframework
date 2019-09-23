@@ -1,6 +1,8 @@
 package org.goblinframework.core.system
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.config.ConfigParser
+import org.goblinframework.api.config.IConfigParserManager
 import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.event.GoblinEventListener
 import org.goblinframework.api.management.IManagementControllerManager
@@ -27,4 +29,7 @@ class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), Modu
     IManagementControllerManager.instance()?.register(controller)
   }
 
+  override fun registerConfigParser(parser: ConfigParser) {
+    IConfigParserManager.instance().register(parser)
+  }
 }

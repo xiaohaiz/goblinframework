@@ -10,11 +10,7 @@ class ZookeeperConfigManager : GoblinManagedObject(), ZookeeperConfigManagerMXBe
     @JvmField val INSTANCE = ZookeeperConfigManager()
   }
 
-  private val configParser = ZookeeperConfigParser()
-
-  init {
-    configParser.initialize()
-  }
+  val configParser = ZookeeperConfigParser()
 
   fun getZookeeperConfig(name: String): ZookeeperConfig? {
     return configParser.getFromBuffer(name)

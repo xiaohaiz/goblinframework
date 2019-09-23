@@ -2,7 +2,6 @@ package org.goblinframework.core.system
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.system.GoblinSystemException
@@ -49,9 +48,5 @@ class GoblinSystemManager private constructor()
   }
 
   @Install
-  class Installer : Ordered, IGoblinSystemManager by INSTANCE {
-    override fun getOrder(): Int {
-      return Ordered.HIGHEST_PRECEDENCE
-    }
-  }
+  class Installer : IGoblinSystemManager by INSTANCE
 }

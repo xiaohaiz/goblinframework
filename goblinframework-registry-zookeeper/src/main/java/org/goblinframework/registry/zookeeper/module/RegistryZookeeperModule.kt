@@ -1,10 +1,7 @@
 package org.goblinframework.registry.zookeeper.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.api.system.GoblinSubModule
-import org.goblinframework.api.system.ISubModule
-import org.goblinframework.api.system.ModuleFinalizeContext
-import org.goblinframework.api.system.ModuleInitializeContext
+import org.goblinframework.api.system.*
 import org.goblinframework.registry.zookeeper.client.ZkTranscoderManager
 import org.goblinframework.registry.zookeeper.module.config.ZookeeperConfigManager
 
@@ -13,6 +10,10 @@ class RegistryZookeeperModule : ISubModule {
 
   override fun id(): GoblinSubModule {
     return GoblinSubModule.REGISTRY_ZOOKEEPER
+  }
+
+  override fun install(ctx: ModuleInstallContext) {
+    ctx.registerConfigParser(ZookeeperConfigManager.INSTANCE.configParser)
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
