@@ -11,10 +11,7 @@ import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
-import java.util.*
-import java.util.concurrent.locks.ReentrantReadWriteLock
-import kotlin.concurrent.read
-import kotlin.concurrent.write
+import java.util.concurrent.ConcurrentHashMap
 
 @Singleton
 @ThreadSafe
@@ -26,31 +23,21 @@ class CacheBuilderManager private constructor()
     @JvmField val INSTANCE = CacheBuilderManager()
   }
 
-  private val lock = ReentrantReadWriteLock()
-  private val buffer = EnumMap<CacheSystem, CacheBuilder>(CacheSystem::class.java)
+  private val buffer = ConcurrentHashMap<CacheSystem, CacheBuilder>()
 
   override fun register(system: CacheSystem, builder: CacheBuilder) {
-    lock.write {
-      buffer[system]?.run {
-        throw GoblinCacheException("Cache system $system already exists")
-      }
-      if (builder is Disposable) {
-        buffer[system] = builder
-      } else {
-        buffer[system] = ManagedCacheBuilder(builder)
-      }
+    buffer.put(system, builder)?.run {
+      throw GoblinCacheException("Cache system $system already exists")
     }
   }
 
   override fun cacheBuilder(system: CacheSystem): CacheBuilder? {
-    return lock.read { buffer[system] }
+    return buffer[system]
   }
 
   override fun disposeBean() {
-    lock.write {
-      buffer.values.filterIsInstance(Disposable::class.java).forEach { it.dispose() }
-      buffer.clear()
-    }
+    buffer.values.filterIsInstance(Disposable::class.java).forEach { it.dispose() }
+    buffer.clear()
   }
 
   @Install
