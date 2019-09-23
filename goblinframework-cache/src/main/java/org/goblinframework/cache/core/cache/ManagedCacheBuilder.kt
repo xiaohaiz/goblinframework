@@ -38,6 +38,10 @@ internal constructor(private val delegator: CacheBuilder)
     }
   }
 
+  internal fun asList(): List<ManagedCache> {
+    return buffer.values.mapNotNull { it.value }.toList()
+  }
+
   override fun disposeBean() {
     lock.withLock {
       buffer.values.mapNotNull { it.value }.forEach { it.dispose() }
