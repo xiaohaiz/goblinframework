@@ -88,8 +88,8 @@ final public class InJvmCache extends AbstractCache implements Disposable {
       return new GetResult<>(null);
     }
     try (VMC instruction = new VMC()) {
-      instruction.operation = "get";
-      instruction.keys = Collections.singletonList(key);
+      instruction.setOperation("get");
+      instruction.setKeys(Collections.singletonList(key));
 
       CacheItem ci = retrieve(key);
       if (ci == null) {
@@ -114,8 +114,8 @@ final public class InJvmCache extends AbstractCache implements Disposable {
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.operation = "delete";
-      instruction.keys = Collections.singletonList(key);
+      instruction.setOperation("delete");
+      instruction.setKeys(Collections.singletonList(key));
 
       CacheItem ci;
       lock.writeLock().lock();
@@ -134,8 +134,8 @@ final public class InJvmCache extends AbstractCache implements Disposable {
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.operation = "add";
-      instruction.keys = Collections.singletonList(key);
+      instruction.setOperation("add");
+      instruction.setKeys(Collections.singletonList(key));
 
       CacheItem ci = new CacheItem();
       ci.value = value;
@@ -155,8 +155,8 @@ final public class InJvmCache extends AbstractCache implements Disposable {
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.operation = "set";
-      instruction.keys = Collections.singletonList(key);
+      instruction.setOperation("set");
+      instruction.setKeys(Collections.singletonList(key));
 
       CacheItem ci = retrieve(key);
       if (ci != null) {
@@ -175,8 +175,8 @@ final public class InJvmCache extends AbstractCache implements Disposable {
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.operation = "replace";
-      instruction.keys = Collections.singletonList(key);
+      instruction.setOperation("replace");
+      instruction.setKeys(Collections.singletonList(key));
 
       CacheItem ci = retrieve(key);
       if (ci == null) {
@@ -195,8 +195,8 @@ final public class InJvmCache extends AbstractCache implements Disposable {
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.operation = "append";
-      instruction.keys = Collections.singletonList(key);
+      instruction.setOperation("append");
+      instruction.setKeys(Collections.singletonList(key));
 
       CacheItem ci = retrieve(key);
       if (ci == null || !(ci.value instanceof String)) {
@@ -214,8 +214,8 @@ final public class InJvmCache extends AbstractCache implements Disposable {
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.operation = "touch";
-      instruction.keys = Collections.singletonList(key);
+      instruction.setOperation("touch");
+      instruction.setKeys(Collections.singletonList(key));
 
       CacheItem ci = retrieve(key);
       if (ci == null) return false;
@@ -230,8 +230,8 @@ final public class InJvmCache extends AbstractCache implements Disposable {
       throw new IllegalArgumentException();
     }
     try (VMC instruction = new VMC()) {
-      instruction.operation = "ttl";
-      instruction.keys = Collections.singletonList(key);
+      instruction.setOperation("ttl");
+      instruction.setKeys(Collections.singletonList(key));
 
       CacheItem ci = retrieve(key);
       if (ci == null) return -1;
@@ -250,8 +250,8 @@ final public class InJvmCache extends AbstractCache implements Disposable {
       throw new IllegalArgumentException();
     }
     try (VMC instruction = new VMC()) {
-      instruction.operation = "incr";
-      instruction.keys = Collections.singletonList(key);
+      instruction.setOperation("incr");
+      instruction.setKeys(Collections.singletonList(key));
 
       CacheItem ci = retrieve(key);
       if (ci == null) {
@@ -280,8 +280,8 @@ final public class InJvmCache extends AbstractCache implements Disposable {
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.operation = "cas";
-      instruction.keys = Collections.singletonList(key);
+      instruction.setOperation("cas");
+      instruction.setKeys(Collections.singletonList(key));
 
       int max = Math.max(0, maxTries);
       int retries = 0;

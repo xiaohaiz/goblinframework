@@ -1,35 +1,27 @@
-package org.goblinframework.cache.core.module.monitor;
+package org.goblinframework.cache.core.module.monitor
 
-import org.goblinframework.api.monitor.InstructionTranslator;
-import org.goblinframework.core.monitor.InstructionImpl;
-import org.goblinframework.core.util.StringUtils;
-import org.jetbrains.annotations.NotNull;
+import org.goblinframework.api.monitor.Instruction
+import org.goblinframework.api.monitor.InstructionTranslator
+import org.goblinframework.core.monitor.InstructionImpl
+import org.goblinframework.core.util.StringUtils
 
-import java.util.List;
+class VMC : InstructionImpl(Instruction.Id.VMC, Instruction.Mode.SYN, true) {
 
-final public class VMC extends InstructionImpl {
+  var operation: String? = null
+  var keys: List<String>? = null
 
-  public String operation;
-  public List<String> keys;
-
-  public VMC() {
-    super(Id.VMC, Mode.SYN, true);
-  }
-
-  @NotNull
-  @Override
-  public InstructionTranslator translator() {
-    return pretty -> {
+  override fun translator(): InstructionTranslator {
+    return InstructionTranslator { pretty ->
       if (!pretty) {
-        return asShortText();
+        return@InstructionTranslator asShortText()
       }
-      String operation = StringUtils.defaultString(VMC.this.operation);
-      if (keys == null || keys.isEmpty()) {
-        return String.format("%s %s", asLongText(), operation);
+      val operation = StringUtils.defaultString(operation) { "" }
+      if (keys.isNullOrEmpty()) {
+        return@InstructionTranslator String.format("%s %s", asLongText(), operation)
       } else {
-        String ks = StringUtils.join(keys, " ");
-        return String.format("%s %s %s", asLongText(), operation, ks);
+        val ks = StringUtils.join(keys, " ")
+        return@InstructionTranslator String.format("%s %s %s", asLongText(), operation, ks)
       }
-    };
+    }
   }
 }

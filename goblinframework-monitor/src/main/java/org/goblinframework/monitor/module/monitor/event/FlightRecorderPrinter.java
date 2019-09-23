@@ -3,7 +3,6 @@ package org.goblinframework.monitor.module.monitor.event;
 import org.goblinframework.api.monitor.Instruction;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.monitor.flight.Flight;
-import org.goblinframework.monitor.instruction.InstructionTranslatorManager;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -30,8 +29,7 @@ abstract class FlightRecorderPrinter {
       int lenPerLine = 100 - headers[0].length() - 1;
 
       List<String> L = new ArrayList<>();
-      String line = InstructionTranslatorManager.INSTANCE.translator(instruction)
-          .translate(instruction, true);
+      String line = instruction.translator().translate(true);
       int l = line.length();
       if (l <= lenPerLine) {
         L.add(line);

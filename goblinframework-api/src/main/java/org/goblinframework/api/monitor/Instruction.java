@@ -2,7 +2,6 @@ package org.goblinframework.api.monitor;
 
 import org.goblinframework.api.common.Lifecycle;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 
@@ -42,9 +41,9 @@ public interface Instruction extends Lifecycle, AutoCloseable {
   @NotNull
   String asShortText();
 
-  @Nullable
+  @NotNull
   default InstructionTranslator translator() {
-    return null;
+    return pretty -> pretty ? asLongText() : asShortText();
   }
 
   @Override

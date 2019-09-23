@@ -1,7 +1,9 @@
 package org.goblinframework.monitor.module.monitor.instruction;
 
-import org.goblinframework.core.monitor.Flight;
 import org.goblinframework.api.monitor.Instruction;
+import org.goblinframework.api.monitor.InstructionTranslator;
+import org.goblinframework.core.monitor.Flight;
+import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -113,6 +115,23 @@ final public class DOT implements Instruction, Flight.Aware {
   @Override
   public String asShortText() {
     throw new UnsupportedOperationException();
+  }
+
+  @NotNull
+  @Override
+  public InstructionTranslator translator() {
+    return pretty -> {
+      if (!(flight instanceof org.goblinframework.monitor.flight.Flight)) {
+        return StringUtils.EMPTY;
+      }
+      long millis = dotTime().toEpochMilli();
+      long delta = ((org.goblinframework.monitor.flight.Flight) flight).updateDot(millis);
+      if (pretty) {
+        return String.format("+%sms %s", delta, dotName());
+      } else {
+        return String.format("(%s)+%dms", dotName(), delta);
+      }
+    };
   }
 
   @Override

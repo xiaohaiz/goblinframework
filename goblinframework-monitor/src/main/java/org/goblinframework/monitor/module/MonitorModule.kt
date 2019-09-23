@@ -5,7 +5,6 @@ import org.goblinframework.api.system.GoblinModule
 import org.goblinframework.api.system.IModule
 import org.goblinframework.api.system.ModuleFinalizeContext
 import org.goblinframework.api.system.ModuleInstallContext
-import org.goblinframework.monitor.instruction.InstructionTranslatorManager
 import org.goblinframework.monitor.message.TimedTouchableMessageBufferManager
 import org.goblinframework.monitor.module.test.UnitTestFlightRecorder
 import org.goblinframework.monitor.point.MonitorPointManager
@@ -24,6 +23,5 @@ class MonitorModule : IModule {
   override fun finalize(ctx: ModuleFinalizeContext) {
     MonitorPointManager.INSTANCE.dispose()
     TimedTouchableMessageBufferManager.INSTANCE.dispose()
-    InstructionTranslatorManager.INSTANCE.dispose()
   }
 }
