@@ -1,9 +1,7 @@
-package org.goblinframework.core.event
+package org.goblinframework.api.event
 
 import org.goblinframework.api.common.GoblinFutureImpl
 import org.goblinframework.api.common.GoblinFutureResult
-import org.goblinframework.api.event.GoblinEventContext
-import org.goblinframework.core.event.context.GoblinEventContextImpl
 
 class GoblinEventFuture : GoblinFutureImpl<GoblinEventContext>() {
 
@@ -13,7 +11,7 @@ class GoblinEventFuture : GoblinFutureImpl<GoblinEventContext>() {
       return
     }
     if (ctx.event.isRaiseException) {
-      (ctx as? GoblinEventContextImpl)?.run { throwException() }
+      ctx.throwException()
     }
   }
 }

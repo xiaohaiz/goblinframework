@@ -3,7 +3,7 @@ package org.goblinframework.core.event.context
 import org.goblinframework.api.event.GoblinEvent
 import org.goblinframework.api.event.GoblinEventContext
 import org.goblinframework.api.event.GoblinEventException
-import org.goblinframework.core.event.GoblinEventFuture
+import org.goblinframework.api.event.GoblinEventFuture
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
@@ -68,7 +68,10 @@ internal constructor(private val channel: String,
     state.set(GoblinEventState.FAILURE)
   }
 
-  internal fun throwException() {
+  override fun throwException() {
+    if (isSuccess) {
+      return
+    }
     val c = taskCount.get()
     if (c == null) {
       // task not started yet

@@ -2,6 +2,7 @@ package org.goblinframework.core.event;
 
 import org.goblinframework.api.event.GoblinEvent;
 import org.goblinframework.api.event.GoblinEventContext;
+import org.goblinframework.api.event.GoblinEventFuture;
 import org.goblinframework.api.event.GoblinEventListener;
 import org.goblinframework.core.event.boss.EventBusBoss;
 import org.goblinframework.core.event.dsl.GoblinCallback;
