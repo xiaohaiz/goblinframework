@@ -1,7 +1,6 @@
 package org.goblinframework.api.management;
 
 import org.goblinframework.api.annotation.Internal;
-import org.goblinframework.api.service.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,6 +11,6 @@ public interface IManagementControllerManager {
 
   @Nullable
   static IManagementControllerManager instance() {
-    return ServiceInstaller.firstOrNull(IManagementControllerManager.class);
+    return ManagementControllerManagerInstaller.INSTALLED;
   }
 }
