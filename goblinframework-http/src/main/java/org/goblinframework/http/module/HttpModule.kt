@@ -1,11 +1,13 @@
 package org.goblinframework.http.module
 
-import org.goblinframework.core.bootstrap.GoblinModule
+import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.system.GoblinModule
+import org.goblinframework.api.system.IModule
 
-class HttpModule : GoblinModule {
+@Install
+class HttpModule : IModule {
 
-  override fun name(): String {
-    return "HTTP"
+  override fun id(): GoblinModule {
+    return GoblinModule.HTTP
   }
-
 }
