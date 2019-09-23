@@ -3,11 +3,11 @@ package org.goblinframework.monitor.point
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.monitor.IMonitorPointManager
+import org.goblinframework.api.monitor.MonitorPoint
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.service.ServiceInstaller
-import org.goblinframework.core.module.spi.RegisterMonitorPoint
-import org.goblinframework.api.monitor.MonitorPoint
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.write
 
@@ -15,7 +15,7 @@ import kotlin.concurrent.write
 @ThreadSafe
 @GoblinManagedBean(type = "monitor")
 class MonitorPointManager private constructor()
-  : GoblinManagedObject(), MonitorPointManagerMXBean, RegisterMonitorPoint {
+  : GoblinManagedObject(), MonitorPointManagerMXBean, IMonitorPointManager {
 
   companion object {
     @JvmField val INSTANCE = MonitorPointManager()
@@ -41,5 +41,5 @@ class MonitorPointManager private constructor()
   }
 
   @Install
-  class Installer : RegisterMonitorPoint by INSTANCE
+  class Installer : IMonitorPointManager by INSTANCE
 }
