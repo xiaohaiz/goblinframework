@@ -2,7 +2,7 @@ package org.goblinframework.embedded.core.manager
 
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
-import org.goblinframework.core.util.ServiceInstaller
+import org.goblinframework.api.service.ServiceInstaller
 import org.goblinframework.embedded.core.EmbeddedServer
 import org.goblinframework.embedded.core.EmbeddedServerMode
 import org.goblinframework.embedded.core.module.spi.EmbeddedServerFactory
@@ -25,7 +25,7 @@ class EmbeddedServerManager private constructor()
   private val servers = mutableMapOf<String, DelegatedEmbeddedServer>()
 
   init {
-    ServiceInstaller.installedList(EmbeddedServerFactory::class.java).forEach {
+    ServiceInstaller.asList(EmbeddedServerFactory::class.java).forEach {
       val mode = it.mode()
       factories[mode]?.run {
         throw UnsupportedOperationException("Duplicated EmbeddedServerFactory not allowed")

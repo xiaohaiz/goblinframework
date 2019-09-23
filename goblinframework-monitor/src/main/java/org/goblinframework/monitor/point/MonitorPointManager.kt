@@ -5,9 +5,9 @@ import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.service.ServiceInstaller
 import org.goblinframework.core.module.spi.RegisterMonitorPoint
 import org.goblinframework.core.monitor.MonitorPoint
-import org.goblinframework.core.util.ServiceInstaller
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.write
 
@@ -25,7 +25,7 @@ class MonitorPointManager private constructor()
   private val points: MutableList<ManagedMonitorPoint>
 
   init {
-    points = ServiceInstaller.installedList(MonitorPoint::class.java)
+    points = ServiceInstaller.asList(MonitorPoint::class.java)
         .map { ManagedMonitorPoint(it) }.toMutableList()
   }
 

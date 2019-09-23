@@ -2,6 +2,7 @@ package org.goblinframework.core.transcoder;
 
 import kotlin.text.Charsets;
 import org.apache.commons.lang3.Validate;
+import org.goblinframework.api.service.ServiceInstaller;
 import org.goblinframework.core.compression.CompressionThreshold;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.compression.CompressorManager;
@@ -9,7 +10,6 @@ import org.goblinframework.core.exception.GoblinTranscodingException;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
 import org.goblinframework.core.util.IOUtils;
-import org.goblinframework.core.util.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +21,7 @@ abstract public class TranscoderUtils {
   private static final TranscoderFactory transcoderFactory;
 
   static {
-    transcoderFactory = ServiceInstaller.installedFirst(TranscoderFactory.class);
+    transcoderFactory = ServiceInstaller.firstOrNull(TranscoderFactory.class);
   }
 
   public static byte[] shortToBytes(short s) {

@@ -2,7 +2,7 @@ package org.goblinframework.api.system;
 
 import org.goblinframework.api.annotation.Internal;
 import org.goblinframework.api.annotation.SPI;
-import org.goblinframework.api.service.IServiceInstaller;
+import org.goblinframework.api.service.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
 
 @SPI
@@ -15,7 +15,7 @@ public interface IGoblinSystem {
 
   @NotNull
   static IGoblinSystem instance() {
-    IGoblinSystem system = IServiceInstaller.instance().firstOrNull(IGoblinSystem.class);
+    IGoblinSystem system = ServiceInstaller.firstOrNull(IGoblinSystem.class);
     if (system == null) {
       throw new GoblinSystemException("No IGoblinSystem installed");
     }

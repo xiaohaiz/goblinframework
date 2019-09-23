@@ -2,8 +2,8 @@ package org.goblinframework.dao.core.mapping
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.service.ServiceInstaller
 import org.goblinframework.core.exception.GoblinDuplicateException
-import org.goblinframework.core.util.ServiceInstaller
 import org.goblinframework.dao.core.annotation.GoblinDatabaseSystem
 import java.util.*
 
@@ -18,7 +18,7 @@ class EntityMappingBuilderManager private constructor()
   private val buffer = EnumMap<GoblinDatabaseSystem, EntityMappingBuilder>(GoblinDatabaseSystem::class.java)
 
   init {
-    ServiceInstaller.installedList(EntityMappingBuilderProvider::class.java).forEach {
+    ServiceInstaller.asList(EntityMappingBuilderProvider::class.java).forEach {
       val s = it.databaseSystem
       if (buffer[s] != null) {
         throw GoblinDuplicateException()

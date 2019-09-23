@@ -2,7 +2,7 @@ package org.goblinframework.api.test;
 
 import org.goblinframework.api.annotation.Internal;
 import org.goblinframework.api.annotation.SPI;
-import org.goblinframework.api.service.IServiceInstaller;
+import org.goblinframework.api.service.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,6 +14,6 @@ public interface ITestExecutionListenerManager {
 
   @Nullable
   static ITestExecutionListenerManager instance() {
-    return IServiceInstaller.instance().firstOrNull(ITestExecutionListenerManager.class);
+    return ServiceInstaller.firstOrNull(ITestExecutionListenerManager.class);
   }
 }

@@ -1,5 +1,6 @@
 package org.goblinframework.core.bootstrap
 
+import org.goblinframework.api.service.ServiceInstaller
 import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.api.test.TestExecutionListener
 import org.goblinframework.core.cache.GoblinCacheBuilder
@@ -11,7 +12,6 @@ import org.goblinframework.core.module.spi.RegisterMonitorPoint
 import org.goblinframework.core.monitor.Instruction
 import org.goblinframework.core.monitor.InstructionTranslator
 import org.goblinframework.core.monitor.MonitorPoint
-import org.goblinframework.core.util.ServiceInstaller
 
 class GoblinModuleInstallContext private constructor() : GoblinModuleContext() {
 
@@ -25,10 +25,10 @@ class GoblinModuleInstallContext private constructor() : GoblinModuleContext() {
   private val registerGoblinCacheBuilder: RegisterGoblinCacheBuilder?
 
   init {
-    registerManagementController = ServiceInstaller.installedFirst(RegisterManagementController::class.java)
-    registerMonitorPoint = ServiceInstaller.installedFirst(RegisterMonitorPoint::class.java)
-    registerInstructionTranslator = ServiceInstaller.installedFirst(RegisterInstructionTranslator::class.java)
-    registerGoblinCacheBuilder = ServiceInstaller.installedFirst(RegisterGoblinCacheBuilder::class.java)
+    registerManagementController = ServiceInstaller.firstOrNull(RegisterManagementController::class.java)
+    registerMonitorPoint = ServiceInstaller.firstOrNull(RegisterMonitorPoint::class.java)
+    registerInstructionTranslator = ServiceInstaller.firstOrNull(RegisterInstructionTranslator::class.java)
+    registerGoblinCacheBuilder = ServiceInstaller.firstOrNull(RegisterGoblinCacheBuilder::class.java)
   }
 
   fun registerManagementController(controller: Any) {

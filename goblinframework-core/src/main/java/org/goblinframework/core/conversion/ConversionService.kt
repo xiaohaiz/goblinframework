@@ -1,7 +1,7 @@
 package org.goblinframework.core.conversion
 
+import org.goblinframework.api.service.ServiceInstaller
 import org.goblinframework.core.exception.GoblinInitializationException
-import org.goblinframework.core.util.ServiceInstaller
 import org.springframework.context.support.ConversionServiceFactoryBean
 import org.springframework.core.convert.TypeDescriptor
 import org.springframework.core.convert.converter.Converter
@@ -15,7 +15,7 @@ class ConversionService private constructor() : org.springframework.core.convert
   private val conversionService: org.springframework.core.convert.ConversionService
 
   init {
-    val customizedConverters = ServiceInstaller.installedList(Converter::class.java)
+    val customizedConverters = ServiceInstaller.asList(Converter::class.java)
     val factoryBean = ConversionServiceFactoryBean()
     if (customizedConverters.isNotEmpty()) {
       factoryBean.setConverters(customizedConverters.toSet())

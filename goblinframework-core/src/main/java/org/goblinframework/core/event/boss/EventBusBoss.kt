@@ -4,6 +4,7 @@ import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.service.ServiceInstaller
 import org.goblinframework.core.concurrent.NamedDaemonThreadFactory
 import org.goblinframework.core.event.*
 import org.goblinframework.core.event.config.EventBusConfig
@@ -14,7 +15,6 @@ import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.module.spi.GoblinTimerEventGenerator
 import org.goblinframework.core.util.AnnotationUtils
-import org.goblinframework.core.util.ServiceInstaller
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
@@ -46,9 +46,9 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     EventBusConfigLoader.configs.forEach { register(it) }
 
     subscribe(GoblinCallbackEventListener.INSTANCE)
-    ServiceInstaller.installedList(GoblinEventListener::class.java).forEach { subscribe(it) }
+    ServiceInstaller.asList(GoblinEventListener::class.java).forEach { subscribe(it) }
 
-    ServiceInstaller.installedFirst(GoblinTimerEventGenerator::class.java)?.start()
+    ServiceInstaller.firstOrNull(GoblinTimerEventGenerator::class.java)?.start()
   }
 
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
@@ -117,7 +117,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   }
 
   override fun disposeBean() {
-    ServiceInstaller.installedFirst(GoblinTimerEventGenerator::class.java)?.stop()
+    ServiceInstaller.firstOrNull(GoblinTimerEventGenerator::class.java)?.stop()
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
       EventBus.LOGGER.info("EventBusBoss closed")

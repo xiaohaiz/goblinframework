@@ -1,6 +1,6 @@
 package org.goblinframework.core.monitor;
 
-import org.goblinframework.core.util.ServiceInstaller;
+import org.goblinframework.api.service.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ abstract public class FlightRecorder {
   private static final FlightMonitor flightMonitor;
 
   static {
-    flightMonitor = ServiceInstaller.installedFirst(FlightMonitor.class);
+    flightMonitor = ServiceInstaller.firstOrNull(FlightMonitor.class);
     if (flightMonitor == null) {
       logger.debug("No FlightMonitor installed, ignore monitor");
     }
