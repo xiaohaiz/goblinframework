@@ -24,7 +24,7 @@ final class RedisCacheImpl extends AbstractGoblinCache {
   private final RedisClient client;
 
   RedisCacheImpl(@NotNull String name, @NotNull RedisClient client) {
-    super(new GoblinCacheSystemLocation(GoblinCacheSystem.RDS, name));
+    super(new CacheLocation(CacheSystem.RDS, name));
     this.client = client;
   }
 

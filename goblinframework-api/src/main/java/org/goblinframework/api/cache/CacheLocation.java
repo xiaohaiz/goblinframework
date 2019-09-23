@@ -5,13 +5,13 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class GoblinCacheSystemLocation implements Serializable {
+public class CacheLocation implements Serializable {
   private static final long serialVersionUID = -4538796952895330820L;
 
-  @NotNull public final GoblinCacheSystem system;
+  @NotNull public final CacheSystem system;
   @NotNull public final String name;
 
-  public GoblinCacheSystemLocation(@NotNull GoblinCacheSystem system, @NotNull String name) {
+  public CacheLocation(@NotNull CacheSystem system, @NotNull String name) {
     this.system = system;
     this.name = name;
   }
@@ -20,7 +20,7 @@ public class GoblinCacheSystemLocation implements Serializable {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    GoblinCacheSystemLocation that = (GoblinCacheSystemLocation) o;
+    CacheLocation that = (CacheLocation) o;
     return system == that.system && name.equals(that.name);
   }
 

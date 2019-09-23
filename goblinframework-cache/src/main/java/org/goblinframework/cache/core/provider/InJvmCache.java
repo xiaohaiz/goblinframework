@@ -26,7 +26,7 @@ final public class InJvmCache extends AbstractGoblinCache implements Disposable 
   private final LRUMap<String, CacheItem> buffer = new LRUMap<>(65536);
 
   private InJvmCache() {
-    super(new GoblinCacheSystemLocation(GoblinCacheSystem.JVM, "JVM"));
+    super(new CacheLocation(CacheSystem.JVM, "JVM"));
     watchdogTimer = new Timer("InJvmCacheWatchdogTimer", true);
     watchdogTimer.scheduleAtFixedRate(new TimerTask() {
       @Override

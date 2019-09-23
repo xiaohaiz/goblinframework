@@ -12,15 +12,15 @@ abstract public class AbstractGoblinCache implements GoblinCache {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private final GoblinCacheSystemLocation location;
+  private final CacheLocation location;
 
-  protected AbstractGoblinCache(@NotNull GoblinCacheSystemLocation location) {
+  protected AbstractGoblinCache(@NotNull CacheLocation location) {
     this.location = location;
   }
 
   @NotNull
   @Override
-  public GoblinCacheSystemLocation getCacheSystemLocation() {
+  public CacheLocation getCacheSystemLocation() {
     return location;
   }
 

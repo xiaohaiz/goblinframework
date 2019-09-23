@@ -1,6 +1,6 @@
 package org.goblinframework.api.cache;
 
-public enum GoblinCacheSystem {
+public enum CacheSystem {
 
   NOP,
   JVM,

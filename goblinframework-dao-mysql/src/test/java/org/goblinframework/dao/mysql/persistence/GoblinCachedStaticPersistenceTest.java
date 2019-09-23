@@ -1,6 +1,6 @@
 package org.goblinframework.dao.mysql.persistence;
 
-import org.goblinframework.api.cache.GoblinCacheSystem;
+import org.goblinframework.api.cache.CacheSystem;
 import org.goblinframework.cache.core.annotation.GoblinCacheBean;
 import org.goblinframework.cache.core.module.test.FlushInJvmCache;
 import org.goblinframework.cache.core.support.GoblinCacheDimension;
@@ -24,7 +24,7 @@ public class GoblinCachedStaticPersistenceTest {
 
   @Repository
   @UseMysqlClient("_ut")
-  @GoblinCacheBean(type = GoblinStaticPersistenceTest.MockData.class, system = GoblinCacheSystem.JVM, name = "JVM")
+  @GoblinCacheBean(type = GoblinStaticPersistenceTest.MockData.class, system = CacheSystem.JVM, name = "JVM")
   @org.goblinframework.cache.core.annotation.GoblinCacheDimension(org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.ID_FIELD)
   public static class MockDataPersistence extends GoblinCachedStaticPersistence<GoblinStaticPersistenceTest.MockData, Long> {
 

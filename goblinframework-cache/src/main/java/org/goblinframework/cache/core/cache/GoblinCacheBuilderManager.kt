@@ -4,7 +4,7 @@ import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.cache.GoblinCacheBuilder
-import org.goblinframework.api.cache.GoblinCacheSystem
+import org.goblinframework.api.cache.CacheSystem
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.exception.GoblinDuplicateException
@@ -25,9 +25,9 @@ class GoblinCacheBuilderManager private constructor()
   }
 
   private val lock = ReentrantReadWriteLock()
-  private val buffer = EnumMap<GoblinCacheSystem, ManagedGoblinCacheBuilder>(GoblinCacheSystem::class.java)
+  private val buffer = EnumMap<CacheSystem, ManagedGoblinCacheBuilder>(CacheSystem::class.java)
 
-  fun getCacheBuilder(system: GoblinCacheSystem): GoblinCacheBuilder? {
+  fun getCacheBuilder(system: CacheSystem): GoblinCacheBuilder? {
     return lock.read { buffer[system] }
   }
 
@@ -38,7 +38,7 @@ class GoblinCacheBuilderManager private constructor()
     }
   }
 
-  override fun register(system: GoblinCacheSystem, builder: GoblinCacheBuilder) {
+  override fun register(system: CacheSystem, builder: GoblinCacheBuilder) {
     lock.write {
       buffer[system]?.run { throw GoblinDuplicateException() }
       buffer[system] = ManagedGoblinCacheBuilder(builder)
