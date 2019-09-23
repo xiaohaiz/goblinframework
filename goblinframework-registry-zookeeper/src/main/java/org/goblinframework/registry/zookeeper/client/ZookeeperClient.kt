@@ -12,7 +12,7 @@ import org.goblinframework.registry.zookeeper.module.config.ZookeeperConfig
 
 @GoblinManagedBean(type = "registry.zookeeper")
 class ZookeeperClient
-internal constructor(private val config: ZookeeperConfig)
+internal constructor(val config: ZookeeperConfig)
   : GoblinManagedObject(), ZookeeperClientMXBean {
 
   private val transcoder: ZkTranscoder

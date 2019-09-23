@@ -1,7 +1,10 @@
 package org.goblinframework.registry.core.module
 
 import org.goblinframework.api.common.Install
+import org.goblinframework.api.registry.RegistryBuilder
+import org.goblinframework.api.registry.RegistrySystem
 import org.goblinframework.api.system.*
+import org.goblinframework.registry.core.manager.RegistryBuilderManager
 
 @Install
 class RegistryModule : IModule {
@@ -23,8 +26,13 @@ class RegistryModule : IModule {
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
+    RegistryBuilderManager.INSTANCE.dispose()
     ctx.createSubModules(this)
         .module(GoblinSubModule.REGISTRY_ZOOKEEPER)
         .finalize(ctx)
+  }
+
+  fun registerRegistryBuilder(system: RegistrySystem, builder: RegistryBuilder) {
+    RegistryBuilderManager.INSTANCE.register(system, builder)
   }
 }
