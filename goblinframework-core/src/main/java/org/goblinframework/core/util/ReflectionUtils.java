@@ -1,7 +1,6 @@
-package org.goblinframework.core.reflection;
+package org.goblinframework.core.util;
 
 import org.aopalliance.intercept.MethodInterceptor;
-import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.aop.framework.ProxyFactory;

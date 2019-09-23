@@ -7,11 +7,11 @@ import org.goblinframework.api.event.GoblinEventException
 import org.goblinframework.api.event.GoblinEventListener
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
-import org.goblinframework.core.concurrent.NamedDaemonThreadFactory
 import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.event.config.EventBusConfig
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.WorkerRingBufferFullException
+import org.goblinframework.core.util.NamedDaemonThreadFactory
 import org.goblinframework.core.util.SystemUtils
 import java.time.Instant
 import java.util.*

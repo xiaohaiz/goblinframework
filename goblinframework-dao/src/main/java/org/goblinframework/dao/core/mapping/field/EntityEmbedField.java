@@ -1,7 +1,7 @@
 package org.goblinframework.dao.core.mapping.field;
 
-import org.goblinframework.core.reflection.Field;
-import org.goblinframework.core.reflection.GoblinReflectionException;
+import org.goblinframework.core.util.GoblinField;
+import org.goblinframework.core.util.GoblinReflectionException;
 import org.goblinframework.dao.core.mapping.EntityField;
 import org.goblinframework.dao.core.mapping.EntityFieldNameResolver;
 import org.jetbrains.annotations.NotNull;
@@ -11,20 +11,20 @@ import java.util.Set;
 
 final public class EntityEmbedField extends EntityField {
 
-  private final Field parent;
+  private final GoblinField parent;
 
   public EntityEmbedField(@NotNull EntityFieldNameResolver nameResolver,
-                          @NotNull Field child,
-                          @NotNull Field parent) {
+                          @NotNull GoblinField child,
+                          @NotNull GoblinField parent) {
     super(nameResolver, child);
     this.parent = parent;
   }
 
-  public Field getParent() {
+  public GoblinField getParent() {
     return parent;
   }
 
-  public Field getChild() {
+  public GoblinField getChild() {
     return getField();
   }
 

@@ -1,7 +1,7 @@
 package org.goblinframework.dao.core.mapping.field;
 
 import org.bson.types.ObjectId;
-import org.goblinframework.core.reflection.Field;
+import org.goblinframework.core.util.GoblinField;
 import org.goblinframework.dao.core.mapping.EntityField;
 import org.goblinframework.dao.core.mapping.EntityFieldNameResolver;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +24,7 @@ final public class EntityIdField extends EntityField {
     ALLOWED = Collections.unmodifiableSet(allowed);
   }
 
-  public EntityIdField(@NotNull EntityFieldNameResolver nameResolver, @NotNull Field field) {
+  public EntityIdField(@NotNull EntityFieldNameResolver nameResolver, @NotNull GoblinField field) {
     super(nameResolver, field);
   }
 

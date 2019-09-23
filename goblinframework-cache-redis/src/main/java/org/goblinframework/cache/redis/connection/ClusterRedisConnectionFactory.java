@@ -7,7 +7,7 @@ import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.goblinframework.cache.redis.interceptor.StatefulRedisClusterConnectionInterceptor;
 import org.goblinframework.cache.redis.transcoder.RedisTranscoder;
-import org.goblinframework.core.reflection.ReflectionUtils;
+import org.goblinframework.core.util.ReflectionUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class ClusterRedisConnectionFactory extends BasePooledObjectFactory<RedisConnection> {

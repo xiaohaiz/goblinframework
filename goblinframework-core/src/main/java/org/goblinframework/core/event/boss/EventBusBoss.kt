@@ -9,7 +9,6 @@ import org.goblinframework.api.event.GoblinEventListener
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.service.ServiceInstaller
-import org.goblinframework.core.concurrent.NamedDaemonThreadFactory
 import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.event.GoblinEventFuture
 import org.goblinframework.core.event.config.EventBusConfig
@@ -20,6 +19,7 @@ import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.module.spi.GoblinTimerEventGenerator
 import org.goblinframework.core.util.AnnotationUtils
+import org.goblinframework.core.util.NamedDaemonThreadFactory
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read

@@ -2,7 +2,7 @@ package org.goblinframework.dao.mysql.interceptor;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.goblinframework.core.reflection.ReflectionUtils;
+import org.goblinframework.core.util.ReflectionUtils;
 import org.goblinframework.dao.mysql.module.monitor.intruction.MSQ;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

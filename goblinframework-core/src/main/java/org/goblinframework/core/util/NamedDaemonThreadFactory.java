@@ -1,4 +1,4 @@
-package org.goblinframework.core.concurrent;
+package org.goblinframework.core.util;
 
 import org.jetbrains.annotations.NotNull;
 

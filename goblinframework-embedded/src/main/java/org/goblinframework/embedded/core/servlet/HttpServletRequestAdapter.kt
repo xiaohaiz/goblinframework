@@ -1,6 +1,6 @@
 package org.goblinframework.embedded.core.servlet
 
-import org.goblinframework.core.reflection.ReflectionUtils
+import org.goblinframework.core.util.ReflectionUtils
 import javax.servlet.http.HttpServletRequest
 
 object HttpServletRequestAdapter {

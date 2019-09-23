@@ -1,7 +1,6 @@
-package org.goblinframework.core.reflection;
+package org.goblinframework.core.util;
 
 import org.goblinframework.core.conversion.ConversionService;
-import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,7 +8,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class Field {
+public class GoblinField {
 
   private final Class<?> clazz;
   private final java.lang.reflect.Field field;
@@ -18,11 +17,11 @@ public class Field {
   private final Method getter;
   private final Method setter;
 
-  public Field(@NotNull java.lang.reflect.Field field) {
+  public GoblinField(@NotNull java.lang.reflect.Field field) {
     this(field.getDeclaringClass(), field);
   }
 
-  public Field(@NotNull Class<?> clazz, @NotNull java.lang.reflect.Field field) {
+  public GoblinField(@NotNull Class<?> clazz, @NotNull java.lang.reflect.Field field) {
     this.clazz = clazz;
     this.field = field;
     this.fieldName = field.getName();

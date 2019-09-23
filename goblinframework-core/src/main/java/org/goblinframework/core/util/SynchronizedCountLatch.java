@@ -1,4 +1,4 @@
-package org.goblinframework.core.concurrent;
+package org.goblinframework.core.util;
 
 import org.goblinframework.core.exception.GoblinInterruptedException;
 import org.goblinframework.core.exception.GoblinTimeoutException;

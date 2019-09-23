@@ -4,7 +4,7 @@ import org.goblinframework.api.annotation.*;
 import org.goblinframework.api.service.GoblinManagedBean;
 import org.goblinframework.api.service.GoblinManagedObject;
 import org.goblinframework.core.exception.GoblinMappingException;
-import org.goblinframework.core.reflection.Field;
+import org.goblinframework.core.util.GoblinField;
 import org.goblinframework.dao.core.mapping.field.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -65,7 +65,7 @@ public class EntityMappingBuilder extends GoblinManagedObject implements EntityM
       throw new GoblinMappingException("[" + entityClass.getName() + "] public no-arguments constructor is required");
     }
 
-    List<Field> allFields = new LinkedList<>(scanner.scan(entityClass));
+    List<GoblinField> allFields = new LinkedList<>(scanner.scan(entityClass));
     List<EntityIdField> idFields = drainEntityIdFields(allFields);
     if (idFields.size() != 1) {
       throw new GoblinMappingException("[" + entityClass.getName() + "] at least/most one Id field is required");
@@ -113,11 +113,11 @@ public class EntityMappingBuilder extends GoblinManagedObject implements EntityM
     return mapping;
   }
 
-  private List<EntityIdField> drainEntityIdFields(List<Field> allFields) {
+  private List<EntityIdField> drainEntityIdFields(List<GoblinField> allFields) {
     List<EntityIdField> idFieldList = new ArrayList<>();
-    Iterator<Field> it = allFields.iterator();
+    Iterator<GoblinField> it = allFields.iterator();
     while (it.hasNext()) {
-      Field f = it.next();
+      GoblinField f = it.next();
       if (!f.isAnnotationPresent(Id.class)) {
         continue;
       }
@@ -127,11 +127,11 @@ public class EntityMappingBuilder extends GoblinManagedObject implements EntityM
     return idFieldList;
   }
 
-  private List<EntityRevisionField> drainEntityRevisionFields(List<Field> allFields) {
+  private List<EntityRevisionField> drainEntityRevisionFields(List<GoblinField> allFields) {
     List<EntityRevisionField> revisionFieldList = new ArrayList<>();
-    Iterator<Field> it = allFields.iterator();
+    Iterator<GoblinField> it = allFields.iterator();
     while (it.hasNext()) {
-      Field f = it.next();
+      GoblinField f = it.next();
       if (f.isAnnotationPresent(Revision.class)) {
         revisionFieldList.add(new EntityRevisionField(nameResolver, f));
         it.remove();
@@ -140,11 +140,11 @@ public class EntityMappingBuilder extends GoblinManagedObject implements EntityM
     return revisionFieldList;
   }
 
-  private List<EntityCreateTimeField> drainCreateTimeFields(List<Field> allFields) {
+  private List<EntityCreateTimeField> drainCreateTimeFields(List<GoblinField> allFields) {
     List<EntityCreateTimeField> createTimeFieldList = new ArrayList<>();
-    Iterator<Field> it = allFields.iterator();
+    Iterator<GoblinField> it = allFields.iterator();
     while (it.hasNext()) {
-      Field f = it.next();
+      GoblinField f = it.next();
       if (f.isAnnotationPresent(CreateTime.class)) {
         createTimeFieldList.add(new EntityCreateTimeField(nameResolver, f));
         it.remove();
@@ -153,11 +153,11 @@ public class EntityMappingBuilder extends GoblinManagedObject implements EntityM
     return createTimeFieldList;
   }
 
-  private List<EntityUpdateTimeField> drainUpdateTimeFields(List<Field> allFields) {
+  private List<EntityUpdateTimeField> drainUpdateTimeFields(List<GoblinField> allFields) {
     List<EntityUpdateTimeField> updateTimeFieldList = new ArrayList<>();
-    Iterator<Field> it = allFields.iterator();
+    Iterator<GoblinField> it = allFields.iterator();
     while (it.hasNext()) {
-      Field f = it.next();
+      GoblinField f = it.next();
       if (f.isAnnotationPresent(UpdateTime.class)) {
         updateTimeFieldList.add(new EntityUpdateTimeField(nameResolver, f));
         it.remove();
@@ -166,17 +166,17 @@ public class EntityMappingBuilder extends GoblinManagedObject implements EntityM
     return updateTimeFieldList;
   }
 
-  private List<EntityEmbedField> drainEmbedFields(List<Field> allFields) {
+  private List<EntityEmbedField> drainEmbedFields(List<GoblinField> allFields) {
     List<EntityEmbedField> embedFieldList = new ArrayList<>();
-    Iterator<Field> it = allFields.iterator();
+    Iterator<GoblinField> it = allFields.iterator();
     while (it.hasNext()) {
-      Field f = it.next();
+      GoblinField f = it.next();
       if (!f.isAnnotationPresent(Embed.class)) {
         continue;
       }
       it.remove();
       Class<?> embedEntityClass = f.getFieldType();
-      for (Field child : scanner.scan(embedEntityClass)) {
+      for (GoblinField child : scanner.scan(embedEntityClass)) {
         if (child.isAnnotationPresent(Id.class)) {
           throw new GoblinMappingException("[" + embedEntityClass + "] embed entity must not has Id field");
         }

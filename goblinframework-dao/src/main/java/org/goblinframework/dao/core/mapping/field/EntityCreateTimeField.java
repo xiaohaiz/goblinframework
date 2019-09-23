@@ -1,6 +1,6 @@
 package org.goblinframework.dao.core.mapping.field;
 
-import org.goblinframework.core.reflection.Field;
+import org.goblinframework.core.util.GoblinField;
 import org.goblinframework.dao.core.mapping.EntityField;
 import org.goblinframework.dao.core.mapping.EntityFieldNameResolver;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +23,7 @@ final public class EntityCreateTimeField extends EntityField {
     ALLOWED = Collections.unmodifiableSet(allowed);
   }
 
-  public EntityCreateTimeField(@NotNull EntityFieldNameResolver nameResolver, @NotNull Field field) {
+  public EntityCreateTimeField(@NotNull EntityFieldNameResolver nameResolver, @NotNull GoblinField field) {
     super(nameResolver, field);
   }
 

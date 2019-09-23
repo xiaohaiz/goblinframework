@@ -4,7 +4,7 @@ import io.netty.channel.Channel
 import io.netty.channel.ChannelId
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
-import org.goblinframework.core.concurrent.SynchronizedCountLatch
+import org.goblinframework.core.util.SynchronizedCountLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.locks.ReentrantReadWriteLock

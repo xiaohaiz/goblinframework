@@ -3,8 +3,8 @@ package org.goblinframework.dao.mysql.mapping;
 import org.goblinframework.api.annotation.Ignore;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.core.exception.GoblinMappingException;
-import org.goblinframework.core.reflection.Field;
-import org.goblinframework.core.reflection.ReflectionUtils;
+import org.goblinframework.core.util.GoblinField;
+import org.goblinframework.core.util.ReflectionUtils;
 import org.goblinframework.dao.core.mapping.EntityFieldScanner;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,13 +21,13 @@ final public class MysqlEntityFieldScanner implements EntityFieldScanner {
 
   @NotNull
   @Override
-  public List<Field> scan(@NotNull Class<?> entityClass) {
-    List<Field> fields = ReflectionUtils.allFieldsIncludingAncestors(entityClass, false, false)
+  public List<GoblinField> scan(@NotNull Class<?> entityClass) {
+    List<GoblinField> fields = ReflectionUtils.allFieldsIncludingAncestors(entityClass, false, false)
         .stream()
-        .map(Field::new)
+        .map(GoblinField::new)
         .filter(e -> !e.getField().isAnnotationPresent(Ignore.class))
         .collect(Collectors.toList());
-    if (fields.stream().map(Field::getFieldType).anyMatch(Class::isPrimitive)) {
+    if (fields.stream().map(GoblinField::getFieldType).anyMatch(Class::isPrimitive)) {
       String errMsg = String.format("Primitive fields not allowed: %s", entityClass.getName());
       throw new GoblinMappingException(errMsg);
     }
