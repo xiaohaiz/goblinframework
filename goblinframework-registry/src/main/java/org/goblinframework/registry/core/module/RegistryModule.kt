@@ -1,33 +1,30 @@
 package org.goblinframework.registry.core.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.core.bootstrap.GoblinModule
-import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
+import org.goblinframework.api.system.*
 
 @Install
-class RegistryModule : GoblinModule {
+class RegistryModule : IModule {
 
-  override fun name(): String {
-    return "REGISTRY"
+  override fun id(): GoblinModule {
+    return GoblinModule.REGISTRY
   }
 
-  override fun install(ctx: GoblinModuleInstallContext) {
-    ctx.createChildModuleManager()
-        .module("REGISTRY:ZOOKEEPER")
+  override fun install(ctx: ModuleInstallContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.REGISTRY_ZOOKEEPER)
         .install(ctx)
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
-    ctx.createChildModuleManager()
-        .module("REGISTRY:ZOOKEEPER")
+  override fun initialize(ctx: ModuleInitializeContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.REGISTRY_ZOOKEEPER)
         .initialize(ctx)
   }
 
-  override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    ctx.createChildModuleManager()
-        .module("REGISTRY:ZOOKEEPER")
+  override fun finalize(ctx: ModuleFinalizeContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.REGISTRY_ZOOKEEPER)
         .finalize(ctx)
   }
 }
