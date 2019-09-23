@@ -1,10 +1,10 @@
 package org.goblinframework.api.system;
 
-import org.goblinframework.api.annotation.External;
+import org.goblinframework.api.annotation.Internal;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@External
+@Internal
 public interface ISubModule {
 
   @NotNull
