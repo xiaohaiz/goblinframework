@@ -7,7 +7,7 @@ import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.service.ServiceInstaller
 import org.goblinframework.core.module.spi.RegisterMonitorPoint
-import org.goblinframework.core.monitor.MonitorPoint
+import org.goblinframework.api.monitor.MonitorPoint
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.write
 

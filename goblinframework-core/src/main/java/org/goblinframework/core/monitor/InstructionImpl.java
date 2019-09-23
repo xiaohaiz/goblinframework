@@ -1,5 +1,6 @@
 package org.goblinframework.core.monitor;
 
+import org.goblinframework.api.monitor.Instruction;
 import org.goblinframework.core.event.EventBus;
 import org.jetbrains.annotations.NotNull;
 

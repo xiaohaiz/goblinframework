@@ -1,12 +1,12 @@
 package org.goblinframework.cache.core.module.monitor.instruction;
 
 import org.goblinframework.api.annotation.Singleton;
-import org.goblinframework.core.monitor.InstructionTranslator;
+import org.goblinframework.api.monitor.InstructionTranslator1;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 @Singleton
-final public class VMCTranslator implements InstructionTranslator<VMC> {
+final public class VMCTranslator implements InstructionTranslator1<VMC> {
 
   public static final VMCTranslator INSTANCE = new VMCTranslator();
 

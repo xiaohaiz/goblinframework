@@ -1,6 +1,6 @@
 package org.goblinframework.monitor.module.monitor.event;
 
-import org.goblinframework.core.monitor.Instruction;
+import org.goblinframework.api.monitor.Instruction;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.monitor.flight.Flight;
 import org.goblinframework.monitor.instruction.InstructionTranslatorManager;

@@ -1,5 +1,6 @@
 package org.goblinframework.core.monitor;
 
+import org.goblinframework.api.monitor.Instruction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

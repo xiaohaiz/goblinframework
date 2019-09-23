@@ -2,10 +2,10 @@ package org.goblinframework.monitor.instruction
 
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
-import org.goblinframework.core.monitor.Instruction
-import org.goblinframework.core.monitor.InstructionTranslator
+import org.goblinframework.api.monitor.Instruction
+import org.goblinframework.api.monitor.InstructionTranslator1
 
 @GoblinManagedBean(type = "monitor", name = "InstructionTranslator")
 class ManagedInstructionTranslator<E : Instruction>
-internal constructor(private val delegator: InstructionTranslator<E>)
-  : GoblinManagedObject(), InstructionTranslatorMXBean, InstructionTranslator<E> by delegator
+internal constructor(private val delegator: InstructionTranslator1<E>)
+  : GoblinManagedObject(), InstructionTranslatorMXBean, InstructionTranslator1<E> by delegator

@@ -1,4 +1,4 @@
-package org.goblinframework.core.monitor;
+package org.goblinframework.api.monitor;
 
 import org.goblinframework.api.common.Lifecycle;
 import org.jetbrains.annotations.NotNull;

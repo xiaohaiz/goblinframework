@@ -9,9 +9,9 @@ import org.goblinframework.core.module.spi.RegisterGoblinCacheBuilder
 import org.goblinframework.core.module.spi.RegisterInstructionTranslator
 import org.goblinframework.core.module.spi.RegisterManagementController
 import org.goblinframework.core.module.spi.RegisterMonitorPoint
-import org.goblinframework.core.monitor.Instruction
-import org.goblinframework.core.monitor.InstructionTranslator
-import org.goblinframework.core.monitor.MonitorPoint
+import org.goblinframework.api.monitor.Instruction
+import org.goblinframework.api.monitor.InstructionTranslator1
+import org.goblinframework.api.monitor.MonitorPoint
 
 class GoblinModuleInstallContext private constructor() : GoblinModuleContext() {
 
@@ -39,7 +39,7 @@ class GoblinModuleInstallContext private constructor() : GoblinModuleContext() {
     registerMonitorPoint?.register(monitorPoint)
   }
 
-  fun <E : Instruction> registerInstructionTranslator(type: Class<E>, translator: InstructionTranslator<E>) {
+  fun <E : Instruction> registerInstructionTranslator(type: Class<E>, translator: InstructionTranslator1<E>) {
     registerInstructionTranslator?.register(type, translator)
   }
 

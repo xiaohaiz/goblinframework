@@ -1,6 +1,6 @@
 package org.goblinframework.monitor.flight;
 
-import org.goblinframework.core.monitor.Instruction;
+import org.goblinframework.api.monitor.Instruction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

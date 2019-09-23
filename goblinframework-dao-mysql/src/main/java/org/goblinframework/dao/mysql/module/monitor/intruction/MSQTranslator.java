@@ -1,12 +1,12 @@
 package org.goblinframework.dao.mysql.module.monitor.intruction;
 
 import org.goblinframework.api.annotation.Singleton;
-import org.goblinframework.core.monitor.InstructionTranslator;
+import org.goblinframework.api.monitor.InstructionTranslator1;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 @Singleton
-final public class MSQTranslator implements InstructionTranslator<MSQ> {
+final public class MSQTranslator implements InstructionTranslator1<MSQ> {
 
   public static final MSQTranslator INSTANCE = new MSQTranslator();
 
