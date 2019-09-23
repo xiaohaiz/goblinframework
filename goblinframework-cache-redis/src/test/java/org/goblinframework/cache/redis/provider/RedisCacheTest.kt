@@ -1,9 +1,8 @@
 package org.goblinframework.cache.redis.provider
 
 import org.bson.types.ObjectId
-import org.goblinframework.api.cache.CasOperation
 import org.goblinframework.api.cache.CacheSystem
-import org.goblinframework.cache.core.cache.GoblinCacheBuilderManager
+import org.goblinframework.api.cache.CasOperation
 import org.goblinframework.cache.redis.module.test.FlushRedisCache
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
@@ -21,8 +20,7 @@ class RedisCacheTest {
 
   @Test
   fun add() {
-    val cache = GoblinCacheBuilderManager.INSTANCE
-        .getCacheBuilder(CacheSystem.RDS)?.getCache("_ut")!!
+    val cache = CacheSystem.RDS.cache("_ut")!!
     val key = RandomUtils.nextObjectId()
     val value = ObjectId()
     val ret = cache.add(key, 1800, value)
@@ -35,8 +33,7 @@ class RedisCacheTest {
 
   @Test
   fun append() {
-    val cache = GoblinCacheBuilderManager.INSTANCE
-        .getCacheBuilder(CacheSystem.RDS)?.getCache("_ut")!!
+    val cache = CacheSystem.RDS.cache("_ut")!!
     val key = RandomUtils.nextObjectId()
     cache.set(key, 1800, "HELLO")
     cache.append(key, " WORLD")
@@ -46,8 +43,7 @@ class RedisCacheTest {
 
   @Test
   fun incr() {
-    val cache = GoblinCacheBuilderManager.INSTANCE
-        .getCacheBuilder(CacheSystem.RDS)?.getCache("_ut")!!
+    val cache = CacheSystem.RDS.cache("_ut")!!
     // no initial value
     var key = RandomUtils.nextObjectId()
     var value = cache.incr(key, 10, 100, 3600)
@@ -70,8 +66,7 @@ class RedisCacheTest {
 
   @Test
   fun decr() {
-    val cache = GoblinCacheBuilderManager.INSTANCE
-        .getCacheBuilder(CacheSystem.RDS)?.getCache("_ut")!!
+    val cache = CacheSystem.RDS.cache("_ut")!!
     // no initial value
     var key = RandomUtils.nextObjectId()
     var value = cache.decr(key, 10, 100, 3600)
@@ -94,8 +89,7 @@ class RedisCacheTest {
 
   @Test
   fun cas() {
-    val cache = GoblinCacheBuilderManager.INSTANCE
-        .getCacheBuilder(CacheSystem.RDS)?.getCache("_ut")!!
+    val cache = CacheSystem.RDS.cache("_ut")!!
     val key = RandomUtils.nextObjectId()
     cache.set(key, 1800, mutableMapOf<Int, String>())
     val success = mutableListOf<Int>()

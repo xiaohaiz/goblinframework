@@ -4,7 +4,6 @@ import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.cache.CacheSystem
 import org.goblinframework.api.system.*
 import org.goblinframework.cache.core.cache.CacheBuilderManager
-import org.goblinframework.cache.core.cache.GoblinCacheBuilderManager
 import org.goblinframework.cache.core.module.test.FlushInJvmCacheBeforeTestMethod
 import org.goblinframework.cache.core.provider.InJvmCacheBuilder
 import org.goblinframework.cache.core.provider.NoOpCacheBuilder
@@ -34,11 +33,10 @@ class CacheModule : IModule {
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
-    GoblinCacheBuilderManager.INSTANCE.dispose()
+    CacheBuilderManager.INSTANCE.dispose()
     ctx.createSubModules()
         .module(GoblinSubModule.CACHE_COUCHBASE)
         .module(GoblinSubModule.CACHE_REDIS)
         .finalize(ctx)
-    CacheBuilderManager.INSTANCE.dispose()
   }
 }

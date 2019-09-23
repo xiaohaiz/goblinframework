@@ -42,7 +42,7 @@ class CacheBuilderManager private constructor()
     }
   }
 
-  fun cacheBuilder(system: CacheSystem): CacheBuilder? {
+  override fun cacheBuilder(system: CacheSystem): CacheBuilder? {
     return lock.read { buffer[system] }
   }
 
@@ -52,11 +52,6 @@ class CacheBuilderManager private constructor()
       buffer.clear()
     }
   }
-
-  @GoblinManagedBean(type = "cache")
-  class ManagedCacheBuilder
-  internal constructor(private val delegator: CacheBuilder)
-    : GoblinManagedObject(), CacheBuilderMXBean, CacheBuilder by delegator
 
   @Install
   class Installer : Ordered, ICacheBuilderManager by INSTANCE {

@@ -8,8 +8,6 @@ import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.cache.core.cache.CacheBuilderMXBean
 import org.goblinframework.cache.redis.client.RedisClientManager
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.locks.ReentrantLock
 
 @Singleton
 @ThreadSafe
@@ -20,9 +18,6 @@ class RedisCacheBuilder private constructor()
   companion object {
     @JvmField val INSTANCE = RedisCacheBuilder()
   }
-
-  private val lock = ReentrantLock()
-  private val buffer = ConcurrentHashMap<String, RedisCacheImpl>()
 
   override fun cache(name: String): Cache? {
     val client = RedisClientManager.INSTANCE.getRedisClient(name) ?: return null

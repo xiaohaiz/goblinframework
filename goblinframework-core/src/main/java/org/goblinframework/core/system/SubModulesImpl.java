@@ -50,7 +50,7 @@ final class SubModulesImpl implements SubModules {
   }
 
   private void execute(ModuleContext ctx) {
-    for (int i = 0; i < stage.get(); i++) {
+    for (int i = 0; i <= stage.get(); i++) {
       List<List<GoblinSubModule>> idsList = modules.get(i);
       if (idsList == null) {
         continue;

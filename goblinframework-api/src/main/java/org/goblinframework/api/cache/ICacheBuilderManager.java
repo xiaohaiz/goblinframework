@@ -10,6 +10,9 @@ public interface ICacheBuilderManager {
   void register(@NotNull CacheSystem system, @NotNull CacheBuilder builder);
 
   @Nullable
+  CacheBuilder cacheBuilder(@NotNull CacheSystem system);
+
+  @Nullable
   static ICacheBuilderManager instance() {
     return CacheBuilderManagerInstaller.installed;
   }
