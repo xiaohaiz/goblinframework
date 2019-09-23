@@ -1,7 +1,8 @@
 package org.goblinframework.cache.core.module
 
-import org.goblinframework.api.common.Install
+import org.goblinframework.api.cache.CacheBuilder
 import org.goblinframework.api.cache.CacheSystem
+import org.goblinframework.api.common.Install
 import org.goblinframework.api.system.*
 import org.goblinframework.cache.core.cache.CacheBuilderManager
 import org.goblinframework.cache.core.module.test.FlushCacheBeforeTestMethod
@@ -16,9 +17,10 @@ class CacheModule : IModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
+    ctx.setExtension("CacheModule", this)
     ctx.registerTestExecutionListener(FlushCacheBeforeTestMethod.INSTANCE)
-    CacheBuilderManager.INSTANCE.register(CacheSystem.NOP, NoOpCacheBuilder.INSTANCE)
-    CacheBuilderManager.INSTANCE.register(CacheSystem.JVM, InJvmCacheBuilder.INSTANCE)
+    registerCacheBuilder(CacheSystem.NOP, NoOpCacheBuilder.INSTANCE)
+    registerCacheBuilder(CacheSystem.JVM, InJvmCacheBuilder.INSTANCE)
     ctx.createSubModules()
         .module(GoblinSubModule.CACHE_COUCHBASE)
         .module(GoblinSubModule.CACHE_REDIS)
@@ -38,5 +40,9 @@ class CacheModule : IModule {
         .module(GoblinSubModule.CACHE_COUCHBASE)
         .module(GoblinSubModule.CACHE_REDIS)
         .finalize(ctx)
+  }
+
+  fun registerCacheBuilder(system: CacheSystem, builder: CacheBuilder) {
+    CacheBuilderManager.INSTANCE.register(system, builder)
   }
 }

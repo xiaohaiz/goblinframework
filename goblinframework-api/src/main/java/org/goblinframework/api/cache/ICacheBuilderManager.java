@@ -7,8 +7,6 @@ import org.jetbrains.annotations.Nullable;
 @Internal(uniqueInstance = true)
 public interface ICacheBuilderManager {
 
-  void register(@NotNull CacheSystem system, @NotNull CacheBuilder builder);
-
   @Nullable
   CacheBuilder cacheBuilder(@NotNull CacheSystem system);
 

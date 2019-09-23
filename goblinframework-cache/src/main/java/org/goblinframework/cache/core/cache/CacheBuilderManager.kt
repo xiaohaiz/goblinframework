@@ -1,9 +1,9 @@
 package org.goblinframework.cache.core.cache
 
+import org.goblinframework.api.cache.*
 import org.goblinframework.api.common.Install
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.ThreadSafe
-import org.goblinframework.api.cache.*
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap
@@ -21,7 +21,7 @@ class CacheBuilderManager private constructor()
   private val buffer = ConcurrentHashMap<CacheSystem, ManagedCacheBuilder>()
 
   @Synchronized
-  override fun register(system: CacheSystem, builder: CacheBuilder) {
+  fun register(system: CacheSystem, builder: CacheBuilder) {
     buffer[system]?.run {
       throw GoblinCacheException("Cache system $system already exists")
     }

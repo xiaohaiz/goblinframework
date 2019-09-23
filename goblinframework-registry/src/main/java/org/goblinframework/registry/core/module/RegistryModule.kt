@@ -11,6 +11,7 @@ class RegistryModule : IModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
+    ctx.setExtension("RegistryModule", this)
     ctx.createSubModules()
         .module(GoblinSubModule.REGISTRY_ZOOKEEPER)
         .install(ctx)
