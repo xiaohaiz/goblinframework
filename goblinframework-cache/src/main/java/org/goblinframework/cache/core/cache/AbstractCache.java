@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-abstract public class AbstractGoblinCache implements GoblinCache {
+abstract public class AbstractCache implements Cache {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   private final CacheLocation location;
 
-  protected AbstractGoblinCache(@NotNull CacheLocation location) {
+  protected AbstractCache(@NotNull CacheLocation location) {
     this.location = location;
   }
 

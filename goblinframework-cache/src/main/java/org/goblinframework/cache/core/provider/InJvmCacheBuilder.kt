@@ -1,7 +1,7 @@
 package org.goblinframework.cache.core.provider
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.cache.GoblinCache
+import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.GoblinCacheBuilder
 
 @Singleton
@@ -15,7 +15,7 @@ class InJvmCacheBuilder private constructor() : GoblinCacheBuilder {
     return "JVM"
   }
 
-  override fun getCache(name: String): GoblinCache? {
+  override fun getCache(name: String): Cache? {
     return InJvmCache.INSTANCE
   }
 }

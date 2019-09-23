@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.Map;
 
-public interface GoblinCache extends CacheLocationProvider {
+public interface Cache extends CacheLocationProvider {
 
   @NotNull
   Object getNativeCache();

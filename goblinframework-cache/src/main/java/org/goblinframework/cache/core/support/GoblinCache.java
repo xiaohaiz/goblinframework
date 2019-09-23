@@ -1,5 +1,6 @@
 package org.goblinframework.cache.core.support;
 
+import org.goblinframework.api.cache.Cache;
 import org.goblinframework.api.cache.CacheLocation;
 import org.goblinframework.cache.core.annotation.GoblinCacheExpiration;
 import org.goblinframework.cache.core.util.CacheExpirationCalculator;
@@ -12,7 +13,7 @@ public class GoblinCache {
   public GoblinCacheExpiration.Policy expirationPolicy = GoblinCacheExpiration.Policy.FIXED;
   public int expirationValue = GoblinCacheExpiration.DEFAULT_EXPIRATION;
 
-  public org.goblinframework.api.cache.GoblinCache cache;
+  public Cache cache;
 
   public int calculateExpiration() {
     GoblinCacheExpiration annotation = type.getAnnotation(GoblinCacheExpiration.class);
@@ -22,7 +23,7 @@ public class GoblinCache {
     return CacheExpirationCalculator.expirationInSeconds(expirationPolicy, expirationValue);
   }
 
-  public org.goblinframework.api.cache.GoblinCache cache() {
+  public Cache cache() {
     return cache;
   }
 }

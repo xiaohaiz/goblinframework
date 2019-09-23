@@ -1,6 +1,6 @@
 package org.goblinframework.cache.core.provider
 
-import org.goblinframework.api.cache.GoblinCache
+import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.GoblinCacheBuilder
 
 class NoOpCacheBuilder private constructor() : GoblinCacheBuilder {
@@ -13,7 +13,7 @@ class NoOpCacheBuilder private constructor() : GoblinCacheBuilder {
     return "NOP"
   }
 
-  override fun getCache(name: String): GoblinCache? {
+  override fun getCache(name: String): Cache? {
     return NoOpCache.INSTANCE
   }
 }

@@ -1,9 +1,9 @@
 package org.goblinframework.cache.core.cache;
 
+import org.goblinframework.api.cache.Cache;
 import org.goblinframework.api.cache.CacheValueModifier;
 import org.goblinframework.api.cache.CasOperation;
 import org.goblinframework.api.cache.GetResult;
-import org.goblinframework.api.cache.GoblinCache;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory;
 final class CacheValueModifierImpl<V> implements CacheValueModifier<V> {
   private static final Logger logger = LoggerFactory.getLogger(CacheValueModifierImpl.class);
 
-  private final GoblinCache cache;
+  private final Cache cache;
 
   private String key;
   private Integer expiration;
   private CasOperation<V> modifier;
 
-  CacheValueModifierImpl(@NotNull GoblinCache cache) {
+  CacheValueModifierImpl(@NotNull Cache cache) {
     this.cache = cache;
   }
 

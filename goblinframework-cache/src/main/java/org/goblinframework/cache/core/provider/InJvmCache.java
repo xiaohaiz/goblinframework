@@ -5,7 +5,7 @@ import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.annotation.ThreadSafe;
 import org.goblinframework.api.cache.*;
 import org.goblinframework.api.common.Disposable;
-import org.goblinframework.cache.core.cache.AbstractGoblinCache;
+import org.goblinframework.cache.core.cache.AbstractCache;
 import org.goblinframework.cache.core.module.monitor.instruction.VMC;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +17,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Singleton
 @ThreadSafe
-final public class InJvmCache extends AbstractGoblinCache implements Disposable {
+final public class InJvmCache extends AbstractCache implements Disposable {
 
   public static final InJvmCache INSTANCE = new InJvmCache();
 

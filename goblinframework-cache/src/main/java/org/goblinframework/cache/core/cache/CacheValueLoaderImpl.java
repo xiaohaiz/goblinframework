@@ -13,7 +13,7 @@ import java.util.*;
 final class CacheValueLoaderImpl<K, V> implements CacheValueLoader<K, V> {
   private static final Logger logger = LoggerFactory.getLogger(CacheValueLoaderImpl.class);
 
-  private final GoblinCache cache;
+  private final Cache cache;
 
   private KeyGenerator<K> keyGenerator;
   private ExternalLoader<K, V> externalLoader;
@@ -29,7 +29,7 @@ final class CacheValueLoaderImpl<K, V> implements CacheValueLoader<K, V> {
 
   private boolean useValueWrapper = false;
 
-  CacheValueLoaderImpl(@NotNull GoblinCache cache) {
+  CacheValueLoaderImpl(@NotNull Cache cache) {
     this.cache = cache;
   }
 

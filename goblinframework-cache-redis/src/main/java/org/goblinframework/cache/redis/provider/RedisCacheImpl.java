@@ -7,7 +7,7 @@ import io.lettuce.core.TransactionResult;
 import io.lettuce.core.api.async.RedisKeyAsyncCommands;
 import io.lettuce.core.api.async.RedisStringAsyncCommands;
 import org.goblinframework.api.cache.*;
-import org.goblinframework.cache.core.cache.AbstractGoblinCache;
+import org.goblinframework.cache.core.cache.AbstractCache;
 import org.goblinframework.cache.redis.client.RedisClient;
 import org.goblinframework.core.exception.GoblinExecutionException;
 import org.goblinframework.core.exception.GoblinInterruptedException;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-final class RedisCacheImpl extends AbstractGoblinCache {
+final class RedisCacheImpl extends AbstractCache {
 
   private final RedisClient client;
 

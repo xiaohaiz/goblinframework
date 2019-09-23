@@ -1,15 +1,15 @@
 package org.goblinframework.cache.core.cache
 
-import org.goblinframework.api.cache.GoblinCache
+import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.CacheSystem
 import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 
 @GoblinManagedBean(type = "cache")
-internal class GoblinCacheImpl
-internal constructor(private val delegator: GoblinCache)
-  : GoblinManagedObject(), Disposable, GoblinCacheMXBean, GoblinCache by delegator {
+internal class CacheImpl
+internal constructor(private val delegator: Cache)
+  : GoblinManagedObject(), Disposable, GoblinCacheMXBean, Cache by delegator {
 
   override fun getCacheSystem(): CacheSystem {
     return delegator.cacheSystem

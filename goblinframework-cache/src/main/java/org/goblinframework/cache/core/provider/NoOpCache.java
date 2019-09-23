@@ -1,16 +1,16 @@
 package org.goblinframework.cache.core.provider;
 
 import org.goblinframework.api.annotation.Singleton;
+import org.goblinframework.api.cache.CacheLocation;
+import org.goblinframework.api.cache.CacheSystem;
 import org.goblinframework.api.cache.CasOperation;
 import org.goblinframework.api.cache.GetResult;
-import org.goblinframework.api.cache.CacheSystem;
-import org.goblinframework.api.cache.CacheLocation;
-import org.goblinframework.cache.core.cache.AbstractGoblinCache;
+import org.goblinframework.cache.core.cache.AbstractCache;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Singleton
-final public class NoOpCache extends AbstractGoblinCache {
+final public class NoOpCache extends AbstractCache {
 
   static final NoOpCache INSTANCE = new NoOpCache();
 
