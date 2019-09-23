@@ -1,5 +1,6 @@
 package org.goblinframework.api.service;
 
+import org.goblinframework.api.annotation.Internal;
 import org.goblinframework.api.annotation.ThreadSafe;
 import org.goblinframework.api.common.Ordered;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +40,7 @@ final public class ServiceInstaller {
       List<E> installed = new LinkedList<>();
       ClassLoader classLoader = ServiceClassLoader.defaultClassLoader();
       ServiceLoader.load(serviceType, classLoader).forEach(installed::add);
+      validateInternalService(serviceType, installed);
       installed.sort((o1, o2) -> {
         int p1 = 0, p2 = 0;
         if (o1 instanceof Ordered) {
@@ -60,5 +62,22 @@ final public class ServiceInstaller {
   @Nullable
   public static <E> E firstOrNull(@NotNull Class<E> serviceType) {
     return asList(serviceType).stream().findFirst().orElse(null);
+  }
+
+  private static void validateInternalService(Class<?> serviceType, List<?> installed) {
+    Internal annotation = serviceType.getAnnotation(Internal.class);
+    if (annotation == null) {
+      return;
+    }
+    if (annotation.installRequired() && installed.isEmpty()) {
+      String errMsg = "%s not installed";
+      errMsg = String.format(errMsg, serviceType.getName());
+      throw new GoblinServiceException(errMsg);
+    }
+    if (annotation.uniqueInstance() && installed.size() > 1) {
+      String errMsg = "%s requires unique instance, but %s installed";
+      errMsg = String.format(errMsg, serviceType.getName(), installed.size());
+      throw new GoblinServiceException(errMsg);
+    }
   }
 }

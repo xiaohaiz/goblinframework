@@ -4,6 +4,11 @@ import java.lang.annotation.*;
 
 @Documented
 @Target(ElementType.TYPE)
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Internal {
+
+  boolean installRequired() default false;
+
+  boolean uniqueInstance() default false;
+
 }
