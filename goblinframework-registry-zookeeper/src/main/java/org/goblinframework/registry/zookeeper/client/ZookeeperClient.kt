@@ -18,6 +18,10 @@ internal constructor(private val config: ZookeeperConfig)
     transcoder = ZkTranscoder(serializer)
   }
 
+  override fun getTranscoder(): ZkTranscoder {
+    return transcoder
+  }
+
   override fun disposeBean() {
     transcoder.dispose()
   }
