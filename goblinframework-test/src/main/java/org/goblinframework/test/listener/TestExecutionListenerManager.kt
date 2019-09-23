@@ -3,35 +3,39 @@ package org.goblinframework.test.listener
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.service.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.api.test.TestExecutionListener
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-/**
- * Default [ITestExecutionListenerManager] SPI implementation.
- * Register [TestExecutionListener] instance(s) here during
- * module installation.
- */
 @Singleton
 @ThreadSafe
-class TestExecutionListenerManager private constructor() : ITestExecutionListenerManager {
+@GoblinManagedBean(type = "test")
+class TestExecutionListenerManager private constructor()
+  : GoblinManagedObject(), ITestExecutionListenerManager, TestExecutionListenerManagerMXBean {
 
   companion object {
     @JvmField val INSTANCE = TestExecutionListenerManager()
   }
 
   private val lock = ReentrantReadWriteLock()
-  private val listeners = mutableListOf<TestExecutionListener>()
+  private val listeners = mutableListOf<TestExecutionListenerAdapter>()
 
   override fun register(listener: TestExecutionListener) {
-    lock.write { listeners.add(listener) }
+    lock.write { listeners.add(TestExecutionListenerAdapter(listener)) }
   }
 
   fun asList(): List<TestExecutionListenerAdapter> {
-    return lock.read {
-      listeners.sortedBy { it.order }.map { TestExecutionListenerAdapter(it) }.toList()
+    return lock.read { listeners.sortedBy { it.order }.toList() }
+  }
+
+  override fun disposeBean() {
+    lock.write {
+      listeners.forEach { it.dispose() }
+      listeners.clear()
     }
   }
 
