@@ -1,6 +1,7 @@
 package org.goblinframework.core.system
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.management.IManagementControllerManager
 import org.goblinframework.api.system.ModuleInstallContext
 import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.api.test.TestExecutionListener
@@ -14,5 +15,9 @@ class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), Modu
 
   override fun registerTestExecutionListener(listener: TestExecutionListener) {
     ITestExecutionListenerManager.instance()?.register(listener)
+  }
+
+  override fun registerManagementController(controller: Any) {
+    IManagementControllerManager.instance()?.register(controller)
   }
 }

@@ -7,4 +7,6 @@ public interface ModuleInstallContext extends ModuleContext {
 
   void registerTestExecutionListener(@NotNull TestExecutionListener listener);
 
+  void registerManagementController(@NotNull Object controller);
+
 }

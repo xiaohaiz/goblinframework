@@ -1,11 +1,13 @@
 package org.goblinframework.bootstrap.module
 
-import org.goblinframework.core.bootstrap.GoblinModule
+import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.system.GoblinModule
+import org.goblinframework.api.system.IModule
 
-class BootstrapModule : GoblinModule {
+@Install
+class BootstrapModule : IModule {
 
-  override fun name(): String {
-    return "BOOTSTRAP"
+  override fun id(): GoblinModule {
+    return GoblinModule.BOOTSTRAP
   }
-
 }
