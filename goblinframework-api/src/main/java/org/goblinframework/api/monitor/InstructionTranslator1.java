@@ -2,6 +2,7 @@ package org.goblinframework.api.monitor;
 
 import org.jetbrains.annotations.NotNull;
 
+@Deprecated
 public interface InstructionTranslator1<E extends Instruction> {
 
   @NotNull
