@@ -9,7 +9,7 @@ import java.util.Map;
 public interface Cache extends CacheLocationProvider {
 
   @NotNull
-  Object getNativeCache();
+  Object nativeCache();
 
   @NotNull
   <K, V> CacheValueLoader<K, V> loader();

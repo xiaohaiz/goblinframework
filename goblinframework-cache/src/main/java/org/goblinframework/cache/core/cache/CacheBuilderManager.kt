@@ -7,6 +7,7 @@ import org.goblinframework.api.cache.CacheBuilder
 import org.goblinframework.api.cache.CacheSystem
 import org.goblinframework.api.cache.GoblinCacheException
 import org.goblinframework.api.cache.ICacheBuilderManager
+import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
@@ -33,7 +34,7 @@ class CacheBuilderManager private constructor()
       buffer[system]?.run {
         throw GoblinCacheException("Cache system $system already exists")
       }
-      if (builder is GoblinManagedObject) {
+      if (builder is Disposable) {
         buffer[system] = builder
       } else {
         buffer[system] = ManagedCacheBuilder(builder)
@@ -47,7 +48,7 @@ class CacheBuilderManager private constructor()
 
   override fun disposeBean() {
     lock.write {
-      buffer.values.filterIsInstance(GoblinManagedObject::class.java).forEach { it.dispose() }
+      buffer.values.filterIsInstance(Disposable::class.java).forEach { it.dispose() }
       buffer.clear()
     }
   }

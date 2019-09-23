@@ -20,7 +20,7 @@ final public class NoOpCache extends AbstractCache {
 
   @NotNull
   @Override
-  public Object getNativeCache() {
+  public Object nativeCache() {
     throw new UnsupportedOperationException();
   }
 

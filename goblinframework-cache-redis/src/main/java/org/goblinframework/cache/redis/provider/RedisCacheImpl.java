@@ -30,7 +30,7 @@ final class RedisCacheImpl extends AbstractCache {
 
   @NotNull
   @Override
-  public RedisClient getNativeCache() {
+  public RedisClient nativeCache() {
     return client;
   }
 

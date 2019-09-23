@@ -77,7 +77,7 @@ final public class InJvmCache extends AbstractCache implements Disposable {
 
   @NotNull
   @Override
-  public Object getNativeCache() {
+  public Object nativeCache() {
     throw new UnsupportedOperationException();
   }
 
