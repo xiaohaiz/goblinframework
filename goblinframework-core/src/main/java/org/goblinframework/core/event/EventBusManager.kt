@@ -1,17 +1,12 @@
 package org.goblinframework.core.event
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.event.*
 import org.goblinframework.core.event.boss.EventBusBoss
 import org.goblinframework.core.event.dsl.GoblinCallbackEvent
 
 @Install
-class EventBusManager : IEventBusManager, Ordered {
-
-  override fun getOrder(): Int {
-    return Ordered.HIGHEST_PRECEDENCE
-  }
+class EventBusManager : IEventBusManager {
 
   override fun subscribe(listener: GoblinEventListener) {
     EventBusBoss.INSTANCE.subscribe(listener)

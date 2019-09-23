@@ -2,7 +2,6 @@ package org.goblinframework.management.controller
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.management.IManagementControllerManager
 import java.util.*
 
@@ -26,10 +25,5 @@ class ManagementControllerManager private constructor() : IManagementControllerM
   }
 
   @Install
-  class Installer : IManagementControllerManager by INSTANCE, Ordered {
-
-    override fun getOrder(): Int {
-      return Ordered.HIGHEST_PRECEDENCE
-    }
-  }
+  class Installer : IManagementControllerManager by INSTANCE
 }

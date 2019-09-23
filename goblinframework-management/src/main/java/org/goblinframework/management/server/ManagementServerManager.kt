@@ -2,7 +2,6 @@ package org.goblinframework.management.server
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.management.IManagementServerManager
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
@@ -37,9 +36,5 @@ class ManagementServerManager private constructor()
   }
 
   @Install
-  class Installer : IManagementServerManager by INSTANCE, Ordered {
-    override fun getOrder(): Int {
-      return Ordered.HIGHEST_PRECEDENCE
-    }
-  }
+  class Installer : IManagementServerManager by INSTANCE
 }

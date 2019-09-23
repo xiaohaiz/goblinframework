@@ -4,7 +4,7 @@ import org.goblinframework.api.annotation.Internal;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@Internal
+@Internal(uniqueInstance = true)
 public interface IManagementControllerManager {
 
   void register(@NotNull Object controller);

@@ -4,7 +4,6 @@ import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.cache.*
-import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap
@@ -43,9 +42,5 @@ class CacheBuilderManager private constructor()
   }
 
   @Install
-  class Installer : Ordered, ICacheBuilderManager by INSTANCE {
-    override fun getOrder(): Int {
-      return Ordered.HIGHEST_PRECEDENCE
-    }
-  }
+  class Installer : ICacheBuilderManager by INSTANCE
 }

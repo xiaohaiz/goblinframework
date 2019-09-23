@@ -3,7 +3,7 @@ package org.goblinframework.api.event;
 import org.goblinframework.api.annotation.Internal;
 import org.jetbrains.annotations.NotNull;
 
-@Internal
+@Internal(installRequired = true, uniqueInstance = true)
 public interface IEventBusManager {
 
   void subscribe(@NotNull GoblinEventListener listener);
@@ -25,10 +25,8 @@ public interface IEventBusManager {
 
   @NotNull
   static IEventBusManager instance() {
-    IEventBusManager manager = EventBusManagerInstaller.INSTALLED;
-    if (manager == null) {
-      throw new GoblinEventException("No IEventBusManager installed");
-    }
-    return manager;
+    IEventBusManager installed = EventBusManagerInstaller.INSTALLED;
+    assert installed != null;
+    return installed;
   }
 }
