@@ -9,6 +9,7 @@ public enum GoblinSubModule {
   CACHE_REDIS(GoblinModule.CACHE),
   TRANSPORT_CLIENT(GoblinModule.TRANSPORT),
   TRANSPORT_SERVER(GoblinModule.TRANSPORT),
+  REGISTRY_ZOOKEEPER(GoblinModule.REGISTRY),
   REMOTE_CLIENT(GoblinModule.REMOTE),
   REMOTE_SERVER(GoblinModule.REMOTE);
 
