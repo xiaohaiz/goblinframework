@@ -1,4 +1,4 @@
-package org.goblinframework.monitor.module.monitor.event;
+package org.goblinframework.monitor.module.monitor;
 
 import org.goblinframework.api.annotation.Install;
 import org.goblinframework.api.common.Ordered;
@@ -15,6 +15,11 @@ import org.slf4j.LoggerFactory;
 @GoblinEventChannel("/goblin/monitor")
 final public class FlightPrettyPrinterListener implements GoblinEventListener, Ordered {
   private static final Logger logger = LoggerFactory.getLogger(FlightPrettyPrinterListener.class);
+
+  public static final FlightPrettyPrinterListener INSTANCE = new FlightPrettyPrinterListener();
+
+  private FlightPrettyPrinterListener() {
+  }
 
   @Override
   public int getOrder() {

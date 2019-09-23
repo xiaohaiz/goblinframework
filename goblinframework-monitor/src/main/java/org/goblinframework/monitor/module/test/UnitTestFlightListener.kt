@@ -1,15 +1,19 @@
 package org.goblinframework.monitor.module.test
 
-import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.common.Ordered
 import org.goblinframework.core.event.GoblinEventChannel
 import org.goblinframework.core.event.GoblinEventContext
 import org.goblinframework.core.event.GoblinEventListener
 import org.goblinframework.core.monitor.FlightEvent
 
-@Install
+@Singleton
 @GoblinEventChannel("/goblin/monitor")
-class UnitTestFlightListener : GoblinEventListener, Ordered {
+class UnitTestFlightListener private constructor() : GoblinEventListener, Ordered {
+
+  companion object {
+    @JvmField val INSTANCE = UnitTestFlightListener()
+  }
 
   override fun getOrder(): Int {
     return Ordered.LOWEST_PRECEDENCE

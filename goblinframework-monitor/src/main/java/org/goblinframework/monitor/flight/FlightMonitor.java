@@ -3,12 +3,12 @@ package org.goblinframework.monitor.flight;
 import org.goblinframework.api.annotation.Install;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.common.Ordered;
+import org.goblinframework.api.monitor.Instruction;
 import org.goblinframework.core.event.EventBus;
 import org.goblinframework.core.monitor.FlightEvent;
 import org.goblinframework.core.monitor.FlightLocation;
-import org.goblinframework.api.monitor.Instruction;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.monitor.module.monitor.instruction.DOT;
+import org.goblinframework.monitor.module.monitor.DOT;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

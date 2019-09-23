@@ -1,4 +1,4 @@
-package org.goblinframework.monitor.module.monitor.event;
+package org.goblinframework.monitor.module.monitor;
 
 import org.goblinframework.api.monitor.Instruction;
 import org.goblinframework.core.util.StringUtils;
