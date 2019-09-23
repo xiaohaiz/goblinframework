@@ -1,25 +1,26 @@
 package org.goblinframework.transport.client.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.core.bootstrap.GoblinChildModule
-import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
+import org.goblinframework.api.system.GoblinSubModule
+import org.goblinframework.api.system.ISubModule
+import org.goblinframework.api.system.ModuleFinalizeContext
+import org.goblinframework.api.system.ModuleInitializeContext
 import org.goblinframework.transport.client.channel.TransportClientManager
 import org.goblinframework.transport.client.flight.MessageFlightManager
 import org.slf4j.LoggerFactory
 
 @Install
-class TransportClientModule : GoblinChildModule {
+class TransportClientModule : ISubModule {
 
-  override fun name(): String {
-    return "TRANSPORT:CLIENT"
+  override fun id(): GoblinSubModule {
+    return GoblinSubModule.TRANSPORT_CLIENT
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
+  override fun initialize(ctx: ModuleInitializeContext) {
     TransportClientManager.INSTANCE.initialize()
   }
 
-  override fun finalize(ctx: GoblinModuleFinalizeContext) {
+  override fun finalize(ctx: ModuleFinalizeContext) {
     TransportClientManager.INSTANCE.dispose()
     MessageFlightManager.INSTANCE.dispose()
   }
