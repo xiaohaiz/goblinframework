@@ -6,6 +6,7 @@ public enum GoblinSubModule {
 
   EMBEDDED_JETTY(GoblinModule.EMBEDDED),
   EMBEDDED_NETTY(GoblinModule.EMBEDDED),
+  CACHE_COUCHBASE(GoblinModule.CACHE),
   CACHE_REDIS(GoblinModule.CACHE),
   DAO_MONGO(GoblinModule.DAO),
   DAO_MYSQL(GoblinModule.DAO),
