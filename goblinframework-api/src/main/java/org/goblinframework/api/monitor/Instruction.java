@@ -58,7 +58,8 @@ public interface Instruction extends Lifecycle, AutoCloseable {
     DOT,
     RDS,
     VMC,
-    MSQ
+    MSQ,
+    ZKP
   }
 
   enum Mode {
