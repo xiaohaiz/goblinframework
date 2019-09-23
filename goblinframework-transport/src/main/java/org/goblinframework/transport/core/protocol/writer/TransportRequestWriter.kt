@@ -1,6 +1,6 @@
 package org.goblinframework.transport.core.protocol.writer
 
-import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.core.compression.CompressorManager
 import org.goblinframework.core.compression.CompressorMode
 import org.goblinframework.core.serialization.SerializerManager

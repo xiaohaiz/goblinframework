@@ -1,6 +1,6 @@
 package org.goblinframework.monitor.module.test
 
-import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.monitor.Flight.StartPoint
 import org.goblinframework.api.monitor.FlightId

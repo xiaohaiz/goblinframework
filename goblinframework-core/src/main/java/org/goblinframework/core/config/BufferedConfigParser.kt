@@ -1,6 +1,6 @@
 package org.goblinframework.core.config
 
-import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.config.ConfigParser
 import org.goblinframework.api.config.GoblinConfig

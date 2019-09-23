@@ -1,6 +1,6 @@
 package org.goblinframework.cache.redis.module.config
 
-import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.service.GoblinManagedObject
 
 @Singleton

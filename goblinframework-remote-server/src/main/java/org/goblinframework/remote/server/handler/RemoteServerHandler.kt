@@ -1,6 +1,6 @@
 package org.goblinframework.remote.server.handler
 
-import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.event.EventBus
 import org.goblinframework.transport.server.handler.TransportRequestContext
 import org.goblinframework.transport.server.handler.TransportRequestHandler

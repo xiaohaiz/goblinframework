@@ -1,6 +1,6 @@
 package org.goblinframework.dao.core.mapping
 
-import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.service.ServiceInstaller
 import org.goblinframework.core.exception.GoblinDuplicateException

@@ -1,8 +1,8 @@
 package org.goblinframework.cache.core.cache
 
-import org.goblinframework.api.annotation.Install
-import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.common.Install
+import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.api.cache.*
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject

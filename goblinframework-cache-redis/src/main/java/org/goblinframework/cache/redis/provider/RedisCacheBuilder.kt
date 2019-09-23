@@ -1,7 +1,7 @@
 package org.goblinframework.cache.redis.provider
 
-import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.CacheBuilder
 import org.goblinframework.api.service.GoblinManagedBean

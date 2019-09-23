@@ -1,6 +1,6 @@
 package org.goblinframework.core.config
 
-import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.Lifecycle
 import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.service.GoblinManagedBean

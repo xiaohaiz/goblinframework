@@ -1,6 +1,6 @@
 package org.goblinframework.api.management;
 
-import org.goblinframework.api.annotation.Internal;
+import org.goblinframework.api.common.Internal;
 import org.goblinframework.api.common.Lifecycle;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,6 +1,6 @@
 package org.goblinframework.cache.core.module.test
 
-import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.cache.FlushCache
 import org.goblinframework.api.cache.FlushCaches
 import org.goblinframework.api.test.TestContext

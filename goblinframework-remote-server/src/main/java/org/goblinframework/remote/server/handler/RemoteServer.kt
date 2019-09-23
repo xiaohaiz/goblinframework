@@ -1,7 +1,7 @@
 package org.goblinframework.remote.server.handler
 
-import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.api.common.Lifecycle
 import org.goblinframework.api.service.GoblinManagedObject
 import java.util.concurrent.atomic.AtomicReference

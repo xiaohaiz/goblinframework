@@ -1,6 +1,6 @@
-package org.goblinframework.api.annotation
+package org.goblinframework.api.common
 
 @MustBeDocumented
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
 @Retention(AnnotationRetention.SOURCE)
-annotation class Install
+annotation class Singleton

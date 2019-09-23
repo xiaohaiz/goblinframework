@@ -1,6 +1,6 @@
 package org.goblinframework.transport.core.protocol;
 
-import org.goblinframework.api.annotation.Singleton;
+import org.goblinframework.api.common.Singleton;
 
 import java.io.Serializable;
 

@@ -1,6 +1,6 @@
 package org.goblinframework.transport.client.channel
 
-import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.event.GoblinEventContext
 import org.goblinframework.core.event.dsl.SecondTimerEventListener
 import org.goblinframework.transport.client.module.TransportClientModule

@@ -1,7 +1,7 @@
 package org.goblinframework.cache.redis.client
 
-import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.cache.redis.module.config.RedisConfigManager
 import org.goblinframework.cache.redis.module.config.RedisServerMode

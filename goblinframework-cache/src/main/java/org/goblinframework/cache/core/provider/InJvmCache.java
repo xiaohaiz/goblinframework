@@ -1,8 +1,8 @@
 package org.goblinframework.cache.core.provider;
 
 import org.apache.commons.collections4.map.LRUMap;
-import org.goblinframework.api.annotation.Singleton;
-import org.goblinframework.api.annotation.ThreadSafe;
+import org.goblinframework.api.common.Singleton;
+import org.goblinframework.api.common.ThreadSafe;
 import org.goblinframework.api.cache.*;
 import org.goblinframework.api.common.Disposable;
 import org.goblinframework.cache.core.cache.AbstractCache;

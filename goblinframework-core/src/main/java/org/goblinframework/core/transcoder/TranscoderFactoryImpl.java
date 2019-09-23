@@ -1,6 +1,6 @@
 package org.goblinframework.core.transcoder;
 
-import org.goblinframework.api.annotation.Install;
+import org.goblinframework.api.common.Install;
 import org.goblinframework.api.common.Ordered;
 import org.jetbrains.annotations.NotNull;
 

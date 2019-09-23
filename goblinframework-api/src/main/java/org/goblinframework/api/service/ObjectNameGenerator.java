@@ -1,6 +1,6 @@
 package org.goblinframework.api.service;
 
-import org.goblinframework.api.annotation.ThreadSafe;
+import org.goblinframework.api.common.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 
 import javax.management.MalformedObjectNameException;

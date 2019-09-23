@@ -1,6 +1,6 @@
 package org.goblinframework.cache.core.provider;
 
-import org.goblinframework.api.annotation.Singleton;
+import org.goblinframework.api.common.Singleton;
 import org.goblinframework.api.cache.CacheLocation;
 import org.goblinframework.api.cache.CacheSystem;
 import org.goblinframework.api.cache.CasOperation;

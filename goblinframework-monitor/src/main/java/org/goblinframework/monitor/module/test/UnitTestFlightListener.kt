@@ -1,6 +1,6 @@
 package org.goblinframework.monitor.module.test
 
-import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.event.GoblinEventChannel
 import org.goblinframework.api.event.GoblinEventContext

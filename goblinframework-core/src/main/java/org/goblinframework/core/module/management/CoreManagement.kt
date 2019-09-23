@@ -1,6 +1,6 @@
 package org.goblinframework.core.module.management
 
-import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.core.compression.CompressorManager
 import org.goblinframework.core.serialization.SerializerManager
 import org.springframework.ui.Model

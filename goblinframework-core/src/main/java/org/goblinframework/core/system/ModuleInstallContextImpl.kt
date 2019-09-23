@@ -1,6 +1,6 @@
 package org.goblinframework.core.system
 
-import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.config.ConfigParser
 import org.goblinframework.api.config.IConfigParserManager
 import org.goblinframework.api.event.EventBus

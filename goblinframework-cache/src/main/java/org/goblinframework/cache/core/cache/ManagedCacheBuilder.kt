@@ -1,7 +1,7 @@
 package org.goblinframework.cache.core.cache
 
 import org.apache.commons.lang3.mutable.MutableObject
-import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.CacheBuilder
 import org.goblinframework.api.service.GoblinManagedBean

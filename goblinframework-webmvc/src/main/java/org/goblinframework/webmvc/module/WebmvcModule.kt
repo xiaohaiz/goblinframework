@@ -1,6 +1,6 @@
 package org.goblinframework.webmvc.module
 
-import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.common.Install
 import org.goblinframework.api.system.GoblinModule
 import org.goblinframework.api.system.IModule
 import org.goblinframework.api.system.ModuleFinalizeContext
