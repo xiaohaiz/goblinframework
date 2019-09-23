@@ -1,6 +1,6 @@
 package org.goblinframework.schedule.timer
 
-import org.goblinframework.core.event.EventBus
+import org.goblinframework.api.event.EventBus
 import org.goblinframework.core.event.dsl.GoblinTimerEvent
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong

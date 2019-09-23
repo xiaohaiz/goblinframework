@@ -3,9 +3,9 @@ package org.goblinframework.monitor.message
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.common.Block0
+import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
-import org.goblinframework.core.event.EventBus
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write

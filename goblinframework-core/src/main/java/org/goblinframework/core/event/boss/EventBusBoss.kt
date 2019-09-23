@@ -6,7 +6,6 @@ import org.goblinframework.api.event.*
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.service.ServiceInstaller
-import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.event.config.EventBusConfig
 import org.goblinframework.core.event.config.EventBusConfigLoader
 import org.goblinframework.core.event.context.GoblinEventContextImpl
@@ -121,14 +120,11 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     ServiceInstaller.firstOrNull(GoblinTimerEventGenerator::class.java)?.stop()
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
-      EventBus.LOGGER.info("EventBusBoss closed")
-    } catch (ex: TimeoutException) {
-      EventBus.LOGGER.warn("EventBusBoss close timeout", ex)
+    } catch (ignore: TimeoutException) {
     }
     lock.write {
       workers.values.reversed().forEach { it.dispose() }
       workers.clear()
     }
-    EventBus.LOGGER.info("EventBus closed")
   }
 }

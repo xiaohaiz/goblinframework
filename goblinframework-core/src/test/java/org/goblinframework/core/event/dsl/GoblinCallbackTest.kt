@@ -2,8 +2,8 @@ package org.goblinframework.core.event.dsl
 
 import org.apache.commons.lang3.RandomStringUtils
 import org.apache.commons.lang3.RandomUtils
+import org.goblinframework.api.event.EventBus
 import org.goblinframework.core.container.SpringManagedBean
-import org.goblinframework.core.event.EventBus
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert
 import org.junit.Test

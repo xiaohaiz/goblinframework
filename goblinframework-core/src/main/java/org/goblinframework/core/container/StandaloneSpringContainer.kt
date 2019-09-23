@@ -1,7 +1,7 @@
 package org.goblinframework.core.container
 
 import org.bson.types.ObjectId
-import org.goblinframework.core.event.EventBus
+import org.goblinframework.api.event.EventBus
 import org.springframework.beans.BeansException
 import org.springframework.context.support.ClassPathXmlApplicationContext
 

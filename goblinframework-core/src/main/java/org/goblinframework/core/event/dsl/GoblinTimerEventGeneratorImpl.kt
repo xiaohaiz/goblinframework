@@ -1,6 +1,6 @@
 package org.goblinframework.core.event.dsl
 
-import org.goblinframework.core.event.EventBus
+import org.goblinframework.api.event.EventBus
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong

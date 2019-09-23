@@ -7,7 +7,6 @@ import org.goblinframework.api.event.GoblinEventException
 import org.goblinframework.api.event.GoblinEventListener
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
-import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.event.config.EventBusConfig
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.WorkerRingBufferFullException
@@ -76,9 +75,7 @@ internal constructor(private val config: EventBusConfig)
   override fun disposeBean() {
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
-      EventBus.LOGGER.info("EventBusWorker [${config.channel}] closed")
-    } catch (ex: TimeoutException) {
-      EventBus.LOGGER.warn("EventBusWorker [${config.channel}] close timeout", ex)
+    } catch (ignore: TimeoutException) {
     }
   }
 }

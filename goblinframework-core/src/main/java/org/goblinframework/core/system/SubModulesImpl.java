@@ -1,8 +1,8 @@
 package org.goblinframework.core.system;
 
+import org.goblinframework.api.event.EventBus;
 import org.goblinframework.api.event.GoblinEventFuture;
 import org.goblinframework.api.system.*;
-import org.goblinframework.core.event.EventBus;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.LinkedMultiValueMap;
 
