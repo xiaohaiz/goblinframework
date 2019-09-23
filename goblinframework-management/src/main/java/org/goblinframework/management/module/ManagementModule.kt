@@ -1,22 +1,25 @@
 package org.goblinframework.management.module
 
-import org.goblinframework.core.bootstrap.GoblinModule
-import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
+import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.system.GoblinModule
+import org.goblinframework.api.system.IModule
+import org.goblinframework.api.system.ModuleFinalizeContext
+import org.goblinframework.api.system.ModuleInstallContext
 import org.goblinframework.management.controller.ManagementController
 import org.goblinframework.management.server.ManagementServerManager
 
-class ManagementModule : GoblinModule {
+@Install
+class ManagementModule : IModule {
 
-  override fun name(): String {
-    return "MANAGEMENT"
+  override fun id(): GoblinModule {
+    return GoblinModule.MANAGEMENT
   }
 
-  override fun install(ctx: GoblinModuleInstallContext) {
+  override fun install(ctx: ModuleInstallContext) {
     ctx.registerManagementController(ManagementController.INSTANCE)
   }
 
-  override fun finalize(ctx: GoblinModuleFinalizeContext) {
+  override fun finalize(ctx: ModuleFinalizeContext) {
     ManagementServerManager.INSTANCE.dispose()
   }
 }
