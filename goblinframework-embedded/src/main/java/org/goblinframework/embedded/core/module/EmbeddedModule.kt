@@ -1,35 +1,34 @@
 package org.goblinframework.embedded.core.module
 
-import org.goblinframework.core.bootstrap.GoblinModule
-import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
+import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.system.*
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 
-class EmbeddedModule : GoblinModule {
+@Install
+class EmbeddedModule : IModule {
 
-  override fun name(): String {
-    return "EMBEDDED"
+  override fun id(): GoblinModule {
+    return GoblinModule.EMBEDDED
   }
 
-  override fun install(ctx: GoblinModuleInstallContext) {
-    ctx.createChildModuleManager()
-        .module("EMBEDDED:JETTY")
-        .module("EMBEDDED:NETTY")
+  override fun install(ctx: ModuleInstallContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.EMBEDDED_JETTY)
+        .module(GoblinSubModule.EMBEDDED_NETTY)
         .install(ctx)
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
-    ctx.createChildModuleManager()
-        .module("EMBEDDED:JETTY")
-        .module("EMBEDDED:NETTY")
+  override fun initialize(ctx: ModuleInitializeContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.EMBEDDED_JETTY)
+        .module(GoblinSubModule.EMBEDDED_NETTY)
         .initialize(ctx)
   }
 
-  override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    ctx.createChildModuleManager()
-        .module("EMBEDDED:JETTY")
-        .module("EMBEDDED:NETTY")
+  override fun finalize(ctx: ModuleFinalizeContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.EMBEDDED_JETTY)
+        .module(GoblinSubModule.EMBEDDED_NETTY)
         .finalize(ctx)
     EmbeddedServerManager.INSTANCE.dispose()
   }
