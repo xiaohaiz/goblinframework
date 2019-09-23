@@ -34,8 +34,8 @@ public class GoblinCacheBean {
         gc.expirationPolicy = expiration.policy();
         gc.expirationValue = expiration.value();
       }
-      GoblinCacheSystem cacheSystem = gc.location.getSystem();
-      String cacheName = gc.location.getName();
+      GoblinCacheSystem cacheSystem = gc.location.system;
+      String cacheName = gc.location.name;
       org.goblinframework.core.cache.GoblinCache cache = null;
       GoblinCacheBuilder builder = GoblinCacheBuilderManager.INSTANCE.getCacheBuilder(cacheSystem);
       if (builder != null) {

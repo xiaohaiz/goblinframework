@@ -9,11 +9,11 @@ public interface CacheSystemLocationProvider {
 
   @NotNull
   default GoblinCacheSystem getCacheSystem() {
-    return getCacheSystemLocation().getSystem();
+    return getCacheSystemLocation().system;
   }
 
   @NotNull
   default String getName() {
-    return getCacheSystemLocation().getName();
+    return getCacheSystemLocation().name;
   }
 }
