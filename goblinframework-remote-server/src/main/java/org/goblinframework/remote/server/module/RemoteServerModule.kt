@@ -1,24 +1,25 @@
 package org.goblinframework.remote.server.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.core.bootstrap.GoblinChildModule
-import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
+import org.goblinframework.api.system.GoblinSubModule
+import org.goblinframework.api.system.ISubModule
+import org.goblinframework.api.system.ModuleFinalizeContext
+import org.goblinframework.api.system.ModuleInitializeContext
 import org.goblinframework.remote.server.handler.RemoteServer
 import org.goblinframework.remote.server.service.RemoteServiceManager
 
 @Install
-class RemoteServerModule : GoblinChildModule {
+class RemoteServerModule : ISubModule {
 
-  override fun name(): String {
-    return "REMOTE:SERVER"
+  override fun id(): GoblinSubModule {
+    return GoblinSubModule.REMOTE_SERVER
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
+  override fun initialize(ctx: ModuleInitializeContext) {
     RemoteServer.INSTANCE.start()
   }
 
-  override fun finalize(ctx: GoblinModuleFinalizeContext) {
+  override fun finalize(ctx: ModuleFinalizeContext) {
     RemoteServer.INSTANCE.dispose()
     RemoteServiceManager.INSTANCE.dispose()
   }

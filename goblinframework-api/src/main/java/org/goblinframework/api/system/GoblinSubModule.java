@@ -8,7 +8,9 @@ public enum GoblinSubModule {
   EMBEDDED_NETTY(GoblinModule.EMBEDDED),
   CACHE_REDIS(GoblinModule.CACHE),
   TRANSPORT_CLIENT(GoblinModule.TRANSPORT),
-  TRANSPORT_SERVER(GoblinModule.TRANSPORT);
+  TRANSPORT_SERVER(GoblinModule.TRANSPORT),
+  REMOTE_CLIENT(GoblinModule.REMOTE),
+  REMOTE_SERVER(GoblinModule.REMOTE);
 
   private final GoblinModule parent;
 
