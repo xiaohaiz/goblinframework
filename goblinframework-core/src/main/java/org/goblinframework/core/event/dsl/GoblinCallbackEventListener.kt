@@ -1,5 +1,6 @@
 package org.goblinframework.core.event.dsl
 
+import org.goblinframework.api.event.GoblinCallbackException
 import org.goblinframework.api.event.GoblinEventChannel
 import org.goblinframework.api.event.GoblinEventContext
 import org.goblinframework.api.event.GoblinEventListener

@@ -1,4 +1,4 @@
-package org.goblinframework.core.event.dsl;
+package org.goblinframework.api.event;
 
 import org.goblinframework.api.common.GoblinFutureImpl;
 

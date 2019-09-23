@@ -1,5 +1,6 @@
 package org.goblinframework.core.event.dsl;
 
+import org.goblinframework.api.event.GoblinCallback;
 import org.goblinframework.api.event.GoblinEvent;
 import org.goblinframework.api.event.GoblinEventChannel;
 import org.jetbrains.annotations.NotNull;
