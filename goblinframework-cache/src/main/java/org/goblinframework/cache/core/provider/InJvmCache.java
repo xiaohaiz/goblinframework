@@ -26,7 +26,7 @@ final public class InJvmCache extends AbstractCache implements Disposable {
   private final LRUMap<String, CacheItem> buffer = new LRUMap<>(65536);
 
   private InJvmCache() {
-    super(new CacheLocation(CacheSystem.JVM, CacheSystem.JVM.name()));
+    super(new CacheLocation(CacheSystem.JVM, "$JVM"));
     watchdogTimer = new Timer("InJvmCacheWatchdogTimer", true);
     watchdogTimer.scheduleAtFixedRate(new TimerTask() {
       @Override
@@ -314,12 +314,15 @@ final public class InJvmCache extends AbstractCache implements Disposable {
 
   @Override
   public void flush() {
-    lock.writeLock().lock();
-    try {
-      buffer.clear();
-      logger.info("JVM cache flushed");
-    } finally {
-      lock.writeLock().unlock();
+    try (VMC instruction = new VMC()) {
+      instruction.setOperation("flush");
+      lock.writeLock().lock();
+      try {
+        buffer.clear();
+        logger.info("JVM cache flushed");
+      } finally {
+        lock.writeLock().unlock();
+      }
     }
   }
 

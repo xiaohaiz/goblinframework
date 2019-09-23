@@ -23,6 +23,6 @@ public enum CacheSystem {
 
   @Nullable
   public Cache defaultCache() {
-    return cache(this.name());
+    return cache("$" + this.name());
   }
 }

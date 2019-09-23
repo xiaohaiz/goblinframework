@@ -3,7 +3,6 @@ package org.goblinframework.cache.core.provider
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.CacheBuilder
-import org.goblinframework.api.cache.CacheSystem
 
 @Singleton
 class NoOpCacheBuilder private constructor() : CacheBuilder {
@@ -13,7 +12,7 @@ class NoOpCacheBuilder private constructor() : CacheBuilder {
   }
 
   override fun decorateCacheName(name: String): String {
-    return CacheSystem.NOP.name
+    return "\$NOP"
   }
 
   override fun cache(name: String): Cache {

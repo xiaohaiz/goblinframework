@@ -15,7 +15,7 @@ final public class NoOpCache extends AbstractCache {
   static final NoOpCache INSTANCE = new NoOpCache();
 
   private NoOpCache() {
-    super(new CacheLocation(CacheSystem.NOP, CacheSystem.NOP.name()));
+    super(new CacheLocation(CacheSystem.NOP, "$NOP"));
   }
 
   @NotNull
