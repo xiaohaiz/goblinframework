@@ -6,7 +6,7 @@ import org.goblinframework.api.annotation.ThreadSafe;
 import org.goblinframework.api.cache.*;
 import org.goblinframework.api.common.Disposable;
 import org.goblinframework.cache.core.cache.AbstractCache;
-import org.goblinframework.cache.core.module.monitor.instruction.VMC;
+import org.goblinframework.cache.core.module.monitor.VMC;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
