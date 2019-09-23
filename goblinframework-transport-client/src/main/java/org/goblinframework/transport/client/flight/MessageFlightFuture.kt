@@ -1,5 +1,5 @@
 package org.goblinframework.transport.client.flight
 
-import org.goblinframework.core.concurrent.GoblinFutureImpl
+import org.goblinframework.api.common.GoblinFutureImpl
 
 class MessageFlightFuture : GoblinFutureImpl<MessageFlight>()

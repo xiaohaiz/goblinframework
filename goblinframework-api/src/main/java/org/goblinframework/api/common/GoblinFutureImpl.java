@@ -1,6 +1,5 @@
-package org.goblinframework.core.concurrent;
+package org.goblinframework.api.common;
 
-import org.goblinframework.api.common.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,10 +47,10 @@ public class GoblinFutureImpl<T> implements GoblinFuture<T> {
     GoblinFutureResult<T> fr = result.get();
     assert fr != null;
     doResultObtained(fr);
-    if (fr.getRight() != null) {
-      throw new ExecutionException(fr.getRight());
+    if (fr.cause != null) {
+      throw new ExecutionException(fr.cause);
     }
-    return fr.getLeft();
+    return fr.result;
   }
 
   @Override
@@ -63,10 +62,10 @@ public class GoblinFutureImpl<T> implements GoblinFuture<T> {
     GoblinFutureResult<T> fr = result.get();
     assert fr != null;
     doResultObtained(fr);
-    if (fr.getRight() != null) {
-      throw new ExecutionException(fr.getRight());
+    if (fr.cause != null) {
+      throw new ExecutionException(fr.cause);
     }
-    return fr.getLeft();
+    return fr.result;
   }
 
   @Override

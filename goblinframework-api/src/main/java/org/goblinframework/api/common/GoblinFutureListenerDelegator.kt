@@ -1,7 +1,4 @@
-package org.goblinframework.core.concurrent
-
-import org.goblinframework.api.common.GoblinFuture
-import org.goblinframework.api.common.GoblinFutureListener
+package org.goblinframework.api.common
 
 import java.util.concurrent.atomic.AtomicBoolean
 

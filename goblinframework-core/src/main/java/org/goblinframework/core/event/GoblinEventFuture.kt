@@ -1,14 +1,14 @@
 package org.goblinframework.core.event
 
+import org.goblinframework.api.common.GoblinFutureImpl
+import org.goblinframework.api.common.GoblinFutureResult
 import org.goblinframework.api.event.GoblinEventContext
-import org.goblinframework.core.concurrent.GoblinFutureImpl
-import org.goblinframework.core.concurrent.GoblinFutureResult
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 
 class GoblinEventFuture : GoblinFutureImpl<GoblinEventContext>() {
 
   override fun doResultObtained(result: GoblinFutureResult<GoblinEventContext>) {
-    val ctx = result.left!!
+    val ctx = result.result!!
     if (ctx.isSuccess) {
       return
     }

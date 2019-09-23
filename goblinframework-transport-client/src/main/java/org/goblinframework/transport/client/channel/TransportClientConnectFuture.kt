@@ -1,5 +1,5 @@
 package org.goblinframework.transport.client.channel
 
-import org.goblinframework.core.concurrent.GoblinFutureImpl
+import org.goblinframework.api.common.GoblinFutureImpl
 
 class TransportClientConnectFuture : GoblinFutureImpl<TransportClient>()
