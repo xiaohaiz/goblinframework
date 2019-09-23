@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="modules" type="java.util.List<org.goblinframework.core.bootstrap.GoblinModule>" -->
+<#-- @ftlvariable name="modules" type="java.util.List<org.goblinframework.api.system.IModule>" -->
 <!--suppress HtmlUnknownTarget -->
 <html>
 <head>
