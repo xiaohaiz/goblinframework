@@ -1,34 +1,34 @@
 package org.goblinframework.dao.core.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.core.bootstrap.GoblinModule
-import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
+import org.goblinframework.api.system.*
 import org.goblinframework.dao.core.mapping.EntityMappingBuilderManager
 
 @Install
-class DaoModule : GoblinModule {
+class DaoModule : IModule {
 
-  override fun name(): String {
-    return "DAO"
+  override fun id(): GoblinModule {
+    return GoblinModule.DAO
   }
 
-  override fun install(ctx: GoblinModuleInstallContext) {
-    ctx.createChildModuleManager()
-        .module("DAO:MYSQL")
+  override fun install(ctx: ModuleInstallContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.DAO_MONGO)
+        .module(GoblinSubModule.DAO_MYSQL)
         .install(ctx)
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
-    ctx.createChildModuleManager()
-        .module("DAO:MYSQL")
+  override fun initialize(ctx: ModuleInitializeContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.DAO_MONGO)
+        .module(GoblinSubModule.DAO_MYSQL)
         .initialize(ctx)
   }
 
-  override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    ctx.createChildModuleManager()
-        .module("DAO:MYSQL")
+  override fun finalize(ctx: ModuleFinalizeContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.DAO_MONGO)
+        .module(GoblinSubModule.DAO_MYSQL)
         .finalize(ctx)
     EntityMappingBuilderManager.INSTANCE.dispose()
   }
