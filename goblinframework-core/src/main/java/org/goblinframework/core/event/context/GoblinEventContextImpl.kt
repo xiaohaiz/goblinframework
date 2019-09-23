@@ -1,8 +1,8 @@
 package org.goblinframework.core.event.context
 
-import org.goblinframework.core.event.GoblinEvent
-import org.goblinframework.core.event.GoblinEventContext
-import org.goblinframework.core.event.GoblinEventException
+import org.goblinframework.api.event.GoblinEvent
+import org.goblinframework.api.event.GoblinEventContext
+import org.goblinframework.api.event.GoblinEventException
 import org.goblinframework.core.event.GoblinEventFuture
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap

@@ -1,8 +1,8 @@
 package org.goblinframework.core.event.dsl
 
-import org.goblinframework.core.event.GoblinEventChannel
-import org.goblinframework.core.event.GoblinEventContext
-import org.goblinframework.core.event.GoblinEventListener
+import org.goblinframework.api.event.GoblinEventChannel
+import org.goblinframework.api.event.GoblinEventContext
+import org.goblinframework.api.event.GoblinEventListener
 
 @GoblinEventChannel("/goblin/core")
 class GoblinCallbackEventListener private constructor() : GoblinEventListener {

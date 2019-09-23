@@ -1,12 +1,12 @@
 package org.goblinframework.core.system;
 
 import org.goblinframework.api.annotation.Singleton;
+import org.goblinframework.api.event.GoblinEventChannel;
+import org.goblinframework.api.event.GoblinEventContext;
+import org.goblinframework.api.event.GoblinEventListener;
 import org.goblinframework.api.system.ModuleFinalizeContext;
 import org.goblinframework.api.system.ModuleInitializeContext;
 import org.goblinframework.api.system.ModuleInstallContext;
-import org.goblinframework.core.event.GoblinEventChannel;
-import org.goblinframework.core.event.GoblinEventContext;
-import org.goblinframework.core.event.GoblinEventListener;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,8 +1,8 @@
 package org.goblinframework.core.monitor;
 
+import org.goblinframework.api.event.GoblinEvent;
+import org.goblinframework.api.event.GoblinEventChannel;
 import org.goblinframework.api.monitor.Flight;
-import org.goblinframework.core.event.GoblinEvent;
-import org.goblinframework.core.event.GoblinEventChannel;
 import org.jetbrains.annotations.NotNull;
 
 @GoblinEventChannel("/goblin/monitor")

@@ -1,9 +1,9 @@
 package org.goblinframework.remote.server.expose
 
+import org.goblinframework.api.event.GoblinEventChannel
+import org.goblinframework.api.event.GoblinEventContext
+import org.goblinframework.api.event.GoblinEventListener
 import org.goblinframework.core.container.ContainerRefreshedEvent
-import org.goblinframework.core.event.GoblinEventChannel
-import org.goblinframework.core.event.GoblinEventContext
-import org.goblinframework.core.event.GoblinEventListener
 
 @GoblinEventChannel("/goblin/core")
 class ExposeSpringContainer : GoblinEventListener {
