@@ -24,7 +24,7 @@
                 <#list modules as module>
                   <a class="btn btn-default"
                      href="${module.managementEntrance()}"
-                     role="button">${module.name()}</a>
+                     role="button">${module.id().name()}</a>
                 </#list>
             </td>
           </tr>

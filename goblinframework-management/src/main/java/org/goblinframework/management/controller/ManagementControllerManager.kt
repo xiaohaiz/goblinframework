@@ -1,10 +1,13 @@
 package org.goblinframework.management.controller
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.core.module.spi.RegisterManagementController
+import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.common.Ordered
+import org.goblinframework.api.management.IManagementControllerManager
 import java.util.*
 
-class ManagementControllerManager private constructor() : RegisterManagementController {
+@Singleton
+class ManagementControllerManager private constructor() : IManagementControllerManager {
 
   companion object {
     @JvmField val INSTANCE = ManagementControllerManager()
@@ -23,5 +26,10 @@ class ManagementControllerManager private constructor() : RegisterManagementCont
   }
 
   @Install
-  class Installer : RegisterManagementController by INSTANCE
+  class Installer : IManagementControllerManager by INSTANCE, Ordered {
+
+    override fun getOrder(): Int {
+      return Ordered.HIGHEST_PRECEDENCE
+    }
+  }
 }
