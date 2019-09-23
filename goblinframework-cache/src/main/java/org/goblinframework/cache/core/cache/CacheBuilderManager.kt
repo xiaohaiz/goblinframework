@@ -7,7 +7,6 @@ import org.goblinframework.api.cache.CacheBuilder
 import org.goblinframework.api.cache.CacheSystem
 import org.goblinframework.api.cache.GoblinCacheException
 import org.goblinframework.api.cache.ICacheBuilderManager
-import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.common.Ordered
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
@@ -23,12 +22,14 @@ class CacheBuilderManager private constructor()
     @JvmField val INSTANCE = CacheBuilderManager()
   }
 
-  private val buffer = ConcurrentHashMap<CacheSystem, CacheBuilder>()
+  private val buffer = ConcurrentHashMap<CacheSystem, ManagedCacheBuilder>()
 
+  @Synchronized
   override fun register(system: CacheSystem, builder: CacheBuilder) {
-    buffer.put(system, builder)?.run {
+    buffer[system]?.run {
       throw GoblinCacheException("Cache system $system already exists")
     }
+    buffer[system] = ManagedCacheBuilder(builder)
   }
 
   override fun cacheBuilder(system: CacheSystem): CacheBuilder? {
@@ -36,7 +37,7 @@ class CacheBuilderManager private constructor()
   }
 
   override fun disposeBean() {
-    buffer.values.filterIsInstance(Disposable::class.java).forEach { it.dispose() }
+    buffer.values.forEach { it.dispose() }
     buffer.clear()
   }
 
