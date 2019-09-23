@@ -103,7 +103,7 @@ final public class RedisCommandsMethodPool {
     methodPool.put(RedisHashCommands.class.getMethod("hkeys", KeyStreamingChannel.class, Object.class), 2);
     methodPool.put(RedisHashCommands.class.getMethod("hlen", Object.class), 1);
     methodPool.put(RedisHashCommands.class.getMethod("hmget", Object.class, Object[].class), 1);
-    methodPool.put(RedisHashCommands.class.getMethod("hmget", ValueStreamingChannel.class, Object.class, Object[].class), 2);
+    methodPool.put(RedisHashCommands.class.getMethod("hmget", KeyValueStreamingChannel.class, Object.class, Object[].class), 2);
     methodPool.put(RedisHashCommands.class.getMethod("hmset", Object.class, Map.class), 1);
     methodPool.put(RedisHashCommands.class.getMethod("hscan", Object.class), 1);
     methodPool.put(RedisHashCommands.class.getMethod("hscan", Object.class, ScanArgs.class), 1);
@@ -171,7 +171,7 @@ final public class RedisCommandsMethodPool {
     methodPool.put(RedisStringCommands.class.getMethod("incrby", Object.class, long.class), 1);
     methodPool.put(RedisStringCommands.class.getMethod("incrbyfloat", Object.class, double.class), 1);
     methodPool.put(RedisStringCommands.class.getMethod("mget", Object[].class), 11);
-    methodPool.put(RedisStringCommands.class.getMethod("mget", ValueStreamingChannel.class, Object[].class), 12);
+    methodPool.put(RedisStringCommands.class.getMethod("mget", KeyValueStreamingChannel.class, Object[].class), 12);
     methodPool.put(RedisStringCommands.class.getMethod("mset", Map.class), 21);
     methodPool.put(RedisStringCommands.class.getMethod("msetnx", Map.class), 21);
     methodPool.put(RedisStringCommands.class.getMethod("set", Object.class, Object.class), 1);
@@ -194,7 +194,6 @@ final public class RedisCommandsMethodPool {
     methodPool.put(RedisListCommands.class.getMethod("llen", Object.class), 1);
     methodPool.put(RedisListCommands.class.getMethod("lpop", Object.class), 1);
     methodPool.put(RedisListCommands.class.getMethod("lpush", Object.class, Object[].class), 1);
-    methodPool.put(RedisListCommands.class.getMethod("lpushx", Object.class, Object.class), 1);
     methodPool.put(RedisListCommands.class.getMethod("lpushx", Object.class, Object[].class), 1);
     methodPool.put(RedisListCommands.class.getMethod("lrange", Object.class, long.class, long.class), 1);
     methodPool.put(RedisListCommands.class.getMethod("lrange", ValueStreamingChannel.class, Object.class, long.class, long.class), 2);
@@ -203,7 +202,6 @@ final public class RedisCommandsMethodPool {
     methodPool.put(RedisListCommands.class.getMethod("ltrim", Object.class, long.class, long.class), 1);
     methodPool.put(RedisListCommands.class.getMethod("rpop", Object.class), 1);
     methodPool.put(RedisListCommands.class.getMethod("rpush", Object.class, Object[].class), 1);
-    methodPool.put(RedisListCommands.class.getMethod("rpushx", Object.class, Object.class), 1);
     methodPool.put(RedisListCommands.class.getMethod("rpushx", Object.class, Object[].class), 1);
 
     ///////////////////////////////////////////////////////////////////////////
@@ -352,7 +350,7 @@ final public class RedisCommandsMethodPool {
     methodPool.put(RedisHashAsyncCommands.class.getMethod("hkeys", KeyStreamingChannel.class, Object.class), 2);
     methodPool.put(RedisHashAsyncCommands.class.getMethod("hlen", Object.class), 1);
     methodPool.put(RedisHashAsyncCommands.class.getMethod("hmget", Object.class, Object[].class), 1);
-    methodPool.put(RedisHashAsyncCommands.class.getMethod("hmget", ValueStreamingChannel.class, Object.class, Object[].class), 2);
+    methodPool.put(RedisHashAsyncCommands.class.getMethod("hmget", KeyValueStreamingChannel.class, Object.class, Object[].class), 2);
     methodPool.put(RedisHashAsyncCommands.class.getMethod("hmset", Object.class, Map.class), 1);
     methodPool.put(RedisHashAsyncCommands.class.getMethod("hscan", Object.class), 1);
     methodPool.put(RedisHashAsyncCommands.class.getMethod("hscan", Object.class, ScanArgs.class), 1);
@@ -420,7 +418,7 @@ final public class RedisCommandsMethodPool {
     methodPool.put(RedisStringAsyncCommands.class.getMethod("incrby", Object.class, long.class), 1);
     methodPool.put(RedisStringAsyncCommands.class.getMethod("incrbyfloat", Object.class, double.class), 1);
     methodPool.put(RedisStringAsyncCommands.class.getMethod("mget", Object[].class), 11);
-    methodPool.put(RedisStringAsyncCommands.class.getMethod("mget", ValueStreamingChannel.class, Object[].class), 12);
+    methodPool.put(RedisStringAsyncCommands.class.getMethod("mget", KeyValueStreamingChannel.class, Object[].class), 12);
     methodPool.put(RedisStringAsyncCommands.class.getMethod("mset", Map.class), 21);
     methodPool.put(RedisStringAsyncCommands.class.getMethod("msetnx", Map.class), 21);
     methodPool.put(RedisStringAsyncCommands.class.getMethod("set", Object.class, Object.class), 1);
@@ -443,7 +441,6 @@ final public class RedisCommandsMethodPool {
     methodPool.put(RedisListAsyncCommands.class.getMethod("llen", Object.class), 1);
     methodPool.put(RedisListAsyncCommands.class.getMethod("lpop", Object.class), 1);
     methodPool.put(RedisListAsyncCommands.class.getMethod("lpush", Object.class, Object[].class), 1);
-    methodPool.put(RedisListAsyncCommands.class.getMethod("lpushx", Object.class, Object.class), 1);
     methodPool.put(RedisListAsyncCommands.class.getMethod("lpushx", Object.class, Object[].class), 1);
     methodPool.put(RedisListAsyncCommands.class.getMethod("lrange", Object.class, long.class, long.class), 1);
     methodPool.put(RedisListAsyncCommands.class.getMethod("lrange", ValueStreamingChannel.class, Object.class, long.class, long.class), 2);
@@ -452,7 +449,6 @@ final public class RedisCommandsMethodPool {
     methodPool.put(RedisListAsyncCommands.class.getMethod("ltrim", Object.class, long.class, long.class), 1);
     methodPool.put(RedisListAsyncCommands.class.getMethod("rpop", Object.class), 1);
     methodPool.put(RedisListAsyncCommands.class.getMethod("rpush", Object.class, Object[].class), 1);
-    methodPool.put(RedisListAsyncCommands.class.getMethod("rpushx", Object.class, Object.class), 1);
     methodPool.put(RedisListAsyncCommands.class.getMethod("rpushx", Object.class, Object[].class), 1);
 
     ///////////////////////////////////////////////////////////////////////////

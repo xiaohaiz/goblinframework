@@ -5,7 +5,9 @@ import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.goblinframework.cache.redis.interceptor.StatefulRedisClusterConnectionInterceptor;
 import org.goblinframework.cache.redis.transcoder.RedisTranscoder;
+import org.goblinframework.core.reflection.ReflectionUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class ClusterRedisConnectionFactory extends BasePooledObjectFactory<RedisConnection> {
@@ -29,10 +31,13 @@ public class ClusterRedisConnectionFactory extends BasePooledObjectFactory<Redis
     return new DefaultPooledObject<>(obj);
   }
 
+  @SuppressWarnings("unchecked")
   @NotNull
   public static ClusterRedisConnection createClusterRedisConnection(@NotNull RedisClusterClient redisClient,
                                                                     @NotNull RedisTranscoder redisTranscoder) {
     StatefulRedisClusterConnection<String, Object> connection = redisClient.connect(redisTranscoder);
-    return new ClusterRedisConnection(connection);
+    StatefulRedisClusterConnectionInterceptor interceptor = new StatefulRedisClusterConnectionInterceptor(connection);
+    StatefulRedisClusterConnection<String, Object> proxy = ReflectionUtils.createProxy(StatefulRedisClusterConnection.class, interceptor);
+    return new ClusterRedisConnection(proxy);
   }
 }

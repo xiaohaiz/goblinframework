@@ -5,7 +5,9 @@ import io.lettuce.core.api.StatefulRedisConnection;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.goblinframework.cache.redis.interceptor.StatefulRedisConnectionInterceptor;
 import org.goblinframework.cache.redis.transcoder.RedisTranscoder;
+import org.goblinframework.core.reflection.ReflectionUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class SingleRedisConnectionFactory extends BasePooledObjectFactory<RedisConnection> {
@@ -31,10 +33,12 @@ public class SingleRedisConnectionFactory extends BasePooledObjectFactory<RedisC
     return new DefaultPooledObject<>(obj);
   }
 
+  @SuppressWarnings("unchecked")
   @NotNull
   public static SingleRedisConnection createSingleRedisConnection(@NotNull RedisClient redisClient,
                                                                   @NotNull RedisTranscoder redisTranscoder) {
     StatefulRedisConnection<String, Object> connection = redisClient.connect(redisTranscoder);
-    return new SingleRedisConnection(connection);
+    StatefulRedisConnection<String, Object> proxy = ReflectionUtils.createProxy(StatefulRedisConnection.class, new StatefulRedisConnectionInterceptor(connection));
+    return new SingleRedisConnection(proxy);
   }
 }
