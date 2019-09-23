@@ -1,6 +1,8 @@
 package org.goblinframework.core.system
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.event.EventBus
+import org.goblinframework.api.event.GoblinEventListener
 import org.goblinframework.api.management.IManagementControllerManager
 import org.goblinframework.api.system.ModuleInstallContext
 import org.goblinframework.api.test.ITestExecutionListenerManager
@@ -11,6 +13,10 @@ class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), Modu
 
   companion object {
     @JvmField val INSTANCE = ModuleInstallContextImpl()
+  }
+
+  override fun subscribeEventListener(listener: GoblinEventListener) {
+    EventBus.subscribe(listener)
   }
 
   override fun registerTestExecutionListener(listener: TestExecutionListener) {
