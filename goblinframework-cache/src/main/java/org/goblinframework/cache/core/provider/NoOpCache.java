@@ -1,11 +1,11 @@
 package org.goblinframework.cache.core.provider;
 
 import org.goblinframework.api.annotation.Singleton;
+import org.goblinframework.api.cache.CasOperation;
+import org.goblinframework.api.cache.GetResult;
+import org.goblinframework.api.cache.GoblinCacheSystem;
+import org.goblinframework.api.cache.GoblinCacheSystemLocation;
 import org.goblinframework.cache.core.cache.AbstractGoblinCache;
-import org.goblinframework.core.cache.CasOperation;
-import org.goblinframework.core.cache.GetResult;
-import org.goblinframework.core.cache.GoblinCacheSystem;
-import org.goblinframework.core.cache.GoblinCacheSystemLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

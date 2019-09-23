@@ -1,9 +1,9 @@
 package org.goblinframework.cache.redis.provider
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.cache.GoblinCache
+import org.goblinframework.api.cache.GoblinCacheBuilder
 import org.goblinframework.cache.redis.client.RedisClientManager
-import org.goblinframework.core.cache.GoblinCache
-import org.goblinframework.core.cache.GoblinCacheBuilder
 
 @Singleton
 class RedisCacheBuilder private constructor() : GoblinCacheBuilder {

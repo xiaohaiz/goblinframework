@@ -1,6 +1,6 @@
 package org.goblinframework.cache.core.annotation;
 
-import org.goblinframework.core.cache.GoblinCacheSystem;
+import org.goblinframework.api.cache.GoblinCacheSystem;
 
 import java.lang.annotation.*;
 

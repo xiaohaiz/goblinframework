@@ -1,4 +1,4 @@
-package org.goblinframework.core.cache;
+package org.goblinframework.api.cache;
 
 import java.util.Collection;
 import java.util.Map;

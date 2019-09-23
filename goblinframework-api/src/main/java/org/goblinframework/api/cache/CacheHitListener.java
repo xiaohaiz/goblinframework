@@ -1,4 +1,4 @@
-package org.goblinframework.core.cache;
+package org.goblinframework.api.cache;
 
 public interface CacheHitListener {
 

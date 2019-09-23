@@ -1,7 +1,7 @@
 package org.goblinframework.cache.core.provider
 
-import org.goblinframework.core.cache.GoblinCache
-import org.goblinframework.core.cache.GoblinCacheBuilder
+import org.goblinframework.api.cache.GoblinCache
+import org.goblinframework.api.cache.GoblinCacheBuilder
 
 class NoOpCacheBuilder private constructor() : GoblinCacheBuilder {
 

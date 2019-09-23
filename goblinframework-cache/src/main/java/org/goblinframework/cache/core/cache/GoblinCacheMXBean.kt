@@ -1,6 +1,6 @@
 package org.goblinframework.cache.core.cache
 
-import org.goblinframework.core.cache.GoblinCacheSystem
+import org.goblinframework.api.cache.GoblinCacheSystem
 import java.lang.management.PlatformManagedObject
 
 interface GoblinCacheMXBean : PlatformManagedObject {

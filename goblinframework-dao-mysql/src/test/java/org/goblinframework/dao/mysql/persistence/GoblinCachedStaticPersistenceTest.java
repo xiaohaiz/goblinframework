@@ -1,10 +1,10 @@
 package org.goblinframework.dao.mysql.persistence;
 
+import org.goblinframework.api.cache.GoblinCacheSystem;
 import org.goblinframework.cache.core.annotation.GoblinCacheBean;
 import org.goblinframework.cache.core.module.test.FlushInJvmCache;
 import org.goblinframework.cache.core.support.GoblinCacheDimension;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
-import org.goblinframework.core.cache.GoblinCacheSystem;
 import org.goblinframework.dao.mysql.module.test.RebuildMysqlTable;
 import org.goblinframework.dao.mysql.support.UseMysqlClient;
 import org.goblinframework.test.runner.GoblinTestRunner;

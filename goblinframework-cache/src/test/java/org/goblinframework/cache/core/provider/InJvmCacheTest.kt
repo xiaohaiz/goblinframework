@@ -1,9 +1,9 @@
 package org.goblinframework.cache.core.provider
 
 import org.bson.types.ObjectId
+import org.goblinframework.api.cache.GoblinCacheSystem
 import org.goblinframework.cache.core.cache.GoblinCacheBuilderManager
 import org.goblinframework.cache.core.module.test.FlushInJvmCache
-import org.goblinframework.core.cache.GoblinCacheSystem
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertNotNull
