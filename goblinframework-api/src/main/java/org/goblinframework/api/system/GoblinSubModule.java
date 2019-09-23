@@ -7,6 +7,8 @@ public enum GoblinSubModule {
   EMBEDDED_JETTY(GoblinModule.EMBEDDED),
   EMBEDDED_NETTY(GoblinModule.EMBEDDED),
   CACHE_REDIS(GoblinModule.CACHE),
+  DAO_MONGO(GoblinModule.DAO),
+  DAO_MYSQL(GoblinModule.DAO),
   TRANSPORT_CLIENT(GoblinModule.TRANSPORT),
   TRANSPORT_SERVER(GoblinModule.TRANSPORT),
   REGISTRY_ZOOKEEPER(GoblinModule.REGISTRY),

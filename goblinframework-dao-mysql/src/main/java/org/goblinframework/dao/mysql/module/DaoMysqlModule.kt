@@ -1,33 +1,27 @@
 package org.goblinframework.dao.mysql.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.core.bootstrap.GoblinChildModule
-import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
+import org.goblinframework.api.system.*
 import org.goblinframework.dao.mysql.client.MysqlClientManager
 import org.goblinframework.dao.mysql.module.config.MysqlConfigManager
-import org.goblinframework.dao.mysql.module.monitor.intruction.MSQ
-import org.goblinframework.dao.mysql.module.monitor.intruction.MSQTranslator
 import org.goblinframework.dao.mysql.module.test.RebuildMysqlTableBeforeTestMethod
 
 @Install
-class DaoMysqlModule : GoblinChildModule {
+class DaoMysqlModule : ISubModule {
 
-  override fun name(): String {
-    return "DAO:MYSQL"
+  override fun id(): GoblinSubModule {
+    return GoblinSubModule.DAO_MYSQL
   }
 
-  override fun install(ctx: GoblinModuleInstallContext) {
-    ctx.registerInstructionTranslator(MSQ::class.java, MSQTranslator.INSTANCE)
+  override fun install(ctx: ModuleInstallContext) {
     ctx.registerTestExecutionListener(RebuildMysqlTableBeforeTestMethod.INSTANCE)
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
+  override fun initialize(ctx: ModuleInitializeContext) {
     MysqlConfigManager.INSTANCE.initialize()
   }
 
-  override fun finalize(ctx: GoblinModuleFinalizeContext) {
+  override fun finalize(ctx: ModuleFinalizeContext) {
     MysqlClientManager.INSTANCE.dispose()
     MysqlConfigManager.INSTANCE.dispose()
   }
