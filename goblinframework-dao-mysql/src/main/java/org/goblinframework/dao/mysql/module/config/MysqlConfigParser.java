@@ -2,10 +2,10 @@ package org.goblinframework.dao.mysql.module.config;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.goblinframework.api.config.GoblinConfigException;
 import org.goblinframework.core.config.BufferedConfigParser;
 import org.goblinframework.core.config.ConfigLoader;
 import org.goblinframework.core.config.ConfigMapping;
-import org.goblinframework.core.exception.GoblinConfigException;
 import org.goblinframework.core.mapper.JsonMapper;
 
 import java.util.*;

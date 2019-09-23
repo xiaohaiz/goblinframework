@@ -3,6 +3,7 @@ package org.goblinframework.core.config
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.common.Initializable
+import org.goblinframework.api.config.GoblinConfig
 import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.mapper.JsonMapper
 import java.util.concurrent.atomic.AtomicBoolean
@@ -11,7 +12,7 @@ import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 @ThreadSafe
-abstract class BufferedConfigParser<E : Config> : Initializable, Disposable {
+abstract class BufferedConfigParser<E : GoblinConfig> : Initializable, Disposable {
 
   private val lock = ReentrantReadWriteLock()
   private val buffer = mutableMapOf<String, E>()

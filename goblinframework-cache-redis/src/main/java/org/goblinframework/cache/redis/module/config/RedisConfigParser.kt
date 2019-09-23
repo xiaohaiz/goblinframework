@@ -1,8 +1,8 @@
 package org.goblinframework.cache.redis.module.config
 
+import org.goblinframework.api.config.GoblinConfigException
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigLoader
-import org.goblinframework.core.exception.GoblinConfigException
 import org.goblinframework.core.serialization.SerializerMode
 import org.goblinframework.core.util.StringUtils
 

@@ -1,14 +1,14 @@
 package org.goblinframework.dao.mysql.module.config
 
+import org.goblinframework.api.config.GoblinConfig
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
-import org.goblinframework.core.config.Config
 
 @GoblinManagedBean(type = "dao.mysql")
 class MysqlConfig(private val name: String,
                   private val master: DataSourceConfig,
                   private val slaves: List<DataSourceConfig>)
-  : GoblinManagedObject(), MysqlConfigMXBean, Config {
+  : GoblinManagedObject(), MysqlConfigMXBean, GoblinConfig {
 
   override fun disposeBean() {
     master.dispose()
