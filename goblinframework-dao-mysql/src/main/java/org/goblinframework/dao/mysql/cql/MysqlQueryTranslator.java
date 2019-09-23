@@ -1,6 +1,6 @@
 package org.goblinframework.dao.mysql.cql;
 
-import org.goblinframework.api.page.Order;
+import org.goblinframework.api.common.Order;
 import org.goblinframework.core.conversion.ConversionUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.dao.core.cql.NativeSQL;

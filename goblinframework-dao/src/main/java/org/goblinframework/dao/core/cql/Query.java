@@ -1,7 +1,7 @@
 package org.goblinframework.dao.core.cql;
 
-import org.goblinframework.api.page.Pageable;
-import org.goblinframework.api.page.Sort;
+import org.goblinframework.api.common.Pageable;
+import org.goblinframework.api.common.Sort;
 import org.goblinframework.core.util.StringUtils;
 
 import java.util.Map;

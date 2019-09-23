@@ -1,4 +1,4 @@
-package org.goblinframework.api.page;
+package org.goblinframework.api.common;
 
 public interface Pageable {
 

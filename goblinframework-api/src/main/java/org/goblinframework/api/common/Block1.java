@@ -1,4 +1,4 @@
-package org.goblinframework.api.function;
+package org.goblinframework.api.common;
 
 /**
  * @see java.util.function.Consumer

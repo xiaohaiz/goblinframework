@@ -1,6 +1,6 @@
 package org.goblinframework.transport.server.setting;
 
-import org.goblinframework.api.function.Block1;
+import org.goblinframework.api.common.Block1;
 import org.goblinframework.core.util.NetworkUtils;
 import org.jetbrains.annotations.NotNull;
 
