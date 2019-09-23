@@ -26,7 +26,7 @@ class ZookeeperConfigParser internal constructor()
     mapper.servers ?: kotlin.run {
       throw GoblinConfigException("servers is required")
     }
-    mapper.servers = StringUtils.formalizeServers(mapper.servers, " ") { DEFAULT_ZOOKEEPER_PORT }
+    mapper.servers = StringUtils.formalizeServers(mapper.servers, ",") { DEFAULT_ZOOKEEPER_PORT }
     mapper.serializer ?: kotlin.run {
       mapper.serializer = SerializerMode.HESSIAN2
     }
