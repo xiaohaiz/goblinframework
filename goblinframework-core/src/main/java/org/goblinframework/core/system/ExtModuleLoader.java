@@ -17,9 +17,9 @@ final class ExtModuleLoader {
 
   static {
     ServiceInstaller.asList(IExtModule.class).forEach(e -> {
-      String name = e.name();
-      if (extModules.putIfAbsent(name, e) != null) {
-        throw new GoblinSystemException("Duplicated ExtModule: " + name);
+      String id = e.id();
+      if (extModules.putIfAbsent(id, e) != null) {
+        throw new GoblinSystemException("Duplicated ExtModule: " + id);
       }
     });
   }

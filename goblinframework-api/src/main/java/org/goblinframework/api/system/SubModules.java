@@ -8,7 +8,7 @@ public interface SubModules {
   SubModules next();
 
   @NotNull
-  SubModules module(@NotNull String... names);
+  SubModules module(@NotNull GoblinSubModule... ids);
 
   void install(@NotNull ModuleInstallContext ctx);
 

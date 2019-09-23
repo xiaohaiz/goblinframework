@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 final class SubModulesImpl implements SubModules {
 
   private final AtomicInteger stage = new AtomicInteger();
-  private final LinkedMultiValueMap<Integer, List<String>> modules = new LinkedMultiValueMap<>();
+  private final LinkedMultiValueMap<Integer, List<GoblinSubModule>> modules = new LinkedMultiValueMap<>();
 
   @NotNull
   @Override
@@ -27,9 +27,9 @@ final class SubModulesImpl implements SubModules {
 
   @NotNull
   @Override
-  public SubModules module(@NotNull String... names) {
-    if (names.length > 0) {
-      modules.add(stage.get(), Arrays.stream(names).collect(Collectors.toList()));
+  public SubModules module(@NotNull GoblinSubModule... ids) {
+    if (ids.length > 0) {
+      modules.add(stage.get(), Arrays.stream(ids).collect(Collectors.toList()));
     }
     return this;
   }
@@ -51,13 +51,13 @@ final class SubModulesImpl implements SubModules {
 
   private void execute(ModuleContext ctx) {
     for (int i = 0; i < stage.get(); i++) {
-      List<List<String>> namesList = modules.get(i);
-      if (namesList == null) {
+      List<List<GoblinSubModule>> idsList = modules.get(i);
+      if (idsList == null) {
         continue;
       }
       List<GoblinEventFuture> futures = new ArrayList<>();
-      for (List<String> names : namesList) {
-        List<ISubModule> subModules = names.stream()
+      for (List<GoblinSubModule> ids : idsList) {
+        List<ISubModule> subModules = ids.stream()
             .map(SubModuleLoader::subModule)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());

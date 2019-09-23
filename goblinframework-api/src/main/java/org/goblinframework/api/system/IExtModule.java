@@ -14,7 +14,7 @@ public interface IExtModule extends Ordered {
   }
 
   @NotNull
-  String name();
+  String id();
 
   @Nullable
   default String managementEntrance() {

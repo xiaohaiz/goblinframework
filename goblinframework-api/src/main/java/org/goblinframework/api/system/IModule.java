@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 public interface IModule {
 
   @NotNull
-  String name();
+  GoblinModule id();
 
   @Nullable
   default String managementEntrance() {

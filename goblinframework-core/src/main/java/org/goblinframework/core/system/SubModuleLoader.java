@@ -1,29 +1,30 @@
 package org.goblinframework.core.system;
 
 import org.goblinframework.api.service.ServiceInstaller;
+import org.goblinframework.api.system.GoblinSubModule;
 import org.goblinframework.api.system.GoblinSystemException;
 import org.goblinframework.api.system.ISubModule;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 
 final class SubModuleLoader {
 
-  private static final Map<String, ISubModule> subModules = new HashMap<>();
+  private static final EnumMap<GoblinSubModule, ISubModule> subModules;
 
   static {
+    subModules = new EnumMap<>(GoblinSubModule.class);
     ServiceInstaller.asList(ISubModule.class).forEach(e -> {
-      String name = e.name();
-      if (subModules.putIfAbsent(name, e) != null) {
-        throw new GoblinSystemException("Duplicated SubModule: " + name);
+      GoblinSubModule id = e.id();
+      if (subModules.putIfAbsent(id, e) != null) {
+        throw new GoblinSystemException("Duplicated SubModule: " + id);
       }
     });
   }
 
   @Nullable
-  static ISubModule subModule(@NotNull String name) {
-    return subModules.get(name);
+  static ISubModule subModule(@NotNull GoblinSubModule id) {
+    return subModules.get(id);
   }
 }
