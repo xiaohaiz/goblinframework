@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 public enum GoblinSubModule {
 
+  EMBEDDED_JETTY(GoblinModule.EMBEDDED),
   CACHE_REDIS(GoblinModule.CACHE);
 
   private final GoblinModule parent;
