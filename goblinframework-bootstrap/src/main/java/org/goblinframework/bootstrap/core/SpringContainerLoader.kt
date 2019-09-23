@@ -8,7 +8,7 @@ import org.goblinframework.core.util.AnnotationUtils
 object SpringContainerLoader {
 
   fun load(obj: Any): SpringContainer? {
-    val annotation = AnnotationUtils.findAnnotation(obj::class.java, UseSpringContainer::class.java) ?: return null
+    val annotation = AnnotationUtils.getAnnotation(obj::class.java, UseSpringContainer::class.java) ?: return null
     val configLocations = annotation.value
     return SpringContainerManager.INSTANCE.createStandaloneContainer(*configLocations)
   }
