@@ -21,6 +21,10 @@ abstract class ModuleContextImpl : ModuleContext {
     return extensions[name] as E
   }
 
+  override fun <E : Any?> getExtension(type: Class<E>): E? {
+    return getExtension(type.javaClass.name)
+  }
+
   @Suppress("UNCHECKED_CAST")
   override fun <E : Any?> removeExtension(name: String): E? {
     return extensions.remove(name) as E

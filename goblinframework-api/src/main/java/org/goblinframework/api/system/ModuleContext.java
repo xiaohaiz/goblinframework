@@ -14,6 +14,9 @@ public interface ModuleContext {
   <E> E getExtension(@NotNull String name);
 
   @Nullable
+  <E> E getExtension(@NotNull Class<E> type);
+
+  @Nullable
   <E> E removeExtension(@NotNull String name);
 
 }
