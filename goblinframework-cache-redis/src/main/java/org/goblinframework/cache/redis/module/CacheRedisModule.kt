@@ -6,7 +6,6 @@ import org.goblinframework.api.system.*
 import org.goblinframework.cache.core.cache.CacheBuilderManager
 import org.goblinframework.cache.redis.client.RedisClientManager
 import org.goblinframework.cache.redis.module.config.RedisConfigManager
-import org.goblinframework.cache.redis.module.test.FlushRedisCacheBeforeTestMethod
 import org.goblinframework.cache.redis.provider.RedisCacheBuilder
 
 @Install
@@ -17,7 +16,6 @@ class CacheRedisModule : ISubModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    ctx.registerTestExecutionListener(FlushRedisCacheBeforeTestMethod.INSTANCE)
     CacheBuilderManager.INSTANCE.register(CacheSystem.RDS, RedisCacheBuilder.INSTANCE)
   }
 
