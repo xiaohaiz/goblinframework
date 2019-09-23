@@ -1,5 +1,6 @@
 package org.goblinframework.core.util;
 
+import org.goblinframework.api.common.GoblinException;
 import org.goblinframework.core.conversion.ConversionService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -68,7 +69,7 @@ public class GoblinField {
       }
       return field.get(obj);
     } catch (IllegalAccessException | InvocationTargetException ex) {
-      throw new GoblinReflectionException(ex);
+      throw new GoblinException(ex);
     }
   }
 
@@ -76,7 +77,7 @@ public class GoblinField {
     if (value != null && !fieldType.isAssignableFrom(value.getClass())) {
       ConversionService conversionService = ConversionService.INSTANCE;
       if (!conversionService.canConvert(value.getClass(), fieldType)) {
-        throw new GoblinReflectionException(value + " is not " + fieldType.getName());
+        throw new GoblinException(value + " is not " + fieldType.getName());
       }
       value = conversionService.convert(value, fieldType);
     }
@@ -90,7 +91,7 @@ public class GoblinField {
       }
       field.set(obj, value);
     } catch (IllegalAccessException | InvocationTargetException ex) {
-      throw new GoblinReflectionException(ex);
+      throw new GoblinException(ex);
     }
   }
 

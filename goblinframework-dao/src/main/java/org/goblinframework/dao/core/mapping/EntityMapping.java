@@ -1,8 +1,8 @@
 package org.goblinframework.dao.core.mapping;
 
+import org.goblinframework.api.common.GoblinException;
 import org.goblinframework.api.service.GoblinManagedBean;
 import org.goblinframework.api.service.GoblinManagedObject;
-import org.goblinframework.core.util.GoblinReflectionException;
 import org.goblinframework.dao.core.mapping.field.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,9 +46,9 @@ public class EntityMapping extends GoblinManagedObject implements EntityMappingM
     try {
       return entityConstructor.newInstance();
     } catch (InvocationTargetException ex) {
-      throw new GoblinReflectionException(ex.getTargetException());
+      throw new GoblinException(ex.getTargetException());
     } catch (Exception ex) {
-      throw new GoblinReflectionException(ex);
+      throw new GoblinException(ex);
     }
   }
 

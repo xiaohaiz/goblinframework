@@ -1,7 +1,7 @@
 package org.goblinframework.dao.core.mapping.field;
 
+import org.goblinframework.api.common.GoblinException;
 import org.goblinframework.core.util.GoblinField;
-import org.goblinframework.core.util.GoblinReflectionException;
 import org.goblinframework.dao.core.mapping.EntityField;
 import org.goblinframework.dao.core.mapping.EntityFieldNameResolver;
 import org.jetbrains.annotations.NotNull;
@@ -53,7 +53,7 @@ final public class EntityEmbedField extends EntityField {
       try {
         embed = embedDocumentClass.newInstance();
       } catch (Exception ex) {
-        throw new GoblinReflectionException(ex);
+        throw new GoblinException(ex);
       }
       parent.set(obj, embed);
     }
