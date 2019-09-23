@@ -1,37 +1,36 @@
 package org.goblinframework.transport.core.module
 
-import org.goblinframework.core.bootstrap.GoblinModule
-import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
+import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.system.*
 
-class TransportModule : GoblinModule {
+@Install
+class TransportModule : IModule {
 
-  override fun name(): String {
-    return "TRANSPORT"
+  override fun id(): GoblinModule {
+    return GoblinModule.TRANSPORT
   }
 
-  override fun install(ctx: GoblinModuleInstallContext) {
-    ctx.createChildModuleManager()
-        .module("TRANSPORT:CLIENT")
+  override fun install(ctx: ModuleInstallContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.TRANSPORT_CLIENT)
         .next()
-        .module("TRANSPORT:SERVER")
+        .module(GoblinSubModule.TRANSPORT_SERVER)
         .install(ctx)
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
-    ctx.createChildModuleManager()
-        .module("TRANSPORT:CLIENT")
+  override fun initialize(ctx: ModuleInitializeContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.TRANSPORT_CLIENT)
         .next()
-        .module("TRANSPORT:SERVER")
+        .module(GoblinSubModule.TRANSPORT_SERVER)
         .initialize(ctx)
   }
 
-  override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    ctx.createChildModuleManager()
-        .module("TRANSPORT:SERVER")
+  override fun finalize(ctx: ModuleFinalizeContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.TRANSPORT_SERVER)
         .next()
-        .module("TRANSPORT:CLIENT")
+        .module(GoblinSubModule.TRANSPORT_CLIENT)
         .finalize(ctx)
   }
 }
