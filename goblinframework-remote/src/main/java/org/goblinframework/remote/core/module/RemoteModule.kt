@@ -11,7 +11,7 @@ class RemoteModule : IModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.REMOTE_CLIENT)
         .next()
         .module(GoblinSubModule.REMOTE_SERVER)
@@ -19,7 +19,7 @@ class RemoteModule : IModule {
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.REMOTE_CLIENT)
         .next()
         .module(GoblinSubModule.REMOTE_SERVER)
@@ -27,7 +27,7 @@ class RemoteModule : IModule {
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.REMOTE_SERVER)
         .next()
         .module(GoblinSubModule.REMOTE_CLIENT)

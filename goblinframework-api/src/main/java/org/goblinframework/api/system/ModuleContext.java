@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 public interface ModuleContext {
 
   @NotNull
-  SubModules createSubModules();
+  SubModules createSubModules(@NotNull IModule module);
 
   <E> void setExtension(@NotNull String name, @NotNull E value);
 

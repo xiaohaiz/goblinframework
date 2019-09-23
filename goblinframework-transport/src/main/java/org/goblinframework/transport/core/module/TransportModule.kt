@@ -11,7 +11,7 @@ class TransportModule : IModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.TRANSPORT_CLIENT)
         .next()
         .module(GoblinSubModule.TRANSPORT_SERVER)
@@ -19,7 +19,7 @@ class TransportModule : IModule {
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.TRANSPORT_CLIENT)
         .next()
         .module(GoblinSubModule.TRANSPORT_SERVER)
@@ -27,7 +27,7 @@ class TransportModule : IModule {
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.TRANSPORT_SERVER)
         .next()
         .module(GoblinSubModule.TRANSPORT_CLIENT)

@@ -12,21 +12,21 @@ class DaoModule : IModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.DAO_MONGO)
         .module(GoblinSubModule.DAO_MYSQL)
         .install(ctx)
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.DAO_MONGO)
         .module(GoblinSubModule.DAO_MYSQL)
         .initialize(ctx)
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.DAO_MONGO)
         .module(GoblinSubModule.DAO_MYSQL)
         .finalize(ctx)

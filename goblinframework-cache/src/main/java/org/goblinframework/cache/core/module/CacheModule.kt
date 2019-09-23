@@ -17,18 +17,17 @@ class CacheModule : IModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    ctx.setExtension("CacheModule", this)
     ctx.registerTestExecutionListener(FlushCacheBeforeTestMethod.INSTANCE)
     registerCacheBuilder(CacheSystem.NOP, NoOpCacheBuilder.INSTANCE)
     registerCacheBuilder(CacheSystem.JVM, InJvmCacheBuilder.INSTANCE)
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.CACHE_COUCHBASE)
         .module(GoblinSubModule.CACHE_REDIS)
         .install(ctx)
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.CACHE_COUCHBASE)
         .module(GoblinSubModule.CACHE_REDIS)
         .initialize(ctx)
@@ -36,7 +35,7 @@ class CacheModule : IModule {
 
   override fun finalize(ctx: ModuleFinalizeContext) {
     CacheBuilderManager.INSTANCE.dispose()
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.CACHE_COUCHBASE)
         .module(GoblinSubModule.CACHE_REDIS)
         .finalize(ctx)

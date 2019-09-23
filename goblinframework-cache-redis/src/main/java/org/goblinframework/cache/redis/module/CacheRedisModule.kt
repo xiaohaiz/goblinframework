@@ -16,7 +16,7 @@ class CacheRedisModule : ISubModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    val parent = ctx.getExtension<CacheModule>("CacheModule")
+    val parent = ctx.getExtension(CacheModule::class.java)
     parent?.registerCacheBuilder(CacheSystem.RDS, RedisCacheBuilder.INSTANCE)
   }
 

@@ -12,21 +12,21 @@ class EmbeddedModule : IModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.EMBEDDED_JETTY)
         .module(GoblinSubModule.EMBEDDED_NETTY)
         .install(ctx)
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.EMBEDDED_JETTY)
         .module(GoblinSubModule.EMBEDDED_NETTY)
         .initialize(ctx)
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.EMBEDDED_JETTY)
         .module(GoblinSubModule.EMBEDDED_NETTY)
         .finalize(ctx)

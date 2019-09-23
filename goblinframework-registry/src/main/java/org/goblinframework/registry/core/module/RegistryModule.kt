@@ -11,20 +11,19 @@ class RegistryModule : IModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    ctx.setExtension("RegistryModule", this)
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.REGISTRY_ZOOKEEPER)
         .install(ctx)
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.REGISTRY_ZOOKEEPER)
         .initialize(ctx)
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
-    ctx.createSubModules()
+    ctx.createSubModules(this)
         .module(GoblinSubModule.REGISTRY_ZOOKEEPER)
         .finalize(ctx)
   }
