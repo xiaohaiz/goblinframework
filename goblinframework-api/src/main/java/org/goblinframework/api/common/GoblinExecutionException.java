@@ -1,6 +1,5 @@
-package org.goblinframework.core.exception;
+package org.goblinframework.api.common;
 
-import org.goblinframework.api.common.GoblinException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
