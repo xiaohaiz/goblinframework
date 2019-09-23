@@ -1,6 +1,6 @@
 package org.goblinframework.webmvc.listener
 
-import org.goblinframework.core.bootstrap.GoblinSystem
+import org.goblinframework.api.system.GoblinSystem
 import org.goblinframework.webmvc.container.WebappSpringContainer
 import javax.servlet.ServletContext
 import javax.servlet.ServletContextEvent

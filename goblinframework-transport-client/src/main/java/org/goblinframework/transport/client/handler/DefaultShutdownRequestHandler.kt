@@ -1,7 +1,7 @@
 package org.goblinframework.transport.client.handler
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.core.bootstrap.GoblinSystem
+import org.goblinframework.api.system.GoblinSystem
 import org.goblinframework.transport.core.protocol.ShutdownRequest
 
 @Singleton
@@ -12,6 +12,6 @@ class DefaultShutdownRequestHandler private constructor() : ShutdownRequestHandl
   }
 
   override fun handleShutdownRequest(request: ShutdownRequest): Boolean {
-    return request.clientId == null || request.clientId == GoblinSystem.getApplicationId()
+    return request.clientId == null || request.clientId == GoblinSystem.applicationId()
   }
 }

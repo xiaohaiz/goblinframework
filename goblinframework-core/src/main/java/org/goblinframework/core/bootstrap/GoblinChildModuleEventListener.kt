@@ -3,11 +3,13 @@ package org.goblinframework.core.bootstrap
 import org.goblinframework.core.event.GoblinEventChannel
 import org.goblinframework.core.event.GoblinEventContext
 import org.goblinframework.core.event.GoblinEventListener
+import org.slf4j.LoggerFactory
 
 @GoblinEventChannel("/goblin/core")
 class GoblinChildModuleEventListener private constructor() : GoblinEventListener {
 
   companion object {
+    private val logger = LoggerFactory.getLogger(GoblinChildModuleEventListener::class.java)
     @JvmField val INSTANCE = GoblinChildModuleEventListener()
   }
 
@@ -21,19 +23,19 @@ class GoblinChildModuleEventListener private constructor() : GoblinEventListener
       is GoblinModuleInstallContext -> {
         event.childModules.forEach {
           it.install(event.ctx)
-          GoblinSystem.LOGGER.info("Install [${it.name()}]")
+          logger.info("Install [${it.name()}]")
         }
       }
       is GoblinModuleInitializeContext -> {
         event.childModules.forEach {
           it.initialize(event.ctx)
-          GoblinSystem.LOGGER.info("Initialize [${it.name()}]")
+          logger.info("Initialize [${it.name()}]")
         }
       }
       is GoblinModuleFinalizeContext -> {
         event.childModules.reversed().forEach {
           it.finalize(event.ctx)
-          GoblinSystem.LOGGER.info("Finalize [${it.name()}]")
+          logger.info("Finalize [${it.name()}]")
         }
       }
     }

@@ -1,12 +1,14 @@
 package org.goblinframework.core.bootstrap
 
 import org.goblinframework.core.event.EventBus
+import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 class GoblinModuleManager private constructor() {
 
   companion object {
+    private val logger = LoggerFactory.getLogger(GoblinModuleManager::class.java)
     @JvmField val INSTANCE = GoblinModuleManager()
   }
 
@@ -26,11 +28,11 @@ class GoblinModuleManager private constructor() {
     for (name in GoblinModuleDefinition.moduleNames) {
       val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
       module.install(ctx)
-      GoblinSystem.LOGGER.info("Install {${module.name()}}")
+      logger.info("Install {${module.name()}}")
     }
     for (module in GoblinExtensionModuleLoader.INSTANCE.getGoblinExtensionModules()) {
       module.install(ctx)
-      GoblinSystem.LOGGER.info("Install (${module.name()})")
+      logger.info("Install (${module.name()})")
     }
     return this
   }
@@ -43,11 +45,11 @@ class GoblinModuleManager private constructor() {
     for (name in GoblinModuleDefinition.moduleNames) {
       val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
       module.initialize(ctx)
-      GoblinSystem.LOGGER.info("Initialize {${module.name()}}")
+      logger.info("Initialize {${module.name()}}")
     }
     for (module in GoblinExtensionModuleLoader.INSTANCE.getGoblinExtensionModules()) {
       module.initialize(ctx)
-      GoblinSystem.LOGGER.info("Initialize (${module.name()})")
+      logger.info("Initialize (${module.name()})")
     }
   }
 
@@ -60,11 +62,11 @@ class GoblinModuleManager private constructor() {
       for (name in GoblinModuleDefinition.moduleNames.reversed()) {
         val module = GoblinModuleLoader.INSTANCE.getGoblinModule(name) ?: continue
         module.finalize(ctx)
-        GoblinSystem.LOGGER.info("Finalize {${module.name()}}")
+        logger.info("Finalize {${module.name()}}")
       }
       for (module in GoblinExtensionModuleLoader.INSTANCE.getGoblinExtensionModules().reversed()) {
         module.finalize(ctx)
-        GoblinSystem.LOGGER.info("Finalize (${module.name()})")
+        logger.info("Finalize (${module.name()})")
       }
     }
     try {

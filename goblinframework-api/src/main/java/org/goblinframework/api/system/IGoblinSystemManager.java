@@ -11,6 +11,12 @@ import org.jetbrains.annotations.NotNull;
 public interface IGoblinSystemManager extends Lifecycle {
 
   @NotNull
+  String applicationId();
+
+  @NotNull
+  String applicationName();
+
+  @NotNull
   static IGoblinSystemManager instance() {
     IGoblinSystemManager system = ServiceInstaller.firstOrNull(IGoblinSystemManager.class);
     if (system == null) {

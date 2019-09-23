@@ -8,7 +8,7 @@ import io.netty.channel.socket.nio.NioSocketChannel
 import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
 import org.apache.commons.collections4.map.LRUMap
-import org.goblinframework.core.bootstrap.GoblinSystem
+import org.goblinframework.api.system.GoblinSystem
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.transport.client.handler.TransportResponseContext
 import org.goblinframework.transport.client.module.TransportClientModule
@@ -74,7 +74,7 @@ internal constructor(private val client: TransportClient) {
 
         val request = HandshakeRequest()
         request.serverId = setting.serverId()
-        request.clientId = GoblinSystem.getApplicationId()
+        request.clientId = GoblinSystem.applicationId()
         request.extensions = linkedMapOf()
         request.extensions["clientLanguage"] = "java/kotlin"
         request.extensions["receiveShutdown"] = setting.receiveShutdown()

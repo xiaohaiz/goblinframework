@@ -1,5 +1,6 @@
 package org.goblinframework.test.runner
 
+import org.goblinframework.api.system.GoblinSystem
 import org.goblinframework.test.listener.TestExecutionListenerManager
 import org.springframework.context.ApplicationContext
 import org.springframework.test.context.MergedContextConfiguration
@@ -9,27 +10,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.context.support.DefaultBootstrapContext
 import org.springframework.test.context.support.DefaultTestContextBootstrapper
 import org.springframework.util.ClassUtils
+import kotlin.concurrent.thread
 
 class GoblinTestRunner(clazz: Class<*>) : SpringJUnit4ClassRunner(clazz) {
 
   companion object {
     init {
-      val classLoader = ClassUtils.getDefaultClassLoader()!!
-      val goblinBootstrapClass = try {
-        classLoader.loadClass("org.goblinframework.core.bootstrap.GoblinSystem")
-      } catch (ex: ClassNotFoundException) {
-        null
-      }
-      goblinBootstrapClass?.run {
-        val clazz = this
-        clazz.getMethod("install").invoke(null)
-        Runtime.getRuntime().addShutdownHook(object : Thread("GoblinTestRunnerShutdownHook") {
-          override fun run() {
-            TestExecutionListenerManager.INSTANCE.dispose()
-            clazz.getMethod("uninstall").invoke(null)
-          }
-        })
-      }
+      GoblinSystem.install()
+      Runtime.getRuntime().addShutdownHook(thread(start = false, name = "GoblinTestRunnerShutdownHook") {
+        TestExecutionListenerManager.INSTANCE.dispose()
+        GoblinSystem.uninstall()
+      })
     }
   }
 
@@ -54,9 +45,8 @@ class GoblinTestRunner(clazz: Class<*>) : SpringJUnit4ClassRunner(clazz) {
         } ?: super.loadContextInternal(mergedContextConfiguration)
       }
     }
-    val context = DefaultBootstrapContext(clazz, delegate)
     val bootstrapper = DefaultTestContextBootstrapper()
-    bootstrapper.bootstrapContext = context
+    bootstrapper.bootstrapContext = DefaultBootstrapContext(clazz, delegate)
     return TestContextManager(bootstrapper)
   }
 }
