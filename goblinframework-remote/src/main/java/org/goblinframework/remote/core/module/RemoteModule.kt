@@ -1,39 +1,36 @@
 package org.goblinframework.remote.core.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.core.bootstrap.GoblinModule
-import org.goblinframework.core.bootstrap.GoblinModuleFinalizeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInitializeContext
-import org.goblinframework.core.bootstrap.GoblinModuleInstallContext
+import org.goblinframework.api.system.*
 
 @Install
-class RemoteModule : GoblinModule {
+class RemoteModule : IModule {
 
-  override fun name(): String {
-    return "REMOTE"
+  override fun id(): GoblinModule {
+    return GoblinModule.REMOTE
   }
 
-  override fun install(ctx: GoblinModuleInstallContext) {
-    ctx.createChildModuleManager()
-        .module("REMOTE:CLIENT")
+  override fun install(ctx: ModuleInstallContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.REMOTE_CLIENT)
         .next()
-        .module("REMOTE:SERVER")
+        .module(GoblinSubModule.REMOTE_SERVER)
         .install(ctx)
   }
 
-  override fun initialize(ctx: GoblinModuleInitializeContext) {
-    ctx.createChildModuleManager()
-        .module("REMOTE:CLIENT")
+  override fun initialize(ctx: ModuleInitializeContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.REMOTE_CLIENT)
         .next()
-        .module("REMOTE:SERVER")
+        .module(GoblinSubModule.REMOTE_SERVER)
         .initialize(ctx)
   }
 
-  override fun finalize(ctx: GoblinModuleFinalizeContext) {
-    ctx.createChildModuleManager()
-        .module("REMOTE:SERVER")
+  override fun finalize(ctx: ModuleFinalizeContext) {
+    ctx.createSubModules()
+        .module(GoblinSubModule.REMOTE_SERVER)
         .next()
-        .module("REMOTE:CLIENT")
+        .module(GoblinSubModule.REMOTE_CLIENT)
         .finalize(ctx)
   }
 }
