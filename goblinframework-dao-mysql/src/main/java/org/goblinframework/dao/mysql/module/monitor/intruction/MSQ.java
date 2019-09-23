@@ -1,13 +1,13 @@
 package org.goblinframework.dao.mysql.module.monitor.intruction;
 
 import org.goblinframework.api.monitor.InstructionTranslator;
-import org.goblinframework.core.monitor.InstructionImpl;
+import org.goblinframework.core.monitor.AbstractInstruction;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-final public class MSQ extends InstructionImpl {
+final public class MSQ extends AbstractInstruction {
 
   public String name;
   public String mode;

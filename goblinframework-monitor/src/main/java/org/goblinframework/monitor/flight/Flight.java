@@ -1,6 +1,6 @@
 package org.goblinframework.monitor.flight;
 
-import org.goblinframework.core.monitor.FlightLocation;
+import org.goblinframework.api.monitor.FlightLocation;
 import org.goblinframework.api.monitor.Instruction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicLong;
 
-final public class Flight implements org.goblinframework.core.monitor.Flight {
+final public class Flight implements org.goblinframework.api.monitor.Flight {
 
   private final FlightId flightId;
   private final FlightLocation location;

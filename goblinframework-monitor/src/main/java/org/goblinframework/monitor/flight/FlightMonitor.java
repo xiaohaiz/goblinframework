@@ -3,17 +3,18 @@ package org.goblinframework.monitor.flight;
 import org.goblinframework.api.annotation.Install;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.common.Ordered;
+import org.goblinframework.api.monitor.FlightLocation;
+import org.goblinframework.api.monitor.IFlightMonitor;
 import org.goblinframework.api.monitor.Instruction;
 import org.goblinframework.core.event.EventBus;
 import org.goblinframework.core.monitor.FlightEvent;
-import org.goblinframework.core.monitor.FlightLocation;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.monitor.module.monitor.DOT;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Singleton
-final public class FlightMonitor implements org.goblinframework.core.monitor.FlightMonitor, Ordered {
+final public class FlightMonitor implements IFlightMonitor, Ordered {
 
   public static final FlightMonitor INSTANCE = new FlightMonitor();
 
@@ -74,8 +75,8 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
   }
 
   @Override
-  public void attachFlight(@Nullable org.goblinframework.core.monitor.FlightId flightId, @NotNull Instruction instruction) {
-    org.goblinframework.core.monitor.FlightId id = flightId;
+  public void attachFlight(@Nullable org.goblinframework.api.monitor.FlightId flightId, @NotNull Instruction instruction) {
+    org.goblinframework.api.monitor.FlightId id = flightId;
     if (id == null) {
       id = threadLocal.get();
     }
@@ -84,8 +85,8 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
     }
     Flight flight = FlightPool.INSTANCE.get(id);
     if (flight != null) {
-      if (instruction instanceof org.goblinframework.core.monitor.Flight.Aware) {
-        ((org.goblinframework.core.monitor.Flight.Aware) instruction).setFlight(flight);
+      if (instruction instanceof org.goblinframework.api.monitor.Flight.Aware) {
+        ((org.goblinframework.api.monitor.Flight.Aware) instruction).setFlight(flight);
       }
       flight.addInstruction(instruction);
     }
@@ -98,7 +99,7 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
   }
 
   @Install
-  final public static class Installer implements org.goblinframework.core.monitor.FlightMonitor {
+  final public static class Installer implements IFlightMonitor {
 
     @NotNull
     @Override
@@ -118,7 +119,7 @@ final public class FlightMonitor implements org.goblinframework.core.monitor.Fli
     }
 
     @Override
-    public void attachFlight(@Nullable org.goblinframework.core.monitor.FlightId flightId, @NotNull Instruction instruction) {
+    public void attachFlight(@Nullable org.goblinframework.api.monitor.FlightId flightId, @NotNull Instruction instruction) {
       INSTANCE.attachFlight(flightId, instruction);
     }
 

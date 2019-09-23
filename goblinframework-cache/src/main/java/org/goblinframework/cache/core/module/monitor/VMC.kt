@@ -2,10 +2,10 @@ package org.goblinframework.cache.core.module.monitor
 
 import org.goblinframework.api.monitor.Instruction
 import org.goblinframework.api.monitor.InstructionTranslator
-import org.goblinframework.core.monitor.InstructionImpl
+import org.goblinframework.core.monitor.AbstractInstruction
 import org.goblinframework.core.util.StringUtils
 
-class VMC : InstructionImpl(Instruction.Id.VMC, Instruction.Mode.SYN, true) {
+class VMC : AbstractInstruction(Instruction.Id.VMC, Instruction.Mode.SYN, true) {
 
   var operation: String? = null
   var keys: List<String>? = null

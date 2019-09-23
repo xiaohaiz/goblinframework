@@ -1,12 +1,13 @@
 package org.goblinframework.core.monitor;
 
+import org.goblinframework.api.monitor.IFlightMonitor;
 import org.goblinframework.api.monitor.Instruction;
 import org.goblinframework.core.event.EventBus;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 
-abstract public class InstructionImpl implements Instruction {
+abstract public class AbstractInstruction implements Instruction {
 
   private final Id id;
   private final Mode mode;
@@ -15,7 +16,7 @@ abstract public class InstructionImpl implements Instruction {
   private Instant stopTime;
   private Instant completeTime;
 
-  public InstructionImpl(@NotNull Id id, @NotNull Mode mode, boolean autoStart) {
+  public AbstractInstruction(@NotNull Id id, @NotNull Mode mode, boolean autoStart) {
     if (mode == Mode.DOT) {
       throw new IllegalArgumentException();
     }
@@ -104,7 +105,7 @@ abstract public class InstructionImpl implements Instruction {
   public void start() {
     if (startTime == null) {
       startTime = Instant.now();
-      FlightMonitor monitor = FlightRecorder.getFlightMonitor();
+      IFlightMonitor monitor = FlightRecorder.getFlightMonitor();
       if (monitor != null) {
         monitor.attachFlight(this);
       }

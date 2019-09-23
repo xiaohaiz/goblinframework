@@ -1,8 +1,8 @@
 package org.goblinframework.monitor.module.monitor;
 
+import org.goblinframework.api.monitor.Flight;
 import org.goblinframework.api.monitor.Instruction;
 import org.goblinframework.api.monitor.InstructionTranslator;
-import org.goblinframework.core.monitor.Flight;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

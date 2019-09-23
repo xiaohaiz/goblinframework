@@ -1,7 +1,6 @@
-package org.goblinframework.core.monitor;
+package org.goblinframework.api.monitor;
 
 import org.goblinframework.api.annotation.ThreadSafe;
-import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,17 +18,28 @@ final public class FlightLocation {
   private FlightLocation(@NotNull FlightLocationBuilder builder) {
     this.startPoint = Objects.requireNonNull(builder.startPoint);
 
-    this.clazz = StringUtils.defaultIfBlank(builder.clazz, "unspecified");
-
-    String methodName = StringUtils.defaultIfBlank(builder.method, "unspecified");
-    String[] parameters = builder.parameters;
-    String parameterTypes = (parameters == null || parameters.length == 0)
-        ? "" : StringUtils.join(parameters, ",");
+    this.clazz = (builder.clazz == null || builder.clazz.trim().isEmpty()) ? "unspecified" : builder.clazz;
+    String methodName = (builder.method == null || builder.method.trim().isEmpty()) ? "unspecified" : builder.method;
+    String parameterTypes = generateParameterTypes(builder.parameters);
     this.method = String.format("%s(%s)", methodName, parameterTypes);
 
     this.id = this.clazz + "::" + this.method;
 
     this.attributes = builder.attributes;
+  }
+
+  private String generateParameterTypes(String[] parameters) {
+    if (parameters == null || parameters.length == 0) {
+      return "";
+    }
+    StringBuilder buf = new StringBuilder();
+    for (String parameter : parameters) {
+      buf.append(parameter).append(",");
+    }
+    if (buf.length() > 0) {
+      buf.setLength(buf.length() - 1);
+    }
+    return buf.toString();
   }
 
   @NotNull
@@ -64,7 +74,7 @@ final public class FlightLocation {
 
   @Nullable
   public FlightId launch() {
-    FlightMonitor monitor = FlightRecorder.getFlightMonitor();
+    IFlightMonitor monitor = IFlightMonitor.instance();
     if (monitor != null) {
       return monitor.createFlight(this);
     } else {

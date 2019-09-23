@@ -1,5 +1,6 @@
 package org.goblinframework.core.monitor;
 
+import org.goblinframework.api.monitor.IFlightMonitor;
 import org.goblinframework.api.service.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,17 +13,17 @@ import org.slf4j.LoggerFactory;
 abstract public class FlightRecorder {
   private static final Logger logger = LoggerFactory.getLogger(FlightRecorder.class);
 
-  private static final FlightMonitor flightMonitor;
+  private static final IFlightMonitor flightMonitor;
 
   static {
-    flightMonitor = ServiceInstaller.firstOrNull(FlightMonitor.class);
+    flightMonitor = ServiceInstaller.firstOrNull(IFlightMonitor.class);
     if (flightMonitor == null) {
       logger.debug("No FlightMonitor installed, ignore monitor");
     }
   }
 
   @Nullable
-  public static FlightMonitor getFlightMonitor() {
+  public static IFlightMonitor getFlightMonitor() {
     return flightMonitor;
   }
 

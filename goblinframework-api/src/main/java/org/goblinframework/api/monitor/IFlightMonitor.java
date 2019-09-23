@@ -1,6 +1,7 @@
-package org.goblinframework.core.monitor;
+package org.goblinframework.api.monitor;
 
-import org.goblinframework.api.monitor.Instruction;
+import org.goblinframework.api.annotation.Internal;
+import org.goblinframework.api.service.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,7 +9,8 @@ import org.jetbrains.annotations.Nullable;
  * Goblin internal SPI interface. For more information of
  * its implementation, please refer to monitor module.
  */
-public interface FlightMonitor {
+@Internal
+public interface IFlightMonitor {
 
   @NotNull
   FlightId createFlight(@NotNull FlightLocation location);
@@ -22,4 +24,8 @@ public interface FlightMonitor {
 
   void dot(@Nullable String name);
 
+  @Nullable
+  static IFlightMonitor instance() {
+    return ServiceInstaller.firstOrNull(IFlightMonitor.class);
+  }
 }
