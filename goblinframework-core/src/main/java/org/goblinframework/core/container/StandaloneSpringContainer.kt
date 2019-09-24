@@ -19,6 +19,9 @@ constructor(vararg configLocations: String)
 
   init {
     SpringContainerManager.INSTANCE.register(this)
+    addBeanFactoryPostProcessor {
+      it.addBeanPostProcessor(SpringBeanPostProcessorDelegator())
+    }
     refresh()
     start()
   }
