@@ -4,13 +4,13 @@ import org.goblinframework.api.common.Internal;
 import org.jetbrains.annotations.NotNull;
 
 @Internal(installRequired = true, uniqueInstance = true)
-public interface IConfigParserManager {
+public interface IConfigManager {
 
-  void register(@NotNull ConfigParser parser);
+  void registerConfigParser(@NotNull ConfigParser parser);
 
   @NotNull
-  static IConfigParserManager instance() {
-    IConfigParserManager installed = ConfigParserManagerInstaller.INSTALLED;
+  static IConfigManager instance() {
+    IConfigManager installed = ConfigManagerInstaller.INSTALLED;
     assert installed != null;
     return installed;
   }

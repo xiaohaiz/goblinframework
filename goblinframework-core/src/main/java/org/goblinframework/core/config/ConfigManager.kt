@@ -3,19 +3,19 @@ package org.goblinframework.core.config
 import org.goblinframework.api.common.Install
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.config.ConfigParser
-import org.goblinframework.api.config.IConfigParserManager
+import org.goblinframework.api.config.IConfigManager
 
 @Singleton
-class ConfigParserManager private constructor() : IConfigParserManager {
+class ConfigManager private constructor() : IConfigManager {
 
   companion object {
-    @JvmField val INSTANCE = ConfigParserManager()
+    @JvmField val INSTANCE = ConfigManager()
   }
 
   private val parsers = mutableListOf<ConfigParser>()
 
   @Synchronized
-  override fun register(parser: ConfigParser) {
+  override fun registerConfigParser(parser: ConfigParser) {
     parsers.add(parser)
   }
 
@@ -24,5 +24,5 @@ class ConfigParserManager private constructor() : IConfigParserManager {
   }
 
   @Install
-  class Installer : IConfigParserManager by INSTANCE
+  class Installer : IConfigManager by INSTANCE
 }

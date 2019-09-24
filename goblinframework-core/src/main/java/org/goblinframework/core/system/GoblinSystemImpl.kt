@@ -48,7 +48,7 @@ class GoblinSystemImpl internal constructor() : GoblinManagedObject(), GoblinSys
     SpringContainerManager.INSTANCE.dispose()
 
     // Execute FINALIZE
-    val executorService = Executors.newCachedThreadPool();
+    val executorService = Executors.newFixedThreadPool(1)
     executorService.submit {
       for (module in ExtModuleLoader.asList().reversed()) {
         logger.info("Finalize {${module.id()}}")

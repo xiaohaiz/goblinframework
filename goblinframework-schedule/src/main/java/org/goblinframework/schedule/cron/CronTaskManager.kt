@@ -5,7 +5,6 @@ import org.goblinframework.api.schedule.CronTask
 import org.goblinframework.api.schedule.ICronTaskManager
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
-import org.goblinframework.core.util.RandomUtils
 import org.quartz.CronExpression
 import org.quartz.CronTrigger
 import org.quartz.JobDetail
@@ -27,7 +26,7 @@ class CronTaskManager private constructor()
 
   init {
     scheduler = SchedulerFactoryBean()
-    scheduler.setSchedulerName(RandomUtils.nextObjectId())
+    scheduler.setSchedulerName("CronTaskManagerScheduler")
     scheduler.setWaitForJobsToCompleteOnShutdown(true)
     scheduler.afterPropertiesSet()
     scheduler.start()

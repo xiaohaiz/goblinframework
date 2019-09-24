@@ -1,7 +1,7 @@
 package org.goblinframework.api.config;
 
-import static org.goblinframework.api.service.ServiceInstaller.firstOrNull;
+import org.goblinframework.api.service.ServiceInstaller;
 
-final class ConfigParserManagerInstaller {
-  static final IConfigParserManager INSTALLED = firstOrNull(IConfigParserManager.class);
+final class ConfigManagerInstaller {
+  static final IConfigManager INSTALLED = ServiceInstaller.firstOrNull(IConfigManager.class);
 }
