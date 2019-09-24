@@ -23,8 +23,10 @@ public interface Registry {
   @NotNull
   List<String> getChildren(@NotNull String path);
 
-  @NotNull
-  <E> RegistryData<E> readData(@NotNull String path);
+  @Nullable
+  <E> E readData(@NotNull String path);
+
+  void writeData(@NotNull String path, @Nullable Object data);
 
   void createPersistent(@NotNull String path);
 

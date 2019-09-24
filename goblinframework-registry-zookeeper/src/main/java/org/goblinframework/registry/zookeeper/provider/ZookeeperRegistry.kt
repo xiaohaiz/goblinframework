@@ -1,7 +1,6 @@
 package org.goblinframework.registry.zookeeper.provider
 
 import org.I0Itec.zkclient.exception.ZkNoNodeException
-import org.apache.zookeeper.data.Stat
 import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.registry.*
 import org.goblinframework.core.util.StringUtils
@@ -30,20 +29,12 @@ internal constructor(private val client: ZookeeperClient)
     }
   }
 
-  @Suppress("UNCHECKED_CAST")
-  override fun <E : Any> readData(path: String): RegistryData<E?> {
-    val stat = Stat()
-    val data = try {
-      client.nativeClient().readData<Any?>(path, stat)
-    } catch (ex: ZkNoNodeException) {
-      return RegistryData()
-    } ?: return RegistryData()
+  override fun <E : Any> readData(path: String): E? {
+    return client.nativeClient().readData<E?>(path, true)
+  }
 
-    val rd = RegistryData<E?>()
-    rd.data = data as E
-    rd.version = stat.version
-    rd.hit = true
-    return rd
+  override fun writeData(path: String, data: Any?) {
+    client.nativeClient().writeData(path, data)
   }
 
   override fun createPersistent(path: String) {
