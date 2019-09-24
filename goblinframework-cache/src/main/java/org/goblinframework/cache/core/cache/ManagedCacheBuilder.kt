@@ -1,9 +1,9 @@
 package org.goblinframework.cache.core.cache
 
 import org.apache.commons.lang3.mutable.MutableObject
-import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.CacheBuilder
+import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap
@@ -17,24 +17,16 @@ internal constructor(private val delegator: CacheBuilder)
   : GoblinManagedObject(), CacheBuilderMXBean, CacheBuilder {
 
   private val lock = ReentrantLock()
-  private val buffer = ConcurrentHashMap<String, MutableObject<ManagedCache>>()
+  private val buffer = ConcurrentHashMap<String, MutableObject<ManagedCache?>>()
 
   override fun cache(name: String): Cache? {
     val id = delegator.decorateCacheName(name)
-    var ref = buffer[id]
-    ref?.run { return value }
-    lock.withLock {
-      ref = buffer[id]
-      ref?.run { return value }
-      val cache = delegator.cache(id)
-      cache?.run {
-        val ret = ManagedCache(this)
-        buffer[id] = MutableObject(ret)
-        return ret
-      } ?: kotlin.run {
-        buffer[id] = MutableObject<ManagedCache>(null)
-        return null
-      }
+    buffer[id]?.let { return it.value }
+    return lock.withLock {
+      buffer[id]?.let { return it.value }
+      val cache = delegator.cache(id)?.let { ManagedCache(it) }
+      buffer[id] = MutableObject(cache)
+      cache
     }
   }
 
