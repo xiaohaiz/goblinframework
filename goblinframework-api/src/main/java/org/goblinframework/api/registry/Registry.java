@@ -17,6 +17,10 @@ public interface Registry {
     return location().name;
   }
 
+  void subscribeChildListener(@NotNull String path, @NotNull RegistryChildListener listener);
+
+  void unsubscribeChildListener(@NotNull String path, @NotNull RegistryChildListener listener);
+
   void subscribeStateListener(@NotNull RegistryStateListener listener);
 
   void unsubscribeStateListener(@NotNull RegistryStateListener listener);
