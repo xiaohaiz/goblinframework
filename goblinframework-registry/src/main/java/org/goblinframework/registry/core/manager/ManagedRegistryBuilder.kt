@@ -28,4 +28,10 @@ internal constructor(private val delegator: RegistryBuilder)
       registry
     }
   }
+
+  override fun disposeBean() {
+    lock.withLock {
+      buffer.values.mapNotNull { it.value }.forEach { it.dispose() }
+    }
+  }
 }
