@@ -1,2 +1,4 @@
+org.goblinframework.core.module.ConfigModule
+org.goblinframework.core.module.EventModule
 org.goblinframework.core.module.CoreModule
 org.goblinframework.core.module.SystemModule

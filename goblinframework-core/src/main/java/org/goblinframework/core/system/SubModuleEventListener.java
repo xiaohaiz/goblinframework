@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 
 @Singleton
 @GoblinEventChannel("/goblin/core")
-final class SubModuleEventListener implements GoblinEventListener {
+final public class SubModuleEventListener implements GoblinEventListener {
   private static final Logger logger = LoggerFactory.getLogger(SubModuleEventListener.class);
 
-  static final SubModuleEventListener INSTANCE = new SubModuleEventListener();
+  public static final SubModuleEventListener INSTANCE = new SubModuleEventListener();
 
   private SubModuleEventListener() {
   }
@@ -42,7 +42,7 @@ final class SubModuleEventListener implements GoblinEventListener {
       });
     } else if (event.ctx instanceof ModuleFinalizeContext) {
       event.subModules.forEach(e -> {
-        logger.info("Install [{}]", e.id().fullName());
+        logger.info("Finalize [{}]", e.id().fullName());
         e.finalize((ModuleFinalizeContext) event.ctx);
       });
     } else {

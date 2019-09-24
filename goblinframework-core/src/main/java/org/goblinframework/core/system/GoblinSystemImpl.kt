@@ -1,14 +1,12 @@
 package org.goblinframework.core.system
 
-import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.system.GoblinModule
 import org.goblinframework.core.config.ConfigLoader
-import org.goblinframework.core.config.ConfigParserManager
 import org.goblinframework.core.container.SpringContainerManager
-import org.goblinframework.core.event.boss.EventBusBoss
 import org.goblinframework.core.util.ClassUtils
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 @GoblinManagedBean(type = "core", name = "GoblinSystem")
@@ -19,12 +17,7 @@ class GoblinSystemImpl internal constructor() : GoblinManagedObject(), GoblinSys
   }
 
   override fun initializeBean() {
-    ConfigLoader.INSTANCE.initialize()
-    EventBusBoss.INSTANCE.initialize()
-    ConfigLoader.INSTANCE.start()
-
-    EventBus.subscribe(SubModuleEventListener.INSTANCE)
-
+    // Execute INSTALL
     for (id in GoblinModule.values()) {
       val module = ModuleLoader.module(id) ?: continue
       logger.info("Install {${module.id()}}")
@@ -37,8 +30,7 @@ class GoblinSystemImpl internal constructor() : GoblinManagedObject(), GoblinSys
       module.install(ModuleInstallContextImpl.INSTANCE)
     }
 
-    ConfigParserManager.INSTANCE.asList().forEach { it.initialize() }
-
+    // Execute INITIALIZE
     for (id in GoblinModule.values()) {
       val module = ModuleLoader.module(id) ?: continue
       logger.info("Initialize {${module.id()}}")
@@ -52,9 +44,12 @@ class GoblinSystemImpl internal constructor() : GoblinManagedObject(), GoblinSys
 
   override fun disposeBean() {
     logger.info("Shutdown GOBLIN system")
+    // Close spring container
     SpringContainerManager.INSTANCE.dispose()
 
-    val future = EventBus.execute {
+    // Execute FINALIZE
+    val executorService = Executors.newCachedThreadPool();
+    executorService.submit {
       for (module in ExtModuleLoader.asList().reversed()) {
         logger.info("Finalize {${module.id()}}")
         module.finalize(ModuleFinalizeContextImpl.INSTANCE)
@@ -65,15 +60,9 @@ class GoblinSystemImpl internal constructor() : GoblinManagedObject(), GoblinSys
         module.finalize(ModuleFinalizeContextImpl.INSTANCE)
       }
     }
-    try {
-      future.awaitUninterruptibly(1, TimeUnit.MINUTES)
-    } catch (ignore: Throwable) {
-    }
-    EventBus.unsubscribe(SubModuleEventListener.INSTANCE)
+    executorService.shutdown()
+    executorService.awaitTermination(1, TimeUnit.MINUTES)
 
-    ConfigLoader.INSTANCE.stop()
-    EventBusBoss.INSTANCE.dispose()
-    ConfigLoader.INSTANCE.dispose()
     logger.info("FAREWELL")
     shutdownLog4j2IfNecessary()
   }
