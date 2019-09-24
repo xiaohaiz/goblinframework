@@ -16,4 +16,7 @@ public interface Registry {
   default String name() {
     return location().name;
   }
+
+  void subscribeStateListener(@NotNull RegistryStateListener listener);
+
 }

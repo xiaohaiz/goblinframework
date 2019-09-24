@@ -38,6 +38,7 @@ internal constructor(val config: ZookeeperConfig)
   }
 
   override fun disposeBean() {
+    client.unsubscribeAll()
     client.close()
     transcoder.dispose()
   }
