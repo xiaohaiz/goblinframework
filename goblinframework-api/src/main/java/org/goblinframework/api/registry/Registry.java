@@ -1,6 +1,7 @@
 package org.goblinframework.api.registry;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -21,6 +22,21 @@ public interface Registry {
 
   @NotNull
   List<String> getChildren(@NotNull String path);
+
+  @NotNull
+  <E> RegistryData<E> readData(@NotNull String path);
+
+  void createPersistent(@NotNull String path);
+
+  void createPersistent(@NotNull String path, @Nullable Object data);
+
+  void createEphemeral(@NotNull String path);
+
+  void createEphemeral(@NotNull String path, @Nullable Object data);
+
+  boolean delete(@NotNull String path);
+
+  boolean deleteRecursive(@NotNull String path);
 
   void subscribeChildListener(@NotNull String path, @NotNull RegistryChildListener listener);
 

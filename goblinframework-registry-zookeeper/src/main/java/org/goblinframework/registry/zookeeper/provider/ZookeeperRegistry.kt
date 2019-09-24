@@ -1,8 +1,10 @@
 package org.goblinframework.registry.zookeeper.provider
 
 import org.I0Itec.zkclient.exception.ZkNoNodeException
+import org.apache.zookeeper.data.Stat
 import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.registry.*
+import org.goblinframework.core.util.StringUtils
 import org.goblinframework.registry.core.manager.AbstractRegistry
 import org.goblinframework.registry.zookeeper.client.ZookeeperClient
 import java.util.*
@@ -26,6 +28,67 @@ internal constructor(private val client: ZookeeperClient)
     } catch (ex: ZkNoNodeException) {
       emptyList()
     }
+  }
+
+  @Suppress("UNCHECKED_CAST")
+  override fun <E : Any> readData(path: String): RegistryData<E?> {
+    val stat = Stat()
+    val data = try {
+      client.nativeClient().readData<Any?>(path, stat)
+    } catch (ex: ZkNoNodeException) {
+      return RegistryData()
+    } ?: return RegistryData()
+
+    val rd = RegistryData<E?>()
+    rd.data = data as E
+    rd.version = stat.version
+    rd.hit = true
+    return rd
+  }
+
+  override fun createPersistent(path: String) {
+    client.nativeClient().createPersistent(path, true)
+  }
+
+  override fun createPersistent(path: String, data: Any?) {
+    val parent = StringUtils.substringBeforeLast(path, "/")
+    if (parent != "/" && !client.nativeClient().exists(parent)) {
+      try {
+        client.nativeClient().createPersistent(parent)
+      } catch (ignore: Exception) {
+      }
+    }
+    client.nativeClient().createPersistent(path, data)
+  }
+
+  override fun createEphemeral(path: String) {
+    val parent = StringUtils.substringBeforeLast(path, "/")
+    if (parent != "/" && !client.nativeClient().exists(parent)) {
+      try {
+        client.nativeClient().createPersistent(parent)
+      } catch (ignore: Exception) {
+      }
+    }
+    client.nativeClient().createEphemeral(path)
+  }
+
+  override fun createEphemeral(path: String, data: Any?) {
+    val parent = StringUtils.substringBeforeLast(path, "/")
+    if (parent != "/" && !client.nativeClient().exists(parent)) {
+      try {
+        client.nativeClient().createPersistent(parent)
+      } catch (ignore: Exception) {
+      }
+    }
+    client.nativeClient().createEphemeral(path, data)
+  }
+
+  override fun delete(path: String): Boolean {
+    return client.nativeClient().delete(path)
+  }
+
+  override fun deleteRecursive(path: String): Boolean {
+    return client.nativeClient().deleteRecursive(path)
   }
 
   override fun subscribeChildListener(path: String, listener: RegistryChildListener) {
