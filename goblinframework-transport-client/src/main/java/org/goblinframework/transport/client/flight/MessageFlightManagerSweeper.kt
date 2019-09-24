@@ -2,7 +2,7 @@ package org.goblinframework.transport.client.flight
 
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.event.GoblinEventContext
-import org.goblinframework.core.event.dsl.MinuteTimerEventListener
+import org.goblinframework.core.event.timer.MinuteTimerEventListener
 
 @Singleton
 class MessageFlightManagerSweeper private constructor() : MinuteTimerEventListener() {

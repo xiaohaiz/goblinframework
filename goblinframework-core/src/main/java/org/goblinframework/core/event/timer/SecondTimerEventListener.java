@@ -1,14 +1,15 @@
-package org.goblinframework.core.event.dsl;
+package org.goblinframework.core.event.timer;
 
 import org.goblinframework.api.event.GoblinEventChannel;
 import org.goblinframework.api.event.GoblinEventContext;
 import org.goblinframework.api.event.GoblinEventListener;
+import org.goblinframework.core.event.dsl.GoblinTimerEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
 @GoblinEventChannel("/goblin/timer")
-abstract public class MinuteTimerEventListener implements GoblinEventListener {
+abstract public class SecondTimerEventListener implements GoblinEventListener {
 
   @Override
   public boolean accept(@NotNull GoblinEventContext context) {
@@ -16,17 +17,17 @@ abstract public class MinuteTimerEventListener implements GoblinEventListener {
       return false;
     }
     GoblinTimerEvent event = (GoblinTimerEvent) context.getEvent();
-    if (event.getUnit() != TimeUnit.MINUTES) {
+    if (event.getUnit() != TimeUnit.SECONDS) {
       return false;
     }
-    long period = periodMinutes();
+    long period = periodSeconds();
     if (period <= 1) {
       return true;
     }
     return (event.getSequence() % period) == 0;
   }
 
-  protected long periodMinutes() {
+  protected long periodSeconds() {
     return 0;
   }
 }
