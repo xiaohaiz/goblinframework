@@ -1,8 +1,9 @@
 package org.goblinframework.core.config
 
-import org.goblinframework.api.common.Lifecycle
 import org.goblinframework.api.common.Singleton
-import org.goblinframework.api.event.EventBus
+import org.goblinframework.api.schedule.CronConstants
+import org.goblinframework.api.schedule.CronTask
+import org.goblinframework.api.schedule.ICronTaskManager
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.mapper.JsonMapper
@@ -13,15 +14,17 @@ import org.ini4j.Ini
 import org.springframework.core.io.ClassPathResource
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.util.*
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
 import java.util.function.Supplier
+import kotlin.concurrent.fixedRateTimer
 
 
 @Singleton
 @GoblinManagedBean(type = "core")
 class ConfigLoader private constructor()
-  : GoblinManagedObject(), ConfigLoaderMXBean, Lifecycle {
+  : GoblinManagedObject(), ConfigLoaderMXBean {
 
   companion object {
     @JvmField val INSTANCE = ConfigLoader()
@@ -36,7 +39,7 @@ class ConfigLoader private constructor()
   private val config = AtomicReference<ConfigSection>()
   private val mapping = AtomicReference<ConfigMapping>(ConfigMapping())
   private val applicationName = AtomicReference<String>("UNKNOWN")
-  private val scheduler = AtomicReference<ConfigLoaderScheduler1>()
+  private val timer = AtomicReference<Timer>()
 
   init {
     configLocationScanner.getConfigLocation()?.run {
@@ -56,25 +59,6 @@ class ConfigLoader private constructor()
       }
       this@ConfigLoader.mapping.set(mapping)
     }
-  }
-
-  @Synchronized
-  override fun start() {
-    if (scheduler.get() == null) {
-      val s = ConfigLoaderScheduler1(this)
-      EventBus.subscribe(s)
-      scheduler.set(s)
-    }
-  }
-
-  override fun stop() {
-    scheduler.getAndSet(null)?.run {
-      EventBus.unsubscribe(this)
-    }
-  }
-
-  override fun isRunning(): Boolean {
-    return scheduler.get() != null
   }
 
   fun getMapping(): ConfigMapping {
@@ -141,10 +125,44 @@ class ConfigLoader private constructor()
     this.config.set(config)
   }
 
+  override fun initializeBean() {
+    ICronTaskManager.instance()?.run {
+      val task = object : CronTask {
+        override fun name(): String {
+          return "ConfigLoaderScheduler"
+        }
+
+        override fun cronExpression(): String {
+          return CronConstants.MINUTE_TIMER
+        }
+
+        override fun execute() {
+          executeReload()
+        }
+      }
+      this.register(task)
+    } ?: kotlin.run {
+      val timer = fixedRateTimer(name = "ConfigLoaderScheduler", daemon = true, initialDelay = 60000, period = 60000) {
+        executeReload()
+      }
+      this.timer.set(timer)
+    }
+  }
+
   override fun disposeBean() {
-    stop()
+    ICronTaskManager.instance()?.run {
+      this.unregister("ConfigLoaderScheduler")
+    } ?: kotlin.run {
+      timer.getAndSet(null)?.cancel()
+    }
     mappingLocationScanner.dispose()
     configLocationScanner.dispose()
+  }
+
+  private fun executeReload() {
+    if (reload()) {
+      // TODO
+    }
   }
 
   override fun getConfigLocationScanner(): ConfigLocationScannerMXBean {

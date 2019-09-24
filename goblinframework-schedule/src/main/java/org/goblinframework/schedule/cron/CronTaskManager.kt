@@ -1,5 +1,6 @@
 package org.goblinframework.schedule.cron
 
+import org.goblinframework.api.common.Install
 import org.goblinframework.api.schedule.CronTask
 import org.goblinframework.api.schedule.ICronTaskManager
 import org.goblinframework.api.service.GoblinManagedBean
@@ -73,4 +74,6 @@ class CronTaskManager private constructor()
     scheduler.destroy()
   }
 
+  @Install
+  class Installer : ICronTaskManager by INSTANCE
 }
