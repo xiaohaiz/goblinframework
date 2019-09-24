@@ -2,6 +2,8 @@ package org.goblinframework.api.registry;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public interface Registry {
 
   @NotNull
@@ -16,6 +18,9 @@ public interface Registry {
   default String name() {
     return location().name;
   }
+
+  @NotNull
+  List<String> getChildren(@NotNull String path);
 
   void subscribeChildListener(@NotNull String path, @NotNull RegistryChildListener listener);
 

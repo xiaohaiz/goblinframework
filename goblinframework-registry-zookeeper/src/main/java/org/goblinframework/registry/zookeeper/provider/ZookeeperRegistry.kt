@@ -1,5 +1,6 @@
 package org.goblinframework.registry.zookeeper.provider
 
+import org.I0Itec.zkclient.exception.ZkNoNodeException
 import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.registry.*
 import org.goblinframework.registry.core.manager.AbstractRegistry
@@ -18,6 +19,14 @@ internal constructor(private val client: ZookeeperClient)
   private val dataListeners = mutableMapOf<String, IdentityHashMap<RegistryDataListener, ZookeeperDataListener>>()
   private val stateListenerLock = ReentrantLock()
   private val stateListeners = IdentityHashMap<RegistryStateListener, ZookeeperStateListener>()
+
+  override fun getChildren(path: String): List<String> {
+    return try {
+      client.nativeClient().getChildren(path)
+    } catch (ex: ZkNoNodeException) {
+      emptyList()
+    }
+  }
 
   override fun subscribeChildListener(path: String, listener: RegistryChildListener) {
     childListenerLock.withLock {
