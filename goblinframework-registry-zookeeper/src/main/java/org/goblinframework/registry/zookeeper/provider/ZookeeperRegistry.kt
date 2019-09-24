@@ -2,15 +2,15 @@ package org.goblinframework.registry.zookeeper.provider
 
 import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.registry.*
+import org.goblinframework.registry.core.manager.AbstractRegistry
 import org.goblinframework.registry.zookeeper.client.ZookeeperClient
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
 internal class ZookeeperRegistry
-internal constructor(private val client: ZookeeperClient) : Registry, Disposable {
-
-  private val location = RegistryLocation(RegistrySystem.ZKP, client.config.getName())
+internal constructor(private val client: ZookeeperClient)
+  : AbstractRegistry(RegistryLocation(RegistrySystem.ZKP, client.config.getName())), Disposable {
 
   private val childListenerLock = ReentrantLock()
   private val childListeners = mutableMapOf<String, IdentityHashMap<RegistryChildListener, ZookeeperChildListener>>()
@@ -18,10 +18,6 @@ internal constructor(private val client: ZookeeperClient) : Registry, Disposable
   private val dataListeners = mutableMapOf<String, IdentityHashMap<RegistryDataListener, ZookeeperDataListener>>()
   private val stateListenerLock = ReentrantLock()
   private val stateListeners = IdentityHashMap<RegistryStateListener, ZookeeperStateListener>()
-
-  override fun location(): RegistryLocation {
-    return location
-  }
 
   override fun subscribeChildListener(path: String, listener: RegistryChildListener) {
     childListenerLock.withLock {

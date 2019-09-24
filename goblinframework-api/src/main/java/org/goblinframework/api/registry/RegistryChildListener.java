@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface RegistryChildListener {
 
-  default void onParentPathDeleted(@NotNull String parentPath) {
+  default void onParentPathDeleted(@NotNull String parentPath) throws Exception {
     onChildChanged(parentPath, Collections.emptyList());
   }
 
-  void onChildChanged(@NotNull String parentPath, @NotNull List<String> children);
+  void onChildChanged(@NotNull String parentPath, @NotNull List<String> children) throws Exception;
 
 }

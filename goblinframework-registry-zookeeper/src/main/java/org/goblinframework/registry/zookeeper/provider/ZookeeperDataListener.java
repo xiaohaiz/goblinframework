@@ -13,12 +13,12 @@ final public class ZookeeperDataListener implements IZkDataListener {
   }
 
   @Override
-  public void handleDataChange(String dataPath, Object data) {
+  public void handleDataChange(String dataPath, Object data) throws Exception {
     listener.onDataChanged(dataPath, data);
   }
 
   @Override
-  public void handleDataDeleted(String dataPath) {
+  public void handleDataDeleted(String dataPath) throws Exception {
     listener.onDataDeleted(dataPath);
   }
 }

@@ -29,4 +29,6 @@ public interface Registry {
 
   void unsubscribeStateListener(@NotNull RegistryStateListener listener);
 
+  @NotNull
+  RegistryPathListener createPathListener();
 }

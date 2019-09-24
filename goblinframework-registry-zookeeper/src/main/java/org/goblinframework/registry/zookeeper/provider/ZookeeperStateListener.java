@@ -16,7 +16,7 @@ final public class ZookeeperStateListener implements IZkStateListener {
   }
 
   @Override
-  public void handleStateChanged(Watcher.Event.KeeperState state) {
+  public void handleStateChanged(Watcher.Event.KeeperState state) throws Exception {
     if (state == null) {
       return;
     }

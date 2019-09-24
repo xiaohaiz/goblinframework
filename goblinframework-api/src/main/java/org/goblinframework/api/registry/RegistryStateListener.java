@@ -4,6 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface RegistryStateListener {
 
-  void onStateChanged(@NotNull RegistryState state);
+  void onStateChanged(@NotNull RegistryState state) throws Exception;
 
 }

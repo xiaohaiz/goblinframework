@@ -15,7 +15,7 @@ final public class ZookeeperChildListener implements IZkChildListener {
   }
 
   @Override
-  public void handleChildChange(String parentPath, List<String> currentChildren) {
+  public void handleChildChange(String parentPath, List<String> currentChildren) throws Exception {
     if (currentChildren == null) {
       listener.onParentPathDeleted(parentPath);
     } else {
