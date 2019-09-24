@@ -142,7 +142,11 @@ class ConfigLoader private constructor()
       }
       this.register(task)
     } ?: kotlin.run {
-      val timer = fixedRateTimer(name = "ConfigLoaderScheduler", daemon = true, initialDelay = 60000, period = 60000) {
+      val timer = fixedRateTimer(
+          name = "ConfigLoaderScheduler",
+          daemon = true,
+          initialDelay = 60000,
+          period = 60000) {
         executeReload()
       }
       this.timer.set(timer)

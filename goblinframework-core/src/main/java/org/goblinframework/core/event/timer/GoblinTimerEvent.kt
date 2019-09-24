@@ -1,4 +1,4 @@
-package org.goblinframework.core.event.dsl
+package org.goblinframework.core.event.timer
 
 import org.goblinframework.api.event.GoblinEvent
 import org.goblinframework.api.event.GoblinEventChannel
