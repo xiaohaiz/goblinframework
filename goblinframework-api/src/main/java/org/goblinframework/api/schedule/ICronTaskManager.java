@@ -9,7 +9,7 @@ public interface ICronTaskManager {
 
   void register(@NotNull CronTask task);
 
-  void unregister(@NotNull CronTask task);
+  void unregister(@NotNull String name);
 
   @Nullable
   static ICronTaskManager instance() {

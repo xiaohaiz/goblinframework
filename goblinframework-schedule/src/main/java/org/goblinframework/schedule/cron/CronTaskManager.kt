@@ -7,6 +7,7 @@ import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.util.RandomUtils
 import org.quartz.CronExpression
 import org.quartz.CronTrigger
+import org.quartz.JobDetail
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean
 import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean
 import org.springframework.scheduling.quartz.SchedulerFactoryBean
@@ -21,7 +22,7 @@ class CronTaskManager private constructor()
   }
 
   private val scheduler: SchedulerFactoryBean
-  private val tasks = ConcurrentHashMap<String, CronTrigger>()
+  private val tasks = ConcurrentHashMap<String, Pair<JobDetail, CronTrigger>>()
 
   init {
     scheduler = SchedulerFactoryBean()
@@ -34,23 +35,7 @@ class CronTaskManager private constructor()
   @Synchronized
   override fun register(task: CronTask) {
     tasks[task.name()]?.run { return }
-    val cronTrigger = createCronTrigger(task)
-    scheduler.getObject()?.scheduleJob(cronTrigger)
-  }
 
-  override fun unregister(task: CronTask) {
-    tasks.remove(task.name())?.let {
-      val jk = it.jobKey
-      scheduler.getObject()?.deleteJob(jk)
-    }
-  }
-
-  override fun disposeBean() {
-    scheduler.stop()
-    scheduler.destroy()
-  }
-
-  private fun createCronTrigger(task: CronTask): CronTrigger {
     val cronExpression = CronExpression(task.cronExpression())
 
     val jobDetailFactoryBean = MethodInvokingJobDetailFactoryBean()
@@ -66,6 +51,26 @@ class CronTaskManager private constructor()
     triggerFactoryBean.setJobDetail(jobDetail)
     triggerFactoryBean.setCronExpression(cronExpression.cronExpression)
     triggerFactoryBean.afterPropertiesSet()
-    return triggerFactoryBean.getObject()!!
+    val cronTrigger = triggerFactoryBean.getObject()
+
+    tasks[task.name()] = Pair(jobDetail, cronTrigger)
+
+    scheduler.getObject()?.let {
+      it.addJob(jobDetail, true)
+      it.scheduleJob(cronTrigger)
+    }
   }
+
+  override fun unregister(name: String) {
+    tasks.remove(name)?.let {
+      scheduler.getObject()?.unscheduleJob(it.second.key)
+      scheduler.getObject()?.deleteJob(it.first.key)
+    }
+  }
+
+  override fun disposeBean() {
+    scheduler.stop()
+    scheduler.destroy()
+  }
+
 }
