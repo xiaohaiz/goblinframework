@@ -1,5 +1,7 @@
 package org.goblinframework.core.container
 
+import org.goblinframework.api.common.Install
+import org.goblinframework.api.container.ISpringContainerManager
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.springframework.context.ApplicationContext
@@ -9,7 +11,8 @@ import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 @GoblinManagedBean(type = "core")
-class SpringContainerManager private constructor() : GoblinManagedObject(), SpringContainerManagerMXBean {
+class SpringContainerManager private constructor()
+  : GoblinManagedObject(), ISpringContainerManager, SpringContainerManagerMXBean {
 
   companion object {
     @JvmField val INSTANCE = SpringContainerManager()
@@ -18,10 +21,10 @@ class SpringContainerManager private constructor() : GoblinManagedObject(), Spri
   private val lock = ReentrantReadWriteLock()
   private val containers = LinkedHashMap<String, SpringContainer>()
 
-  fun createStandaloneContainer(vararg configLocations: String): SpringContainer? {
+  override fun createStandaloneContainer(vararg configLocations: String): SpringContainer {
     val container = StandaloneSpringContainer(*configLocations)
     val id = container.uniqueId()
-    return lock.read { containers[id] }
+    return lock.read { containers[id]!! }
   }
 
   fun register(ctx: ApplicationContext) {
@@ -48,4 +51,7 @@ class SpringContainerManager private constructor() : GoblinManagedObject(), Spri
       containers.clear()
     }
   }
+
+  @Install
+  class Installer : ISpringContainerManager by INSTANCE
 }

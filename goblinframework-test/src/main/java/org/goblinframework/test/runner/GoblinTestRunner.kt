@@ -1,5 +1,7 @@
 package org.goblinframework.test.runner
 
+import org.goblinframework.api.container.ApplicationContextProvider
+import org.goblinframework.api.container.ISpringContainerManager
 import org.goblinframework.api.system.GoblinSystem
 import org.goblinframework.test.listener.TestExecutionListenerManager
 import org.springframework.context.ApplicationContext
@@ -9,7 +11,6 @@ import org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDele
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.context.support.DefaultBootstrapContext
 import org.springframework.test.context.support.DefaultTestContextBootstrapper
-import org.springframework.util.ClassUtils
 import kotlin.concurrent.thread
 
 class GoblinTestRunner(clazz: Class<*>) : SpringJUnit4ClassRunner(clazz) {
@@ -34,15 +35,9 @@ class GoblinTestRunner(clazz: Class<*>) : SpringJUnit4ClassRunner(clazz) {
   override fun createTestContextManager(clazz: Class<*>): TestContextManager {
     val delegate = object : DefaultCacheAwareContextLoaderDelegate() {
       override fun loadContextInternal(mergedContextConfiguration: MergedContextConfiguration): ApplicationContext {
-        val classLoader = ClassUtils.getDefaultClassLoader()!!
-        return try {
-          classLoader.loadClass("org.goblinframework.core.container.StandaloneSpringContainer")
-        } catch (ex: ClassNotFoundException) {
-          null
-        }?.run {
-          val constructor = this.getConstructor(Array<String>::class.java)
-          constructor.newInstance(mergedContextConfiguration.locations) as ApplicationContext
-        } ?: super.loadContextInternal(mergedContextConfiguration)
+        val container = ISpringContainerManager.instance()
+            .createStandaloneContainer(*mergedContextConfiguration.locations)
+        return (container as ApplicationContextProvider).applicationContext() as ApplicationContext
       }
     }
     val bootstrapper = DefaultTestContextBootstrapper()
