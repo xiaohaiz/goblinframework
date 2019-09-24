@@ -165,7 +165,8 @@ class ConfigLoader private constructor()
 
   private fun executeReload() {
     if (reload()) {
-      // TODO
+      val listeners = ConfigManager.INSTANCE.getConfigListeners()
+      listeners.forEach { it.onConfigChanged() }
     }
   }
 
