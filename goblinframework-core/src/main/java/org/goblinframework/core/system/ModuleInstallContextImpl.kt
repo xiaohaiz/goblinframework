@@ -1,6 +1,7 @@
 package org.goblinframework.core.system
 
 import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.config.ConfigListener
 import org.goblinframework.api.config.ConfigParser
 import org.goblinframework.api.config.IConfigManager
 import org.goblinframework.api.event.EventBus
@@ -31,5 +32,9 @@ class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), Modu
 
   override fun registerConfigParser(parser: ConfigParser) {
     IConfigManager.instance().registerConfigParser(parser)
+  }
+
+  override fun registerConfigListener(listener: ConfigListener) {
+    IConfigManager.instance().registerConfigListener(listener)
   }
 }
