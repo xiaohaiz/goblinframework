@@ -16,12 +16,11 @@ class ZkTranscoder internal constructor(private val serializer: Serializer)
   : GoblinManagedObject(), ZkTranscoderMXBean, ZkSerializer {
 
   override fun serialize(data: Any): ByteArray {
-    val input = if (data is String) return data.toByteArray(Charsets.UTF_8) else data
     val buf = ByteBufAllocator.DEFAULT.buffer()
     try {
       ByteBufOutputStream(buf).use {
         val transcoder = TranscoderUtils.encoder().serializer(serializer).buildTranscoder()
-        transcoder.encode(it, input)
+        transcoder.encode(it, data)
       }
       return ByteBufUtil.getBytes(buf)
     } catch (ex: Exception) {

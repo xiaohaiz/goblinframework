@@ -42,7 +42,8 @@ internal constructor(private val client: ZookeeperClient)
   }
 
   override fun createPersistent(path: String, data: Any?) {
-    val parent = StringUtils.substringBeforeLast(path, "/")
+    var parent = StringUtils.substringBeforeLast(path, "/")
+    parent = StringUtils.defaultIfBlank(parent, "/")
     if (parent != "/" && !client.nativeClient().exists(parent)) {
       try {
         client.nativeClient().createPersistent(parent)
@@ -53,7 +54,8 @@ internal constructor(private val client: ZookeeperClient)
   }
 
   override fun createEphemeral(path: String) {
-    val parent = StringUtils.substringBeforeLast(path, "/")
+    var parent = StringUtils.substringBeforeLast(path, "/")
+    parent = StringUtils.defaultIfBlank(parent, "/")
     if (parent != "/" && !client.nativeClient().exists(parent)) {
       try {
         client.nativeClient().createPersistent(parent)
@@ -64,7 +66,8 @@ internal constructor(private val client: ZookeeperClient)
   }
 
   override fun createEphemeral(path: String, data: Any?) {
-    val parent = StringUtils.substringBeforeLast(path, "/")
+    var parent = StringUtils.substringBeforeLast(path, "/")
+    parent = StringUtils.defaultIfBlank(parent, "/")
     if (parent != "/" && !client.nativeClient().exists(parent)) {
       try {
         client.nativeClient().createPersistent(parent)

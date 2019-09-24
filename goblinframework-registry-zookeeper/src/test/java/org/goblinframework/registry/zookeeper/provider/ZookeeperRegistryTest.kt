@@ -30,4 +30,20 @@ class ZookeeperRegistryTest {
       zr.deleteRecursive("/$rn")
     }
   }
+
+  @Test
+  fun data() {
+    val zr = RegistrySystem.ZKP.getRegistry("_ut")!!
+    val rn = RandomUtils.nextObjectId()
+    try {
+      zr.createEphemeral("/$rn", "HELLO".toByteArray(Charsets.UTF_8))
+      var s = zr.readData<ByteArray>("/$rn")?.toString(Charsets.UTF_8)
+      assertEquals("HELLO", s)
+      zr.writeData("/$rn", "WORLD".toByteArray(Charsets.UTF_8))
+      s = zr.readData<ByteArray>("/$rn")?.toString(Charsets.UTF_8)
+      assertEquals("WORLD", s)
+    } finally {
+      zr.deleteRecursive("/$rn")
+    }
+  }
 }
