@@ -7,6 +7,9 @@ import org.jetbrains.annotations.NotNull;
 public interface ISpringContainerManager {
 
   @NotNull
+  Object createStandaloneContainer(@NotNull String... configLocations);
+
+  @NotNull
   static ISpringContainerManager instance() {
     ISpringContainerManager installed = SpringContainerManagerInstaller.INSTALLED;
     assert installed != null;
