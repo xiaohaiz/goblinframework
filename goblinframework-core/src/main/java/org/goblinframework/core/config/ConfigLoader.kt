@@ -36,7 +36,7 @@ class ConfigLoader private constructor()
   private val config = AtomicReference<ConfigSection>()
   private val mapping = AtomicReference<ConfigMapping>(ConfigMapping())
   private val applicationName = AtomicReference<String>("UNKNOWN")
-  private val scheduler = AtomicReference<ConfigLoaderScheduler>()
+  private val scheduler = AtomicReference<ConfigLoaderScheduler1>()
 
   init {
     configLocationScanner.getConfigLocation()?.run {
@@ -61,7 +61,7 @@ class ConfigLoader private constructor()
   @Synchronized
   override fun start() {
     if (scheduler.get() == null) {
-      val s = ConfigLoaderScheduler(this)
+      val s = ConfigLoaderScheduler1(this)
       EventBus.subscribe(s)
       scheduler.set(s)
     }
