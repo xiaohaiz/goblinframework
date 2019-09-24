@@ -1,5 +1,6 @@
 package org.goblinframework.registry.zookeeper.provider
 
+import org.bson.types.ObjectId
 import org.goblinframework.api.registry.RegistrySystem
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
@@ -42,6 +43,15 @@ class ZookeeperRegistryTest {
       zr.writeData("/$rn", "WORLD".toByteArray(Charsets.UTF_8))
       s = zr.readData<ByteArray>("/$rn")?.toString(Charsets.UTF_8)
       assertEquals("WORLD", s)
+
+      zr.writeData("/$rn", "HELLO WORLD")
+      s = zr.readData<String>("/$rn")
+      assertEquals("HELLO WORLD", s)
+
+      val id = ObjectId()
+      zr.writeData("/$rn", id)
+      val di = zr.readData<ObjectId>("/$rn")
+      assertEquals(id, di)
     } finally {
       zr.deleteRecursive("/$rn")
     }
