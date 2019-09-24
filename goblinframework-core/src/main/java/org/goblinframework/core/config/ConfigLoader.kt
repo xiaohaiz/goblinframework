@@ -1,7 +1,7 @@
 package org.goblinframework.core.config
 
-import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.Lifecycle
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
@@ -145,6 +145,14 @@ class ConfigLoader private constructor()
     stop()
     mappingLocationScanner.dispose()
     configLocationScanner.dispose()
+  }
+
+  override fun getConfigLocationScanner(): ConfigLocationScannerMXBean {
+    return configLocationScanner
+  }
+
+  override fun getMappingLocationScanner(): MappingLocationScannerMXBean {
+    return mappingLocationScanner
   }
 
   override fun getApplicationName(): String {
