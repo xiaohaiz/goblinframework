@@ -25,7 +25,7 @@ class GoblinTimerEventGeneratorImpl internal constructor() {
 
   internal fun close() {
     scheduler.stop()
-    scheduler.stop()
+    scheduler.destroy()
   }
 
   private fun createCronTrigger(cron: String, job: Any): CronTrigger {
