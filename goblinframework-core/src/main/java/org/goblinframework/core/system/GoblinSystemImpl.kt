@@ -51,15 +51,16 @@ class GoblinSystemImpl internal constructor() : GoblinManagedObject(), GoblinSys
   }
 
   override fun disposeBean() {
+    logger.info("Shutdown GOBLIN system")
     SpringContainerManager.INSTANCE.dispose()
 
     val future = EventBus.execute {
-      for (id in GoblinModule.values().reversed()) {
-        val module = ModuleLoader.module(id) ?: continue
+      for (module in ExtModuleLoader.asList().reversed()) {
         logger.info("Finalize {${module.id()}}")
         module.finalize(ModuleFinalizeContextImpl.INSTANCE)
       }
-      for (module in ExtModuleLoader.asList().reversed()) {
+      for (id in GoblinModule.values().reversed()) {
+        val module = ModuleLoader.module(id) ?: continue
         logger.info("Finalize {${module.id()}}")
         module.finalize(ModuleFinalizeContextImpl.INSTANCE)
       }
