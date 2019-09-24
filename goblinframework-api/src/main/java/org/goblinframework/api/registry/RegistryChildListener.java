@@ -1,0 +1,16 @@
+package org.goblinframework.api.registry;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.List;
+
+public interface RegistryChildListener {
+
+  default void onParentPathDeleted(@NotNull String parentPath) {
+    onChildChanged(parentPath, Collections.emptyList());
+  }
+
+  void onChildChanged(@NotNull String parentPath, @NotNull List<String> children);
+
+}

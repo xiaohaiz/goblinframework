@@ -19,4 +19,6 @@ public interface Registry {
 
   void subscribeStateListener(@NotNull RegistryStateListener listener);
 
+  void unsubscribeStateListener(@NotNull RegistryStateListener listener);
+
 }

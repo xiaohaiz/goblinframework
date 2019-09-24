@@ -31,6 +31,14 @@ internal constructor(private val client: ZookeeperClient) : Registry, Disposable
     }
   }
 
+  override fun unsubscribeStateListener(listener: RegistryStateListener) {
+    stateListenerLock.withLock {
+      stateListeners.remove(listener)?.let {
+        client.nativeClient().unsubscribeStateChanges(it)
+      }
+    }
+  }
+
   override fun dispose() {
     stateListenerLock.withLock {
       stateListeners.values.forEach { client.nativeClient().unsubscribeStateChanges(it) }
