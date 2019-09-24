@@ -14,6 +14,8 @@ internal constructor(private val client: ZookeeperClient) : Registry, Disposable
 
   private val childListenerLock = ReentrantLock()
   private val childListeners = mutableMapOf<String, IdentityHashMap<RegistryChildListener, ZookeeperChildListener>>()
+  private val dataListenerLock = ReentrantLock()
+  private val dataListeners = mutableMapOf<String, IdentityHashMap<RegistryDataListener, ZookeeperDataListener>>()
   private val stateListenerLock = ReentrantLock()
   private val stateListeners = IdentityHashMap<RegistryStateListener, ZookeeperStateListener>()
 
@@ -41,6 +43,26 @@ internal constructor(private val client: ZookeeperClient) : Registry, Disposable
     }
   }
 
+  override fun subscribeDataListener(path: String, listener: RegistryDataListener) {
+    dataListenerLock.withLock {
+      val map = dataListeners.computeIfAbsent(path) { IdentityHashMap() }
+      map[listener]?.run { return }
+      val zdl = ZookeeperDataListener(listener)
+      client.nativeClient().subscribeDataChanges(path, zdl)
+      map[listener] = zdl
+    }
+  }
+
+  override fun unsubscribeDataListener(path: String, listener: RegistryDataListener) {
+    dataListenerLock.withLock {
+      dataListeners[path]?.run {
+        this.remove(listener)?.let {
+          client.nativeClient().unsubscribeDataChanges(path, it)
+        }
+      }
+    }
+  }
+
   override fun subscribeStateListener(listener: RegistryStateListener) {
     stateListenerLock.withLock {
       stateListeners[listener]?.run { return }
@@ -62,6 +84,11 @@ internal constructor(private val client: ZookeeperClient) : Registry, Disposable
     childListenerLock.withLock {
       childListeners.forEach { (t, u) ->
         u.values.forEach { client.nativeClient().unsubscribeChildChanges(t, it) }
+      }
+    }
+    dataListenerLock.withLock {
+      dataListeners.forEach { (t, u) ->
+        u.values.forEach { client.nativeClient().unsubscribeDataChanges(t, it) }
       }
     }
     stateListenerLock.withLock {

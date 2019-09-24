@@ -21,6 +21,10 @@ public interface Registry {
 
   void unsubscribeChildListener(@NotNull String path, @NotNull RegistryChildListener listener);
 
+  void subscribeDataListener(@NotNull String path, @NotNull RegistryDataListener listener);
+
+  void unsubscribeDataListener(@NotNull String path, @NotNull RegistryDataListener listener);
+
   void subscribeStateListener(@NotNull RegistryStateListener listener);
 
   void unsubscribeStateListener(@NotNull RegistryStateListener listener);
