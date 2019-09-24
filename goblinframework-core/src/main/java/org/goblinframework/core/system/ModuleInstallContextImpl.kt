@@ -4,6 +4,8 @@ import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.config.ConfigListener
 import org.goblinframework.api.config.ConfigParser
 import org.goblinframework.api.config.IConfigManager
+import org.goblinframework.api.container.ISpringContainerManager
+import org.goblinframework.api.container.SpringContainerBeanPostProcessor
 import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.event.GoblinEventListener
 import org.goblinframework.api.management.IManagementControllerManager
@@ -36,5 +38,9 @@ class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), Modu
 
   override fun registerConfigListener(listener: ConfigListener) {
     IConfigManager.instance().registerConfigListener(listener)
+  }
+
+  override fun registerContainerBeanPostProcessor(processor: SpringContainerBeanPostProcessor) {
+    ISpringContainerManager.instance().registerBeanPostProcessor(processor)
   }
 }
