@@ -14,20 +14,20 @@ class RegistryModule : IModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    ctx.createSubModules(this)
+    ctx.createSubModules()
         .module(GoblinSubModule.REGISTRY_ZOOKEEPER)
         .install(ctx)
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    ctx.createSubModules(this)
+    ctx.createSubModules()
         .module(GoblinSubModule.REGISTRY_ZOOKEEPER)
         .initialize(ctx)
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
     RegistryBuilderManager.INSTANCE.dispose()
-    ctx.createSubModules(this)
+    ctx.createSubModules()
         .module(GoblinSubModule.REGISTRY_ZOOKEEPER)
         .finalize(ctx)
   }

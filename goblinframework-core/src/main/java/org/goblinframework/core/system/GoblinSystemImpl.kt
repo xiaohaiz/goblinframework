@@ -28,6 +28,7 @@ class GoblinSystemImpl internal constructor() : GoblinManagedObject(), GoblinSys
     for (id in GoblinModule.values()) {
       val module = ModuleLoader.module(id) ?: continue
       logger.info("Install {${module.id()}}")
+      ModuleInstallContextImpl.INSTANCE.setExtension(module.javaClass.name, module)
       module.install(ModuleInstallContextImpl.INSTANCE)
     }
     for (module in ExtModuleLoader.asList()) {

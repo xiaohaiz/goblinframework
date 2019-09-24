@@ -1,6 +1,5 @@
 package org.goblinframework.core.system
 
-import org.goblinframework.api.system.IModule
 import org.goblinframework.api.system.ModuleContext
 import org.goblinframework.api.system.SubModules
 import java.util.concurrent.ConcurrentHashMap
@@ -9,8 +8,8 @@ abstract class ModuleContextImpl : ModuleContext {
 
   private val extensions = ConcurrentHashMap<String, Any>()
 
-  override fun createSubModules(module: IModule): SubModules {
-    return SubModulesImpl(module)
+  override fun createSubModules(): SubModules {
+    return SubModulesImpl()
   }
 
   override fun <E : Any> setExtension(name: String, value: E) {
@@ -23,7 +22,7 @@ abstract class ModuleContextImpl : ModuleContext {
   }
 
   override fun <E : Any?> getExtension(type: Class<E>): E? {
-    return getExtension("MODULE:${type.name}")
+    return getExtension(type.name)
   }
 
   @Suppress("UNCHECKED_CAST")

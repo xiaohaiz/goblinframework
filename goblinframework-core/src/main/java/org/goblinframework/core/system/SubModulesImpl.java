@@ -15,13 +15,8 @@ import java.util.stream.Collectors;
 
 final class SubModulesImpl implements SubModules {
 
-  private final IModule module;
   private final AtomicInteger stage = new AtomicInteger();
   private final LinkedMultiValueMap<Integer, List<GoblinSubModule>> modules = new LinkedMultiValueMap<>();
-
-  public SubModulesImpl(@NotNull IModule module) {
-    this.module = module;
-  }
 
   @NotNull
   @Override
@@ -55,7 +50,6 @@ final class SubModulesImpl implements SubModules {
   }
 
   private void execute(ModuleContext ctx) {
-    ctx.setExtension("MODULE:" + module.getClass().getName(), module);
     for (int i = 0; i <= stage.get(); i++) {
       List<List<GoblinSubModule>> idsList = modules.get(i);
       if (idsList == null) {
