@@ -1,6 +1,6 @@
 package org.goblinframework.cache.core.util;
 
-import org.goblinframework.cache.core.annotation.GoblinCacheExpiration;
+import org.goblinframework.api.cache.GoblinCacheExpiration;
 import org.goblinframework.core.util.DateUtils;
 import org.jetbrains.annotations.NotNull;
 

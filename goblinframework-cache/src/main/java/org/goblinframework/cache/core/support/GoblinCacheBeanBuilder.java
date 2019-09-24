@@ -1,7 +1,7 @@
 package org.goblinframework.cache.core.support;
 
+import org.goblinframework.api.cache.GoblinCacheBeans;
 import org.goblinframework.api.cache.GoblinCacheException;
-import org.goblinframework.cache.core.annotation.GoblinCacheBeans;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;
@@ -26,14 +26,14 @@ class GoblinCacheBeanBuilder {
   }
 
   private static GoblinCacheBean generate(Class<?> realClass) {
-    List<org.goblinframework.cache.core.annotation.GoblinCacheBean> annotations = new LinkedList<>();
-    org.goblinframework.cache.core.annotation.GoblinCacheBean cacheBean = AnnotationUtils.getAnnotation(realClass, org.goblinframework.cache.core.annotation.GoblinCacheBean.class);
+    List<org.goblinframework.api.cache.GoblinCacheBean> annotations = new LinkedList<>();
+    org.goblinframework.api.cache.GoblinCacheBean cacheBean = AnnotationUtils.getAnnotation(realClass, org.goblinframework.api.cache.GoblinCacheBean.class);
     if (cacheBean != null && cacheBean.enable()) {
       annotations.add(cacheBean);
     }
     GoblinCacheBeans cacheBeans = AnnotationUtils.getAnnotation(realClass, GoblinCacheBeans.class);
     if (cacheBeans != null) {
-      Arrays.stream(cacheBeans.value()).filter(org.goblinframework.cache.core.annotation.GoblinCacheBean::enable).forEach(annotations::add);
+      Arrays.stream(cacheBeans.value()).filter(org.goblinframework.api.cache.GoblinCacheBean::enable).forEach(annotations::add);
     }
     if (annotations.isEmpty()) {
       return null;
@@ -42,14 +42,14 @@ class GoblinCacheBeanBuilder {
     return new GoblinCacheBean(annotations);
   }
 
-  private static void validateAnnotations(final List<org.goblinframework.cache.core.annotation.GoblinCacheBean> annotations,
+  private static void validateAnnotations(final List<org.goblinframework.api.cache.GoblinCacheBean> annotations,
                                           final Class<?> realClass) {
     if (annotations.isEmpty()) {
       return;
     }
-    IdentityHashMap<Class<?>, org.goblinframework.cache.core.annotation.GoblinCacheBean> map = new IdentityHashMap<>();
-    for (org.goblinframework.cache.core.annotation.GoblinCacheBean annotation : annotations) {
-      org.goblinframework.cache.core.annotation.GoblinCacheBean previous = map.putIfAbsent(annotation.type(), annotation);
+    IdentityHashMap<Class<?>, org.goblinframework.api.cache.GoblinCacheBean> map = new IdentityHashMap<>();
+    for (org.goblinframework.api.cache.GoblinCacheBean annotation : annotations) {
+      org.goblinframework.api.cache.GoblinCacheBean previous = map.putIfAbsent(annotation.type(), annotation);
       if (previous != null) {
         String errMsg = "Duplicated cache type (%s) declared in @GoblinCacheBean of (%s)";
         errMsg = String.format(errMsg, annotation.type().getName(), realClass.getName());

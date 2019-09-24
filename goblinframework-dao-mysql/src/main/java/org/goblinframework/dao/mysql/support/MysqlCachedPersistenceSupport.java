@@ -25,14 +25,14 @@ import java.util.stream.Collectors;
 abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersistenceSupport<E, ID> {
 
   private final GoblinCacheBean goblinCacheBean;
-  private final org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution distribution;
+  private final org.goblinframework.api.cache.GoblinCacheDimension.Distribution distribution;
 
   protected MysqlCachedPersistenceSupport() {
     this.goblinCacheBean = GoblinCacheBeanManager.getGoblinCacheBean(getClass());
     if (this.goblinCacheBean.isEmpty()) {
-      distribution = org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.NONE;
+      distribution = org.goblinframework.api.cache.GoblinCacheDimension.Distribution.NONE;
     } else {
-      org.goblinframework.cache.core.annotation.GoblinCacheDimension annotation = AnnotationUtils.getAnnotation(getClass(), org.goblinframework.cache.core.annotation.GoblinCacheDimension.class);
+      org.goblinframework.api.cache.GoblinCacheDimension annotation = AnnotationUtils.getAnnotation(getClass(), org.goblinframework.api.cache.GoblinCacheDimension.class);
       if (annotation == null) {
         String errMsg = "No @GoblinCacheDimension presented on %s";
         errMsg = String.format(errMsg, ClassUtils.filterCglibProxyClass(getClass()));
@@ -69,7 +69,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
       return;
     }
     directInserts(entities);
-    if (distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.NONE) {
+    if (distribution == org.goblinframework.api.cache.GoblinCacheDimension.Distribution.NONE) {
       return;
     }
     GoblinCacheDimension gcd = new GoblinCacheDimension(entityMapping.entityClass, goblinCacheBean);
@@ -126,7 +126,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
 
   @Override
   public boolean replace(@Nullable E entity) {
-    if (distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.NONE) {
+    if (distribution == org.goblinframework.api.cache.GoblinCacheDimension.Distribution.NONE) {
       return directReplace(entity);
     }
     if (entity == null) return false;
@@ -149,7 +149,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
         }
         E replaced = directLoad(getMasterConnection(), id);
         assert replaced != null;
-        if (distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.ID_FIELD) {
+        if (distribution == org.goblinframework.api.cache.GoblinCacheDimension.Distribution.ID_FIELD) {
           GoblinCache gc = getDefaultCache();
           gc.cache().modifier()
               .key(generateCacheKey(id))
@@ -170,7 +170,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
   @Override
   public boolean upsert(@Nullable E entity) {
     if (entity == null) return false;
-    if (distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.NONE) {
+    if (distribution == org.goblinframework.api.cache.GoblinCacheDimension.Distribution.NONE) {
       return directUpsert(entity);
     }
     ID id = getEntityId(entity);
@@ -183,7 +183,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
       @Override
       protected void doInTransactionWithoutResult(TransactionStatus status) {
         E original = null;
-        if (distribution != org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.ID_FIELD) {
+        if (distribution != org.goblinframework.api.cache.GoblinCacheDimension.Distribution.ID_FIELD) {
           original = directLoad(getMasterConnection(), id);
         }
         if (!directUpsert(entity)) {
@@ -191,7 +191,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
         }
         E upserted = directLoad(getMasterConnection(), id);
         assert upserted != null;
-        if (distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.ID_FIELD) {
+        if (distribution == org.goblinframework.api.cache.GoblinCacheDimension.Distribution.ID_FIELD) {
           GoblinCache gc = getDefaultCache();
           gc.cache().modifier()
               .key(generateCacheKey(id))
@@ -224,7 +224,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
     if (ids == null || ids.isEmpty()) {
       return 0;
     }
-    if (distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.NONE) {
+    if (distribution == org.goblinframework.api.cache.GoblinCacheDimension.Distribution.NONE) {
       return directDeletes(ids);
     }
     switch (distribution) {
@@ -263,7 +263,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
   }
 
   private boolean hasIdCache() {
-    return distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.ID_FIELD
-        || distribution == org.goblinframework.cache.core.annotation.GoblinCacheDimension.Distribution.ID_AND_OTHER_FIELDS;
+    return distribution == org.goblinframework.api.cache.GoblinCacheDimension.Distribution.ID_FIELD
+        || distribution == org.goblinframework.api.cache.GoblinCacheDimension.Distribution.ID_AND_OTHER_FIELDS;
   }
 }

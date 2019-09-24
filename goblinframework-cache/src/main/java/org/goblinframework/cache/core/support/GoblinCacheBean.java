@@ -1,10 +1,6 @@
 package org.goblinframework.cache.core.support;
 
-import org.goblinframework.api.cache.Cache;
-import org.goblinframework.api.cache.CacheLocation;
-import org.goblinframework.api.cache.CacheSystem;
-import org.goblinframework.api.cache.GoblinCacheException;
-import org.goblinframework.cache.core.annotation.GoblinCacheExpiration;
+import org.goblinframework.api.cache.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,8 +18,8 @@ public class GoblinCacheBean {
   public GoblinCacheBean() {
   }
 
-  public GoblinCacheBean(@NotNull List<org.goblinframework.cache.core.annotation.GoblinCacheBean> annotations) {
-    for (org.goblinframework.cache.core.annotation.GoblinCacheBean annotation : annotations) {
+  public GoblinCacheBean(@NotNull List<org.goblinframework.api.cache.GoblinCacheBean> annotations) {
+    for (org.goblinframework.api.cache.GoblinCacheBean annotation : annotations) {
       GoblinCache gc = new GoblinCache();
       gc.type = annotation.type();
       gc.location = new CacheLocation(annotation.system(), annotation.name());
