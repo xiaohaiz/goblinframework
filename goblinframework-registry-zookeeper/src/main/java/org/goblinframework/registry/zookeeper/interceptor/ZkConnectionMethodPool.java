@@ -40,15 +40,15 @@ final class ZkConnectionMethodPool {
     pool.put(IZkConnection.class.getMethod("addAuthInfo", String.class, byte[].class), 0);
     pool.put(IZkConnection.class.getMethod("create", String.class, byte[].class, CreateMode.class), 1);
     pool.put(IZkConnection.class.getMethod("create", String.class, byte[].class, List.class, CreateMode.class), 1);
-    pool.put(IZkConnection.class.getMethod("delete", String.class), 1);
-    pool.put(IZkConnection.class.getMethod("delete", String.class, int.class), 1);
-    pool.put(IZkConnection.class.getMethod("exists", String.class, boolean.class), 1);
-    pool.put(IZkConnection.class.getMethod("getChildren", String.class, boolean.class), 1);
-    pool.put(IZkConnection.class.getMethod("readData", String.class, Stat.class, boolean.class), 1);
-    pool.put(IZkConnection.class.getMethod("writeData", String.class, byte[].class, int.class), 1);
-    pool.put(IZkConnection.class.getMethod("writeDataReturnStat", String.class, byte[].class, int.class), 1);
-    pool.put(IZkConnection.class.getMethod("getCreateTime", String.class), 1);
-    pool.put(IZkConnection.class.getMethod("setAcl", String.class, List.class, int.class), 1);
-    pool.put(IZkConnection.class.getMethod("getAcl", String.class), 1);
+    pool.put(IZkConnection.class.getMethod("delete", String.class), 2);
+    pool.put(IZkConnection.class.getMethod("delete", String.class, int.class), 2);
+    pool.put(IZkConnection.class.getMethod("exists", String.class, boolean.class), 2);
+    pool.put(IZkConnection.class.getMethod("getChildren", String.class, boolean.class), 2);
+    pool.put(IZkConnection.class.getMethod("readData", String.class, Stat.class, boolean.class), 2);
+    pool.put(IZkConnection.class.getMethod("writeData", String.class, byte[].class, int.class), 2);
+    pool.put(IZkConnection.class.getMethod("writeDataReturnStat", String.class, byte[].class, int.class), 2);
+    pool.put(IZkConnection.class.getMethod("getCreateTime", String.class), 2);
+    pool.put(IZkConnection.class.getMethod("setAcl", String.class, List.class, int.class), 2);
+    pool.put(IZkConnection.class.getMethod("getAcl", String.class), 2);
   }
 }

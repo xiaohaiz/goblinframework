@@ -3,6 +3,7 @@ package org.goblinframework.registry.zookeeper.interceptor;
 import org.I0Itec.zkclient.IZkConnection;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.zookeeper.CreateMode;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.goblinframework.registry.zookeeper.module.monitor.ZKP;
 import org.jetbrains.annotations.NotNull;
@@ -33,9 +34,24 @@ public class ZkConnectionInterceptor implements MethodInterceptor {
     try (ZKP instruction = new ZKP()) {
       instruction.setName(name);
       instruction.setOperation(method.getName());
-      if (mode == 1) {
-        String path = (String) arguments[0];
-        instruction.setPath(path);
+      switch (mode) {
+        case 1: {
+          String path = (String) arguments[0];
+          instruction.setPath(path);
+          CreateMode createMode = (CreateMode) arguments[arguments.length - 1];
+          if (createMode != null) {
+            instruction.setCreateMode(createMode.name());
+          }
+          break;
+        }
+        case 2: {
+          String path = (String) arguments[0];
+          instruction.setPath(path);
+          break;
+        }
+        default: {
+          break;
+        }
       }
       return ReflectionUtils.invoke(connection, method, arguments);
     }

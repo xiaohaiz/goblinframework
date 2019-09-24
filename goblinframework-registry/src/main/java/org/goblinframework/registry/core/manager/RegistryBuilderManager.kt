@@ -1,5 +1,6 @@
 package org.goblinframework.registry.core.manager
 
+import org.goblinframework.api.common.Install
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.registry.GoblinRegistryException
 import org.goblinframework.api.registry.IRegistryBuilderManager
@@ -36,4 +37,7 @@ class RegistryBuilderManager private constructor()
     buffer.values.forEach { it.dispose() }
     buffer.clear()
   }
+
+  @Install
+  class Installer : IRegistryBuilderManager by INSTANCE
 }
