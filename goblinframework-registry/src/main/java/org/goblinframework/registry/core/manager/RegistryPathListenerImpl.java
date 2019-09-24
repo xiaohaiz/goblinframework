@@ -128,6 +128,7 @@ final public class RegistryPathListenerImpl implements RegistryPathListener {
   }
 
   private synchronized void reload() {
-
+    List<String> children = registry.getChildren(path);
+    handler.apply(children);
   }
 }
