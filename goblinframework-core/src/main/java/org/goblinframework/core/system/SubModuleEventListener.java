@@ -32,6 +32,7 @@ final class SubModuleEventListener implements GoblinEventListener {
     if (event.ctx instanceof ModuleInstallContext) {
       event.subModules.forEach(e -> {
         logger.info("Install [{}]", e.id().fullName());
+        event.ctx.setExtension(e.getClass().getName(), e);
         e.install((ModuleInstallContext) event.ctx);
       });
     } else if (event.ctx instanceof ModuleInitializeContext) {
