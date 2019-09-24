@@ -23,7 +23,7 @@ class ConfigModule : IModule {
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    ConfigManager.INSTANCE.asList().forEach { it.initialize() }
+    ConfigManager.INSTANCE.getConfigParsers().forEach { it.initialize() }
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {

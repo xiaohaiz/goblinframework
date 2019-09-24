@@ -8,6 +8,8 @@ public interface IConfigManager {
 
   void registerConfigParser(@NotNull ConfigParser parser);
 
+  void registerConfigListener(@NotNull ConfigListener listener);
+
   @NotNull
   static IConfigManager instance() {
     IConfigManager installed = ConfigManagerInstaller.INSTALLED;
