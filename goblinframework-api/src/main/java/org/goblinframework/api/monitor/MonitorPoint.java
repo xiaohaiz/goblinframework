@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 public interface MonitorPoint {
 
   @NotNull
-  String id();
+  MonitorPointId id();
 
   @NotNull
   Mode mode();
