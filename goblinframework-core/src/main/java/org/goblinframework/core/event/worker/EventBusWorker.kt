@@ -15,6 +15,7 @@ import org.goblinframework.core.util.SystemUtils
 import java.time.Instant
 import java.util.*
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.LongAdder
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
@@ -35,6 +36,9 @@ internal constructor(private val channel: String,
   private val disruptor: Disruptor<EventBusWorkerEvent>
   private val lock = ReentrantReadWriteLock()
   private val listeners = IdentityHashMap<GoblinEventListener, Instant>()
+
+  private val publishedCount = LongAdder()
+  private val discardedCount = LongAdder()
 
   init {
     val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusWorker-$channel")
@@ -71,8 +75,11 @@ internal constructor(private val channel: String,
       e.listeners = listeners
     }
     if (!published) {
+      discardedCount.increment()
       ctx.exceptionCaught(WorkerRingBufferFullException(ctx.channel))
       ctx.finishTask()
+    } else {
+      publishedCount.increment()
     }
   }
 
@@ -102,5 +109,13 @@ internal constructor(private val channel: String,
 
   override fun getWorkers(): Int {
     return workers
+  }
+
+  override fun getPublishedCount(): Long {
+    return publishedCount.sum()
+  }
+
+  override fun getDiscardedCount(): Long {
+    return discardedCount.sum()
   }
 }

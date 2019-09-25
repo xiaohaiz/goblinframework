@@ -55,7 +55,7 @@
         <table class="table table-bordered table-condensed table-striped">
           <thead>
           <tr class="info">
-            <td colspan="5"><strong>Event bus worker(s)</strong></td>
+            <td colspan="7"><strong>Event bus worker(s)</strong></td>
           </tr>
           </thead>
           <tbody>
@@ -65,6 +65,8 @@
             <td><strong>bufferSize</strong></td>
             <td><strong>remaining</strong></td>
             <td><strong>workers</strong></td>
+            <td><strong>published</strong></td>
+            <td><strong>discarded</strong></td>
           </tr>
           <#list eventBusBossMXBean.eventBusWorkerList as worker>
             <tr>
@@ -73,6 +75,8 @@
               <td>${worker.bufferSize}</td>
               <td>${worker.remainingCapacity}</td>
               <td>${worker.workers}</td>
+              <td>${worker.publishedCount}</td>
+              <td>${worker.discardedCount}</td>
             </tr>
           </#list>
           </tbody>

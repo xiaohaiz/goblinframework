@@ -13,4 +13,8 @@ interface EventBusWorkerMXBean : PlatformManagedObject {
   fun getRemainingCapacity(): Int
 
   fun getWorkers(): Int
+
+  fun getPublishedCount(): Long
+
+  fun getDiscardedCount(): Long
 }
