@@ -5,12 +5,10 @@ import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.api.event.*
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
-import org.goblinframework.core.event.callback.GoblinCallbackEventListener
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusConfig
 import org.goblinframework.core.event.worker.EventBusWorker
-import org.goblinframework.core.system.SubModuleEventListener
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.NamedDaemonThreadFactory
 import java.util.concurrent.TimeUnit
@@ -40,11 +38,6 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     val handlers = Array(DEFAULT_WORK_HANDLER_NUMBER) { EventBusBossEventHandler.INSTANCE }
     disruptor.handleEventsWithWorkerPool(*handlers)
     disruptor.start()
-  }
-
-  fun install() {
-    subscribe(SubModuleEventListener.INSTANCE)
-    subscribe(GoblinCallbackEventListener.INSTANCE)
   }
 
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
