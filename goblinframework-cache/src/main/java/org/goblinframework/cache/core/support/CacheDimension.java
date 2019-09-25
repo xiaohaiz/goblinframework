@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class GoblinCacheDimension {
+public class CacheDimension {
 
   private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
   private final IdentityHashMap<Class<?>, Values> buffer = new IdentityHashMap<>();
@@ -15,7 +15,7 @@ public class GoblinCacheDimension {
   private final Class<?> defaultType;
   private final GoblinCacheBean goblinCacheBean;
 
-  public GoblinCacheDimension(@NotNull Class<?> defaultType, @NotNull GoblinCacheBean goblinCacheBean) {
+  public CacheDimension(@NotNull Class<?> defaultType, @NotNull GoblinCacheBean goblinCacheBean) {
     this.defaultType = defaultType;
     this.goblinCacheBean = goblinCacheBean;
   }
