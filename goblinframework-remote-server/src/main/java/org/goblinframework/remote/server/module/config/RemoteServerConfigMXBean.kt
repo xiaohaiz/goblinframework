@@ -4,7 +4,7 @@ import java.lang.management.PlatformManagedObject
 
 interface RemoteServerConfigMXBean : PlatformManagedObject {
 
-  fun getHost(): String?
+  fun getHost(): String
 
   fun getPort(): Int
 
