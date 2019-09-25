@@ -1,7 +1,7 @@
 package org.goblinframework.dao.mysql.mapping;
 
-import org.goblinframework.api.annotation.Field;
 import org.goblinframework.api.common.Singleton;
+import org.goblinframework.api.dao.Field;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.dao.core.mapping.EntityField;
 import org.goblinframework.dao.core.mapping.EntityFieldNameResolver;

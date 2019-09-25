@@ -1,7 +1,6 @@
 package org.goblinframework.dao.mysql.persistence;
 
-import org.goblinframework.api.annotation.*;
-import org.goblinframework.api.dao.GoblinDatabaseConnection;
+import org.goblinframework.api.dao.*;
 import org.goblinframework.core.container.SpringManagedBean;
 import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.dao.mysql.module.test.RebuildMysqlTable;

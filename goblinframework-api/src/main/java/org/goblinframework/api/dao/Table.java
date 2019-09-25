@@ -1,4 +1,4 @@
-package org.goblinframework.api.annotation;
+package org.goblinframework.api.dao;
 
 import java.lang.annotation.*;
 

@@ -1,9 +1,9 @@
-package org.goblinframework.api.annotation;
+package org.goblinframework.api.dao;
 
 import java.lang.annotation.*;
 
 @Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Ignore {
+public @interface Embed {
 }

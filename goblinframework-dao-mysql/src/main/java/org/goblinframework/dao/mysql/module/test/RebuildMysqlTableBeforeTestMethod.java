@@ -2,9 +2,9 @@ package org.goblinframework.dao.mysql.module.test;
 
 import kotlin.text.Charsets;
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.goblinframework.api.common.Singleton;
-import org.goblinframework.api.annotation.Table;
 import org.goblinframework.api.common.GoblinException;
+import org.goblinframework.api.common.Singleton;
+import org.goblinframework.api.dao.Table;
 import org.goblinframework.api.test.TestContext;
 import org.goblinframework.api.test.TestExecutionListener;
 import org.goblinframework.core.util.ClassUtils;

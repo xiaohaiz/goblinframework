@@ -1,9 +1,10 @@
-package org.goblinframework.api.annotation;
+package org.goblinframework.api.dao;
 
 import java.lang.annotation.*;
 
 @Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Embed {
+public @interface Field {
+  String value() default "";
 }

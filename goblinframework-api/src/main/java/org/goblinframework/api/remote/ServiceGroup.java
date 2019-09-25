@@ -1,13 +1,13 @@
-package org.goblinframework.api.annotation;
+package org.goblinframework.api.remote;
 
 import java.lang.annotation.*;
 
 @Documented
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ServiceVersion {
+public @interface ServiceGroup {
 
-  String version() default "1.0";
+  String group() default "";
 
   boolean enable() default true;
 

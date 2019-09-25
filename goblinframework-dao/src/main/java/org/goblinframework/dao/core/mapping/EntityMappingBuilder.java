@@ -1,7 +1,7 @@
 package org.goblinframework.dao.core.mapping;
 
-import org.goblinframework.api.annotation.*;
 import org.goblinframework.api.common.ThreadSafe;
+import org.goblinframework.api.dao.*;
 import org.goblinframework.api.service.GoblinManagedBean;
 import org.goblinframework.api.service.GoblinManagedObject;
 import org.goblinframework.core.exception.GoblinMappingException;

@@ -1,7 +1,7 @@
 package org.goblinframework.remote.server.expose;
 
-import org.goblinframework.api.annotation.ExposeService;
-import org.goblinframework.api.annotation.ExposeServices;
+import org.goblinframework.api.remote.ExposeService;
+import org.goblinframework.api.remote.ExposeServices;
 import org.goblinframework.core.exception.GoblinMalformedException;
 import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;

@@ -1,7 +1,7 @@
 package org.goblinframework.dao.core.support;
 
-import org.goblinframework.api.annotation.CreateTime;
-import org.goblinframework.api.annotation.UpdateTime;
+import org.goblinframework.api.dao.CreateTime;
+import org.goblinframework.api.dao.UpdateTime;
 import org.goblinframework.core.container.SpringManagedBean;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.exception.GoblinMappingException;

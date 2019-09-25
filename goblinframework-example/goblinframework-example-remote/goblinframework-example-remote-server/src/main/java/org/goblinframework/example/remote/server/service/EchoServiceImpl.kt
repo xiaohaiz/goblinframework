@@ -1,7 +1,7 @@
 package org.goblinframework.example.remote.server.service
 
-import org.goblinframework.api.annotation.ExposeService
 import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.remote.ExposeService
 import org.goblinframework.example.remote.api.EchoService
 
 @Singleton
