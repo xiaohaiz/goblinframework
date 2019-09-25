@@ -6,6 +6,7 @@ import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.system.GoblinSystemException
 import org.goblinframework.api.system.IGoblinSystemManager
+import org.goblinframework.api.system.RuntimeMode
 import org.goblinframework.core.util.RandomUtils
 import java.util.concurrent.atomic.AtomicReference
 
@@ -45,6 +46,10 @@ class GoblinSystemManager private constructor()
 
   override fun applicationName(): String {
     return running.get()?.applicationName() ?: throw GoblinSystemException("GOBLIN system not started")
+  }
+
+  override fun runtimeMode(): RuntimeMode {
+    return running.get()?.runtimeMode() ?: throw GoblinSystemException("GOBLIN system not started")
   }
 
   @Install

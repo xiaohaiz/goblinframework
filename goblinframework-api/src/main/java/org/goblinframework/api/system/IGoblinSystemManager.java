@@ -14,6 +14,9 @@ public interface IGoblinSystemManager extends Lifecycle {
   String applicationName();
 
   @NotNull
+  RuntimeMode runtimeMode();
+
+  @NotNull
   static IGoblinSystemManager instance() {
     IGoblinSystemManager installed = GoblinSystemManagerInstaller.INSTALLED;
     assert installed != null;

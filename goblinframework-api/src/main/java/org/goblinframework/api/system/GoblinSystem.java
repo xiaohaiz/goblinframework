@@ -21,4 +21,9 @@ final public class GoblinSystem {
   public static String applicationName() {
     return IGoblinSystemManager.instance().applicationName();
   }
+
+  @NotNull
+  public static RuntimeMode runtimeMode() {
+    return IGoblinSystemManager.instance().runtimeMode();
+  }
 }

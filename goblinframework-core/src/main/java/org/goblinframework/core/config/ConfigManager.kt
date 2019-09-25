@@ -7,6 +7,8 @@ import org.goblinframework.api.config.ConfigParser
 import org.goblinframework.api.config.IConfigManager
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.system.RuntimeMode
+import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.core.mapper.JsonMapper
 import org.goblinframework.core.util.DigestUtils
 import org.goblinframework.core.util.IOUtils
@@ -41,14 +43,30 @@ class ConfigManager private constructor()
   private val config = AtomicReference<ConfigSection>()
   private val mapping = AtomicReference<ConfigMapping>(ConfigMapping())
   private val applicationName = AtomicReference<String>()
+  private val runtimeMode = AtomicReference<RuntimeMode>()
 
   init {
     configLocationScanner.getConfigLocation()?.run {
       loadConfiguration(this)
 
       // parse application name
-      val applicationName = getConfig("core", "applicationName", true, Supplier { "UNKNOWN" })
-      this@ConfigManager.applicationName.set(applicationName!!)
+      var s = getConfig("core", "applicationName", true)
+      s = StringUtils.defaultIfBlank(s, "UNKNOWN")
+      applicationName.set(s!!)
+
+      // parse runtime mode
+      s = getConfig("core", "runtimeMode", true)
+      s = StringUtils.defaultIfBlank(s, RuntimeMode.DEVELOPMENT.name)
+      val mode = if (ITestExecutionListenerManager.instance() != null) {
+        RuntimeMode.UNIT_TEST
+      } else {
+        try {
+          RuntimeMode.valueOf(s!!)
+        } catch (ex: Exception) {
+          RuntimeMode.DEVELOPMENT
+        }
+      }
+      runtimeMode.set(mode)
     }
 
     mappingLocationScanner.getMappingLocation()?.run {
@@ -160,6 +178,10 @@ class ConfigManager private constructor()
 
   override fun getApplicationName(): String {
     return applicationName.get()
+  }
+
+  override fun getRuntimeMode(): RuntimeMode {
+    return runtimeMode.get()
   }
 
   @Install

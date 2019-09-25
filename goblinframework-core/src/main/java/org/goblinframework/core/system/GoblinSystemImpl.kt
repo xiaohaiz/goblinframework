@@ -3,6 +3,7 @@ package org.goblinframework.core.system
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.system.GoblinModule
+import org.goblinframework.api.system.RuntimeMode
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.container.SpringContainerManager
 import org.goblinframework.core.util.ClassUtils
@@ -14,6 +15,10 @@ class GoblinSystemImpl internal constructor() : GoblinManagedObject(), GoblinSys
 
   internal fun applicationName(): String {
     return ConfigManager.INSTANCE.getApplicationName()
+  }
+
+  internal fun runtimeMode(): RuntimeMode {
+    return ConfigManager.INSTANCE.getRuntimeMode()
   }
 
   override fun initializeBean() {
