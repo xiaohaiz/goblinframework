@@ -3,8 +3,6 @@ package org.goblinframework.test.listener
 import org.goblinframework.api.common.Install
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.ThreadSafe
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.api.test.TestExecutionListener
 import java.util.concurrent.locks.ReentrantReadWriteLock
@@ -13,9 +11,7 @@ import kotlin.concurrent.write
 
 @Singleton
 @ThreadSafe
-@GoblinManagedBean(type = "test")
-class TestExecutionListenerManager private constructor()
-  : GoblinManagedObject(), ITestExecutionListenerManager, TestExecutionListenerManagerMXBean {
+class TestExecutionListenerManager private constructor() : ITestExecutionListenerManager {
 
   companion object {
     @JvmField val INSTANCE = TestExecutionListenerManager()
@@ -30,13 +26,6 @@ class TestExecutionListenerManager private constructor()
 
   fun asList(): List<TestExecutionListenerAdapter> {
     return lock.read { listeners.sortedBy { it.order }.toList() }
-  }
-
-  override fun disposeBean() {
-    lock.write {
-      listeners.forEach { it.dispose() }
-      listeners.clear()
-    }
   }
 
   @Install

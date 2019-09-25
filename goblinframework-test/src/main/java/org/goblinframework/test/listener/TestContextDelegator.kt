@@ -4,8 +4,7 @@ import org.goblinframework.api.test.TestContext
 import java.lang.reflect.Method
 
 class TestContextDelegator
-internal constructor(private val delegator: org.springframework.test.context.TestContext)
-  : TestContext {
+internal constructor(private val delegator: org.springframework.test.context.TestContext) : TestContext {
 
   override fun getApplicationContext(): Any {
     return delegator.applicationContext

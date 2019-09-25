@@ -19,7 +19,6 @@ class GoblinTestRunner(clazz: Class<*>) : SpringJUnit4ClassRunner(clazz) {
     init {
       GoblinSystem.install()
       Runtime.getRuntime().addShutdownHook(thread(start = false, name = "GoblinTestRunnerShutdownHook") {
-        TestExecutionListenerManager.INSTANCE.dispose()
         GoblinSystem.uninstall()
       })
     }

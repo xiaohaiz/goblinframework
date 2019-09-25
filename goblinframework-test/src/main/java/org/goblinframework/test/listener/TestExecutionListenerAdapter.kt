@@ -1,16 +1,12 @@
 package org.goblinframework.test.listener
 
 import org.goblinframework.api.common.Ordered
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.test.TestExecutionListener
 import org.springframework.test.context.TestContext
 
-@GoblinManagedBean(type = "test", name = "TestExecutionListener")
 class TestExecutionListenerAdapter
 internal constructor(private val adapter: TestExecutionListener)
-  : GoblinManagedObject(), org.springframework.test.context.TestExecutionListener,
-    Ordered, TestExecutionListenerMXBean {
+  : org.springframework.test.context.TestExecutionListener, Ordered {
 
   override fun getOrder(): Int {
     return adapter.order
