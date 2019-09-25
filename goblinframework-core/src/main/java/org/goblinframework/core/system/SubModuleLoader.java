@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
 
-final class SubModuleLoader {
+final public class SubModuleLoader {
 
   private static final EnumMap<GoblinSubModule, ISubModule> subModules;
 
@@ -24,7 +24,7 @@ final class SubModuleLoader {
   }
 
   @Nullable
-  static ISubModule subModule(@NotNull GoblinSubModule id) {
+  public static ISubModule subModule(@NotNull GoblinSubModule id) {
     return subModules.get(id);
   }
 }

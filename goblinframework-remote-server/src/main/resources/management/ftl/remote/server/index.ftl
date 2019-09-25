@@ -2,11 +2,11 @@
 <!--suppress HtmlUnknownTarget -->
 <html lang="zh">
 <head>
-  <title>EVENT MODULE</title>
+  <title>REMOTE SERVER MODULE</title>
 </head>
 <body>
 
-<h2>EVENT MODULE</h2>
+<h2>REMOTE SERVER MODULE</h2>
 
 <h3>
   <a class="btn btn-default" href="/index.do" role="button">DASHBOARD</a>

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-final class ExtModuleLoader {
+final public class ExtModuleLoader {
 
   private static final Map<String, IExtModule> extModules = new HashMap<>();
 
@@ -25,7 +25,7 @@ final class ExtModuleLoader {
   }
 
   @NotNull
-  static List<IExtModule> asList() {
+  public static List<IExtModule> asList() {
     return extModules.values().stream()
         .sorted(Comparator.comparingInt(IExtModule::getOrder))
         .collect(Collectors.toList());
