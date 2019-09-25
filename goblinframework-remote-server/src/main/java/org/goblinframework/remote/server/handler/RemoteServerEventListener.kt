@@ -1,6 +1,6 @@
 package org.goblinframework.remote.server.handler
 
-import org.goblinframework.api.common.Install
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.event.GoblinEventChannel
 import org.goblinframework.api.event.GoblinEventContext
 import org.goblinframework.api.event.GoblinEventListener
@@ -11,9 +11,13 @@ import org.goblinframework.remote.core.protocol.RemoteResponse
 import org.goblinframework.remote.server.expose.ExposeServiceId
 import org.goblinframework.remote.server.service.RemoteServiceManager
 
-@Install
+@Singleton
 @GoblinEventChannel("/goblin/remote/server")
-class RemoteServerEventListener : GoblinEventListener {
+class RemoteServerEventListener private constructor() : GoblinEventListener {
+
+  companion object {
+    @JvmField val INSTANCE = RemoteServerEventListener()
+  }
 
   override fun accept(context: GoblinEventContext): Boolean {
     return context.event is RemoteServerEvent

@@ -1,3 +1,0 @@
-- channel: "/goblin/remote/server"
-  ringBufferSize: 32768
-  workHandlers: 0
