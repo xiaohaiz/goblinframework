@@ -27,4 +27,8 @@ class RemoteServerManager private constructor()
   override fun disposeBean() {
     server.getAndSet(null)?.dispose()
   }
+
+  override fun getRemoteServer(): RemoteServer? {
+    return server.get()
+  }
 }
