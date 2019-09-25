@@ -20,7 +20,6 @@ final class ConfigManagerScanner implements Initializable, Disposable {
   private static final String TASK_NAME = "ConfigManagerScanner";
 
   private final ConfigManager configManager;
-  private final AtomicReference<ICronTaskManager> cronTaskManager = new AtomicReference<>();
   private final AtomicReference<Timer> timer = new AtomicReference<>();
 
   ConfigManagerScanner(@NotNull ConfigManager configManager) {
@@ -60,7 +59,6 @@ final class ConfigManagerScanner implements Initializable, Disposable {
           configManager.reload();
         }
       });
-      this.cronTaskManager.set(cronTaskManager);
     } else {
       Timer timer = new Timer(TASK_NAME, true);
       timer.scheduleAtFixedRate(new TimerTask() {
@@ -77,10 +75,6 @@ final class ConfigManagerScanner implements Initializable, Disposable {
 
   @Override
   public void dispose() {
-    ICronTaskManager cronTaskManager = this.cronTaskManager.getAndSet(null);
-    if (cronTaskManager != null) {
-      cronTaskManager.unregister(TASK_NAME);
-    }
     Timer timer = this.timer.getAndSet(null);
     if (timer != null) {
       timer.cancel();
