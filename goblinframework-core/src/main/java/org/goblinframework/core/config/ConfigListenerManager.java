@@ -1,7 +1,7 @@
 package org.goblinframework.core.config;
 
 import org.goblinframework.api.common.ThreadSafe;
-import org.goblinframework.api.config.ConfigParser;
+import org.goblinframework.api.config.ConfigListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -9,31 +9,31 @@ import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 @ThreadSafe
-final class ConfigParserManager {
+final class ConfigListenerManager {
 
   private final ReentrantLock lock = new ReentrantLock();
-  private final List<ConfigParser> parsers = new ArrayList<>();
+  private final List<ConfigListener> listeners = new ArrayList<>();
 
-  ConfigParserManager() {
+  ConfigListenerManager() {
   }
 
-  void register(@NotNull ConfigParser parser) {
+  void register(@NotNull ConfigListener listener) {
     lock.lock();
     try {
-      parsers.add(parser);
+      listeners.add(listener);
     } finally {
       lock.unlock();
     }
   }
 
-  void parseConfigs() {
-    List<ConfigParser> candidates;
+  void onConfigChanged() {
+    List<ConfigListener> candidates;
     lock.lock();
     try {
-      candidates = new ArrayList<>(parsers);
+      candidates = new ArrayList<>(listeners);
     } finally {
       lock.unlock();
     }
-    candidates.parallelStream().forEach(ConfigParser::initialize);
+    candidates.parallelStream().forEach(ConfigListener::onConfigChanged);
   }
 }
