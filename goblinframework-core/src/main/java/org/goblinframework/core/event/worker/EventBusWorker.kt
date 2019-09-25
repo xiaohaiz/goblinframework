@@ -10,6 +10,7 @@ import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.WorkerRingBufferFullException
 import org.goblinframework.core.util.NamedDaemonThreadFactory
+import org.goblinframework.core.util.StopWatch
 import org.goblinframework.core.util.SystemUtils
 import java.time.Instant
 import java.util.*
@@ -27,6 +28,7 @@ internal constructor(private val config: EventBusConfig)
     private const val DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS = 15
   }
 
+  private val watch = StopWatch()
   private val disruptor: Disruptor<EventBusWorkerEvent>
   private val lock = ReentrantReadWriteLock()
   private val listeners = IdentityHashMap<GoblinEventListener, Instant>()
@@ -76,5 +78,14 @@ internal constructor(private val config: EventBusConfig)
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
     } catch (ignore: TimeoutException) {
     }
+    watch.stop()
+  }
+
+  override fun getUpTime(): String {
+    return watch.toString()
+  }
+
+  override fun getChannel(): String {
+    return config.channel
   }
 }
