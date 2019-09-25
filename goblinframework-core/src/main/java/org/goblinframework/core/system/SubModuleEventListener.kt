@@ -1,52 +1,51 @@
-package org.goblinframework.core.system;
+package org.goblinframework.core.system
 
-import org.goblinframework.api.common.Singleton;
-import org.goblinframework.api.event.GoblinEventChannel;
-import org.goblinframework.api.event.GoblinEventContext;
-import org.goblinframework.api.event.GoblinEventListener;
-import org.goblinframework.api.system.ModuleFinalizeContext;
-import org.goblinframework.api.system.ModuleInitializeContext;
-import org.goblinframework.api.system.ModuleInstallContext;
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.event.GoblinEventChannel
+import org.goblinframework.api.event.GoblinEventContext
+import org.goblinframework.api.event.GoblinEventListener
+import org.goblinframework.api.system.ISubModule
+import org.goblinframework.api.system.ModuleFinalizeContext
+import org.goblinframework.api.system.ModuleInitializeContext
+import org.goblinframework.api.system.ModuleInstallContext
+import org.slf4j.LoggerFactory
 
 @Singleton
 @GoblinEventChannel("/goblin/core")
-final public class SubModuleEventListener implements GoblinEventListener {
-  private static final Logger logger = LoggerFactory.getLogger(SubModuleEventListener.class);
+class SubModuleEventListener private constructor() : GoblinEventListener {
 
-  public static final SubModuleEventListener INSTANCE = new SubModuleEventListener();
+  companion object {
+    private val logger = LoggerFactory.getLogger(SubModuleEventListener::class.java)
 
-  private SubModuleEventListener() {
+    @JvmField val INSTANCE = SubModuleEventListener()
   }
 
-  @Override
-  public boolean accept(@NotNull GoblinEventContext context) {
-    return context.getEvent() instanceof SubModuleEvent;
+  override fun accept(context: GoblinEventContext): Boolean {
+    return context.event is SubModuleEvent
   }
 
-  @Override
-  public void onEvent(@NotNull GoblinEventContext context) {
-    SubModuleEvent event = (SubModuleEvent) context.getEvent();
-    if (event.ctx instanceof ModuleInstallContext) {
-      event.subModules.forEach(e -> {
-        logger.info("Install [{}]", e.id().fullName());
-        event.ctx.setExtension(e.getClass().getName(), e);
-        e.install((ModuleInstallContext) event.ctx);
-      });
-    } else if (event.ctx instanceof ModuleInitializeContext) {
-      event.subModules.forEach(e -> {
-        logger.info("Initialize [{}]", e.id().fullName());
-        e.initialize((ModuleInitializeContext) event.ctx);
-      });
-    } else if (event.ctx instanceof ModuleFinalizeContext) {
-      event.subModules.forEach(e -> {
-        logger.info("Finalize [{}]", e.id().fullName());
-        e.finalize((ModuleFinalizeContext) event.ctx);
-      });
+  override fun onEvent(context: GoblinEventContext) {
+    val event = context.event as SubModuleEvent
+    if (event.ctx is ModuleInstallContext) {
+      event.subModules.forEach { e ->
+        logger.info("Install [{}]", e.id().fullName())
+        event.ctx.setExtension<ISubModule>(e.javaClass.name, e)
+        e.install(event.ctx as ModuleInstallContext)
+      }
+    } else if (event.ctx is ModuleInitializeContext) {
+      event.subModules.forEach { e ->
+        logger.info("Initialize [{}]", e.id().fullName())
+        e.initialize(event.ctx as ModuleInitializeContext)
+      }
+    } else if (event.ctx is ModuleFinalizeContext) {
+      event.subModules.forEach { e ->
+        logger.info("Finalize [{}]", e.id().fullName())
+        e.finalize(event.ctx as ModuleFinalizeContext)
+      }
     } else {
-      throw new UnsupportedOperationException();
+      throw UnsupportedOperationException()
     }
   }
+
+
 }
