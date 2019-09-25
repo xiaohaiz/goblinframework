@@ -9,6 +9,7 @@ import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.worker.EventBusConfig
 import org.goblinframework.core.event.worker.EventBusWorker
+import org.goblinframework.core.event.worker.EventBusWorkerMXBean
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.NamedDaemonThreadFactory
 import org.goblinframework.core.util.StopWatch
@@ -172,5 +173,9 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
 
   override fun getDispatchedCount(): Long {
     return dispatchedCount.sum()
+  }
+
+  override fun getEventBusWorkerList(): Array<EventBusWorkerMXBean> {
+    return lock.read { workers.values.toTypedArray() }
   }
 }

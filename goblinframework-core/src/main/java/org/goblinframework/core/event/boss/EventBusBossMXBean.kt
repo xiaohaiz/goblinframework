@@ -1,5 +1,6 @@
 package org.goblinframework.core.event.boss
 
+import org.goblinframework.core.event.worker.EventBusWorkerMXBean
 import java.lang.management.PlatformManagedObject
 
 interface EventBusBossMXBean : PlatformManagedObject {
@@ -23,4 +24,7 @@ interface EventBusBossMXBean : PlatformManagedObject {
   fun getListenerMissedCount(): Long
 
   fun getDispatchedCount(): Long
+
+  fun getEventBusWorkerList(): Array<EventBusWorkerMXBean>
+
 }
