@@ -40,18 +40,15 @@ class ConfigManager private constructor()
   private val md5 = AtomicReference<String>()
   private val config = AtomicReference<ConfigSection>()
   private val mapping = AtomicReference<ConfigMapping>(ConfigMapping())
-  private val applicationName = AtomicReference<String>("UNKNOWN")
+  private val applicationName = AtomicReference<String>()
 
   init {
     configLocationScanner.getConfigLocation()?.run {
       loadConfiguration(this)
 
       // parse application name
-      var an = System.getProperty("org.goblinframework.core.applicationName")
-      if (an == null) {
-        an = getConfig("core", "applicationName")
-      }
-      an?.run { applicationName.set(this) }
+      val applicationName = getConfig("core", "applicationName", true, Supplier { "UNKNOWN" })
+      this@ConfigManager.applicationName.set(applicationName!!)
     }
 
     mappingLocationScanner.getMappingLocation()?.run {
@@ -68,11 +65,14 @@ class ConfigManager private constructor()
     return mapping.get()
   }
 
-  fun getConfig(section: String, name: String): String? {
-    return getConfig(section, name, null)
+  fun getConfig(section: String, name: String, accessSystemProperties: Boolean = true): String? {
+    return getConfig(section, name, accessSystemProperties, null)
   }
 
-  fun getConfig(section: String, name: String, defaultValue: Supplier<String>?): String? {
+  fun getConfig(section: String, name: String, accessSystemProperties: Boolean, defaultValue: Supplier<String>?): String? {
+    if (accessSystemProperties) {
+      System.getProperty("org.goblinframework.$section.$name")?.run { return this }
+    }
     return config.get().getSection(section)?.get(name) ?: defaultValue?.get()
   }
 
