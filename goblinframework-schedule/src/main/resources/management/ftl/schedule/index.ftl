@@ -19,7 +19,7 @@
         <table class="table table-bordered table-condensed table-striped">
           <thead>
           <tr class="info">
-            <td colspan="4"><strong>Cron task(s)</strong></td>
+            <td colspan="5"><strong>Cron task(s)</strong></td>
           </tr>
           </thead>
           <tbody>
@@ -27,6 +27,7 @@
             <td><strong>upTime</strong></td>
             <td><strong>name</strong></td>
             <td><strong>cronExpression</strong></td>
+            <td><strong>concurrent</strong></td>
             <td><strong>executeTimes</strong></td>
           </tr>
           <#list cronTaskManagerMXBean.cronTaskList as t>
@@ -34,6 +35,7 @@
               <td>${t.upTime}</td>
               <td>${t.name}</td>
               <td>${t.cronExpression}</td>
+              <td>${t.getConcurrent()?c}</td>
               <td>${t.executeTimes}</td>
             </tr>
           </#list>

@@ -32,7 +32,7 @@ internal constructor(private val scheduler: Scheduler, private val task: CronTas
     jobDetailFactoryBean.setName("JobDetail-${task.name()}")
     jobDetailFactoryBean.targetObject = this
     jobDetailFactoryBean.targetMethod = "execute"
-    jobDetailFactoryBean.setConcurrent(true)
+    jobDetailFactoryBean.setConcurrent(task.concurrent())
     jobDetailFactoryBean.afterPropertiesSet()
     jobDetail = jobDetailFactoryBean.getObject()!!
 
@@ -53,7 +53,7 @@ internal constructor(private val scheduler: Scheduler, private val task: CronTas
         .startPoint(Flight.StartPoint.CTK)
         .clazz(task.javaClass)
         .method("execute")
-        .attribute("flight.silence", true)
+        .applyAttribute(task.flightAttribute())
         .build()
         .launch()
     try {
@@ -86,6 +86,10 @@ internal constructor(private val scheduler: Scheduler, private val task: CronTas
 
   override fun getCronExpression(): String {
     return task.cronExpression()
+  }
+
+  override fun getConcurrent(): Boolean {
+    return task.concurrent()
   }
 
   override fun getExecuteTimes(): Long {
