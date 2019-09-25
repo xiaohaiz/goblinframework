@@ -1,4 +1,4 @@
-package org.goblinframework.core.event.config
+package org.goblinframework.core.event.worker
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty

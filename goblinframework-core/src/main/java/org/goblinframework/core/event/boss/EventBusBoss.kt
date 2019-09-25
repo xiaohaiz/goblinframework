@@ -5,13 +5,11 @@ import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.api.event.*
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
-import org.goblinframework.api.service.ServiceInstaller
 import org.goblinframework.core.event.callback.GoblinCallbackEventListener
-import org.goblinframework.core.event.config.EventBusConfig
-import org.goblinframework.core.event.config.EventBusConfigLoader
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.timer.TimerEventGenerator
+import org.goblinframework.core.event.worker.EventBusConfig
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.system.SubModuleEventListener
 import org.goblinframework.core.util.AnnotationUtils
@@ -44,16 +42,15 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     val handlers = Array(DEFAULT_WORK_HANDLER_NUMBER) { EventBusBossEventHandler.INSTANCE }
     disruptor.handleEventsWithWorkerPool(*handlers)
     disruptor.start()
-
-    EventBusConfigLoader.configs.forEach { register(it) }
-
-    subscribe(SubModuleEventListener.INSTANCE)
-    subscribe(GoblinCallbackEventListener.INSTANCE)
-    ServiceInstaller.asList(GoblinEventListener::class.java).forEach { subscribe(it) }
   }
 
   fun install() {
+    register("/goblin/core", 32768, 0)
+    register("/goblin/timer", 32768, 4)
+    register("/goblin/monitor", 65536, 8)
     timerEventGenerator.initialize()
+    subscribe(SubModuleEventListener.INSTANCE)
+    subscribe(GoblinCallbackEventListener.INSTANCE)
   }
 
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
