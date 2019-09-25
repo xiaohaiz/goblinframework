@@ -11,6 +11,7 @@ import org.goblinframework.core.event.worker.EventBusConfig
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.NamedDaemonThreadFactory
+import org.goblinframework.core.util.StopWatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
@@ -27,6 +28,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     @JvmField val INSTANCE = EventBusBoss()
   }
 
+  private val watch = StopWatch()
   private val disruptor: Disruptor<EventBusBossEvent>
   private val lock = ReentrantReadWriteLock()
   private val workers = mutableMapOf<String, EventBusWorker>()
@@ -112,5 +114,10 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
       workers.values.reversed().forEach { it.dispose() }
       workers.clear()
     }
+    watch.stop()
+  }
+
+  override fun getUpTime(): String {
+    return watch.toString()
   }
 }

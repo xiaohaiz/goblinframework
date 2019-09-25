@@ -2,4 +2,9 @@ package org.goblinframework.core.event.boss
 
 import java.lang.management.PlatformManagedObject
 
-interface EventBusBossMXBean : PlatformManagedObject
+interface EventBusBossMXBean : PlatformManagedObject {
+
+  fun getUpTime(): String
+
+
+}
