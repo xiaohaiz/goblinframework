@@ -7,11 +7,12 @@ import org.goblinframework.api.config.ConfigParser
 import org.goblinframework.api.config.IConfigManager
 import java.util.*
 
+@Deprecated("TBR")
 @Singleton
-class ConfigManager private constructor() : IConfigManager {
+class ConfigManager1 private constructor() : IConfigManager {
 
   companion object {
-    @JvmField val INSTANCE = ConfigManager()
+    @JvmField val INSTANCE = ConfigManager1()
   }
 
   private val parsers = Collections.synchronizedList(mutableListOf<ConfigParser>())

@@ -3,7 +3,7 @@ package org.goblinframework.core.module
 import org.goblinframework.api.common.Install
 import org.goblinframework.api.system.*
 import org.goblinframework.core.config.ConfigLoader
-import org.goblinframework.core.config.ConfigManager
+import org.goblinframework.core.config.ConfigManager1
 import org.goblinframework.core.module.management.ConfigManagement
 
 @Install
@@ -23,7 +23,7 @@ class ConfigModule : IModule {
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    ConfigManager.INSTANCE.getConfigParsers().forEach { it.initialize() }
+    ConfigManager1.INSTANCE.getConfigParsers().forEach { it.initialize() }
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
