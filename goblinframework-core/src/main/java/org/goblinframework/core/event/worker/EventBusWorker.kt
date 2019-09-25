@@ -21,7 +21,9 @@ import kotlin.concurrent.write
 
 @GoblinManagedBean(type = "core")
 class EventBusWorker
-internal constructor(private val config: EventBusConfig)
+internal constructor(private val channel: String,
+                     private val bufferSize: Int,
+                     workers: Int)
   : GoblinManagedObject(), EventBusWorkerMXBean {
 
   companion object {
@@ -29,16 +31,17 @@ internal constructor(private val config: EventBusConfig)
   }
 
   private val watch = StopWatch()
+  private val workers: Int
   private val disruptor: Disruptor<EventBusWorkerEvent>
   private val lock = ReentrantReadWriteLock()
   private val listeners = IdentityHashMap<GoblinEventListener, Instant>()
 
   init {
-    val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusWorker-${config.channel}")
+    val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusWorker-$channel")
     val eventFactory = EventBusWorkerEventFactory.INSTANCE
-    disruptor = Disruptor<EventBusWorkerEvent>(eventFactory, config.ringBufferSize, threadFactory)
-    val n = if (config.workHandlers <= 0) SystemUtils.estimateThreads() else config.workHandlers
-    val handlers = Array(n) { EventBusWorkerEventHandler.INSTANCE }
+    disruptor = Disruptor<EventBusWorkerEvent>(eventFactory, bufferSize, threadFactory)
+    this.workers = if (workers <= 0) SystemUtils.estimateThreads() else workers
+    val handlers = Array(this.workers) { EventBusWorkerEventHandler.INSTANCE }
     disruptor.handleEventsWithWorkerPool(*handlers)
     disruptor.start()
   }
@@ -46,7 +49,7 @@ internal constructor(private val config: EventBusConfig)
   internal fun subscribe(listener: GoblinEventListener) {
     lock.write {
       if (listeners[listener] != null) {
-        throw GoblinEventException("Listener [$listener] already subscribed on channel [${config.channel}]")
+        throw GoblinEventException("Listener [$listener] already subscribed on channel [$channel]")
       }
       listeners[listener] = Instant.now()
     }
@@ -86,6 +89,18 @@ internal constructor(private val config: EventBusConfig)
   }
 
   override fun getChannel(): String {
-    return config.channel
+    return channel
+  }
+
+  override fun getBufferSize(): Int {
+    return bufferSize
+  }
+
+  override fun getRemainingCapacity(): Int {
+    return disruptor.ringBuffer.remainingCapacity().toInt()
+  }
+
+  override fun getWorkers(): Int {
+    return workers
   }
 }

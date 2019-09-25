@@ -50,6 +50,36 @@
     </table>
   </div>
 
+    <#if eventBusBossMXBean.eventBusWorkerList?has_content>
+      <div class="row">
+        <table class="table table-bordered table-condensed table-striped">
+          <thead>
+          <tr class="info">
+            <td colspan="5"><strong>Event bus worker(s)</strong></td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td><strong>upTime</strong></td>
+            <td><strong>channel</strong></td>
+            <td><strong>bufferSize</strong></td>
+            <td><strong>remaining</strong></td>
+            <td><strong>workers</strong></td>
+          </tr>
+          <#list eventBusBossMXBean.eventBusWorkerList as worker>
+            <tr>
+              <td>${worker.upTime}</td>
+              <td>${worker.channel}</td>
+              <td>${worker.bufferSize}</td>
+              <td>${worker.remainingCapacity}</td>
+              <td>${worker.workers}</td>
+            </tr>
+          </#list>
+          </tbody>
+        </table>
+      </div>
+    </#if>
+
 </div>
 
 </body>

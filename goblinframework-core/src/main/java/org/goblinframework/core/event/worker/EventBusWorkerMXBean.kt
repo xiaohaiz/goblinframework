@@ -7,4 +7,10 @@ interface EventBusWorkerMXBean : PlatformManagedObject {
   fun getUpTime(): String
 
   fun getChannel(): String
+
+  fun getBufferSize(): Int
+
+  fun getRemainingCapacity(): Int
+
+  fun getWorkers(): Int
 }

@@ -7,7 +7,6 @@ import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.BossRingBufferFullException
-import org.goblinframework.core.event.worker.EventBusConfig
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.event.worker.EventBusWorkerMXBean
 import org.goblinframework.core.util.AnnotationUtils
@@ -53,15 +52,11 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
 
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
     if (channel.isBlank()) throw GoblinEventException("Channel must not be blank")
-    return register(EventBusConfig(channel, ringBufferSize, workerHandlers))
-  }
-
-  fun register(config: EventBusConfig) {
     lock.write {
-      if (workers[config.channel] != null) {
-        throw GoblinEventException("Channel [${config.channel}] already registered")
+      if (workers[channel] != null) {
+        throw GoblinEventException("Channel [$channel] already registered")
       }
-      workers[config.channel] = EventBusWorker(config)
+      workers[channel] = EventBusWorker(channel, ringBufferSize, workerHandlers)
     }
   }
 
