@@ -4,6 +4,14 @@ import org.jetbrains.annotations.NotNull;
 
 final public class EventBus {
 
+  public static void register(@NotNull String channel, int ringBufferSize, int workerHandlers) {
+    IEventBusManager.instance().register(channel, ringBufferSize, workerHandlers);
+  }
+
+  public static void unregister(@NotNull String channel) {
+    IEventBusManager.instance().unregister(channel);
+  }
+
   public static void subscribe(@NotNull GoblinEventListener listener) {
     IEventBusManager.instance().subscribe(listener);
   }

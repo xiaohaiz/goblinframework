@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 
 public interface ModuleInstallContext extends ModuleContext {
 
+  void registerEventChannel(@NotNull String channel, int ringBufferSize, int workerHandlers);
+
   void subscribeEventListener(@NotNull GoblinEventListener listener);
 
   void registerTestExecutionListener(@NotNull TestExecutionListener listener);

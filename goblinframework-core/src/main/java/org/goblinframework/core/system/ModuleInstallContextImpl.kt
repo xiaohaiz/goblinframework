@@ -20,6 +20,10 @@ class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), Modu
     @JvmField val INSTANCE = ModuleInstallContextImpl()
   }
 
+  override fun registerEventChannel(channel: String, ringBufferSize: Int, workerHandlers: Int) {
+    EventBus.register(channel, ringBufferSize, workerHandlers)
+  }
+
   override fun subscribeEventListener(listener: GoblinEventListener) {
     EventBus.subscribe(listener)
   }
