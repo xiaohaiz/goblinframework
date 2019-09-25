@@ -3,8 +3,9 @@ package org.goblinframework.remote.server.module
 import org.goblinframework.api.common.Install
 import org.goblinframework.api.system.*
 import org.goblinframework.remote.server.expose.ExposeSpringContainer
-import org.goblinframework.remote.server.handler.RemoteServer
+import org.goblinframework.remote.server.handler.RemoteServer1
 import org.goblinframework.remote.server.handler.RemoteServerEventListener
+import org.goblinframework.remote.server.handler.RemoteServerManager
 import org.goblinframework.remote.server.module.config.RemoteServerConfigManager
 import org.goblinframework.remote.server.service.RemoteServiceManager
 
@@ -23,11 +24,13 @@ class RemoteServerModule : ISubModule {
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    RemoteServer.INSTANCE.start()
+    RemoteServerManager.INSTANCE.initialize()
+    RemoteServer1.INSTANCE.start()
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
-    RemoteServer.INSTANCE.dispose()
+    RemoteServerManager.INSTANCE.dispose()
+    RemoteServer1.INSTANCE.dispose()
     RemoteServiceManager.INSTANCE.dispose()
   }
 }

@@ -1,18 +1,19 @@
 package org.goblinframework.remote.server.handler
 
+import org.goblinframework.api.common.Lifecycle
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.ThreadSafe
-import org.goblinframework.api.common.Lifecycle
 import org.goblinframework.api.service.GoblinManagedObject
 import java.util.concurrent.atomic.AtomicReference
 
+@Deprecated("TBR")
 @Singleton
 @ThreadSafe
-class RemoteServer private constructor()
+class RemoteServer1 private constructor()
   : GoblinManagedObject(), Lifecycle, RemoteServerMXBean {
 
   companion object {
-    @JvmField val INSTANCE = RemoteServer()
+    @JvmField val INSTANCE = RemoteServer1()
   }
 
   private val server = AtomicReference<RemoteServerImpl>()

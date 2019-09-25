@@ -8,6 +8,10 @@ import org.goblinframework.api.service.GoblinManagedObject
 class RemoteServerConfig(val mapper: RemoteServerConfigMapper)
   : GoblinManagedObject(), GoblinConfig, RemoteServerConfigMXBean {
 
+  override fun getName(): String {
+    return mapper.name!!
+  }
+
   override fun getHost(): String {
     return mapper.host!!
   }

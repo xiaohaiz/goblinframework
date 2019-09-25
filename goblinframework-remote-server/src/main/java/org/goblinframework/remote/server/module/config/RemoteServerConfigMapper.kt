@@ -4,6 +4,7 @@ import java.io.Serializable
 
 class RemoteServerConfigMapper : Serializable {
 
+  var name: String? = null
   var host: String? = null
   var port: Int? = null
 

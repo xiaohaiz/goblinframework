@@ -3,6 +3,7 @@ package org.goblinframework.remote.server.handler
 import org.goblinframework.transport.server.channel.TransportServerManager
 import org.goblinframework.transport.server.setting.TransportServerSetting
 
+@Deprecated("TBR")
 class RemoteServerImpl internal constructor() {
 
   companion object {

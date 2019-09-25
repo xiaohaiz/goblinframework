@@ -31,6 +31,9 @@ class RemoteServerConfigParser internal constructor()
 
   override fun doProcessConfig(config: RemoteServerConfig) {
     val mapper = config.mapper
+    mapper.name ?: kotlin.run {
+      mapper.name = "goblin.remote.server"
+    }
     mapper.host ?: kotlin.run {
       mapper.host = NetworkUtils.getLocalAddress()
     }
