@@ -4,6 +4,7 @@ import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.conversion.ConversionUtils
+import org.goblinframework.core.util.StopWatch
 import org.goblinframework.remote.server.module.config.RemoteServerConfig
 import org.goblinframework.transport.server.channel.TransportServer
 import org.goblinframework.transport.server.channel.TransportServerManager
@@ -14,6 +15,7 @@ class RemoteServer
 internal constructor(config: RemoteServerConfig)
   : GoblinManagedObject(), RemoteServerMXBean {
 
+  private val watch = StopWatch()
   private val server: TransportServer
 
   init {
@@ -37,4 +39,7 @@ internal constructor(config: RemoteServerConfig)
     TransportServerManager.INSTANCE.closeTransportServer(server.getName())
   }
 
+  override fun getTransportServer(): TransportServer {
+    return server
+  }
 }
