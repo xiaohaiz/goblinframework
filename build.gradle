@@ -20,6 +20,7 @@ subprojects {
   apply plugin: "kotlin"
 
   sourceCompatibility = 1.8
+  targetCompatibility = 1.8
 
   repositories {
     maven { url maven_repo_url }
@@ -36,7 +37,13 @@ subprojects {
   compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
   }
-  
-  compileJava.options.encoding = "UTF-8"
-  compileTestJava.options.encoding = "UTF-8"
+
+  compileJava {
+    options.compilerArgs << "-g"
+    options.encoding = "UTF-8"
+  }
+  compileTestJava{
+    options.compilerArgs << "-g"
+    options.encoding = "UTF-8"
+  }
 }
