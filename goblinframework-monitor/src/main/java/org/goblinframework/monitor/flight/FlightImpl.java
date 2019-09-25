@@ -49,6 +49,12 @@ final public class FlightImpl implements Flight {
     return stopTime;
   }
 
+  @Nullable
+  @Override
+  public Object attribute(@NotNull String name) {
+    return location.attribute(name);
+  }
+
   public long updateDot(long millis) {
     long previous = lastDotTime.getAndSet(millis);
     return millis - previous;

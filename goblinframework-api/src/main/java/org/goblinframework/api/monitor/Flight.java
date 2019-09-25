@@ -33,8 +33,12 @@ public interface Flight {
     return stopTime.toEpochMilli() - startTime.toEpochMilli();
   }
 
+  @Nullable
+  Object attribute(@NotNull String name);
+
   enum StartPoint {
     UTM,    // UnitTestMethod
+    CTK,    // CronTask
     PRG     // Programmatic
   }
 
