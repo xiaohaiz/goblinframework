@@ -47,4 +47,7 @@ internal constructor(configLocationScanner: ConfigLocationScanner)
     return mappingLocation.get()
   }
 
+  override fun getConfigPath(): String? {
+    return getMappingLocation()?.url.toString()
+  }
 }
