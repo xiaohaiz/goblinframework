@@ -10,4 +10,6 @@ interface RemoteServerConfigMXBean : PlatformManagedObject {
 
   fun getPort(): Int
 
+  fun getDefaultRegistry(): String?
+
 }

@@ -1,5 +1,6 @@
 package org.goblinframework.remote.server.module.config
 
+import org.goblinframework.api.registry.RegistryLocation
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.mapper.JsonMapper
@@ -39,6 +40,9 @@ class RemoteServerConfigParser internal constructor()
     }
     mapper.port ?: kotlin.run {
       mapper.port = NetworkUtils.RANDOM_PORT
+    }
+    mapper.defaultRegistry?.run {
+      config.defaultRegistryLocation = RegistryLocation.parse(this)
     }
   }
 }

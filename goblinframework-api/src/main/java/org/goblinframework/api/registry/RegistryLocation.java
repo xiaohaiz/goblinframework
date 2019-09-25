@@ -32,6 +32,11 @@ final public class RegistryLocation implements Serializable {
     return Objects.hash(system, name);
   }
 
+  @Override
+  public String toString() {
+    return system + ":" + name;
+  }
+
   @NotNull
   public static RegistryLocation parse(@NotNull String s) {
     List<String> segments = new ArrayList<>();
