@@ -1,10 +1,10 @@
 package org.goblinframework.dao.mysql.persistence;
 
 import org.goblinframework.api.annotation.*;
+import org.goblinframework.api.dao.GoblinDatabaseConnection;
 import org.goblinframework.core.container.SpringManagedBean;
 import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.dao.mysql.module.test.RebuildMysqlTable;
-import org.goblinframework.dao.mysql.support.UseMysqlClient;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,7 +47,7 @@ public class GoblinStaticPersistenceTest extends SpringManagedBean {
   }
 
   @Repository
-  @UseMysqlClient("_ut")
+  @GoblinDatabaseConnection(name = "_ut")
   public static class MockDataPersistence extends GoblinStaticPersistence<MockData, Long> {
   }
 

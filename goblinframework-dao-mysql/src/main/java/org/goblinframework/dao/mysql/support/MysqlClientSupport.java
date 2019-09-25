@@ -1,5 +1,6 @@
 package org.goblinframework.dao.mysql.support;
 
+import org.goblinframework.api.dao.GoblinDatabaseConnection;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.dao.mysql.client.MysqlClient;
@@ -15,11 +16,11 @@ abstract public class MysqlClientSupport<E, ID> extends MysqlEntityMappingSuppor
 
   protected MysqlClientSupport() {
     Class<?> clazz = ClassUtils.filterCglibProxyClass(getClass());
-    UseMysqlClient annotation = AnnotationUtils.getAnnotation(clazz, UseMysqlClient.class);
+    GoblinDatabaseConnection annotation = AnnotationUtils.getAnnotation(clazz, GoblinDatabaseConnection.class);
     if (annotation == null) {
       throw new GoblinPersistenceException("No @UseMysqlClient presented on " + clazz.getName());
     }
-    String name = annotation.value();
+    String name = annotation.name();
     MysqlClient client = MysqlClientManager.INSTANCE.getMysqlClient(name);
     if (client == null) {
       throw new GoblinPersistenceException("MysqlClient [" + name + "] not found");

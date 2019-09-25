@@ -3,10 +3,10 @@ package org.goblinframework.dao.mysql.persistence;
 import org.goblinframework.api.cache.CacheSystem;
 import org.goblinframework.api.cache.FlushCache;
 import org.goblinframework.api.cache.GoblinCacheBean;
+import org.goblinframework.api.dao.GoblinDatabaseConnection;
 import org.goblinframework.cache.core.support.GoblinCacheDimension;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.dao.mysql.module.test.RebuildMysqlTable;
-import org.goblinframework.dao.mysql.support.UseMysqlClient;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 public class GoblinCachedStaticPersistenceTest {
 
   @Repository
-  @UseMysqlClient("_ut")
+  @GoblinDatabaseConnection(name = "_ut")
   @GoblinCacheBean(type = GoblinStaticPersistenceTest.MockData.class, system = CacheSystem.JVM, name = "JVM")
   @org.goblinframework.api.cache.GoblinCacheDimension(org.goblinframework.api.cache.GoblinCacheDimension.Distribution.ID_FIELD)
   public static class MockDataPersistence extends GoblinCachedStaticPersistence<GoblinStaticPersistenceTest.MockData, Long> {
