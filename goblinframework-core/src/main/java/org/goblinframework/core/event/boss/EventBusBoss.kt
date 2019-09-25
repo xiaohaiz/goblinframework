@@ -13,6 +13,7 @@ import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.NamedDaemonThreadFactory
 import org.goblinframework.core.util.StopWatch
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.LongAdder
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
@@ -32,6 +33,9 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   private val disruptor: Disruptor<EventBusBossEvent>
   private val lock = ReentrantReadWriteLock()
   private val workers = mutableMapOf<String, EventBusWorker>()
+
+  private val publishedCount = LongAdder()
+  private val discardedCount = LongAdder()
 
   init {
     val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusBoss")
@@ -95,8 +99,11 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     val ctx = GoblinEventContextImpl(channel, event, GoblinEventFuture())
     val published = disruptor.ringBuffer.tryPublishEvent { e, _ -> e.ctx = ctx }
     if (!published) {
+      discardedCount.increment()
       ctx.exceptionCaught(BossRingBufferFullException())
       ctx.complete()
+    } else {
+      publishedCount.increment()
     }
     return ctx.future()
   }
@@ -119,5 +126,25 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
 
   override fun getUpTime(): String {
     return watch.toString()
+  }
+
+  override fun getBufferSize(): Int {
+    return DEFAULT_RING_BUFFER_SIZE
+  }
+
+  override fun getRemainingCapacity(): Int {
+    return disruptor.ringBuffer.remainingCapacity().toInt()
+  }
+
+  override fun getWorkers(): Int {
+    return DEFAULT_WORK_HANDLER_NUMBER
+  }
+
+  override fun getPublishedCount(): Long {
+    return publishedCount.sum()
+  }
+
+  override fun getDiscardedCount(): Long {
+    return discardedCount.sum()
   }
 }
