@@ -9,6 +9,7 @@ class EventBusWorkerEventHandler private constructor() : WorkHandler<EventBusWor
   }
 
   override fun onEvent(event: EventBusWorkerEvent) {
+    event.receivedCount?.increment()
     try {
       processEventBusWorkerEvent(event)
     } finally {
@@ -21,7 +22,9 @@ class EventBusWorkerEventHandler private constructor() : WorkHandler<EventBusWor
     val listeners = event.listeners!!
     try {
       listeners.forEach { it.onEvent(ctx) }
+      event.succeedCount?.increment()
     } catch (ex: Exception) {
+      event.failedCount?.increment()
       ctx.exceptionCaught(ex)
     } finally {
       ctx.finishTask()

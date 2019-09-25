@@ -17,4 +17,10 @@ interface EventBusWorkerMXBean : PlatformManagedObject {
   fun getPublishedCount(): Long
 
   fun getDiscardedCount(): Long
+
+  fun getReceivedCount(): Long
+
+  fun getSucceedCount(): Long
+
+  fun getFailedCount(): Long
 }

@@ -34,17 +34,18 @@
         <td><strong>listenerMissed</strong></td>
         <td><strong>dispatched</strong></td>
       </tr>
+      <#assign boss=eventBusBossMXBean>
       <tr>
-        <td>${eventBusBossMXBean.upTime}</td>
-        <td>${eventBusBossMXBean.bufferSize}</td>
-        <td>${eventBusBossMXBean.remainingCapacity}</td>
-        <td>${eventBusBossMXBean.workers}</td>
-        <td>${eventBusBossMXBean.publishedCount}</td>
-        <td>${eventBusBossMXBean.discardedCount}</td>
-        <td>${eventBusBossMXBean.receivedCount}</td>
-        <td>${eventBusBossMXBean.workerMissedCount}</td>
-        <td>${eventBusBossMXBean.listenerMissedCount}</td>
-        <td>${eventBusBossMXBean.discardedCount}</td>
+        <td>${boss.upTime}</td>
+        <td>${boss.bufferSize}</td>
+        <td>${boss.remainingCapacity}</td>
+        <td>${boss.workers}</td>
+        <td>${boss.publishedCount}</td>
+        <td>${boss.discardedCount}</td>
+        <td>${boss.receivedCount}</td>
+        <td>${boss.workerMissedCount}</td>
+        <td>${boss.listenerMissedCount}</td>
+        <td>${boss.discardedCount}</td>
       </tr>
       </tbody>
     </table>
@@ -55,7 +56,7 @@
         <table class="table table-bordered table-condensed table-striped">
           <thead>
           <tr class="info">
-            <td colspan="7"><strong>Event bus worker(s)</strong></td>
+            <td colspan="10"><strong>Event bus worker(s)</strong></td>
           </tr>
           </thead>
           <tbody>
@@ -67,6 +68,9 @@
             <td><strong>workers</strong></td>
             <td><strong>published</strong></td>
             <td><strong>discarded</strong></td>
+            <td><strong>received</strong></td>
+            <td><strong>succeed</strong></td>
+            <td><strong>failed</strong></td>
           </tr>
           <#list eventBusBossMXBean.eventBusWorkerList as worker>
             <tr>
@@ -77,6 +81,9 @@
               <td>${worker.workers}</td>
               <td>${worker.publishedCount}</td>
               <td>${worker.discardedCount}</td>
+              <td>${worker.receivedCount}</td>
+              <td>${worker.succeedCount}</td>
+              <td>${worker.failedCount}</td>
             </tr>
           </#list>
           </tbody>

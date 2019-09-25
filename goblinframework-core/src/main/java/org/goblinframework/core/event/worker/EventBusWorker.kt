@@ -39,6 +39,9 @@ internal constructor(private val channel: String,
 
   private val publishedCount = LongAdder()
   private val discardedCount = LongAdder()
+  private val receivedCount = LongAdder()
+  private val succeedCount = LongAdder()
+  private val failedCount = LongAdder()
 
   init {
     val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusWorker-$channel")
@@ -73,6 +76,9 @@ internal constructor(private val channel: String,
     val published = disruptor.ringBuffer.tryPublishEvent { e, _ ->
       e.ctx = ctx
       e.listeners = listeners
+      e.receivedCount = receivedCount
+      e.succeedCount = succeedCount
+      e.failedCount = failedCount
     }
     if (!published) {
       discardedCount.increment()
@@ -117,5 +123,17 @@ internal constructor(private val channel: String,
 
   override fun getDiscardedCount(): Long {
     return discardedCount.sum()
+  }
+
+  override fun getReceivedCount(): Long {
+    return receivedCount.sum()
+  }
+
+  override fun getSucceedCount(): Long {
+    return succeedCount.sum()
+  }
+
+  override fun getFailedCount(): Long {
+    return failedCount.sum()
   }
 }
