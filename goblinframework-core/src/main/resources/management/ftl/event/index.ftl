@@ -75,7 +75,7 @@
           <#list eventBusBossMXBean.eventBusWorkerList as worker>
             <tr>
               <td>${worker.upTime}</td>
-              <td>${worker.channel}</td>
+              <td>${worker.channel} (${worker.eventListenerList?size})</td>
               <td>${worker.bufferSize}</td>
               <td>${worker.remainingCapacity}</td>
               <td>${worker.workers}</td>

@@ -23,4 +23,6 @@ interface EventBusWorkerMXBean : PlatformManagedObject {
   fun getSucceedCount(): Long
 
   fun getFailedCount(): Long
+
+  fun getEventListenerList(): Array<EventListenerMXBean>
 }

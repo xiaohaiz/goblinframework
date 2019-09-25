@@ -135,4 +135,8 @@ internal constructor(private val channel: String,
   override fun getFailedCount(): Long {
     return failedCount.sum()
   }
+
+  override fun getEventListenerList(): Array<EventListenerMXBean> {
+    return lock.read { listeners.values.toTypedArray() }
+  }
 }
