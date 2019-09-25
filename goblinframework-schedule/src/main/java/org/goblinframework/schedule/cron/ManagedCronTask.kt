@@ -6,6 +6,7 @@ import org.goblinframework.api.schedule.CronTask
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.monitor.FlightRecorder
+import org.goblinframework.core.util.StopWatch
 import org.quartz.CronExpression
 import org.quartz.CronTrigger
 import org.quartz.JobDetail
@@ -19,6 +20,7 @@ class ManagedCronTask
 internal constructor(private val scheduler: Scheduler, private val task: CronTask)
   : GoblinManagedObject(), CronTaskMXBean {
 
+  private val watch = StopWatch(false)
   private val jobDetail: JobDetail
   private val cronTrigger: CronTrigger
   private val executeTimes = LongAdder()
@@ -63,6 +65,7 @@ internal constructor(private val scheduler: Scheduler, private val task: CronTas
   }
 
   override fun initializeBean() {
+    watch.start()
     scheduler.addJob(jobDetail, true)
     scheduler.scheduleJob(cronTrigger)
   }
@@ -70,6 +73,11 @@ internal constructor(private val scheduler: Scheduler, private val task: CronTas
   override fun disposeBean() {
     scheduler.unscheduleJob(cronTrigger.key)
     scheduler.deleteJob(jobDetail.key)
+    watch.stop()
+  }
+
+  override fun getUpTime(): String {
+    return watch.toString()
   }
 
   override fun getName(): String {

@@ -4,6 +4,8 @@ import java.lang.management.PlatformManagedObject
 
 interface CronTaskMXBean : PlatformManagedObject {
 
+  fun getUpTime(): String
+
   fun getName(): String
 
   fun getCronExpression(): String

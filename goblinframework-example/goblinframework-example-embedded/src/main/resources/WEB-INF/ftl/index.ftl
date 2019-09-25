@@ -1,5 +1,5 @@
 <!--suppress HtmlUnknownTarget -->
-<html>
+<html lang="zh">
 <head>
   <title>GOBLIN EXAMPLE EMBEDDED</title>
 </head>

@@ -131,7 +131,10 @@ class ConfigManager private constructor()
     this.config.set(config)
   }
 
+  fun install() {}
+
   override fun initializeBean() {
+    configParserManager.parseConfigs()
     ICronTaskManager.instance()?.run {
       val task = object : CronTask {
         override fun name(): String {
@@ -173,10 +176,6 @@ class ConfigManager private constructor()
     if (reload()) {
       configListenerManager.onConfigChanged()
     }
-  }
-
-  fun parseConfigs() {
-    configParserManager.parseConfigs()
   }
 
   override fun registerConfigParser(parser: ConfigParser) {

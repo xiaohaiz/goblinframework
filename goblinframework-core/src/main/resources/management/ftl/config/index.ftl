@@ -1,6 +1,6 @@
 <#-- @ftlvariable name="configManagerMXBean" type="org.goblinframework.core.config.ConfigManagerMXBean" -->
 <!--suppress HtmlUnknownTarget -->
-<html>
+<html lang="zh">
 <head>
   <title>CONFIG MODULE</title>
 </head>

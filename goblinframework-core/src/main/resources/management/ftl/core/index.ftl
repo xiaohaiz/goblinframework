@@ -1,7 +1,7 @@
 <#-- @ftlvariable name="CompressorManagerMXBean" type="org.goblinframework.core.compression.CompressorManagerMXBean" -->
 <#-- @ftlvariable name="SerializerManagerMXBean" type="org.goblinframework.core.serialization.SerializerManagerMXBean" -->
 <!--suppress HtmlUnknownTarget -->
-<html>
+<html lang="zh">
 <head>
   <title>CORE MODULE</title>
 </head>

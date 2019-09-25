@@ -1,6 +1,6 @@
 <#-- @ftlvariable name="modules" type="java.util.List<org.goblinframework.api.system.IModule>" -->
 <!--suppress HtmlUnknownTarget -->
-<html>
+<html lang="zh">
 <head>
   <title>Goblin Internal Management System</title>
 </head>

@@ -1,6 +1,6 @@
 <#-- @ftlvariable name="RequestHandlerManagerBuilderMXBean" type="org.goblinframework.webmvc.handler.RequestHandlerManagerBuilderMXBean" -->
 <!--suppress HtmlUnknownTarget -->
-<html>
+<html lang="zh">
 <head>
   <title>WEBMVC MODULE</title>
 </head>

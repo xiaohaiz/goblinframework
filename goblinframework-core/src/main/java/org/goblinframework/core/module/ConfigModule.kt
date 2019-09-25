@@ -17,12 +17,12 @@ class ConfigModule : IModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    ConfigManager.INSTANCE.initialize()
+    ConfigManager.INSTANCE.install()
     ctx.registerManagementController(ConfigManagement.INSTANCE)
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    ConfigManager.INSTANCE.parseConfigs()
+    ConfigManager.INSTANCE.initialize()
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
