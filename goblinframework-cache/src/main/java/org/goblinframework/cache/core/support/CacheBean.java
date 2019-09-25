@@ -10,15 +10,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GoblinCacheBean {
+public class CacheBean {
 
   private final IdentityHashMap<Class<?>, GoblinCache> caches = new IdentityHashMap<>();
-  final Map<Method, GoblinCacheMethod> methods = new LinkedHashMap<>();
+  final Map<Method, CacheMethod> methods = new LinkedHashMap<>();
 
-  public GoblinCacheBean() {
+  public CacheBean() {
   }
 
-  public GoblinCacheBean(@NotNull List<org.goblinframework.api.cache.GoblinCacheBean> annotations) {
+  public CacheBean(@NotNull List<org.goblinframework.api.cache.GoblinCacheBean> annotations) {
     for (org.goblinframework.api.cache.GoblinCacheBean annotation : annotations) {
       GoblinCache gc = new GoblinCache();
       gc.type = annotation.type();
@@ -51,7 +51,7 @@ public class GoblinCacheBean {
     return caches.get(type);
   }
 
-  public GoblinCacheMethod getGoblinCacheMethod(Method method) {
+  public CacheMethod getGoblinCacheMethod(Method method) {
     return methods.get(method);
   }
 }

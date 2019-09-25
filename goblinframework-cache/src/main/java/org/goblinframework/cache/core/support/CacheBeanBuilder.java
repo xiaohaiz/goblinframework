@@ -9,23 +9,23 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Method;
 import java.util.*;
 
-class GoblinCacheBeanBuilder {
+class CacheBeanBuilder {
 
   @NotNull
-  static GoblinCacheBean build(@NotNull final Class<?> type) {
+  static CacheBean build(@NotNull final Class<?> type) {
     Class<?> realClass = ClassUtils.filterCglibProxyClass(type);
 
-    GoblinCacheBean cacheBean = generate(realClass);
+    CacheBean cacheBean = generate(realClass);
     if (cacheBean == null) {
-      return new GoblinCacheBean();
+      return new CacheBean();
     }
 
-    Map<Method, GoblinCacheMethod> methods = GoblinCacheMethodBuilder.build(realClass);
+    Map<Method, CacheMethod> methods = CacheMethodBuilder.build(realClass);
     cacheBean.methods.putAll(methods);
     return cacheBean;
   }
 
-  private static GoblinCacheBean generate(Class<?> realClass) {
+  private static CacheBean generate(Class<?> realClass) {
     List<org.goblinframework.api.cache.GoblinCacheBean> annotations = new LinkedList<>();
     org.goblinframework.api.cache.GoblinCacheBean cacheBean = AnnotationUtils.getAnnotation(realClass, org.goblinframework.api.cache.GoblinCacheBean.class);
     if (cacheBean != null && cacheBean.enable()) {
@@ -39,7 +39,7 @@ class GoblinCacheBeanBuilder {
       return null;
     }
     validateAnnotations(annotations, realClass);
-    return new GoblinCacheBean(annotations);
+    return new CacheBean(annotations);
   }
 
   private static void validateAnnotations(final List<org.goblinframework.api.cache.GoblinCacheBean> annotations,

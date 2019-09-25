@@ -3,10 +3,10 @@ package org.goblinframework.dao.mysql.support;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableLong;
 import org.goblinframework.api.cache.GetResult;
+import org.goblinframework.cache.core.support.CacheBean;
+import org.goblinframework.cache.core.support.CacheBeanManager;
 import org.goblinframework.cache.core.support.CacheDimension;
 import org.goblinframework.cache.core.support.GoblinCache;
-import org.goblinframework.cache.core.support.GoblinCacheBean;
-import org.goblinframework.cache.core.support.GoblinCacheBeanManager;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
 
 abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersistenceSupport<E, ID> {
 
-  private final GoblinCacheBean goblinCacheBean;
+  private final CacheBean cacheBean;
   private final org.goblinframework.api.dao.GoblinCacheDimension.Dimension dimension;
 
   protected MysqlCachedPersistenceSupport() {
-    this.goblinCacheBean = GoblinCacheBeanManager.getGoblinCacheBean(getClass());
-    if (this.goblinCacheBean.isEmpty()) {
+    this.cacheBean = CacheBeanManager.getGoblinCacheBean(getClass());
+    if (this.cacheBean.isEmpty()) {
       dimension = org.goblinframework.api.dao.GoblinCacheDimension.Dimension.NONE;
     } else {
       org.goblinframework.api.dao.GoblinCacheDimension annotation = AnnotationUtils.getAnnotation(getClass(), org.goblinframework.api.dao.GoblinCacheDimension.class);
@@ -49,7 +49,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
   abstract protected void calculateCacheDimensions(E document, CacheDimension dimension);
 
   public GoblinCache getDefaultCache() {
-    GoblinCache gc = goblinCacheBean.getGoblinCache(entityMapping.entityClass);
+    GoblinCache gc = cacheBean.getGoblinCache(entityMapping.entityClass);
     if (gc == null) {
       String errMsg = "No @GoblinCacheBean of type (%s) presented";
       errMsg = String.format(errMsg, entityMapping.entityClass.getName());
@@ -72,7 +72,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
     if (dimension == org.goblinframework.api.dao.GoblinCacheDimension.Dimension.NONE) {
       return;
     }
-    CacheDimension gcd = new CacheDimension(entityMapping.entityClass, goblinCacheBean);
+    CacheDimension gcd = new CacheDimension(entityMapping.entityClass, cacheBean);
     entities.forEach(e -> calculateCacheDimensions(e, gcd));
     gcd.evict();
   }
@@ -156,7 +156,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
               .expiration(gc.calculateExpiration())
               .modifier(currentValue -> replaced).execute();
         } else {
-          CacheDimension gcd = new CacheDimension(entityMapping.entityClass, goblinCacheBean);
+          CacheDimension gcd = new CacheDimension(entityMapping.entityClass, cacheBean);
           calculateCacheDimensions(original, gcd);
           calculateCacheDimensions(replaced, gcd);
           gcd.evict();
@@ -198,7 +198,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
               .expiration(gc.calculateExpiration())
               .modifier(currentValue -> upserted).execute();
         } else {
-          CacheDimension gcd = new CacheDimension(entityMapping.entityClass, goblinCacheBean);
+          CacheDimension gcd = new CacheDimension(entityMapping.entityClass, cacheBean);
           if (original != null) {
             calculateCacheDimensions(original, gcd);
           }
@@ -247,7 +247,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
             Map<ID, E> map = directLoads(getMasterConnection(), ids);
             long deletedCount = directDeletes(ids);
             if (deletedCount > 0) {
-              CacheDimension gcd = new CacheDimension(entityMapping.entityClass, goblinCacheBean);
+              CacheDimension gcd = new CacheDimension(entityMapping.entityClass, cacheBean);
               map.values().forEach(e -> calculateCacheDimensions(e, gcd));
               gcd.evict();
             }

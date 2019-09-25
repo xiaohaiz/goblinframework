@@ -3,7 +3,7 @@ package org.goblinframework.cache.core.enhance
 import org.goblinframework.api.cache.GoblinCacheException
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.container.SpringContainerBeanPostProcessor
-import org.goblinframework.cache.core.support.GoblinCacheBeanManager
+import org.goblinframework.cache.core.support.CacheBeanManager
 import org.goblinframework.core.util.ClassUtils
 import org.springframework.aop.framework.ProxyFactory
 import java.lang.reflect.Modifier
@@ -21,7 +21,7 @@ class GoblinCacheEnhanceProcessor private constructor()
   }
 
   private fun tryGoblinCacheEnhance(bean: Any): Any {
-    val capsule = GoblinCacheBeanManager.getGoblinCacheBean(bean.javaClass)
+    val capsule = CacheBeanManager.getGoblinCacheBean(bean.javaClass)
     if (capsule.isEmpty) {
       return bean
     }

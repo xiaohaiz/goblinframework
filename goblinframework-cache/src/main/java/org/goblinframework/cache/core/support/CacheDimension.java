@@ -13,11 +13,11 @@ public class CacheDimension {
   private final IdentityHashMap<Class<?>, Values> buffer = new IdentityHashMap<>();
 
   private final Class<?> defaultType;
-  private final GoblinCacheBean goblinCacheBean;
+  private final CacheBean cacheBean;
 
-  public CacheDimension(@NotNull Class<?> defaultType, @NotNull GoblinCacheBean goblinCacheBean) {
+  public CacheDimension(@NotNull Class<?> defaultType, @NotNull CacheBean cacheBean) {
     this.defaultType = defaultType;
-    this.goblinCacheBean = goblinCacheBean;
+    this.cacheBean = cacheBean;
   }
 
   @NotNull
@@ -27,7 +27,7 @@ public class CacheDimension {
 
   @NotNull
   public Values get(@NotNull Class<?> type) {
-    if (goblinCacheBean.getGoblinCache(type) == null) {
+    if (cacheBean.getGoblinCache(type) == null) {
       String errMsg = "(%s) not found in @GoblinCacheBean(s)";
       errMsg = String.format(errMsg, type.getName());
       throw new GoblinCacheException(errMsg);
@@ -65,7 +65,7 @@ public class CacheDimension {
 
   public void evict() {
     dump().forEach((type, keys) -> {
-      GoblinCache gc = goblinCacheBean.getGoblinCache(type);
+      GoblinCache gc = cacheBean.getGoblinCache(type);
       assert gc != null;
       gc.cache().deletes(keys);
     });
