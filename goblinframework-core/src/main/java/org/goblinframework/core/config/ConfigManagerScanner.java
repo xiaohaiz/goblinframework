@@ -11,14 +11,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicReference;
 
-final class ConfigManagerScheduler implements Initializable, Disposable {
-  private static final String TASK_NAME = "ConfigManagerScheduler";
+/**
+ * Config modification detector. Check if config changed or not every one minute.
+ */
+final class ConfigManagerScanner implements Initializable, Disposable {
+  private static final String TASK_NAME = "ConfigManagerScanner";
 
   private final ConfigManager configManager;
   private final AtomicReference<ICronTaskManager> cronTaskManager = new AtomicReference<>();
   private final AtomicReference<Timer> timer = new AtomicReference<>();
 
-  ConfigManagerScheduler(@NotNull ConfigManager configManager) {
+  ConfigManagerScanner(@NotNull ConfigManager configManager) {
     this.configManager = configManager;
   }
 
