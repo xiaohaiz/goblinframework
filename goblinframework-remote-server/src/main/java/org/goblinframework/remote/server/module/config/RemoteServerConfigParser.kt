@@ -1,18 +1,15 @@
 package org.goblinframework.remote.server.module.config
 
-import org.goblinframework.api.common.Singleton
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.mapper.JsonMapper
 import org.goblinframework.core.util.NetworkUtils
 
-@Singleton
-class RemoteServerConfigParser private constructor()
+class RemoteServerConfigParser internal constructor()
   : BufferedConfigParser<RemoteServerConfig>() {
 
   companion object {
     private const val CONFIG_NAME = "RemoteServerConfig"
-    val INSTANCE = RemoteServerConfigParser()
   }
 
   override fun initializeBean() {
@@ -28,7 +25,7 @@ class RemoteServerConfigParser private constructor()
     }
   }
 
-  fun getRemoteServerConfig(): RemoteServerConfig? {
+  internal fun getRemoteServerConfig(): RemoteServerConfig? {
     return getFromBuffer(CONFIG_NAME)
   }
 
