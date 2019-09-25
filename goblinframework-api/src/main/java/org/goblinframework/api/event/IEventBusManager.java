@@ -6,6 +6,10 @@ import org.jetbrains.annotations.NotNull;
 @Internal(installRequired = true, uniqueInstance = true)
 public interface IEventBusManager {
 
+  void register(@NotNull String channel, int ringBufferSize, int workerHandlers);
+
+  void unregister(@NotNull String channel);
+
   void subscribe(@NotNull GoblinEventListener listener);
 
   void subscribe(@NotNull String channel, @NotNull GoblinEventListener listener);

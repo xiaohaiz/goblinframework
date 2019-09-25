@@ -8,6 +8,14 @@ import org.goblinframework.core.event.callback.GoblinCallbackEvent
 @Install
 class EventBusManager : IEventBusManager {
 
+  override fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
+    EventBusBoss.INSTANCE.register(channel, ringBufferSize, workerHandlers)
+  }
+
+  override fun unregister(channel: String) {
+    EventBusBoss.INSTANCE.unregister(channel)
+  }
+
   override fun subscribe(listener: GoblinEventListener) {
     EventBusBoss.INSTANCE.subscribe(listener)
   }
