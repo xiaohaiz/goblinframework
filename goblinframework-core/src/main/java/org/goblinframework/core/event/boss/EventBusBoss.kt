@@ -15,6 +15,7 @@ import org.goblinframework.core.event.exception.BossRingBufferFullException
 import org.goblinframework.core.event.timer.MinuteTimerEventGenerator
 import org.goblinframework.core.event.timer.SecondTimerEventGenerator
 import org.goblinframework.core.event.worker.EventBusWorker
+import org.goblinframework.core.system.SubModuleEventListener
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.NamedDaemonThreadFactory
 import java.util.*
@@ -50,6 +51,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
 
     EventBusConfigLoader.configs.forEach { register(it) }
 
+    subscribe(SubModuleEventListener.INSTANCE)
     subscribe(GoblinCallbackEventListener.INSTANCE)
     ServiceInstaller.asList(GoblinEventListener::class.java).forEach { subscribe(it) }
 
@@ -75,6 +77,8 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
       timers.add(minuteTimer)
     }
   }
+
+  fun install() {}
 
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
     return register(EventBusConfig(channel, ringBufferSize, workerHandlers))
