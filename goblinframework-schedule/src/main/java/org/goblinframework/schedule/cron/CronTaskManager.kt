@@ -8,8 +8,9 @@ import org.goblinframework.api.schedule.ICronTaskManager
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.springframework.scheduling.quartz.SchedulerFactoryBean
-import java.util.concurrent.locks.ReentrantLock
-import kotlin.concurrent.withLock
+import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
+import kotlin.concurrent.write
 
 @Singleton
 @ThreadSafe
@@ -21,7 +22,7 @@ class CronTaskManager private constructor() : GoblinManagedObject(), ICronTaskMa
   }
 
   private val scheduler: SchedulerFactoryBean
-  private val lock = ReentrantLock()
+  private val lock = ReentrantReadWriteLock()
   private val tasks = mutableMapOf<String, ManagedCronTask>()
 
   init {
@@ -33,7 +34,7 @@ class CronTaskManager private constructor() : GoblinManagedObject(), ICronTaskMa
   }
 
   override fun register(task: CronTask) {
-    lock.withLock {
+    lock.write {
       tasks[task.name()]?.run { return }
       val mct = ManagedCronTask(scheduler.getObject()!!, task)
       mct.initialize()
@@ -42,16 +43,20 @@ class CronTaskManager private constructor() : GoblinManagedObject(), ICronTaskMa
   }
 
   override fun unregister(name: String) {
-    lock.withLock { tasks.remove(name) }?.dispose()
+    lock.write { tasks.remove(name) }?.dispose()
   }
 
   override fun disposeBean() {
-    lock.withLock {
+    lock.write {
       tasks.values.forEach { it.dispose() }
       tasks.clear()
     }
     scheduler.stop()
     scheduler.destroy()
+  }
+
+  override fun getCronTaskList(): Array<CronTaskMXBean> {
+    return lock.read { tasks.values.toTypedArray() }
   }
 
   @Install

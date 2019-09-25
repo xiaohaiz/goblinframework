@@ -8,5 +8,7 @@ interface CronTaskMXBean : PlatformManagedObject {
 
   fun getCronExpression(): String
 
+  fun getExecuteTimes(): Long
+
   fun execute()
 }

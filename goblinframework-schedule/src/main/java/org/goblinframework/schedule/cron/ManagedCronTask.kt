@@ -12,6 +12,7 @@ import org.quartz.JobDetail
 import org.quartz.Scheduler
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean
 import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean
+import java.util.concurrent.atomic.LongAdder
 
 @GoblinManagedBean(type = "Schedule", name = "CronTask")
 class ManagedCronTask
@@ -20,6 +21,7 @@ internal constructor(private val scheduler: Scheduler, private val task: CronTas
 
   private val jobDetail: JobDetail
   private val cronTrigger: CronTrigger
+  private val executeTimes = LongAdder()
 
   init {
     val cronExpression = CronExpression(task.cronExpression())
@@ -56,6 +58,7 @@ internal constructor(private val scheduler: Scheduler, private val task: CronTas
       task.execute()
     } finally {
       FlightRecorder.getFlightMonitor()?.terminateFlight()
+      executeTimes.increment()
     }
   }
 
@@ -75,5 +78,9 @@ internal constructor(private val scheduler: Scheduler, private val task: CronTas
 
   override fun getCronExpression(): String {
     return task.cronExpression()
+  }
+
+  override fun getExecuteTimes(): Long {
+    return executeTimes.sum()
   }
 }
