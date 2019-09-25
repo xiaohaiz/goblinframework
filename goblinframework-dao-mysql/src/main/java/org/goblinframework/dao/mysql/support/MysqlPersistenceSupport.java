@@ -6,11 +6,14 @@ import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.dao.core.cql.Criteria;
+import org.goblinframework.dao.core.cql.NativeSQL;
 import org.goblinframework.dao.core.cql.Query;
+import org.goblinframework.dao.core.cql.Update;
 import org.goblinframework.dao.core.mapping.field.EntityRevisionField;
 import org.goblinframework.dao.mysql.client.MysqlConnection;
 import org.goblinframework.dao.mysql.cql.*;
 import org.goblinframework.dao.mysql.mapping.MysqlEntityRowMapper;
+import org.goblinframework.dao.mysql.module.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,6 +28,7 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -284,6 +288,26 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     }
   }
 
+  protected long executeUpdate(@NotNull final Update update,
+                               @NotNull final Criteria criteria,
+                               @NotNull final String tableName) {
+    NamedParameterSQL u = updateTranslator.translate(update, entityMapping);
+    if (StringUtils.isEmpty(u.sql)) {
+      throw new GoblinPersistenceException("No update SQL generated");
+    }
+    TranslatedCriteria c = criteriaTranslator.translate(criteria);
+
+    MapSqlParameterSource source = new MapSqlParameterSource();
+    source.addValues(u.source.getValues());
+    source.addValues(c.parameterSource.getValues());
+
+    String s = "UPDATE `%s` SET %s%s";
+    s = String.format(s, tableName, u.sql, c.sql);
+    AtomicReference<String> sql = new AtomicReference<>(s);
+    NamedParameterJdbcTemplate jdbcTemplate = getMasterConnection().getNamedParameterJdbcTemplate();
+    return jdbcTemplate.update(sql.get(), source);
+  }
+
   protected long executeDelete(@NotNull final Criteria criteria,
                                @NotNull final String tableName) {
     TranslatedCriteria tc = criteriaTranslator.translate(criteria);
@@ -294,6 +318,24 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     MutableObject<String> sql = new MutableObject<>(s);
     NamedParameterJdbcTemplate jdbcTemplate = getMasterConnection().getNamedParameterJdbcTemplate();
     return jdbcTemplate.update(sql.getValue(), source);
+  }
+
+  protected long executeDelete(@NotNull Query query, @NotNull String tableName) {
+    if (query.getNativeSQL() == null) {
+      return executeDelete(query.getCriteria(), tableName);
+    }
+    NativeSQL nativeSQL = query.getNativeSQL();
+    MapSqlParameterSource source = new MapSqlParameterSource();
+    if (nativeSQL.getParameters() != null) {
+      source.addValues(nativeSQL.getParameters());
+    }
+    TranslatedCriteria tc = new TranslatedCriteria(nativeSQL.getSql(), source);
+
+    String s = "DELETE FROM `%s`%s";
+    s = String.format(s, tableName, tc.sql);
+    AtomicReference<String> sql = new AtomicReference<>(s);
+    NamedParameterJdbcTemplate jdbcTemplate = getMasterConnection().getNamedParameterJdbcTemplate();
+    return jdbcTemplate.update(sql.get(), source);
   }
 
   protected long executeCount(@NotNull final MysqlConnection connection,
