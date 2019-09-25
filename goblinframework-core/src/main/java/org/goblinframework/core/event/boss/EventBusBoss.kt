@@ -3,7 +3,6 @@ package org.goblinframework.core.event.boss
 import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.api.event.*
-import org.goblinframework.api.schedule.ICronTaskManager
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.service.ServiceInstaller
@@ -12,20 +11,17 @@ import org.goblinframework.core.event.config.EventBusConfig
 import org.goblinframework.core.event.config.EventBusConfigLoader
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.BossRingBufferFullException
-import org.goblinframework.core.event.timer.MinuteTimerEventGenerator
-import org.goblinframework.core.event.timer.SecondTimerEventGenerator
+import org.goblinframework.core.event.timer.TimerEventGenerator
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.system.SubModuleEventListener
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.NamedDaemonThreadFactory
-import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantReadWriteLock
-import kotlin.concurrent.fixedRateTimer
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-@GoblinManagedBean(type = "core")
+@GoblinManagedBean(type = "Core")
 class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMXBean {
 
   companion object {
@@ -39,7 +35,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   private val disruptor: Disruptor<EventBusBossEvent>
   private val lock = ReentrantReadWriteLock()
   private val workers = mutableMapOf<String, EventBusWorker>()
-  private val timers = mutableListOf<Timer>()
+  private val timerEventGenerator = TimerEventGenerator()
 
   init {
     val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusBoss")
@@ -54,31 +50,11 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     subscribe(SubModuleEventListener.INSTANCE)
     subscribe(GoblinCallbackEventListener.INSTANCE)
     ServiceInstaller.asList(GoblinEventListener::class.java).forEach { subscribe(it) }
-
-    ICronTaskManager.instance()?.run {
-      this.register(SecondTimerEventGenerator.INSTANCE)
-      this.register(MinuteTimerEventGenerator.INSTANCE)
-    } ?: kotlin.run {
-      val secondTimer = fixedRateTimer(
-          name = "SecondTimerEventGenerator",
-          daemon = true,
-          period = 1000
-      ) {
-        SecondTimerEventGenerator.INSTANCE.execute()
-      }
-      timers.add(secondTimer)
-      val minuteTimer = fixedRateTimer(
-          name = "MinuteTimerEventGenerator",
-          daemon = true,
-          period = 60000
-      ) {
-        MinuteTimerEventGenerator.INSTANCE.execute()
-      }
-      timers.add(minuteTimer)
-    }
   }
 
-  fun install() {}
+  fun install() {
+    timerEventGenerator.initialize()
+  }
 
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
     return register(EventBusConfig(channel, ringBufferSize, workerHandlers))
@@ -146,8 +122,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   }
 
   override fun disposeBean() {
-    timers.forEach { it.cancel() }
-    timers.clear()
+    timerEventGenerator.dispose()
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
     } catch (ignore: TimeoutException) {
