@@ -8,7 +8,6 @@ import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.event.callback.GoblinCallbackEventListener
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.BossRingBufferFullException
-import org.goblinframework.core.event.timer.TimerEventGenerator
 import org.goblinframework.core.event.worker.EventBusConfig
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.system.SubModuleEventListener
@@ -33,7 +32,6 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   private val disruptor: Disruptor<EventBusBossEvent>
   private val lock = ReentrantReadWriteLock()
   private val workers = mutableMapOf<String, EventBusWorker>()
-  private val timerEventGenerator = TimerEventGenerator()
 
   init {
     val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusBoss")
@@ -45,10 +43,6 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   }
 
   fun install() {
-    register("/goblin/core", 32768, 0)
-    register("/goblin/timer", 32768, 4)
-    register("/goblin/monitor", 65536, 8)
-    timerEventGenerator.initialize()
     subscribe(SubModuleEventListener.INSTANCE)
     subscribe(GoblinCallbackEventListener.INSTANCE)
   }
@@ -119,7 +113,6 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   }
 
   override fun disposeBean() {
-    timerEventGenerator.dispose()
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
     } catch (ignore: TimeoutException) {

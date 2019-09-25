@@ -1,44 +1,43 @@
-package org.goblinframework.core.event.timer;
+package org.goblinframework.core.event.timer
 
-import org.goblinframework.api.common.Disposable;
-import org.goblinframework.api.common.Initializable;
-import org.goblinframework.api.schedule.ICronTaskManager;
+import org.goblinframework.api.common.Disposable
+import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.schedule.ICronTaskManager
+import java.util.*
 
-import java.util.*;
+@Singleton
+class TimerEventGenerator private constructor() : Disposable {
 
-final public class TimerEventGenerator implements Initializable, Disposable {
-
-  private final List<Timer> timers = Collections.synchronizedList(new ArrayList<>());
-
-  @Override
-  public void initialize() {
-    ICronTaskManager cronTaskManager = ICronTaskManager.instance();
-    if (cronTaskManager != null) {
-      cronTaskManager.register(SecondTimerEventGenerator.INSTANCE);
-      cronTaskManager.register(MinuteTimerEventGenerator.INSTANCE);
-    } else {
-      Timer secondTimer = new Timer("SecondTimerEventGenerator", true);
-      secondTimer.scheduleAtFixedRate(new TimerTask() {
-        @Override
-        public void run() {
-          SecondTimerEventGenerator.INSTANCE.execute();
-        }
-      }, 0, 1000);
-      timers.add(secondTimer);
-      Timer minuteTimer = new Timer("MinuteTimerEventGenerator", true);
-      secondTimer.scheduleAtFixedRate(new TimerTask() {
-        @Override
-        public void run() {
-          MinuteTimerEventGenerator.INSTANCE.execute();
-        }
-      }, 0, 60000);
-      timers.add(minuteTimer);
-    }
+  companion object {
+    @JvmField val INSTANCE = TimerEventGenerator()
   }
 
-  @Override
-  public void dispose() {
-    timers.parallelStream().forEach(Timer::cancel);
-    timers.clear();
+  private val timers = Collections.synchronizedList(ArrayList<Timer>())
+
+  fun install() {
+    ICronTaskManager.instance()?.run {
+      register(SecondTimerEventGenerator.INSTANCE)
+      register(MinuteTimerEventGenerator.INSTANCE)
+      return
+    }
+    val secondTimer = Timer("SecondTimerEventGenerator", true)
+    secondTimer.scheduleAtFixedRate(object : TimerTask() {
+      override fun run() {
+        SecondTimerEventGenerator.INSTANCE.execute()
+      }
+    }, 0, 1000)
+    timers.add(secondTimer)
+    val minuteTimer = Timer("MinuteTimerEventGenerator", true)
+    secondTimer.scheduleAtFixedRate(object : TimerTask() {
+      override fun run() {
+        MinuteTimerEventGenerator.INSTANCE.execute()
+      }
+    }, 0, 60000)
+    timers.add(minuteTimer)
+  }
+
+  override fun dispose() {
+    timers.forEach { it.cancel() }
+    timers.clear()
   }
 }
