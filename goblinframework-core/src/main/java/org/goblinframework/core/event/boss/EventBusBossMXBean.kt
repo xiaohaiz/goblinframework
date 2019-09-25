@@ -16,4 +16,5 @@ interface EventBusBossMXBean : PlatformManagedObject {
 
   fun getDiscardedCount(): Long
 
+  fun getReceivedCount(): Long
 }

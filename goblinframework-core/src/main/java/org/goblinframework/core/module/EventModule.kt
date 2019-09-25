@@ -5,6 +5,7 @@ import org.goblinframework.api.system.*
 import org.goblinframework.core.event.boss.EventBusBoss
 import org.goblinframework.core.event.callback.GoblinCallbackEventListener
 import org.goblinframework.core.event.timer.TimerEventGenerator
+import org.goblinframework.core.module.management.EventManagement
 import org.goblinframework.core.system.SubModuleEventListener
 
 @Install
@@ -14,6 +15,10 @@ class EventModule : IModule {
     return GoblinModule.EVENT
   }
 
+  override fun managementEntrance(): String? {
+    return "/goblin/event/index.do"
+  }
+
   override fun install(ctx: ModuleInstallContext) {
     ctx.registerEventChannel("/goblin/core", 32768, 0)
     ctx.registerEventChannel("/goblin/timer", 32768, 4)
@@ -21,6 +26,7 @@ class EventModule : IModule {
     ctx.subscribeEventListener(GoblinCallbackEventListener.INSTANCE)
     ctx.subscribeEventListener(SubModuleEventListener.INSTANCE)
     TimerEventGenerator.INSTANCE.install()
+    ctx.registerManagementController(EventManagement.INSTANCE)
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {

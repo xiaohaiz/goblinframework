@@ -12,6 +12,7 @@ class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossE
   }
 
   override fun onEvent(event: EventBusBossEvent) {
+    event.receivedCount?.increment()
     try {
       processEventBusBossEvent(event)
     } finally {
