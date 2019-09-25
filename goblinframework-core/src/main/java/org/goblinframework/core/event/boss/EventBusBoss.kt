@@ -37,6 +37,9 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   private val publishedCount = LongAdder()
   private val discardedCount = LongAdder()
   private val receivedCount = LongAdder()
+  private val workerMissedCount = LongAdder()
+  private val listenerMissedCount = LongAdder()
+  private val dispatchedCount = LongAdder()
 
   init {
     val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusBoss")
@@ -101,6 +104,9 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     val published = disruptor.ringBuffer.tryPublishEvent { e, _ ->
       e.ctx = ctx
       e.receivedCount = receivedCount
+      e.workerMissedCount = workerMissedCount
+      e.listenerMissedCount = listenerMissedCount
+      e.dispatchedCount = dispatchedCount
     }
     if (!published) {
       discardedCount.increment()
@@ -154,5 +160,17 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
 
   override fun getReceivedCount(): Long {
     return receivedCount.sum()
+  }
+
+  override fun getWorkerMissedCount(): Long {
+    return workerMissedCount.sum()
+  }
+
+  override fun getListenerMissedCount(): Long {
+    return listenerMissedCount.sum()
+  }
+
+  override fun getDispatchedCount(): Long {
+    return dispatchedCount.sum()
   }
 }

@@ -24,12 +24,14 @@ class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossE
     val ctx = event.ctx!!
     val worker = EventBusBoss.INSTANCE.lookup(ctx.channel)
     if (worker == null) {
+      event.workerMissedCount?.increment()
       ctx.exceptionCaught(ChannelNotFoundException(ctx.channel))
       ctx.complete()
       return
     }
     val listeners = worker.lookup(ctx)
     if (listeners.isEmpty()) {
+      event.listenerMissedCount?.increment()
       ctx.exceptionCaught(ListenerNotFoundException(ctx.channel))
       ctx.complete()
       return
@@ -40,9 +42,13 @@ class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossE
       }).toList()
       ctx.initializeTaskCount(1)
       worker.public(ctx, sorted)
+      event.dispatchedCount?.increment()
     } else {
       ctx.initializeTaskCount(listeners.size)
-      listeners.forEach { worker.public(ctx, listOf(it)) }
+      listeners.forEach {
+        worker.public(ctx, listOf(it))
+        event.dispatchedCount?.increment()
+      }
     }
   }
 }

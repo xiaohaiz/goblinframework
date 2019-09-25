@@ -18,7 +18,7 @@
     <table class="table table-bordered table-condensed table-striped">
       <thead>
       <tr class="info">
-        <td colspan="7"><strong>Event bus boss</strong></td>
+        <td colspan="10"><strong>Event bus boss</strong></td>
       </tr>
       </thead>
       <tbody>
@@ -30,6 +30,9 @@
         <td><strong>published</strong></td>
         <td><strong>discarded</strong></td>
         <td><strong>received</strong></td>
+        <td><strong>workerMissed</strong></td>
+        <td><strong>listenerMissed</strong></td>
+        <td><strong>dispatched</strong></td>
       </tr>
       <tr>
         <td>${eventBusBossMXBean.upTime}</td>
@@ -39,6 +42,9 @@
         <td>${eventBusBossMXBean.publishedCount}</td>
         <td>${eventBusBossMXBean.discardedCount}</td>
         <td>${eventBusBossMXBean.receivedCount}</td>
+        <td>${eventBusBossMXBean.workerMissedCount}</td>
+        <td>${eventBusBossMXBean.listenerMissedCount}</td>
+        <td>${eventBusBossMXBean.discardedCount}</td>
       </tr>
       </tbody>
     </table>
