@@ -23,7 +23,7 @@ class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossE
     val worker = EventBusBoss.INSTANCE.lookup(ctx.channel)
     if (worker == null) {
       event.workerMissedCount?.increment()
-      ctx.exceptionCaught(ChannelNotFoundException(ctx.channel))
+      ctx.exceptionCaught(WorkerNotFoundException(ctx.channel))
       ctx.complete()
       return
     }
