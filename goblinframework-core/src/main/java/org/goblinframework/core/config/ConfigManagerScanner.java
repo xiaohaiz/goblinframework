@@ -1,9 +1,7 @@
 package org.goblinframework.core.config;
 
-import org.goblinframework.api.common.Block1;
 import org.goblinframework.api.common.Disposable;
 import org.goblinframework.api.common.Initializable;
-import org.goblinframework.api.monitor.FlightAttribute;
 import org.goblinframework.api.schedule.CronConstants;
 import org.goblinframework.api.schedule.CronTask;
 import org.goblinframework.api.schedule.ICronTaskManager;
@@ -48,10 +46,9 @@ final class ConfigManagerScanner implements Initializable, Disposable {
           return false;
         }
 
-        @NotNull
         @Override
-        public Block1<FlightAttribute> flightAttribute() {
-          return a -> a.setAttribute("flight.silence", true);
+        public boolean flight() {
+          return false;
         }
 
         @Override

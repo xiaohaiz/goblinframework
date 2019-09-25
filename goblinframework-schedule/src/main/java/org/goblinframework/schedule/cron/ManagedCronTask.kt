@@ -49,17 +49,21 @@ internal constructor(private val scheduler: Scheduler, private val task: CronTas
    * See job detail creation in constructor.
    */
   override fun execute() {
-    FlightLocation.builder()
-        .startPoint(Flight.StartPoint.CTK)
-        .clazz(task.javaClass)
-        .method("execute")
-        .applyAttribute(task.flightAttribute())
-        .build()
-        .launch()
+    val flight = task.flight()
+    if (flight) {
+      FlightLocation.builder()
+          .startPoint(Flight.StartPoint.CTK)
+          .clazz(task.javaClass)
+          .method("execute")
+          .build()
+          .launch()
+    }
     try {
       task.execute()
     } finally {
-      FlightRecorder.getFlightMonitor()?.terminateFlight()
+      if (flight) {
+        FlightRecorder.getFlightMonitor()?.terminateFlight()
+      }
       executeTimes.increment()
     }
   }

@@ -32,6 +32,10 @@ class CronTaskManagerTest {
       override fun concurrent(): Boolean {
         return false
       }
+
+      override fun flight(): Boolean {
+        return false
+      }
     }
     CronTaskManager.INSTANCE.register(task)
     latch.await()
