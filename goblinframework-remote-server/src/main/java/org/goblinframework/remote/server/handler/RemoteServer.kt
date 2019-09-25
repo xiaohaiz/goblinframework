@@ -2,6 +2,8 @@ package org.goblinframework.remote.server.handler
 
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.core.config.ConfigManager
+import org.goblinframework.core.conversion.ConversionUtils
 import org.goblinframework.remote.server.module.config.RemoteServerConfig
 import org.goblinframework.transport.server.channel.TransportServer
 import org.goblinframework.transport.server.channel.TransportServerManager
@@ -15,15 +17,18 @@ internal constructor(config: RemoteServerConfig)
   private val server: TransportServer
 
   init {
-    val setting = TransportServerSetting.builder()
+    val builder = TransportServerSetting.builder()
         .name(config.getName())
         .host(config.getHost())
         .port(config.getPort())
-        .enableDebugMode()
         .applyHandlerSetting {
           it.transportRequestHandler(RemoteServerHandler.INSTANCE)
         }
-        .build()
+    val s = ConfigManager.INSTANCE.getConfig("remote", "serverDebugMode")
+    if (ConversionUtils.toBoolean(s)) {
+      builder.enableDebugMode()
+    }
+    val setting = builder.build()
     server = TransportServerManager.INSTANCE.createTransportServer(setting)
     server.start()
   }
