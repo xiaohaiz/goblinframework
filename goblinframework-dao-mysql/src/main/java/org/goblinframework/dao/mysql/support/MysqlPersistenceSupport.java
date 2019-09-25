@@ -13,7 +13,7 @@ import org.goblinframework.dao.core.mapping.field.EntityRevisionField;
 import org.goblinframework.dao.mysql.client.MysqlConnection;
 import org.goblinframework.dao.mysql.cql.*;
 import org.goblinframework.dao.mysql.mapping.MysqlEntityRowMapper;
-import org.goblinframework.dao.mysql.module.GoblinPersistenceException;
+import org.goblinframework.dao.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.jdbc.core.JdbcTemplate;

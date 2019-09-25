@@ -1,6 +1,6 @@
 package org.goblinframework.dao.mysql.client;
 
-import org.goblinframework.dao.mysql.module.monitor.intruction.MSQ;
+import org.goblinframework.dao.mysql.module.monitor.MSQ;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.DefaultTransactionStatus;
