@@ -1,5 +1,6 @@
 package org.goblinframework.api.monitor;
 
+import org.goblinframework.api.common.Block1;
 import org.goblinframework.api.common.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -157,6 +158,15 @@ final public class FlightLocation {
     @NotNull
     public FlightLocationBuilder attribute(@NotNull String name, @NotNull Object value) {
       attributes.put(name, value);
+      return this;
+    }
+
+    @NotNull
+    public FlightLocationBuilder applyAttribute(@Nullable Block1<FlightAttribute> action) {
+      if (action == null) {
+        return this;
+      }
+      action.apply(this::attribute);
       return this;
     }
 

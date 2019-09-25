@@ -1,6 +1,9 @@
 package org.goblinframework.api.schedule;
 
+import org.goblinframework.api.common.Block1;
+import org.goblinframework.api.monitor.FlightAttribute;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface CronTask {
 
@@ -12,8 +15,9 @@ public interface CronTask {
 
   boolean concurrent();
 
-  default boolean flightSilence() {
-    return false;
+  @Nullable
+  default Block1<FlightAttribute> flightAttribute() {
+    return null;
   }
 
   void execute();

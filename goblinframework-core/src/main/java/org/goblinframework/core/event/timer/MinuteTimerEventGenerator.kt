@@ -1,7 +1,9 @@
 package org.goblinframework.core.event.timer
 
+import org.goblinframework.api.common.Block1
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.event.EventBus
+import org.goblinframework.api.monitor.FlightAttribute
 import org.goblinframework.api.schedule.CronConstants
 import org.goblinframework.api.schedule.CronTask
 import java.util.concurrent.TimeUnit
@@ -28,8 +30,8 @@ class MinuteTimerEventGenerator private constructor() : CronTask {
     return true
   }
 
-  override fun flightSilence(): Boolean {
-    return true
+  override fun flightAttribute(): Block1<FlightAttribute> {
+    return Block1 { it.setAttribute("flight.silence", true) }
   }
 
   override fun execute() {
