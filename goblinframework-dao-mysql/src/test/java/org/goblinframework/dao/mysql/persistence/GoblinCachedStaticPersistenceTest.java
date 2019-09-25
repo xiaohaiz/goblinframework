@@ -25,7 +25,7 @@ public class GoblinCachedStaticPersistenceTest {
   @Repository
   @GoblinDatabaseConnection(name = "_ut")
   @GoblinCacheBean(type = GoblinStaticPersistenceTest.MockData.class, system = CacheSystem.JVM, name = "JVM")
-  @org.goblinframework.api.cache.GoblinCacheDimension(org.goblinframework.api.cache.GoblinCacheDimension.Distribution.ID_FIELD)
+  @org.goblinframework.api.dao.GoblinCacheDimension(dimension = org.goblinframework.api.dao.GoblinCacheDimension.Dimension.ID_FIELD)
   public static class MockDataPersistence extends GoblinCachedStaticPersistence<GoblinStaticPersistenceTest.MockData, Long> {
 
     @Override

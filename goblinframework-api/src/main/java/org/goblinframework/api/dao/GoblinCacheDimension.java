@@ -1,4 +1,4 @@
-package org.goblinframework.api.cache;
+package org.goblinframework.api.dao;
 
 import java.lang.annotation.*;
 
@@ -7,9 +7,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface GoblinCacheDimension {
 
-  Distribution value();
+  Dimension dimension();
 
-  enum Distribution {
+  enum Dimension {
 
     NONE,                   // 没有缓存维度
     ID_FIELD,               // 仅在主键上有缓存维度
