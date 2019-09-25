@@ -13,7 +13,7 @@ import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean
 import org.springframework.scheduling.quartz.SchedulerFactoryBean
 import java.util.concurrent.ConcurrentHashMap
 
-@GoblinManagedBean(type = "schedule")
+@GoblinManagedBean(type = "Schedule")
 class CronTaskManager private constructor()
   : GoblinManagedObject(), ICronTaskManager, CronTaskManagerMXBean {
 
