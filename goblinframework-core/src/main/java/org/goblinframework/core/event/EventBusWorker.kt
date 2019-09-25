@@ -10,7 +10,6 @@ import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.util.NamedDaemonThreadFactory
 import org.goblinframework.core.util.StopWatch
 import org.goblinframework.core.util.SystemUtils
-import java.time.Instant
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.LongAdder
@@ -33,7 +32,7 @@ internal constructor(private val channel: String,
   private val workers: Int
   private val disruptor: Disruptor<EventBusWorkerEvent>
   private val lock = ReentrantReadWriteLock()
-  private val listeners = IdentityHashMap<GoblinEventListener, Instant>()
+  private val listeners = IdentityHashMap<GoblinEventListener, ManagedEventListener>()
 
   private val publishedCount = LongAdder()
   private val discardedCount = LongAdder()
@@ -56,18 +55,16 @@ internal constructor(private val channel: String,
       if (listeners[listener] != null) {
         throw GoblinEventException("Listener [$listener] already subscribed on channel [$channel]")
       }
-      listeners[listener] = Instant.now()
+      listeners[listener] = ManagedEventListener(listener)
     }
   }
 
   internal fun unsubscribe(listener: GoblinEventListener) {
-    lock.write {
-      listeners.remove(listener)
-    }
+    lock.write { listeners.remove(listener) }?.dispose()
   }
 
   internal fun lookup(ctx: GoblinEventContext): List<GoblinEventListener> {
-    return lock.read { listeners.keys.filter { it.accept(ctx) }.toList() }
+    return lock.read { listeners.values.filter { it.accept(ctx) }.toList() }
   }
 
   internal fun public(ctx: GoblinEventContextImpl, listeners: List<GoblinEventListener>) {
@@ -88,6 +85,10 @@ internal constructor(private val channel: String,
   }
 
   override fun disposeBean() {
+    lock.write {
+      listeners.values.forEach { it.dispose() }
+      listeners.clear()
+    }
     try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
     } catch (ignore: TimeoutException) {
