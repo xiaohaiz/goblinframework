@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.goblinframework.api.config.GoblinConfigException;
 import org.goblinframework.core.config.BufferedConfigParser;
-import org.goblinframework.core.config.ConfigLoader;
+import org.goblinframework.core.config.ConfigManager;
 import org.goblinframework.core.config.ConfigMapping;
 import org.goblinframework.core.mapper.JsonMapper;
 
@@ -15,7 +15,7 @@ final class MysqlConfigParser extends BufferedConfigParser<MysqlConfig> {
 
   @Override
   public void initializeBean() {
-    ConfigMapping mapping = ConfigLoader.INSTANCE.getMapping();
+    ConfigMapping mapping = ConfigManager.INSTANCE.getMapping();
     Object mysql = mapping.get("mysql");
     if (!(mysql instanceof Map)) {
       return;

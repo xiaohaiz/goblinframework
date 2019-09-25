@@ -1,6 +1,10 @@
 package org.goblinframework.core.config
 
+import org.goblinframework.api.common.Install
 import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.config.ConfigListener
+import org.goblinframework.api.config.ConfigParser
+import org.goblinframework.api.config.IConfigManager
 import org.goblinframework.api.schedule.CronConstants
 import org.goblinframework.api.schedule.CronTask
 import org.goblinframework.api.schedule.ICronTaskManager
@@ -23,15 +27,17 @@ import kotlin.concurrent.fixedRateTimer
 
 @Singleton
 @GoblinManagedBean(type = "core")
-class ConfigLoader private constructor()
-  : GoblinManagedObject(), ConfigLoaderMXBean {
+class ConfigManager private constructor()
+  : GoblinManagedObject(), IConfigManager, ConfigManagerMXBean {
 
   companion object {
-    @JvmField val INSTANCE = ConfigLoader()
+    @JvmField val INSTANCE = ConfigManager()
   }
 
   private val configLocationScanner = ConfigLocationScanner()
   private val mappingLocationScanner = MappingLocationScanner(configLocationScanner)
+  private val configParserManager = ConfigParserManager()
+  private val configListenerManager = ConfigListenerManager()
 
   private val loadTimes = AtomicLong()
   private val resourceFiles = mutableListOf<String>()
@@ -57,7 +63,7 @@ class ConfigLoader private constructor()
       val mapping = resource.inputStream.use {
         JsonMapper.asObject(it, ConfigMapping::class.java)
       }
-      this@ConfigLoader.mapping.set(mapping)
+      this@ConfigManager.mapping.set(mapping)
     }
   }
 
@@ -165,9 +171,20 @@ class ConfigLoader private constructor()
 
   private fun executeReload() {
     if (reload()) {
-      val listeners = ConfigManager1.INSTANCE.getConfigListeners()
-      listeners.forEach { it.onConfigChanged() }
+      configListenerManager.onConfigChanged()
     }
+  }
+
+  fun parseConfigs() {
+    configParserManager.parseConfigs()
+  }
+
+  override fun registerConfigParser(parser: ConfigParser) {
+    configParserManager.register(parser)
+  }
+
+  override fun registerConfigListener(listener: ConfigListener) {
+    configListenerManager.register(listener)
   }
 
   override fun getConfigLocationScanner(): ConfigLocationScannerMXBean {
@@ -181,4 +198,7 @@ class ConfigLoader private constructor()
   override fun getApplicationName(): String {
     return applicationName.get()
   }
+
+  @Install
+  class Installer : IConfigManager by INSTANCE
 }

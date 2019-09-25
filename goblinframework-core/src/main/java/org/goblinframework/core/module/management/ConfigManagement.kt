@@ -1,7 +1,7 @@
 package org.goblinframework.core.module.management
 
 import org.goblinframework.api.common.Singleton
-import org.goblinframework.core.config.ConfigLoader
+import org.goblinframework.core.config.ConfigManager
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -15,7 +15,7 @@ class ConfigManagement private constructor() {
 
   @RequestMapping("index.do")
   fun index(model: Model): String {
-    model.addAttribute("configLoaderMXBean", ConfigLoader.INSTANCE)
+    model.addAttribute("configManagerMXBean", ConfigManager.INSTANCE)
     return "config/index"
   }
 }

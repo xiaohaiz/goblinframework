@@ -3,7 +3,7 @@ package org.goblinframework.core.system
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.api.system.GoblinModule
-import org.goblinframework.core.config.ConfigLoader
+import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.container.SpringContainerManager
 import org.goblinframework.core.util.ClassUtils
 import java.util.concurrent.Executors
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 class GoblinSystemImpl internal constructor() : GoblinManagedObject(), GoblinSystemMXBean {
 
   internal fun applicationName(): String {
-    return ConfigLoader.INSTANCE.getApplicationName()
+    return ConfigManager.INSTANCE.getApplicationName()
   }
 
   override fun initializeBean() {

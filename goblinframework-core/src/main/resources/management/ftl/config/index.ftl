@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="configLoaderMXBean" type="org.goblinframework.core.config.ConfigLoaderMXBean" -->
+<#-- @ftlvariable name="configManagerMXBean" type="org.goblinframework.core.config.ConfigManagerMXBean" -->
 <!--suppress HtmlUnknownTarget -->
 <html>
 <head>
@@ -22,7 +22,7 @@
       </tr>
       </thead>
       <tbody>
-      <#assign cls=configLoaderMXBean.configLocationScanner>
+      <#assign cls=configManagerMXBean.configLocationScanner>
       <tr>
         <td><strong>configPath</strong></td>
         <td>${cls.configPath!''}</td>

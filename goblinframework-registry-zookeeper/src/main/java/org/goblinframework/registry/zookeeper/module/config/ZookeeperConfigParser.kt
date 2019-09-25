@@ -2,7 +2,7 @@ package org.goblinframework.registry.zookeeper.module.config
 
 import org.goblinframework.api.config.GoblinConfigException
 import org.goblinframework.core.config.BufferedConfigParser
-import org.goblinframework.core.config.ConfigLoader
+import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.serialization.SerializerMode
 import org.goblinframework.core.util.StringUtils
 
@@ -14,7 +14,7 @@ class ZookeeperConfigParser internal constructor()
   }
 
   override fun initializeBean() {
-    val mapping = ConfigLoader.INSTANCE.getMapping()
+    val mapping = ConfigManager.INSTANCE.getMapping()
     parseToMap(mapping, "zookeeper", ZookeeperConfigMapper::class.java)
         .map { it.value.also { c -> c.name = it.key } }
         .map { ZookeeperConfig(it) }
