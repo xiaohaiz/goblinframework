@@ -1,7 +1,7 @@
 package org.goblinframework.monitor.message
 
 import org.goblinframework.api.event.GoblinEventContext
-import org.goblinframework.core.event.timer.MinuteTimerEventListener
+import org.goblinframework.core.event.MinuteTimerEventListener
 
 class TimedTouchableMessageBufferScheduler
 internal constructor(private val manager: TimedTouchableMessageBufferManager)

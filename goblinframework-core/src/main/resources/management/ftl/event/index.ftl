@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="eventBusBossMXBean" type="org.goblinframework.core.event.boss.EventBusBossMXBean" -->
+<#-- @ftlvariable name="eventBusBossMXBean" type="org.goblinframework.core.event.EventBusBossMXBean" -->
 <!--suppress HtmlUnknownTarget -->
 <html lang="zh">
 <head>

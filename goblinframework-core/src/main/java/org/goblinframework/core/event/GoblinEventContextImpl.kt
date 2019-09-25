@@ -1,4 +1,4 @@
-package org.goblinframework.core.event.context
+package org.goblinframework.core.event
 
 import org.goblinframework.api.event.GoblinEvent
 import org.goblinframework.api.event.GoblinEventContext

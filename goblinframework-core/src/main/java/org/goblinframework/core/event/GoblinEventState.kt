@@ -1,4 +1,4 @@
-package org.goblinframework.core.event.context
+package org.goblinframework.core.event
 
 enum class GoblinEventState {
 

@@ -1,4 +1,4 @@
-package org.goblinframework.core.event.boss
+package org.goblinframework.core.event
 
 import com.lmax.disruptor.EventFactory
 

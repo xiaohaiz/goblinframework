@@ -1,4 +1,4 @@
-package org.goblinframework.core.event.timer
+package org.goblinframework.core.event
 
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.event.EventBus

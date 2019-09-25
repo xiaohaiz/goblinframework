@@ -1,8 +1,6 @@
-package org.goblinframework.core.event.boss
+package org.goblinframework.core.event
 
 import com.lmax.disruptor.WorkHandler
-import org.goblinframework.core.event.exception.ChannelNotFoundException
-import org.goblinframework.core.event.exception.ListenerNotFoundException
 import org.goblinframework.core.util.ObjectUtils
 
 class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossEvent> {

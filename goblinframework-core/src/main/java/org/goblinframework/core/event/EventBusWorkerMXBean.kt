@@ -1,4 +1,4 @@
-package org.goblinframework.core.event.worker
+package org.goblinframework.core.event
 
 import java.lang.management.PlatformManagedObject
 

@@ -2,8 +2,6 @@ package org.goblinframework.core.event
 
 import org.goblinframework.api.common.Install
 import org.goblinframework.api.event.*
-import org.goblinframework.core.event.boss.EventBusBoss
-import org.goblinframework.core.event.callback.GoblinCallbackEvent
 
 @Install
 class EventBusManager : IEventBusManager {

@@ -1,4 +1,4 @@
-package org.goblinframework.core.event.exception
+package org.goblinframework.core.event
 
 class BossRingBufferFullException : RuntimeException() {
   companion object {

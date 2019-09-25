@@ -2,7 +2,7 @@ package org.goblinframework.transport.client.channel
 
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.event.GoblinEventContext
-import org.goblinframework.core.event.timer.SecondTimerEventListener
+import org.goblinframework.core.event.SecondTimerEventListener
 import org.goblinframework.transport.client.module.TransportClientModule
 
 @Singleton

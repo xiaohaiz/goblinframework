@@ -2,9 +2,9 @@ package org.goblinframework.core.module
 
 import org.goblinframework.api.common.Install
 import org.goblinframework.api.system.*
-import org.goblinframework.core.event.boss.EventBusBoss
-import org.goblinframework.core.event.callback.GoblinCallbackEventListener
-import org.goblinframework.core.event.timer.TimerEventGenerator
+import org.goblinframework.core.event.EventBusBoss
+import org.goblinframework.core.event.GoblinCallbackEventListener
+import org.goblinframework.core.event.TimerEventGenerator
 import org.goblinframework.core.module.management.EventManagement
 import org.goblinframework.core.system.SubModuleEventListener
 

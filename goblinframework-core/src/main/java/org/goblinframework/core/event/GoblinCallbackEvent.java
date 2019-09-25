@@ -1,4 +1,4 @@
-package org.goblinframework.core.event.callback;
+package org.goblinframework.core.event;
 
 import org.goblinframework.api.event.GoblinCallback;
 import org.goblinframework.api.event.GoblinEvent;

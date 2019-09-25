@@ -1,6 +1,5 @@
-package org.goblinframework.core.event.boss
+package org.goblinframework.core.event
 
-import org.goblinframework.core.event.worker.EventBusWorkerMXBean
 import java.lang.management.PlatformManagedObject
 
 interface EventBusBossMXBean : PlatformManagedObject {
