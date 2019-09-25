@@ -43,6 +43,16 @@ final class ConfigManagerScanner implements Initializable, Disposable {
         }
 
         @Override
+        public boolean concurrent() {
+          return false;
+        }
+
+        @Override
+        public boolean flightSilence() {
+          return true;
+        }
+
+        @Override
         public void execute() {
           configManager.reload();
         }
@@ -53,7 +63,9 @@ final class ConfigManagerScanner implements Initializable, Disposable {
       timer.scheduleAtFixedRate(new TimerTask() {
         @Override
         public void run() {
-          configManager.reload();
+          synchronized (ConfigManagerScanner.this) {
+            configManager.reload();
+          }
         }
       }, 60000, 60000);
       this.timer.set(timer);

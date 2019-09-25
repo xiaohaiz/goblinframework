@@ -24,6 +24,14 @@ class MinuteTimerEventGenerator private constructor() : CronTask {
     return CronConstants.MINUTE_TIMER
   }
 
+  override fun concurrent(): Boolean {
+    return true
+  }
+
+  override fun flightSilence(): Boolean {
+    return true
+  }
+
   override fun execute() {
     val next = sequence.getAndIncrement()
     val event = GoblinTimerEvent(TimeUnit.MINUTES, next)

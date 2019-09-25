@@ -28,6 +28,10 @@ class CronTaskManagerTest {
       override fun execute() {
         latch.countDown()
       }
+
+      override fun concurrent(): Boolean {
+        return false
+      }
     }
     CronTaskManager.INSTANCE.register(task)
     latch.await()

@@ -10,5 +10,11 @@ public interface CronTask {
   @NotNull
   String cronExpression();
 
+  boolean concurrent();
+
+  default boolean flightSilence() {
+    return false;
+  }
+
   void execute();
 }
