@@ -1,9 +1,9 @@
 package org.goblinframework.management.server
 
-import org.goblinframework.api.common.Install
-import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.api.core.Install
+import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.management.IManagementServerManager
 import java.util.concurrent.atomic.AtomicReference
 

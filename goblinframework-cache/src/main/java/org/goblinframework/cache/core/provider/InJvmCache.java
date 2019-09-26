@@ -3,7 +3,7 @@ package org.goblinframework.cache.core.provider;
 import org.apache.commons.collections4.map.LRUMap;
 import org.goblinframework.api.cache.*;
 import org.goblinframework.api.common.Disposable;
-import org.goblinframework.api.common.ThreadSafe;
+import org.goblinframework.api.core.ThreadSafe;
 import org.goblinframework.cache.core.cache.AbstractCache;
 import org.goblinframework.cache.core.module.monitor.VMC;
 import org.jetbrains.annotations.NotNull;

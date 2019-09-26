@@ -1,7 +1,7 @@
 package org.goblinframework.transport.core.codec
 
-import org.goblinframework.api.common.Install
-import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.core.Install
+import org.goblinframework.api.core.Singleton
 import org.goblinframework.core.transcoder.Transcoder
 import org.goblinframework.core.transcoder.TranscoderFactory
 import org.goblinframework.core.transcoder.TranscoderSetting

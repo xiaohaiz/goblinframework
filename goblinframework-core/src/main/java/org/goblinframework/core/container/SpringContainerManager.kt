@@ -1,10 +1,10 @@
 package org.goblinframework.core.container
 
-import org.goblinframework.api.common.Install
 import org.goblinframework.api.container.ISpringContainerManager
 import org.goblinframework.api.container.SpringContainerBeanPostProcessor
 import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.api.core.Install
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ConfigurableApplicationContext
 import java.util.concurrent.locks.ReentrantReadWriteLock

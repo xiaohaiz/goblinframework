@@ -1,6 +1,6 @@
 package org.goblinframework.core.module
 
-import org.goblinframework.api.common.Install
+import org.goblinframework.api.core.Install
 import org.goblinframework.api.system.GoblinModule
 import org.goblinframework.api.system.IModule
 import org.goblinframework.api.system.ModuleFinalizeContext

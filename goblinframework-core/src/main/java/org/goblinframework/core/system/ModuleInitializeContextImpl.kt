@@ -1,6 +1,6 @@
 package org.goblinframework.core.system
 
-import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.system.ModuleInitializeContext
 
 @Singleton

@@ -1,7 +1,7 @@
 package org.goblinframework.cache.core.module
 
 import org.goblinframework.api.cache.CacheBuilder
-import org.goblinframework.api.common.Install
+import org.goblinframework.api.core.Install
 import org.goblinframework.api.system.*
 import org.goblinframework.cache.core.cache.CacheBuilderManager
 import org.goblinframework.cache.core.enhance.GoblinCacheEnhanceProcessor

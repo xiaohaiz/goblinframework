@@ -1,6 +1,6 @@
 package org.goblinframework.dao.mysql.module
 
-import org.goblinframework.api.common.Install
+import org.goblinframework.api.core.Install
 import org.goblinframework.api.system.*
 import org.goblinframework.dao.mysql.client.MysqlClientManager
 import org.goblinframework.dao.mysql.module.config.MysqlConfigManager

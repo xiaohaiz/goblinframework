@@ -1,6 +1,6 @@
 package org.goblinframework.management.controller
 
-import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.system.GoblinModule
 import org.goblinframework.api.system.GoblinSubModule
 import org.goblinframework.api.system.IModule

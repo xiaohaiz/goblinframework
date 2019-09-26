@@ -1,6 +1,6 @@
 package org.goblinframework.cache.redis.module
 
-import org.goblinframework.api.common.Install
+import org.goblinframework.api.core.Install
 import org.goblinframework.api.system.*
 import org.goblinframework.cache.core.module.CacheModule
 import org.goblinframework.cache.redis.client.RedisClientManager

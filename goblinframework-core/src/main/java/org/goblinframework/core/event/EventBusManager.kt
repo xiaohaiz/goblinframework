@@ -1,6 +1,6 @@
 package org.goblinframework.core.event
 
-import org.goblinframework.api.common.Install
+import org.goblinframework.api.core.Install
 import org.goblinframework.api.event.*
 
 @Install

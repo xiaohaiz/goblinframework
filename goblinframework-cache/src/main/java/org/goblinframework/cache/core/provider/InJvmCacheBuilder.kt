@@ -3,7 +3,7 @@ package org.goblinframework.cache.core.provider
 import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.CacheBuilder
 import org.goblinframework.api.cache.CacheSystem
-import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.core.Singleton
 
 @Singleton
 class InJvmCacheBuilder private constructor() : CacheBuilder {

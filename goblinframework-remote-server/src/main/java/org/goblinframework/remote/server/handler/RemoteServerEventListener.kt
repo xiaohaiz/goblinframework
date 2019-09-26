@@ -1,6 +1,6 @@
 package org.goblinframework.remote.server.handler
 
-import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.event.GoblinEventChannel
 import org.goblinframework.api.event.GoblinEventContext
 import org.goblinframework.api.event.GoblinEventListener

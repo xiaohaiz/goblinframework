@@ -1,6 +1,6 @@
 package org.goblinframework.registry.core.module
 
-import org.goblinframework.api.common.Install
+import org.goblinframework.api.core.Install
 import org.goblinframework.api.registry.RegistryBuilder
 import org.goblinframework.api.registry.RegistrySystem
 import org.goblinframework.api.system.*

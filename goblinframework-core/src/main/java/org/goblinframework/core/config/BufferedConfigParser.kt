@@ -1,9 +1,9 @@
 package org.goblinframework.core.config
 
-import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.config.ConfigParser
 import org.goblinframework.api.config.GoblinConfig
+import org.goblinframework.api.core.ThreadSafe
 import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.mapper.JsonMapper
 import java.util.concurrent.atomic.AtomicBoolean

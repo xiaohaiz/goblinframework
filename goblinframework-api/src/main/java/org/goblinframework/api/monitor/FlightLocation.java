@@ -1,6 +1,6 @@
 package org.goblinframework.api.monitor;
 
-import org.goblinframework.api.common.ThreadSafe;
+import org.goblinframework.api.core.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

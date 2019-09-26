@@ -1,6 +1,6 @@
 package org.goblinframework.remote.core.module
 
-import org.goblinframework.api.common.Install
+import org.goblinframework.api.core.Install
 import org.goblinframework.api.system.*
 
 @Install

@@ -1,6 +1,6 @@
 package org.goblinframework.transport.server.handler
 
-import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.system.GoblinSystem
 import org.goblinframework.transport.core.protocol.HandshakeRequest
 

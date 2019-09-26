@@ -1,6 +1,6 @@
 package org.goblinframework.core.conversion.converter;
 
-import org.goblinframework.api.common.Install;
+import org.goblinframework.api.core.Install;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 

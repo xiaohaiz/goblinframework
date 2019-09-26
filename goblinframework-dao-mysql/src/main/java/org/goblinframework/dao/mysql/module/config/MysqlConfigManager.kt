@@ -1,8 +1,8 @@
 package org.goblinframework.dao.mysql.module.config
 
-import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.api.core.Singleton
 
 @Singleton
 @GoblinManagedBean(type = "dao.mysql")

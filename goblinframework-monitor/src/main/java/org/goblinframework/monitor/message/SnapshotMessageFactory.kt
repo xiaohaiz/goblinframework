@@ -1,6 +1,6 @@
 package org.goblinframework.monitor.message
 
-import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.core.Singleton
 
 @Singleton
 class SnapshotMessageFactory private constructor()

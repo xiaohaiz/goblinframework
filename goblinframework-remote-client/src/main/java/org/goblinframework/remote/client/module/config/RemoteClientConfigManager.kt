@@ -1,7 +1,7 @@
 package org.goblinframework.remote.client.module.config
 
-import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.api.core.Singleton
 
 @Singleton
 class RemoteClientConfigManager private constructor()

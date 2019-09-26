@@ -1,7 +1,7 @@
 package org.goblinframework.registry.zookeeper.module.converter;
 
 import org.apache.zookeeper.Watcher;
-import org.goblinframework.api.common.Install;
+import org.goblinframework.api.core.Install;
 import org.goblinframework.api.registry.RegistryState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

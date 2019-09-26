@@ -1,7 +1,7 @@
 package org.goblinframework.core.serialization.java;
 
 import org.apache.commons.lang3.SerializationUtils;
-import org.goblinframework.api.common.Singleton;
+import org.goblinframework.api.core.Singleton;
 import org.goblinframework.core.exception.GoblinSerializationException;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerMode;

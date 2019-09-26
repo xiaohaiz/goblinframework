@@ -1,6 +1,6 @@
 package org.goblinframework.monitor.flight;
 
-import org.goblinframework.api.common.Singleton;
+import org.goblinframework.api.core.Singleton;
 import org.goblinframework.api.monitor.FlightId;
 
 import java.util.concurrent.ConcurrentHashMap;

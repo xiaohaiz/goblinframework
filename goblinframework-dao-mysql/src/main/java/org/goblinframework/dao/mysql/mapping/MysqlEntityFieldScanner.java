@@ -1,6 +1,6 @@
 package org.goblinframework.dao.mysql.mapping;
 
-import org.goblinframework.api.common.Singleton;
+import org.goblinframework.api.core.Singleton;
 import org.goblinframework.api.dao.Ignore;
 import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.util.GoblinField;

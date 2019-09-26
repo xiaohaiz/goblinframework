@@ -1,6 +1,6 @@
 package org.goblinframework.embedded.core.module
 
-import org.goblinframework.api.common.Install
+import org.goblinframework.api.core.Install
 import org.goblinframework.api.system.*
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 

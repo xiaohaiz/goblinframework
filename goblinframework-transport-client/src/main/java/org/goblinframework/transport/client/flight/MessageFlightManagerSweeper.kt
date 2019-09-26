@@ -1,6 +1,6 @@
 package org.goblinframework.transport.client.flight
 
-import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.event.GoblinEventContext
 import org.goblinframework.core.event.MinuteTimerEventListener
 

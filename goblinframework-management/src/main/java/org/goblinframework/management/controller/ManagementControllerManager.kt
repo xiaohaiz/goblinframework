@@ -1,7 +1,7 @@
 package org.goblinframework.management.controller
 
-import org.goblinframework.api.common.Install
-import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.core.Install
+import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.management.IManagementControllerManager
 import java.util.*
 

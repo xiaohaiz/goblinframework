@@ -1,6 +1,6 @@
 package org.goblinframework.core.event
 
-import org.goblinframework.api.common.Singleton
+import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.schedule.CronConstants
 import org.goblinframework.api.schedule.CronTask
