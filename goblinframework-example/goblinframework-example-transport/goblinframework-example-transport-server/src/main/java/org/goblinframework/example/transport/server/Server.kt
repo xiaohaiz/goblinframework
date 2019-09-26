@@ -1,15 +1,15 @@
 package org.goblinframework.example.transport.server
 
+import org.goblinframework.api.container.GoblinSpringContainer
 import org.goblinframework.bootstrap.core.StandaloneServer
 import org.goblinframework.core.container.SpringContainer
-import org.goblinframework.core.container.UseSpringContainer
 import org.goblinframework.core.util.SystemUtils
 import org.goblinframework.transport.server.channel.TransportServerManager
 import org.goblinframework.transport.server.handler.TransportRequestContext
 import org.goblinframework.transport.server.handler.TransportRequestHandler
 import org.goblinframework.transport.server.setting.TransportServerSetting
 
-@UseSpringContainer("/config/goblinframework-example-transport-server.xml")
+@GoblinSpringContainer("/config/goblinframework-example-transport-server.xml")
 class Server : StandaloneServer() {
 
   override fun doService(container: SpringContainer?) {

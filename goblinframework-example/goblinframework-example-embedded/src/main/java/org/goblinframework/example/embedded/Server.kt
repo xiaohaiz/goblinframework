@@ -1,8 +1,8 @@
 package org.goblinframework.example.embedded
 
+import org.goblinframework.api.container.GoblinSpringContainer
 import org.goblinframework.bootstrap.core.StandaloneServer
 import org.goblinframework.core.container.SpringContainer
-import org.goblinframework.core.container.UseSpringContainer
 import org.goblinframework.embedded.core.EmbeddedServerMode
 import org.goblinframework.embedded.core.handler.DispatchServletHandler
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
@@ -12,7 +12,7 @@ import org.goblinframework.embedded.core.setting.ServerSetting
 import org.goblinframework.webmvc.handler.RequestHandlerManagerBuilder
 import org.goblinframework.webmvc.setting.RequestHandlerSetting
 
-@UseSpringContainer("/config/goblin-example-embedded.xml")
+@GoblinSpringContainer("/config/goblin-example-embedded.xml")
 class Server : StandaloneServer() {
 
   override fun doService(container: SpringContainer?) {

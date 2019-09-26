@@ -1,9 +1,9 @@
 package org.goblinframework.example.remote.client
 
 import org.goblinframework.api.common.Block1
+import org.goblinframework.api.container.GoblinSpringContainer
 import org.goblinframework.bootstrap.core.StandaloneClient
 import org.goblinframework.core.container.SpringContainer
-import org.goblinframework.core.container.UseSpringContainer
 import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.example.remote.api.EchoService
 import org.goblinframework.example.remote.api.TimeService
@@ -13,7 +13,7 @@ import org.goblinframework.transport.client.channel.TransportClientManager
 import org.goblinframework.transport.client.flight.MessageFlightManager
 import org.goblinframework.transport.client.setting.TransportClientSetting
 
-@UseSpringContainer("/config/goblinframework-example-remote-client.xml")
+@GoblinSpringContainer("/config/goblinframework-example-remote-client.xml")
 class Client : StandaloneClient() {
 
   override fun doExecute(container: SpringContainer?) {

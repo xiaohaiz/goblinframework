@@ -1,6 +1,6 @@
-package org.goblinframework.core.container
+package org.goblinframework.api.container
 
 @MustBeDocumented
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class UseSpringContainer(vararg val value: String)
+annotation class GoblinSpringContainer(vararg val value: String)
