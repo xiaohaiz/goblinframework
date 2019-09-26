@@ -4,6 +4,7 @@ import org.goblinframework.api.container.GoblinSpringContainer
 import org.goblinframework.bootstrap.core.StandaloneClient
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.util.ThreadUtils
+import org.goblinframework.example.remote.client.service.TimeServiceClient
 
 @GoblinSpringContainer("/config/goblinframework-example-remote-client.xml")
 class Client : StandaloneClient() {
@@ -64,6 +65,13 @@ class Client : StandaloneClient() {
 //    }
 //    TransportClientManager.INSTANCE.closeConnection(setting.name())
 
+    val tsc = container!!.applicationContext.getBean(TimeServiceClient::class.java)
+    val ts = tsc.timeService
+    try {
+      ts.currentTimeMillis()
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
     ThreadUtils.joinCurrentThread()
   }
 }

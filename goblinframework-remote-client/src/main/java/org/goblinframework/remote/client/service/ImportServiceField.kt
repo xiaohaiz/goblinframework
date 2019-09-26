@@ -2,6 +2,7 @@ package org.goblinframework.remote.client.service
 
 import org.goblinframework.api.remote.ImportService
 import org.goblinframework.core.util.GoblinField
+import org.goblinframework.core.util.ReflectionUtils
 import org.goblinframework.remote.core.module.GoblinRemoteException
 import org.goblinframework.remote.core.service.RemoteServiceId
 
@@ -12,13 +13,17 @@ internal constructor(private val bean: Any,
 
   internal fun inject() {
     RemoteClientRegistryManager.INSTANCE.getRegistry() ?: return
-    val id = generateRemoteServiceId()
-
-    RemoteClientManager.INSTANCE.getRemoteClient(id)
+    val serviceId = generateRemoteServiceId()
+    val interceptor = RemoteClientInterceptor(serviceId)
+    val proxy = ReflectionUtils.createProxy(serviceId.interfaceClass, interceptor)
+    field.set(bean, proxy)
   }
 
   private fun generateRemoteServiceId(): RemoteServiceId {
     val interfaceClass = annotation.interfaceClass.javaObjectType
+    if (!interfaceClass.isInterface) {
+      throw GoblinRemoteException()
+    }
     if (interfaceClass !== field.fieldTypeSetterFirst) {
       throw GoblinRemoteException()
     }

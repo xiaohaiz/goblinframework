@@ -59,6 +59,12 @@ internal constructor(private val serviceId: RemoteServiceId)
     }
   }
 
+  fun availableConnections(): List<RemoteConnection> {
+    return lock.read {
+      connections.values.filter { it.transportClient.available() }.toList()
+    }
+  }
+
   override fun disposeBean() {
     listener.dispose()
   }
