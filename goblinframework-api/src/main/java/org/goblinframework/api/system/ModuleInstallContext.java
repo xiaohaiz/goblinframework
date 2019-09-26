@@ -1,5 +1,6 @@
 package org.goblinframework.api.system;
 
+import org.goblinframework.api.common.Block0;
 import org.goblinframework.api.config.ConfigListener;
 import org.goblinframework.api.config.ConfigParser;
 import org.goblinframework.api.container.SpringContainerBeanPostProcessor;
@@ -8,6 +9,8 @@ import org.goblinframework.api.test.TestExecutionListener;
 import org.jetbrains.annotations.NotNull;
 
 public interface ModuleInstallContext extends ModuleContext {
+
+  void registerPriorFinalizationTask(@NotNull Block0 action);
 
   void registerEventChannel(@NotNull String channel, int ringBufferSize, int workerHandlers);
 

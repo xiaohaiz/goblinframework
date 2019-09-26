@@ -1,5 +1,6 @@
 package org.goblinframework.api.system;
 
+import org.goblinframework.api.common.Block0;
 import org.goblinframework.api.common.Internal;
 import org.goblinframework.api.common.Lifecycle;
 import org.jetbrains.annotations.NotNull;
@@ -15,6 +16,8 @@ public interface IGoblinSystemManager extends Lifecycle {
 
   @NotNull
   RuntimeMode runtimeMode();
+
+  void registerPriorFinalizationTask(@NotNull Block0 action);
 
   @NotNull
   static IGoblinSystemManager instance() {

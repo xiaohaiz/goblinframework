@@ -6,12 +6,16 @@ import org.goblinframework.api.system.GoblinModule
 import org.goblinframework.api.system.RuntimeMode
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.container.SpringContainerManager
+import org.goblinframework.core.module.SystemModule
 import org.goblinframework.core.util.ClassUtils
+import org.slf4j.LoggerFactory
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 @GoblinManagedBean(type = "core", name = "GoblinSystem")
-class GoblinSystemImpl internal constructor() : GoblinManagedObject(), GoblinSystemMXBean {
+class GoblinSystemImpl
+internal constructor(private val systemManager: GoblinSystemManager)
+  : GoblinManagedObject(), GoblinSystemMXBean {
 
   internal fun applicationName(): String {
     return ConfigManager.INSTANCE.getApplicationName()
@@ -49,6 +53,16 @@ class GoblinSystemImpl internal constructor() : GoblinManagedObject(), GoblinSys
 
   override fun disposeBean() {
     logger.info("Shutdown GOBLIN system")
+
+    systemManager.priorFinalizationTasks.forEach {
+      try {
+        it.apply()
+      } catch (ex: Exception) {
+        val logger = LoggerFactory.getLogger(SystemModule::class.java)
+        logger.error("Exception raised when executing PriorFinalizationTask: $it")
+      }
+    }
+
     // Close spring container
     SpringContainerManager.INSTANCE.dispose()
 

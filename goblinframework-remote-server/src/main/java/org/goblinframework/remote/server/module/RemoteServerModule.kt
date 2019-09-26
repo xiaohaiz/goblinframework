@@ -21,6 +21,7 @@ class RemoteServerModule : ISubModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
+    ctx.registerPriorFinalizationTask { RemoteServiceManager.INSTANCE.unregisterAll() }
     ctx.registerEventChannel("/goblin/remote/server", 32768, 0)
     ctx.subscribeEventListener(ExposeSpringContainer.INSTANCE)
     ctx.subscribeEventListener(RemoteServerEventListener.INSTANCE)

@@ -1,5 +1,6 @@
 package org.goblinframework.core.system
 
+import org.goblinframework.api.common.Block0
 import org.goblinframework.api.common.Install
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.service.GoblinManagedBean
@@ -21,11 +22,12 @@ class GoblinSystemManager private constructor()
 
   private val applicationId = RandomUtils.nextObjectId()
   private val running = AtomicReference<GoblinSystemImpl>()
+  internal val priorFinalizationTasks = mutableListOf<Block0>()
 
   @Synchronized
   override fun start() {
     if (running.get() == null) {
-      val gs = GoblinSystemImpl()
+      val gs = GoblinSystemImpl(this)
       gs.initialize()
       running.set(gs)
     }
@@ -50,6 +52,10 @@ class GoblinSystemManager private constructor()
 
   override fun runtimeMode(): RuntimeMode {
     return running.get()?.runtimeMode() ?: throw GoblinSystemException("GOBLIN system not started")
+  }
+
+  override fun registerPriorFinalizationTask(action: Block0) {
+    priorFinalizationTasks.add(action)
   }
 
   @Install
