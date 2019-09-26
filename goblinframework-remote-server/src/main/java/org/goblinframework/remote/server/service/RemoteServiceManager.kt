@@ -6,14 +6,13 @@ import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.core.exception.GoblinDuplicateException
-import org.goblinframework.remote.server.expose.ExposeServiceId
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 @Singleton
 @ThreadSafe
-@GoblinManagedBean(type = "remote.server")
+@GoblinManagedBean(type = "RemoteServer")
 class RemoteServiceManager private constructor()
   : GoblinManagedObject(), RemoteServiceManagerMXBean {
 
@@ -24,8 +23,28 @@ class RemoteServiceManager private constructor()
   private val lock = ReentrantReadWriteLock()
   private val services = mutableMapOf<ExposeServiceId, RemoteService>()
 
-  fun createService(cmb: ContainerManagedBean, ids: List<ExposeServiceId>) {
+  fun createStaticService(bean: Any, ids: List<ExposeServiceId>) {
+    lock.write {
+      for (id in ids) {
+        services[id]?.run {
+          throw GoblinDuplicateException("Duplicated expose service id: $id")
+        }
+        val service = StaticRemoteService(id, bean)
+        services[id] = service
+      }
+    }
+  }
 
+  fun createManagedService(cmb: ContainerManagedBean, ids: List<ExposeServiceId>) {
+    lock.write {
+      for (id in ids) {
+        services[id]?.run {
+          throw GoblinDuplicateException("Duplicated expose service id: $id")
+        }
+        val service = ManagedRemoteService(id, cmb)
+        services[id] = service
+      }
+    }
   }
 
   fun register(service: RemoteService) {

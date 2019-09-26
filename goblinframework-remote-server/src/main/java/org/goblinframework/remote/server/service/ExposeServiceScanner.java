@@ -2,8 +2,6 @@ package org.goblinframework.remote.server.service;
 
 import org.goblinframework.api.common.GoblinInterruptedException;
 import org.goblinframework.core.container.ContainerManagedBean;
-import org.goblinframework.remote.server.expose.ExposeServiceId;
-import org.goblinframework.remote.server.expose.ExposeServiceIdGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 
@@ -32,7 +30,7 @@ final public class ExposeServiceScanner {
       executorService.submit(() -> {
         try {
           ContainerManagedBean cmb = new ContainerManagedBean(beanName, applicationContext);
-          RemoteServiceManager.INSTANCE.createService(cmb, ids);
+          RemoteServiceManager.INSTANCE.createManagedService(cmb, ids);
         } finally {
           semaphore.release();
         }

@@ -1,4 +1,4 @@
-package org.goblinframework.remote.server.expose;
+package org.goblinframework.remote.server.service;
 
 import org.goblinframework.api.remote.ExposeService;
 import org.goblinframework.api.remote.ExposeServices;

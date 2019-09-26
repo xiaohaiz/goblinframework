@@ -1,4 +1,4 @@
-package org.goblinframework.remote.server.expose
+package org.goblinframework.remote.server.service
 
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.event.GoblinEventChannel
@@ -20,6 +20,6 @@ class ExposeSpringContainer private constructor() : GoblinEventListener {
 
   override fun onEvent(context: GoblinEventContext) {
     val event = context.event as ContainerRefreshedEvent
-    ExposeServiceScanner.expose(event.applicationContext)
+    ExposeServiceScanner.scan(event.applicationContext)
   }
 }

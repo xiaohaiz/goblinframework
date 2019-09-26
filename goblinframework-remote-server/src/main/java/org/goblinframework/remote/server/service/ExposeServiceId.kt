@@ -1,4 +1,4 @@
-package org.goblinframework.remote.server.expose
+package org.goblinframework.remote.server.service
 
 data class ExposeServiceId(val interfaceClass: Class<*>,
                            val group: String,
