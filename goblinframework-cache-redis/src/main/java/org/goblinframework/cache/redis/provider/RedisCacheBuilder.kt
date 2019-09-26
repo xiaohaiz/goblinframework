@@ -1,19 +1,12 @@
 package org.goblinframework.cache.redis.provider
 
-import org.goblinframework.api.common.Singleton
-import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.CacheBuilder
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
-import org.goblinframework.cache.core.cache.CacheBuilderMXBean
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.cache.redis.client.RedisClientManager
 
 @Singleton
-@ThreadSafe
-@GoblinManagedBean(type = "cache.redis")
-class RedisCacheBuilder private constructor()
-  : GoblinManagedObject(), CacheBuilder, CacheBuilderMXBean {
+class RedisCacheBuilder private constructor() : CacheBuilder {
 
   companion object {
     @JvmField val INSTANCE = RedisCacheBuilder()
