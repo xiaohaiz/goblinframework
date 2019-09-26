@@ -37,5 +37,6 @@ class RemoteServerModule : ISubModule {
   override fun finalize(ctx: ModuleFinalizeContext) {
     RemoteServiceManager.INSTANCE.dispose()
     RemoteServerManager.INSTANCE.dispose()
+    RemoteServerConfigManager.INSTANCE.dispose()
   }
 }
