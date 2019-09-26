@@ -180,7 +180,7 @@ abstract public class TranscoderUtils {
       dr.result = serializer.deserialize(nextInStream);
     }
     if (dr.result instanceof ByteArrayWrapper) {
-      dr.result = ((ByteArrayWrapper) dr.result).getContent();
+      dr.result = ((ByteArrayWrapper) dr.result).getValue();
       dr.wrapper = true;
     }
     return dr;
