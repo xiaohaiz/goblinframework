@@ -36,4 +36,8 @@ class RemoteServiceRegistryManager private constructor()
   override fun disposeBean() {
     watchdog.getAndSet(null)?.dispose()
   }
+
+  fun register() {}
+
+  fun unregister() {}
 }

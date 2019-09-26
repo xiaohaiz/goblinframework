@@ -4,6 +4,7 @@ import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.remote.server.expose.ExposeServiceId
 import java.util.concurrent.locks.ReentrantReadWriteLock
@@ -22,6 +23,10 @@ class RemoteServiceManager private constructor()
 
   private val lock = ReentrantReadWriteLock()
   private val services = mutableMapOf<ExposeServiceId, RemoteService>()
+
+  fun createService(cmb: ContainerManagedBean, ids: List<ExposeServiceId>) {
+
+  }
 
   fun register(service: RemoteService) {
     val id = service.id()
