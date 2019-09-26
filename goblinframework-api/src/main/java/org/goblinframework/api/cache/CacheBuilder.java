@@ -5,6 +5,9 @@ import org.jetbrains.annotations.Nullable;
 
 public interface CacheBuilder {
 
+  @NotNull
+  CacheSystem system();
+
   @Nullable
   Cache cache(@NotNull String name);
 

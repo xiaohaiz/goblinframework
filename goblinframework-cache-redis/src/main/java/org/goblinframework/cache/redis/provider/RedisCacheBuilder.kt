@@ -2,6 +2,7 @@ package org.goblinframework.cache.redis.provider
 
 import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.CacheBuilder
+import org.goblinframework.api.cache.CacheSystem
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.cache.redis.client.RedisClientManager
 
@@ -10,6 +11,10 @@ class RedisCacheBuilder private constructor() : CacheBuilder {
 
   companion object {
     @JvmField val INSTANCE = RedisCacheBuilder()
+  }
+
+  override fun system(): CacheSystem {
+    return CacheSystem.RDS
   }
 
   override fun cache(name: String): Cache? {

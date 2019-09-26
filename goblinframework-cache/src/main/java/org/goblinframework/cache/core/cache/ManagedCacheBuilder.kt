@@ -3,10 +3,10 @@ package org.goblinframework.cache.core.cache
 import org.apache.commons.lang3.mutable.MutableObject
 import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.CacheBuilder
+import org.goblinframework.api.cache.CacheSystem
 import org.goblinframework.api.common.ThreadSafe
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
-import org.goblinframework.cache.core.provider.NoOpCacheBuilder
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
@@ -20,8 +20,13 @@ internal constructor(private val delegator: CacheBuilder)
   private val lock = ReentrantLock()
   private val buffer = ConcurrentHashMap<String, MutableObject<ManagedCache?>>()
 
+  override fun system(): CacheSystem {
+    return delegator.system()
+  }
+
   override fun cache(name: String): Cache? {
-    if (delegator is NoOpCacheBuilder) {
+    if (system() === CacheSystem.NOP) {
+      // Bypass local buffer in case of system is NOP
       return delegator.cache(name)
     }
     buffer[name]?.let { return it.value }
