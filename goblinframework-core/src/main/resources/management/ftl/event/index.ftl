@@ -56,7 +56,7 @@
         <table class="table table-bordered table-condensed table-striped">
           <thead>
           <tr class="info">
-            <td colspan="10"><strong>Event bus worker(s)</strong></td>
+            <td colspan="11"><strong>Event bus worker(s)</strong></td>
           </tr>
           </thead>
           <tbody>
@@ -71,6 +71,7 @@
             <td><strong>received</strong></td>
             <td><strong>succeed</strong></td>
             <td><strong>failed</strong></td>
+            <td><strong>detail</strong></td>
           </tr>
           <#list eventBusBossMXBean.eventBusWorkerList as worker>
             <tr>
@@ -84,6 +85,17 @@
               <td>${worker.receivedCount}</td>
               <td>${worker.succeedCount}</td>
               <td>${worker.failedCount}</td>
+              <td>
+                  <#if worker.eventListenerList?has_content>
+                    <a class="btn btn-default" href="/goblin/event/channel.do?channel=${worker.channel}"
+                       role="button"><span class="glyphicon glyphicon-eye-open"></span></a>
+                  <#else>
+                    <a href="?">
+                      <button type="button" class="btn btn-default" disabled="disabled"><span
+                                class="glyphicon glyphicon-eye-open"></span></button>
+                    </a>
+                  </#if>
+              </td>
             </tr>
           </#list>
           </tbody>
