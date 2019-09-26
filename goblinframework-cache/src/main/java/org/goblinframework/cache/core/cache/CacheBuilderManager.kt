@@ -21,7 +21,8 @@ class CacheBuilderManager private constructor()
   private val buffer = ConcurrentHashMap<CacheSystem, ManagedCacheBuilder>()
 
   @Synchronized
-  fun register(system: CacheSystem, builder: CacheBuilder) {
+  fun register(builder: CacheBuilder) {
+    val system = builder.system()
     buffer[system]?.run {
       throw GoblinCacheException("Cache system $system already exists")
     }

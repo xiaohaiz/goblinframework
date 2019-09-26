@@ -1,6 +1,5 @@
 package org.goblinframework.cache.redis.module
 
-import org.goblinframework.api.cache.CacheSystem
 import org.goblinframework.api.common.Install
 import org.goblinframework.api.system.*
 import org.goblinframework.cache.core.module.CacheModule
@@ -17,7 +16,7 @@ class CacheRedisModule : ISubModule {
 
   override fun install(ctx: ModuleInstallContext) {
     val parent = ctx.getExtension(CacheModule::class.java)
-    parent?.registerCacheBuilder(CacheSystem.RDS, RedisCacheBuilder.INSTANCE)
+    parent?.registerCacheBuilder(RedisCacheBuilder.INSTANCE)
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
