@@ -25,6 +25,14 @@ public class RemoteClientInterceptor implements MethodInterceptor {
     if (ReflectionUtils.isToStringMethod(method)) {
       return "RemoteClientInterceptor(" + serviceId + ")";
     }
+
+    if (method.isDefault()) {
+//      MethodHandles.lookup()
+//          .in(method.getDeclaringClass())
+//          .unreflectSpecial(method, method.getDeclaringClass())
+//          .bindTo()
+    }
+
     RemoteClientManager clientManager = RemoteClientManager.INSTANCE;
     RemoteClient client = clientManager.getRemoteClient(serviceId);
     client.getClientFuture().awaitUninterruptibly();
