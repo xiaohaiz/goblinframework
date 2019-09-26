@@ -12,12 +12,12 @@ import org.springframework.test.context.ContextConfiguration
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-@FlushCache(system = CacheSystem.JVM)
+@FlushCache(system = CacheSystem.JVM, name = "_ut")
 class InJvmCacheTest {
 
   @Test
   fun get() {
-    val cache = CacheSystem.JVM.defaultCache()!!
+    val cache = CacheSystem.JVM.cache("_u")!!
     val key = RandomUtils.nextObjectId()
     cache.add(key, 5, ObjectId())
 
@@ -28,7 +28,7 @@ class InJvmCacheTest {
 
   @Test
   fun append() {
-    val cache = CacheSystem.JVM.defaultCache()!!
+    val cache = CacheSystem.JVM.cache("_u")!!
     val key = RandomUtils.nextObjectId()
     cache.add(key, 5, "HELLO")
     val ret = cache.append(key, " WORLD")

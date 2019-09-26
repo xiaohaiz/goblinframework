@@ -22,12 +22,12 @@ import static org.junit.Assert.*;
 
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
-@FlushCache(system = CacheSystem.JVM)
+@FlushCache(system = CacheSystem.JVM, name = "_ut")
 public class GoblinCachedStaticPersistenceTest {
 
   @Repository
   @GoblinDatabaseConnection(name = "_ut")
-  @GoblinCacheBean(type = GoblinStaticPersistenceTest.MockData.class, system = CacheSystem.JVM, name = "JVM")
+  @GoblinCacheBean(type = GoblinStaticPersistenceTest.MockData.class, system = CacheSystem.JVM, name = "_ut")
   @GoblinCacheDimension(dimension = GoblinCacheDimension.Dimension.ID_AND_OTHER_FIELDS)
   public static class MockDataPersistence extends GoblinCachedStaticPersistence<GoblinStaticPersistenceTest.MockData, Long> {
 

@@ -20,9 +20,4 @@ public enum CacheSystem {
     CacheBuilder builder = cacheBuilder();
     return builder == null ? null : builder.cache(name);
   }
-
-  @Nullable
-  public Cache defaultCache() {
-    return cache("$" + this.name());
-  }
 }

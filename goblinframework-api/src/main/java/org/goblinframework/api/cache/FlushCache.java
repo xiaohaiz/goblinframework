@@ -9,6 +9,6 @@ public @interface FlushCache {
 
   CacheSystem system();
 
-  String name() default "";
+  String name();
 
 }

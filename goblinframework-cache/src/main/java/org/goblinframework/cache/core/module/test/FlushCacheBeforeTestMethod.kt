@@ -1,8 +1,8 @@
 package org.goblinframework.cache.core.module.test
 
-import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.cache.FlushCache
 import org.goblinframework.api.cache.FlushCaches
+import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.test.TestContext
 import org.goblinframework.api.test.TestExecutionListener
 import org.goblinframework.cache.core.cache.CacheBuilderManager
@@ -19,14 +19,8 @@ class FlushCacheBeforeTestMethod private constructor() : TestExecutionListener {
     annotations.forEach {
       val system = it.system
       var caches = CacheBuilderManager.INSTANCE.asCacheList(system)
-      if (!it.name.isBlank()) {
-        val name = it.name.trim()
-        caches = caches.filter { c -> c.cacheName() == name }.toList()
-      } else {
-        system.defaultCache()?.run {
-          caches = listOf(this)
-        }
-      }
+      val name = it.name.trim()
+      caches = caches.filter { c -> c.cacheName() == name }.toList()
       caches.forEach { c -> c.flush() }
     }
   }
