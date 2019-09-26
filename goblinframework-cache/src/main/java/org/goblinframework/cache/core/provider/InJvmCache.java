@@ -1,10 +1,9 @@
 package org.goblinframework.cache.core.provider;
 
 import org.apache.commons.collections4.map.LRUMap;
-import org.goblinframework.api.common.Singleton;
-import org.goblinframework.api.common.ThreadSafe;
 import org.goblinframework.api.cache.*;
 import org.goblinframework.api.common.Disposable;
+import org.goblinframework.api.common.ThreadSafe;
 import org.goblinframework.cache.core.cache.AbstractCache;
 import org.goblinframework.cache.core.module.monitor.VMC;
 import org.jetbrains.annotations.NotNull;
@@ -15,18 +14,15 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-@Singleton
 @ThreadSafe
 final public class InJvmCache extends AbstractCache implements Disposable {
-
-  public static final InJvmCache INSTANCE = new InJvmCache();
 
   private final Timer watchdogTimer;
   private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
   private final LRUMap<String, CacheItem> buffer = new LRUMap<>(65536);
 
-  private InJvmCache() {
-    super(new CacheLocation(CacheSystem.JVM, "$JVM"));
+  InJvmCache(@NotNull String name) {
+    super(new CacheLocation(CacheSystem.JVM, name));
     watchdogTimer = new Timer("InJvmCacheWatchdogTimer", true);
     watchdogTimer.scheduleAtFixedRate(new TimerTask() {
       @Override

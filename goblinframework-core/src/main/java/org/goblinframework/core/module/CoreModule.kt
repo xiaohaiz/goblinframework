@@ -6,6 +6,7 @@ import org.goblinframework.api.system.IModule
 import org.goblinframework.api.system.ModuleFinalizeContext
 import org.goblinframework.api.system.ModuleInstallContext
 import org.goblinframework.core.compression.CompressorManager
+import org.goblinframework.core.container.ContainerRefreshedEventListener
 import org.goblinframework.core.module.management.CoreManagement
 import org.goblinframework.core.serialization.SerializerManager
 
@@ -21,6 +22,7 @@ class CoreModule : IModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
+    ctx.subscribeEventListener(ContainerRefreshedEventListener.INSTANCE)
     ctx.registerManagementController(CoreManagement.INSTANCE)
   }
 
