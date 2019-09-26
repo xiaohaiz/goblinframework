@@ -2,13 +2,9 @@ package org.goblinframework.core.event
 
 import java.lang.management.PlatformManagedObject
 
-interface GoblinEventListenerMXBean : PlatformManagedObject {
+interface GoblinEventCountMXBean : PlatformManagedObject {
 
-  fun getId(): String
-
-  fun getUpTime(): String
-
-  fun getListener(): String
+  fun getEvent(): String
 
   fun getAcceptedCount(): Long
 
@@ -17,6 +13,4 @@ interface GoblinEventListenerMXBean : PlatformManagedObject {
   fun getSucceedCount(): Long
 
   fun getFailedCount(): Long
-
-  fun getEventCountList(): Array<GoblinEventCountMXBean>
 }
