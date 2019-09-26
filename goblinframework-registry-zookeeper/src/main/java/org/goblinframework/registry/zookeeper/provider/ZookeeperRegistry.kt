@@ -21,6 +21,10 @@ internal constructor(private val client: ZookeeperClient)
   private val stateListenerLock = ReentrantLock()
   private val stateListeners = IdentityHashMap<RegistryStateListener, ZookeeperStateListener>()
 
+  override fun exists(path: String): Boolean {
+    return client.nativeClient().exists(path)
+  }
+
   override fun getChildren(path: String): List<String> {
     return try {
       client.nativeClient().getChildren(path)

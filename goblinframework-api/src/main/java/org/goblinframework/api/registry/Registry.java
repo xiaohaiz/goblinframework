@@ -20,6 +20,8 @@ public interface Registry {
     return location().name;
   }
 
+  boolean exists(@NotNull String path);
+
   @NotNull
   List<String> getChildren(@NotNull String path);
 
