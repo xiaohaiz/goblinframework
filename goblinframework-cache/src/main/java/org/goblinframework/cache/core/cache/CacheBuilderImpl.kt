@@ -12,13 +12,13 @@ import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
 @ThreadSafe
-@GoblinManagedBean(type = "cache")
-class ManagedCacheBuilder
+@GoblinManagedBean(type = "Cache")
+class CacheBuilderImpl
 internal constructor(private val delegator: CacheBuilder)
   : GoblinManagedObject(), CacheBuilderMXBean, CacheBuilder {
 
   private val lock = ReentrantLock()
-  private val buffer = ConcurrentHashMap<String, MutableObject<ManagedCache?>>()
+  private val buffer = ConcurrentHashMap<String, MutableObject<CacheImpl?>>()
 
   override fun system(): CacheSystem {
     return delegator.system()
@@ -32,13 +32,13 @@ internal constructor(private val delegator: CacheBuilder)
     buffer[name]?.let { return it.value }
     return lock.withLock {
       buffer[name]?.let { return it.value }
-      val cache = delegator.cache(name)?.let { ManagedCache(it) }
+      val cache = delegator.cache(name)?.let { CacheImpl(it) }
       buffer[name] = MutableObject(cache)
       cache
     }
   }
 
-  internal fun asList(): List<ManagedCache> {
+  internal fun asList(): List<CacheImpl> {
     return buffer.values.mapNotNull { it.value }.toList()
   }
 
@@ -47,5 +47,22 @@ internal constructor(private val delegator: CacheBuilder)
       buffer.values.mapNotNull { it.value }.forEach { it.dispose() }
       buffer.clear()
     }
+  }
+
+  override fun getCacheSystem(): CacheSystem {
+    return system()
+  }
+
+  override fun getCacheList(): Array<CacheMXBean> {
+    return buffer.values
+        .mapNotNull { it.value }
+        .sortedWith(object : Comparator<CacheMXBean> {
+          override fun compare(o1: CacheMXBean, o2: CacheMXBean): Int {
+            val ret = o1.getCacheSystem().compareTo(o2.getCacheSystem())
+            if (ret != 0) return ret
+            return o1.getCacheName().compareTo(o2.getCacheName())
+          }
+        })
+        .toTypedArray()
   }
 }

@@ -18,7 +18,7 @@ class CacheBuilderManager private constructor()
     @JvmField val INSTANCE = CacheBuilderManager()
   }
 
-  private val buffer = ConcurrentHashMap<CacheSystem, ManagedCacheBuilder>()
+  private val buffer = ConcurrentHashMap<CacheSystem, CacheBuilderImpl>()
 
   @Synchronized
   fun register(builder: CacheBuilder) {
@@ -26,7 +26,7 @@ class CacheBuilderManager private constructor()
     buffer[system]?.run {
       throw GoblinCacheException("Cache system $system already exists")
     }
-    buffer[system] = ManagedCacheBuilder(builder)
+    buffer[system] = CacheBuilderImpl(builder)
   }
 
   override fun cacheBuilder(system: CacheSystem): CacheBuilder? {
