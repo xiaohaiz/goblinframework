@@ -5,6 +5,7 @@ import org.goblinframework.api.container.GoblinSpringContainer
 import org.goblinframework.bootstrap.core.StandaloneClient
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.util.NetworkUtils
+import org.goblinframework.core.util.ThreadUtils
 import org.goblinframework.example.remote.api.EchoService
 import org.goblinframework.example.remote.api.TimeService
 import org.goblinframework.remote.core.protocol.RemoteRequest
@@ -71,6 +72,8 @@ class Client : StandaloneClient() {
       println("==================================")
     }
     TransportClientManager.INSTANCE.closeConnection(setting.name())
+
+    ThreadUtils.joinCurrentThread()
   }
 }
 

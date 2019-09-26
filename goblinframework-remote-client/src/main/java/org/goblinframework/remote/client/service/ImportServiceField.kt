@@ -14,6 +14,7 @@ internal constructor(private val bean: Any,
     RemoteClientRegistryManager.INSTANCE.getRegistry() ?: return
     val id = generateRemoteServiceId()
 
+    RemoteClientManager.INSTANCE.getRemoteClient(id)
   }
 
   private fun generateRemoteServiceId(): RemoteServiceId {
