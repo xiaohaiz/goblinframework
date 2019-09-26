@@ -1,4 +1,4 @@
-package org.goblinframework.api.common;
+package org.goblinframework.api.core;
 
 public interface Block3<T1, T2, T3> {
 

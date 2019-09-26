@@ -1,7 +1,7 @@
 package org.goblinframework.api.system;
 
-import org.goblinframework.api.common.External;
-import org.goblinframework.api.common.Ordered;
+import org.goblinframework.api.core.External;
+import org.goblinframework.api.core.Ordered;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

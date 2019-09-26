@@ -1,6 +1,6 @@
 package org.goblinframework.example.remote.server.service
 
-import org.goblinframework.api.common.GoblinFuture
+import org.goblinframework.api.core.GoblinFuture
 import org.goblinframework.api.remote.ExposeService
 import org.goblinframework.api.remote.ExposeServices
 import org.goblinframework.api.remote.ServiceVersion

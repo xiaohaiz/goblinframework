@@ -1,4 +1,4 @@
-package org.goblinframework.api.common;
+package org.goblinframework.api.core;
 
 public class GoblinException extends RuntimeException {
   private static final long serialVersionUID = 613633310479569231L;

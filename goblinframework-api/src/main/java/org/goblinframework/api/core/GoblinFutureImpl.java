@@ -1,4 +1,4 @@
-package org.goblinframework.api.common;
+package org.goblinframework.api.core;
 
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;

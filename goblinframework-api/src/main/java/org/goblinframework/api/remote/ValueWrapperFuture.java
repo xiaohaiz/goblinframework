@@ -1,7 +1,7 @@
 package org.goblinframework.api.remote;
 
-import org.goblinframework.api.common.GoblinFuture;
-import org.goblinframework.api.common.GoblinFutureListener;
+import org.goblinframework.api.core.GoblinFuture;
+import org.goblinframework.api.core.GoblinFutureListener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

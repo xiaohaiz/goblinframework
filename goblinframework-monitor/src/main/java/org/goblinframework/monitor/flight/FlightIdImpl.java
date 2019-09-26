@@ -1,6 +1,6 @@
 package org.goblinframework.monitor.flight;
 
-import org.goblinframework.api.common.ReferenceCount;
+import org.goblinframework.api.core.ReferenceCount;
 import org.goblinframework.api.monitor.FlightId;
 import org.goblinframework.core.util.RandomUtils;
 import org.jetbrains.annotations.NotNull;

@@ -1,6 +1,6 @@
 package org.goblinframework.api.event;
 
-import org.goblinframework.api.common.GoblinException;
+import org.goblinframework.api.core.GoblinException;
 import org.jetbrains.annotations.NotNull;
 
 public class GoblinCallbackException extends GoblinException {

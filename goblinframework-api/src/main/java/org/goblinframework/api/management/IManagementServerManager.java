@@ -1,7 +1,7 @@
 package org.goblinframework.api.management;
 
-import org.goblinframework.api.common.Internal;
-import org.goblinframework.api.common.Lifecycle;
+import org.goblinframework.api.core.Internal;
+import org.goblinframework.api.core.Lifecycle;
 import org.jetbrains.annotations.Nullable;
 
 @Internal(uniqueInstance = true)

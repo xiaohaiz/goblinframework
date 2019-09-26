@@ -1,11 +1,11 @@
 package org.goblinframework.core.system
 
-import org.goblinframework.api.common.Block0
 import org.goblinframework.api.config.ConfigListener
 import org.goblinframework.api.config.ConfigParser
 import org.goblinframework.api.config.IConfigManager
 import org.goblinframework.api.container.ISpringContainerManager
 import org.goblinframework.api.container.SpringContainerBeanPostProcessor
+import org.goblinframework.api.core.Block0
 import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.event.GoblinEventListener

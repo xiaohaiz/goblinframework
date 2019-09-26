@@ -1,7 +1,7 @@
 package org.goblinframework.registry.core.manager;
 
-import org.goblinframework.api.common.Block1;
-import org.goblinframework.api.common.TimeAndUnit;
+import org.goblinframework.api.core.Block1;
+import org.goblinframework.api.core.TimeAndUnit;
 import org.goblinframework.api.event.EventBus;
 import org.goblinframework.api.event.GoblinEventContext;
 import org.goblinframework.api.registry.GoblinRegistryException;

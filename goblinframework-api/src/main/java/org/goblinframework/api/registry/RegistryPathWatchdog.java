@@ -1,7 +1,7 @@
 package org.goblinframework.api.registry;
 
-import org.goblinframework.api.common.Disposable;
-import org.goblinframework.api.common.Initializable;
+import org.goblinframework.api.core.Disposable;
+import org.goblinframework.api.core.Initializable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

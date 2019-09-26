@@ -1,6 +1,6 @@
 package org.goblinframework.transport.core.protocol;
 
-import org.goblinframework.api.common.GoblinException;
+import org.goblinframework.api.core.GoblinException;
 
 import java.util.Objects;
 

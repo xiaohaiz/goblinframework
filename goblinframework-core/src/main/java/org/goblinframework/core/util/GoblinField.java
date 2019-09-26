@@ -1,6 +1,6 @@
 package org.goblinframework.core.util;
 
-import org.goblinframework.api.common.GoblinException;
+import org.goblinframework.api.core.GoblinException;
 import org.goblinframework.core.conversion.ConversionService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

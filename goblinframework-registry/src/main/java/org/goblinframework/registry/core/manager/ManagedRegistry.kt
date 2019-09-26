@@ -1,6 +1,6 @@
 package org.goblinframework.registry.core.manager
 
-import org.goblinframework.api.common.Disposable
+import org.goblinframework.api.core.Disposable
 import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.api.registry.Registry

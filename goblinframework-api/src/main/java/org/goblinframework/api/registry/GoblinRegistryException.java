@@ -1,6 +1,6 @@
 package org.goblinframework.api.registry;
 
-import org.goblinframework.api.common.GoblinException;
+import org.goblinframework.api.core.GoblinException;
 
 public class GoblinRegistryException extends GoblinException {
   private static final long serialVersionUID = 1643837809853171010L;

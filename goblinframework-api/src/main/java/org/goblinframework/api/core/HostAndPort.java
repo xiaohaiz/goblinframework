@@ -1,6 +1,5 @@
-package org.goblinframework.api.common;
+package org.goblinframework.api.core;
 
-import org.goblinframework.api.core.HashSafe;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;

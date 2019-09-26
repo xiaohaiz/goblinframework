@@ -1,6 +1,6 @@
 package org.goblinframework.api.monitor;
 
-import org.goblinframework.api.common.Lifecycle;
+import org.goblinframework.api.core.Lifecycle;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;

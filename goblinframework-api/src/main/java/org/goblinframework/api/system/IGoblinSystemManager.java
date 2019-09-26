@@ -1,8 +1,8 @@
 package org.goblinframework.api.system;
 
-import org.goblinframework.api.common.Block0;
-import org.goblinframework.api.common.Internal;
-import org.goblinframework.api.common.Lifecycle;
+import org.goblinframework.api.core.Block0;
+import org.goblinframework.api.core.Internal;
+import org.goblinframework.api.core.Lifecycle;
 import org.jetbrains.annotations.NotNull;
 
 @Internal(installRequired = true, uniqueInstance = true)

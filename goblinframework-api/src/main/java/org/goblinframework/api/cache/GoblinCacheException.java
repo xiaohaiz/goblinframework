@@ -1,6 +1,6 @@
 package org.goblinframework.api.cache;
 
-import org.goblinframework.api.common.GoblinException;
+import org.goblinframework.api.core.GoblinException;
 
 public class GoblinCacheException extends GoblinException {
   private static final long serialVersionUID = -4783276769169355827L;

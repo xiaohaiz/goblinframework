@@ -1,6 +1,6 @@
 package org.goblinframework.api.schedule;
 
-import org.goblinframework.api.common.Internal;
+import org.goblinframework.api.core.Internal;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

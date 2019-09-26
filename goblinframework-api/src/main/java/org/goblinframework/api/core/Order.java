@@ -1,4 +1,4 @@
-package org.goblinframework.api.common;
+package org.goblinframework.api.core;
 
 import java.io.Serializable;
 import java.util.Objects;

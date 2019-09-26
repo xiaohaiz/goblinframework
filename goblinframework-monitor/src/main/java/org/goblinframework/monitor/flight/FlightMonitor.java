@@ -1,7 +1,7 @@
 package org.goblinframework.monitor.flight;
 
-import org.goblinframework.api.common.Ordered;
 import org.goblinframework.api.core.Install;
+import org.goblinframework.api.core.Ordered;
 import org.goblinframework.api.core.Singleton;
 import org.goblinframework.api.event.EventBus;
 import org.goblinframework.api.monitor.FlightLocation;

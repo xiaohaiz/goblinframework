@@ -1,8 +1,8 @@
 package org.goblinframework.remote.client.connection
 
-import org.goblinframework.api.common.ReferenceCount
 import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.api.core.ReferenceCount
 import org.goblinframework.transport.client.channel.TransportClient
 import org.goblinframework.transport.client.channel.TransportClientManager
 import org.goblinframework.transport.client.setting.TransportClientSetting

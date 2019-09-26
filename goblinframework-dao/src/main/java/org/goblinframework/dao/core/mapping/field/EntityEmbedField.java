@@ -1,6 +1,6 @@
 package org.goblinframework.dao.core.mapping.field;
 
-import org.goblinframework.api.common.GoblinException;
+import org.goblinframework.api.core.GoblinException;
 import org.goblinframework.core.util.GoblinField;
 import org.goblinframework.dao.core.mapping.EntityField;
 import org.goblinframework.dao.core.mapping.EntityFieldNameResolver;

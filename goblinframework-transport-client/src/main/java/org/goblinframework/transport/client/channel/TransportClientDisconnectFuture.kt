@@ -1,6 +1,6 @@
 package org.goblinframework.transport.client.channel
 
-import org.goblinframework.api.common.GoblinFutureImpl
+import org.goblinframework.api.core.GoblinFutureImpl
 
 class TransportClientDisconnectFuture(clientManager: TransportClientManager) : GoblinFutureImpl<TransportClient>() {
 

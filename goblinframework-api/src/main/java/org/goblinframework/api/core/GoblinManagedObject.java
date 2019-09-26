@@ -1,7 +1,5 @@
 package org.goblinframework.api.core;
 
-import org.goblinframework.api.common.Disposable;
-import org.goblinframework.api.common.Initializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

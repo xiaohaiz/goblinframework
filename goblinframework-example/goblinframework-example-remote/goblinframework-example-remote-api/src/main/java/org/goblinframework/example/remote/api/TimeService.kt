@@ -1,6 +1,6 @@
 package org.goblinframework.example.remote.api
 
-import org.goblinframework.api.common.GoblinFuture
+import org.goblinframework.api.core.GoblinFuture
 import java.util.*
 
 interface TimeService {

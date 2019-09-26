@@ -1,7 +1,7 @@
 package org.goblinframework.api.event
 
-import org.goblinframework.api.common.GoblinFutureImpl
-import org.goblinframework.api.common.GoblinFutureResult
+import org.goblinframework.api.core.GoblinFutureImpl
+import org.goblinframework.api.core.GoblinFutureResult
 
 class GoblinEventFuture : GoblinFutureImpl<GoblinEventContext>() {
 

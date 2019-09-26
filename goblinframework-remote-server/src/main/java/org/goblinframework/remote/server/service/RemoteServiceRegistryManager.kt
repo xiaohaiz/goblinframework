@@ -1,8 +1,8 @@
 package org.goblinframework.remote.server.service
 
-import org.goblinframework.api.common.HostAndPort
 import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.api.core.HostAndPort
 import org.goblinframework.api.registry.Registry
 import org.goblinframework.api.registry.RegistryPathWatchdog
 import org.goblinframework.api.system.GoblinSystem
