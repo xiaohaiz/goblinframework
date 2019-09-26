@@ -8,6 +8,8 @@ import org.goblinframework.api.registry.RegistryPathWatchdog;
 import org.goblinframework.core.event.SecondTimerEventListener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +20,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 final public class RegistryPathWatchdogImpl implements RegistryPathWatchdog {
+  private static final Logger logger = LoggerFactory.getLogger(RegistryPathWatchdogImpl.class);
 
   @NotNull private final Registry registry;
   private final AtomicReference<TimeAndUnit> period = new AtomicReference<>();
@@ -66,6 +69,7 @@ final public class RegistryPathWatchdogImpl implements RegistryPathWatchdog {
     if (removed != null) {
       try {
         registry.delete(path);
+        logger.debug("Deleted: {}", path);
       } catch (Exception ignore) {
       }
     }
@@ -125,6 +129,7 @@ final public class RegistryPathWatchdogImpl implements RegistryPathWatchdog {
           String path = e.path;
           try {
             registry.delete(path);
+            logger.debug("Deleted: {}", path);
           } catch (Exception ignore) {
           }
         });
@@ -141,14 +146,18 @@ final public class RegistryPathWatchdogImpl implements RegistryPathWatchdog {
     if (pathData.ephemeral) {
       if (pathData.data == null) {
         registry.createEphemeral(pathData.path);
+        logger.debug("Created(E): {}", pathData.path);
       } else {
         registry.createEphemeral(pathData.path, pathData.data);
+        logger.debug("Created(E): {}", pathData.path);
       }
     } else {
       if (pathData.data == null) {
         registry.createPersistent(pathData.path);
+        logger.debug("Created(P): {}", pathData.path);
       } else {
         registry.createPersistent(pathData.path, pathData.data);
+        logger.debug("Created(P): {}", pathData.path);
       }
     }
   }

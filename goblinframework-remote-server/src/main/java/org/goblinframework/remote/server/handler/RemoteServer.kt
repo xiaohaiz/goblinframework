@@ -37,6 +37,7 @@ internal constructor(config: RemoteServerConfig)
 
   override fun disposeBean() {
     TransportServerManager.INSTANCE.closeTransportServer(server.getName())
+    watch.stop()
   }
 
   override fun getTransportServer(): TransportServer {

@@ -4,8 +4,8 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 import io.netty.handler.codec.http.FullHttpRequest
 import io.netty.handler.codec.http.QueryStringDecoder
+import org.goblinframework.core.util.HttpUtils
 import org.goblinframework.embedded.core.setting.ServerSetting
-import org.goblinframework.http.util.HttpUtils
 import org.goblinframework.webmvc.servlet.ServletRequest
 import org.goblinframework.webmvc.servlet.ServletResponse
 import org.springframework.http.MediaType

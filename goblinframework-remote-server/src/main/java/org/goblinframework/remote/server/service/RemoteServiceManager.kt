@@ -2,10 +2,14 @@ package org.goblinframework.remote.server.service
 
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.ThreadSafe
+import org.goblinframework.api.registry.GoblinRegistryException
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.core.exception.GoblinDuplicateException
+import org.goblinframework.remote.server.handler.RemoteServerManager
+import org.goblinframework.remote.server.module.config.RemoteServerConfigManager
+import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
@@ -20,7 +24,7 @@ class RemoteServiceManager private constructor()
     @JvmField val INSTANCE = RemoteServiceManager()
   }
 
-  private val registryManager = RemoteServiceRegistryManager()
+  private val registryManager = AtomicReference<RemoteServiceRegistryManager?>()
   private val lock = ReentrantReadWriteLock()
   private val services = mutableMapOf<ExposeServiceId, RemoteService>()
 
@@ -31,7 +35,7 @@ class RemoteServiceManager private constructor()
           throw GoblinDuplicateException("Duplicated expose service id: $id")
         }
         val service = StaticRemoteService(id, bean)
-        registryManager.register(service)
+        registryManager.get()?.register(service)
         services[id] = service
       }
     }
@@ -44,7 +48,7 @@ class RemoteServiceManager private constructor()
           throw GoblinDuplicateException("Duplicated expose service id: $id")
         }
         val service = ManagedRemoteService(id, cmb)
-        registryManager.register(service)
+        registryManager.get()?.register(service)
         services[id] = service
       }
     }
@@ -54,18 +58,34 @@ class RemoteServiceManager private constructor()
     return lock.read { services[id] }
   }
 
+  fun unregisterAll() {
+    registryManager.get()?.dispose()
+  }
+
   override fun initializeBean() {
-    registryManager.initialize()
+    val server = RemoteServerManager.INSTANCE.getRemoteServer()
+        ?: kotlin.run {
+          logger.debug("No RemoteServer started, ignore")
+          return
+        }
+    val location = RemoteServerConfigManager.INSTANCE.getRemoteServerConfig()?.registryLocation
+        ?: kotlin.run {
+          logger.warn("No [RemoteServer.registry] configured")
+          return
+        }
+    val registry = location.system.getRegistry(location.name)
+        ?: throw GoblinRegistryException("No registry [$location] available")
+    registryManager.set(RemoteServiceRegistryManager(server, registry))
   }
 
   override fun disposeBean() {
     lock.write {
       services.values.forEach {
         it.dispose()
-        registryManager.unregister(it)
+        registryManager.get()?.unregister(it)
       }
       services.clear()
     }
-    registryManager.dispose()
+    registryManager.getAndSet(null)?.dispose()
   }
 }

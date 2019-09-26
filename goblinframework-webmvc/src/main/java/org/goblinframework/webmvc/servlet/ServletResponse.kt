@@ -1,10 +1,9 @@
 package org.goblinframework.webmvc.servlet
 
+import org.goblinframework.core.util.HttpUtils
 import org.goblinframework.core.util.StringUtils
-import org.goblinframework.http.util.HttpUtils
 import org.springframework.http.server.ServletServerHttpResponse
 import org.springframework.ui.Model
-
 import javax.servlet.http.HttpServletResponse
 
 class ServletResponse(response: HttpServletResponse) : ServletServerHttpResponse(response) {

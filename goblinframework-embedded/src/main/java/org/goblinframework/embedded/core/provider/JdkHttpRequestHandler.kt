@@ -3,9 +3,9 @@ package org.goblinframework.embedded.core.provider
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.goblinframework.core.util.ExceptionUtils
+import org.goblinframework.core.util.HttpUtils
 import org.goblinframework.embedded.core.handler.ServletHandler
 import org.goblinframework.embedded.core.setting.ServerSetting
-import org.goblinframework.http.util.HttpUtils
 import org.goblinframework.webmvc.servlet.RequestAttribute
 import org.goblinframework.webmvc.servlet.ServletRequest
 import org.goblinframework.webmvc.servlet.ServletResponse

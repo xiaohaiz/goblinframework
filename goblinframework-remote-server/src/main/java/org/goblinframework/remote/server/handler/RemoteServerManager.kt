@@ -21,7 +21,7 @@ class RemoteServerManager private constructor()
   override fun initializeBean() {
     RemoteServerConfigManager.INSTANCE.getRemoteServerConfig()?.run {
       server.set(RemoteServer(this))
-    } ?: logger.info("No [RemoteServerConfig] configured")
+    } ?: logger.info("No [RemoteServer] configured")
   }
 
   override fun disposeBean() {

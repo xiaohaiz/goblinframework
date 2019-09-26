@@ -1,7 +1,6 @@
-package org.goblinframework.http.util;
+package org.goblinframework.core.util;
 
 import kotlin.text.Charsets;
-import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.util.LinkedMultiValueMap;

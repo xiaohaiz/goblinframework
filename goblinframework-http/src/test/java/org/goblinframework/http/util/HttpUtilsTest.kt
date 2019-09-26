@@ -1,5 +1,6 @@
 package org.goblinframework.http.util
 
+import org.goblinframework.core.util.HttpUtils
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

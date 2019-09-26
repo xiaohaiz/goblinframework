@@ -7,6 +7,7 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
+import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.transport.core.codec.TransportMessageDecoder
 import org.goblinframework.transport.core.codec.TransportMessageEncoder
 import org.goblinframework.transport.server.setting.TransportServerSetting
@@ -53,7 +54,11 @@ class TransportServerImpl(val setting: TransportServerSetting) {
 
     bootstrap.childHandler(initializer)
     val channel = bootstrap.bind().sync().channel()
-    host = (channel.localAddress() as InetSocketAddress).address.hostAddress
+    var h = (channel.localAddress() as InetSocketAddress).address.hostAddress
+    if (h == "0:0:0:0:0:0:0:0") {
+      h = NetworkUtils.ALL_HOST
+    }
+    host = h
     port = (channel.localAddress() as InetSocketAddress).port
 
     logger.debug("Transport server [${setting.name()}] started at [$host:$port]")

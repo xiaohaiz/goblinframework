@@ -29,12 +29,12 @@ class RemoteServerModule : ISubModule {
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    RemoteServiceManager.INSTANCE.initialize()
     RemoteServerManager.INSTANCE.initialize()
+    RemoteServiceManager.INSTANCE.initialize()
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
-    RemoteServerManager.INSTANCE.dispose()
     RemoteServiceManager.INSTANCE.dispose()
+    RemoteServerManager.INSTANCE.dispose()
   }
 }

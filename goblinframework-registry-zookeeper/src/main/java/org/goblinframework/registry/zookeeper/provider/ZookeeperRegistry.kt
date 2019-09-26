@@ -50,7 +50,7 @@ internal constructor(private val client: ZookeeperClient)
     parent = StringUtils.defaultIfBlank(parent, "/")
     if (parent != "/" && !client.nativeClient().exists(parent)) {
       try {
-        client.nativeClient().createPersistent(parent)
+        client.nativeClient().createPersistent(parent, true)
       } catch (ignore: Exception) {
       }
     }
@@ -62,7 +62,7 @@ internal constructor(private val client: ZookeeperClient)
     parent = StringUtils.defaultIfBlank(parent, "/")
     if (parent != "/" && !client.nativeClient().exists(parent)) {
       try {
-        client.nativeClient().createPersistent(parent)
+        client.nativeClient().createPersistent(parent, true)
       } catch (ignore: Exception) {
       }
     }
@@ -74,7 +74,7 @@ internal constructor(private val client: ZookeeperClient)
     parent = StringUtils.defaultIfBlank(parent, "/")
     if (parent != "/" && !client.nativeClient().exists(parent)) {
       try {
-        client.nativeClient().createPersistent(parent)
+        client.nativeClient().createPersistent(parent, true)
       } catch (ignore: Exception) {
       }
     }

@@ -1,6 +1,6 @@
 package org.goblinframework.webmvc.util
 
-import org.goblinframework.http.util.HttpUtils
+import org.goblinframework.core.util.HttpUtils
 import org.springframework.web.util.UrlPathHelper
 
 import javax.servlet.http.HttpServletRequest

@@ -2,8 +2,8 @@ package org.goblinframework.embedded.core.provider
 
 import com.sun.net.httpserver.HttpExchange
 import org.apache.commons.io.IOUtils
+import org.goblinframework.core.util.HttpUtils
 import org.goblinframework.embedded.core.servlet.AbstractHttpServletRequest
-import org.goblinframework.http.util.HttpUtils
 import org.springframework.util.LinkedMultiValueMap
 import java.util.*
 import javax.servlet.ServletInputStream
