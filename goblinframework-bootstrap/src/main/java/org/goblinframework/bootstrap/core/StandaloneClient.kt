@@ -8,7 +8,6 @@ import kotlin.system.exitProcess
 abstract class StandaloneClient {
 
   fun bootstrap(args: Array<String>) {
-    GoblinSystem.install()
     if (useShutdownHook()) {
       Runtime.getRuntime().addShutdownHook(object : Thread("StandaloneServerShutdownHook") {
         override fun run() {
@@ -16,12 +15,14 @@ abstract class StandaloneClient {
         }
       })
     }
-    val container = SpringContainerLoader.load(this)
+
     var success = true
     try {
+      GoblinSystem.install()
+      val container = SpringContainerLoader.load(this)
       doExecute(container)
-    } catch (ex: Exception) {
-      LoggerFactory.getLogger(javaClass).error("Exception raised when executing", ex)
+    } catch (ex: Throwable) {
+      LoggerFactory.getLogger(javaClass).error("Exception raised when executing StandaloneClient", ex)
       success = false
     } finally {
       shutdown()

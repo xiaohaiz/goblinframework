@@ -3,13 +3,12 @@ package org.goblinframework.bootstrap.core
 import org.goblinframework.api.system.GoblinSystem
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.util.ThreadUtils
+import org.slf4j.LoggerFactory
+import kotlin.system.exitProcess
 
 abstract class StandaloneServer {
 
   fun bootstrap(args: Array<String>) {
-    GoblinSystem.install()
-    val container = SpringContainerLoader.load(this)
-
     if (useShutdownHook()) {
       Runtime.getRuntime().addShutdownHook(object : Thread("StandaloneServerShutdownHook") {
         override fun run() {
@@ -18,9 +17,17 @@ abstract class StandaloneServer {
       })
     }
 
-    doService(container)
+    try {
+      GoblinSystem.install()
+      val container = SpringContainerLoader.load(this)
+      doService(container)
+    } catch (ex: Throwable) {
+      LoggerFactory.getLogger(javaClass).error("Exception raised when booting StandaloneServer", ex)
+      exitProcess(-1)
+    }
 
     if (runDaemonMode()) {
+      LoggerFactory.getLogger(javaClass).info("WELCOME")
       ThreadUtils.joinCurrentThread()
     }
   }

@@ -2,6 +2,8 @@ package org.goblinframework.remote.server.service;
 
 import org.goblinframework.api.remote.ExposeService;
 import org.goblinframework.api.remote.ExposeServices;
+import org.goblinframework.api.remote.ServiceGroup;
+import org.goblinframework.api.remote.ServiceVersion;
 import org.goblinframework.core.exception.GoblinMalformedException;
 import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +47,16 @@ abstract public class ExposeServiceIdGenerator {
     if (!interfaceClass.isAssignableFrom(clazz)) {
       throw new GoblinMalformedException(clazz.getName() + " does not implement " + interfaceClass.getName());
     }
-    return new ExposeServiceId(interfaceClass, "goblin", "1.0");
+    String group = "goblin";
+    ServiceGroup serviceGroup = annotation.group();
+    if (serviceGroup.enable()) {
+      group = serviceGroup.group();
+    }
+    String version = "1.0";
+    ServiceVersion serviceVersion = annotation.version();
+    if (serviceVersion.enable()) {
+      version = serviceVersion.version();
+    }
+    return new ExposeServiceId(interfaceClass, group, version);
   }
 }

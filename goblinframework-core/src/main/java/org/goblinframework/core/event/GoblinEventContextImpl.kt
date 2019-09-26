@@ -15,7 +15,8 @@ internal constructor(private val channel: String,
                      private val future: GoblinEventFuture) : GoblinEventContext {
 
   private val state = AtomicReference(GoblinEventState.SUCCESS)
-  private val taskCount = AtomicReference<AtomicInteger>()
+  private var totalTaskCount = 0
+  private val taskCount = AtomicReference<AtomicInteger?>()
   private val exceptions = Collections.synchronizedList(LinkedList<Throwable>())
   private val extensions = ConcurrentHashMap<String, Any>()
 
@@ -53,6 +54,7 @@ internal constructor(private val channel: String,
 
   internal fun initializeTaskCount(count: Int) {
     taskCount.set(AtomicInteger(count))
+    totalTaskCount = count
   }
 
   internal fun finishTask() {
@@ -77,8 +79,7 @@ internal constructor(private val channel: String,
       // task not started yet
       throw GoblinEventException(exceptions.first())
     } else {
-      val total = c.get()
-      throw GoblinEventException(total, exceptions)
+      throw GoblinEventException(totalTaskCount, exceptions)
     }
   }
 
