@@ -129,4 +129,29 @@ public class GoblinField {
     }
     return setter;
   }
+
+  @Nullable
+  public <A extends Annotation> A findAnnotationSetterFirst(@NotNull Class<A> annotationClass) {
+    A annotation = null;
+    Method setter = getSetter();
+    if (setter != null) {
+      annotation = setter.getAnnotation(annotationClass);
+    }
+    if (annotation == null) {
+      annotation = getField().getAnnotation(annotationClass);
+    }
+    return annotation;
+  }
+
+  @NotNull
+  public Class<?> getFieldTypeSetterFirst() {
+    Method setter = getSetter();
+    Class<?> type;
+    if (setter != null) {
+      type = setter.getParameterTypes()[0];
+    } else {
+      type = getFieldType();
+    }
+    return type;
+  }
 }

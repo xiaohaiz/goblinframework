@@ -41,13 +41,13 @@ abstract public class ReflectionUtils extends org.springframework.util.Reflectio
     return (T) proxyFactory.getProxy(ClassUtils.getDefaultClassLoader());
   }
 
-  public static List<java.lang.reflect.Field> allFieldsIncludingAncestors(@NotNull Class<?> clazz,
-                                                                          boolean includeStatic,
-                                                                          boolean eliminateDuplicationNames) {
-    List<java.lang.reflect.Field> list = new LinkedList<>();
+  public static List<Field> allFieldsIncludingAncestors(@NotNull Class<?> clazz,
+                                                        boolean includeStatic,
+                                                        boolean eliminateDuplicationNames) {
+    List<Field> list = new LinkedList<>();
     List<Class<?>> hierarchy = ClassUtils.getClassInheritanceHierarchy(clazz, false);
     for (Class<?> clz : hierarchy) {
-      List<java.lang.reflect.Field> fields = Arrays.asList(clz.getDeclaredFields());
+      List<Field> fields = Arrays.asList(clz.getDeclaredFields());
       if (!includeStatic) {
         fields = fields.stream()
             .filter(f -> !Modifier.isStatic(f.getModifiers()))
