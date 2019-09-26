@@ -10,6 +10,7 @@ public enum GoblinModule {
   EMBEDDED,
   CACHE,
   DAO,
+  QUEUE,
   TRANSPORT,
   REGISTRY,
   REMOTE,

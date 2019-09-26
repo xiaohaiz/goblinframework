@@ -1,0 +1,8 @@
+description = "goblinframework-queue"
+
+dependencies {
+  compile(project(":goblinframework-core"))
+
+  testCompile(project(":goblinframework-test"))
+  testCompile(project(":goblinframework-monitor"))
+}
