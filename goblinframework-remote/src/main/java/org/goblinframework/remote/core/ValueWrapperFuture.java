@@ -1,4 +1,4 @@
-package org.goblinframework.api.remote;
+package org.goblinframework.remote.core;
 
 import org.goblinframework.api.core.GoblinFuture;
 import org.goblinframework.api.core.GoblinFutureListener;

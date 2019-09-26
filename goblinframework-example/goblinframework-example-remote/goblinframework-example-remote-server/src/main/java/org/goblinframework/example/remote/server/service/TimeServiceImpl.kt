@@ -4,8 +4,8 @@ import org.goblinframework.api.core.GoblinFuture
 import org.goblinframework.api.remote.ExposeService
 import org.goblinframework.api.remote.ExposeServices
 import org.goblinframework.api.remote.ServiceVersion
-import org.goblinframework.api.remote.ValueWrapperFuture
 import org.goblinframework.example.remote.api.TimeService
+import org.goblinframework.remote.core.ValueWrapperFuture
 import java.util.*
 import javax.inject.Named
 

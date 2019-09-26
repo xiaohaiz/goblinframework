@@ -5,7 +5,7 @@ import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.registry.Registry
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager
-import org.goblinframework.remote.core.module.GoblinRemoteException
+import org.goblinframework.remote.core.GoblinRemoteException
 import java.util.concurrent.atomic.AtomicReference
 
 @Singleton

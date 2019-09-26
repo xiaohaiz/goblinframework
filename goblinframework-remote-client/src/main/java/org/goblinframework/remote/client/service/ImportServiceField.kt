@@ -3,7 +3,7 @@ package org.goblinframework.remote.client.service
 import org.goblinframework.api.remote.ImportService
 import org.goblinframework.core.util.GoblinField
 import org.goblinframework.core.util.ReflectionUtils
-import org.goblinframework.remote.core.module.GoblinRemoteException
+import org.goblinframework.remote.core.GoblinRemoteException
 import org.goblinframework.remote.core.service.RemoteServiceId
 
 class ImportServiceField

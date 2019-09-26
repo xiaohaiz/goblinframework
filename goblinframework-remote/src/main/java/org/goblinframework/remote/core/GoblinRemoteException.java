@@ -1,4 +1,4 @@
-package org.goblinframework.remote.core.module;
+package org.goblinframework.remote.core;
 
 import org.goblinframework.api.core.GoblinException;
 
