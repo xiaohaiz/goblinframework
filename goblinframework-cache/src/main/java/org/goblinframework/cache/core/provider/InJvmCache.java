@@ -306,6 +306,12 @@ final public class InJvmCache extends AbstractCache implements Disposable {
   @Override
   public void dispose() {
     watchdogTimer.cancel();
+    lock.writeLock().lock();
+    try {
+      buffer.clear();
+    } finally {
+      lock.writeLock().unlock();
+    }
   }
 
   @Override
