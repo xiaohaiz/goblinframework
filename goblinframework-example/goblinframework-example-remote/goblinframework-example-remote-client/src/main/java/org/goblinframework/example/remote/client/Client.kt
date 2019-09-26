@@ -3,6 +3,7 @@ package org.goblinframework.example.remote.client
 import org.goblinframework.api.container.GoblinSpringContainer
 import org.goblinframework.bootstrap.core.StandaloneClient
 import org.goblinframework.core.container.SpringContainer
+import org.goblinframework.core.util.AsciiTable
 import org.goblinframework.core.util.ThreadUtils
 import org.goblinframework.example.remote.client.service.TimeServiceClient
 
@@ -67,11 +68,17 @@ class Client : StandaloneClient() {
 
     val tsc = container!!.applicationContext.getBean(TimeServiceClient::class.java)
     val ts = tsc.timeService
-    try {
-      ts.currentTimeMillis()
-    } catch (e: Exception) {
-      e.printStackTrace()
-    }
+
+    val table = AsciiTable()
+    table.columns.add(AsciiTable.Column("Method"))
+    table.columns.add(AsciiTable.Column("Result"))
+    val row = AsciiTable.Row()
+    row.values.add("currentTimeMillis")
+    row.values.add(ts.currentTimeMillis().toString())
+    table.data.add(row)
+    table.calculateColumnWidth()
+    println(table.render())
+
     ThreadUtils.joinCurrentThread()
   }
 }
