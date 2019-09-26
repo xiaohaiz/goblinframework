@@ -28,7 +28,9 @@ class ImportServiceProcessor private constructor() : SpringContainerBeanPostProc
     val candidates = mutableListOf<ImportServiceField>()
     for (field in fields) {
       val annotation = field.findAnnotationSetterFirst(ImportService::class.java) ?: continue
-      candidates.add(ImportServiceField(bean, field, annotation))
+      if (annotation.enable) {
+        candidates.add(ImportServiceField(bean, field, annotation))
+      }
     }
     candidates.forEach { it.inject() }
     return bean
