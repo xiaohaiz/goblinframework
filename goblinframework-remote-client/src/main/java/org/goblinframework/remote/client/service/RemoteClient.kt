@@ -5,6 +5,8 @@ import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.util.CollectionUtils
 import org.goblinframework.core.util.HttpUtils
+import org.goblinframework.remote.client.connection.RemoteConnection
+import org.goblinframework.remote.client.connection.RemoteConnectionManager
 import org.goblinframework.remote.core.service.RemoteServiceId
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
@@ -17,7 +19,7 @@ internal constructor(private val serviceId: RemoteServiceId)
 
   private val listener: RegistryPathListener
   private val lock = ReentrantReadWriteLock()
-  private val buffer = mutableMapOf<String, String>()
+  private val connections = mutableMapOf<String, RemoteConnection>()
 
   init {
     val registry = RemoteClientRegistryManager.INSTANCE.getRegistry()!!
@@ -33,7 +35,7 @@ internal constructor(private val serviceId: RemoteServiceId)
       serviceId.group == map["group"] && serviceId.version == map["version"]
     }.toList()
     val delta = lock.read {
-      val base = buffer.keys.toList()
+      val base = connections.keys.toList()
       CollectionUtils.calculateCollectionDelta(base, recognized)
     }
     if (delta.isEmpty) {
@@ -44,15 +46,16 @@ internal constructor(private val serviceId: RemoteServiceId)
   }
 
   private fun remove(node: String) {
-    println("remove: $node")
-    lock.write { buffer.remove(node) }
+    lock.write { connections.remove(node) }?.run {
+      RemoteConnectionManager.INSTANCE.closeConnection(this.id())
+    }
   }
 
   private fun create(node: String) {
-    println("create: $node")
     lock.write {
-      buffer[node]?.run { return }
-      buffer[node] = node
+      connections[node]?.run { return }
+      val connection = RemoteConnectionManager.INSTANCE.openConnection(node)
+      connections[node] = connection
     }
   }
 
