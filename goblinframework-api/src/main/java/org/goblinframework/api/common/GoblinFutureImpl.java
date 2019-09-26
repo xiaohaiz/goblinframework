@@ -4,8 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Comparator;
 import java.util.IdentityHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 public class GoblinFutureImpl<T> implements GoblinFuture<T> {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -23,7 +24,7 @@ public class GoblinFutureImpl<T> implements GoblinFuture<T> {
   private final CountDownLatch latch = new CountDownLatch(1);
   private final AtomicReference<GoblinFutureResult<T>> result = new AtomicReference<>();
   private final ReentrantLock lock = new ReentrantLock();
-  private final IdentityHashMap<GoblinFutureListener<T>, GoblinFutureListenerDelegator<T>> listeners = new IdentityHashMap<>();
+  private final IdentityHashMap<GoblinFutureListener<T>, InternalGoblinFutureListener<T>> listeners = new IdentityHashMap<>();
   private final AtomicBoolean completed = new AtomicBoolean();
 
   @Override
@@ -111,7 +112,7 @@ public class GoblinFutureImpl<T> implements GoblinFuture<T> {
       if (listeners.containsKey(listener)) {
         return;
       }
-      GoblinFutureListenerDelegator<T> delegator = new GoblinFutureListenerDelegator<>(listener, order.getAndIncrement());
+      InternalGoblinFutureListener<T> delegator = new InternalGoblinFutureListener<>(listener, order.getAndIncrement());
       listeners.put(listener, delegator);
     } finally {
       lock.unlock();
@@ -148,26 +149,48 @@ public class GoblinFutureImpl<T> implements GoblinFuture<T> {
   }
 
   private void executeListenersAfterCompleted() {
-    List<GoblinFutureListenerDelegator<T>> listenerList;
+    List<InternalGoblinFutureListener<T>> listenerList;
     lock.lock();
     try {
       if (listeners.isEmpty()) {
         return;
       }
-      listenerList = new LinkedList<>(listeners.values());
+      listenerList = listeners.values().stream()
+          .sorted(Comparator.comparingInt(e -> e.order))
+          .collect(Collectors.toList());
       listeners.clear();
     } finally {
       lock.unlock();
     }
-    for (GoblinFutureListenerDelegator<T> listener : listenerList) {
+    for (InternalGoblinFutureListener<T> listener : listenerList) {
       try {
         listener.futureCompleted(this);
       } catch (Exception ex) {
-        logger.warn("Exception caught when executing GoblinFutureListener: {}", listener.getDelegator(), ex);
+        logger.warn("Exception caught when executing GoblinFutureListener: {}", listener.delegator, ex);
       }
     }
   }
 
   protected void doResultObtained(@NotNull GoblinFutureResult<T> result) {
   }
+
+  private static class InternalGoblinFutureListener<E> implements GoblinFutureListener<E> {
+
+    @NotNull private final GoblinFutureListener<E> delegator;
+    private final int order;
+    private final AtomicBoolean executed = new AtomicBoolean();
+
+    InternalGoblinFutureListener(@NotNull GoblinFutureListener<E> delegator, int order) {
+      this.delegator = delegator;
+      this.order = order;
+    }
+
+    @Override
+    public void futureCompleted(@NotNull GoblinFuture<E> future) {
+      if (executed.compareAndSet(false, true)) {
+        delegator.futureCompleted(future);
+      }
+    }
+  }
+
 }

@@ -66,6 +66,7 @@ public class ValueWrapperFuture<T> implements GoblinFuture<T>, Serializable {
 
   @Override
   public void addListener(@NotNull GoblinFutureListener<T> listener) {
+    listener.futureCompleted(this);
   }
 
   @Override
