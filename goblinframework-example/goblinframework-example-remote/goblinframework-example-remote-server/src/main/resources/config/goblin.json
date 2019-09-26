@@ -1,7 +1,13 @@
 {
+  "zookeeper": {
+    "example": {
+      "servers": "127.0.0.1"
+    }
+  },
   "remote": {
     "server": {
-      "port": 57213
+      "port": 57213,
+      "registry": "ZKP:example"
     }
   }
 }
