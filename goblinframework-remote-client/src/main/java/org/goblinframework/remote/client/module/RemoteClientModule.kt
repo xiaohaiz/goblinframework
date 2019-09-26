@@ -7,7 +7,7 @@ import org.goblinframework.api.system.ModuleFinalizeContext
 import org.goblinframework.api.system.ModuleInstallContext
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager
 import org.goblinframework.remote.client.service.ImportServiceProcessor
-import org.goblinframework.remote.client.service.RemoteClientRegistry
+import org.goblinframework.remote.client.service.RemoteClientRegistryManager
 
 @Install
 class RemoteClientModule : ISubModule {
@@ -22,7 +22,7 @@ class RemoteClientModule : ISubModule {
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
-    RemoteClientRegistry.INSTANCE.dispose()
+    RemoteClientRegistryManager.INSTANCE.dispose()
     RemoteClientConfigManager.INSTANCE.dispose()
   }
 }

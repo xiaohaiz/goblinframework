@@ -1,17 +1,20 @@
 package org.goblinframework.remote.client.service
 
-import org.goblinframework.api.common.Disposable
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.registry.Registry
+import org.goblinframework.api.service.GoblinManagedBean
+import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager
 import org.goblinframework.remote.core.module.GoblinRemoteException
 import java.util.concurrent.atomic.AtomicReference
 
 @Singleton
-class RemoteClientRegistry private constructor() : Disposable {
+@GoblinManagedBean(type = "RemoteClient")
+class RemoteClientRegistryManager private constructor()
+  : GoblinManagedObject(), RemoteClientRegistryManagerMXBean {
 
   companion object {
-    @JvmField val INSTANCE = RemoteClientRegistry()
+    @JvmField val INSTANCE = RemoteClientRegistryManager()
   }
 
   private val registry = AtomicReference<Registry?>()
@@ -21,7 +24,7 @@ class RemoteClientRegistry private constructor() : Disposable {
       val registry = system.getRegistry(name) ?: kotlin.run {
         throw GoblinRemoteException("Registry [$this] not available")
       }
-      this@RemoteClientRegistry.registry.set(registry)
+      this@RemoteClientRegistryManager.registry.set(registry)
     }
   }
 
@@ -29,7 +32,4 @@ class RemoteClientRegistry private constructor() : Disposable {
     return registry.get()
   }
 
-  override fun dispose() {
-
-  }
 }

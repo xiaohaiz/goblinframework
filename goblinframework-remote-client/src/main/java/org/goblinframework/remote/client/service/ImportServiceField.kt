@@ -11,7 +11,7 @@ internal constructor(private val bean: Any,
                      private val annotation: ImportService) {
 
   internal fun inject() {
-    RemoteClientRegistry.INSTANCE.getRegistry() ?: return
+    RemoteClientRegistryManager.INSTANCE.getRegistry() ?: return
     val id = generateRemoteServiceId()
 
   }
