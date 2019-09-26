@@ -42,6 +42,13 @@ class CacheBuilderManager private constructor()
     buffer.clear()
   }
 
+  override fun getCacheBuilderList(): Array<CacheBuilderMXBean> {
+    return buffer.values
+        .filter { it.system() !== CacheSystem.NOP }
+        .sortedBy { it.system() }
+        .toTypedArray()
+  }
+
   @Install
   class Installer : ICacheBuilderManager by INSTANCE
 }
