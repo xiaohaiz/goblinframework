@@ -24,5 +24,5 @@ interface EventBusWorkerMXBean : PlatformManagedObject {
 
   fun getFailedCount(): Long
 
-  fun getEventListenerList(): Array<EventListenerMXBean>
+  fun getEventListenerList(): Array<GoblinEventListenerMXBean>
 }

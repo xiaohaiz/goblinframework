@@ -32,7 +32,7 @@ internal constructor(private val channel: String,
   private val workers: Int
   private val disruptor: Disruptor<EventBusWorkerEvent>
   private val lock = ReentrantReadWriteLock()
-  private val listeners = IdentityHashMap<GoblinEventListener, ManagedEventListener>()
+  private val listeners = IdentityHashMap<GoblinEventListener, GoblinEventListenerImpl>()
 
   private val publishedCount = LongAdder()
   private val discardedCount = LongAdder()
@@ -55,7 +55,7 @@ internal constructor(private val channel: String,
       if (listeners[listener] != null) {
         throw GoblinEventException("Listener [$listener] already subscribed on channel [$channel]")
       }
-      listeners[listener] = ManagedEventListener(listener)
+      listeners[listener] = GoblinEventListenerImpl(listener)
     }
   }
 
@@ -136,7 +136,7 @@ internal constructor(private val channel: String,
     return failedCount.sum()
   }
 
-  override fun getEventListenerList(): Array<EventListenerMXBean> {
+  override fun getEventListenerList(): Array<GoblinEventListenerMXBean> {
     return lock.read { listeners.values.toTypedArray() }
   }
 }
