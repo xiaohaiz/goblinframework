@@ -1,8 +1,8 @@
 package org.goblinframework.cache.core.enhance
 
-import org.goblinframework.api.cache.GoblinCacheException
 import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.core.SpringContainerBeanPostProcessor
+import org.goblinframework.cache.core.GoblinCacheException
 import org.goblinframework.cache.core.support.CacheBeanManager
 import org.goblinframework.core.util.ClassUtils
 import org.springframework.aop.framework.ProxyFactory

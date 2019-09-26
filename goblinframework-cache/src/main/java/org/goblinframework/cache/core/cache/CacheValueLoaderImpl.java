@@ -1,6 +1,7 @@
 package org.goblinframework.cache.core.cache;
 
 import org.goblinframework.api.cache.*;
+import org.goblinframework.cache.core.CacheValueWrapper;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.NumberUtils;
 import org.jetbrains.annotations.NotNull;
