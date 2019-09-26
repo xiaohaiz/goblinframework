@@ -8,6 +8,7 @@ import org.goblinframework.core.util.HttpUtils
 import org.goblinframework.remote.client.connection.RemoteConnection
 import org.goblinframework.remote.client.connection.RemoteConnectionManager
 import org.goblinframework.remote.core.service.RemoteServiceId
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
@@ -20,6 +21,8 @@ internal constructor(private val serviceId: RemoteServiceId)
   private val listener: RegistryPathListener
   private val lock = ReentrantReadWriteLock()
   private val connections = mutableMapOf<String, RemoteConnection>()
+  private val firstTime = AtomicBoolean()
+  val clientFuture = RemoteClientFuture()
 
   init {
     val registry = RemoteClientRegistryManager.INSTANCE.getRegistry()!!
@@ -30,6 +33,7 @@ internal constructor(private val serviceId: RemoteServiceId)
   }
 
   private fun onNodes(nodes: List<String>) {
+    val firstTime = this.firstTime.compareAndSet(false, true)
     val recognized = nodes.filter {
       val map = HttpUtils.parseQueryString(it)
       serviceId.group == map["group"] && serviceId.version == map["version"]
@@ -38,11 +42,16 @@ internal constructor(private val serviceId: RemoteServiceId)
       val base = connections.keys.toList()
       CollectionUtils.calculateCollectionDelta(base, recognized)
     }
-    if (delta.isEmpty) {
-      return
+    if (firstTime) {
+      if (delta.neonatalList.isEmpty()) {
+        clientFuture.complete(this)
+        return
+      } else {
+        clientFuture.neonatalCount.set(delta.neonatalList.size)
+      }
     }
     delta.deletionList.forEach { remove(it) }
-    delta.neonatalList.forEach { create(it) }
+    delta.neonatalList.forEach { create(it, firstTime) }
   }
 
   private fun remove(node: String) {
@@ -51,10 +60,25 @@ internal constructor(private val serviceId: RemoteServiceId)
     }
   }
 
-  private fun create(node: String) {
+  private fun create(node: String, firstTime: Boolean) {
     lock.write {
       connections[node]?.run { return }
       val connection = RemoteConnectionManager.INSTANCE.openConnection(node)
+      val connectFuture = connection.transportClient.connectFuture()
+      if (firstTime) {
+        connectFuture.addListener {
+          val state = try {
+            it.get().available()
+          } catch (ex: Exception) {
+            false
+          }
+          if (state) {
+            clientFuture.finishConnection(this)
+          } else {
+            clientFuture.finishConnection(null)
+          }
+        }
+      }
       connections[node] = connection
     }
   }
