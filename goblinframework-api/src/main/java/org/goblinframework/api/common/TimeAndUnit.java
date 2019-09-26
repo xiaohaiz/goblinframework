@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+@HashSafe
 public class TimeAndUnit implements Serializable {
   private static final long serialVersionUID = 6580751809901154133L;
 

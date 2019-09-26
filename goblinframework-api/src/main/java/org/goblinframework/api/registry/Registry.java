@@ -1,5 +1,6 @@
 package org.goblinframework.api.registry;
 
+import org.goblinframework.api.common.TimeAndUnit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -56,4 +57,7 @@ public interface Registry {
 
   @NotNull
   RegistryPathListener createPathListener();
+
+  @NotNull
+  RegistryPathWatchdog createPathWatchdog(@NotNull TimeAndUnit period);
 }
