@@ -1,6 +1,6 @@
 package org.goblinframework.bootstrap.core
 
-import org.goblinframework.api.container.GoblinSpringContainer
+import org.goblinframework.api.core.GoblinSpringContainer
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.container.SpringContainerManager
 import org.goblinframework.core.util.AnnotationUtils

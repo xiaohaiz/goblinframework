@@ -1,6 +1,6 @@
 package org.goblinframework.example.remote.client
 
-import org.goblinframework.api.container.GoblinSpringContainer
+import org.goblinframework.api.core.GoblinSpringContainer
 import org.goblinframework.bootstrap.core.StandaloneClient
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.util.AsciiTable

@@ -1,7 +1,7 @@
 package org.goblinframework.test.runner
 
-import org.goblinframework.api.container.ApplicationContextProvider
-import org.goblinframework.api.container.ISpringContainerManager
+import org.goblinframework.api.core.ApplicationContextProvider
+import org.goblinframework.api.core.ISpringContainerManager
 import org.goblinframework.api.system.GoblinSystem
 import org.goblinframework.test.listener.TestExecutionListenerManager
 import org.springframework.context.ApplicationContext

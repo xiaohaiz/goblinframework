@@ -1,6 +1,6 @@
 package org.goblinframework.core.container
 
-import org.goblinframework.api.container.ApplicationContextProvider
+import org.goblinframework.api.core.ApplicationContextProvider
 import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.api.core.GoblinManagedObject
 import org.springframework.context.ApplicationContext

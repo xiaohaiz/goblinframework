@@ -1,4 +1,4 @@
-package org.goblinframework.api.container;
+package org.goblinframework.api.core;
 
 import org.jetbrains.annotations.NotNull;
 
