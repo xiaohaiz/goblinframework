@@ -8,7 +8,6 @@ import org.goblinframework.remote.server.module.config.RemoteServerConfigManager
 import org.goblinframework.remote.server.module.management.RemoteServerManagement
 import org.goblinframework.remote.server.service.ExposeSpringContainer
 import org.goblinframework.remote.server.service.RemoteServiceManager
-import org.goblinframework.remote.server.service.RemoteServiceRegistryManager
 
 @Install
 class RemoteServerModule : ISubModule {
@@ -30,7 +29,6 @@ class RemoteServerModule : ISubModule {
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    RemoteServiceRegistryManager.INSTANCE.initialize()
     RemoteServiceManager.INSTANCE.initialize()
     RemoteServerManager.INSTANCE.initialize()
   }
@@ -38,6 +36,5 @@ class RemoteServerModule : ISubModule {
   override fun finalize(ctx: ModuleFinalizeContext) {
     RemoteServerManager.INSTANCE.dispose()
     RemoteServiceManager.INSTANCE.dispose()
-    RemoteServiceRegistryManager.INSTANCE.dispose()
   }
 }

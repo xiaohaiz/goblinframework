@@ -1,6 +1,5 @@
 package org.goblinframework.remote.server.service
 
-import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.registry.GoblinRegistryException
 import org.goblinframework.api.registry.RegistryPathWatchdog
 import org.goblinframework.api.service.GoblinManagedBean
@@ -9,14 +8,9 @@ import org.goblinframework.remote.server.module.config.RemoteServerConfigManager
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
 
-@Singleton
 @GoblinManagedBean(type = "RemoteServer")
-class RemoteServiceRegistryManager private constructor()
+class RemoteServiceRegistryManager internal constructor()
   : GoblinManagedObject(), RemoteServiceRegistryManagerMXBean {
-
-  companion object {
-    val INSTANCE = RemoteServiceRegistryManager()
-  }
 
   private val watchdog = AtomicReference<RegistryPathWatchdog?>()
 
@@ -37,7 +31,7 @@ class RemoteServiceRegistryManager private constructor()
     watchdog.getAndSet(null)?.dispose()
   }
 
-  fun register() {}
+  fun register(service: RemoteService) {}
 
-  fun unregister() {}
+  fun unregister(service: RemoteService) {}
 }

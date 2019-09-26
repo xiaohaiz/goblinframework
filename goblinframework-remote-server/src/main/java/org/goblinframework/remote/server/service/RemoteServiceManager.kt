@@ -20,6 +20,7 @@ class RemoteServiceManager private constructor()
     @JvmField val INSTANCE = RemoteServiceManager()
   }
 
+  private val registryManager = RemoteServiceRegistryManager()
   private val lock = ReentrantReadWriteLock()
   private val services = mutableMapOf<ExposeServiceId, RemoteService>()
 
@@ -30,6 +31,7 @@ class RemoteServiceManager private constructor()
           throw GoblinDuplicateException("Duplicated expose service id: $id")
         }
         val service = StaticRemoteService(id, bean)
+        registryManager.register(service)
         services[id] = service
       }
     }
@@ -42,18 +44,9 @@ class RemoteServiceManager private constructor()
           throw GoblinDuplicateException("Duplicated expose service id: $id")
         }
         val service = ManagedRemoteService(id, cmb)
+        registryManager.register(service)
         services[id] = service
       }
-    }
-  }
-
-  fun register(service: RemoteService) {
-    val id = service.id()
-    lock.write {
-      services[id]?.run {
-        throw GoblinDuplicateException("Duplicated expose service id: $id")
-      }
-      services[id] = service
     }
   }
 
@@ -61,10 +54,18 @@ class RemoteServiceManager private constructor()
     return lock.read { services[id] }
   }
 
+  override fun initializeBean() {
+    registryManager.initialize()
+  }
+
   override fun disposeBean() {
     lock.write {
-      services.values.forEach { it.dispose() }
+      services.values.forEach {
+        it.dispose()
+        registryManager.unregister(it)
+      }
       services.clear()
     }
+    registryManager.dispose()
   }
 }
