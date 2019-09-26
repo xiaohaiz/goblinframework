@@ -27,6 +27,7 @@ public class RemoteClientInterceptor implements MethodInterceptor {
     }
     RemoteClientManager clientManager = RemoteClientManager.INSTANCE;
     RemoteClient client = clientManager.getRemoteClient(serviceId);
+    client.getClientFuture().awaitUninterruptibly();
     List<RemoteConnection> connections = client.availableConnections();
     return null;
   }
