@@ -1,6 +1,5 @@
 package org.goblinframework.registry.core.manager;
 
-import org.goblinframework.api.common.TimeAndUnit;
 import org.goblinframework.api.registry.Registry;
 import org.goblinframework.api.registry.RegistryLocation;
 import org.goblinframework.api.registry.RegistryPathListener;
@@ -29,7 +28,7 @@ abstract public class AbstractRegistry implements Registry {
 
   @NotNull
   @Override
-  public RegistryPathWatchdog createPathWatchdog(@NotNull TimeAndUnit period) {
-    return new RegistryPathWatchdogImpl(this, period);
+  public RegistryPathWatchdog createPathWatchdog() {
+    return new RegistryPathWatchdogImpl(this);
   }
 }

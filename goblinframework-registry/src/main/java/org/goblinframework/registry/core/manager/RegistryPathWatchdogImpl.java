@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -19,8 +20,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 final public class RegistryPathWatchdogImpl implements RegistryPathWatchdog {
 
   @NotNull private final Registry registry;
-  @NotNull private final TimeAndUnit period;
-
+  private final AtomicReference<TimeAndUnit> period = new AtomicReference<>();
   private final AtomicBoolean initialized = new AtomicBoolean();
   private final AtomicBoolean disposed = new AtomicBoolean();
   private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
@@ -28,9 +28,14 @@ final public class RegistryPathWatchdogImpl implements RegistryPathWatchdog {
   private final AtomicReference<SecondTimerEventListener> scheduler = new AtomicReference<>();
   private final Semaphore semaphore = new Semaphore(1);
 
-  RegistryPathWatchdogImpl(@NotNull Registry registry, @NotNull TimeAndUnit period) {
+  RegistryPathWatchdogImpl(@NotNull Registry registry) {
     this.registry = registry;
-    this.period = period;
+  }
+
+  @Override
+  public RegistryPathWatchdog scheduler(long time, @NotNull TimeUnit unit) {
+    period.set(new TimeAndUnit(time, unit));
+    return this;
   }
 
   @Override
@@ -71,33 +76,36 @@ final public class RegistryPathWatchdogImpl implements RegistryPathWatchdog {
     if (!initialized.compareAndSet(false, true)) {
       return;
     }
-    SecondTimerEventListener scheduler = new SecondTimerEventListener() {
-      @Override
-      protected long periodSeconds() {
-        return period.toSeconds();
-      }
+    TimeAndUnit period = this.period.get();
+    if (period != null && period.time > 0) {
+      SecondTimerEventListener scheduler = new SecondTimerEventListener() {
+        @Override
+        protected long periodSeconds() {
+          return period.toSeconds();
+        }
 
-      @Override
-      public void onEvent(@NotNull GoblinEventContext context) {
-        semaphore.acquireUninterruptibly();
-        try {
-          lock.readLock().lock();
+        @Override
+        public void onEvent(@NotNull GoblinEventContext context) {
+          semaphore.acquireUninterruptibly();
           try {
-            for (PathData pathData : buffer.values()) {
-              if (!registry.exists(pathData.path)) {
-                initializePathData(pathData);
+            lock.readLock().lock();
+            try {
+              for (PathData pathData : buffer.values()) {
+                if (!registry.exists(pathData.path)) {
+                  initializePathData(pathData);
+                }
               }
+            } finally {
+              lock.readLock().unlock();
             }
           } finally {
-            lock.readLock().unlock();
+            semaphore.release();
           }
-        } finally {
-          semaphore.release();
         }
-      }
-    };
-    EventBus.subscribe(scheduler);
-    this.scheduler.set(scheduler);
+      };
+      EventBus.subscribe(scheduler);
+      this.scheduler.set(scheduler);
+    }
   }
 
   @Override
