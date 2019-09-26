@@ -1,7 +1,7 @@
 package org.goblinframework.remote.client.connection
 
 import org.goblinframework.api.common.Singleton
-import org.goblinframework.api.service.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.core.util.HttpUtils
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read

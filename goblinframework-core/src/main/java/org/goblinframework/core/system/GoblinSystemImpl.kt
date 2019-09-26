@@ -1,7 +1,7 @@
 package org.goblinframework.core.system
 
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.api.system.GoblinModule
 import org.goblinframework.api.system.RuntimeMode
 import org.goblinframework.core.config.ConfigManager

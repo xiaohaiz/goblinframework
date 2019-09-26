@@ -1,8 +1,8 @@
 package org.goblinframework.cache.redis.module.config
 
 import org.goblinframework.api.config.GoblinConfig
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.core.compression.CompressionThreshold
 import org.goblinframework.core.compression.CompressorMode
 import org.goblinframework.core.serialization.SerializerMode

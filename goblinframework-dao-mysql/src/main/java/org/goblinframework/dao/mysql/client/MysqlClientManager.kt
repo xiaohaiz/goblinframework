@@ -2,8 +2,8 @@ package org.goblinframework.dao.mysql.client
 
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.ThreadSafe
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.dao.mysql.module.config.MysqlConfigManager
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock

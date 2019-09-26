@@ -1,6 +1,6 @@
 package org.goblinframework.api.cache;
 
-import org.goblinframework.api.service.ServiceInstaller;
+import org.goblinframework.api.core.ServiceInstaller;
 import org.jetbrains.annotations.Nullable;
 
 final class CacheBuilderManagerInstaller {

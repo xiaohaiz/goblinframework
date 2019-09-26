@@ -1,8 +1,8 @@
 package org.goblinframework.dao.core.mapping;
 
 import org.goblinframework.api.common.GoblinException;
-import org.goblinframework.api.service.GoblinManagedBean;
-import org.goblinframework.api.service.GoblinManagedObject;
+import org.goblinframework.api.core.GoblinManagedBean;
+import org.goblinframework.api.core.GoblinManagedObject;
 import org.goblinframework.dao.core.mapping.field.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

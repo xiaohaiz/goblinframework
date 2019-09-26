@@ -2,7 +2,7 @@ package org.goblinframework.cache.redis.client
 
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.ThreadSafe
-import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.cache.redis.module.config.RedisConfigManager
 import org.goblinframework.cache.redis.module.config.RedisServerMode
 import java.util.concurrent.locks.ReentrantReadWriteLock

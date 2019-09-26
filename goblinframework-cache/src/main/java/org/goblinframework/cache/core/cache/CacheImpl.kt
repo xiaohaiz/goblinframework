@@ -3,8 +3,8 @@ package org.goblinframework.cache.core.cache
 import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.CacheSystem
 import org.goblinframework.api.common.Disposable
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 
 @GoblinManagedBean(type = "Cache")
 internal class CacheImpl

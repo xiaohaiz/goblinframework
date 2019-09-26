@@ -1,8 +1,8 @@
 package org.goblinframework.cache.redis.client
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.cache.redis.command.RedisCommands
 import org.goblinframework.cache.redis.connection.RedisConnection
 import org.goblinframework.cache.redis.connection.TransactionCallback

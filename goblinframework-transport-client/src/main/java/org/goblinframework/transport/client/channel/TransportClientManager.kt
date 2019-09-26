@@ -2,9 +2,9 @@ package org.goblinframework.transport.client.channel
 
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.ThreadSafe
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.api.event.EventBus
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.util.SynchronizedCountLatch
 import org.goblinframework.transport.client.setting.TransportClientSetting

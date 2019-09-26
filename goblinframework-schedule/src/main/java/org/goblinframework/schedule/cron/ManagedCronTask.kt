@@ -1,10 +1,10 @@
 package org.goblinframework.schedule.cron
 
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.api.monitor.Flight
 import org.goblinframework.api.monitor.FlightLocation
 import org.goblinframework.api.schedule.CronTask
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.monitor.FlightRecorder
 import org.goblinframework.core.util.StopWatch
 import org.quartz.CronExpression

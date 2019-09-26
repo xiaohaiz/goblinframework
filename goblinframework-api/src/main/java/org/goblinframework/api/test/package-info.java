@@ -1,6 +1,6 @@
 package org.goblinframework.api.test;
 
-import static org.goblinframework.api.service.ServiceInstaller.firstOrNull;
+import static org.goblinframework.api.core.ServiceInstaller.firstOrNull;
 
 final class TestExecutionListenerManagerInstaller {
   static final ITestExecutionListenerManager INSTALLED = firstOrNull(ITestExecutionListenerManager.class);

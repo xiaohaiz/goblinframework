@@ -1,9 +1,9 @@
 package org.goblinframework.registry.core.manager
 
 import org.goblinframework.api.common.Disposable
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.api.registry.Registry
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
 
 @GoblinManagedBean(type = "registry")
 internal class ManagedRegistry

@@ -1,8 +1,8 @@
 package org.goblinframework.remote.client.service
 
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.api.registry.RegistryPathListener
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.util.CollectionUtils
 import org.goblinframework.core.util.HttpUtils
 import org.goblinframework.remote.client.connection.RemoteConnection

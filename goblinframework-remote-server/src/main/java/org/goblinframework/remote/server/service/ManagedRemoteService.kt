@@ -1,6 +1,6 @@
 package org.goblinframework.remote.server.service
 
-import org.goblinframework.api.service.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.core.container.ContainerManagedBean
 
 @GoblinManagedBean(type = "remote.server")

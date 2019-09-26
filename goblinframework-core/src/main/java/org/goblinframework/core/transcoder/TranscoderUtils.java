@@ -2,7 +2,7 @@ package org.goblinframework.core.transcoder;
 
 import kotlin.text.Charsets;
 import org.apache.commons.lang3.Validate;
-import org.goblinframework.api.service.ServiceInstaller;
+import org.goblinframework.api.core.ServiceInstaller;
 import org.goblinframework.core.compression.CompressionThreshold;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.compression.CompressorManager;

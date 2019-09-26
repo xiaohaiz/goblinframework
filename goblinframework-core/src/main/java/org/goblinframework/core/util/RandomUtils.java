@@ -3,7 +3,7 @@ package org.goblinframework.core.util;
 import org.apache.commons.lang3.Validate;
 import org.bson.types.ObjectId;
 import org.goblinframework.api.common.IRandomProvider;
-import org.goblinframework.api.service.ServiceInstaller;
+import org.goblinframework.api.core.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.SecureRandom;

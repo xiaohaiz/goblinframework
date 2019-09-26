@@ -1,8 +1,8 @@
 package org.goblinframework.transport.server.channel
 
 import io.netty.channel.Channel
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.core.util.MapUtils
 import org.goblinframework.transport.core.codec.TransportMessage
 import org.goblinframework.transport.core.protocol.*

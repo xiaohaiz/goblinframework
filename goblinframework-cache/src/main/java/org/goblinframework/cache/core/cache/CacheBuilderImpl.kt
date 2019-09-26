@@ -5,8 +5,8 @@ import org.goblinframework.api.cache.Cache
 import org.goblinframework.api.cache.CacheBuilder
 import org.goblinframework.api.cache.CacheSystem
 import org.goblinframework.api.common.ThreadSafe
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock

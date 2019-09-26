@@ -2,9 +2,9 @@ package org.goblinframework.remote.server.service
 
 import org.goblinframework.api.common.Singleton
 import org.goblinframework.api.common.ThreadSafe
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.api.registry.GoblinRegistryException
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.remote.server.handler.RemoteServerManager

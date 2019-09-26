@@ -1,6 +1,6 @@
 package org.goblinframework.core.util;
 
-import org.goblinframework.api.service.ServiceClassLoader;
+import org.goblinframework.api.core.ServiceClassLoader;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;

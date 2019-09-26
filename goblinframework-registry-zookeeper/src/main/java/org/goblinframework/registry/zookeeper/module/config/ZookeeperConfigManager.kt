@@ -1,7 +1,7 @@
 package org.goblinframework.registry.zookeeper.module.config
 
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 
 @GoblinManagedBean(type = "registry.zookeeper")
 class ZookeeperConfigManager : GoblinManagedObject(), ZookeeperConfigManagerMXBean {

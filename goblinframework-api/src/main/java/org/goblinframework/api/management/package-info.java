@@ -1,6 +1,6 @@
 package org.goblinframework.api.management;
 
-import static org.goblinframework.api.service.ServiceInstaller.firstOrNull;
+import static org.goblinframework.api.core.ServiceInstaller.firstOrNull;
 
 final class ManagementControllerManagerInstaller {
   static final IManagementControllerManager INSTALLED = firstOrNull(IManagementControllerManager.class);

@@ -1,6 +1,6 @@
 package org.goblinframework.core.conversion
 
-import org.goblinframework.api.service.ServiceInstaller
+import org.goblinframework.api.core.ServiceInstaller
 import org.goblinframework.core.exception.GoblinInitializationException
 import org.springframework.context.support.ConversionServiceFactoryBean
 import org.springframework.core.convert.TypeDescriptor

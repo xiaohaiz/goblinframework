@@ -1,7 +1,7 @@
 package org.goblinframework.management.server
 
-import org.goblinframework.api.service.GoblinManagedBean
-import org.goblinframework.api.service.GoblinManagedObject
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.embedded.core.EmbeddedServerMode
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting

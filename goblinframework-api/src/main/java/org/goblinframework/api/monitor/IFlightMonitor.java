@@ -1,7 +1,7 @@
 package org.goblinframework.api.monitor;
 
 import org.goblinframework.api.common.Internal;
-import org.goblinframework.api.service.ServiceInstaller;
+import org.goblinframework.api.core.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
