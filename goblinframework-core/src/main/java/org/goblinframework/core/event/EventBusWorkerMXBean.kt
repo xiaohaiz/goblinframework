@@ -4,6 +4,8 @@ import java.lang.management.PlatformManagedObject
 
 interface EventBusWorkerMXBean : PlatformManagedObject {
 
+  fun getId(): String
+
   fun getUpTime(): String
 
   fun getChannel(): String

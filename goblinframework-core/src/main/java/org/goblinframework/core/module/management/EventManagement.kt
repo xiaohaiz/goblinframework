@@ -20,11 +20,28 @@ class EventManagement private constructor() {
     return "event/index"
   }
 
-  @RequestMapping("channel.do")
-  fun channel(model: Model, @RequestParam("channel") channel: String): String {
-    EventBusBoss.INSTANCE.lookup(channel)?.run {
-      model.addAttribute("eventBusWorkerMXBean", this)
-    }
-    return "event/channel"
+  @RequestMapping("worker.do")
+  fun worker(model: Model, @RequestParam("workerId") workerId: String): String {
+    EventBusBoss.INSTANCE.getEventBusWorkerList()
+        .firstOrNull { it.getId() == workerId }?.run {
+          model.addAttribute("eventBusWorkerMXBean", this)
+        }
+    return "event/worker"
+  }
+
+  @RequestMapping("listener.do")
+  fun listener(model: Model,
+               @RequestParam("workerId") workerId: String,
+               @RequestParam("listenerId") listenerId: String): String {
+    model.addAttribute("workerId", workerId)
+    EventBusBoss.INSTANCE.getEventBusWorkerList()
+        .firstOrNull { it.getId() == workerId }?.run {
+          val worker = this
+          worker.getEventListenerList()
+              .firstOrNull { it.getId() == listenerId }?.run {
+                model.addAttribute("eventListenerMXBean", this)
+              }
+        }
+    return "event/listener"
   }
 }

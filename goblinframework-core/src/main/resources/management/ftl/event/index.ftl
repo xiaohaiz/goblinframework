@@ -87,7 +87,7 @@
               <td>${worker.failedCount}</td>
               <td>
                   <#if worker.eventListenerList?has_content>
-                    <a class="btn btn-default" href="/goblin/event/channel.do?channel=${worker.channel}"
+                    <a class="btn btn-default" href="/goblin/event/worker.do?workerId=${worker.id}"
                        role="button"><span class="glyphicon glyphicon-eye-open"></span></a>
                   <#else>
                     <a href="?">

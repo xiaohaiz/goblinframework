@@ -58,7 +58,7 @@
             <table class="table table-bordered table-condensed table-striped">
               <thead>
               <tr class="info">
-                <td colspan="6"><strong>Event listener(s)</strong></td>
+                <td colspan="7"><strong>Event listener(s)</strong></td>
               </tr>
               </thead>
               <tbody>
@@ -69,6 +69,7 @@
                 <td><strong>rejected</strong></td>
                 <td><strong>succeed</strong></td>
                 <td><strong>failed</strong></td>
+                <td><strong>detail</strong></td>
               </tr>
               <#list worker.eventListenerList as listener>
                 <tr>
@@ -78,6 +79,11 @@
                   <td>${listener.rejectedCount}</td>
                   <td>${listener.succeedCount}</td>
                   <td>${listener.failedCount}</td>
+                  <td>
+                    <a class="btn btn-default"
+                       href="/goblin/event/listener.do?workerId=${worker.id}&listenerId=${listener.id}"
+                       role="button"><span class="glyphicon glyphicon-eye-open"></span></a>
+                  </td>
                 </tr>
               </#list>
               </tbody>

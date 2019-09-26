@@ -8,6 +8,7 @@ import org.goblinframework.api.event.GoblinEventListener
 import org.goblinframework.api.service.GoblinManagedBean
 import org.goblinframework.api.service.GoblinManagedObject
 import org.goblinframework.core.util.NamedDaemonThreadFactory
+import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.core.util.StopWatch
 import org.goblinframework.core.util.SystemUtils
 import java.util.*
@@ -28,6 +29,7 @@ internal constructor(private val channel: String,
     private const val DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS = 15
   }
 
+  private val id = RandomUtils.nextObjectId()
   private val watch = StopWatch()
   private val workers: Int
   private val disruptor: Disruptor<EventBusWorkerEvent>
@@ -94,6 +96,10 @@ internal constructor(private val channel: String,
     } catch (ignore: TimeoutException) {
     }
     watch.stop()
+  }
+
+  override fun getId(): String {
+    return id
   }
 
   override fun getUpTime(): String {
