@@ -1,0 +1,12 @@
+{
+  "zookeeper": {
+    "example": {
+      "servers": "127.0.0.1"
+    }
+  },
+  "remote": {
+    "client": {
+      "registry": "ZKP:example"
+    }
+  }
+}
