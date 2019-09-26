@@ -9,7 +9,7 @@ import org.goblinframework.api.service.GoblinManagedObject
 class RemoteServerConfig(val mapper: RemoteServerConfigMapper)
   : GoblinManagedObject(), GoblinConfig, RemoteServerConfigMXBean {
 
-  var defaultRegistryLocation: RegistryLocation? = null
+  var registryLocation: RegistryLocation? = null
 
   override fun getName(): String {
     return mapper.name!!
@@ -23,7 +23,7 @@ class RemoteServerConfig(val mapper: RemoteServerConfigMapper)
     return mapper.port!!
   }
 
-  override fun getDefaultRegistry(): String? {
-    return defaultRegistryLocation?.toString()
+  override fun getRegistry(): String? {
+    return registryLocation?.toString()
   }
 }

@@ -41,8 +41,8 @@ class RemoteServerConfigParser internal constructor()
     mapper.port ?: kotlin.run {
       mapper.port = NetworkUtils.RANDOM_PORT
     }
-    mapper.defaultRegistry?.run {
-      config.defaultRegistryLocation = RegistryLocation.parse(this)
+    mapper.registry?.run {
+      config.registryLocation = RegistryLocation.parse(this)
     }
   }
 }

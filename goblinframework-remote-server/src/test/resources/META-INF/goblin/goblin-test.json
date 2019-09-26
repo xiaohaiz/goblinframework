@@ -7,7 +7,7 @@
   "remote": {
     "server": {
       "name": "_ut",
-      "defaultRegistry": "ZKP:_ut"
+      "registry": "ZKP:_ut"
     }
   }
 }
