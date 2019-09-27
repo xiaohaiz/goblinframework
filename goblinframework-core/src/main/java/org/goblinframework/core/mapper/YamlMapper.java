@@ -14,6 +14,7 @@ import org.bson.types.ObjectId;
 import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.mapper.deserializer.InstantDeserializer;
 import org.goblinframework.core.mapper.deserializer.ObjectIdDeserializer;
+import org.goblinframework.core.mapper.introspect.YamlIntrospector;
 import org.goblinframework.core.mapper.serializer.InstantSerializer;
 import org.goblinframework.core.mapper.serializer.ObjectIdSerializer;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +32,7 @@ abstract public class YamlMapper {
 
   static {
     DEFAULT_OBJECT_MAPPER = createObjectMapper();
+    DEFAULT_OBJECT_MAPPER.setAnnotationIntrospector(new YamlIntrospector());
   }
 
   private static YAMLMapper createObjectMapper() {

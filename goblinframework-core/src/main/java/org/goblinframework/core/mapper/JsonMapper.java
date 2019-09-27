@@ -13,6 +13,7 @@ import org.bson.types.ObjectId;
 import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.mapper.deserializer.InstantDeserializer;
 import org.goblinframework.core.mapper.deserializer.ObjectIdDeserializer;
+import org.goblinframework.core.mapper.introspect.JsonIntrospector;
 import org.goblinframework.core.mapper.serializer.InstantSerializer;
 import org.goblinframework.core.mapper.serializer.ObjectIdSerializer;
 import org.jetbrains.annotations.NotNull;
@@ -30,6 +31,7 @@ abstract public class JsonMapper {
 
   static {
     DEFAULT_OBJECT_MAPPER = createObjectMapper();
+    DEFAULT_OBJECT_MAPPER.setAnnotationIntrospector(new JsonIntrospector());
   }
 
   private static ObjectMapper createObjectMapper() {
