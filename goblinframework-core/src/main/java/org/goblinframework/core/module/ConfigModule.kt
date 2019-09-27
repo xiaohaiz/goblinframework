@@ -1,9 +1,9 @@
 package org.goblinframework.core.module
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.*
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.module.management.ConfigManagement
+import org.goblinframework.core.system.*
 
 @Install
 class ConfigModule : IModule {

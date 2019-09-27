@@ -2,10 +2,10 @@ package org.goblinframework.core.module
 
 import org.goblinframework.api.core.Install
 import org.goblinframework.api.management.IManagementServerManager
-import org.goblinframework.api.system.GoblinModule
-import org.goblinframework.api.system.IModule
-import org.goblinframework.api.system.ModuleFinalizeContext
-import org.goblinframework.api.system.ModuleInitializeContext
+import org.goblinframework.core.system.GoblinModule
+import org.goblinframework.core.system.IModule
+import org.goblinframework.core.system.ModuleFinalizeContext
+import org.goblinframework.core.system.ModuleInitializeContext
 
 @Install
 class SystemModule : IModule {

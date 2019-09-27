@@ -1,8 +1,8 @@
 package org.goblinframework.embedded.jetty.module
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.GoblinSubModule
-import org.goblinframework.api.system.ISubModule
+import org.goblinframework.core.system.GoblinSubModule
+import org.goblinframework.core.system.ISubModule
 
 @Install
 class EmbeddedJettyModule : ISubModule {

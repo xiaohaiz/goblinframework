@@ -1,10 +1,10 @@
 package org.goblinframework.remote.client.module
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.GoblinSubModule
-import org.goblinframework.api.system.ISubModule
-import org.goblinframework.api.system.ModuleFinalizeContext
-import org.goblinframework.api.system.ModuleInstallContext
+import org.goblinframework.core.system.GoblinSubModule
+import org.goblinframework.core.system.ISubModule
+import org.goblinframework.core.system.ModuleFinalizeContext
+import org.goblinframework.core.system.ModuleInstallContext
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager
 import org.goblinframework.remote.client.service.ImportServiceProcessor
 import org.goblinframework.remote.client.service.RemoteClientRegistryManager

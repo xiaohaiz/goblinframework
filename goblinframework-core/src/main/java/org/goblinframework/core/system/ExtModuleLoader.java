@@ -1,8 +1,6 @@
 package org.goblinframework.core.system;
 
 import org.goblinframework.api.core.ServiceInstaller;
-import org.goblinframework.api.system.GoblinSystemException;
-import org.goblinframework.api.system.IExtModule;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;

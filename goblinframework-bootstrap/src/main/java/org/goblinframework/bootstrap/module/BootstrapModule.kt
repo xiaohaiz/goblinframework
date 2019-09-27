@@ -1,8 +1,8 @@
 package org.goblinframework.bootstrap.module
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.GoblinModule
-import org.goblinframework.api.system.IModule
+import org.goblinframework.core.system.GoblinModule
+import org.goblinframework.core.system.IModule
 
 @Install
 class BootstrapModule : IModule {

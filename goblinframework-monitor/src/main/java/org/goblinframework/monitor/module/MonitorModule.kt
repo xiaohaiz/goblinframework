@@ -2,10 +2,10 @@ package org.goblinframework.monitor.module
 
 import org.goblinframework.api.core.Install
 import org.goblinframework.api.event.EventBus
-import org.goblinframework.api.system.GoblinModule
-import org.goblinframework.api.system.IModule
-import org.goblinframework.api.system.ModuleFinalizeContext
-import org.goblinframework.api.system.ModuleInstallContext
+import org.goblinframework.core.system.GoblinModule
+import org.goblinframework.core.system.IModule
+import org.goblinframework.core.system.ModuleFinalizeContext
+import org.goblinframework.core.system.ModuleInstallContext
 import org.goblinframework.monitor.message.TimedTouchableMessageBufferManager
 import org.goblinframework.monitor.module.monitor.FlightPrettyPrinterListener
 import org.goblinframework.monitor.module.test.UnitTestFlightListener

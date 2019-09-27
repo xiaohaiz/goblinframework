@@ -1,7 +1,7 @@
 package org.goblinframework.schedule.module
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.*
+import org.goblinframework.core.system.*
 import org.goblinframework.schedule.cron.CronTaskManager
 import org.goblinframework.schedule.module.management.ScheduleManagement
 

@@ -1,7 +1,7 @@
 package org.goblinframework.remote.server.module
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.*
+import org.goblinframework.core.system.*
 import org.goblinframework.remote.server.handler.RemoteServerEventListener
 import org.goblinframework.remote.server.handler.RemoteServerManager
 import org.goblinframework.remote.server.module.config.RemoteServerConfigManager

@@ -1,13 +1,7 @@
 package org.goblinframework.management.controller
 
 import org.goblinframework.api.core.Singleton
-import org.goblinframework.api.system.GoblinModule
-import org.goblinframework.api.system.GoblinSubModule
-import org.goblinframework.api.system.IModule
-import org.goblinframework.api.system.ISubModule
-import org.goblinframework.core.system.ExtModuleLoader
-import org.goblinframework.core.system.ModuleLoader
-import org.goblinframework.core.system.SubModuleLoader
+import org.goblinframework.core.system.*
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 

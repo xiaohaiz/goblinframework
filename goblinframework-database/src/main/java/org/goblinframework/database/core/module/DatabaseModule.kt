@@ -1,7 +1,7 @@
 package org.goblinframework.database.core.module
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.*
+import org.goblinframework.core.system.*
 import org.goblinframework.database.core.mapping.EntityMappingBuilderManager
 import org.goblinframework.database.core.mapping.EntityMappingBuilderProvider
 

@@ -2,13 +2,13 @@ package org.goblinframework.cache.core.module
 
 import org.goblinframework.api.cache.CacheBuilder
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.*
 import org.goblinframework.cache.core.cache.CacheBuilderManager
 import org.goblinframework.cache.core.enhance.GoblinCacheEnhanceProcessor
 import org.goblinframework.cache.core.module.management.CacheManagement
 import org.goblinframework.cache.core.module.test.FlushCacheBeforeTestMethod
 import org.goblinframework.cache.core.provider.InJvmCacheBuilder
 import org.goblinframework.cache.core.provider.NoOpCacheBuilder
+import org.goblinframework.core.system.*
 
 @Install
 class CacheModule : IModule {

@@ -1,12 +1,11 @@
 package org.goblinframework.core.module
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.*
 import org.goblinframework.core.event.EventBusBoss
 import org.goblinframework.core.event.GoblinCallbackEventListener
 import org.goblinframework.core.event.TimerEventGenerator
 import org.goblinframework.core.module.management.EventManagement
-import org.goblinframework.core.system.SubModuleEventListener
+import org.goblinframework.core.system.*
 
 @Install
 class EventModule : IModule {

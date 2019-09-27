@@ -1,7 +1,5 @@
 package org.goblinframework.core.system
 
-import org.goblinframework.api.system.ModuleContext
-import org.goblinframework.api.system.SubModules
 import java.util.concurrent.ConcurrentHashMap
 
 abstract class ModuleContextImpl : ModuleContext {

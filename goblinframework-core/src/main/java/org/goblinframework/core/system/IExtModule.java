@@ -1,14 +1,20 @@
-package org.goblinframework.api.system;
+package org.goblinframework.core.system;
 
-import org.goblinframework.api.core.Internal;
+import org.goblinframework.api.core.External;
+import org.goblinframework.api.core.Ordered;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@Internal
-public interface IModule {
+@External
+public interface IExtModule extends Ordered {
+
+  @Override
+  default int getOrder() {
+    return 0;
+  }
 
   @NotNull
-  GoblinModule id();
+  String id();
 
   @Nullable
   default String managementEntrance() {

@@ -1,7 +1,7 @@
 package org.goblinframework.database.mysql.module
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.*
+import org.goblinframework.core.system.*
 import org.goblinframework.database.core.module.DatabaseModule
 import org.goblinframework.database.mysql.client.MysqlClientManager
 import org.goblinframework.database.mysql.mapping.MysqlEntityMappingBuilderProvider

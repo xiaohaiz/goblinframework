@@ -3,7 +3,7 @@ package org.goblinframework.registry.core.module
 import org.goblinframework.api.core.Install
 import org.goblinframework.api.registry.RegistryBuilder
 import org.goblinframework.api.registry.RegistrySystem
-import org.goblinframework.api.system.*
+import org.goblinframework.core.system.*
 import org.goblinframework.registry.core.manager.RegistryBuilderManager
 
 @Install

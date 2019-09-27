@@ -1,10 +1,10 @@
 package org.goblinframework.transport.client.module
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.GoblinSubModule
-import org.goblinframework.api.system.ISubModule
-import org.goblinframework.api.system.ModuleFinalizeContext
-import org.goblinframework.api.system.ModuleInitializeContext
+import org.goblinframework.core.system.GoblinSubModule
+import org.goblinframework.core.system.ISubModule
+import org.goblinframework.core.system.ModuleFinalizeContext
+import org.goblinframework.core.system.ModuleInitializeContext
 import org.goblinframework.transport.client.channel.TransportClientManager
 import org.goblinframework.transport.client.flight.MessageFlightManager
 import org.slf4j.LoggerFactory

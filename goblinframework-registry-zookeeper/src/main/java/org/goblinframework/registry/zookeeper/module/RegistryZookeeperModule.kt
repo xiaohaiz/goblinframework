@@ -2,10 +2,10 @@ package org.goblinframework.registry.zookeeper.module
 
 import org.goblinframework.api.core.Install
 import org.goblinframework.api.registry.RegistrySystem
-import org.goblinframework.api.system.GoblinSubModule
-import org.goblinframework.api.system.ISubModule
-import org.goblinframework.api.system.ModuleFinalizeContext
-import org.goblinframework.api.system.ModuleInstallContext
+import org.goblinframework.core.system.GoblinSubModule
+import org.goblinframework.core.system.ISubModule
+import org.goblinframework.core.system.ModuleFinalizeContext
+import org.goblinframework.core.system.ModuleInstallContext
 import org.goblinframework.registry.core.module.RegistryModule
 import org.goblinframework.registry.zookeeper.client.ZookeeperClientManager
 import org.goblinframework.registry.zookeeper.module.config.ZookeeperConfigManager

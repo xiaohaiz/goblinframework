@@ -1,7 +1,6 @@
 package org.goblinframework.core.system
 
 import org.goblinframework.api.core.*
-import org.goblinframework.api.system.GoblinSystemException
 import org.goblinframework.api.system.IGoblinSystemManager
 import org.goblinframework.api.system.RuntimeMode
 import org.goblinframework.core.util.RandomUtils

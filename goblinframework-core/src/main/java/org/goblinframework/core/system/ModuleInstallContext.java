@@ -1,4 +1,4 @@
-package org.goblinframework.api.system;
+package org.goblinframework.core.system;
 
 import org.goblinframework.api.config.ConfigListener;
 import org.goblinframework.api.config.ConfigParser;

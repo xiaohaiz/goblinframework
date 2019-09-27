@@ -11,7 +11,6 @@ import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.event.GoblinEventListener
 import org.goblinframework.api.management.IManagementControllerManager
 import org.goblinframework.api.system.IGoblinSystemManager
-import org.goblinframework.api.system.ModuleInstallContext
 import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.api.test.TestExecutionListener
 

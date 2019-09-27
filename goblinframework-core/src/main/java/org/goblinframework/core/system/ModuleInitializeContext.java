@@ -1,4 +1,4 @@
-package org.goblinframework.api.system;
+package org.goblinframework.core.system;
 
 public interface ModuleInitializeContext extends ModuleContext {
 }

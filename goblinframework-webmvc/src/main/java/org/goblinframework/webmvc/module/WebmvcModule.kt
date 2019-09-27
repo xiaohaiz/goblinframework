@@ -1,10 +1,10 @@
 package org.goblinframework.webmvc.module
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.GoblinModule
-import org.goblinframework.api.system.IModule
-import org.goblinframework.api.system.ModuleFinalizeContext
-import org.goblinframework.api.system.ModuleInstallContext
+import org.goblinframework.core.system.GoblinModule
+import org.goblinframework.core.system.IModule
+import org.goblinframework.core.system.ModuleFinalizeContext
+import org.goblinframework.core.system.ModuleInstallContext
 import org.goblinframework.webmvc.handler.RequestHandlerManagerBuilder
 import org.goblinframework.webmvc.module.management.WebmvcManagementController
 

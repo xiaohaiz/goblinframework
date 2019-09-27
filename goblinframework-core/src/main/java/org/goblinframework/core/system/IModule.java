@@ -1,14 +1,14 @@
-package org.goblinframework.api.system;
+package org.goblinframework.core.system;
 
 import org.goblinframework.api.core.Internal;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Internal
-public interface ISubModule {
+public interface IModule {
 
   @NotNull
-  GoblinSubModule id();
+  GoblinModule id();
 
   @Nullable
   default String managementEntrance() {

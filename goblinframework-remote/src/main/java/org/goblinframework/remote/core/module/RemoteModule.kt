@@ -1,7 +1,7 @@
 package org.goblinframework.remote.core.module
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.api.system.*
+import org.goblinframework.core.system.*
 
 @Install
 class RemoteModule : IModule {
