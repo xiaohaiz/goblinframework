@@ -1,7 +1,7 @@
 description = "goblinframework-webmvc"
 
 dependencies {
-  compile(project(":goblinframework-http"))
+  compile(project(":goblinframework-core"))
   compile("javax.servlet:javax.servlet-api:${javax_servlet_version}")
   compile("org.springframework:spring-context-support:${spring_version}")
   compile("org.freemarker:freemarker:${freemarker_version}")
