@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import de.undercouch.bson4jackson.BsonParser;
 import de.undercouch.bson4jackson.deserializers.BsonDeserializers;
 import de.undercouch.bson4jackson.serializers.BsonSerializers;
@@ -51,4 +52,7 @@ abstract public class BsonMapper {
     return DEFAULT_OBJECT_MAPPER;
   }
 
+  public static TypeFactory getDefaultTypeFactory() {
+    return getDefaultObjectMapper().getTypeFactory();
+  }
 }

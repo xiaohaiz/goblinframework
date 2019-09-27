@@ -41,4 +41,15 @@ class BsonConversionServiceTest : SpringManagedBean() {
     val value = map["value"] as ObjectId
     assertEquals(id, value)
   }
+
+  @Test
+  fun stringToObjectId() {
+    val id = ObjectId()
+    val i = LinkedHashMap<String, String>().apply { this["id"] = id.toHexString() }
+    val doc = BsonConversionService.toBson(i) as BsonDocument
+    val factory = BsonMapper.getDefaultTypeFactory()
+    val mt = factory.constructMapType(LinkedHashMap::class.java, String::class.java, ObjectId::class.java)
+    val o = BsonConversionService.toObject<LinkedHashMap<String, ObjectId>>(doc, mt)
+    assertEquals(id, o["id"] as ObjectId)
+  }
 }
