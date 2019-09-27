@@ -25,7 +25,7 @@ abstract public class GoblinStaticPersistence<E, ID> extends MysqlPersistenceSup
   }
 
   public long directCount(@NotNull Query query) {
-    return executeCount(getMasterConnection(), query, getTableName());
+    return __executeCount(getMasterConnection(), query, getTableName());
   }
 
   @NotNull
@@ -35,19 +35,19 @@ abstract public class GoblinStaticPersistence<E, ID> extends MysqlPersistenceSup
 
   @NotNull
   public List<E> directQuery(@NotNull Query query) {
-    return executeQuery(getMasterConnection(), query, getTableName());
+    return __executeQuery(getMasterConnection(), query, getTableName());
   }
 
   public long directUpdate(@NotNull Update update, @NotNull Criteria criteria) {
-    return executeUpdate(update, criteria, getTableName());
+    return __executeUpdate(update, criteria, getTableName());
   }
 
   public long directRemove(@NotNull Query query) {
-    return executeDelete(query, getTableName());
+    return __executeDelete(query, getTableName());
   }
 
   public long directRemove(@NotNull Criteria criteria) {
-    return executeDelete(criteria, getTableName());
+    return __executeDelete(criteria, getTableName());
   }
 
 }

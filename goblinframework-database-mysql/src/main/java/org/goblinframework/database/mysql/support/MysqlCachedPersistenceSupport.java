@@ -68,7 +68,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
     if (entities == null || entities.isEmpty()) {
       return;
     }
-    directInserts(entities);
+    __inserts(entities);
     if (dimension == org.goblinframework.api.dao.GoblinCacheDimension.Dimension.NONE) {
       return;
     }
@@ -93,12 +93,12 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
       return Collections.emptyMap();
     }
     if (!hasIdCache()) {
-      return directLoads(getMasterConnection(), ids);
+      return __loads(getMasterConnection(), ids);
     }
     GoblinCache gc = getDefaultCache();
     return gc.cache.<ID, E>loader()
         .keyGenerator(this::generateCacheKey)
-        .externalLoader(missed -> directLoads(getMasterConnection(), missed))
+        .externalLoader(missed -> __loads(getMasterConnection(), missed))
         .keys(ids)
         .loads()
         .loadsMissed()
@@ -112,7 +112,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
   public boolean exists(@Nullable ID id) {
     if (id == null) return false;
     if (!hasIdCache()) {
-      return directExists(getMasterConnection(), id);
+      return __exists(getMasterConnection(), id);
     }
     String idCacheKey = generateCacheKey(id);
     GoblinCache gc = getDefaultCache();
@@ -120,14 +120,14 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
     if (gr.hit) {
       return gr.value != null;
     } else {
-      return directExists(getMasterConnection(), id);
+      return __exists(getMasterConnection(), id);
     }
   }
 
   @Override
   public boolean replace(@Nullable E entity) {
     if (dimension == org.goblinframework.api.dao.GoblinCacheDimension.Dimension.NONE) {
-      return directReplace(entity);
+      return __replace(entity);
     }
     if (entity == null) return false;
     ID id = getEntityId(entity);
@@ -139,15 +139,15 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
     getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
       @Override
       protected void doInTransactionWithoutResult(TransactionStatus status) {
-        E original = directLoad(getMasterConnection(), id);
+        E original = __load(getMasterConnection(), id);
         if (original == null) {
           return;
         }
-        boolean ret = directReplace(entity);
+        boolean ret = __replace(entity);
         if (!ret) {
           return;
         }
-        E replaced = directLoad(getMasterConnection(), id);
+        E replaced = __load(getMasterConnection(), id);
         assert replaced != null;
         if (dimension == org.goblinframework.api.dao.GoblinCacheDimension.Dimension.ID_FIELD) {
           GoblinCache gc = getDefaultCache();
@@ -171,7 +171,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
   public boolean upsert(@Nullable E entity) {
     if (entity == null) return false;
     if (dimension == org.goblinframework.api.dao.GoblinCacheDimension.Dimension.NONE) {
-      return directUpsert(entity);
+      return __upsert(entity);
     }
     ID id = getEntityId(entity);
     if (id == null) {
@@ -184,12 +184,12 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
       protected void doInTransactionWithoutResult(TransactionStatus status) {
         E original = null;
         if (dimension != org.goblinframework.api.dao.GoblinCacheDimension.Dimension.ID_FIELD) {
-          original = directLoad(getMasterConnection(), id);
+          original = __load(getMasterConnection(), id);
         }
-        if (!directUpsert(entity)) {
+        if (!__upsert(entity)) {
           return;
         }
-        E upserted = directLoad(getMasterConnection(), id);
+        E upserted = __load(getMasterConnection(), id);
         assert upserted != null;
         if (dimension == org.goblinframework.api.dao.GoblinCacheDimension.Dimension.ID_FIELD) {
           GoblinCache gc = getDefaultCache();
@@ -225,11 +225,11 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
       return 0;
     }
     if (dimension == org.goblinframework.api.dao.GoblinCacheDimension.Dimension.NONE) {
-      return directDeletes(ids);
+      return __deletes(ids);
     }
     switch (dimension) {
       case ID_FIELD: {
-        long deletedCount = directDeletes(ids);
+        long deletedCount = __deletes(ids);
         if (deletedCount > 0) {
           Set<String> keys = ids.stream()
               .map(this::generateCacheKey)
@@ -244,8 +244,8 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
         getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
           @Override
           protected void doInTransactionWithoutResult(TransactionStatus status) {
-            Map<ID, E> map = directLoads(getMasterConnection(), ids);
-            long deletedCount = directDeletes(ids);
+            Map<ID, E> map = __loads(getMasterConnection(), ids);
+            long deletedCount = __deletes(ids);
             if (deletedCount > 0) {
               CacheDimension gcd = new CacheDimension(entityMapping.entityClass, cacheBean);
               map.values().forEach(e -> calculateCacheDimensions(e, gcd));

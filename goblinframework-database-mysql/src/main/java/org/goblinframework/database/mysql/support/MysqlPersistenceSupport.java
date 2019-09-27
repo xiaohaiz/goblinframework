@@ -47,52 +47,52 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
   }
 
   public void insert(@NotNull E entity) {
-    directInsert(entity);
+    __insert(entity);
   }
 
   public void inserts(@Nullable final Collection<E> entities) {
-    directInserts(entities);
+    __inserts(entities);
   }
 
   @Nullable
   public E load(@Nullable final ID id) {
-    return directLoad(getMasterConnection(), id);
+    return __load(getMasterConnection(), id);
   }
 
   @NotNull
   public Map<ID, E> loads(@Nullable final Collection<ID> ids) {
-    return directLoads(getMasterConnection(), ids);
+    return __loads(getMasterConnection(), ids);
   }
 
   public boolean exists(@Nullable ID id) {
-    return directExists(getMasterConnection(), id);
+    return __exists(getMasterConnection(), id);
   }
 
   public boolean replace(@Nullable E entity) {
-    return directReplace(entity);
+    return __replace(entity);
   }
 
   public boolean upsert(@Nullable E entity) {
-    return directUpsert(entity);
+    return __upsert(entity);
   }
 
   public boolean delete(@Nullable ID id) {
-    return directDelete(id);
+    return __delete(id);
   }
 
   public long deletes(@Nullable Collection<ID> ids) {
-    return directDeletes(ids);
+    return __deletes(ids);
   }
 
   // ==========================================================================
   // Direct database access methods
   // ==========================================================================
 
-  final public void directInsert(@NotNull E entity) {
-    directInserts(Collections.singleton(entity));
+  final public void __insert(@NotNull E entity) {
+    __inserts(Collections.singleton(entity));
   }
 
-  final public void directInserts(@Nullable final Collection<E> entities) {
+  final public void __inserts(@Nullable final Collection<E> entities) {
     if (entities == null || entities.isEmpty()) return;
 
     for (E entity : entities) {
@@ -113,27 +113,27 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
         @Override
         protected void doInTransactionWithoutResult(TransactionStatus status) {
           groupEntities(entities).forEach((tableName, list) -> {
-            list.forEach(e -> executeInsert(e, tableName));
+            list.forEach(e -> __executeInsert(e, tableName));
           });
         }
       });
     } else {
       E entity = entities.iterator().next();
       String tableName = getEntityTableName(entity);
-      executeInsert(entity, tableName);
+      __executeInsert(entity, tableName);
     }
   }
 
   @Nullable
-  final public E directLoad(@NotNull final MysqlConnection connection,
-                            @Nullable final ID id) {
+  final public E __load(@NotNull final MysqlConnection connection,
+                        @Nullable final ID id) {
     if (id == null) return null;
-    return directLoads(connection, Collections.singleton(id)).get(id);
+    return __loads(connection, Collections.singleton(id)).get(id);
   }
 
   @NotNull
-  final public Map<ID, E> directLoads(@NotNull final MysqlConnection connection,
-                                      @Nullable final Collection<ID> ids) {
+  final public Map<ID, E> __loads(@NotNull final MysqlConnection connection,
+                                  @Nullable final Collection<ID> ids) {
     if (ids == null || ids.isEmpty()) return Collections.emptyMap();
     List<E> entities = new LinkedList<>();
     groupIds(ids).forEach((tableName, idList) -> {
@@ -146,22 +146,22 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
         criteria = Criteria.where(entityMapping.getIdFieldName()).in(idList);
       }
       Query query = Query.query(criteria);
-      entities.addAll(executeQuery(connection, query, tableName));
+      entities.addAll(__executeQuery(connection, query, tableName));
     });
     Map<ID, E> map = entities.stream().collect(Collectors.toMap(this::getEntityId, Function.identity()));
     return MapUtils.resort(map, ids);
   }
 
-  final public boolean directExists(@NotNull final MysqlConnection connection,
-                                    @Nullable ID id) {
+  final public boolean __exists(@NotNull final MysqlConnection connection,
+                                @Nullable ID id) {
     if (id == null) return false;
     Criteria criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
     Query query = Query.query(criteria);
     String tableName = getIdTableName(id);
-    return executeCount(connection, query, tableName) > 0;
+    return __executeCount(connection, query, tableName) > 0;
   }
 
-  final public boolean directReplace(@Nullable E entity) {
+  final public boolean __replace(@Nullable E entity) {
     if (entity == null) return false;
     ID id = getEntityId(entity);
     if (id == null) {
@@ -197,11 +197,11 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return rows > 0;
   }
 
-  public boolean directUpsert(@Nullable final E entity) {
+  public boolean __upsert(@Nullable final E entity) {
     if (entity == null) return false;
     ID id = getEntityId(entity);
     if (id == null) {
-      directInsert(entity);
+      __insert(entity);
       return true;
     }
     long millis = System.currentTimeMillis();
@@ -228,12 +228,12 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return jdbcTemplate.update(sql.toString(), params) > 0;
   }
 
-  public boolean directDelete(@Nullable final ID id) {
+  public boolean __delete(@Nullable final ID id) {
     if (id == null) return false;
-    return directDeletes(Collections.singleton(id)) > 0;
+    return __deletes(Collections.singleton(id)) > 0;
   }
 
-  public long directDeletes(@Nullable final Collection<ID> ids) {
+  public long __deletes(@Nullable final Collection<ID> ids) {
     if (ids == null || ids.isEmpty()) return 0;
     if (ids.size() > 1) {
       AtomicLong deletedCount = new AtomicLong();
@@ -248,7 +248,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
             } else {
               criteria = Criteria.where(entityMapping.idField.getName()).in(idList);
             }
-            long rows = executeDelete(criteria, tableName);
+            long rows = __executeDelete(criteria, tableName);
             deletedCount.addAndGet(rows);
           });
         }
@@ -258,7 +258,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
       ID id = ids.iterator().next();
       String tableName = getIdTableName(id);
       Criteria criteria = Criteria.where(entityMapping.idField.getName()).is(id);
-      return executeDelete(criteria, tableName);
+      return __executeDelete(criteria, tableName);
     }
   }
 
@@ -266,8 +266,8 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
   // Helper methods
   // ==========================================================================
 
-  protected void executeInsert(@NotNull final E entity,
-                               @NotNull final String tableName) {
+  protected void __executeInsert(@NotNull final E entity,
+                                 @NotNull final String tableName) {
     MysqlInsertOperation insertOperation = new MysqlInsertOperation(entityMapping, entity, tableName);
     String sql = insertOperation.generateSQL();
     PreparedStatementCreatorFactory factory = insertOperation.newPreparedStatementCreatorFactory(sql);
@@ -288,9 +288,9 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     }
   }
 
-  protected long executeUpdate(@NotNull final Update update,
-                               @NotNull final Criteria criteria,
-                               @NotNull final String tableName) {
+  protected long __executeUpdate(@NotNull final Update update,
+                                 @NotNull final Criteria criteria,
+                                 @NotNull final String tableName) {
     NamedParameterSQL u = updateTranslator.translate(update, entityMapping);
     if (StringUtils.isEmpty(u.sql)) {
       throw new GoblinPersistenceException("No update SQL generated");
@@ -308,8 +308,8 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return jdbcTemplate.update(sql.get(), source);
   }
 
-  protected long executeDelete(@NotNull final Criteria criteria,
-                               @NotNull final String tableName) {
+  protected long __executeDelete(@NotNull final Criteria criteria,
+                                 @NotNull final String tableName) {
     TranslatedCriteria tc = criteriaTranslator.translate(criteria);
     MapSqlParameterSource source = new MapSqlParameterSource();
     source.addValues(tc.parameterSource.getValues());
@@ -320,9 +320,9 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return jdbcTemplate.update(sql.getValue(), source);
   }
 
-  protected long executeDelete(@NotNull Query query, @NotNull String tableName) {
+  protected long __executeDelete(@NotNull Query query, @NotNull String tableName) {
     if (query.getNativeSQL() == null) {
-      return executeDelete(query.getCriteria(), tableName);
+      return __executeDelete(query.getCriteria(), tableName);
     }
     NativeSQL nativeSQL = query.getNativeSQL();
     MapSqlParameterSource source = new MapSqlParameterSource();
@@ -338,9 +338,9 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
     return jdbcTemplate.update(sql.get(), source);
   }
 
-  protected long executeCount(@NotNull final MysqlConnection connection,
-                              @NotNull final Query query,
-                              @NotNull final String tableName) {
+  protected long __executeCount(@NotNull final MysqlConnection connection,
+                                @NotNull final Query query,
+                                @NotNull final String tableName) {
     TranslatedCriteria tc = queryTranslator.translateCount(query, tableName);
     NamedParameterJdbcTemplate jdbcTemplate = connection.getNamedParameterJdbcTemplate();
     return jdbcTemplate.query(tc.sql, tc.parameterSource,
@@ -348,9 +348,9 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSuppor
   }
 
   @NotNull
-  protected List<E> executeQuery(@NotNull final MysqlConnection connection,
-                                 @NotNull final Query query,
-                                 @NotNull final String tableName) {
+  protected List<E> __executeQuery(@NotNull final MysqlConnection connection,
+                                   @NotNull final Query query,
+                                   @NotNull final String tableName) {
     TranslatedCriteria tc = queryTranslator.translateQuery(query, tableName);
     NamedParameterJdbcTemplate jdbcTemplate = connection.getNamedParameterJdbcTemplate();
     return jdbcTemplate.query(tc.sql, tc.parameterSource, entityRowMapper);
