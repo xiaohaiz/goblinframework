@@ -6,7 +6,6 @@ import org.goblinframework.api.core.ServiceInstaller;
 import org.goblinframework.core.compression.CompressionThreshold;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.compression.CompressorManager;
-import org.goblinframework.core.exception.GoblinTranscodingException;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
 import org.goblinframework.core.util.IOUtils;
@@ -109,10 +108,10 @@ abstract public class TranscoderUtils {
   public static DecodeResult decode(@NotNull InputStream inStream) {
     try {
       return internalDecode(inStream);
-    } catch (GoblinTranscodingException ex) {
+    } catch (GoblinTranscoderException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new GoblinTranscodingException(ex);
+      throw new GoblinTranscoderException(ex);
     }
   }
 
@@ -149,7 +148,7 @@ abstract public class TranscoderUtils {
     if (compressorId != 0) {
       compressor = CompressorManager.INSTANCE.getCompressor(compressorId);
       if (compressor == null) {
-        throw new GoblinTranscodingException("Compressor [" + compressorId + "] unrecognized");
+        throw new GoblinTranscoderException("Compressor [" + compressorId + "] unrecognized");
       }
     }
 
@@ -167,7 +166,7 @@ abstract public class TranscoderUtils {
     if (serializerId != 0) {
       serializer = SerializerManager.INSTANCE.getSerializer(serializerId);
       if (serializer == null) {
-        throw new GoblinTranscodingException("Serializer [" + serializerId + "] unrecognized");
+        throw new GoblinTranscoderException("Serializer [" + serializerId + "] unrecognized");
       }
     }
 

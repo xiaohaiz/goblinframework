@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.buffer.*;
 import kotlin.text.Charsets;
 import org.goblinframework.core.compression.Compressor;
-import org.goblinframework.core.exception.GoblinTranscodingException;
 import org.goblinframework.core.serialization.Serializer;
+import org.goblinframework.core.transcoder.GoblinTranscoderException;
 import org.goblinframework.core.transcoder.Transcoder;
 import org.goblinframework.core.transcoder.TranscoderConstants;
 import org.goblinframework.core.transcoder.TranscoderSetting;
@@ -29,10 +29,10 @@ final class TranscoderImpl implements Transcoder {
     try {
       internalEncode(outStream, obj);
       outStream.flush();
-    } catch (GoblinTranscodingException ex) {
+    } catch (GoblinTranscoderException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new GoblinTranscodingException(ex);
+      throw new GoblinTranscoderException(ex);
     }
   }
 

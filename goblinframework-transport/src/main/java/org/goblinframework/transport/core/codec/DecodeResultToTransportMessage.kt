@@ -1,8 +1,8 @@
 package org.goblinframework.transport.core.codec
 
 import com.fasterxml.jackson.databind.JsonNode
-import org.goblinframework.core.exception.GoblinTranscodingException
 import org.goblinframework.core.transcoder.DecodeResult
+import org.goblinframework.core.transcoder.GoblinTranscoderException
 import org.goblinframework.core.util.JsonUtils
 import org.goblinframework.transport.core.protocol.*
 import org.springframework.core.convert.converter.Converter
@@ -52,19 +52,19 @@ class DecodeResultToTransportMessage : Converter<DecodeResult, TransportMessage>
     }
 
     if (root == null || !root.isObject) {
-      throw GoblinTranscodingException("Decoded object is not JSON object")
+      throw GoblinTranscoderException("Decoded object is not JSON object")
     }
     val idNode = root.get("_id")
     if (idNode == null || idNode.isNull) {
-      throw GoblinTranscodingException("Decoded object has no valid _id field")
+      throw GoblinTranscoderException("Decoded object has no valid _id field")
     }
     val id = idNode.asText()
     val type = map[id]
-        ?: throw GoblinTranscodingException("Decoded object [$id] not registered")
+        ?: throw GoblinTranscoderException("Decoded object [$id] not registered")
     try {
       return mapper.readValue(root.traverse(), type)
     } catch (ex: Exception) {
-      throw GoblinTranscodingException(ex)
+      throw GoblinTranscoderException(ex)
     }
 
   }

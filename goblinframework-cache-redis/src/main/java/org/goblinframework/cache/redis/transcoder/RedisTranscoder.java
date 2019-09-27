@@ -10,12 +10,8 @@ import org.goblinframework.api.core.GoblinManagedBean;
 import org.goblinframework.api.core.GoblinManagedObject;
 import org.goblinframework.core.compression.CompressionThreshold;
 import org.goblinframework.core.compression.Compressor;
-import org.goblinframework.core.exception.GoblinTranscodingException;
 import org.goblinframework.core.serialization.Serializer;
-import org.goblinframework.core.transcoder.ByteArrayWrapper;
-import org.goblinframework.core.transcoder.DecodeResult;
-import org.goblinframework.core.transcoder.Transcoder;
-import org.goblinframework.core.transcoder.TranscoderUtils;
+import org.goblinframework.core.transcoder.*;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -64,7 +60,7 @@ final public class RedisTranscoder extends GoblinManagedObject
         return new String(value, Charsets.UTF_8);
       }
     } catch (IOException ex) {
-      throw new GoblinTranscodingException(ex);
+      throw new GoblinTranscoderException(ex);
     }
   }
 
