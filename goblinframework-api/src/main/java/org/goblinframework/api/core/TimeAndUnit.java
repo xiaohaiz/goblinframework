@@ -1,5 +1,7 @@
 package org.goblinframework.api.core;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -13,7 +15,8 @@ public class TimeAndUnit implements Serializable {
   public final long time;
   @NotNull public final TimeUnit unit;
 
-  public TimeAndUnit(long time, @NotNull TimeUnit unit) {
+  @JsonCreator
+  public TimeAndUnit(@JsonProperty("time") long time, @NotNull @JsonProperty("unit") TimeUnit unit) {
     this.time = time;
     this.unit = unit;
   }

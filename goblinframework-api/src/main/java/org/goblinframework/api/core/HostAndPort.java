@@ -1,5 +1,7 @@
 package org.goblinframework.api.core;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -12,7 +14,8 @@ public class HostAndPort implements Serializable {
   @NotNull public final String host;
   public final int port;
 
-  public HostAndPort(@NotNull String host, int port) {
+  @JsonCreator
+  public HostAndPort(@NotNull @JsonProperty("host") String host, @JsonProperty("port") int port) {
     this.host = host;
     this.port = port;
   }
