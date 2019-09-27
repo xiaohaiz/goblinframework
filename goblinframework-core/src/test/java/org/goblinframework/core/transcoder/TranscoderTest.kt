@@ -1,59 +1,102 @@
 package org.goblinframework.core.transcoder
 
-import org.apache.commons.lang3.RandomStringUtils
+import org.apache.commons.io.output.ByteArrayOutputStream
 import org.bson.types.ObjectId
-import org.goblinframework.core.compression.CompressorManager
+import org.goblinframework.core.compression.CompressionThreshold
 import org.goblinframework.core.compression.CompressorMode
 import org.goblinframework.core.container.SpringManagedBean
-import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.core.serialization.SerializerMode
+import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
 class TranscoderTest : SpringManagedBean() {
 
   @Test
-  fun transcode() {
-    val serializer = SerializerManager.INSTANCE.getSerializer(SerializerMode.FST)
-    val source = ObjectId()
-    val bos = ByteArrayOutputStream()
-    TranscoderSetting.builder()
-        .serializer(serializer)
-        .build()
-        .transcoder()
-        .encode(bos, source)
-    val bis = ByteArrayInputStream(bos.toByteArray())
-    bos.close()
-    val obj = Transcoder.decode(bis)
-    assertEquals(serializer.mode().id, obj.serializer)
-    assertEquals(source, obj.result)
-    assertTrue(obj.magic)
-    bis.close()
+  fun bs() {
+    val bs = RandomUtils.nextBytes(512)
+    bs[0] = 0
+    for (mode in SerializerMode.values()) {
+      val bos = ByteArrayOutputStream()
+      TranscoderSetting.builder()
+          .serializer(mode)
+          .build()
+          .transcoder().encode(bos, bs)
+      bos.toInputStream().use {
+        val dr = Transcoder.decode(it)
+        assertFalse(dr.magic)
+        assertEquals(0.toByte(), dr.serializer)
+        assertEquals(0.toByte(), dr.compressor)
+        assertFalse(dr.wrapper)
+        assertArrayEquals(bs, dr.result as ByteArray)
+      }
+    }
+  }
+
+  @Test
+  fun string() {
+    val s = RandomUtils.randomAlphanumeric(4096)
+    for (mode in SerializerMode.values()) {
+      val bos = ByteArrayOutputStream()
+      TranscoderSetting.builder()
+          .serializer(mode)
+          .compressor(CompressorMode.GZIP)
+          .compressionThreshold(CompressionThreshold._1K)
+          .build()
+          .transcoder().encode(bos, s)
+      bos.toInputStream().use {
+        val dr = Transcoder.decode(it)
+        assertTrue(dr.magic)
+        assertEquals(0.toByte(), dr.serializer)
+        assertEquals(CompressorMode.GZIP.id, dr.compressor)
+        assertFalse(dr.wrapper)
+        assertEquals(s, dr.result)
+      }
+    }
+  }
+
+  @Test
+  fun wrapper() {
+    val bs = RandomUtils.nextBytes(4096)
+    for (mode in SerializerMode.values()) {
+      val bos = ByteArrayOutputStream()
+      TranscoderSetting.builder()
+          .serializer(mode)
+          .build()
+          .transcoder().encode(bos, ByteArrayWrapper(bs))
+      bos.toInputStream().use {
+        val dr = Transcoder.decode(it)
+        assertTrue(dr.magic)
+        assertEquals(mode.id, dr.serializer)
+        assertEquals(0.toByte(), dr.compressor)
+        assertTrue(dr.wrapper)
+        assertArrayEquals(bs, dr.result as ByteArray)
+      }
+    }
   }
 
   @Test
   fun encode() {
-    val compressor = CompressorManager.INSTANCE.getCompressor(CompressorMode.BZIP2)
-    val serializer = SerializerManager.INSTANCE.getSerializer(SerializerMode.HESSIAN2)
-    val transcoder = TranscoderSetting.builder()
-        .compressor(compressor)
-        .serializer(serializer)
-        .build()
-        .transcoder()
-
-    val s = RandomStringUtils.randomAlphanumeric(4096)
-    val bos = ByteArrayOutputStream(512)
-    transcoder.encode(bos, s)
-    val bis = ByteArrayInputStream(bos.toByteArray())
-    val dr = Transcoder.decode(bis)
-    assertEquals(s, dr.result)
+    val s = ObjectId()
+    for (mode in SerializerMode.values()) {
+      val bos = ByteArrayOutputStream()
+      TranscoderSetting.builder()
+          .serializer(mode)
+          .build()
+          .transcoder().encode(bos, s)
+      bos.toInputStream().use {
+        val dr = Transcoder.decode(it)
+        assertTrue(dr.magic)
+        assertEquals(mode.id, dr.serializer)
+        assertEquals(0.toByte(), dr.compressor)
+        assertFalse(dr.wrapper)
+        assertEquals(s, dr.result)
+      }
+    }
   }
 }

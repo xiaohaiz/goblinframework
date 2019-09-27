@@ -1,7 +1,7 @@
 package org.goblinframework.core.compression
 
-import org.apache.commons.lang3.RandomStringUtils
 import org.goblinframework.core.container.SpringManagedBean
+import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert
 import org.junit.Test
@@ -20,7 +20,7 @@ class CompressorManagerTest : SpringManagedBean() {
     for (mode in CompressorMode.values()) {
       val c = cm.getCompressor(mode)
 
-      val s = RandomStringUtils.randomAlphanumeric(1024 * 1024)
+      val s = RandomUtils.randomAlphanumeric(1024 * 1024)
       var i = s.byteInputStream(Charsets.UTF_8)
       var o = ByteArrayOutputStream()
       c.compress(i, o)

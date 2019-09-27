@@ -25,7 +25,7 @@ class RedisTranscoderTest {
       var kb = transcoder.encodeKey(key)
       assertEquals(key, transcoder.decodeKey(kb))
 
-      val value = RandomStringUtils.randomAlphanumeric(4096)
+      val value = RandomUtils.randomAlphanumeric(4096)
       kb = transcoder.encodeValue(value)
       assertEquals(value, transcoder.decodeValue(kb))
 

@@ -1,6 +1,5 @@
-package org.goblinframework.core.event.dsl
+package org.goblinframework.core.event
 
-import org.apache.commons.lang3.RandomStringUtils
 import org.apache.commons.lang3.RandomUtils
 import org.goblinframework.api.event.EventBus
 import org.goblinframework.core.container.SpringManagedBean
@@ -16,7 +15,7 @@ class GoblinCallbackTest : SpringManagedBean() {
 
   @Test
   fun testCallback() {
-    val s = RandomStringUtils.randomAlphanumeric(64)
+    val s = org.goblinframework.core.util.RandomUtils.randomAlphanumeric(64)
     Assert.assertEquals(s, echo(s))
     val i = RandomUtils.nextInt()
     Assert.assertEquals(i, echo(i))

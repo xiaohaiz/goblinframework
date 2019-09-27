@@ -1,5 +1,6 @@
 package org.goblinframework.core.util;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.Validate;
 import org.bson.types.ObjectId;
 import org.goblinframework.api.core.IRandomProvider;
@@ -61,5 +62,13 @@ abstract public class RandomUtils {
     final byte[] result = new byte[count];
     RANDOM.nextBytes(result);
     return result;
+  }
+
+  public static String randomAlphabetic(final int count) {
+    return RandomStringUtils.random(count, 0, 0, true, false, null, RANDOM);
+  }
+
+  public static String randomAlphanumeric(final int count) {
+    return RandomStringUtils.random(count, 0, 0, true, true, null, RANDOM);
   }
 }
