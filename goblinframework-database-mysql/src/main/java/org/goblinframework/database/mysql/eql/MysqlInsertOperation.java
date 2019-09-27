@@ -68,7 +68,7 @@ final public class MysqlInsertOperation {
   public String generateSQL() {
     String sql;
     if (!hasContent()) {
-      sql = String.format("INSERT INTO `%s`", tableName);
+      sql = String.format("INSERT INTO `%s` VALUES ()", tableName);
     } else {
       sql = String.format("INSERT INTO `%s` (%s) VALUES (%s)", tableName, toFields(), toQuestions());
     }

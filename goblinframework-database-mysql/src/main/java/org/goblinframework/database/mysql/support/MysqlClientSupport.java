@@ -18,7 +18,7 @@ abstract public class MysqlClientSupport<E, ID> extends MysqlEntityMappingSuppor
     Class<?> clazz = ClassUtils.filterCglibProxyClass(getClass());
     GoblinDatabaseConnection annotation = AnnotationUtils.getAnnotation(clazz, GoblinDatabaseConnection.class);
     if (annotation == null) {
-      throw new GoblinPersistenceException("No @UseMysqlClient presented on " + clazz.getName());
+      throw new GoblinPersistenceException("No @GoblinDatabaseConnection presented on " + clazz.getName());
     }
     String name = annotation.name();
     MysqlClient client = MysqlClientManager.INSTANCE.getMysqlClient(name);
