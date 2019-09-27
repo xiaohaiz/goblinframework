@@ -1,6 +1,6 @@
 package org.goblinframework.dao.core.mapping;
 
-import org.goblinframework.dao.core.annotation.GoblinDatabaseSystem;
+import org.goblinframework.dao.core.GoblinDatabaseSystem;
 
 public interface EntityMappingBuilderProvider {
 

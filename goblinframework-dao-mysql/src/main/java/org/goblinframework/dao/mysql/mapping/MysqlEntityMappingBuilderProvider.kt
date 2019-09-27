@@ -1,7 +1,7 @@
 package org.goblinframework.dao.mysql.mapping
 
 import org.goblinframework.api.core.Install
-import org.goblinframework.dao.core.annotation.GoblinDatabaseSystem
+import org.goblinframework.dao.core.GoblinDatabaseSystem
 import org.goblinframework.dao.core.mapping.EntityMappingBuilder
 import org.goblinframework.dao.core.mapping.EntityMappingBuilderProvider
 

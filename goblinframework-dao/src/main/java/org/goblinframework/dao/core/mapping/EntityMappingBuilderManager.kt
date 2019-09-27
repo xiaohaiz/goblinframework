@@ -4,7 +4,7 @@ import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.api.core.ServiceInstaller
 import org.goblinframework.api.core.Singleton
 import org.goblinframework.core.exception.GoblinDuplicateException
-import org.goblinframework.dao.core.annotation.GoblinDatabaseSystem
+import org.goblinframework.dao.core.GoblinDatabaseSystem
 import java.util.*
 
 @Singleton
