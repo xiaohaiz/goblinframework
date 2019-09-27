@@ -4,8 +4,10 @@ import org.bson.BsonArray
 import org.bson.BsonDocument
 import org.bson.types.ObjectId
 import org.goblinframework.core.container.SpringManagedBean
+import org.goblinframework.core.util.CollectionUtils
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
@@ -22,7 +24,8 @@ class BsonConversionServiceTest : SpringManagedBean() {
     idList.add(ObjectId())
     val bson = BsonConversionService.toBson(idList) as BsonArray
     val list = BsonConversionService.toList(bson, ObjectId::class.java)
-    println(list)
+    val delta = CollectionUtils.calculateCollectionDelta(idList, list)
+    assertTrue(delta.isEmpty)
   }
 
   @Test
@@ -34,7 +37,7 @@ class BsonConversionServiceTest : SpringManagedBean() {
     val doc = BsonConversionService.toBson(map) as BsonDocument
     val factory = BsonMapper.getDefaultObjectMapper().typeFactory
     val jt = factory.constructMapType(LinkedHashMap::class.java, String::class.java, ObjectId::class.java)
-    map = BsonConversionService.convert<LinkedHashMap<String, ObjectId>>(doc, jt)
+    map = BsonConversionService.toObject<LinkedHashMap<String, ObjectId>>(doc, jt)
     val value = map["value"] as ObjectId
     assertEquals(id, value)
   }

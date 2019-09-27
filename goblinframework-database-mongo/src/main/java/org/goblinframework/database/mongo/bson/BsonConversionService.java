@@ -2,8 +2,6 @@ package org.goblinframework.database.mongo.bson;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
@@ -13,6 +11,7 @@ import org.bson.*;
 import org.bson.io.BasicOutputBuffer;
 import org.bson.types.ObjectId;
 import org.goblinframework.core.mapper.JsonMapper;
+import org.goblinframework.core.util.ValueWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,12 +85,12 @@ abstract public class BsonConversionService {
     return document.get(DEFAULT_KEY);
   }
 
-  public static <T> T convert(@Nullable BsonDocument document, @NotNull Class<T> clazz) {
+  public static <T> T toObject(@Nullable BsonDocument document, @NotNull Class<T> clazz) {
     TypeFactory factory = BsonMapper.getDefaultObjectMapper().getTypeFactory();
-    return convert(document, factory.constructType(clazz));
+    return toObject(document, factory.constructType(clazz));
   }
 
-  public static <T> T convert(@Nullable BsonDocument document, @NotNull JavaType type) {
+  public static <T> T toObject(@Nullable BsonDocument document, @NotNull JavaType type) {
     if (document == null) {
       return null;
     }
@@ -111,22 +110,11 @@ abstract public class BsonConversionService {
     if (array == null) {
       return Collections.emptyList();
     }
+    BsonDocument document = new BsonDocument("value", array);
     ObjectMapper mapper = JsonMapper.getDefaultObjectMapper();
-    JavaType keyType = mapper.getTypeFactory().constructFromCanonical(String.class.getCanonicalName());
-    CollectionType valueType = mapper.getTypeFactory().constructCollectionType(LinkedList.class, elementType);
-    MapType mapType = mapper.getTypeFactory().constructMapType(LinkedHashMap.class, keyType, valueType);
-    BsonDocument document = new BsonDocument("a", array);
-    try (BsonDocumentReader reader = new BsonDocumentReader(document);
-         BasicOutputBuffer output = new BasicOutputBuffer();
-         BsonBinaryWriter writer = new BsonBinaryWriter(output)) {
-      writer.pipe(reader);
-      writer.flush();
-      byte[] bytes = output.toByteArray();
-      LinkedHashMap<String, LinkedList<T>> map = mapper.readValue(bytes, mapType);
-      return map.getOrDefault("a", new LinkedList<>());
-    } catch (Exception ex) {
-      throw new GoblinBsonException(ex);
-    }
+    JavaType jt = mapper.getTypeFactory().constructParametricType(ListValueWrapper.class, elementType);
+    ListValueWrapper<T> wrapper = toObject(document, jt);
+    return wrapper.getValue();
   }
 
   private static BsonDocument toBson(LinkedHashMap<String, Object> map) {
@@ -147,6 +135,21 @@ abstract public class BsonConversionService {
       writer.pipe(reader);
       writer.flush();
       return document;
+    }
+  }
+
+  final public static class ListValueWrapper<E> implements ValueWrapper<LinkedList<E>> {
+
+    private LinkedList<E> value;
+
+    public void setValue(@Nullable LinkedList<E> value) {
+      this.value = value;
+    }
+
+    @Nullable
+    @Override
+    public LinkedList<E> getValue() {
+      return value;
     }
   }
 }
