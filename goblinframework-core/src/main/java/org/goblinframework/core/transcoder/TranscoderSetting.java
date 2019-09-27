@@ -27,9 +27,9 @@ final public class TranscoderSetting {
   }
 
   final public static class TranscoderSettingBuilder {
-    Compressor compressor;
-    Serializer serializer;
-    CompressionThreshold compressionThreshold;
+    private Compressor compressor;
+    private Serializer serializer;
+    private CompressionThreshold compressionThreshold;
 
     private TranscoderSettingBuilder() {
     }

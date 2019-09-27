@@ -8,6 +8,7 @@ import org.I0Itec.zkclient.serialize.ZkSerializer
 import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.core.serialization.Serializer
+import org.goblinframework.core.transcoder.TranscoderSetting
 import org.goblinframework.core.transcoder.TranscoderUtils
 import java.io.ByteArrayInputStream
 
@@ -19,7 +20,7 @@ class ZkTranscoder internal constructor(private val serializer: Serializer)
     val buf = ByteBufAllocator.DEFAULT.buffer()
     try {
       ByteBufOutputStream(buf).use {
-        val transcoder = TranscoderUtils.encoder().serializer(serializer).buildTranscoder()
+        val transcoder = TranscoderSetting.builder().serializer(serializer).build().transcoder()
         transcoder.encode(it, data)
       }
       return ByteBufUtil.getBytes(buf)

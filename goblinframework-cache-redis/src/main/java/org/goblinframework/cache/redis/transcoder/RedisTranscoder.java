@@ -24,16 +24,17 @@ import java.nio.ByteBuffer;
 final public class RedisTranscoder extends GoblinManagedObject
     implements RedisCodec<String, Object>, RedisTranscoderMXBean {
 
-  private final Transcoder1 transcoder;
+  private final Transcoder transcoder;
 
   public RedisTranscoder(@NotNull Serializer serializer,
                          @Nullable Compressor compressor,
                          @Nullable CompressionThreshold compressionThreshold) {
-    this.transcoder = TranscoderUtils.encoder()
+    this.transcoder = TranscoderSetting.builder()
         .serializer(serializer)
         .compressor(compressor)
         .compressionThreshold(compressionThreshold)
-        .buildTranscoder();
+        .build()
+        .transcoder();
   }
 
   @Override
@@ -49,7 +50,7 @@ final public class RedisTranscoder extends GoblinManagedObject
   public Object decodeValue(ByteBuffer bytes) {
     byte[] bs = getBytes(bytes);
     try (ByteArrayInputStream bis = new ByteArrayInputStream(bs)) {
-      DecodeResult dr = transcoder.decode(bis);
+      DecodeResult dr = TranscoderUtils.decode(bis);
       if (dr.magic) {
         return dr.result;
       } else {

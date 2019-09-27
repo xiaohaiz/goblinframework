@@ -63,7 +63,7 @@ final public class Transcoder {
     pool.importPackage("java.io.OutputStream");
     pool.importPackage("java.nio.charset.StandardCharsets");
 
-    CtClass ct = pool.makeClass("org.goblinframework.core.transcoder.TranscoderEncoderNetty4Impl");
+    CtClass ct = pool.makeClass("org.goblinframework.core.transcoder.TranscoderEncoderNetty4JavassistProxy");
     ct.addInterface(pool.makeInterface("org.goblinframework.core.transcoder.TranscoderEncoder"));
 
     CtMethod method = CtNewMethod.make("private void executeEncode(TranscoderSetting setting,\n" +

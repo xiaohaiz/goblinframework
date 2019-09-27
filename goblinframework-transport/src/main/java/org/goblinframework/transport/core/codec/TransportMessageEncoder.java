@@ -7,7 +7,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
-import org.goblinframework.core.transcoder.TranscoderUtils;
+import org.goblinframework.core.transcoder.TranscoderSetting;
 
 @ChannelHandler.Sharable
 public class TransportMessageEncoder extends MessageToByteEncoder<TransportMessage> {
@@ -38,7 +38,7 @@ public class TransportMessageEncoder extends MessageToByteEncoder<TransportMessa
     int startIdx = out.writerIndex();
     ByteBufOutputStream bos = new ByteBufOutputStream(out);
     bos.write(LENGTH_PLACEHOLDER);
-    TranscoderUtils.encoder().serializer(serializer).buildTranscoder().encode(bos, msg.message);
+    TranscoderSetting.builder().serializer(serializer).build().transcoder().encode(bos, msg.message);
     bos.flush();
     bos.close();
     int endIdx = out.writerIndex();

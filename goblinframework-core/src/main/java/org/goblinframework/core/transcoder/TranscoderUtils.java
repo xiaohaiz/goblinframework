@@ -100,12 +100,6 @@ abstract public class TranscoderUtils {
   }
 
   @NotNull
-  @Deprecated
-  public static TranscoderSettingBuilder encoder() {
-    return new TranscoderSettingBuilder();
-  }
-
-  @NotNull
   public static DecodeResult decode(@NotNull InputStream inStream) {
     try {
       return internalDecode(inStream);
