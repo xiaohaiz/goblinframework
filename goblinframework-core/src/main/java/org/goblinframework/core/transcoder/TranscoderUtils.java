@@ -100,6 +100,7 @@ abstract public class TranscoderUtils {
   }
 
   @NotNull
+  @Deprecated
   public static TranscoderSettingBuilder encoder() {
     return new TranscoderSettingBuilder();
   }
@@ -185,6 +186,7 @@ abstract public class TranscoderUtils {
     return dr;
   }
 
+  @Deprecated
   final public static class TranscoderSettingBuilder {
     Compressor compressor;
     Serializer serializer;
@@ -212,8 +214,7 @@ abstract public class TranscoderUtils {
     }
 
     public Transcoder1 buildTranscoder() {
-      TranscoderSetting setting = new TranscoderSetting(this);
-      return transcoderFactory.buildTranscoder(setting);
+      throw new UnsupportedOperationException();
     }
   }
 }

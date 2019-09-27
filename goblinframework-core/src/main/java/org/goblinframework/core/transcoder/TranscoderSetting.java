@@ -1,8 +1,10 @@
 package org.goblinframework.core.transcoder;
 
+import org.goblinframework.core.compression.CompressionThreshold;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.serialization.Serializer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 final public class TranscoderSetting {
 
@@ -10,9 +12,48 @@ final public class TranscoderSetting {
   public final Serializer serializer;
   public final int compressionThreshold;
 
-  TranscoderSetting(@NotNull TranscoderUtils.TranscoderSettingBuilder builder) {
+  private TranscoderSetting(@NotNull TranscoderSettingBuilder builder) {
     this.compressor = builder.compressor;
     this.serializer = builder.serializer;
     this.compressionThreshold = builder.compressionThreshold == null ? 0 : builder.compressionThreshold.getSize();
+  }
+
+  public Transcoder transcoder() {
+    return new Transcoder(this);
+  }
+
+  public static TranscoderSettingBuilder builder() {
+    return new TranscoderSettingBuilder();
+  }
+
+  final public static class TranscoderSettingBuilder {
+    Compressor compressor;
+    Serializer serializer;
+    CompressionThreshold compressionThreshold;
+
+    private TranscoderSettingBuilder() {
+    }
+
+    @NotNull
+    public TranscoderSettingBuilder compressor(@Nullable Compressor compressor) {
+      this.compressor = compressor;
+      return this;
+    }
+
+    @NotNull
+    public TranscoderSettingBuilder serializer(@Nullable Serializer serializer) {
+      this.serializer = serializer;
+      return this;
+    }
+
+    @NotNull
+    public TranscoderSettingBuilder compressionThreshold(@Nullable CompressionThreshold compressionThreshold) {
+      this.compressionThreshold = compressionThreshold;
+      return this;
+    }
+
+    public TranscoderSetting build() {
+      return new TranscoderSetting(this);
+    }
   }
 }
