@@ -2,7 +2,11 @@ package org.goblinframework.core.transcoder;
 
 import org.goblinframework.core.compression.CompressionThreshold;
 import org.goblinframework.core.compression.Compressor;
+import org.goblinframework.core.compression.CompressorManager;
+import org.goblinframework.core.compression.CompressorMode;
 import org.goblinframework.core.serialization.Serializer;
+import org.goblinframework.core.serialization.SerializerManager;
+import org.goblinframework.core.serialization.SerializerMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,9 +45,27 @@ final public class TranscoderSetting {
     }
 
     @NotNull
+    public TranscoderSettingBuilder compressor(@Nullable CompressorMode compressor) {
+      Compressor c = null;
+      if (compressor != null) {
+        c = CompressorManager.INSTANCE.getCompressor(compressor);
+      }
+      return compressor(c);
+    }
+
+    @NotNull
     public TranscoderSettingBuilder serializer(@Nullable Serializer serializer) {
       this.serializer = serializer;
       return this;
+    }
+
+    @NotNull
+    public TranscoderSettingBuilder serializer(@Nullable SerializerMode serializer) {
+      Serializer s = null;
+      if (serializer != null) {
+        s = SerializerManager.INSTANCE.getSerializer(serializer);
+      }
+      return serializer(s);
     }
 
     @NotNull
