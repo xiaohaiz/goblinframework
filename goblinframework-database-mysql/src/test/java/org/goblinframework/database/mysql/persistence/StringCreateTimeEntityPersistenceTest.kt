@@ -1,6 +1,7 @@
 package org.goblinframework.database.mysql.persistence
 
 import org.goblinframework.core.container.SpringManagedBean
+import org.goblinframework.core.util.DateFormatUtils
 import org.goblinframework.database.mysql.module.test.RebuildMysqlTable
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertNotNull
@@ -12,24 +13,20 @@ import javax.inject.Inject
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class UniqueIdEntityPersistenceTest : SpringManagedBean() {
+class StringCreateTimeEntityPersistenceTest : SpringManagedBean() {
 
-  @Inject private lateinit var persistence: UniqueIdEntityPersistence
+  @Inject private lateinit var persistence: StringCreateTimeEntityPersistence
 
   @Test
-  @RebuildMysqlTable(name = "_ut", entity = UniqueIdEntity::class)
-  fun uniqueIdEntity() {
-    var e = UniqueIdEntity()
+  @RebuildMysqlTable(name = "_ut", entity = StringCreateTimeEntity::class)
+  fun stringCreateTimeEntity() {
+    val e = StringCreateTimeEntity()
     persistence.insert(e)
-    var id = e.id
-    var inserted = persistence.load(id)
+    val id = e.id
+    val inserted = persistence.load(id)
     assertNotNull(inserted)
-
-    e = UniqueIdEntity()
-    e.id = id?.plus(1)
-    persistence.insert(e)
-    id = e.id
-    inserted = persistence.load(id)
-    assertNotNull(inserted)
+    assertNotNull(inserted?.createTime)
+    val createTime = DateFormatUtils.parse(inserted?.createTime)
+    assertNotNull(createTime)
   }
 }
