@@ -2,7 +2,7 @@ package org.goblinframework.dao.mysql.cql;
 
 import org.bson.types.ObjectId;
 import org.goblinframework.core.conversion.ConversionService;
-import org.goblinframework.dao.core.cql.Criteria;
+import org.goblinframework.database.core.eql.Criteria;
 
 import javax.management.ObjectName;
 import java.io.File;

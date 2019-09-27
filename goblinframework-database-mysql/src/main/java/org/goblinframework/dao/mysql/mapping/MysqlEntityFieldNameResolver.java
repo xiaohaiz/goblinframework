@@ -3,8 +3,8 @@ package org.goblinframework.dao.mysql.mapping;
 import org.goblinframework.api.core.Singleton;
 import org.goblinframework.api.dao.Field;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.dao.core.mapping.EntityField;
-import org.goblinframework.dao.core.mapping.EntityFieldNameResolver;
+import org.goblinframework.database.core.mapping.EntityField;
+import org.goblinframework.database.core.mapping.EntityFieldNameResolver;
 import org.jetbrains.annotations.NotNull;
 
 @Singleton

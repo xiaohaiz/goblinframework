@@ -3,9 +3,9 @@ package org.goblinframework.dao.mysql.cql;
 import org.goblinframework.api.core.Order;
 import org.goblinframework.core.conversion.ConversionUtils;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.dao.core.cql.NativeSQL;
-import org.goblinframework.dao.core.cql.Query;
-import org.goblinframework.dao.core.mapping.EntityMapping;
+import org.goblinframework.database.core.eql.NativeSQL;
+import org.goblinframework.database.core.eql.Query;
+import org.goblinframework.database.core.mapping.EntityMapping;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 

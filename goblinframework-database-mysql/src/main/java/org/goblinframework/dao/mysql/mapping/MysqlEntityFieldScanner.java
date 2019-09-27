@@ -5,7 +5,7 @@ import org.goblinframework.api.dao.Ignore;
 import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.util.GoblinField;
 import org.goblinframework.core.util.ReflectionUtils;
-import org.goblinframework.dao.core.mapping.EntityFieldScanner;
+import org.goblinframework.database.core.mapping.EntityFieldScanner;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

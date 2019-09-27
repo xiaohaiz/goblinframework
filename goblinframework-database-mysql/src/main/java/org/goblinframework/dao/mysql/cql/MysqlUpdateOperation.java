@@ -1,11 +1,7 @@
 package org.goblinframework.dao.mysql.cql;
 
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.dao.core.mapping.EntityMapping;
-import org.goblinframework.dao.core.mapping.field.EntityEmbedField;
-import org.goblinframework.dao.core.mapping.field.EntityNormalField;
-import org.goblinframework.dao.core.mapping.field.EntityRevisionField;
-import org.goblinframework.dao.core.mapping.field.EntityUpdateTimeField;
+import org.goblinframework.database.core.mapping.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 

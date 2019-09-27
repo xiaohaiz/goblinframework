@@ -3,10 +3,10 @@ package org.goblinframework.dao.mysql.cql;
 import org.goblinframework.api.core.Singleton;
 import org.goblinframework.core.conversion.ConversionUtils;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.dao.core.cql.Criteria;
-import org.goblinframework.dao.core.cql.CriteriaTranslator;
-import org.goblinframework.dao.core.cql.Operator;
-import org.goblinframework.dao.core.cql.OperatorValue;
+import org.goblinframework.database.core.eql.Criteria;
+import org.goblinframework.database.core.eql.CriteriaTranslator;
+import org.goblinframework.database.core.eql.Operator;
+import org.goblinframework.database.core.eql.OperatorValue;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
 import java.util.ArrayList;

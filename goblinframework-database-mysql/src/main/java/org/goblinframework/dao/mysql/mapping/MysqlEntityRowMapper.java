@@ -2,10 +2,10 @@ package org.goblinframework.dao.mysql.mapping;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.goblinframework.core.conversion.ConversionService;
-import org.goblinframework.dao.core.mapping.EntityField;
-import org.goblinframework.dao.core.mapping.EntityMapping;
-import org.goblinframework.dao.core.mapping.field.EntityIdField;
-import org.goblinframework.dao.core.mapping.field.EntityRevisionField;
+import org.goblinframework.database.core.mapping.EntityField;
+import org.goblinframework.database.core.mapping.EntityIdField;
+import org.goblinframework.database.core.mapping.EntityMapping;
+import org.goblinframework.database.core.mapping.EntityRevisionField;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.RowMapper;
 
