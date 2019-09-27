@@ -1,7 +1,7 @@
 package org.goblinframework.database.mysql.support;
 
 import org.bson.types.ObjectId;
-import org.goblinframework.api.dao.Id;
+import org.goblinframework.api.database.Id;
 import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.database.core.mapping.EntityIdField;
 import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;

@@ -1,7 +1,7 @@
 package org.goblinframework.database.mysql.support;
 
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.goblinframework.api.dao.Id;
+import org.goblinframework.api.database.Id;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;

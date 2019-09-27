@@ -3,7 +3,7 @@ package org.goblinframework.database.core.mapping;
 import org.goblinframework.api.core.GoblinManagedBean;
 import org.goblinframework.api.core.GoblinManagedObject;
 import org.goblinframework.api.core.ThreadSafe;
-import org.goblinframework.api.dao.*;
+import org.goblinframework.api.database.*;
 import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.util.GoblinField;
 import org.jetbrains.annotations.NotNull;
