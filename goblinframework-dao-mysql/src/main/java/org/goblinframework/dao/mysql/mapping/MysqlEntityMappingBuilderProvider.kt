@@ -1,12 +1,14 @@
 package org.goblinframework.dao.mysql.mapping
 
-import org.goblinframework.api.core.Install
 import org.goblinframework.dao.core.GoblinDatabaseSystem
 import org.goblinframework.dao.core.mapping.EntityMappingBuilder
 import org.goblinframework.dao.core.mapping.EntityMappingBuilderProvider
 
-@Install
-class MysqlEntityMappingBuilderProvider : EntityMappingBuilderProvider {
+class MysqlEntityMappingBuilderProvider private constructor() : EntityMappingBuilderProvider {
+
+  companion object {
+    @JvmField val INSTANCE = MysqlEntityMappingBuilderProvider()
+  }
 
   override fun getDatabaseSystem(): GoblinDatabaseSystem {
     return GoblinDatabaseSystem.MSQ

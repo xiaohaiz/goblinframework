@@ -1,11 +1,10 @@
 package org.goblinframework.dao.core.mapping
 
 import org.goblinframework.api.core.GoblinManagedObject
-import org.goblinframework.api.core.ServiceInstaller
 import org.goblinframework.api.core.Singleton
-import org.goblinframework.core.exception.GoblinDuplicateException
+import org.goblinframework.dao.core.GoblinDatabaseException
 import org.goblinframework.dao.core.GoblinDatabaseSystem
-import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 @Singleton
 class EntityMappingBuilderManager private constructor()
@@ -15,15 +14,11 @@ class EntityMappingBuilderManager private constructor()
     @JvmField val INSTANCE = EntityMappingBuilderManager()
   }
 
-  private val buffer = EnumMap<GoblinDatabaseSystem, EntityMappingBuilder>(GoblinDatabaseSystem::class.java)
+  private val buffer = ConcurrentHashMap<GoblinDatabaseSystem, EntityMappingBuilder>()
 
-  init {
-    ServiceInstaller.asList(EntityMappingBuilderProvider::class.java).forEach {
-      val s = it.databaseSystem
-      if (buffer[s] != null) {
-        throw GoblinDuplicateException()
-      }
-      buffer[s] = it.entityMappingBuilder
+  fun registerEntityMappingBuilderProvider(provider: EntityMappingBuilderProvider) {
+    buffer.put(provider.databaseSystem, provider.entityMappingBuilder)?.run {
+      throw GoblinDatabaseException("EntityMappingBuilderProvider [${provider.databaseSystem}] already exists")
     }
   }
 
@@ -33,5 +28,6 @@ class EntityMappingBuilderManager private constructor()
 
   override fun disposeBean() {
     buffer.values.forEach { it.dispose() }
+    buffer.clear()
   }
 }

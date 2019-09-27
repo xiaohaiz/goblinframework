@@ -3,6 +3,7 @@ package org.goblinframework.dao.core.module
 import org.goblinframework.api.core.Install
 import org.goblinframework.api.system.*
 import org.goblinframework.dao.core.mapping.EntityMappingBuilderManager
+import org.goblinframework.dao.core.mapping.EntityMappingBuilderProvider
 
 @Install
 class DaoModule : IModule {
@@ -31,5 +32,9 @@ class DaoModule : IModule {
         .module(GoblinSubModule.DAO_MYSQL)
         .finalize(ctx)
     EntityMappingBuilderManager.INSTANCE.dispose()
+  }
+
+  fun registerEntityMappingBuilderProvider(provider: EntityMappingBuilderProvider) {
+    EntityMappingBuilderManager.INSTANCE.registerEntityMappingBuilderProvider(provider)
   }
 }
