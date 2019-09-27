@@ -11,6 +11,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
+import java.time.Instant
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
@@ -51,5 +52,16 @@ class BsonConversionServiceTest : SpringManagedBean() {
     val mt = factory.constructMapType(LinkedHashMap::class.java, String::class.java, ObjectId::class.java)
     val o = BsonConversionService.toObject<LinkedHashMap<String, ObjectId>>(doc, mt)
     assertEquals(id, o["id"] as ObjectId)
+  }
+
+  @Test
+  fun instant() {
+    val now = Instant.now()
+    val i = LinkedHashMap<String, Instant>().apply { this["now"] = now }
+    val doc = BsonConversionService.toBson(i) as BsonDocument
+    val factory = BsonMapper.getDefaultTypeFactory()
+    val mt = factory.constructMapType(LinkedHashMap::class.java, String::class.java, Instant::class.java)
+    val o = BsonConversionService.toObject<LinkedHashMap<String, Instant>>(doc, mt)
+    assertEquals(now, o["now"] as Instant)
   }
 }
