@@ -8,6 +8,7 @@ dependencies {
     exclude(group: "com.fasterxml.jackson.core", module: "jackson-annotations")
     exclude(group: "com.fasterxml.jackson.core", module: "jackson-databind")
   }
+  compile("io.netty:netty-all:${netty_version}")
 
   testCompile(project(":goblinframework-test"))
   testCompile(project(":goblinframework-monitor"))
