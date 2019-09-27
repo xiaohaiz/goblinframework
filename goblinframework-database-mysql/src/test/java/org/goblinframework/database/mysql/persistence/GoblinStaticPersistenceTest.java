@@ -3,6 +3,7 @@ package org.goblinframework.database.mysql.persistence;
 import org.goblinframework.api.dao.*;
 import org.goblinframework.core.container.SpringManagedBean;
 import org.goblinframework.core.util.RandomUtils;
+import org.goblinframework.database.core.GoblinDatabaseConnection;
 import org.goblinframework.database.mysql.module.test.RebuildMysqlTable;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.junit.Test;

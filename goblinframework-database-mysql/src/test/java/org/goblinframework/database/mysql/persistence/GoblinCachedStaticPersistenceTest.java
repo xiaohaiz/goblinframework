@@ -1,10 +1,10 @@
 package org.goblinframework.database.mysql.persistence;
 
 import org.goblinframework.api.cache.*;
-import org.goblinframework.api.dao.GoblinCacheDimension;
-import org.goblinframework.api.dao.GoblinDatabaseConnection;
 import org.goblinframework.cache.core.support.CacheDimension;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
+import org.goblinframework.database.core.GoblinCacheDimension;
+import org.goblinframework.database.core.GoblinDatabaseConnection;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.core.eql.Query;
 import org.goblinframework.database.mysql.module.test.RebuildMysqlTable;

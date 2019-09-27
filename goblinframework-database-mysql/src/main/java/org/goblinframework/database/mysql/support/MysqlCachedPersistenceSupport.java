@@ -3,7 +3,6 @@ package org.goblinframework.database.mysql.support;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableLong;
 import org.goblinframework.api.cache.GetResult;
-import org.goblinframework.api.dao.GoblinCacheDimension;
 import org.goblinframework.cache.core.support.CacheBean;
 import org.goblinframework.cache.core.support.CacheBeanManager;
 import org.goblinframework.cache.core.support.CacheDimension;
@@ -11,6 +10,7 @@ import org.goblinframework.cache.core.support.GoblinCache;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
+import org.goblinframework.database.core.GoblinCacheDimension;
 import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,7 +33,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
     if (this.cacheBean.isEmpty()) {
       dimension = GoblinCacheDimension.Dimension.NONE;
     } else {
-      GoblinCacheDimension annotation = AnnotationUtils.getAnnotation(getClass(), org.goblinframework.api.dao.GoblinCacheDimension.class);
+      GoblinCacheDimension annotation = AnnotationUtils.getAnnotation(getClass(), GoblinCacheDimension.class);
       if (annotation == null) {
         String errMsg = "No @GoblinCacheDimension presented on %s";
         errMsg = String.format(errMsg, ClassUtils.filterCglibProxyClass(getClass()));
@@ -127,7 +127,7 @@ abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersiste
 
   @Override
   public boolean replace(@Nullable E entity) {
-    if (dimension == org.goblinframework.api.dao.GoblinCacheDimension.Dimension.NONE) {
+    if (dimension == GoblinCacheDimension.Dimension.NONE) {
       return __replace(entity);
     }
     if (entity == null) return false;
