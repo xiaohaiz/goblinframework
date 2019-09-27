@@ -10,7 +10,7 @@ import java.io.OutputStream
  */
 class GoblinBsonFactory : BsonFactory() {
 
-  override fun createGenerator(out: OutputStream, enc: JsonEncoding): BsonGenerator {
+  override fun createGenerator(out: OutputStream, enc: JsonEncoding?): BsonGenerator {
     var using = out
     val ctx = _createContext(using, true)
     ctx.encoding = enc
