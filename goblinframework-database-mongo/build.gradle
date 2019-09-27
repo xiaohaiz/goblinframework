@@ -1,0 +1,14 @@
+description = "goblinframework-database-mongo"
+
+dependencies {
+  compile(project(":goblinframework-database"))
+  compile("org.mongodb:mongodb-driver-async:${mongo_version}")
+  compile("de.undercouch:bson4jackson:${bson4jackson_version}") {
+    exclude(group: "com.fasterxml.jackson.core", module: "jackson-core")
+    exclude(group: "com.fasterxml.jackson.core", module: "jackson-annotations")
+    exclude(group: "com.fasterxml.jackson.core", module: "jackson-databind")
+  }
+
+  testCompile(project(":goblinframework-test"))
+  testCompile(project(":goblinframework-monitor"))
+}
