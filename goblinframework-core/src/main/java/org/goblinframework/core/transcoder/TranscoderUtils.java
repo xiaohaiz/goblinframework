@@ -3,14 +3,12 @@ package org.goblinframework.core.transcoder;
 import kotlin.text.Charsets;
 import org.apache.commons.lang3.Validate;
 import org.goblinframework.api.core.ServiceInstaller;
-import org.goblinframework.core.compression.CompressionThreshold;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.compression.CompressorManager;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
 import org.goblinframework.core.util.IOUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.util.Arrays;
@@ -178,37 +176,5 @@ abstract public class TranscoderUtils {
       dr.wrapper = true;
     }
     return dr;
-  }
-
-  @Deprecated
-  final public static class TranscoderSettingBuilder {
-    Compressor compressor;
-    Serializer serializer;
-    CompressionThreshold compressionThreshold;
-
-    private TranscoderSettingBuilder() {
-    }
-
-    @NotNull
-    public TranscoderSettingBuilder compressor(@Nullable Compressor compressor) {
-      this.compressor = compressor;
-      return this;
-    }
-
-    @NotNull
-    public TranscoderSettingBuilder serializer(@Nullable Serializer serializer) {
-      this.serializer = serializer;
-      return this;
-    }
-
-    @NotNull
-    public TranscoderSettingBuilder compressionThreshold(@Nullable CompressionThreshold compressionThreshold) {
-      this.compressionThreshold = compressionThreshold;
-      return this;
-    }
-
-    public Transcoder1 buildTranscoder() {
-      throw new UnsupportedOperationException();
-    }
   }
 }
