@@ -1,0 +1,32 @@
+package org.goblinframework.database.mysql.module.config
+
+import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.api.core.Singleton
+
+@Singleton
+@GoblinManagedBean(type = "dao.mysql")
+class MysqlConfigManager private constructor() : GoblinManagedObject(), MysqlConfigManagerMXBean {
+
+  companion object {
+    @JvmField val INSTANCE = MysqlConfigManager()
+  }
+
+  private val configParser = MysqlConfigParser()
+
+  init {
+    configParser.initialize()
+  }
+
+  fun getMysqlConfigs(): List<MysqlConfig> {
+    return configParser.asList()
+  }
+
+  fun getMysqlConfig(name: String): MysqlConfig? {
+    return configParser.getFromBuffer(name)
+  }
+
+  override fun disposeBean() {
+    configParser.dispose()
+  }
+}

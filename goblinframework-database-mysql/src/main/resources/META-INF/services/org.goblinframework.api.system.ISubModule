@@ -1,1 +1,1 @@
-org.goblinframework.dao.mysql.module.DaoMysqlModule
+org.goblinframework.database.mysql.module.DatabaseMysqlModule
