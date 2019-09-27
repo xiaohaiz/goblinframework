@@ -50,7 +50,7 @@ final public class RedisTranscoder extends GoblinManagedObject
   public Object decodeValue(ByteBuffer bytes) {
     byte[] bs = getBytes(bytes);
     try (ByteArrayInputStream bis = new ByteArrayInputStream(bs)) {
-      DecodeResult dr = TranscoderUtils.decode(bis);
+      DecodeResult dr = Transcoder.decode(bis);
       if (dr.magic) {
         return dr.result;
       } else {

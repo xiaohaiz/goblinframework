@@ -32,7 +32,7 @@ class TranscoderTest : SpringManagedBean() {
         .encode(bos, source)
     val bis = ByteArrayInputStream(bos.toByteArray())
     bos.close()
-    val obj = TranscoderUtils.decode(bis)
+    val obj = Transcoder.decode(bis)
     assertEquals(serializer.mode().id, obj.serializer)
     assertEquals(source, obj.result)
     assertTrue(obj.magic)
@@ -53,7 +53,7 @@ class TranscoderTest : SpringManagedBean() {
     val bos = ByteArrayOutputStream(512)
     transcoder.encode(bos, s)
     val bis = ByteArrayInputStream(bos.toByteArray())
-    val dr = TranscoderUtils.decode(bis)
+    val dr = Transcoder.decode(bis)
     assertEquals(s, dr.result)
   }
 }

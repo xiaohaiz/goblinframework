@@ -8,8 +8,8 @@ import org.I0Itec.zkclient.serialize.ZkSerializer
 import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.core.serialization.Serializer
+import org.goblinframework.core.transcoder.Transcoder
 import org.goblinframework.core.transcoder.TranscoderSetting
-import org.goblinframework.core.transcoder.TranscoderUtils
 import java.io.ByteArrayInputStream
 
 @GoblinManagedBean(type = "registry.zookeeper")
@@ -34,7 +34,7 @@ class ZkTranscoder internal constructor(private val serializer: Serializer)
   override fun deserialize(bytes: ByteArray): Any {
     try {
       return ByteArrayInputStream(bytes).use {
-        TranscoderUtils.decode(it).result
+        Transcoder.decode(it).result
       }
     } catch (ex: Exception) {
       throw ZkMarshallingError(ex)

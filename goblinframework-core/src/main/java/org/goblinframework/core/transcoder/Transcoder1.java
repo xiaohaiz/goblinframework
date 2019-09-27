@@ -12,6 +12,6 @@ public interface Transcoder1 {
 
   @NotNull
   default DecodeResult decode(@NotNull InputStream inStream) {
-    return TranscoderUtils.decode(inStream);
+    return Transcoder.decode(inStream);
   }
 }
