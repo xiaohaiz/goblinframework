@@ -5,7 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public interface Transcoder {
+@Deprecated
+public interface Transcoder1 {
 
   void encode(@NotNull OutputStream outStream, @NotNull Object obj);
 

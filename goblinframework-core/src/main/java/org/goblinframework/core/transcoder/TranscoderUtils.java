@@ -211,7 +211,7 @@ abstract public class TranscoderUtils {
       return this;
     }
 
-    public Transcoder buildTranscoder() {
+    public Transcoder1 buildTranscoder() {
       TranscoderSetting setting = new TranscoderSetting(this);
       return transcoderFactory.buildTranscoder(setting);
     }

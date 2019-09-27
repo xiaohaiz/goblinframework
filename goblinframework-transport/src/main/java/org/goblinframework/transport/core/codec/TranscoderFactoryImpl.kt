@@ -2,7 +2,7 @@ package org.goblinframework.transport.core.codec
 
 import org.goblinframework.api.core.Install
 import org.goblinframework.api.core.Singleton
-import org.goblinframework.core.transcoder.Transcoder
+import org.goblinframework.core.transcoder.Transcoder1
 import org.goblinframework.core.transcoder.TranscoderFactory
 import org.goblinframework.core.transcoder.TranscoderSetting
 
@@ -13,8 +13,8 @@ class TranscoderFactoryImpl private constructor() : TranscoderFactory {
     @JvmField val INSTANCE = TranscoderFactoryImpl()
   }
 
-  override fun buildTranscoder(setting: TranscoderSetting): Transcoder {
-    return TranscoderImpl(setting)
+  override fun buildTranscoder(setting: TranscoderSetting): Transcoder1 {
+    return Transcoder1Impl(setting)
   }
 
   @Install

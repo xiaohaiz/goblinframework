@@ -24,7 +24,7 @@ import java.nio.ByteBuffer;
 final public class RedisTranscoder extends GoblinManagedObject
     implements RedisCodec<String, Object>, RedisTranscoderMXBean {
 
-  private final Transcoder transcoder;
+  private final Transcoder1 transcoder;
 
   public RedisTranscoder(@NotNull Serializer serializer,
                          @Nullable Compressor compressor,

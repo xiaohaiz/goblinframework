@@ -27,7 +27,7 @@ class TranscoderImplTest {
         .compressor(compressor)
         .serializer(serializer)
         .buildTranscoder()
-    assertTrue(transcoder is TranscoderImpl)
+    assertTrue(transcoder is Transcoder1Impl)
 
     val s = RandomStringUtils.randomAlphanumeric(4096)
     val bos = ByteArrayOutputStream(512)

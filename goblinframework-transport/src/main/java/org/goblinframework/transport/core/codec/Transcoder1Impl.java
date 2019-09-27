@@ -6,7 +6,7 @@ import kotlin.text.Charsets;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.transcoder.GoblinTranscoderException;
-import org.goblinframework.core.transcoder.Transcoder;
+import org.goblinframework.core.transcoder.Transcoder1;
 import org.goblinframework.core.transcoder.TranscoderConstants;
 import org.goblinframework.core.transcoder.TranscoderSetting;
 import org.goblinframework.core.util.IOUtils;
@@ -15,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.OutputStream;
 
-final class TranscoderImpl implements Transcoder {
+final class Transcoder1Impl implements Transcoder1 {
 
   private final TranscoderSetting setting;
 
-  TranscoderImpl(@NotNull TranscoderSetting setting) {
+  Transcoder1Impl(@NotNull TranscoderSetting setting) {
     this.setting = setting;
   }
 

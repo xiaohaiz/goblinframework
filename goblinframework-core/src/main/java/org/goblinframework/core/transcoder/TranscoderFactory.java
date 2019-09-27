@@ -2,9 +2,10 @@ package org.goblinframework.core.transcoder;
 
 import org.jetbrains.annotations.NotNull;
 
+@Deprecated
 public interface TranscoderFactory {
 
   @NotNull
-  Transcoder buildTranscoder(@NotNull TranscoderSetting setting);
+  Transcoder1 buildTranscoder(@NotNull TranscoderSetting setting);
 
 }

@@ -10,11 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
-final class TranscoderImpl implements Transcoder {
+@Deprecated
+final class Transcoder1Impl implements Transcoder1 {
 
   private final TranscoderSetting setting;
 
-  TranscoderImpl(@NotNull TranscoderSetting setting) {
+  Transcoder1Impl(@NotNull TranscoderSetting setting) {
     this.setting = setting;
   }
 

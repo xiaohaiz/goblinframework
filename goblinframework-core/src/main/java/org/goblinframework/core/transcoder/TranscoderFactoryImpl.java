@@ -5,6 +5,7 @@ import org.goblinframework.api.core.Ordered;
 import org.jetbrains.annotations.NotNull;
 
 @Install
+@Deprecated
 final public class TranscoderFactoryImpl implements TranscoderFactory, Ordered {
 
   @Override
@@ -14,7 +15,7 @@ final public class TranscoderFactoryImpl implements TranscoderFactory, Ordered {
 
   @NotNull
   @Override
-  public Transcoder buildTranscoder(@NotNull TranscoderSetting setting) {
-    return new TranscoderImpl(setting);
+  public Transcoder1 buildTranscoder(@NotNull TranscoderSetting setting) {
+    return new Transcoder1Impl(setting);
   }
 }
