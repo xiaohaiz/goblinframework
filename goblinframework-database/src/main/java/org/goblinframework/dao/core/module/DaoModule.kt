@@ -9,27 +9,27 @@ import org.goblinframework.dao.core.mapping.EntityMappingBuilderProvider
 class DaoModule : IModule {
 
   override fun id(): GoblinModule {
-    return GoblinModule.DAO
+    return GoblinModule.DATABASE
   }
 
   override fun install(ctx: ModuleInstallContext) {
     ctx.createSubModules()
-        .module(GoblinSubModule.DAO_MONGO)
-        .module(GoblinSubModule.DAO_MYSQL)
+        .module(GoblinSubModule.DATABASE_MONGO)
+        .module(GoblinSubModule.DATABASE_MYSQL)
         .install(ctx)
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
     ctx.createSubModules()
-        .module(GoblinSubModule.DAO_MONGO)
-        .module(GoblinSubModule.DAO_MYSQL)
+        .module(GoblinSubModule.DATABASE_MONGO)
+        .module(GoblinSubModule.DATABASE_MYSQL)
         .initialize(ctx)
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
     ctx.createSubModules()
-        .module(GoblinSubModule.DAO_MONGO)
-        .module(GoblinSubModule.DAO_MYSQL)
+        .module(GoblinSubModule.DATABASE_MONGO)
+        .module(GoblinSubModule.DATABASE_MYSQL)
         .finalize(ctx)
     EntityMappingBuilderManager.INSTANCE.dispose()
   }

@@ -9,7 +9,7 @@ public enum GoblinModule {
   WEBMVC,
   EMBEDDED,
   CACHE,
-  DAO,
+  DATABASE,
   QUEUE,
   TRANSPORT,
   REGISTRY,
