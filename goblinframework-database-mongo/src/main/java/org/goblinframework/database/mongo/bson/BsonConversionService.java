@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.time.Instant;
 import java.util.*;
 
 abstract public class BsonConversionService {
@@ -74,6 +75,14 @@ abstract public class BsonConversionService {
     if (object instanceof Date) {
       Date d = (Date) object;                             // Date -> BsonDateTime
       return new BsonDateTime(d.getTime());
+    }
+    if (object instanceof Instant) {
+      Instant i = (Instant) object;
+      return new BsonDateTime(i.toEpochMilli());         // Instant -> BsonDateTime
+    }
+    if (object instanceof Calendar) {
+      Calendar c = (Calendar) object;
+      return new BsonDateTime(c.getTimeInMillis());     // Calendar -> BsonDateTime
     }
     if (object instanceof Enum) {                       // Enum -> BsonString
       String s = ((Enum) object).name();
