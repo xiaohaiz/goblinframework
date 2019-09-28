@@ -12,11 +12,7 @@ class MysqlConfigManager private constructor() : GoblinManagedObject(), MysqlCon
     @JvmField val INSTANCE = MysqlConfigManager()
   }
 
-  private val configParser = MysqlConfigParser()
-
-  init {
-    configParser.initialize()
-  }
+  val configParser = MysqlConfigParser()
 
   fun getMysqlConfigs(): List<MysqlConfig> {
     return configParser.asList()

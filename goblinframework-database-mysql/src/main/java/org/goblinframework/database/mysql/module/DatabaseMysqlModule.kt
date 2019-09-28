@@ -18,6 +18,7 @@ class DatabaseMysqlModule : ISubModule {
   override fun install(ctx: ModuleInstallContext) {
     val parent = ctx.getExtension(DatabaseModule::class.java)
     parent?.registerEntityMappingBuilderProvider(MysqlEntityMappingBuilderProvider.INSTANCE)
+    ctx.registerConfigParser(MysqlConfigManager.INSTANCE.configParser)
     ctx.registerTestExecutionListener(RebuildMysqlTableBeforeTestMethod.INSTANCE)
   }
 

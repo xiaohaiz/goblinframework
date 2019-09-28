@@ -1,6 +1,6 @@
 package org.goblinframework.database.mysql.support;
 
-import org.goblinframework.database.core.GoblinDatabaseSystem;
+import org.goblinframework.database.core.DatabaseSystem;
 import org.goblinframework.database.core.mapping.EntityMappingBuilder;
 import org.goblinframework.database.core.mapping.EntityMappingBuilderManager;
 import org.goblinframework.database.core.support.EntityMappingSupport;
@@ -11,7 +11,7 @@ abstract public class MysqlEntityMappingSupport<E, ID> extends EntityMappingSupp
   @NotNull
   @Override
   protected EntityMappingBuilder getEntityMappingBuilder() {
-    EntityMappingBuilder builder = EntityMappingBuilderManager.INSTANCE.getEntityMappingBuilder(GoblinDatabaseSystem.MSQ);
+    EntityMappingBuilder builder = EntityMappingBuilderManager.INSTANCE.getEntityMappingBuilder(DatabaseSystem.MSQ);
     assert builder != null;
     return builder;
   }

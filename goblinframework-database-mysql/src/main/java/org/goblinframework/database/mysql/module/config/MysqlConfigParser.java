@@ -11,7 +11,7 @@ import org.goblinframework.core.mapper.JsonMapper;
 import java.util.*;
 import java.util.stream.Collectors;
 
-final class MysqlConfigParser extends BufferedConfigParser<MysqlConfig> {
+final public class MysqlConfigParser extends BufferedConfigParser<MysqlConfig> {
 
   @Override
   public void initializeBean() {
