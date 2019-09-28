@@ -1,6 +1,6 @@
 package org.goblinframework.cache.core;
 
-import org.goblinframework.core.util.ValueWrapper;
+import org.goblinframework.api.function.ValueWrapper;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;

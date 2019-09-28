@@ -1,4 +1,4 @@
-package org.goblinframework.core.util;
+package org.goblinframework.api.function;
 
 import org.jetbrains.annotations.Nullable;
 

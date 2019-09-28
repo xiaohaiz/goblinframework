@@ -1,6 +1,6 @@
 package org.goblinframework.core.transcoder;
 
-import org.goblinframework.core.util.ValueWrapper;
+import org.goblinframework.api.function.ValueWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;

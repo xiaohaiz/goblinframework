@@ -2,7 +2,7 @@ package org.goblinframework.remote.core;
 
 import org.goblinframework.api.concurrent.GoblinFuture;
 import org.goblinframework.api.concurrent.GoblinFutureListener;
-import org.goblinframework.core.util.ValueWrapper;
+import org.goblinframework.api.function.ValueWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -10,8 +10,8 @@ import io.netty.buffer.ByteBufUtil;
 import org.bson.*;
 import org.bson.io.BasicOutputBuffer;
 import org.bson.types.ObjectId;
+import org.goblinframework.api.function.ValueWrapper;
 import org.goblinframework.core.mapper.JsonMapper;
-import org.goblinframework.core.util.ValueWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
