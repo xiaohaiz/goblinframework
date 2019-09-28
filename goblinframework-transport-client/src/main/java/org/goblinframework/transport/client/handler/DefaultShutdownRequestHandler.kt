@@ -1,7 +1,7 @@
 package org.goblinframework.transport.client.handler
 
 import org.goblinframework.api.core.Singleton
-import org.goblinframework.api.system.GoblinSystem
+import org.goblinframework.core.system.GoblinSystem
 import org.goblinframework.transport.core.protocol.ShutdownRequest
 
 @Singleton

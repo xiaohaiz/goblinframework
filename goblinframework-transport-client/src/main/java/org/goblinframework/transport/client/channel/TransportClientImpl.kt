@@ -8,7 +8,7 @@ import io.netty.channel.socket.nio.NioSocketChannel
 import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
 import org.apache.commons.collections4.map.LRUMap
-import org.goblinframework.api.system.GoblinSystem
+import org.goblinframework.core.system.GoblinSystem
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.transport.client.handler.TransportResponseContext
 import org.goblinframework.transport.client.module.TransportClientModule

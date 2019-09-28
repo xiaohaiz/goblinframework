@@ -1,6 +1,6 @@
 package org.goblinframework.core.config
 
-import org.goblinframework.api.system.RuntimeMode
+import org.goblinframework.core.system.RuntimeMode
 import java.lang.management.PlatformManagedObject
 
 interface ConfigManagerMXBean : PlatformManagedObject {

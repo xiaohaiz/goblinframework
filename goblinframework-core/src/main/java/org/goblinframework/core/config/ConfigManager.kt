@@ -1,10 +1,10 @@
 package org.goblinframework.core.config
 
 import org.goblinframework.api.core.Singleton
-import org.goblinframework.api.system.RuntimeMode
 import org.goblinframework.core.mapper.JsonMapper
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.core.system.RuntimeMode
 import org.goblinframework.core.util.ClassUtils
 import org.goblinframework.core.util.DigestUtils
 import org.goblinframework.core.util.IOUtils

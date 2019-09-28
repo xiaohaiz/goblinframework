@@ -1,7 +1,11 @@
-package org.goblinframework.api.system;
+package org.goblinframework.core.system;
 
+import org.goblinframework.api.system.IGoblinSystemManager;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * GOBLIN system entrance.
+ */
 final public class GoblinSystem {
 
   public static void install() {

@@ -1,7 +1,7 @@
 package org.goblinframework.bootstrap.core
 
-import org.goblinframework.api.system.GoblinSystem
 import org.goblinframework.core.container.SpringContainer
+import org.goblinframework.core.system.GoblinSystem
 import org.goblinframework.core.util.ThreadUtils
 import org.slf4j.LoggerFactory
 import kotlin.system.exitProcess
