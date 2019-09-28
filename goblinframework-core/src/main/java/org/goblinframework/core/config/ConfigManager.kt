@@ -5,6 +5,7 @@ import org.goblinframework.api.system.RuntimeMode
 import org.goblinframework.core.mapper.JsonMapper
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.core.util.ClassUtils
 import org.goblinframework.core.util.DigestUtils
 import org.goblinframework.core.util.IOUtils
 import org.goblinframework.core.util.StringUtils
@@ -16,11 +17,9 @@ import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
 import java.util.function.Supplier
 
-
 @Singleton
 @GoblinManagedBean(type = "Core")
-class ConfigManager private constructor()
-  : GoblinManagedObject(), ConfigManagerMXBean {
+class ConfigManager private constructor() : GoblinManagedObject(), ConfigManagerMXBean {
 
   companion object {
     @JvmField val INSTANCE = ConfigManager()
@@ -52,8 +51,13 @@ class ConfigManager private constructor()
       // parse runtime mode
       s = getConfig("core", "runtimeMode", true)
       s = StringUtils.defaultIfBlank(s, RuntimeMode.DEVELOPMENT.name)
-      /*
-      val mode = if (ITestExecutionListenerManager.instance() != null) {
+      val testRunnerFound = try {
+        ClassUtils.loadClass("org.goblinframework.test.runner.GoblinTestRunner")
+        true
+      } catch (ex: ClassNotFoundException) {
+        false
+      }
+      val mode = if (testRunnerFound) {
         RuntimeMode.UNIT_TEST
       } else {
         try {
@@ -62,8 +66,6 @@ class ConfigManager private constructor()
           RuntimeMode.DEVELOPMENT
         }
       }
-      */
-      val mode = RuntimeMode.DEVELOPMENT
       runtimeMode.set(mode)
     }
 
