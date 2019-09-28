@@ -1,15 +1,11 @@
-package org.goblinframework.api.database;
+package org.goblinframework.api.database
 
-import java.lang.annotation.*;
+@MustBeDocumented
+@Target(AnnotationTarget.FIELD)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Id(val value: Generator) {
 
-@Documented
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Id {
-
-  Generator value();
-
-  enum Generator {
+  enum class Generator {
     NONE,
     OBJECT_ID,
     AUTO_INC

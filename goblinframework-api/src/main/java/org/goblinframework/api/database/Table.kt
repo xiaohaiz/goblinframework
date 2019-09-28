@@ -1,13 +1,9 @@
-package org.goblinframework.api.database;
+package org.goblinframework.api.database
 
-import java.lang.annotation.*;
-
-@Documented
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Table {
-
-  String table();
-
-  boolean dynamic() default false;
-}
+@MustBeDocumented
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Table(
+    val table: String,
+    val dynamic: Boolean = false
+)
