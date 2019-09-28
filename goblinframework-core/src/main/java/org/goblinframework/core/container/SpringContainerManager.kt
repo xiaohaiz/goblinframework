@@ -1,6 +1,7 @@
 package org.goblinframework.core.container
 
-import org.goblinframework.api.core.*
+import org.goblinframework.api.core.ISpringContainerManager
+import org.goblinframework.api.core.Install
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.springframework.context.ApplicationContext
@@ -28,7 +29,7 @@ class SpringContainerManager private constructor()
     return lock.read { containers[id]!! }
   }
 
-  override fun registerBeanPostProcessor(postProcessor: SpringContainerBeanPostProcessor) {
+  fun registerBeanPostProcessor(postProcessor: SpringContainerBeanPostProcessor) {
     synchronized(beanPostProcessors) {
       beanPostProcessors.add(postProcessor)
     }

@@ -1,7 +1,8 @@
-package org.goblinframework.api.core;
+package org.goblinframework.core.util;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.goblinframework.api.core.HashSafe;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;

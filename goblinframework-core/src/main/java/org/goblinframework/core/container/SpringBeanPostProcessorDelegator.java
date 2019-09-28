@@ -1,7 +1,6 @@
 package org.goblinframework.core.container;
 
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.goblinframework.api.core.SpringContainerBeanPostProcessor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 

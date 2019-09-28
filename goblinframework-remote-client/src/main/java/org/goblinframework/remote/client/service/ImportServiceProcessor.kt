@@ -1,8 +1,8 @@
 package org.goblinframework.remote.client.service
 
 import org.goblinframework.api.core.Singleton
-import org.goblinframework.api.core.SpringContainerBeanPostProcessor
 import org.goblinframework.api.remote.ImportService
+import org.goblinframework.core.container.SpringContainerBeanPostProcessor
 import org.goblinframework.core.util.GoblinField
 import org.goblinframework.core.util.ReflectionUtils
 

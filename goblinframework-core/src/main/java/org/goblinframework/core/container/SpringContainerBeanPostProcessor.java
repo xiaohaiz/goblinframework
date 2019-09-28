@@ -1,5 +1,6 @@
-package org.goblinframework.api.core;
+package org.goblinframework.core.container;
 
+import org.goblinframework.api.core.Ordered;
 import org.jetbrains.annotations.Nullable;
 
 public interface SpringContainerBeanPostProcessor extends Ordered {
