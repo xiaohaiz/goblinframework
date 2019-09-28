@@ -1,19 +1,17 @@
 package org.goblinframework.database.mongo.module.config
 
+import org.goblinframework.core.config.GoblinConfig
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.core.config.GoblinConfig
 
 @GoblinManagedBean(type = "DatabaseMongo")
 class MongoConfig internal constructor(val mapper: MongoConfigMapper)
   : GoblinManagedObject(), GoblinConfig, MongoConfigMXBean {
 
-  private val credentialConfigs = mutableListOf<MongoCredentialConfig>()
+  private val credential: MongoCredentialConfig?
 
   init {
-    mapper.credentialConfigs?.run {
-      this.map { MongoCredentialConfig(it) }.forEach { credentialConfigs.add(it) }
-    }
+    credential = mapper.credential?.run { MongoCredentialConfig(this) }
   }
 
   override fun getName(): String {
@@ -60,11 +58,11 @@ class MongoConfig internal constructor(val mapper: MongoConfigMapper)
     return mapper.maintenanceFrequencyMS!!
   }
 
-  override fun getCredentialConfigList(): Array<MongoCredentialConfigMXBean> {
-    return credentialConfigs.toTypedArray()
+  override fun getCredential(): MongoCredentialConfig? {
+    return credential
   }
 
   override fun disposeBean() {
-    credentialConfigs.forEach { it.dispose() }
+    credential?.dispose()
   }
 }

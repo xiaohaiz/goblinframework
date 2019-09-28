@@ -7,15 +7,15 @@ import org.goblinframework.core.service.GoblinManagedObject
 class MongoCredentialConfig internal constructor(val mapper: MongoCredentialConfigMapper)
   : GoblinManagedObject(), MongoCredentialConfigMXBean {
 
-  override fun getDatabase(): String? {
-    return mapper.database
+  override fun getDatabase(): String {
+    return mapper.database!!
   }
 
-  override fun getUsername(): String? {
-    return mapper.username
+  override fun getUsername(): String {
+    return mapper.username!!
   }
 
-  override fun getPassword(): String? {
-    return mapper.password
+  override fun getPassword(): String {
+    return mapper.password!!
   }
 }

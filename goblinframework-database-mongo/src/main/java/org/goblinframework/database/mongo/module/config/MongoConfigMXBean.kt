@@ -26,5 +26,5 @@ interface MongoConfigMXBean : PlatformManagedObject {
 
   fun getMaintenanceFrequencyMS(): Long
 
-  fun getCredentialConfigList(): Array<MongoCredentialConfigMXBean>
+  fun getCredential(): MongoCredentialConfigMXBean?
 }

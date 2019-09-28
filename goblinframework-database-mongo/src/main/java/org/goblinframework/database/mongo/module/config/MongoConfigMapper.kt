@@ -15,7 +15,7 @@ class MongoConfigMapper : Serializable {
   var maxConnectionIdleTimeMS: Long? = null
   var maintenanceInitialDelayMS: Long? = null
   var maintenanceFrequencyMS: Long? = null
-  var credentialConfigs: List<MongoCredentialConfigMapper>? = null
+  var credential: MongoCredentialConfigMapper? = null
 
   companion object {
     private const val serialVersionUID = 8681036039310789984L
