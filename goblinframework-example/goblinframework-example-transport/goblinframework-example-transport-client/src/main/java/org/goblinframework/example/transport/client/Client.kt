@@ -1,8 +1,8 @@
 package org.goblinframework.example.transport.client
 
 import org.goblinframework.api.core.Block1
-import org.goblinframework.api.core.GoblinSpringContainer
 import org.goblinframework.bootstrap.core.StandaloneClient
+import org.goblinframework.core.container.GoblinSpringContainer
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.transport.client.channel.TransportClientManager

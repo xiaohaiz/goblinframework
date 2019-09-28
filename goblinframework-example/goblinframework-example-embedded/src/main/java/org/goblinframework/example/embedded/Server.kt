@@ -1,7 +1,7 @@
 package org.goblinframework.example.embedded
 
-import org.goblinframework.api.core.GoblinSpringContainer
 import org.goblinframework.bootstrap.core.StandaloneServer
+import org.goblinframework.core.container.GoblinSpringContainer
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.embedded.core.EmbeddedServerMode
 import org.goblinframework.embedded.core.handler.DispatchServletHandler

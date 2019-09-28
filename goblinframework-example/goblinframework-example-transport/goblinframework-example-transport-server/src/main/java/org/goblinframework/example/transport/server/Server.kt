@@ -1,7 +1,7 @@
 package org.goblinframework.example.transport.server
 
-import org.goblinframework.api.core.GoblinSpringContainer
 import org.goblinframework.bootstrap.core.StandaloneServer
+import org.goblinframework.core.container.GoblinSpringContainer
 import org.goblinframework.core.container.SpringContainer
 import org.goblinframework.core.util.SystemUtils
 import org.goblinframework.transport.server.channel.TransportServerManager

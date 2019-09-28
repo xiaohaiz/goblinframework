@@ -1,4 +1,4 @@
-package org.goblinframework.api.core
+package org.goblinframework.core.container
 
 @MustBeDocumented
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
