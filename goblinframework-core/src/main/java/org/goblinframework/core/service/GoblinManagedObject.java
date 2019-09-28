@@ -2,6 +2,7 @@ package org.goblinframework.core.service;
 
 import org.goblinframework.api.function.Disposable;
 import org.goblinframework.api.function.Initializable;
+import org.goblinframework.core.util.AnnotationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,7 @@ abstract public class GoblinManagedObject
   private final AtomicBoolean disposed = new AtomicBoolean();
 
   protected GoblinManagedObject() {
-    GoblinManagedBean annotation = ServiceAnnotation.getAnnotation(getClass(), GoblinManagedBean.class);
+    GoblinManagedBean annotation = AnnotationUtils.getAnnotation(getClass(), GoblinManagedBean.class);
     if (annotation != null) {
       String type = annotation.type();
       if (type.isEmpty()) type = "goblin";

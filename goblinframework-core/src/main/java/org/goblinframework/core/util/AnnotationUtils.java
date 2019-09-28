@@ -1,6 +1,5 @@
 package org.goblinframework.core.util;
 
-import org.goblinframework.core.service.ServiceAnnotation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,12 +9,27 @@ abstract public class AnnotationUtils extends org.apache.commons.lang3.Annotatio
 
   public static boolean isAnnotationPresent(@NotNull Class<?> clazz,
                                             @NotNull Class<? extends Annotation> annotationClass) {
-    return ServiceAnnotation.isAnnotationPresent(clazz, annotationClass);
+    Class<?> classForUse = clazz;
+    while (classForUse != null) {
+      if (classForUse.isAnnotationPresent(annotationClass)) {
+        return true;
+      }
+      classForUse = classForUse.getSuperclass();
+    }
+    return false;
   }
 
   @Nullable
   public static <A extends Annotation> A getAnnotation(@NotNull Class<?> clazz,
                                                        @NotNull Class<A> annotationClass) {
-    return ServiceAnnotation.getAnnotation(clazz, annotationClass);
+    Class<?> classForUse = clazz;
+    while (classForUse != null) {
+      A annotation = classForUse.getAnnotation(annotationClass);
+      if (annotation != null) {
+        return annotation;
+      }
+      classForUse = classForUse.getSuperclass();
+    }
+    return null;
   }
 }
