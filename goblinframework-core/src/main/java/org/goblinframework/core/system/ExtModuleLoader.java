@@ -1,5 +1,6 @@
 package org.goblinframework.core.system;
 
+import org.goblinframework.api.spi.IExtModule;
 import org.goblinframework.core.service.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
 

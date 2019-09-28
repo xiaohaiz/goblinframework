@@ -33,8 +33,8 @@ internal constructor(private val systemManager: GoblinSystemManager)
     }
     for (module in ExtModuleLoader.asList()) {
       logger.info("Install {${module.id()}}")
-      ModuleInstallContextImpl.INSTANCE.setExtension(module.javaClass.name, module)
-      module.install(ModuleInstallContextImpl.INSTANCE)
+      ExtModuleInstallContextImpl.INSTANCE.setExtension(module.javaClass.name, module)
+      module.install(ExtModuleInstallContextImpl.INSTANCE)
     }
 
     // Execute INITIALIZE
@@ -45,7 +45,7 @@ internal constructor(private val systemManager: GoblinSystemManager)
     }
     for (module in ExtModuleLoader.asList()) {
       logger.info("Initialize {${module.id()}}")
-      module.initialize(ModuleInitializeContextImpl.INSTANCE)
+      module.initialize(ExtModuleInitializeContextImpl.INSTANCE)
     }
   }
 
@@ -69,7 +69,7 @@ internal constructor(private val systemManager: GoblinSystemManager)
     executorService.submit {
       for (module in ExtModuleLoader.asList().reversed()) {
         logger.info("Finalize {${module.id()}}")
-        module.finalize(ModuleFinalizeContextImpl.INSTANCE)
+        module.finalize(ExtModuleFinalizeContextImpl.INSTANCE)
       }
       for (id in GoblinModule.values().reversed()) {
         val module = ModuleLoader.module(id) ?: continue

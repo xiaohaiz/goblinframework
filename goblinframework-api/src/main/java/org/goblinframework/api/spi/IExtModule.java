@@ -1,4 +1,4 @@
-package org.goblinframework.core.system;
+package org.goblinframework.api.spi;
 
 import org.goblinframework.api.annotation.External;
 import org.goblinframework.api.function.Ordered;
@@ -21,12 +21,12 @@ public interface IExtModule extends Ordered {
     return null;
   }
 
-  default void install(@NotNull ModuleInstallContext ctx) {
+  default void install(@NotNull ExtModuleInstallContext ctx) {
   }
 
-  default void initialize(@NotNull ModuleInitializeContext ctx) {
+  default void initialize(@NotNull ExtModuleInitializeContext ctx) {
   }
 
-  default void finalize(@NotNull ModuleFinalizeContext ctx) {
+  default void finalize(@NotNull ExtModuleFinalizeContext ctx) {
   }
 }

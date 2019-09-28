@@ -1,6 +1,6 @@
 <#-- @ftlvariable name="modules" type="java.util.List<org.goblinframework.core.system.IModule>" -->
 <#-- @ftlvariable name="subModules" type="java.util.List<org.goblinframework.core.system.ISubModule>" -->
-<#-- @ftlvariable name="extModules" type="java.util.List<org.goblinframework.core.system.IExtModule>" -->
+<#-- @ftlvariable name="extModules" type="java.util.List<org.goblinframework.api.spi.IExtModule>" -->
 <!--suppress HtmlUnknownTarget -->
 <html lang="zh">
 <head>
