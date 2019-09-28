@@ -1,6 +1,6 @@
 package org.goblinframework.api.registry;
 
-import static org.goblinframework.api.core.ServiceInstaller.firstOrNull;
+import static org.goblinframework.core.service.ServiceInstaller.firstOrNull;
 
 final class RegistryBuilderManagerInstaller {
   static final IRegistryBuilderManager INSTALLED = firstOrNull(IRegistryBuilderManager.class);

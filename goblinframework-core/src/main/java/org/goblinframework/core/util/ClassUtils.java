@@ -1,11 +1,11 @@
 package org.goblinframework.core.util;
 
-import org.goblinframework.api.core.ServiceClassLoader;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class related miscellaneous utilities.
@@ -14,7 +14,9 @@ abstract public class ClassUtils extends org.apache.commons.lang3.ClassUtils {
 
   @NotNull
   public static ClassLoader getDefaultClassLoader() {
-    return ServiceClassLoader.defaultClassLoader();
+    ClassLoader classLoader = org.springframework.util.ClassUtils.getDefaultClassLoader();
+    Objects.requireNonNull(classLoader);
+    return classLoader;
   }
 
   @NotNull

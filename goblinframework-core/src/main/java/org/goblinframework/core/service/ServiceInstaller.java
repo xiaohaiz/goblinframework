@@ -1,8 +1,10 @@
-package org.goblinframework.api.core;
+package org.goblinframework.core.service;
 
 import org.goblinframework.api.annotation.Internal;
 import org.goblinframework.api.annotation.ThreadSafe;
+import org.goblinframework.api.core.GoblinServiceException;
 import org.goblinframework.api.function.Ordered;
+import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,7 +40,7 @@ final public class ServiceInstaller {
         return (List<E>) cached;
       }
       List<E> installed = new LinkedList<>();
-      ClassLoader classLoader = ServiceClassLoader.defaultClassLoader();
+      ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
       ServiceLoader.load(serviceType, classLoader).forEach(installed::add);
       validateInternalService(serviceType, installed);
       installed.sort((o1, o2) -> {

@@ -1,6 +1,6 @@
 package org.goblinframework.core.util;
 
-import org.goblinframework.api.core.ServiceAnnotation;
+import org.goblinframework.core.service.ServiceAnnotation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

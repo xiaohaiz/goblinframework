@@ -1,8 +1,8 @@
 package org.goblinframework.core.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.api.core.ServiceInstaller
 import org.goblinframework.core.management.IManagementServerManager
+import org.goblinframework.core.service.ServiceInstaller
 import org.goblinframework.core.system.GoblinModule
 import org.goblinframework.core.system.IModule
 import org.goblinframework.core.system.ModuleFinalizeContext
