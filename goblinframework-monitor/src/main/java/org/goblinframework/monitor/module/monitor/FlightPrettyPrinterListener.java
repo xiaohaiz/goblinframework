@@ -5,7 +5,7 @@ import org.goblinframework.api.event.GoblinEventChannel;
 import org.goblinframework.api.event.GoblinEventContext;
 import org.goblinframework.api.event.GoblinEventListener;
 import org.goblinframework.api.function.Ordered;
-import org.goblinframework.api.monitor.Flight;
+import org.goblinframework.core.monitor.Flight;
 import org.goblinframework.core.conversion.ConversionUtils;
 import org.goblinframework.core.monitor.FlightEvent;
 import org.goblinframework.monitor.flight.FlightImpl;

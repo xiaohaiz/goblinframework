@@ -1,8 +1,8 @@
 package org.goblinframework.monitor.flight;
 
-import org.goblinframework.api.monitor.Flight;
-import org.goblinframework.api.monitor.FlightLocation;
-import org.goblinframework.api.monitor.Instruction;
+import org.goblinframework.core.monitor.Flight;
+import org.goblinframework.core.monitor.FlightLocation;
+import org.goblinframework.core.monitor.Instruction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

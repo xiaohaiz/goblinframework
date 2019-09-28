@@ -2,9 +2,9 @@ package org.goblinframework.monitor.module.test
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.function.Ordered
-import org.goblinframework.api.monitor.Flight.StartPoint
-import org.goblinframework.api.monitor.FlightId
-import org.goblinframework.api.monitor.FlightLocation
+import org.goblinframework.core.monitor.Flight.StartPoint
+import org.goblinframework.core.monitor.FlightId
+import org.goblinframework.core.monitor.FlightLocation
 import org.goblinframework.api.test.TestContext
 import org.goblinframework.api.test.TestExecutionListener
 import org.goblinframework.core.monitor.FlightRecorder

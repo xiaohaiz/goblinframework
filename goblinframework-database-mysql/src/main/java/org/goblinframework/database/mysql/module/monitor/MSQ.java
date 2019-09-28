@@ -1,6 +1,6 @@
 package org.goblinframework.database.mysql.module.monitor;
 
-import org.goblinframework.api.monitor.InstructionTranslator;
+import org.goblinframework.core.monitor.InstructionTranslator;
 import org.goblinframework.core.monitor.AbstractInstruction;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;

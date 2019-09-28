@@ -1,4 +1,4 @@
-package org.goblinframework.api.monitor;
+package org.goblinframework.core.monitor;
 
 import org.goblinframework.api.annotation.Internal;
 import org.goblinframework.core.service.ServiceInstaller;

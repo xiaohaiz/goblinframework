@@ -1,7 +1,7 @@
 package org.goblinframework.cache.core.module.monitor
 
-import org.goblinframework.api.monitor.Instruction
-import org.goblinframework.api.monitor.InstructionTranslator
+import org.goblinframework.core.monitor.Instruction
+import org.goblinframework.core.monitor.InstructionTranslator
 import org.goblinframework.core.monitor.AbstractInstruction
 import org.goblinframework.core.util.StringUtils
 

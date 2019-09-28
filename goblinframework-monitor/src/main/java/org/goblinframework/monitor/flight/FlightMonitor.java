@@ -4,10 +4,12 @@ import org.goblinframework.api.annotation.Install;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.event.EventBus;
 import org.goblinframework.api.function.Ordered;
-import org.goblinframework.api.monitor.FlightLocation;
-import org.goblinframework.api.monitor.IFlightMonitor;
-import org.goblinframework.api.monitor.Instruction;
+import org.goblinframework.core.monitor.FlightLocation;
+import org.goblinframework.core.monitor.IFlightMonitor;
+import org.goblinframework.core.monitor.Instruction;
+import org.goblinframework.core.monitor.Flight;
 import org.goblinframework.core.monitor.FlightEvent;
+import org.goblinframework.core.monitor.FlightId;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.monitor.module.monitor.DOT;
 import org.jetbrains.annotations.NotNull;
@@ -75,8 +77,8 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
   }
 
   @Override
-  public void attachFlight(@Nullable org.goblinframework.api.monitor.FlightId flightId, @NotNull Instruction instruction) {
-    org.goblinframework.api.monitor.FlightId id = flightId;
+  public void attachFlight(@Nullable FlightId flightId, @NotNull Instruction instruction) {
+    FlightId id = flightId;
     if (id == null) {
       id = threadLocal.get();
     }
@@ -85,8 +87,8 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
     }
     FlightImpl flight = FlightPool.INSTANCE.get(id);
     if (flight != null) {
-      if (instruction instanceof org.goblinframework.api.monitor.Flight.Aware) {
-        ((org.goblinframework.api.monitor.Flight.Aware) instruction).setFlight(flight);
+      if (instruction instanceof Flight.Aware) {
+        ((Flight.Aware) instruction).setFlight(flight);
       }
       flight.addInstruction(instruction);
     }
@@ -119,7 +121,7 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
     }
 
     @Override
-    public void attachFlight(@Nullable org.goblinframework.api.monitor.FlightId flightId, @NotNull Instruction instruction) {
+    public void attachFlight(@Nullable FlightId flightId, @NotNull Instruction instruction) {
       INSTANCE.attachFlight(flightId, instruction);
     }
 

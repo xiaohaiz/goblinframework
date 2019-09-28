@@ -1,7 +1,7 @@
 package org.goblinframework.registry.zookeeper.module.monitor
 
-import org.goblinframework.api.monitor.Instruction
-import org.goblinframework.api.monitor.InstructionTranslator
+import org.goblinframework.core.monitor.Instruction
+import org.goblinframework.core.monitor.InstructionTranslator
 import org.goblinframework.core.monitor.AbstractInstruction
 
 class ZKP : AbstractInstruction(Instruction.Id.ZKP, Instruction.Mode.SYN, true) {

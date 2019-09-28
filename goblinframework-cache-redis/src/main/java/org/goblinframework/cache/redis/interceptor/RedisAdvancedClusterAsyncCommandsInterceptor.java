@@ -4,7 +4,7 @@ import io.lettuce.core.RedisFuture;
 import io.lettuce.core.cluster.api.async.RedisAdvancedClusterAsyncCommands;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.goblinframework.api.monitor.Instruction;
+import org.goblinframework.core.monitor.Instruction;
 import org.goblinframework.cache.redis.module.monitor.RDS;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.jetbrains.annotations.NotNull;
