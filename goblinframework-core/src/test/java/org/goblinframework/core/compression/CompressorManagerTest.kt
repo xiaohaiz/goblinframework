@@ -1,6 +1,6 @@
 package org.goblinframework.core.compression
 
-import org.goblinframework.core.container.SpringManagedBean
+import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert
@@ -12,7 +12,7 @@ import java.io.ByteArrayOutputStream
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class CompressorManagerTest : SpringManagedBean() {
+class CompressorManagerTest : SpringContainerObject() {
 
   @Test
   fun compression() {

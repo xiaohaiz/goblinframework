@@ -1,6 +1,6 @@
 package org.goblinframework.database.mysql.persistence
 
-import org.goblinframework.core.container.SpringManagedBean
+import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.util.DateFormatUtils
 import org.goblinframework.database.mysql.module.test.RebuildMysqlTable
 import org.goblinframework.test.runner.GoblinTestRunner
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class StringCreateTimeEntityPersistenceTest : SpringManagedBean() {
+class StringCreateTimeEntityPersistenceTest : SpringContainerObject() {
 
   @Inject private lateinit var persistence: StringCreateTimeEntityPersistence
 

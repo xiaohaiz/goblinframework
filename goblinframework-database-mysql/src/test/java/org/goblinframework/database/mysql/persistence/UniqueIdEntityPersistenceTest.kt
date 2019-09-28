@@ -1,6 +1,6 @@
 package org.goblinframework.database.mysql.persistence
 
-import org.goblinframework.core.container.SpringManagedBean
+import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.database.mysql.module.test.RebuildMysqlTable
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertNotNull
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class UniqueIdEntityPersistenceTest : SpringManagedBean() {
+class UniqueIdEntityPersistenceTest : SpringContainerObject() {
 
   @Inject private lateinit var persistence: UniqueIdEntityPersistence
 

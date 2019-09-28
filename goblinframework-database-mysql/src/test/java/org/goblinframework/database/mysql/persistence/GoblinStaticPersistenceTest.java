@@ -1,7 +1,7 @@
 package org.goblinframework.database.mysql.persistence;
 
 import org.goblinframework.api.database.*;
-import org.goblinframework.core.container.SpringManagedBean;
+import org.goblinframework.core.container.SpringContainerObject;
 import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.database.core.GoblinDatabaseConnection;
 import org.goblinframework.database.mysql.module.test.RebuildMysqlTable;
@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
-public class GoblinStaticPersistenceTest extends SpringManagedBean {
+public class GoblinStaticPersistenceTest extends SpringContainerObject {
 
   @Table(table = "MOCK_DATA_T")
   public static class MockData implements Serializable {

@@ -5,7 +5,7 @@ import org.bson.types.ObjectId
 import org.goblinframework.api.core.HostAndPort
 import org.goblinframework.core.compression.CompressionThreshold
 import org.goblinframework.core.compression.CompressorMode
-import org.goblinframework.core.container.SpringManagedBean
+import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.mapper.JsonMapper
 import org.goblinframework.core.serialization.SerializerMode
 import org.goblinframework.core.util.RandomUtils
@@ -17,7 +17,7 @@ import org.springframework.test.context.ContextConfiguration
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class TranscoderTest : SpringManagedBean() {
+class TranscoderTest : SpringContainerObject() {
 
   @Test
   fun bs() {

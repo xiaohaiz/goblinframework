@@ -1,13 +1,13 @@
 package org.goblinframework.core.serialization
 
 import org.bson.types.ObjectId
-import org.goblinframework.core.container.SpringManagedBean
+import org.goblinframework.core.container.SpringContainerObject
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.Instant
 import java.util.*
 
-abstract class SerializerTest : SpringManagedBean() {
+abstract class SerializerTest : SpringContainerObject() {
 
   abstract fun serializer(): Serializer
 

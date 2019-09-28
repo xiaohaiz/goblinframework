@@ -3,7 +3,7 @@ package org.goblinframework.database.mongo.bson
 import org.bson.BsonArray
 import org.bson.BsonDocument
 import org.bson.types.ObjectId
-import org.goblinframework.core.container.SpringManagedBean
+import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.util.CollectionUtils
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertEquals
@@ -15,7 +15,7 @@ import java.time.Instant
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class BsonConversionServiceTest : SpringManagedBean() {
+class BsonConversionServiceTest : SpringContainerObject() {
 
   @Test
   fun toList() {

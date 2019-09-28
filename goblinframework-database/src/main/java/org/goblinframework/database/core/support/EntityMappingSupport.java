@@ -2,7 +2,7 @@ package org.goblinframework.database.core.support;
 
 import org.goblinframework.api.database.CreateTime;
 import org.goblinframework.api.database.UpdateTime;
-import org.goblinframework.core.container.SpringManagedBean;
+import org.goblinframework.core.container.SpringContainerObject;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.util.ClassUtils;
@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
 /**
  * NOTE: spring container supported is optional.
  */
-abstract public class EntityMappingSupport<E, ID> extends SpringManagedBean {
+abstract public class EntityMappingSupport<E, ID> extends SpringContainerObject {
 
   protected final EntityMapping entityMapping;
 

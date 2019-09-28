@@ -1,7 +1,7 @@
 package org.goblinframework.core.mapper
 
 import org.bson.types.ObjectId
-import org.goblinframework.core.container.SpringManagedBean
+import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -11,7 +11,7 @@ import java.time.Instant
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class YamlMapperTest : SpringManagedBean() {
+class YamlMapperTest : SpringContainerObject() {
 
   @Test
   fun objectId() {

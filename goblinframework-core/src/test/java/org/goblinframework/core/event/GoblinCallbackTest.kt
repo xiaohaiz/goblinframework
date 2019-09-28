@@ -2,7 +2,7 @@ package org.goblinframework.core.event
 
 import org.apache.commons.lang3.RandomUtils
 import org.goblinframework.api.event.EventBus
-import org.goblinframework.core.container.SpringManagedBean
+import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert
 import org.junit.Test
@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class GoblinCallbackTest : SpringManagedBean() {
+class GoblinCallbackTest : SpringContainerObject() {
 
   @Test
   fun testCallback() {

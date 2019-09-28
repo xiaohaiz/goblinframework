@@ -6,7 +6,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.*;
 import org.springframework.context.support.ApplicationObjectSupport;
 
-abstract public class SpringManagedBean extends ApplicationObjectSupport
+abstract public class SpringContainerObject extends ApplicationObjectSupport
     implements BeanClassLoaderAware, BeanNameAware, BeanFactoryAware, InitializingBean, DisposableBean {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
