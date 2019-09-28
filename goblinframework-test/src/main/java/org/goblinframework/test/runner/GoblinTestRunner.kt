@@ -7,10 +7,7 @@ class GoblinTestRunner(clazz: Class<*>) : SpringJUnit4ClassRunner(clazz) {
 
   companion object {
     init {
-//      GoblinSystem.install()
-//      Runtime.getRuntime().addShutdownHook(thread(start = false, name = "GoblinTestRunnerShutdownHook") {
-//        GoblinSystem.uninstall()
-//      })
+      GoblinTestRunnerInitializer.initialize()
     }
   }
 
