@@ -1,11 +1,11 @@
 package org.goblinframework.registry.core.manager;
 
-import org.goblinframework.api.registry.Registry;
-import org.goblinframework.api.registry.RegistryPathWatchdog;
 import org.goblinframework.core.event.EventBus;
 import org.goblinframework.core.event.GoblinEventContext;
 import org.goblinframework.core.event.SecondTimerEventListener;
 import org.goblinframework.core.util.TimeAndUnit;
+import org.goblinframework.registry.core.Registry;
+import org.goblinframework.registry.core.RegistryPathWatchdog;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;

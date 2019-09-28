@@ -1,9 +1,9 @@
 package org.goblinframework.registry.core.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.api.registry.RegistryBuilder
-import org.goblinframework.api.registry.RegistrySystem
 import org.goblinframework.core.system.*
+import org.goblinframework.registry.core.RegistryBuilder
+import org.goblinframework.registry.core.RegistrySystem
 import org.goblinframework.registry.core.manager.RegistryBuilderManager
 
 @Install

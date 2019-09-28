@@ -1,9 +1,9 @@
 package org.goblinframework.remote.server.module.config
 
+import org.goblinframework.core.config.GoblinConfig
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.api.registry.RegistryLocation
-import org.goblinframework.core.config.GoblinConfig
+import org.goblinframework.registry.core.RegistryLocation
 
 @GoblinManagedBean(type = "RemoteServer")
 class RemoteServerConfig(val mapper: RemoteServerConfigMapper)

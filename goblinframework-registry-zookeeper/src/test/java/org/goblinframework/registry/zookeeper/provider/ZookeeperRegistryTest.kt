@@ -1,8 +1,8 @@
 package org.goblinframework.registry.zookeeper.provider
 
 import org.bson.types.ObjectId
-import org.goblinframework.api.registry.RegistrySystem
 import org.goblinframework.core.util.RandomUtils
+import org.goblinframework.registry.core.RegistrySystem
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

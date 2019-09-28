@@ -1,10 +1,10 @@
 package org.goblinframework.remote.server.module.config
 
-import org.goblinframework.api.registry.RegistryLocation
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.mapper.JsonMapper
 import org.goblinframework.core.util.NetworkUtils
+import org.goblinframework.registry.core.RegistryLocation
 
 class RemoteServerConfigParser internal constructor()
   : BufferedConfigParser<RemoteServerConfig>() {

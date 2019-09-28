@@ -1,4 +1,4 @@
-package org.goblinframework.api.registry;
+package org.goblinframework.registry.core;
 
 import org.jetbrains.annotations.NotNull;
 

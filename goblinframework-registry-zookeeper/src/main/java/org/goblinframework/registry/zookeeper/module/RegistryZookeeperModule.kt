@@ -1,11 +1,11 @@
 package org.goblinframework.registry.zookeeper.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.api.registry.RegistrySystem
 import org.goblinframework.core.system.GoblinSubModule
 import org.goblinframework.core.system.ISubModule
 import org.goblinframework.core.system.ModuleFinalizeContext
 import org.goblinframework.core.system.ModuleInstallContext
+import org.goblinframework.registry.core.RegistrySystem
 import org.goblinframework.registry.core.module.RegistryModule
 import org.goblinframework.registry.zookeeper.client.ZookeeperClientManager
 import org.goblinframework.registry.zookeeper.module.config.ZookeeperConfigManager

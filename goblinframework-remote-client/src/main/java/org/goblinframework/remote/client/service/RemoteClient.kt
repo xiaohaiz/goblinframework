@@ -2,9 +2,9 @@ package org.goblinframework.remote.client.service
 
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.api.registry.RegistryPathListener
 import org.goblinframework.core.util.CollectionUtils
 import org.goblinframework.core.util.HttpUtils
+import org.goblinframework.registry.core.RegistryPathListener
 import org.goblinframework.remote.client.connection.RemoteConnection
 import org.goblinframework.remote.client.connection.RemoteConnectionManager
 import org.goblinframework.remote.core.service.RemoteServiceId

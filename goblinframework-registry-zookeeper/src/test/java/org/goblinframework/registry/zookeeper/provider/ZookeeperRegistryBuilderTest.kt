@@ -1,6 +1,6 @@
 package org.goblinframework.registry.zookeeper.provider
 
-import org.goblinframework.api.registry.RegistrySystem
+import org.goblinframework.registry.core.RegistrySystem
 import org.goblinframework.registry.core.manager.RegistryBuilderManager
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertNotNull

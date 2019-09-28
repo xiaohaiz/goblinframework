@@ -2,11 +2,11 @@ package org.goblinframework.remote.server.service
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
-import org.goblinframework.api.registry.GoblinRegistryException
 import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.registry.core.GoblinRegistryException
 import org.goblinframework.remote.server.handler.RemoteServerManager
 import org.goblinframework.remote.server.module.config.RemoteServerConfigManager
 import java.util.concurrent.atomic.AtomicReference

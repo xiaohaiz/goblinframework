@@ -4,7 +4,7 @@ import org.I0Itec.zkclient.IZkConnection;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.data.Stat;
-import org.goblinframework.api.registry.GoblinRegistryException;
+import org.goblinframework.registry.core.GoblinRegistryException;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;

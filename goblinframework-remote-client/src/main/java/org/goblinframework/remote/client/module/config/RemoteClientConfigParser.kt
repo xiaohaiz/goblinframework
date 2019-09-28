@@ -1,9 +1,9 @@
 package org.goblinframework.remote.client.module.config
 
-import org.goblinframework.api.registry.RegistryLocation
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.mapper.JsonMapper
+import org.goblinframework.registry.core.RegistryLocation
 
 class RemoteClientConfigParser internal constructor()
   : BufferedConfigParser<RemoteClientConfig>() {

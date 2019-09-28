@@ -1,13 +1,13 @@
 package org.goblinframework.remote.server.service
 
-import org.goblinframework.api.registry.Registry
-import org.goblinframework.api.registry.RegistryPathWatchdog
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.system.GoblinSystem
 import org.goblinframework.core.util.HostAndPort
 import org.goblinframework.core.util.HttpUtils
 import org.goblinframework.core.util.NetworkUtils
+import org.goblinframework.registry.core.Registry
+import org.goblinframework.registry.core.RegistryPathWatchdog
 import org.goblinframework.remote.server.handler.RemoteServer
 import java.util.concurrent.TimeUnit
 

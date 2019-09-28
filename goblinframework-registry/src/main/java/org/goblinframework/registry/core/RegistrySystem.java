@@ -1,5 +1,6 @@
-package org.goblinframework.api.registry;
+package org.goblinframework.registry.core;
 
+import org.goblinframework.registry.core.manager.RegistryBuilderManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,8 +10,7 @@ public enum RegistrySystem {
 
   @Nullable
   public RegistryBuilder getRegistryBuilder() {
-    IRegistryBuilderManager builderManager = IRegistryBuilderManager.instance();
-    return builderManager == null ? null : builderManager.getRegistryBuilder(this);
+    return RegistryBuilderManager.INSTANCE.getRegistryBuilder(this);
   }
 
   @Nullable

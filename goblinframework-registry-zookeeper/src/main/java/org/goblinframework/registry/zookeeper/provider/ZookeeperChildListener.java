@@ -1,7 +1,7 @@
 package org.goblinframework.registry.zookeeper.provider;
 
 import org.I0Itec.zkclient.IZkChildListener;
-import org.goblinframework.api.registry.RegistryChildListener;
+import org.goblinframework.registry.core.RegistryChildListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

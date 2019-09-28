@@ -1,8 +1,8 @@
 package org.goblinframework.registry.zookeeper.provider
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.registry.Registry
-import org.goblinframework.api.registry.RegistryBuilder
+import org.goblinframework.registry.core.Registry
+import org.goblinframework.registry.core.RegistryBuilder
 import org.goblinframework.registry.zookeeper.client.ZookeeperClientManager
 
 @Singleton

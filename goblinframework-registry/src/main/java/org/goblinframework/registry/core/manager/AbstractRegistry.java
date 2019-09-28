@@ -1,9 +1,9 @@
 package org.goblinframework.registry.core.manager;
 
-import org.goblinframework.api.registry.Registry;
-import org.goblinframework.api.registry.RegistryLocation;
-import org.goblinframework.api.registry.RegistryPathListener;
-import org.goblinframework.api.registry.RegistryPathWatchdog;
+import org.goblinframework.registry.core.Registry;
+import org.goblinframework.registry.core.RegistryLocation;
+import org.goblinframework.registry.core.RegistryPathListener;
+import org.goblinframework.registry.core.RegistryPathWatchdog;
 import org.jetbrains.annotations.NotNull;
 
 abstract public class AbstractRegistry implements Registry {

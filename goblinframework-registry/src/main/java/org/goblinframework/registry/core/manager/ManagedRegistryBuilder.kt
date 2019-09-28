@@ -2,10 +2,10 @@ package org.goblinframework.registry.core.manager
 
 import org.apache.commons.lang3.mutable.MutableObject
 import org.goblinframework.api.annotation.ThreadSafe
-import org.goblinframework.api.registry.Registry
-import org.goblinframework.api.registry.RegistryBuilder
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.registry.core.Registry
+import org.goblinframework.registry.core.RegistryBuilder
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock

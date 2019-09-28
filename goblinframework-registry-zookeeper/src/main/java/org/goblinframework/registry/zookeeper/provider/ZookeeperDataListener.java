@@ -1,7 +1,7 @@
 package org.goblinframework.registry.zookeeper.provider;
 
 import org.I0Itec.zkclient.IZkDataListener;
-import org.goblinframework.api.registry.RegistryDataListener;
+import org.goblinframework.registry.core.RegistryDataListener;
 import org.jetbrains.annotations.NotNull;
 
 final public class ZookeeperDataListener implements IZkDataListener {
