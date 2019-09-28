@@ -1,9 +1,6 @@
-package org.goblinframework.api.annotation;
+package org.goblinframework.api.annotation
 
-import java.lang.annotation.*;
-
-@Documented
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface External {
-}
+@MustBeDocumented
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class External
