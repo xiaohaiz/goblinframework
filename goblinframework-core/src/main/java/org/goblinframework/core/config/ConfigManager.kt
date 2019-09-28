@@ -2,10 +2,8 @@ package org.goblinframework.core.config
 
 import org.goblinframework.api.config.ConfigListener
 import org.goblinframework.api.config.ConfigParser
-import org.goblinframework.api.config.IConfigManager
 import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.api.core.GoblinManagedObject
-import org.goblinframework.api.core.Install
 import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.system.RuntimeMode
 import org.goblinframework.api.test.ITestExecutionListenerManager
@@ -23,9 +21,9 @@ import java.util.function.Supplier
 
 
 @Singleton
-@GoblinManagedBean(type = "core")
+@GoblinManagedBean(type = "Core")
 class ConfigManager private constructor()
-  : GoblinManagedObject(), IConfigManager, ConfigManagerMXBean {
+  : GoblinManagedObject(), ConfigManagerMXBean {
 
   companion object {
     @JvmField val INSTANCE = ConfigManager()
@@ -160,11 +158,11 @@ class ConfigManager private constructor()
     configLocationScanner.dispose()
   }
 
-  override fun registerConfigParser(parser: ConfigParser) {
+  fun registerConfigParser(parser: ConfigParser) {
     configParserManager.register(parser)
   }
 
-  override fun registerConfigListener(listener: ConfigListener) {
+  fun registerConfigListener(listener: ConfigListener) {
     configListenerManager.register(listener)
   }
 
@@ -184,6 +182,4 @@ class ConfigManager private constructor()
     return runtimeMode.get()
   }
 
-  @Install
-  class Installer : IConfigManager by INSTANCE
 }

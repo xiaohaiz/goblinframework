@@ -2,7 +2,6 @@ package org.goblinframework.core.system
 
 import org.goblinframework.api.config.ConfigListener
 import org.goblinframework.api.config.ConfigParser
-import org.goblinframework.api.config.IConfigManager
 import org.goblinframework.api.core.Block0
 import org.goblinframework.api.core.ISpringContainerManager
 import org.goblinframework.api.core.Singleton
@@ -13,6 +12,7 @@ import org.goblinframework.api.management.IManagementControllerManager
 import org.goblinframework.api.system.IGoblinSystemManager
 import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.api.test.TestExecutionListener
+import org.goblinframework.core.config.ConfigManager
 
 @Singleton
 class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), ModuleInstallContext {
@@ -42,11 +42,11 @@ class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), Modu
   }
 
   override fun registerConfigParser(parser: ConfigParser) {
-    IConfigManager.instance().registerConfigParser(parser)
+    ConfigManager.INSTANCE.registerConfigParser(parser)
   }
 
   override fun registerConfigListener(listener: ConfigListener) {
-    IConfigManager.instance().registerConfigListener(listener)
+    ConfigManager.INSTANCE.registerConfigListener(listener)
   }
 
   override fun registerContainerBeanPostProcessor(processor: SpringContainerBeanPostProcessor) {
