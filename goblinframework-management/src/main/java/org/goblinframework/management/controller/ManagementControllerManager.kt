@@ -2,7 +2,7 @@ package org.goblinframework.management.controller
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.management.IManagementControllerManager
+import org.goblinframework.core.management.IManagementControllerManager
 import java.util.*
 
 @Singleton

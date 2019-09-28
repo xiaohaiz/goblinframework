@@ -1,4 +1,4 @@
-package org.goblinframework.api.management
+package org.goblinframework.core.management
 
 import org.goblinframework.api.annotation.Internal
 

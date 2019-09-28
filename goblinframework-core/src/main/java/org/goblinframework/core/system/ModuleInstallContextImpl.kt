@@ -5,7 +5,6 @@ import org.goblinframework.api.core.Block0
 import org.goblinframework.api.core.ServiceInstaller
 import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.event.GoblinEventListener
-import org.goblinframework.api.management.IManagementControllerManager
 import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.api.test.TestExecutionListener
 import org.goblinframework.core.config.ConfigListener
@@ -13,6 +12,7 @@ import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.config.ConfigParser
 import org.goblinframework.core.container.SpringContainerBeanPostProcessor
 import org.goblinframework.core.container.SpringContainerManager
+import org.goblinframework.core.management.IManagementControllerManager
 
 @Singleton
 class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), ModuleInstallContext {
