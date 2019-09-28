@@ -36,5 +36,8 @@ class GoblinStaticDaoTest : SpringContainerObject() {
     println(dao.getDatabase())
     println(dao.getCollectionName())
     println(dao.getCollection())
+
+    val dataList = listOf(MockData().apply { id = ObjectId() })
+    dao.__inserts(dataList)
   }
 }

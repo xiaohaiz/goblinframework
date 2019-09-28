@@ -3,9 +3,9 @@ package org.goblinframework.database.mongo.persistence
 import com.mongodb.reactivestreams.client.MongoCollection
 import com.mongodb.reactivestreams.client.MongoDatabase
 import org.bson.BsonDocument
-import org.goblinframework.database.mongo.support.MongoCollectionSupport
+import org.goblinframework.database.mongo.support.MongoPersistenceSupport
 
-abstract class GoblinStaticDao<E, ID> : MongoCollectionSupport<E, ID>() {
+abstract class GoblinStaticDao<E, ID> : MongoPersistenceSupport<E, ID>() {
 
   override fun calculateDatabaseName(template: String, entity: E): String {
     throw UnsupportedOperationException()
