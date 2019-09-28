@@ -1,15 +1,9 @@
-package org.goblinframework.database.core;
-
-import java.lang.annotation.*;
+package org.goblinframework.database.core
 
 /**
- * 标注在{@code persistence}和{@code dao}的实现类上，用于定义连接到哪个数据库的配置。
+ * 标注在`persistence`和`dao`的实现类上，用于定义连接到哪个数据库的配置。
  */
-@Documented
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface GoblinDatabaseConnection {
-
-  String name();
-
-}
+@MustBeDocumented
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class GoblinDatabaseConnection(val name: String)
