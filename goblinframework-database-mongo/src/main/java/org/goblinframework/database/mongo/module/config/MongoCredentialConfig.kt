@@ -16,6 +16,6 @@ class MongoCredentialConfig internal constructor(val mapper: MongoCredentialConf
   }
 
   override fun getPassword(): String {
-    return mapper.password!!
+    throw UnsupportedOperationException()
   }
 }
