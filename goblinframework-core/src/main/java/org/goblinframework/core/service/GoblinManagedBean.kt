@@ -1,16 +1,10 @@
-package org.goblinframework.core.service;
+package org.goblinframework.core.service
 
-import java.lang.annotation.*;
-
-@Documented
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface GoblinManagedBean {
-
-  String type() default "";
-
-  String name() default "";
-
-  boolean register() default true;
-
-}
+@MustBeDocumented
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class GoblinManagedBean(
+    val type: String = "",
+    val name: String = "",
+    val register: Boolean = true
+)
