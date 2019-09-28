@@ -1,6 +1,6 @@
 package org.goblinframework.transport.server.module
 
-import org.goblinframework.api.core.Install
+import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.GoblinSubModule
 import org.goblinframework.core.system.ISubModule
 import org.goblinframework.core.system.ModuleFinalizeContext

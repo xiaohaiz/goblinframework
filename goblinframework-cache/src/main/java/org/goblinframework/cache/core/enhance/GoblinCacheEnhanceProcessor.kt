@@ -1,6 +1,6 @@
 package org.goblinframework.cache.core.enhance
 
-import org.goblinframework.api.core.Singleton
+import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.cache.core.GoblinCacheException
 import org.goblinframework.cache.core.support.CacheBeanManager
 import org.goblinframework.core.container.SpringContainerBeanPostProcessor

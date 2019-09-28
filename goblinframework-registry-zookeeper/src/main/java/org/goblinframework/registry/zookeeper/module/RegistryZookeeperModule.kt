@@ -1,6 +1,6 @@
 package org.goblinframework.registry.zookeeper.module
 
-import org.goblinframework.api.core.Install
+import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.registry.RegistrySystem
 import org.goblinframework.core.system.GoblinSubModule
 import org.goblinframework.core.system.ISubModule

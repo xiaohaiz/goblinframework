@@ -1,6 +1,6 @@
 package org.goblinframework.remote.core.service
 
-import org.goblinframework.api.core.HashSafe
+import org.goblinframework.api.annotation.HashSafe
 
 @HashSafe
 data class RemoteServiceId(val interfaceClass: Class<*>,

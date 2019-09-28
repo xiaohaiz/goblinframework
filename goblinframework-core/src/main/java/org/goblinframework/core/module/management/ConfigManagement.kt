@@ -1,6 +1,6 @@
 package org.goblinframework.core.module.management
 
-import org.goblinframework.api.core.Singleton
+import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.config.ConfigManager
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping

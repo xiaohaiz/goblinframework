@@ -2,8 +2,8 @@ package org.goblinframework.database.mysql.module.test;
 
 import kotlin.text.Charsets;
 import org.apache.commons.lang3.mutable.MutableObject;
+import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.core.GoblinException;
-import org.goblinframework.api.core.Singleton;
 import org.goblinframework.api.database.Table;
 import org.goblinframework.api.test.TestContext;
 import org.goblinframework.api.test.TestExecutionListener;

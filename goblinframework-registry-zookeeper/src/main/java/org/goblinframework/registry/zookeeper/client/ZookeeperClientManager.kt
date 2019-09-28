@@ -1,8 +1,8 @@
 package org.goblinframework.registry.zookeeper.client
 
+import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.api.core.Singleton
-import org.goblinframework.api.core.ThreadSafe
 import org.goblinframework.registry.zookeeper.module.config.ZookeeperConfigManager
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock

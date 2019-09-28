@@ -1,6 +1,6 @@
 package org.goblinframework.core.module
 
-import org.goblinframework.api.core.Install
+import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.compression.CompressorManager
 import org.goblinframework.core.container.ContainerRefreshedEventListener
 import org.goblinframework.core.module.management.CoreManagement

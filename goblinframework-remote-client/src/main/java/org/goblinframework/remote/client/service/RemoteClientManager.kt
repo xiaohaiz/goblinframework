@@ -1,8 +1,8 @@
 package org.goblinframework.remote.client.service
 
+import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.api.core.Singleton
 import org.goblinframework.remote.core.service.RemoteServiceId
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock

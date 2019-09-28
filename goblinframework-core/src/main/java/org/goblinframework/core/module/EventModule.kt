@@ -1,6 +1,6 @@
 package org.goblinframework.core.module
 
-import org.goblinframework.api.core.Install
+import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.event.EventBusBoss
 import org.goblinframework.core.event.GoblinCallbackEventListener
 import org.goblinframework.core.event.TimerEventGenerator

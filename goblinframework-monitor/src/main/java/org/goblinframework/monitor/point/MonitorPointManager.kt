@@ -1,6 +1,9 @@
 package org.goblinframework.monitor.point
 
-import org.goblinframework.api.core.*
+import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.core.ServiceInstaller
 import org.goblinframework.api.monitor.IMonitorPointManager
 import org.goblinframework.api.monitor.MonitorPoint
 import org.goblinframework.core.service.GoblinManagedBean

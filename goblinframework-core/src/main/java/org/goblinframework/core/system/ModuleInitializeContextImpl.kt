@@ -1,6 +1,6 @@
 package org.goblinframework.core.system
 
-import org.goblinframework.api.core.Singleton
+import org.goblinframework.api.annotation.Singleton
 
 @Singleton
 class ModuleInitializeContextImpl private constructor() : ModuleContextImpl(), ModuleInitializeContext {

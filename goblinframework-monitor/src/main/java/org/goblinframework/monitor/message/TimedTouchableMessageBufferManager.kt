@@ -1,6 +1,8 @@
 package org.goblinframework.monitor.message
 
-import org.goblinframework.api.core.*
+import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.core.Block0
 import org.goblinframework.api.event.EventBus
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject

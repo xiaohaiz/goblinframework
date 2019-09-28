@@ -1,8 +1,8 @@
 package org.goblinframework.test.listener
 
-import org.goblinframework.api.core.Install
-import org.goblinframework.api.core.Singleton
-import org.goblinframework.api.core.ThreadSafe
+import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.api.test.TestExecutionListener
 import java.util.concurrent.locks.ReentrantReadWriteLock

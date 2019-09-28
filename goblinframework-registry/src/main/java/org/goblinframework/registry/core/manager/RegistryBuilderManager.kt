@@ -1,13 +1,13 @@
 package org.goblinframework.registry.core.manager
 
-import org.goblinframework.core.service.GoblinManagedBean
-import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.api.core.Install
-import org.goblinframework.api.core.Singleton
+import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.registry.GoblinRegistryException
 import org.goblinframework.api.registry.IRegistryBuilderManager
 import org.goblinframework.api.registry.RegistryBuilder
 import org.goblinframework.api.registry.RegistrySystem
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap
 
 @Singleton

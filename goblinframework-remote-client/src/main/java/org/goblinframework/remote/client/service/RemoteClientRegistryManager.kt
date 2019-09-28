@@ -1,9 +1,9 @@
 package org.goblinframework.remote.client.service
 
+import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.registry.Registry
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.api.core.Singleton
-import org.goblinframework.api.registry.Registry
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager
 import org.goblinframework.remote.core.GoblinRemoteException
 import java.util.concurrent.atomic.AtomicReference

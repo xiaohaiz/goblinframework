@@ -1,7 +1,7 @@
 package org.goblinframework.transport.core.protocol.reader;
 
 import kotlin.text.Charsets;
-import org.goblinframework.api.core.ThreadSafe;
+import org.goblinframework.api.annotation.ThreadSafe;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.compression.CompressorManager;
 import org.goblinframework.core.compression.CompressorMode;

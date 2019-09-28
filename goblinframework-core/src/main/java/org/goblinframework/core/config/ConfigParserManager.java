@@ -1,6 +1,6 @@
 package org.goblinframework.core.config;
 
-import org.goblinframework.api.core.ThreadSafe;
+import org.goblinframework.api.annotation.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

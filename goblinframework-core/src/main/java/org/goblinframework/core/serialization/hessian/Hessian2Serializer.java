@@ -2,7 +2,7 @@ package org.goblinframework.core.serialization.hessian;
 
 import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;
-import org.goblinframework.api.core.Singleton;
+import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.core.exception.GoblinSerializationException;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerMode;

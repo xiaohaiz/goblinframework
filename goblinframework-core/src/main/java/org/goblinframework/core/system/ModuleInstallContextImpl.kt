@@ -1,8 +1,8 @@
 package org.goblinframework.core.system
 
+import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.core.Block0
 import org.goblinframework.api.core.ServiceInstaller
-import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.event.GoblinEventListener
 import org.goblinframework.api.management.IManagementControllerManager

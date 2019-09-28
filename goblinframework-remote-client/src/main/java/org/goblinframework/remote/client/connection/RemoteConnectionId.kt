@@ -1,6 +1,6 @@
 package org.goblinframework.remote.client.connection
 
-import org.goblinframework.api.core.HashSafe
+import org.goblinframework.api.annotation.HashSafe
 
 @HashSafe
 data class RemoteConnectionId(val serverId: String,

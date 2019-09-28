@@ -1,10 +1,10 @@
 package org.goblinframework.management.server
 
+import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.management.IManagementServerManager
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.api.core.Install
-import org.goblinframework.api.core.Singleton
-import org.goblinframework.api.management.IManagementServerManager
 import java.util.concurrent.atomic.AtomicReference
 
 @Singleton

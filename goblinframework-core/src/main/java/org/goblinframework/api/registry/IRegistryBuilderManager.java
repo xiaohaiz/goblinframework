@@ -1,6 +1,6 @@
 package org.goblinframework.api.registry;
 
-import org.goblinframework.api.core.Internal;
+import org.goblinframework.api.annotation.Internal;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,6 +1,6 @@
 package org.goblinframework.api.event;
 
-import org.goblinframework.api.core.Internal;
+import org.goblinframework.api.annotation.Internal;
 import org.jetbrains.annotations.NotNull;
 
 @Internal(installRequired = true, uniqueInstance = true)

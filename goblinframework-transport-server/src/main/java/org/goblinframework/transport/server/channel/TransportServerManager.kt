@@ -1,10 +1,10 @@
 package org.goblinframework.transport.server.channel
 
+import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.api.core.Singleton
-import org.goblinframework.api.core.ThreadSafe
-import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.transport.server.setting.TransportServerSetting
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read

@@ -1,10 +1,10 @@
 package org.goblinframework.database.core.mapping;
 
-import org.goblinframework.core.service.GoblinManagedBean;
-import org.goblinframework.core.service.GoblinManagedObject;
-import org.goblinframework.api.core.ThreadSafe;
+import org.goblinframework.api.annotation.ThreadSafe;
 import org.goblinframework.api.database.*;
 import org.goblinframework.core.exception.GoblinMappingException;
+import org.goblinframework.core.service.GoblinManagedBean;
+import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.core.util.GoblinField;
 import org.jetbrains.annotations.NotNull;
 

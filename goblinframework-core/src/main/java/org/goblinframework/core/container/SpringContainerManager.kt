@@ -1,7 +1,7 @@
 package org.goblinframework.core.container
 
+import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.core.ISpringContainerManager
-import org.goblinframework.api.core.Install
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.springframework.context.ApplicationContext

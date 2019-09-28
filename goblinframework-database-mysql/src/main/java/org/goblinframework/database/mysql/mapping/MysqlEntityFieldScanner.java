@@ -1,7 +1,7 @@
 package org.goblinframework.database.mysql.mapping;
 
+import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.core.Ignore;
-import org.goblinframework.api.core.Singleton;
 import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.util.GoblinField;
 import org.goblinframework.core.util.ReflectionUtils;

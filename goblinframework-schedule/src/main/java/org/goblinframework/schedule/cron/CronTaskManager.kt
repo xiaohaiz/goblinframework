@@ -1,8 +1,8 @@
 package org.goblinframework.schedule.cron
 
-import org.goblinframework.api.core.Install
-import org.goblinframework.api.core.Singleton
-import org.goblinframework.api.core.ThreadSafe
+import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.core.schedule.CronTask
 import org.goblinframework.core.schedule.ICronTaskManager
 import org.goblinframework.core.service.GoblinManagedBean
