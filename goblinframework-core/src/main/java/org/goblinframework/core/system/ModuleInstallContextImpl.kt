@@ -39,7 +39,7 @@ class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), Modu
   }
 
   override fun registerManagementController(controller: Any) {
-    IManagementControllerManager.instance()?.register(controller)
+    ServiceInstaller.firstOrNull(IManagementControllerManager::class.java)?.register(controller)
   }
 
   override fun registerConfigParser(parser: ConfigParser) {
