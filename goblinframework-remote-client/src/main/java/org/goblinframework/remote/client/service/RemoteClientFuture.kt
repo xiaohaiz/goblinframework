@@ -1,6 +1,6 @@
 package org.goblinframework.remote.client.service
 
-import org.goblinframework.api.core.GoblinFutureImpl
+import org.goblinframework.core.concurrent.GoblinFutureImpl
 import java.util.concurrent.atomic.AtomicInteger
 
 class RemoteClientFuture : GoblinFutureImpl<RemoteClient?>() {

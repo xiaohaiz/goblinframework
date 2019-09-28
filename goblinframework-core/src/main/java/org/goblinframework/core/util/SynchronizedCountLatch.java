@@ -1,7 +1,7 @@
 package org.goblinframework.core.util;
 
-import org.goblinframework.api.core.GoblinInterruptedException;
-import org.goblinframework.api.core.GoblinTimeoutException;
+import org.goblinframework.core.concurrent.GoblinInterruptedException;
+import org.goblinframework.core.concurrent.GoblinTimeoutException;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;

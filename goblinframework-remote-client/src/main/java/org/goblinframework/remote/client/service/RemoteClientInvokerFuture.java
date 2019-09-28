@@ -1,6 +1,6 @@
 package org.goblinframework.remote.client.service;
 
-import org.goblinframework.api.core.GoblinFutureImpl;
+import org.goblinframework.core.concurrent.GoblinFutureImpl;
 
 public class RemoteClientInvokerFuture extends GoblinFutureImpl<Object> {
 }

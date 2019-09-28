@@ -2,7 +2,7 @@ package org.goblinframework.remote.server.service;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.goblinframework.api.core.GoblinException;
-import org.goblinframework.api.core.GoblinInterruptedException;
+import org.goblinframework.core.concurrent.GoblinInterruptedException;
 import org.goblinframework.core.container.ContainerManagedBean;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;

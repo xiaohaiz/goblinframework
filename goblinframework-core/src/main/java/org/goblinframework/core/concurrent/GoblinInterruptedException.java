@@ -1,5 +1,6 @@
-package org.goblinframework.api.core;
+package org.goblinframework.core.concurrent;
 
+import org.goblinframework.api.core.GoblinException;
 import org.jetbrains.annotations.NotNull;
 
 public class GoblinInterruptedException extends GoblinException {

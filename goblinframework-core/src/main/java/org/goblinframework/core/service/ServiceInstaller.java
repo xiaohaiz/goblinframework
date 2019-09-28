@@ -2,7 +2,6 @@ package org.goblinframework.core.service;
 
 import org.goblinframework.api.annotation.Internal;
 import org.goblinframework.api.annotation.ThreadSafe;
-import org.goblinframework.api.core.GoblinServiceException;
 import org.goblinframework.api.function.Ordered;
 import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;
