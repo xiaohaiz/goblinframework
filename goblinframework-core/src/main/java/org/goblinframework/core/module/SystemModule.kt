@@ -1,7 +1,8 @@
 package org.goblinframework.core.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.api.management.IManagementServerManager
+import org.goblinframework.api.core.ServiceInstaller
+import org.goblinframework.core.management.IManagementServerManager
 import org.goblinframework.core.system.GoblinModule
 import org.goblinframework.core.system.IModule
 import org.goblinframework.core.system.ModuleFinalizeContext
@@ -15,10 +16,10 @@ class SystemModule : IModule {
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
-    IManagementServerManager.instance()?.start()
+    ServiceInstaller.firstOrNull(IManagementServerManager::class.java)?.start()
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
-    IManagementServerManager.instance()?.stop()
+    ServiceInstaller.firstOrNull(IManagementServerManager::class.java)?.stop()
   }
 }

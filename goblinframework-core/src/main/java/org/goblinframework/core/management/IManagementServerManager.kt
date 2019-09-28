@@ -1,14 +1,7 @@
-package org.goblinframework.api.management;
+package org.goblinframework.core.management
 
-import org.goblinframework.api.annotation.Internal;
-import org.goblinframework.api.core.Lifecycle;
-import org.jetbrains.annotations.Nullable;
+import org.goblinframework.api.annotation.Internal
+import org.goblinframework.api.core.Lifecycle
 
 @Internal(uniqueInstance = true)
-public interface IManagementServerManager extends Lifecycle {
-
-  @Nullable
-  static IManagementServerManager instance() {
-    return ManagementServerManagerInstaller.INSTALLED;
-  }
-}
+interface IManagementServerManager : Lifecycle
