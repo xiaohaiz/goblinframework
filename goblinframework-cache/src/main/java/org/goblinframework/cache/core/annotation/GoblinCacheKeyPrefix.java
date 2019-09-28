@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core;
+package org.goblinframework.cache.core.annotation;
 
 import java.lang.annotation.*;
 

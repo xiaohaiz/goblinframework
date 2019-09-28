@@ -1,14 +1,12 @@
-package org.goblinframework.cache.core;
+package org.goblinframework.cache.core.annotation;
 
 import java.lang.annotation.*;
 
 @Documented
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FlushCache {
+public @interface FlushCaches {
 
-  CacheSystem system();
-
-  String name();
+  FlushCache[] value();
 
 }

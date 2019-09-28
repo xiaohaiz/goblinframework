@@ -1,8 +1,8 @@
 package org.goblinframework.cache.core.support;
 
-import org.goblinframework.cache.core.GoblinCacheBean;
-import org.goblinframework.cache.core.GoblinCacheBeans;
 import org.goblinframework.cache.core.GoblinCacheException;
+import org.goblinframework.cache.core.annotation.GoblinCacheBean;
+import org.goblinframework.cache.core.annotation.GoblinCacheBeans;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;

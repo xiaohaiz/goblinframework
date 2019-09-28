@@ -3,8 +3,8 @@ package org.goblinframework.cache.core.module.test
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.test.TestContext
 import org.goblinframework.api.test.TestExecutionListener
-import org.goblinframework.cache.core.FlushCache
-import org.goblinframework.cache.core.FlushCaches
+import org.goblinframework.cache.core.annotation.FlushCache
+import org.goblinframework.cache.core.annotation.FlushCaches
 import org.goblinframework.cache.core.cache.CacheBuilderManager
 
 @Singleton
