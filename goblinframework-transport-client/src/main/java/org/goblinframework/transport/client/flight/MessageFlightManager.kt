@@ -1,8 +1,8 @@
 package org.goblinframework.transport.client.flight
 
+import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.api.event.EventBus
 import org.goblinframework.transport.core.protocol.TransportResponse
 import java.util.concurrent.atomic.AtomicBoolean
 

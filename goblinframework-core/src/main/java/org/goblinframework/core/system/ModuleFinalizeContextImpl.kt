@@ -1,8 +1,8 @@
 package org.goblinframework.core.system
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.event.EventBus
-import org.goblinframework.api.event.GoblinEventListener
+import org.goblinframework.core.event.EventBus
+import org.goblinframework.core.event.GoblinEventListener
 
 @Singleton
 class ModuleFinalizeContextImpl private constructor() : ModuleContextImpl(), ModuleFinalizeContext {

@@ -1,7 +1,7 @@
 package org.goblinframework.core.system;
 
-import org.goblinframework.api.event.GoblinEvent;
-import org.goblinframework.api.event.GoblinEventChannel;
+import org.goblinframework.core.event.GoblinEvent;
+import org.goblinframework.core.event.GoblinEventChannel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

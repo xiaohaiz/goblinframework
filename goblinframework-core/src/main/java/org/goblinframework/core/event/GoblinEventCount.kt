@@ -1,7 +1,6 @@
 package org.goblinframework.core.event
 
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.api.event.GoblinEvent
 import java.util.concurrent.atomic.LongAdder
 
 class GoblinEventCount

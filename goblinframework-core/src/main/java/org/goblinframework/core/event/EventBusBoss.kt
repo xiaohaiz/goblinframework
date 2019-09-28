@@ -4,7 +4,6 @@ import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.api.event.*
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.NamedDaemonThreadFactory
 import org.goblinframework.core.util.StopWatch

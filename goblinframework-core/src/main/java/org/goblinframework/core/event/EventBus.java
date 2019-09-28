@@ -1,8 +1,6 @@
-package org.goblinframework.api.event;
+package org.goblinframework.core.event;
 
 import org.goblinframework.api.function.GoblinCallback;
-import org.goblinframework.core.event.EventBusBoss;
-import org.goblinframework.core.event.GoblinCallbackEvent;
 import org.jetbrains.annotations.NotNull;
 
 final public class EventBus {

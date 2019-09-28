@@ -1,8 +1,5 @@
 package org.goblinframework.core.event;
 
-import org.goblinframework.api.event.GoblinEventChannel;
-import org.goblinframework.api.event.GoblinEventContext;
-import org.goblinframework.api.event.GoblinEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;

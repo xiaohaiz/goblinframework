@@ -1,11 +1,11 @@
 package org.goblinframework.core.system;
 
-import org.goblinframework.api.event.GoblinEventListener;
 import org.goblinframework.api.function.Block0;
 import org.goblinframework.api.test.TestExecutionListener;
 import org.goblinframework.core.config.ConfigListener;
 import org.goblinframework.core.config.ConfigParser;
 import org.goblinframework.core.container.SpringContainerBeanPostProcessor;
+import org.goblinframework.core.event.GoblinEventListener;
 import org.jetbrains.annotations.NotNull;
 
 public interface ModuleInstallContext extends ModuleContext {

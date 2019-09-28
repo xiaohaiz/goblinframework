@@ -1,9 +1,9 @@
 package org.goblinframework.core.container
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.event.GoblinEventChannel
-import org.goblinframework.api.event.GoblinEventContext
-import org.goblinframework.api.event.GoblinEventListener
+import org.goblinframework.core.event.GoblinEventChannel
+import org.goblinframework.core.event.GoblinEventContext
+import org.goblinframework.core.event.GoblinEventListener
 
 @Singleton
 @GoblinEventChannel("/goblin/core")

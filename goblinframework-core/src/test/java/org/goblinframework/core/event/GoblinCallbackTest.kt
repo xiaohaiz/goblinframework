@@ -1,7 +1,6 @@
 package org.goblinframework.core.event
 
 import org.apache.commons.lang3.RandomUtils
-import org.goblinframework.api.event.EventBus
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert

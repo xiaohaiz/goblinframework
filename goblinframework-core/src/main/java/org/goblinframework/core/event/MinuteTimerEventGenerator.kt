@@ -1,7 +1,6 @@
 package org.goblinframework.core.event
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.event.EventBus
 import org.goblinframework.core.schedule.CronConstants
 import org.goblinframework.core.schedule.CronTask
 import java.util.concurrent.TimeUnit

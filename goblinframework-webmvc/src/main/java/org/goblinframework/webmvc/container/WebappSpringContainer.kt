@@ -1,11 +1,11 @@
 package org.goblinframework.webmvc.container
 
 import org.bson.types.ObjectId
-import org.goblinframework.api.event.EventBus
 import org.goblinframework.core.container.ContainerRefreshedEvent
 import org.goblinframework.core.container.SpringBeanPostProcessorDelegator
 import org.goblinframework.core.container.SpringContainerId
 import org.goblinframework.core.container.SpringContainerManager
+import org.goblinframework.core.event.EventBus
 import org.springframework.web.context.support.XmlWebApplicationContext
 import java.util.concurrent.atomic.AtomicBoolean
 

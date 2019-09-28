@@ -1,7 +1,7 @@
 package org.goblinframework.monitor.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.api.event.EventBus
+import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.system.GoblinModule
 import org.goblinframework.core.system.IModule
 import org.goblinframework.core.system.ModuleFinalizeContext

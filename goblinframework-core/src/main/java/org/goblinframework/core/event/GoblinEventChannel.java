@@ -1,4 +1,4 @@
-package org.goblinframework.api.event;
+package org.goblinframework.core.event;
 
 import java.lang.annotation.*;
 
