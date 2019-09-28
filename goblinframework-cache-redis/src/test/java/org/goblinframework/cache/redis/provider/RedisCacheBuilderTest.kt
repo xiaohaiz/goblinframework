@@ -1,6 +1,6 @@
 package org.goblinframework.cache.redis.provider
 
-import org.goblinframework.api.cache.CacheSystem
+import org.goblinframework.cache.core.CacheSystem
 import org.goblinframework.cache.core.cache.CacheBuilderManager
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertNotNull

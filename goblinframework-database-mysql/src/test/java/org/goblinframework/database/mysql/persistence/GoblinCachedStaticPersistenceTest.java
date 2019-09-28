@@ -1,6 +1,6 @@
 package org.goblinframework.database.mysql.persistence;
 
-import org.goblinframework.api.cache.*;
+import org.goblinframework.cache.core.*;
 import org.goblinframework.cache.core.support.CacheDimension;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.database.core.GoblinCacheDimension;

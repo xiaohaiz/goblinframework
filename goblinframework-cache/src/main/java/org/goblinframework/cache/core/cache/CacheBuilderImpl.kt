@@ -2,9 +2,9 @@ package org.goblinframework.cache.core.cache
 
 import org.apache.commons.lang3.mutable.MutableObject
 import org.goblinframework.api.annotation.ThreadSafe
-import org.goblinframework.api.cache.Cache
-import org.goblinframework.api.cache.CacheBuilder
-import org.goblinframework.api.cache.CacheSystem
+import org.goblinframework.cache.core.Cache
+import org.goblinframework.cache.core.CacheBuilder
+import org.goblinframework.cache.core.CacheSystem
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap

@@ -1,8 +1,8 @@
 package org.goblinframework.cache.core.cache
 
-import org.goblinframework.api.cache.Cache
-import org.goblinframework.api.cache.CacheSystem
 import org.goblinframework.api.function.Disposable
+import org.goblinframework.cache.core.Cache
+import org.goblinframework.cache.core.CacheSystem
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 

@@ -1,7 +1,8 @@
 package org.goblinframework.cache.core.support;
 
-import org.goblinframework.api.cache.GoblinCacheParameter;
 import org.goblinframework.cache.core.GoblinCacheException;
+import org.goblinframework.cache.core.GoblinCacheMethod;
+import org.goblinframework.cache.core.GoblinCacheParameter;
 import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,7 +44,7 @@ class CacheMethodBuilder {
 
   @Nullable
   private static CacheMethod generate(@NotNull Method method) {
-    org.goblinframework.api.cache.GoblinCacheMethod annotation = method.getAnnotation(org.goblinframework.api.cache.GoblinCacheMethod.class);
+    GoblinCacheMethod annotation = method.getAnnotation(GoblinCacheMethod.class);
     if (annotation == null) {
       return null;
     }

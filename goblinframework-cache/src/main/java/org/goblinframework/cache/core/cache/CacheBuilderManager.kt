@@ -1,12 +1,10 @@
 package org.goblinframework.cache.core.cache
 
-import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
-import org.goblinframework.api.cache.Cache
-import org.goblinframework.api.cache.CacheBuilder
-import org.goblinframework.api.cache.CacheSystem
-import org.goblinframework.api.cache.ICacheBuilderManager
+import org.goblinframework.cache.core.Cache
+import org.goblinframework.cache.core.CacheBuilder
+import org.goblinframework.cache.core.CacheSystem
 import org.goblinframework.cache.core.GoblinCacheException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
@@ -16,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap
 @ThreadSafe
 @GoblinManagedBean(type = "cache")
 class CacheBuilderManager private constructor()
-  : GoblinManagedObject(), ICacheBuilderManager, CacheBuilderManagerMXBean {
+  : GoblinManagedObject(), CacheBuilderManagerMXBean {
 
   companion object {
     @JvmField val INSTANCE = CacheBuilderManager()
@@ -33,7 +31,7 @@ class CacheBuilderManager private constructor()
     buffer[system] = CacheBuilderImpl(builder)
   }
 
-  override fun cacheBuilder(system: CacheSystem): CacheBuilder? {
+  fun cacheBuilder(system: CacheSystem): CacheBuilder? {
     return buffer[system]
   }
 
@@ -53,6 +51,4 @@ class CacheBuilderManager private constructor()
         .toTypedArray()
   }
 
-  @Install
-  class Installer : ICacheBuilderManager by INSTANCE
 }

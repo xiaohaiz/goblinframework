@@ -1,5 +1,6 @@
-package org.goblinframework.api.cache;
+package org.goblinframework.cache.core;
 
+import org.goblinframework.cache.core.cache.CacheBuilderManager;
 import org.jetbrains.annotations.Nullable;
 
 public enum CacheSystem {
@@ -11,8 +12,7 @@ public enum CacheSystem {
 
   @Nullable
   public CacheBuilder cacheBuilder() {
-    ICacheBuilderManager manager = ICacheBuilderManager.instance();
-    return manager == null ? null : manager.cacheBuilder(this);
+    return CacheBuilderManager.INSTANCE.cacheBuilder(this);
   }
 
   @Nullable

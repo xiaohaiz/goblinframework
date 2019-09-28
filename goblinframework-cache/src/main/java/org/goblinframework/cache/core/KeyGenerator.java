@@ -1,4 +1,4 @@
-package org.goblinframework.api.cache;
+package org.goblinframework.cache.core;
 
 public interface KeyGenerator<K> {
   String generate(K source);
