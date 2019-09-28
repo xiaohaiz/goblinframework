@@ -2,8 +2,8 @@ package org.goblinframework.remote.client.service;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.goblinframework.api.concurrent.GoblinFuture;
 import org.goblinframework.api.core.GoblinException;
-import org.goblinframework.api.core.GoblinFuture;
 import org.goblinframework.core.util.ArrayUtils;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.goblinframework.remote.client.connection.RemoteConnection;

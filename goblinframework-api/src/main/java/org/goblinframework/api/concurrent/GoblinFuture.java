@@ -1,4 +1,4 @@
-package org.goblinframework.api.core;
+package org.goblinframework.api.concurrent;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

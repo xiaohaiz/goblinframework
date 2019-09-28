@@ -1,5 +1,7 @@
 package org.goblinframework.api.core;
 
+import org.goblinframework.api.concurrent.GoblinFuture;
+import org.goblinframework.api.concurrent.GoblinFutureListener;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
