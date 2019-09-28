@@ -1,12 +1,6 @@
-package org.goblinframework.cache.core.annotation;
+package org.goblinframework.cache.core.annotation
 
-import java.lang.annotation.*;
-
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface GoblinCacheKeyPrefix {
-
-  String prefix();
-
-}
+@MustBeDocumented
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class GoblinCacheKeyPrefix(val prefix: String)

@@ -1,12 +1,6 @@
-package org.goblinframework.cache.core.annotation;
+package org.goblinframework.cache.core.annotation
 
-import java.lang.annotation.*;
-
-@Documented
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-public @interface FlushCaches {
-
-  FlushCache[] value();
-
-}
+@MustBeDocumented
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FILE, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class FlushCaches(vararg val value: FlushCache)
