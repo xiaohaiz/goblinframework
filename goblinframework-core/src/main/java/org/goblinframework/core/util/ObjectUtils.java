@@ -1,6 +1,6 @@
 package org.goblinframework.core.util;
 
-import org.goblinframework.api.core.Ordered;
+import org.goblinframework.api.function.Ordered;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;

@@ -1,6 +1,6 @@
 package org.goblinframework.webmvc.interceptor
 
-import org.goblinframework.api.core.Ordered
+import org.goblinframework.api.function.Ordered
 import org.goblinframework.webmvc.handler.RequestHandler
 import org.goblinframework.webmvc.servlet.ServletRequest
 import org.goblinframework.webmvc.servlet.ServletResponse

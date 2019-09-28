@@ -1,11 +1,11 @@
 package org.goblinframework.core.event
 
-import org.goblinframework.core.service.GoblinManagedBean
-import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.api.core.Ordered
 import org.goblinframework.api.event.GoblinEvent
 import org.goblinframework.api.event.GoblinEventContext
 import org.goblinframework.api.event.GoblinEventListener
+import org.goblinframework.api.function.Ordered
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.ObjectUtils
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.core.util.StopWatch

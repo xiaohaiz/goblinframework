@@ -1,6 +1,6 @@
 package org.goblinframework.transport.client.flight
 
-import org.goblinframework.api.core.Block1
+import org.goblinframework.api.function.Block1
 import org.goblinframework.transport.client.channel.TransportClient
 import org.goblinframework.transport.core.protocol.*
 import org.goblinframework.transport.core.protocol.reader.TransportRequestReader

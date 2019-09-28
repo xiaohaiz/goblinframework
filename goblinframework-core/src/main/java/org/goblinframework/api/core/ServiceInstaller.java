@@ -2,6 +2,7 @@ package org.goblinframework.api.core;
 
 import org.goblinframework.api.annotation.Internal;
 import org.goblinframework.api.annotation.ThreadSafe;
+import org.goblinframework.api.function.Ordered;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

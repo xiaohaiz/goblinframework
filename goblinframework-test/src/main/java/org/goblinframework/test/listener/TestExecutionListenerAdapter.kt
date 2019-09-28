@@ -1,6 +1,6 @@
 package org.goblinframework.test.listener
 
-import org.goblinframework.api.core.Ordered
+import org.goblinframework.api.function.Ordered
 import org.goblinframework.api.test.TestExecutionListener
 import org.springframework.test.context.TestContext
 

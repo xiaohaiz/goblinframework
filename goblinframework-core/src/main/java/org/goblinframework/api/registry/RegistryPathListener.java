@@ -1,8 +1,8 @@
 package org.goblinframework.api.registry;
 
-import org.goblinframework.api.core.Block1;
 import org.goblinframework.api.core.Disposable;
 import org.goblinframework.api.core.Initializable;
+import org.goblinframework.api.function.Block1;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

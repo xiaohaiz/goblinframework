@@ -1,6 +1,6 @@
 package org.goblinframework.api.test;
 
-import org.goblinframework.api.core.Ordered;
+import org.goblinframework.api.function.Ordered;
 import org.jetbrains.annotations.NotNull;
 
 public interface TestExecutionListener extends Ordered {

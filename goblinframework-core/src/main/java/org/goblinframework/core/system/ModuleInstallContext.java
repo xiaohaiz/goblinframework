@@ -1,7 +1,7 @@
 package org.goblinframework.core.system;
 
-import org.goblinframework.api.core.Block0;
 import org.goblinframework.api.event.GoblinEventListener;
+import org.goblinframework.api.function.Block0;
 import org.goblinframework.api.test.TestExecutionListener;
 import org.goblinframework.core.config.ConfigListener;
 import org.goblinframework.core.config.ConfigParser;

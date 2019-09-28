@@ -1,6 +1,6 @@
 package org.goblinframework.transport.client.setting;
 
-import org.goblinframework.api.core.Block1;
+import org.goblinframework.api.function.Block1;
 import org.goblinframework.core.util.SystemUtils;
 import org.goblinframework.transport.client.handler.DefaultShutdownRequestHandler;
 import org.goblinframework.transport.client.handler.ShutdownRequestHandler;
