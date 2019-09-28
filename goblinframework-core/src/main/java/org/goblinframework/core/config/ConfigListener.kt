@@ -1,7 +1,7 @@
-package org.goblinframework.core.config;
+package org.goblinframework.core.config
 
-public interface ConfigListener {
+interface ConfigListener {
 
-  void onConfigChanged();
+  fun onConfigChanged()
 
 }
