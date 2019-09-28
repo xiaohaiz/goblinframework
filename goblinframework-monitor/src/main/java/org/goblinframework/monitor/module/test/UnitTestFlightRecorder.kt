@@ -33,8 +33,8 @@ class UnitTestFlightRecorder private constructor() : TestExecutionListener, Orde
   override fun beforeTestMethod(testContext: TestContext) {
     val flightId = FlightLocation.builder()
         .startPoint(StartPoint.UTM)
-        .clazz(testContext.testClass)
-        .method(testContext.testMethod)
+        .clazz(testContext.getTestClass())
+        .method(testContext.getTestMethod())
         .build()
         .launch()
     flightId?.run {

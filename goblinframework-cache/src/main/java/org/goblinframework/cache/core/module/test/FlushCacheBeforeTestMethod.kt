@@ -27,16 +27,16 @@ class FlushCacheBeforeTestMethod private constructor() : TestExecutionListener {
 
   private fun extractAnnotations(testContext: TestContext): List<FlushCache>? {
     val annotations = mutableListOf<FlushCache>()
-    testContext.testMethod.getAnnotation(FlushCache::class.java)?.run {
+    testContext.getTestMethod().getAnnotation(FlushCache::class.java)?.run {
       annotations.add(this)
     }
-    testContext.testMethod.getAnnotation(FlushCaches::class.java)?.run {
+    testContext.getTestMethod().getAnnotation(FlushCaches::class.java)?.run {
       annotations.addAll(this.value)
     }
-    testContext.testClass.getAnnotation(FlushCache::class.java)?.run {
+    testContext.getTestClass().getAnnotation(FlushCache::class.java)?.run {
       annotations.add(this)
     }
-    testContext.testClass.getAnnotation(FlushCaches::class.java)?.run {
+    testContext.getTestClass().getAnnotation(FlushCaches::class.java)?.run {
       annotations.addAll(this.value)
     }
     return if (annotations.isEmpty()) null else annotations

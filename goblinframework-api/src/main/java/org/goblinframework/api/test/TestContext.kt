@@ -1,16 +1,17 @@
-package org.goblinframework.api.test;
+package org.goblinframework.api.test
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Method
 
-public interface TestContext {
+interface TestContext {
 
-  Object getApplicationContext();
+  fun getApplicationContext(): Any
 
-  Class<?> getTestClass();
+  fun getTestClass(): Class<*>
 
-  Object getTestInstance();
+  fun getTestInstance(): Any
 
-  Method getTestMethod();
+  fun getTestMethod(): Method
 
-  Throwable getTestException();
+  fun getTestException(): Throwable?
+
 }

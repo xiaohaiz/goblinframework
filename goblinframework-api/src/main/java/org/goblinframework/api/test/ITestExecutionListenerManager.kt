@@ -1,11 +1,10 @@
-package org.goblinframework.api.test;
+package org.goblinframework.api.test
 
-import org.goblinframework.api.annotation.Internal;
-import org.jetbrains.annotations.NotNull;
+import org.goblinframework.api.annotation.Internal
 
 @Internal(uniqueInstance = true)
-public interface ITestExecutionListenerManager {
+interface ITestExecutionListenerManager {
 
-  void register(@NotNull TestExecutionListener listener);
+  fun register(listener: TestExecutionListener)
 
 }
