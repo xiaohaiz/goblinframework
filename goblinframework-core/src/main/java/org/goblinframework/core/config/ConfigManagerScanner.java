@@ -1,7 +1,7 @@
 package org.goblinframework.core.config;
 
-import org.goblinframework.api.core.Disposable;
-import org.goblinframework.api.core.Initializable;
+import org.goblinframework.api.function.Disposable;
+import org.goblinframework.api.function.Initializable;
 import org.goblinframework.core.schedule.CronConstants;
 import org.goblinframework.core.schedule.CronTask;
 import org.goblinframework.core.schedule.ICronTaskManager;
