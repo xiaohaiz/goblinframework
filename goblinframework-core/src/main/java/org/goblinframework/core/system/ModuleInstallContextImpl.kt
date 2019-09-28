@@ -1,11 +1,13 @@
 package org.goblinframework.core.system
 
 import org.goblinframework.api.core.Block0
+import org.goblinframework.api.core.ServiceInstaller
 import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.event.GoblinEventListener
 import org.goblinframework.api.management.IManagementControllerManager
 import org.goblinframework.api.system.IGoblinSystemManager
+import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.api.test.TestExecutionListener
 import org.goblinframework.core.config.ConfigListener
 import org.goblinframework.core.config.ConfigManager
@@ -33,7 +35,7 @@ class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), Modu
   }
 
   override fun registerTestExecutionListener(listener: TestExecutionListener) {
-//    ITestExecutionListenerManager.instance()?.register(listener)
+    ServiceInstaller.firstOrNull(ITestExecutionListenerManager::class.java)?.register(listener)
   }
 
   override fun registerManagementController(controller: Any) {
