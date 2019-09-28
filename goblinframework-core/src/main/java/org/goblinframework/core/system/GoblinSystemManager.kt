@@ -1,18 +1,17 @@
 package org.goblinframework.core.system
 
 import org.goblinframework.api.core.Block0
-import org.goblinframework.api.core.Install
+import org.goblinframework.api.core.Lifecycle
 import org.goblinframework.api.core.Singleton
-import org.goblinframework.api.system.IGoblinSystemManager
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.RandomUtils
 import java.util.concurrent.atomic.AtomicReference
 
 @Singleton
-@GoblinManagedBean(type = "core")
-class GoblinSystemManager private constructor()
-  : GoblinManagedObject(), IGoblinSystemManager, GoblinSystemManagerMXBean {
+@GoblinManagedBean(type = "Core")
+class GoblinSystemManager private constructor() :
+    GoblinManagedObject(), Lifecycle, GoblinSystemManagerMXBean {
 
   companion object {
     @JvmField val INSTANCE = GoblinSystemManager()
@@ -40,22 +39,19 @@ class GoblinSystemManager private constructor()
     return running.get() != null
   }
 
-  override fun applicationId(): String {
+  fun applicationId(): String {
     return applicationId
   }
 
-  override fun applicationName(): String {
+  fun applicationName(): String {
     return running.get()?.applicationName() ?: throw GoblinSystemException("GOBLIN system not started")
   }
 
-  override fun runtimeMode(): RuntimeMode {
+  fun runtimeMode(): RuntimeMode {
     return running.get()?.runtimeMode() ?: throw GoblinSystemException("GOBLIN system not started")
   }
 
-  override fun registerPriorFinalizationTask(action: Block0) {
+  fun registerPriorFinalizationTask(action: Block0) {
     priorFinalizationTasks.add(action)
   }
-
-  @Install
-  class Installer : IGoblinSystemManager by INSTANCE
 }
