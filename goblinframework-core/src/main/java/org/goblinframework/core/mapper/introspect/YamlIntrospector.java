@@ -2,7 +2,7 @@ package org.goblinframework.core.mapper.introspect;
 
 import com.fasterxml.jackson.databind.introspect.Annotated;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import org.goblinframework.api.core.Ignore;
+import org.goblinframework.api.annotation.Ignore;
 
 public class YamlIntrospector extends JacksonAnnotationIntrospector {
 

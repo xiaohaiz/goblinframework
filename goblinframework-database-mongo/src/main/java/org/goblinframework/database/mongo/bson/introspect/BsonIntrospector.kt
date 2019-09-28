@@ -2,7 +2,7 @@ package org.goblinframework.database.mongo.bson.introspect
 
 import com.fasterxml.jackson.databind.introspect.Annotated
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector
-import org.goblinframework.api.core.Ignore
+import org.goblinframework.api.annotation.Ignore
 
 class BsonIntrospector : JacksonAnnotationIntrospector() {
 
