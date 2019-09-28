@@ -1,13 +1,11 @@
-package org.goblinframework.core.event;
+package org.goblinframework.core.event
 
-import org.jetbrains.annotations.NotNull;
+import java.util.*
 
-import java.util.EventListener;
+interface GoblinEventListener : EventListener {
 
-public interface GoblinEventListener extends EventListener {
+  fun accept(context: GoblinEventContext): Boolean
 
-  boolean accept(@NotNull GoblinEventContext context);
-
-  void onEvent(@NotNull GoblinEventContext context);
+  fun onEvent(context: GoblinEventContext)
 
 }
