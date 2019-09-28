@@ -5,6 +5,7 @@ import org.goblinframework.core.system.GoblinSubModule
 import org.goblinframework.core.system.ISubModule
 import org.goblinframework.core.system.ModuleFinalizeContext
 import org.goblinframework.core.system.ModuleInstallContext
+import org.goblinframework.database.mongo.client.MongoClientManager
 import org.goblinframework.database.mongo.module.config.MongoConfigManager
 
 @Install
@@ -19,6 +20,7 @@ class DatabaseMongoModule : ISubModule {
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
+    MongoClientManager.INSTANCE.dispose()
     MongoConfigManager.INSTANCE.dispose()
   }
 }
