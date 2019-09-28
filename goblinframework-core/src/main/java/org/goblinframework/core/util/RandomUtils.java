@@ -3,8 +3,8 @@ package org.goblinframework.core.util;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.Validate;
 import org.bson.types.ObjectId;
-import org.goblinframework.api.core.IRandomProvider;
 import org.goblinframework.api.core.ServiceInstaller;
+import org.goblinframework.api.spi.IRandomProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.SecureRandom;
