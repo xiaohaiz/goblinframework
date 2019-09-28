@@ -5,10 +5,10 @@ import org.goblinframework.core.mapper.JsonMapper
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.system.RuntimeMode
-import org.goblinframework.core.util.ClassUtils
 import org.goblinframework.core.util.DigestUtils
 import org.goblinframework.core.util.IOUtils
 import org.goblinframework.core.util.StringUtils
+import org.goblinframework.core.util.SystemUtils
 import org.ini4j.Ini
 import org.springframework.core.io.ClassPathResource
 import java.io.ByteArrayInputStream
@@ -51,13 +51,7 @@ class ConfigManager private constructor() : GoblinManagedObject(), ConfigManager
       // parse runtime mode
       s = getConfig("core", "runtimeMode", true)
       s = StringUtils.defaultIfBlank(s, RuntimeMode.DEVELOPMENT.name)
-      val testRunnerFound = try {
-        ClassUtils.loadClass("org.goblinframework.test.runner.GoblinTestRunner")
-        true
-      } catch (ex: ClassNotFoundException) {
-        false
-      }
-      val mode = if (testRunnerFound) {
+      val mode = if (SystemUtils.isTestRunnerFound()) {
         RuntimeMode.UNIT_TEST
       } else {
         try {
