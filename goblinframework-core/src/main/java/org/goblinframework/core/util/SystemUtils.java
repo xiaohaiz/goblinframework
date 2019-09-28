@@ -5,6 +5,7 @@ import org.apache.commons.lang3.Validate;
 abstract public class SystemUtils extends org.apache.commons.lang3.SystemUtils {
 
   private static final boolean testRunnerFound;
+  private static final boolean nettyFound;
 
   static {
     boolean found;
@@ -15,10 +16,22 @@ abstract public class SystemUtils extends org.apache.commons.lang3.SystemUtils {
       found = false;
     }
     testRunnerFound = found;
+
+    try {
+      ClassUtils.loadClass("io.netty.util.Version");
+      found = true;
+    } catch (ClassNotFoundException ex) {
+      found = false;
+    }
+    nettyFound = found;
   }
 
   public static boolean isTestRunnerFound() {
     return testRunnerFound;
+  }
+
+  public static boolean isNettyFound() {
+    return nettyFound;
   }
 
   public static int estimateThreads() {

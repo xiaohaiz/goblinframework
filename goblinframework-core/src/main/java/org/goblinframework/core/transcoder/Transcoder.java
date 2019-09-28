@@ -9,8 +9,8 @@ import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.compression.CompressorManager;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
-import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.core.util.IOUtils;
+import org.goblinframework.core.util.SystemUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
@@ -24,14 +24,7 @@ final public class Transcoder {
   private static final TranscoderEncoder DEFAULT_ENCODER;
 
   static {
-    boolean netty4Found;
-    try {
-      ClassUtils.loadClass("io.netty.buffer.ByteBuf");
-      netty4Found = true;
-    } catch (ClassNotFoundException ex) {
-      netty4Found = false;
-    }
-    if (netty4Found) {
+    if (SystemUtils.isNettyFound()) {
       try {
         DEFAULT_ENCODER = createNetty4TranscoderEncoder();
       } catch (Exception ex) {
