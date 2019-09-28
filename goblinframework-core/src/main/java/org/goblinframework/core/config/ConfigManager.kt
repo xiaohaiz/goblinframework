@@ -1,11 +1,10 @@
 package org.goblinframework.core.config
 
-import org.goblinframework.core.service.GoblinManagedBean
-import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.system.RuntimeMode
-import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.core.mapper.JsonMapper
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.DigestUtils
 import org.goblinframework.core.util.IOUtils
 import org.goblinframework.core.util.StringUtils
@@ -53,6 +52,7 @@ class ConfigManager private constructor()
       // parse runtime mode
       s = getConfig("core", "runtimeMode", true)
       s = StringUtils.defaultIfBlank(s, RuntimeMode.DEVELOPMENT.name)
+      /*
       val mode = if (ITestExecutionListenerManager.instance() != null) {
         RuntimeMode.UNIT_TEST
       } else {
@@ -62,6 +62,8 @@ class ConfigManager private constructor()
           RuntimeMode.DEVELOPMENT
         }
       }
+      */
+      val mode = RuntimeMode.DEVELOPMENT
       runtimeMode.set(mode)
     }
 

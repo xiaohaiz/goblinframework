@@ -6,7 +6,6 @@ import org.goblinframework.api.event.EventBus
 import org.goblinframework.api.event.GoblinEventListener
 import org.goblinframework.api.management.IManagementControllerManager
 import org.goblinframework.api.system.IGoblinSystemManager
-import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.api.test.TestExecutionListener
 import org.goblinframework.core.config.ConfigListener
 import org.goblinframework.core.config.ConfigManager
@@ -34,7 +33,7 @@ class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), Modu
   }
 
   override fun registerTestExecutionListener(listener: TestExecutionListener) {
-    ITestExecutionListenerManager.instance()?.register(listener)
+//    ITestExecutionListenerManager.instance()?.register(listener)
   }
 
   override fun registerManagementController(controller: Any) {
