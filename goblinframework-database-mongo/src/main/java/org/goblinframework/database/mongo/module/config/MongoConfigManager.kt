@@ -15,6 +15,10 @@ class MongoConfigManager private constructor()
 
   val configParser = MongoConfigParser()
 
+  fun getMongoClient(name: String): MongoConfig? {
+    return configParser.getFromBuffer(name)
+  }
+
   override fun disposeBean() {
     configParser.dispose()
   }
