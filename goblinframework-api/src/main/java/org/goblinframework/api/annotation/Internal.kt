@@ -1,14 +1,9 @@
-package org.goblinframework.api.annotation;
+package org.goblinframework.api.annotation
 
-import java.lang.annotation.*;
-
-@Documented
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Internal {
-
-  boolean installRequired() default false;
-
-  boolean uniqueInstance() default false;
-
-}
+@MustBeDocumented
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Internal(
+    val installRequired: Boolean = false,
+    val uniqueInstance: Boolean = false
+)
