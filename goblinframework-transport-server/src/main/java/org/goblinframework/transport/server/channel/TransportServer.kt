@@ -1,7 +1,7 @@
 package org.goblinframework.transport.server.channel
 
-import org.goblinframework.api.core.GoblinManagedBean
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.api.core.Lifecycle
 import org.goblinframework.core.util.StopWatch
 import org.goblinframework.transport.server.setting.TransportServerSetting

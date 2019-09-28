@@ -1,7 +1,7 @@
 package org.goblinframework.remote.server.handler
 
-import org.goblinframework.api.core.GoblinManagedBean
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.conversion.ConversionUtils
 import org.goblinframework.core.util.StopWatch

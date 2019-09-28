@@ -6,6 +6,8 @@ import org.goblinframework.api.cache.CacheSystem
 import org.goblinframework.api.cache.ICacheBuilderManager
 import org.goblinframework.api.core.*
 import org.goblinframework.cache.core.GoblinCacheException
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap
 
 @Singleton

@@ -1,7 +1,7 @@
 package org.goblinframework.registry.zookeeper.module.config
 
-import org.goblinframework.api.core.GoblinManagedBean
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.config.GoblinConfig
 import org.goblinframework.core.serialization.SerializerMode
 

@@ -3,6 +3,8 @@ package org.goblinframework.schedule.cron
 import org.goblinframework.api.core.*
 import org.goblinframework.api.schedule.CronTask
 import org.goblinframework.api.schedule.ICronTaskManager
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.springframework.scheduling.quartz.SchedulerFactoryBean
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read

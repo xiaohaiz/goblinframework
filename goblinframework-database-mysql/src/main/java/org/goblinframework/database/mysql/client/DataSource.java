@@ -1,8 +1,8 @@
 package org.goblinframework.database.mysql.client;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.goblinframework.api.core.GoblinManagedBean;
-import org.goblinframework.api.core.GoblinManagedObject;
+import org.goblinframework.core.service.GoblinManagedBean;
+import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.goblinframework.database.mysql.interceptor.DataSourceInterceptor;

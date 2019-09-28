@@ -1,7 +1,7 @@
 package org.goblinframework.database.mongo.module.config
 
-import org.goblinframework.api.core.GoblinManagedBean
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 
 @GoblinManagedBean(type = "DatabaseMongo")
 class MongoCredentialConfig internal constructor(val mapper: MongoCredentialConfigMapper)

@@ -2,6 +2,8 @@ package org.goblinframework.monitor.message
 
 import org.goblinframework.api.core.*
 import org.goblinframework.api.event.EventBus
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write

@@ -1,8 +1,8 @@
 package org.goblinframework.registry.core.manager
 
 import org.apache.commons.lang3.mutable.MutableObject
-import org.goblinframework.api.core.GoblinManagedBean
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.api.core.ThreadSafe
 import org.goblinframework.api.registry.Registry
 import org.goblinframework.api.registry.RegistryBuilder

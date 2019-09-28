@@ -1,7 +1,7 @@
 package org.goblinframework.webmvc.handler
 
-import org.goblinframework.api.core.GoblinManagedBean
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.webmvc.setting.RequestHandlerSetting
 import java.util.concurrent.locks.ReentrantReadWriteLock

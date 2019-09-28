@@ -1,6 +1,8 @@
 package org.goblinframework.core.container
 
 import org.goblinframework.api.core.*
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ConfigurableApplicationContext
 import java.util.concurrent.locks.ReentrantReadWriteLock

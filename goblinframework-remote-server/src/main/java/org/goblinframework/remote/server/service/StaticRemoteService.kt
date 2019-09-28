@@ -1,6 +1,6 @@
 package org.goblinframework.remote.server.service
 
-import org.goblinframework.api.core.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedBean
 
 @GoblinManagedBean(type = "remote.server")
 class StaticRemoteService(id: ExposeServiceId,

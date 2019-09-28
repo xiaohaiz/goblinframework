@@ -1,7 +1,7 @@
 package org.goblinframework.core.config
 
-import org.goblinframework.api.core.GoblinManagedBean
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.system.RuntimeMode
 import org.goblinframework.api.test.ITestExecutionListenerManager

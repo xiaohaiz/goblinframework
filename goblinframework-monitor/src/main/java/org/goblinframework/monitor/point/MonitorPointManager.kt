@@ -3,6 +3,8 @@ package org.goblinframework.monitor.point
 import org.goblinframework.api.core.*
 import org.goblinframework.api.monitor.IMonitorPointManager
 import org.goblinframework.api.monitor.MonitorPoint
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.write
 

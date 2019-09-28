@@ -3,8 +3,8 @@ package org.goblinframework.registry.zookeeper.client
 import org.I0Itec.zkclient.IZkConnection
 import org.I0Itec.zkclient.ZkClient
 import org.I0Itec.zkclient.ZkConnection
-import org.goblinframework.api.core.GoblinManagedBean
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.core.util.ReflectionUtils
 import org.goblinframework.registry.zookeeper.interceptor.ZkConnectionInterceptor

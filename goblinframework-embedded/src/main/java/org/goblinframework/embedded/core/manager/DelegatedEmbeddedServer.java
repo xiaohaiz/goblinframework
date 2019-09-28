@@ -1,7 +1,7 @@
 package org.goblinframework.embedded.core.manager;
 
-import org.goblinframework.api.core.GoblinManagedBean;
-import org.goblinframework.api.core.GoblinManagedObject;
+import org.goblinframework.core.service.GoblinManagedBean;
+import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.embedded.core.EmbeddedServer;
 import org.jetbrains.annotations.NotNull;
 

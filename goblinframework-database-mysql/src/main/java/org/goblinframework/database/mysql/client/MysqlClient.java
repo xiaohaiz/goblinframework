@@ -1,7 +1,7 @@
 package org.goblinframework.database.mysql.client;
 
-import org.goblinframework.api.core.GoblinManagedBean;
-import org.goblinframework.api.core.GoblinManagedObject;
+import org.goblinframework.core.service.GoblinManagedBean;
+import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.database.mysql.module.config.DataSourceConfig;
 import org.goblinframework.database.mysql.module.config.MysqlConfig;
 import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;

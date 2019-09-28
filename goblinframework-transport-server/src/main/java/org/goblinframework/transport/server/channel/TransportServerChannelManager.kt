@@ -2,8 +2,8 @@ package org.goblinframework.transport.server.channel
 
 import io.netty.channel.Channel
 import io.netty.channel.ChannelId
-import org.goblinframework.api.core.GoblinManagedBean
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.SynchronizedCountLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean

@@ -1,5 +1,6 @@
-package org.goblinframework.api.core;
+package org.goblinframework.core.service;
 
+import org.goblinframework.api.core.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

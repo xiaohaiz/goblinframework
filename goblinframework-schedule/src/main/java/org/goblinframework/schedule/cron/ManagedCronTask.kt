@@ -1,7 +1,7 @@
 package org.goblinframework.schedule.cron
 
-import org.goblinframework.api.core.GoblinManagedBean
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.api.monitor.Flight
 import org.goblinframework.api.monitor.FlightLocation
 import org.goblinframework.api.schedule.CronTask

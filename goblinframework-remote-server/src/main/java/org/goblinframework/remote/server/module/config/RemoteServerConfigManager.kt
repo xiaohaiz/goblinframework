@@ -1,6 +1,6 @@
 package org.goblinframework.remote.server.module.config
 
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.api.core.Singleton
 
 @Singleton

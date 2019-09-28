@@ -1,7 +1,7 @@
 package org.goblinframework.core.event
 
-import org.goblinframework.api.core.GoblinManagedBean
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.api.core.Ordered
 import org.goblinframework.api.event.GoblinEvent
 import org.goblinframework.api.event.GoblinEventContext

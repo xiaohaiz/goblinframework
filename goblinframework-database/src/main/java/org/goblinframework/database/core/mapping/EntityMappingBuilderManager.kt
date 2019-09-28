@@ -1,6 +1,6 @@
 package org.goblinframework.database.core.mapping
 
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.api.core.Singleton
 import org.goblinframework.database.core.GoblinDatabaseException
 import org.goblinframework.database.core.GoblinDatabaseSystem

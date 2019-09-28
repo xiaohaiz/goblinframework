@@ -5,8 +5,8 @@ import io.netty.buffer.ByteBufOutputStream
 import io.netty.buffer.ByteBufUtil
 import org.I0Itec.zkclient.exception.ZkMarshallingError
 import org.I0Itec.zkclient.serialize.ZkSerializer
-import org.goblinframework.api.core.GoblinManagedBean
-import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.serialization.Serializer
 import org.goblinframework.core.transcoder.Transcoder
 import org.goblinframework.core.transcoder.TranscoderSetting

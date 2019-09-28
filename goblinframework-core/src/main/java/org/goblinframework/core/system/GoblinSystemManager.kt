@@ -3,6 +3,8 @@ package org.goblinframework.core.system
 import org.goblinframework.api.core.*
 import org.goblinframework.api.system.IGoblinSystemManager
 import org.goblinframework.api.system.RuntimeMode
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.RandomUtils
 import java.util.concurrent.atomic.AtomicReference
 
