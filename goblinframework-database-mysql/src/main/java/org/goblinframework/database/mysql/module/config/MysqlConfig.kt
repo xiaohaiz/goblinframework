@@ -1,8 +1,8 @@
 package org.goblinframework.database.mysql.module.config
 
-import org.goblinframework.api.config.GoblinConfig
 import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.api.core.GoblinManagedObject
+import org.goblinframework.core.config.GoblinConfig
 
 @GoblinManagedBean(type = "dao.mysql")
 class MysqlConfig(private val name: String,

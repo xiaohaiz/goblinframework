@@ -1,7 +1,5 @@
 package org.goblinframework.core.system
 
-import org.goblinframework.api.config.ConfigListener
-import org.goblinframework.api.config.ConfigParser
 import org.goblinframework.api.core.Block0
 import org.goblinframework.api.core.ISpringContainerManager
 import org.goblinframework.api.core.Singleton
@@ -12,7 +10,9 @@ import org.goblinframework.api.management.IManagementControllerManager
 import org.goblinframework.api.system.IGoblinSystemManager
 import org.goblinframework.api.test.ITestExecutionListenerManager
 import org.goblinframework.api.test.TestExecutionListener
+import org.goblinframework.core.config.ConfigListener
 import org.goblinframework.core.config.ConfigManager
+import org.goblinframework.core.config.ConfigParser
 
 @Singleton
 class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), ModuleInstallContext {

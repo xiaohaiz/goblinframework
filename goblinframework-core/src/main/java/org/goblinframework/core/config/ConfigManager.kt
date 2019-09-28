@@ -1,7 +1,5 @@
 package org.goblinframework.core.config
 
-import org.goblinframework.api.config.ConfigListener
-import org.goblinframework.api.config.ConfigParser
 import org.goblinframework.api.core.GoblinManagedBean
 import org.goblinframework.api.core.GoblinManagedObject
 import org.goblinframework.api.core.Singleton

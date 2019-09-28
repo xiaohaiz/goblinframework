@@ -1,8 +1,8 @@
 package org.goblinframework.registry.zookeeper.module.config
 
-import org.goblinframework.api.config.GoblinConfigException
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigManager
+import org.goblinframework.core.config.GoblinConfigException
 import org.goblinframework.core.serialization.SerializerMode
 import org.goblinframework.core.util.StringUtils
 

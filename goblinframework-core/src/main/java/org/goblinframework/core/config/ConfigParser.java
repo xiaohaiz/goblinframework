@@ -1,4 +1,4 @@
-package org.goblinframework.api.config;
+package org.goblinframework.core.config;
 
 import org.goblinframework.api.core.Initializable;
 
