@@ -1,4 +1,4 @@
-package org.goblinframework.api.schedule;
+package org.goblinframework.core.schedule;
 
 final public class CronConstants {
 

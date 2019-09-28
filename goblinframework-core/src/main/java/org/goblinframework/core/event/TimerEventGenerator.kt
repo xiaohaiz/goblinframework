@@ -2,7 +2,7 @@ package org.goblinframework.core.event
 
 import org.goblinframework.api.core.Disposable
 import org.goblinframework.api.core.Singleton
-import org.goblinframework.api.schedule.ICronTaskManager
+import org.goblinframework.core.schedule.ICronTaskManager
 import java.util.*
 
 @Singleton

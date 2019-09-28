@@ -1,6 +1,7 @@
-package org.goblinframework.api.schedule;
+package org.goblinframework.core.schedule;
 
 import org.goblinframework.api.core.Internal;
+import org.goblinframework.api.core.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,6 +14,6 @@ public interface ICronTaskManager {
 
   @Nullable
   static ICronTaskManager instance() {
-    return CronTaskManagerInstaller.INSTALLED;
+    return ServiceInstaller.firstOrNull(ICronTaskManager.class);
   }
 }

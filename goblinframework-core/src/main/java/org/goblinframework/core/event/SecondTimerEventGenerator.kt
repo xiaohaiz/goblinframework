@@ -2,8 +2,8 @@ package org.goblinframework.core.event
 
 import org.goblinframework.api.core.Singleton
 import org.goblinframework.api.event.EventBus
-import org.goblinframework.api.schedule.CronConstants
-import org.goblinframework.api.schedule.CronTask
+import org.goblinframework.core.schedule.CronConstants
+import org.goblinframework.core.schedule.CronTask
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
 

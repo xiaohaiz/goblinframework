@@ -1,7 +1,7 @@
 package org.goblinframework.schedule.cron
 
-import org.goblinframework.api.schedule.CronConstants
-import org.goblinframework.api.schedule.CronTask
+import org.goblinframework.core.schedule.CronConstants
+import org.goblinframework.core.schedule.CronTask
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Test

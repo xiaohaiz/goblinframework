@@ -1,4 +1,4 @@
-package org.goblinframework.api.schedule;
+package org.goblinframework.core.schedule;
 
 import org.jetbrains.annotations.NotNull;
 

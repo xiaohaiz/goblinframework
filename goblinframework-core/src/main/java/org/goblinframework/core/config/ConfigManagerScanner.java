@@ -2,9 +2,9 @@ package org.goblinframework.core.config;
 
 import org.goblinframework.api.core.Disposable;
 import org.goblinframework.api.core.Initializable;
-import org.goblinframework.api.schedule.CronConstants;
-import org.goblinframework.api.schedule.CronTask;
-import org.goblinframework.api.schedule.ICronTaskManager;
+import org.goblinframework.core.schedule.CronConstants;
+import org.goblinframework.core.schedule.CronTask;
+import org.goblinframework.core.schedule.ICronTaskManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Timer;
