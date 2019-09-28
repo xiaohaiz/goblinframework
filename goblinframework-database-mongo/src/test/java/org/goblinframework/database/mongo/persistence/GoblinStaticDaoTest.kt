@@ -32,5 +32,6 @@ class GoblinStaticDaoTest : SpringContainerObject() {
 
   @Test
   fun dao() {
+    println(dao.getDatabaseName())
   }
 }
