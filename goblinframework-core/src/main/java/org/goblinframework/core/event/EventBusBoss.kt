@@ -123,7 +123,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
 
   fun publish2(channel: String, event: GoblinEvent): GoblinEventPublisher {
     val future = publish(channel, event)
-    return GoblinEventPublisher(scheduler, future)
+    return GoblinEventPublisher(future, scheduler)
   }
 
   internal fun lookup(channel: String): EventBusWorker? {

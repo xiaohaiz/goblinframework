@@ -1,28 +1,15 @@
 package org.goblinframework.core.event;
 
+import org.goblinframework.api.concurrent.GoblinFuture;
+import org.goblinframework.core.concurrent.GoblinMonoPublisher;
 import org.jetbrains.annotations.NotNull;
-import org.reactivestreams.Publisher;
-import org.reactivestreams.Subscriber;
-import reactor.core.publisher.Mono;
+import org.jetbrains.annotations.Nullable;
 import reactor.core.scheduler.Scheduler;
 
-public class GoblinEventPublisher implements Publisher<GoblinEventContext> {
+public class GoblinEventPublisher extends GoblinMonoPublisher<GoblinEventContext> {
 
-  private final Mono<GoblinEventContext> mono;
-
-  GoblinEventPublisher(@NotNull Scheduler scheduler, @NotNull GoblinEventFuture future) {
-    mono = Mono.<GoblinEventContext>create(sink -> {
-      try {
-        GoblinEventContext context = future.getUninterruptibly();
-        sink.success(context);
-      } catch (Throwable ex) {
-        sink.error(ex);
-      }
-    }).subscribeOn(scheduler);
+  GoblinEventPublisher(@NotNull GoblinFuture<GoblinEventContext> future, @Nullable Scheduler scheduler) {
+    super(future, scheduler);
   }
 
-  @Override
-  public void subscribe(Subscriber<? super GoblinEventContext> s) {
-    mono.subscribe(s);
-  }
 }
