@@ -7,7 +7,7 @@ dependencies {
     exclude(group: "io.netty", module: "netty-common")
     exclude(group: "io.netty", module: "netty-handler")
     exclude(group: "io.netty", module: "netty-transport")
-    exclude(group: "org.reactivestreams", module: "reactive-streams")
+    exclude(group: "io.projectreactor", module: "reactor-core")
   }
   compile("org.apache.commons:commons-pool2:${commons_pool2_version}")
 

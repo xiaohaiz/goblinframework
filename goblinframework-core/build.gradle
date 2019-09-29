@@ -28,7 +28,9 @@ dependencies {
   compile("org.apache.httpcomponents:httpclient:${httpclient_version}")
   compile("org.apache.httpcomponents:httpasyncclient:${httpasyncclient_version}")
   compile("com.squareup.okhttp3:okhttp:${okhttp_version}")
-  compile("org.reactivestreams:reactive-streams:${reactive_streams_version}")
+  compile("io.projectreactor:reactor-core:${reactor_version}") {
+    exclude(group: "org.reactivestreams", module: "reactive-streams")
+  }
 
   testCompile(project(":goblinframework-test"))
 }
