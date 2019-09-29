@@ -15,6 +15,14 @@ abstract public class ThreadUtils extends org.apache.commons.lang3.ThreadUtils {
     }
   }
 
+  public static void sleepCurrentThread(long millis) {
+    try {
+      Thread.sleep(millis);
+    } catch (InterruptedException ex) {
+      throw new GoblinInterruptedException(ex);
+    }
+  }
+
   public static void awaitUninterruptibly(@NotNull final CountDownLatch latch) {
     try {
       latch.await();

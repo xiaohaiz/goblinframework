@@ -2,10 +2,14 @@ package org.goblinframework.core.container
 
 import org.bson.types.ObjectId
 import org.goblinframework.core.event.EventBus
+import org.goblinframework.core.event.GoblinEventContext
+import org.goblinframework.core.util.ThreadUtils
 import org.springframework.beans.BeansException
 import org.springframework.context.support.ClassPathXmlApplicationContext
-
+import reactor.core.publisher.MonoProcessor
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicReference
 
 class StandaloneSpringContainer @Throws(BeansException::class)
 constructor(vararg configLocations: String)
@@ -59,6 +63,22 @@ constructor(vararg configLocations: String)
 
   override fun finishRefresh() {
     super.finishRefresh()
-    EventBus.publish(ContainerRefreshedEvent(this)).awaitUninterruptibly()
+    val cause = AtomicReference<Throwable?>()
+    val latch = CountDownLatch(1)
+    val publisher = EventBus.publish2(ContainerRefreshedEvent(this))
+    val processor = MonoProcessor.create<GoblinEventContext>()
+    processor.subscribe(null,
+        {
+          cause.set(it)
+          latch.countDown()
+        },
+        {
+          latch.countDown()
+        })
+    publisher.subscribe(processor)
+    ThreadUtils.awaitUninterruptibly(latch)
+    cause.getAndSet(null)?.run {
+      throw this
+    }
   }
 }
