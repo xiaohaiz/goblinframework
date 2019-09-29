@@ -122,8 +122,16 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   }
 
   fun publish2(channel: String, event: GoblinEvent): GoblinEventPublisher {
-    val future = publish(channel, event)
-    return GoblinEventPublisher(future, scheduler)
+    val publisher = GoblinEventPublisher(scheduler)
+    publish(channel, event).addListener {
+      try {
+        val context = it.uninterruptibly
+        publisher.onComplete(context)
+      } catch (ex: Throwable) {
+        publisher.onComplete(null, ex)
+      }
+    }
+    return publisher
   }
 
   internal fun lookup(channel: String): EventBusWorker? {
