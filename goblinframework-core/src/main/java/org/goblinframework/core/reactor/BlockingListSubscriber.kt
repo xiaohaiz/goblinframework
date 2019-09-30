@@ -2,6 +2,7 @@ package org.goblinframework.core.reactor
 
 import org.goblinframework.api.function.Disposable
 import org.goblinframework.core.concurrent.GoblinInterruptedException
+import org.goblinframework.core.util.ExceptionUtils
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 import java.util.concurrent.CountDownLatch
@@ -52,7 +53,11 @@ class BlockingListSubscriber<T> : CountDownLatch(1), Subscriber<T>, Disposable {
         throw GoblinInterruptedException(ex)
       }
     }
-    error?.run { throw this }
+    error?.run {
+      val cause = ExceptionUtils.propagate(this)
+      cause.addSuppressed(Exception("#block terminated with an error"))
+      throw cause
+    }
     return values.toList()
   }
 }
