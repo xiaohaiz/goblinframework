@@ -13,6 +13,7 @@ import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 import org.springframework.stereotype.Repository
 import org.springframework.test.context.ContextConfiguration
+import java.util.*
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
@@ -48,7 +49,8 @@ class GoblinStaticDaoTest : SpringContainerObject() {
     val publisher = dao.__inserts(dataList)
 
 
-    val latch = CountDownLatch(1)
+    val ids = Collections.synchronizedList(mutableListOf<ObjectId>())
+    var latch = CountDownLatch(1)
     publisher.subscribe(object : Subscriber<MockData?> {
       override fun onComplete() {
         latch.countDown()
@@ -59,6 +61,29 @@ class GoblinStaticDaoTest : SpringContainerObject() {
       }
 
       override fun onNext(t: MockData?) {
+        t?.run { ids.add(t.id!!) }
+      }
+
+      override fun onError(t: Throwable?) {
+        t?.printStackTrace()
+        latch.countDown()
+      }
+    })
+    latch.await()
+
+    latch = CountDownLatch(1)
+    dao.__loads(ids).subscribe(object : Subscriber<MockData?> {
+      override fun onComplete() {
+        println("finished")
+        latch.countDown()
+      }
+
+      override fun onSubscribe(s: Subscription?) {
+        s?.request(Long.MAX_VALUE)
+      }
+
+      override fun onNext(t: MockData?) {
+        println("")
       }
 
       override fun onError(t: Throwable?) {
