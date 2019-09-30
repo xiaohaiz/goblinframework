@@ -73,38 +73,62 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
       initializeRevision(entity);
     }
 
-    publisher.initializeCount(entities.size());
-
-    groupEntities(entities).forEach((ns, es) -> {
+    LinkedMultiValueMap<MongoNamespace, E> grouped = groupEntities(entities);
+    publisher.initializeCount(grouped.size());
+    grouped.forEach((ns, es) -> {
       MongoDatabase database = getNativeMongoClient().getDatabase(ns.getDatabaseName());
       MongoCollection<BsonDocument> collection = database.getCollection(ns.getCollectionName(), BsonDocument.class);
       BsonArray array = (BsonArray) BsonConversionService.toBson(es);
       List<BsonDocument> docs = array.stream().map(e -> (BsonDocument) e).collect(Collectors.toList());
-      collection.withWriteConcern(WriteConcern.ACKNOWLEDGED)
-          .insertMany(docs)
-          .subscribe(new Subscriber<Success>() {
-            @Override
-            public void onSubscribe(Subscription s) {
-              s.request(docs.size());
-            }
+      if (docs.size() == 1) {
+        collection.withWriteConcern(WriteConcern.ACKNOWLEDGED)
+            .insertOne(docs.iterator().next())
+            .subscribe(new Subscriber<Success>() {
+              @Override
+              public void onSubscribe(Subscription s) {
+                s.request(1);
+              }
 
-            @Override
-            public void onNext(Success success) {
-            }
+              @Override
+              public void onNext(Success success) {
+                publisher.onNext(es.iterator().next());
+              }
 
-            @Override
-            public void onError(Throwable t) {
-              publisher.complete(t);
-            }
+              @Override
+              public void onError(Throwable t) {
+                publisher.complete(t);
+              }
 
-            @Override
-            public void onComplete() {
-              es.forEach(e -> {
-                publisher.onNext(e);
+              @Override
+              public void onComplete() {
                 publisher.release();
-              });
-            }
-          });
+              }
+            });
+      } else {
+        collection.withWriteConcern(WriteConcern.ACKNOWLEDGED)
+            .insertMany(docs)
+            .subscribe(new Subscriber<Success>() {
+              @Override
+              public void onSubscribe(Subscription s) {
+                s.request(docs.size());
+              }
+
+              @Override
+              public void onNext(Success success) {
+              }
+
+              @Override
+              public void onError(Throwable t) {
+                publisher.complete(t);
+              }
+
+              @Override
+              public void onComplete() {
+                es.forEach(publisher::onNext);
+                publisher.release();
+              }
+            });
+      }
     });
     return publisher;
   }
