@@ -9,8 +9,11 @@ import com.mongodb.reactivestreams.client.Success;
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.conversions.Bson;
+import org.goblinframework.core.reactor.BlockingListSubscriber;
+import org.goblinframework.core.reactor.BlockingMonoSubscriber;
 import org.goblinframework.core.reactor.MultipleResultsPublisher;
 import org.goblinframework.core.reactor.SingleResultPublisher;
+import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.mongo.bson.BsonConversionService;
 import org.goblinframework.database.mongo.eql.MongoCriteriaTranslator;
@@ -23,10 +26,8 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.springframework.util.LinkedMultiValueMap;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupport<E, ID> {
@@ -47,6 +48,38 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
 
   private <T> MultipleResultsPublisher<T> createMultipleResultsPublisher() {
     return new MultipleResultsPublisher<>(MongoSchedulerManager.INSTANCE.getScheduler());
+  }
+
+  public void insert(@Nullable E entity) {
+    Publisher<E> publisher = __insert(entity);
+    BlockingMonoSubscriber<E> subscriber = new BlockingMonoSubscriber<>();
+    publisher.subscribe(subscriber);
+    subscriber.block();
+  }
+
+  public void inserts(@Nullable Collection<E> entities) {
+    Publisher<E> publisher = __inserts(entities);
+    BlockingListSubscriber<E> subscriber = new BlockingListSubscriber<>();
+    publisher.subscribe(subscriber);
+    subscriber.block();
+  }
+
+  @Nullable
+  public E load(@Nullable ID id) {
+    Publisher<E> publisher = __load(id);
+    BlockingMonoSubscriber<E> subscriber = new BlockingMonoSubscriber<>();
+    publisher.subscribe(subscriber);
+    return subscriber.block();
+  }
+
+  @NotNull
+  public Map<ID, E> loads(@Nullable Collection<ID> ids) {
+    Publisher<E> publisher = __loads(ids);
+    BlockingListSubscriber<E> subscriber = new BlockingListSubscriber<>();
+    publisher.subscribe(subscriber);
+    Map<ID, E> result = subscriber.block().stream()
+        .collect(Collectors.toMap(this::getEntityId, Function.identity()));
+    return MapUtils.resort(result, ids);
   }
 
   @NotNull

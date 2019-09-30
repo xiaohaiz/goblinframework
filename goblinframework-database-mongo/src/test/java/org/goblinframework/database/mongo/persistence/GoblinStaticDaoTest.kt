@@ -8,6 +8,8 @@ import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.database.core.GoblinDatabaseConnection
 import org.goblinframework.test.runner.GoblinTestRunner
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.stereotype.Repository
@@ -30,6 +32,23 @@ class GoblinStaticDaoTest : SpringContainerObject() {
   class MockDataDao : GoblinStaticDao<MockData, ObjectId>()
 
   @Inject private lateinit var dao: MockDataDao
+
+  @Test
+  fun loads() {
+    val id1 = ObjectId()
+    val id2 = ObjectId()
+    val id3 = ObjectId()
+    dao.insert(MockData().apply { id = id1 })
+    dao.insert(MockData().apply { id = id2 })
+    dao.insert(MockData().apply { id = id3 })
+
+    val ids = listOf(id1, id2, id3)
+    val map = dao.loads(ids)
+    assertEquals(3, map.size)
+    assertTrue(map.containsKey(id1))
+    assertTrue(map.containsKey(id2))
+    assertTrue(map.containsKey(id3))
+  }
 
   @Test
   fun dao() {
