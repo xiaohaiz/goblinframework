@@ -9,7 +9,7 @@ import org.goblinframework.database.core.module.DatabaseModule
 import org.goblinframework.database.mongo.client.MongoClientManager
 import org.goblinframework.database.mongo.mapping.MongoEntityMappingBuilderProvider
 import org.goblinframework.database.mongo.module.config.MongoConfigManager
-import org.goblinframework.database.mongo.reactor.MongoSchedulerManager
+import org.goblinframework.database.mongo.support.MongoSchedulerManager
 
 @Install
 class DatabaseMongoModule : ISubModule {

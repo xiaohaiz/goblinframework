@@ -9,13 +9,13 @@ import com.mongodb.reactivestreams.client.Success;
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.conversions.Bson;
+import org.goblinframework.core.reactor.MultipleResultsPublisher;
+import org.goblinframework.core.reactor.SingleResultPublisher;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.mongo.bson.BsonConversionService;
 import org.goblinframework.database.mongo.eql.MongoCriteriaTranslator;
 import org.goblinframework.database.mongo.eql.MongoQueryTranslator;
 import org.goblinframework.database.mongo.eql.MongoUpdateTranslator;
-import org.goblinframework.database.mongo.reactor.MultipleResultsPublisher;
-import org.goblinframework.database.mongo.reactor.SingleResultPublisher;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Publisher;
@@ -41,10 +41,18 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
     this.updateTranslator = MongoUpdateTranslator.INSTANCE;
   }
 
+  private <T> SingleResultPublisher<T> createSingleResultPublisher() {
+    return new SingleResultPublisher<>(MongoSchedulerManager.INSTANCE.getScheduler());
+  }
+
+  private <T> MultipleResultsPublisher<T> createMultipleResultsPublisher() {
+    return new MultipleResultsPublisher<>(MongoSchedulerManager.INSTANCE.getScheduler());
+  }
+
   @NotNull
   final public Publisher<E> __insert(@Nullable E entity) {
     if (entity == null) {
-      SingleResultPublisher<E> publisher = new SingleResultPublisher<>();
+      SingleResultPublisher<E> publisher = createSingleResultPublisher();
       publisher.complete(null, null);
       return publisher;
     }
@@ -53,7 +61,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
 
   @NotNull
   final public Publisher<E> __inserts(@Nullable Collection<E> entities) {
-    MultipleResultsPublisher<E> publisher = new MultipleResultsPublisher<>();
+    MultipleResultsPublisher<E> publisher = createMultipleResultsPublisher();
     if (entities == null || entities.isEmpty()) {
       publisher.complete(null);
       return publisher;
@@ -136,7 +144,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
   @NotNull
   final public Publisher<E> __load(@Nullable ID id) {
     if (id == null) {
-      SingleResultPublisher<E> publisher = new SingleResultPublisher<>();
+      SingleResultPublisher<E> publisher = createSingleResultPublisher();
       publisher.complete(null, null);
       return publisher;
     }
@@ -145,7 +153,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
 
   @NotNull
   final public Publisher<E> __loads(@Nullable Collection<ID> ids) {
-    MultipleResultsPublisher<E> publisher = new MultipleResultsPublisher<>();
+    MultipleResultsPublisher<E> publisher = createMultipleResultsPublisher();
     if (ids == null || ids.isEmpty()) {
       publisher.complete(null);
       return publisher;

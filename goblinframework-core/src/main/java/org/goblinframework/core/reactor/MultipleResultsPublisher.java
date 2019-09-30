@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.reactor;
+package org.goblinframework.core.reactor;
 
 import org.goblinframework.api.core.ReferenceCount;
 import org.goblinframework.core.util.GoblinReferenceCount;
@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Scheduler;
 import reactor.extra.processor.TopicProcessor;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -16,10 +17,14 @@ public class MultipleResultsPublisher<T> implements Publisher<T>, ReferenceCount
   private final AtomicReference<TopicProcessor<T>> topic = new AtomicReference<>();
   private final Flux<T> flux;
 
-  public MultipleResultsPublisher() {
+  public MultipleResultsPublisher(@Nullable Scheduler scheduler) {
     TopicProcessor<T> processor = TopicProcessor.create();
     this.topic.set(processor);
-    this.flux = Flux.from(processor).publishOn(MongoSchedulerManager.INSTANCE.getScheduler());
+    Flux<T> flux = Flux.from(processor);
+    if (scheduler != null) {
+      flux = flux.publishOn(scheduler);
+    }
+    this.flux = flux;
   }
 
   public void onNext(@NotNull T value) {
