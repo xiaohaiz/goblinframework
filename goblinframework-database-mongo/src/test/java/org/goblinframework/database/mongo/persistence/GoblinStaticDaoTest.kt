@@ -5,16 +5,13 @@ import org.goblinframework.api.database.Collection
 import org.goblinframework.api.database.Database
 import org.goblinframework.api.database.Id
 import org.goblinframework.core.container.SpringContainerObject
+import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.database.core.GoblinDatabaseConnection
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.reactivestreams.Subscriber
-import org.reactivestreams.Subscription
 import org.springframework.stereotype.Repository
 import org.springframework.test.context.ContextConfiguration
-import java.util.*
-import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
 @RunWith(GoblinTestRunner::class)
@@ -49,48 +46,12 @@ class GoblinStaticDaoTest : SpringContainerObject() {
     val publisher = dao.__inserts(dataList)
 
 
-    val ids = Collections.synchronizedList(mutableListOf<ObjectId>())
-    var latch = CountDownLatch(1)
-    publisher.subscribe(object : Subscriber<MockData?> {
-      override fun onComplete() {
-        latch.countDown()
-      }
+    val s1 = BlockingListSubscriber<MockData>()
+    publisher.subscribe(s1)
+    val ids = s1.block().map { it.id }.toList()
 
-      override fun onSubscribe(s: Subscription?) {
-        s?.request(Long.MAX_VALUE)
-      }
-
-      override fun onNext(t: MockData?) {
-        t?.run { ids.add(t.id!!) }
-      }
-
-      override fun onError(t: Throwable?) {
-        t?.printStackTrace()
-        latch.countDown()
-      }
-    })
-    latch.await()
-
-    latch = CountDownLatch(1)
-    dao.__loads(ids).subscribe(object : Subscriber<MockData?> {
-      override fun onComplete() {
-        println("finished")
-        latch.countDown()
-      }
-
-      override fun onSubscribe(s: Subscription?) {
-        s?.request(Long.MAX_VALUE)
-      }
-
-      override fun onNext(t: MockData?) {
-        println("")
-      }
-
-      override fun onError(t: Throwable?) {
-        t?.printStackTrace()
-        latch.countDown()
-      }
-    })
-    latch.await()
+    val s2 = BlockingListSubscriber<MockData>()
+    dao.__loads(ids).subscribe(s2)
+    println(s2.block())
   }
 }
