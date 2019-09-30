@@ -1,39 +1,58 @@
 package org.goblinframework.core.reactor
 
+import org.goblinframework.api.function.Disposable
+import org.goblinframework.core.concurrent.GoblinInterruptedException
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 import java.util.concurrent.CountDownLatch
-import java.util.concurrent.atomic.AtomicReference
 
-class BlockingListSubscriber<T> : Subscriber<T> {
+class BlockingListSubscriber<T> : CountDownLatch(1), Subscriber<T>, Disposable {
 
-  private val latch = CountDownLatch(1)
-  private var subscription: Subscription? = null
-  private val cause = AtomicReference<Throwable?>()
   private val values = mutableListOf<T>()
+  private var error: Throwable? = null
+  private var subscription: Subscription? = null
+  private var cancelled = false
 
   override fun onSubscribe(s: Subscription?) {
     this.subscription = s
-    this.subscription?.request(1)
+    if (!cancelled) {
+      s?.request(Long.MAX_VALUE)
+    }
   }
 
   override fun onNext(t: T) {
     values.add(t)
-    this.subscription?.request(1)
   }
 
   override fun onError(t: Throwable?) {
-    cause.set(t)
-    latch.countDown()
+    values.clear()
+    error = t
+    countDown()
   }
 
   override fun onComplete() {
-    latch.countDown()
+    countDown()
+  }
+
+  override fun dispose() {
+    cancelled = true
+    val s = this.subscription
+    s?.run {
+      this@BlockingListSubscriber.subscription = null
+      this.cancel()
+    }
   }
 
   fun block(): List<T> {
-    latch.await()
-    cause.get()?.run { throw this }
+    if (count.toInt() != 0) {
+      try {
+        await()
+      } catch (ex: InterruptedException) {
+        dispose()
+        throw GoblinInterruptedException(ex)
+      }
+    }
+    error?.run { throw this }
     return values.toList()
   }
 }
