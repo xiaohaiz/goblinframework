@@ -7,9 +7,6 @@ import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.NamedDaemonThreadFactory
 import org.goblinframework.core.util.StopWatch
-import org.goblinframework.core.util.SystemUtils
-import reactor.core.scheduler.Scheduler
-import reactor.core.scheduler.Schedulers
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.LongAdder
 import java.util.concurrent.locks.ReentrantReadWriteLock
@@ -28,7 +25,6 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   }
 
   private val watch = StopWatch()
-  private val scheduler: Scheduler
   private val disruptor: Disruptor<EventBusBossEvent>
   private val lock = ReentrantReadWriteLock()
   private val workers = mutableMapOf<String, EventBusWorker>()
@@ -41,8 +37,6 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   private val dispatchedCount = LongAdder()
 
   init {
-    scheduler = Schedulers.newBoundedElastic(SystemUtils.estimateThreads() * 10, Int.MAX_VALUE, "EventBusScheduler")
-
     val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusBoss")
     val eventFactory = EventBusBossEventFactory.INSTANCE
     disruptor = Disruptor<EventBusBossEvent>(eventFactory, DEFAULT_RING_BUFFER_SIZE, threadFactory)
@@ -115,25 +109,6 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     return ctx.future()
   }
 
-  fun publish2(event: GoblinEvent): GoblinEventPublisher {
-    AnnotationUtils.getAnnotation(event.javaClass, GoblinEventChannel::class.java)?.run {
-      return publish2(this.value, event)
-    } ?: throw GoblinEventException("No @GoblinEventChannel presented on [$event]")
-  }
-
-  fun publish2(channel: String, event: GoblinEvent): GoblinEventPublisher {
-    val publisher = GoblinEventPublisher(scheduler)
-    publish(channel, event).addListener {
-      try {
-        val context = it.uninterruptibly
-        publisher.onComplete(context)
-      } catch (ex: Throwable) {
-        publisher.onComplete(null, ex)
-      }
-    }
-    return publisher
-  }
-
   internal fun lookup(channel: String): EventBusWorker? {
     return lock.read { workers[channel] }
   }
@@ -147,7 +122,6 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
       workers.values.reversed().forEach { it.dispose() }
       workers.clear()
     }
-    scheduler.dispose()
     watch.stop()
   }
 

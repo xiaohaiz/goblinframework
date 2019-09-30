@@ -40,16 +40,6 @@ final public class EventBus {
   }
 
   @NotNull
-  public static GoblinEventPublisher publish2(@NotNull GoblinEvent event) {
-    return EventBusBoss.INSTANCE.publish2(event);
-  }
-
-  @NotNull
-  public static GoblinEventPublisher publish2(@NotNull String channel, @NotNull GoblinEvent event) {
-    return EventBusBoss.INSTANCE.publish2(channel, event);
-  }
-
-  @NotNull
   public static <E> GoblinCallbackFuture<E> execute(@NotNull GoblinCallback<E> callback) {
     GoblinCallbackFuture<E> future = new GoblinCallbackFuture<>();
     EventBusBoss.INSTANCE.publish(new GoblinCallbackEvent(callback)).addListener(it -> {
