@@ -8,6 +8,7 @@ import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.goblinframework.database.mongo.bson.BsonConversionService;
 import org.goblinframework.database.mongo.reactor.MultipleResultsPublisher;
+import org.goblinframework.database.mongo.reactor.SingleResultPublisher;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Publisher;
@@ -15,10 +16,21 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupport<E, ID> {
+
+  @NotNull
+  final public Publisher<E> __insert(@Nullable E entity) {
+    if (entity == null) {
+      SingleResultPublisher<E> publisher = new SingleResultPublisher<>();
+      publisher.complete(null, null);
+      return publisher;
+    }
+    return __inserts(Collections.singleton(entity));
+  }
 
   @NotNull
   final public Publisher<E> __inserts(@Nullable Collection<E> entities) {
