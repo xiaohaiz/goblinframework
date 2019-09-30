@@ -16,4 +16,16 @@ abstract class MongoNamespaceSupport<E, ID> : MongoCollectionSupport<E, ID>() {
     entities.forEach { ret.add(getEntityNamespace(it), it) }
     return ret
   }
+
+  fun getIdNamespace(id: ID?): MongoNamespace {
+    val entity = newEntityInstance()
+    setEntityId(entity, id)
+    return getEntityNamespace(entity)
+  }
+
+  fun groupIds(ids: Collection<ID>): LinkedMultiValueMap<MongoNamespace, ID> {
+    val ret = LinkedMultiValueMap<MongoNamespace, ID>()
+    ids.forEach { ret.add(getIdNamespace(it), it) }
+    return ret
+  }
 }
