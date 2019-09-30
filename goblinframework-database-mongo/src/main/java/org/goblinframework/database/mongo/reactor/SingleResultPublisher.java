@@ -1,43 +1,39 @@
 package org.goblinframework.database.mongo.reactor;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import reactor.core.publisher.Flux;
 import reactor.extra.processor.TopicProcessor;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 final public class SingleResultPublisher<T> implements Publisher<T> {
 
-  private final TopicProcessor<T> topic;
+  private final AtomicReference<TopicProcessor<T>> topic = new AtomicReference<>();
   private final Flux<T> flux;
   private final AtomicBoolean completed = new AtomicBoolean();
 
   public SingleResultPublisher() {
-    this.topic = TopicProcessor.create();
-    this.flux = Flux.from(topic).publishOn(MongoSchedulerManager.INSTANCE.getScheduler());
+    TopicProcessor<T> processor = TopicProcessor.create();
+    this.topic.set(processor);
+    this.flux = Flux.from(processor).publishOn(MongoSchedulerManager.INSTANCE.getScheduler());
   }
 
-  public SingleResultPublisher<T> complete(@NotNull T value) {
-    return complete(value, null);
-  }
-
-  public SingleResultPublisher<T> complete(@Nullable T value, @Nullable Throwable cause) {
-    if (cause != null) {
-      if (!completed.compareAndSet(false, true)) {
-        throw new IllegalStateException();
-      }
-      topic.onError(cause);
-    } else if (value != null) {
-      if (!completed.compareAndSet(false, true)) {
-        throw new IllegalStateException();
-      }
-      topic.onNext(value);
-      topic.onComplete();
+  public void complete(@NotNull T value) {
+    TopicProcessor<T> processor = this.topic.getAndSet(null);
+    if (processor != null) {
+      processor.onNext(value);
+      processor.onComplete();
     }
-    return this;
+  }
+
+  public void complete(@NotNull Throwable cause) {
+    TopicProcessor<T> processor = this.topic.getAndSet(null);
+    if (processor != null) {
+      processor.onError(cause);
+    }
   }
 
   @Override

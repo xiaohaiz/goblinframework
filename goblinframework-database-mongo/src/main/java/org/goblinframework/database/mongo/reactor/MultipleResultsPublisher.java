@@ -7,31 +7,34 @@ import org.reactivestreams.Subscriber;
 import reactor.core.publisher.Flux;
 import reactor.extra.processor.TopicProcessor;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MultipleResultsPublisher<T> implements Publisher<T> {
 
-  private final TopicProcessor<T> topic;
+  private final AtomicReference<TopicProcessor<T>> topic = new AtomicReference<>();
   private final Flux<T> flux;
-  private final AtomicBoolean completed = new AtomicBoolean();
 
   public MultipleResultsPublisher() {
-    this.topic = TopicProcessor.create();
-    this.flux = Flux.from(topic).publishOn(MongoSchedulerManager.INSTANCE.getScheduler());
+    TopicProcessor<T> processor = TopicProcessor.create();
+    this.topic.set(processor);
+    this.flux = Flux.from(processor).publishOn(MongoSchedulerManager.INSTANCE.getScheduler());
   }
 
   public void onNext(@NotNull T value) {
-    topic.onNext(value);
+    TopicProcessor<T> processor = topic.get();
+    if (processor != null) {
+      processor.onNext(value);
+    }
   }
 
   public void complete(@Nullable Throwable cause) {
-    if (!completed.compareAndSet(false, true)) {
-      throw new IllegalStateException();
-    }
-    if (cause != null) {
-      topic.onError(cause);
-    } else {
-      topic.onComplete();
+    TopicProcessor<T> processor = topic.getAndSet(null);
+    if (processor != null) {
+      if (cause != null) {
+        processor.onError(cause);
+      } else {
+        processor.onComplete();
+      }
     }
   }
 

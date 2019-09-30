@@ -25,7 +25,9 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
   @NotNull
   final public Publisher<Collection<E>> __inserts(@Nullable Collection<E> entities) {
     if (entities == null || entities.isEmpty()) {
-      return new SingleResultPublisher<Collection<E>>().complete(Collections.emptyList());
+      SingleResultPublisher<Collection<E>> publisher = new SingleResultPublisher<>();
+      publisher.complete(Collections.emptyList());
+      return publisher;
     }
     long millis = System.currentTimeMillis();
     for (E entity : entities) {
