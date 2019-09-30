@@ -9,8 +9,11 @@ import org.goblinframework.database.core.GoblinDatabaseConnection
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 import org.springframework.stereotype.Repository
 import org.springframework.test.context.ContextConfiguration
+import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
 @RunWith(GoblinTestRunner::class)
@@ -37,7 +40,32 @@ class GoblinStaticDaoTest : SpringContainerObject() {
     println(dao.getCollectionName())
     println(dao.getCollection())
 
-    val dataList = listOf(MockData().apply { id = ObjectId() })
-    dao.__inserts(dataList)
+    val dataList = listOf(
+        MockData().apply { id = ObjectId() },
+        MockData().apply { id = ObjectId() },
+        MockData().apply { id = ObjectId() }
+    )
+    val publisher = dao.__inserts(dataList)
+
+
+    val latch = CountDownLatch(1)
+    publisher.subscribe(object : Subscriber<MockData?> {
+      override fun onComplete() {
+        latch.countDown()
+      }
+
+      override fun onSubscribe(s: Subscription?) {
+        s?.request(Long.MAX_VALUE)
+      }
+
+      override fun onNext(t: MockData?) {
+      }
+
+      override fun onError(t: Throwable?) {
+        t?.printStackTrace()
+        latch.countDown()
+      }
+    })
+    latch.await()
   }
 }

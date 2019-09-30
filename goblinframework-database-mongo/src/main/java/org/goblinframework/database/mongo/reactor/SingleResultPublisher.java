@@ -1,6 +1,6 @@
 package org.goblinframework.database.mongo.reactor;
 
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import reactor.core.publisher.Flux;
@@ -21,18 +21,17 @@ final public class SingleResultPublisher<T> implements Publisher<T> {
     this.flux = Flux.from(processor).publishOn(MongoSchedulerManager.INSTANCE.getScheduler());
   }
 
-  public void complete(@NotNull T value) {
+  public void complete(@Nullable T value, @Nullable Throwable cause) {
     TopicProcessor<T> processor = this.topic.getAndSet(null);
     if (processor != null) {
-      processor.onNext(value);
+      if (cause != null) {
+        processor.onError(cause);
+        return;
+      }
+      if (value != null) {
+        processor.onNext(value);
+      }
       processor.onComplete();
-    }
-  }
-
-  public void complete(@NotNull Throwable cause) {
-    TopicProcessor<T> processor = this.topic.getAndSet(null);
-    if (processor != null) {
-      processor.onError(cause);
     }
   }
 

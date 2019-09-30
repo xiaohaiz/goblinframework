@@ -7,7 +7,7 @@ import com.mongodb.reactivestreams.client.Success;
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.goblinframework.database.mongo.bson.BsonConversionService;
-import org.goblinframework.database.mongo.reactor.SingleResultPublisher;
+import org.goblinframework.database.mongo.reactor.MultipleResultsPublisher;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Publisher;
@@ -15,20 +15,19 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupport<E, ID> {
 
   @NotNull
-  final public Publisher<Collection<E>> __inserts(@Nullable Collection<E> entities) {
+  final public Publisher<E> __inserts(@Nullable Collection<E> entities) {
+    MultipleResultsPublisher<E> publisher = new MultipleResultsPublisher<>();
     if (entities == null || entities.isEmpty()) {
-      SingleResultPublisher<Collection<E>> publisher = new SingleResultPublisher<>();
-      publisher.complete(Collections.emptyList());
+      publisher.complete(null);
       return publisher;
     }
+
     long millis = System.currentTimeMillis();
     for (E entity : entities) {
       //generateEntityId(entity);
@@ -38,12 +37,13 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
       initializeRevision(entity);
     }
 
+    publisher.initializeCount(entities.size());
+
     groupEntities(entities).forEach((ns, es) -> {
       MongoDatabase database = getNativeMongoClient().getDatabase(ns.getDatabaseName());
       MongoCollection<BsonDocument> collection = database.getCollection(ns.getCollectionName(), BsonDocument.class);
       BsonArray array = (BsonArray) BsonConversionService.toBson(es);
       List<BsonDocument> docs = array.stream().map(e -> (BsonDocument) e).collect(Collectors.toList());
-      CountDownLatch latch = new CountDownLatch(1);
       collection.withWriteConcern(WriteConcern.ACKNOWLEDGED)
           .insertMany(docs)
           .subscribe(new Subscriber<Success>() {
@@ -54,25 +54,22 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
 
             @Override
             public void onNext(Success success) {
-
             }
 
             @Override
             public void onError(Throwable t) {
-              latch.countDown();
+              publisher.complete(t);
             }
 
             @Override
             public void onComplete() {
-              latch.countDown();
+              es.forEach(e -> {
+                publisher.onNext(e);
+                publisher.release();
+              });
             }
           });
-      try {
-        latch.await();
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
     });
-    return null;
+    return publisher;
   }
 }
