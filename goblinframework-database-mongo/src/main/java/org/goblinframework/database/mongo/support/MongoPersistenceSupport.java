@@ -42,8 +42,13 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
 
     long millis = System.currentTimeMillis();
     for (E entity : entities) {
-      //generateEntityId(entity);
-      //requireEntityId(entity);
+      generateEntityId(entity);
+      try {
+        requireEntityId(entity);
+      } catch (Exception ex) {
+        publisher.complete(ex);
+        return publisher;
+      }
       touchCreateTime(entity, millis);
       touchUpdateTime(entity, millis);
       initializeRevision(entity);
