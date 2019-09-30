@@ -7,20 +7,25 @@ import com.mongodb.reactivestreams.client.Success;
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.goblinframework.database.mongo.bson.BsonConversionService;
+import org.goblinframework.database.mongo.reactor.SingleResultPublisher;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupport<E, ID> {
 
-  final public void __inserts(@Nullable Collection<E> entities) {
+  @NotNull
+  final public Publisher<Collection<E>> __inserts(@Nullable Collection<E> entities) {
     if (entities == null || entities.isEmpty()) {
-      return;
+      return new SingleResultPublisher<Collection<E>>().complete(Collections.emptyList());
     }
     long millis = System.currentTimeMillis();
     for (E entity : entities) {
@@ -66,5 +71,6 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
         e.printStackTrace();
       }
     });
+    return null;
   }
 }

@@ -9,6 +9,7 @@ import org.goblinframework.database.core.module.DatabaseModule
 import org.goblinframework.database.mongo.client.MongoClientManager
 import org.goblinframework.database.mongo.mapping.MongoEntityMappingBuilderProvider
 import org.goblinframework.database.mongo.module.config.MongoConfigManager
+import org.goblinframework.database.mongo.reactor.MongoSchedulerManager
 
 @Install
 class DatabaseMongoModule : ISubModule {
@@ -26,5 +27,6 @@ class DatabaseMongoModule : ISubModule {
   override fun finalize(ctx: ModuleFinalizeContext) {
     MongoClientManager.INSTANCE.dispose()
     MongoConfigManager.INSTANCE.dispose()
+    MongoSchedulerManager.INSTANCE.dispose()
   }
 }
