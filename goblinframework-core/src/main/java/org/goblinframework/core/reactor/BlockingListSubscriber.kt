@@ -14,18 +14,18 @@ class BlockingListSubscriber<T> : CountDownLatch(1), Subscriber<T>, Disposable {
   private var subscription: Subscription? = null
   private var cancelled = false
 
-  override fun onSubscribe(s: Subscription?) {
+  override fun onSubscribe(s: Subscription) {
     this.subscription = s
     if (!cancelled) {
-      s?.request(Long.MAX_VALUE)
+      s.request(Long.MAX_VALUE)
     }
   }
 
-  override fun onNext(t: T) {
-    values.add(t)
+  override fun onNext(t: T?) {
+    t?.run { values.add(this) }
   }
 
-  override fun onError(t: Throwable?) {
+  override fun onError(t: Throwable) {
     values.clear()
     error = t
     countDown()
