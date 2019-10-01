@@ -6,6 +6,7 @@ import com.mongodb.async.SingleResultCallback;
 import com.mongodb.operation.AsyncReadOperation;
 import com.mongodb.operation.AsyncWriteOperation;
 import org.goblinframework.api.annotation.Compatible;
+import org.goblinframework.database.mongo.module.monitor.MNG;
 import org.jetbrains.annotations.NotNull;
 
 @Compatible(
@@ -23,22 +24,37 @@ class GoblinOperationExecutor implements OperationExecutor {
   }
 
   @Override
-  public <T> void execute(AsyncReadOperation<T> operation, ReadPreference readPreference, ReadConcern readConcern, SingleResultCallback<T> callback) {
-    delegator.execute(operation, readPreference, readConcern, callback);
+  public <T> void execute(AsyncReadOperation<T> operation,
+                          ReadPreference readPreference,
+                          ReadConcern readConcern,
+                          SingleResultCallback<T> callback) {
+    try (MNG mng = new MNG()) {
+      GoblinSingleResultCallback<T> gc = new GoblinSingleResultCallback<>(callback, mng);
+      delegator.execute(operation, readPreference, readConcern, gc);
+    }
   }
 
   @Override
   public <T> void execute(AsyncReadOperation<T> operation, ReadPreference readPreference, ReadConcern readConcern, ClientSession session, SingleResultCallback<T> callback) {
-    delegator.execute(operation, readPreference, readConcern, session, callback);
+    try (MNG mng = new MNG()) {
+      GoblinSingleResultCallback<T> gc = new GoblinSingleResultCallback<>(callback, mng);
+      delegator.execute(operation, readPreference, readConcern, session, gc);
+    }
   }
 
   @Override
   public <T> void execute(AsyncWriteOperation<T> operation, ReadConcern readConcern, SingleResultCallback<T> callback) {
-    delegator.execute(operation, readConcern, callback);
+    try (MNG mng = new MNG()) {
+      GoblinSingleResultCallback<T> gc = new GoblinSingleResultCallback<>(callback, mng);
+      delegator.execute(operation, readConcern, gc);
+    }
   }
 
   @Override
   public <T> void execute(AsyncWriteOperation<T> operation, ReadConcern readConcern, ClientSession session, SingleResultCallback<T> callback) {
-    delegator.execute(operation, readConcern, session, callback);
+    try (MNG mng = new MNG()) {
+      GoblinSingleResultCallback<T> gc = new GoblinSingleResultCallback<>(callback, mng);
+      delegator.execute(operation, readConcern, session, gc);
+    }
   }
 }

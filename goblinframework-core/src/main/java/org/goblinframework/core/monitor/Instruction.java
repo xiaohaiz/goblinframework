@@ -58,6 +58,7 @@ public interface Instruction extends Lifecycle, AutoCloseable {
     DOT,
     RDS,
     VMC,
+    MNG,
     MSQ,
     ZKP
   }
