@@ -7,7 +7,7 @@ import java.time.Instant
 
 class BsonInstantDeserializer : JsonDeserializer<Instant>() {
 
-  override fun deserialize(p: JsonParser, ctx: DeserializationContext): Instant? {
-    return BsonDateDeserializer.parseDate(p.embeddedObject)?.toInstant()
+  override fun deserialize(p: JsonParser?, ctx: DeserializationContext): Instant? {
+    return BsonDateDeserializer.parseDate(p?.embeddedObject)?.toInstant()
   }
 }

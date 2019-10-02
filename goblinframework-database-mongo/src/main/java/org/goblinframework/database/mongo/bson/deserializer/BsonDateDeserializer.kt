@@ -8,8 +8,8 @@ import java.util.*
 
 class BsonDateDeserializer : JsonDeserializer<Date>() {
 
-  override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): Date? {
-    return parseDate(p.embeddedObject)
+  override fun deserialize(p: JsonParser?, ctxt: DeserializationContext?): Date? {
+    return parseDate(p?.embeddedObject)
   }
 
   companion object {

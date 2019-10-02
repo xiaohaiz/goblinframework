@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -37,6 +38,14 @@ abstract public class DateFormatUtils extends org.apache.commons.lang3.time.Date
       return null;
     }
     return getDefaultFormatter().format(date);
+  }
+
+  @Nullable
+  public static String format(@Nullable final Instant instant) {
+    if (instant == null) {
+      return null;
+    }
+    return getDefaultFormatter().format(Date.from(instant));
   }
 
   @Nullable
