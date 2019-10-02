@@ -2,6 +2,8 @@ package com.mongodb.async.client;
 
 import com.mongodb.connection.Cluster;
 import org.goblinframework.api.annotation.Compatible;
+import org.goblinframework.core.system.GoblinSystem;
+import org.goblinframework.core.system.RuntimeMode;
 import org.goblinframework.core.util.ExceptionUtils;
 
 import java.io.Closeable;
@@ -30,5 +32,17 @@ class GoblinMongoClientImpl extends MongoClientImpl {
     OperationExecutor original = (OperationExecutor) field.get(this);
     GoblinOperationExecutor executor = new GoblinOperationExecutor(original);
     field.set(this, executor);
+  }
+
+  @Override
+  public MongoDatabase getDatabase(String name) {
+    RuntimeMode mode = GoblinSystem.runtimeMode();
+    String databaseName = name;
+    if (mode == RuntimeMode.UNIT_TEST) {
+      // When executing unit tests, force use 'goblin-test-'
+      // as default database prefix
+      databaseName = "goblin-test-" + databaseName;
+    }
+    return super.getDatabase(databaseName);
   }
 }

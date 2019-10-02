@@ -7,6 +7,7 @@ import org.goblinframework.api.database.Id
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.database.core.GoblinDatabaseConnection
+import org.goblinframework.database.mongo.module.test.DropMongoDatabase
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -18,6 +19,7 @@ import javax.inject.Inject
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
+@DropMongoDatabase("_ut")
 class GoblinStaticDaoTest : SpringContainerObject() {
 
   @Database("test")
