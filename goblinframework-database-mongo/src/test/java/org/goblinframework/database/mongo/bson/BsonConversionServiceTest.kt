@@ -5,6 +5,7 @@ import org.bson.BsonDocument
 import org.bson.types.ObjectId
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.util.CollectionUtils
+import org.goblinframework.core.util.DateFormatUtils
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -12,6 +13,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
 import java.time.Instant
+import java.util.*
+import kotlin.collections.LinkedHashMap
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
@@ -63,5 +66,35 @@ class BsonConversionServiceTest : SpringContainerObject() {
     val mt = factory.constructMapType(LinkedHashMap::class.java, String::class.java, Instant::class.java)
     val o = BsonConversionService.toObject<LinkedHashMap<String, Instant>>(doc, mt)
     assertEquals(now, o["now"] as Instant)
+  }
+
+  @Test
+  fun dateToDate() {
+    val now = Date()
+    val i = LinkedHashMap<String, Date>().apply { this["value"] = now }
+    val doc = BsonConversionService.toBson(i) as BsonDocument
+    val mt = BsonMapper.constructMapType(String::class.java, Date::class.java)
+    val o = BsonConversionService.toObject<LinkedHashMap<String, Date>>(doc, mt)
+    assertEquals(now, o["value"] as Date)
+  }
+
+  @Test
+  fun longToDate() {
+    val now = System.currentTimeMillis()
+    val i = LinkedHashMap<String, Long>().apply { this["value"] = now }
+    val doc = BsonConversionService.toBson(i) as BsonDocument
+    val mt = BsonMapper.constructMapType(String::class.java, Date::class.java)
+    val o = BsonConversionService.toObject<LinkedHashMap<String, Date>>(doc, mt)
+    assertEquals(now, (o["value"] as Date).time)
+  }
+
+  @Test
+  fun stringToDate() {
+    val now = DateFormatUtils.format(Date())!!
+    val i = LinkedHashMap<String, String>().apply { this["value"] = now }
+    val doc = BsonConversionService.toBson(i) as BsonDocument
+    val mt = BsonMapper.constructMapType(String::class.java, Date::class.java)
+    val o = BsonConversionService.toObject<LinkedHashMap<String, Date>>(doc, mt)
+    assertEquals(now, DateFormatUtils.format(o["value"] as Date))
   }
 }

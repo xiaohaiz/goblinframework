@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import de.undercouch.bson4jackson.BsonParser;
 import de.undercouch.bson4jackson.deserializers.BsonDeserializers;
@@ -16,9 +17,11 @@ import org.goblinframework.database.mongo.bson.deserializer.BsonObjectIdDeserial
 import org.goblinframework.database.mongo.bson.introspect.BsonIntrospector;
 import org.goblinframework.database.mongo.bson.serializer.BsonInstantSerializer;
 import org.goblinframework.database.mongo.bson.serializer.BsonObjectIdSerializer;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 abstract public class BsonMapper {
 
@@ -63,5 +66,10 @@ abstract public class BsonMapper {
 
   public static TypeFactory getDefaultTypeFactory() {
     return getDefaultObjectMapper().getTypeFactory();
+  }
+
+  public static MapType constructMapType(@NotNull Class<?> keyClass, @NotNull Class<?> valueClass) {
+    TypeFactory factory = getDefaultTypeFactory();
+    return factory.constructMapType(LinkedHashMap.class, keyClass, valueClass);
   }
 }

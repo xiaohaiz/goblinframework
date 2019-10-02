@@ -13,7 +13,7 @@ class BsonDateDeserializer : JsonDeserializer<Date>() {
   }
 
   companion object {
-    fun parseDate(`object`: Any): Date? {
+    fun parseDate(`object`: Any?): Date? {
       if (`object` is Date) {
         return `object`
       }
