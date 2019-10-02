@@ -17,7 +17,7 @@ import static com.mongodb.internal.event.EventListenerHelper.getCommandListener;
     version = "3.11.0"
 )
 @SuppressWarnings("deprecation")
-abstract public class GoblinMongoClients {
+final public class GoblinMongoClients {
 
   public static MongoClient create(final com.mongodb.MongoClientSettings settings) {
     return create(MongoClientSettings.createFromClientSettings(settings));

@@ -6,7 +6,6 @@ class MongoConfigMapper : Serializable {
 
   var name: String? = null
   var servers: String? = null
-  var stream: String? = null
   var maxSize: Int? = null
   var minSize: Int? = null
   var maxWaitQueueSize: Int? = null

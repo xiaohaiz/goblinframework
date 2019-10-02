@@ -22,10 +22,6 @@ class MongoConfig internal constructor(val mapper: MongoConfigMapper)
     return mapper.servers!!
   }
 
-  override fun getStream(): String {
-    return mapper.stream!!
-  }
-
   override fun getMaxSize(): Int {
     return mapper.maxSize!!
   }

@@ -31,9 +31,7 @@ internal object MongoClientFactory {
           it.maintenanceInitialDelay(config.getMaintenanceInitialDelayMS(), TimeUnit.MILLISECONDS)
           it.maintenanceFrequency(config.getMaintenanceFrequencyMS(), TimeUnit.MILLISECONDS)
         }
-    if (config.getStream() == "netty") {
-      builder.streamFactoryFactory(NettyStreamFactoryFactory.builder().build())
-    }
+    builder.streamFactoryFactory(NettyStreamFactoryFactory.builder().build())
     config.getCredential()?.run {
       val password = this.mapper.password?.toCharArray() ?: CharArray(0)
       val credential = MongoCredential.createCredential(this.getUsername(), this.getDatabase(), password)
