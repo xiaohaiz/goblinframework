@@ -25,7 +25,6 @@ class RemoteServerModule : ISubModule {
     ctx.registerEventChannel("/goblin/remote/server", 32768, 0)
     ctx.subscribeEventListener(ExposeSpringContainer.INSTANCE)
     ctx.subscribeEventListener(RemoteServerEventListener.INSTANCE)
-    ctx.registerConfigParser(RemoteServerConfigManager.INSTANCE.configParser)
     ctx.registerManagementController(RemoteServerManagement.INSTANCE)
   }
 

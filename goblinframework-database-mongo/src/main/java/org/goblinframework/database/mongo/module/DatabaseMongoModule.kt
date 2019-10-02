@@ -23,7 +23,6 @@ class DatabaseMongoModule : ISubModule {
     ctx.registerTestExecutionListener(DropMongoDatabaseBeforeTestMethod.INSTANCE)
     val module = ctx.getExtension(DatabaseModule::class.java)
     module?.registerEntityMappingBuilderProvider(MongoEntityMappingBuilderProvider.INSTANCE)
-    ctx.registerConfigParser(MongoConfigManager.INSTANCE.configParser)
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {

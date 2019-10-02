@@ -27,7 +27,6 @@ class ConfigManager private constructor() : GoblinManagedObject(), ConfigManager
 
   private val configLocationScanner = ConfigLocationScanner()
   private val mappingLocationScanner = MappingLocationScanner(configLocationScanner)
-  private val configParserManager = ConfigParserManager()
   private val configListenerPublisher = ConfigListenerPublisher()
   private val configManagerScanner = ConfigManagerScanner(this)
 
@@ -145,18 +144,10 @@ class ConfigManager private constructor() : GoblinManagedObject(), ConfigManager
 
   fun install() {}
 
-  override fun initializeBean() {
-    configParserManager.parseConfigs()
-  }
-
   override fun disposeBean() {
     configListenerPublisher.dispose()
     mappingLocationScanner.dispose()
     configLocationScanner.dispose()
-  }
-
-  fun registerConfigParser(parser: ConfigParser) {
-    configParserManager.register(parser)
   }
 
   fun getConfigListenerPublisher(): ConfigListenerPublisher {

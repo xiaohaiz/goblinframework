@@ -17,7 +17,6 @@ class RemoteClientModule : ISubModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    ctx.registerConfigParser(RemoteClientConfigManager.INSTANCE.configParser)
     ctx.registerContainerBeanPostProcessor(ImportServiceProcessor.INSTANCE)
   }
 

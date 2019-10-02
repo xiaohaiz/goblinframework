@@ -19,7 +19,6 @@ class RegistryZookeeperModule : ISubModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    ctx.registerConfigParser(ZookeeperConfigManager.INSTANCE.configParser)
     val parent = ctx.getExtension(RegistryModule::class.java)
     parent?.registerRegistryBuilder(RegistrySystem.ZKP, ZookeeperRegistryBuilder.INSTANCE)
   }

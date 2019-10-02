@@ -11,7 +11,11 @@ class RemoteClientConfigManager private constructor()
     @JvmField val INSTANCE = RemoteClientConfigManager()
   }
 
-  val configParser = RemoteClientConfigParser()
+  private val configParser = RemoteClientConfigParser()
+
+  init {
+    configParser.initialize()
+  }
 
   fun getRemoteClientConfig(): RemoteClientConfig? {
     return configParser.getRemoteClientConfig()
