@@ -28,7 +28,7 @@ class MongoConfigParser internal constructor()
     }
     mapper.servers = StringUtils.formalizeServers(mapper.servers, " ") { DEFAULT_MONGO_PORT }
     mapper.maxSize ?: kotlin.run { mapper.maxSize = 100 }
-    mapper.minSize ?: kotlin.run { mapper.minSize = 100 }
+    mapper.minSize ?: kotlin.run { mapper.minSize = 0 }
     mapper.maxWaitQueueSize ?: kotlin.run { mapper.maxWaitQueueSize = 500 }
     mapper.maxWaitTimeMS ?: kotlin.run { mapper.maxWaitTimeMS = 120000 }
     mapper.maxConnectionLifeTimeMS ?: kotlin.run { mapper.maxConnectionLifeTimeMS = 0 }
