@@ -9,10 +9,7 @@ import com.mongodb.reactivestreams.client.Success;
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.conversions.Bson;
-import org.goblinframework.core.reactor.BlockingListSubscriber;
-import org.goblinframework.core.reactor.BlockingMonoSubscriber;
-import org.goblinframework.core.reactor.MultipleResultsPublisher;
-import org.goblinframework.core.reactor.SingleResultPublisher;
+import org.goblinframework.core.reactor.*;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.mongo.bson.BsonConversionService;
@@ -43,11 +40,11 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
   }
 
   private <T> SingleResultPublisher<T> createSingleResultPublisher() {
-    return new SingleResultPublisher<>(MongoSchedulerManager.INSTANCE.getScheduler());
+    return new SingleResultPublisher<>(CoreScheduler.INSTANCE.get());
   }
 
   private <T> MultipleResultsPublisher<T> createMultipleResultsPublisher() {
-    return new MultipleResultsPublisher<>(MongoSchedulerManager.INSTANCE.getScheduler());
+    return new MultipleResultsPublisher<>(CoreScheduler.INSTANCE.get());
   }
 
   public void insert(@Nullable E entity) {
