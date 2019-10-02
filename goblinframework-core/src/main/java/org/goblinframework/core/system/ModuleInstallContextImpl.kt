@@ -47,7 +47,7 @@ class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), Modu
   }
 
   override fun registerConfigListener(listener: ConfigListener) {
-    ConfigManager.INSTANCE.registerConfigListener(listener)
+    ConfigManager.INSTANCE.subscribeConfigListener(listener)
   }
 
   override fun registerContainerBeanPostProcessor(processor: SpringContainerBeanPostProcessor) {

@@ -150,6 +150,7 @@ class ConfigManager private constructor() : GoblinManagedObject(), ConfigManager
   }
 
   override fun disposeBean() {
+    configListenerManager.dispose()
     mappingLocationScanner.dispose()
     configLocationScanner.dispose()
   }
@@ -158,8 +159,12 @@ class ConfigManager private constructor() : GoblinManagedObject(), ConfigManager
     configParserManager.register(parser)
   }
 
-  fun registerConfigListener(listener: ConfigListener) {
-    configListenerManager.register(listener)
+  fun subscribeConfigListener(listener: ConfigListener) {
+    configListenerManager.subscribe(listener)
+  }
+
+  fun unsubscribeConfigListener(listener: ConfigListener) {
+    configListenerManager.unsubscribe(listener)
   }
 
   override fun getConfigLocationScanner(): ConfigLocationScannerMXBean {
