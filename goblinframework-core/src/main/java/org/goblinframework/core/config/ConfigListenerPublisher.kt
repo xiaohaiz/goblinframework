@@ -9,7 +9,7 @@ import java.util.*
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.write
 
-internal class ConfigListenerManager : Disposable {
+class ConfigListenerPublisher internal constructor() : Disposable {
 
   private val processor: EmitterProcessor<Instant>
   private val flux: Flux<Instant>
@@ -34,7 +34,7 @@ internal class ConfigListenerManager : Disposable {
     lock.write { listeners.remove(listener) }?.dispose()
   }
 
-  fun onConfigChanged() {
+  fun onNext() {
     processor.onNext(Instant.now())
   }
 

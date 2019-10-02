@@ -2,7 +2,6 @@ package org.goblinframework.core.system;
 
 import org.goblinframework.api.function.Block0;
 import org.goblinframework.api.test.TestExecutionListener;
-import org.goblinframework.core.config.ConfigListener;
 import org.goblinframework.core.config.ConfigParser;
 import org.goblinframework.core.container.SpringContainerBeanPostProcessor;
 import org.goblinframework.core.event.GoblinEventListener;
@@ -21,8 +20,6 @@ public interface ModuleInstallContext extends ModuleContext {
   void registerManagementController(@NotNull Object controller);
 
   void registerConfigParser(@NotNull ConfigParser parser);
-
-  void registerConfigListener(@NotNull ConfigListener listener);
 
   void registerContainerBeanPostProcessor(@NotNull SpringContainerBeanPostProcessor processor);
 }
