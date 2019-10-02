@@ -7,9 +7,9 @@ import org.bson.types.ObjectId;
 
 import java.io.IOException;
 
+@SuppressWarnings("deprecation")
 public class BsonObjectIdDeserializer extends JsonDeserializer<ObjectId> {
 
-  @SuppressWarnings("deprecation")
   @Override
   public ObjectId deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
     Object object = p.getEmbeddedObject();

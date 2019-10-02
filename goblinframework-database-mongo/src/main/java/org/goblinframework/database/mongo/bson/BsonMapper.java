@@ -10,6 +10,7 @@ import de.undercouch.bson4jackson.BsonParser;
 import de.undercouch.bson4jackson.deserializers.BsonDeserializers;
 import de.undercouch.bson4jackson.serializers.BsonSerializers;
 import org.bson.types.ObjectId;
+import org.goblinframework.database.mongo.bson.deserializer.BsonDateDeserializer;
 import org.goblinframework.database.mongo.bson.deserializer.BsonInstantDeserializer;
 import org.goblinframework.database.mongo.bson.deserializer.BsonObjectIdDeserializer;
 import org.goblinframework.database.mongo.bson.introspect.BsonIntrospector;
@@ -17,6 +18,7 @@ import org.goblinframework.database.mongo.bson.serializer.BsonInstantSerializer;
 import org.goblinframework.database.mongo.bson.serializer.BsonObjectIdSerializer;
 
 import java.time.Instant;
+import java.util.Date;
 
 abstract public class BsonMapper {
 
@@ -46,6 +48,7 @@ abstract public class BsonMapper {
         context.addSerializers(serializers);
 
         BsonDeserializers deserializers = new BsonDeserializers();
+        deserializers.addDeserializer(Date.class, new BsonDateDeserializer());
         deserializers.addDeserializer(Instant.class, new BsonInstantDeserializer());
         deserializers.addDeserializer(ObjectId.class, new BsonObjectIdDeserializer());
         context.addDeserializers(deserializers);
