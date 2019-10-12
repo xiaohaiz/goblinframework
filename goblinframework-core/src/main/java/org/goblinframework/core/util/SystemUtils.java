@@ -10,7 +10,7 @@ abstract public class SystemUtils extends org.apache.commons.lang3.SystemUtils {
   static {
     boolean found;
     try {
-      ClassUtils.loadClass("org.goblinframework.test.runner.GoblinTestRunner");
+      ClassUtils.loadClass("org.goblinframework.test.listener.TestContextDelegator");
       found = true;
     } catch (ClassNotFoundException ex) {
       found = false;
