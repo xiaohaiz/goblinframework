@@ -8,12 +8,7 @@ import org.goblinframework.core.serialization.SerializerMode
 @MustBeDocumented
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
 @Retention(AnnotationRetention.RUNTIME)
+@Repeatable
 annotation class GoblinQueue (
-    val queue: String,             // queue name
 
-    val queueSystem: QueueSystem = QueueSystem.RMQ,  // queue system type
-
-    val name: String,
-
-    val encoder: SerializerMode = SerializerMode.HESSIAN2
 )
