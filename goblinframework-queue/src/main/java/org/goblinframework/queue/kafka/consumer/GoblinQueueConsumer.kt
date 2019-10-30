@@ -1,6 +1,6 @@
-package org.goblinframework.queue.rabbitmq.consumer
+package org.goblinframework.queue.kafka.consumer
 
-import org.goblinframework.queue.rabbitmq.GoblinQueue
+import org.goblinframework.queue.kafka.GoblinQueue
 
 @MustBeDocumented
 @Target(AnnotationTarget.FIELD)

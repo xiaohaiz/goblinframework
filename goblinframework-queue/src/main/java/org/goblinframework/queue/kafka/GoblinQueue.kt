@@ -1,6 +1,4 @@
-package org.goblinframework.queue.rabbitmq
-
-import org.goblinframework.core.serialization.SerializerMode
+package org.goblinframework.queue.kafka
 
 /**
  * queue definition annotation

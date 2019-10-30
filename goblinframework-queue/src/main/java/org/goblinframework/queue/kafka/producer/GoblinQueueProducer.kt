@@ -1,10 +1,11 @@
-package org.goblinframework.queue.rabbitmq.producer
+package org.goblinframework.queue.kafka.producer
 
-import org.goblinframework.queue.rabbitmq.QueueSystem
+import org.goblinframework.queue.kafka.QueueSystem
 
 @MustBeDocumented
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
+@Repeatable
 annotation class GoblinQueueProducer (
 
     val queue: String,             // queue name
