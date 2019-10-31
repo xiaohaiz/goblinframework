@@ -14,7 +14,9 @@ public enum GoblinSubModule {
   TRANSPORT_SERVER(GoblinModule.TRANSPORT),
   REGISTRY_ZOOKEEPER(GoblinModule.REGISTRY),
   REMOTE_CLIENT(GoblinModule.REMOTE),
-  REMOTE_SERVER(GoblinModule.REMOTE);
+  REMOTE_SERVER(GoblinModule.REMOTE),
+  QUEUE_KAFKA(GoblinModule.QUEUE),
+  QUEUE_RABBITMQ(GoblinModule.QUEUE);
 
   private final GoblinModule parent;
 
