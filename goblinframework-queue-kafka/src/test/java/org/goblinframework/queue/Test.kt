@@ -1,4 +1,4 @@
-package org.goblinframework.queue.kafka
+package org.goblinframework.queue
 
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.test.runner.GoblinTestRunner

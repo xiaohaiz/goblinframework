@@ -1,4 +1,4 @@
-package org.goblinframework.queue.kafka.consumer
+package org.goblinframework.queue.consumer
 
 interface BytesListener : DataListener {
 

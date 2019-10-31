@@ -1,4 +1,4 @@
-package org.goblinframework.queue.kafka
+package org.goblinframework.queue
 
 import org.bson.types.ObjectId
 import java.util.*

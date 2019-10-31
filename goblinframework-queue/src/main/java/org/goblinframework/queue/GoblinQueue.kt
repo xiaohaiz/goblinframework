@@ -1,4 +1,4 @@
-package org.goblinframework.queue.kafka
+package org.goblinframework.queue
 
 /**
  * queue definition annotation

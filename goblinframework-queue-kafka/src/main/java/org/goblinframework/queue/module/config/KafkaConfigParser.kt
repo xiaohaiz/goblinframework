@@ -1,4 +1,4 @@
-package org.goblinframework.queue.kafka.module.config
+package org.goblinframework.queue.module.config
 
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigManager
@@ -26,7 +26,7 @@ class KafkaConfigParser internal constructor()
             throw GoblinConfigException("kafka.servers is required")
         }
 
-        mapper.servers = StringUtils.formalizeServers(mapper.servers, " ") { DEFAULT_KAFKA_PORT}
+        mapper.servers = StringUtils.formalizeServers(mapper.servers, " ") { DEFAULT_KAFKA_PORT }
 
         mapper.producer ?: kotlin.run { mapper.producer = KafkaConfigMapper.ProducerConfigMapper() }
         mapper.producer!!.asyncSend ?: kotlin.run { mapper.producer!!.asyncSend = false }
