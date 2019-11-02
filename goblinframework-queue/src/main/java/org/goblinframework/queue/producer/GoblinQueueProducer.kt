@@ -10,9 +10,9 @@ annotation class GoblinQueueProducer (
 
         val queue: String,             // queue name
 
-        val queueSystem: QueueSystem = QueueSystem.RMQ,  // queue system type
+        val queueSystem: QueueSystem = QueueSystem.KFK,  // queue system type
 
-        val name: String,
+        val config: String,
 
         val enable: Boolean = true
 )

@@ -1,3 +1,3 @@
 package org.goblinframework.queue.producer
 
-interface DataSender {}
+interface QueueProducer {}

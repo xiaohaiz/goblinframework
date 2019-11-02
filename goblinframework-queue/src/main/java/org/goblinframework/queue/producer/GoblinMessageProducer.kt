@@ -2,6 +2,6 @@ package org.goblinframework.queue.producer
 
 import org.goblinframework.queue.GoblinMessage
 
-interface GoblinMessageSender : DataSender {
+interface GoblinMessageProducer : QueueProducer {
     fun send(message: GoblinMessage)
 }

@@ -1,5 +1,5 @@
 package org.goblinframework.queue.producer
 
-interface BytesSender: DataSender {
+interface BytesProducer: QueueProducer {
     fun send(data: Array<Byte>)
 }
