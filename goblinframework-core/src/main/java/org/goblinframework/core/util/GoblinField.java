@@ -143,11 +143,6 @@ public class GoblinField {
     return annotation;
   }
 
-  @Nullable
-  public <A extends Annotation> A[] findAnnotationsByType(@NotNull Class<A> annotationClass) {
-    return getField().getAnnotationsByType(annotationClass);
-  }
-
   @NotNull
   public Class<?> getFieldTypeSetterFirst() {
     Method setter = getSetter();

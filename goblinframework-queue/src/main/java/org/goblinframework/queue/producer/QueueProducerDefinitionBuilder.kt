@@ -2,28 +2,21 @@ package org.goblinframework.queue.producer
 
 import org.goblinframework.core.util.GoblinField
 import org.goblinframework.queue.QueueLocation
+import org.goblinframework.queue.api.GoblinQueueProducers
 
 class QueueProducerDefinitionBuilder {
 
     companion object {
-        fun build(field: GoblinField): List<QueueLocation> {
-            val locations = mutableListOf<QueueLocation>()
-            val annotations = field.findAnnotationsByType(GoblinQueueProducer::class.java)
-            return locations
-//            val definitionList = ArrayList<QueueProducerDefinition>()
-//
-//            val annotation = FieldAccessorUtils.findAnnotationSetterFirst(field, AlpsQueueProducer::class.java)
-//            if (annotation != null) {
-//                if (!annotation!!.enabled()) {
-//                    return definitionList
-//                }
-//                val location = QueueLocation.newInstance(annotation!!.system(), annotation!!.config(), annotation!!.queue())
-//                val definition = QueueProducerDefinition()
-//                definition.setQueueLocation(location)
-//                definition.setMessageEncodeMode(annotation!!.encodeMode())
-//                definitionList.add(definition)
-//                return definitionList
-//            }
+        fun build(field: GoblinField): List<QueueProducerDefinition> {
+            val definitions = mutableListOf<QueueProducerDefinition>()
+
+            if (field.isAnnotationPresent(GoblinQueueProducers::class.java)) {
+                val annotations = field.findAnnotationSetterFirst(GoblinQueueProducers::class.java)
+                annotations?.value?.forEach {
+                    definitions.add(QueueProducerDefinition(QueueLocation(it.system, it.queue, it.config)))
+                }
+            }
+            return definitions
         }
     }
 }

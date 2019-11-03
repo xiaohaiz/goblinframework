@@ -1,4 +1,4 @@
-package org.goblinframework.queue.producer;
+package org.goblinframework.queue.api;
 
 import java.lang.annotation.*;
 

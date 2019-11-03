@@ -19,5 +19,6 @@ class QueueProducerProcessor private constructor() : SpringContainerBeanPostProc
     private fun tryQueueProducerInjection(bean: Any): Any {
         return ReflectionUtils.allFieldsIncludingAncestors(bean.javaClass, false, false)
                 .map { GoblinField(it) }
+
     }
 }
