@@ -8,15 +8,15 @@ import org.springframework.test.context.ContextConfiguration
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class QueueLocationBuilderTest {
+class QueueProducerDefinitionBuilderTest {
 
     @GoblinQueueProducer("test1", config = "_ut")
     @GoblinQueueProducer("test2", config = "_ut")
-    private var producer: QueueProducer? = null
+    private lateinit var producer: QueueProducer
 
     @Test
     fun test() {
-        val field = GoblinField(QueueLocationBuilderTest::class.java.getField("producer"))
+        val field = GoblinField(QueueProducerDefinitionBuilderTest::class.java.getField("QueueProducer"))
         QueueProducerDefinitionBuilder.build(field)
     }
 }
