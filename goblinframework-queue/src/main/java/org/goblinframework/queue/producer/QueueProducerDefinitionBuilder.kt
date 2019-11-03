@@ -8,7 +8,7 @@ class QueueProducerDefinitionBuilder {
     companion object {
         fun build(field: GoblinField): List<QueueLocation> {
             val locations = mutableListOf<QueueLocation>()
-
+            val annotations = field.findAnnotationsByType(GoblinQueueProducer::class.java)
             return locations
 //            val definitionList = ArrayList<QueueProducerDefinition>()
 //
