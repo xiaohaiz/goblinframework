@@ -4,7 +4,7 @@ import org.goblinframework.queue.QueueSystem
 
 @MustBeDocumented
 @Target(AnnotationTarget.FIELD)
-@Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.SOURCE)
 @Repeatable
 annotation class GoblinQueueProducer (
 
