@@ -5,6 +5,7 @@ import org.goblinframework.queue.QueueLocation
 import org.goblinframework.queue.QueueSystem
 import org.goblinframework.queue.api.QueueProducer
 import org.goblinframework.queue.producer.QueueProducerBuilder
+import org.goblinframework.queue.producer.QueueProducerDefinition
 
 @Singleton
 class KafkaQueueProducerBuilder private constructor() : QueueProducerBuilder {
@@ -17,7 +18,7 @@ class KafkaQueueProducerBuilder private constructor() : QueueProducerBuilder {
         return QueueSystem.KFK
     }
 
-    override fun producer(location: QueueLocation): QueueProducer {
+    override fun producer(definition: QueueProducerDefinition): QueueProducer {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

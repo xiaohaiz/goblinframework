@@ -8,5 +8,5 @@ interface QueueProducerBuilder {
 
     fun system(): QueueSystem
 
-    fun producer(location: QueueLocation): QueueProducer
+    fun producer(definition: QueueProducerDefinition): QueueProducer
 }
