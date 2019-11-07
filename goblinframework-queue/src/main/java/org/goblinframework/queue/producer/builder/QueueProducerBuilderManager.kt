@@ -1,4 +1,4 @@
-package org.goblinframework.queue.producer
+package org.goblinframework.queue.producer.builder
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe

@@ -1,10 +1,9 @@
 package org.goblinframework.queue.kafka.producer
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.queue.QueueLocation
 import org.goblinframework.queue.QueueSystem
 import org.goblinframework.queue.api.QueueProducer
-import org.goblinframework.queue.producer.QueueProducerBuilder
+import org.goblinframework.queue.producer.builder.QueueProducerBuilder
 import org.goblinframework.queue.producer.QueueProducerDefinition
 
 @Singleton

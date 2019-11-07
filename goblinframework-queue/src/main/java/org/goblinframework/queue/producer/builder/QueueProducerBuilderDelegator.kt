@@ -1,13 +1,19 @@
-package org.goblinframework.queue.producer
+package org.goblinframework.queue.producer.builder
 
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.queue.QueueSystem
 import org.goblinframework.queue.api.QueueProducer
 import org.goblinframework.queue.api.QueueProducerMXBean
+import org.goblinframework.queue.producer.QueueProducerDefinition
+import org.goblinframework.queue.producer.QueueProducerDelegator
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
+/**
+ * Delegator for queue producer builder
+ * Default behavior implemented
+ */
 class QueueProducerBuilderDelegator
 internal constructor(private val delegator: QueueProducerBuilder)
   : GoblinManagedObject(), QueueProducerBuilder, QueueProducerBuilderMXBean {
