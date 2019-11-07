@@ -1,6 +1,5 @@
 package org.goblinframework.queue.producer
 
-import org.apache.commons.lang3.mutable.MutableObject
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.queue.QueueSystem
 import org.goblinframework.queue.api.QueueProducer
@@ -14,7 +13,7 @@ internal constructor(private val delegator: QueueProducerBuilder)
   : GoblinManagedObject(), QueueProducerBuilder, QueueProducerBuilderMXBean {
 
   private val lock = ReentrantLock()
-  private val buffer = ConcurrentHashMap<String, QueueProducerDelegator>()
+  private val buffer = ConcurrentHashMap<String, QueueProducerDelegator?>()
 
 
   override fun getSystem(): QueueSystem {
@@ -27,7 +26,7 @@ internal constructor(private val delegator: QueueProducerBuilder)
         .toTypedArray()
   }
 
-  override fun producer(definition: QueueProducerDefinition): QueueProducer {
+  override fun producer(definition: QueueProducerDefinition): QueueProducer? {
     val name = definition.location.toString()
 
     buffer[name]?.let { return it }

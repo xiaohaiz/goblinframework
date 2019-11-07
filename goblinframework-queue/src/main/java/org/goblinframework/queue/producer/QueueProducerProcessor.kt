@@ -24,7 +24,15 @@ class QueueProducerProcessor private constructor() : SpringContainerBeanPostProc
         .forEach {
           val definitions = QueueProducerDefinitionBuilder.build(it)
           if (!CollectionUtils.isEmpty(definitions)) {
-            
+            definitions.forEach { def ->
+              val builder = QueueProducerBuilderManager.INSTANCE.builder(def.location.queueSystem)
+                  ?: throw IllegalArgumentException("Queue system ${def.location.queueSystem} not installed")
+
+              val producer = builder.producer(def)
+                  ?: throw  IllegalArgumentException("Producer ${def.location} build failed")
+
+
+            }
           }
         }
 

@@ -6,7 +6,7 @@ import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.queue.api.QueueProducer
 import org.goblinframework.queue.api.QueueProducerMXBean
 
-@GoblinManagedBean(type = "Cache")
+@GoblinManagedBean(type = "Queue")
 internal class QueueProducerDelegator
 internal constructor(private val delegator: QueueProducer)
   : GoblinManagedObject(), QueueProducer by delegator, QueueProducerMXBean {
