@@ -1,7 +1,5 @@
 package org.goblinframework.registry.zookeeper;
 
-import org.goblinframework.core.serialization.Serializer;
-import org.goblinframework.core.serialization.SerializerManager;
 import org.goblinframework.core.serialization.SerializerMode;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -13,31 +11,19 @@ final public class ZkClientSetting {
   @NotNull private final String addresses;
   private final int connectionTimeout;
   private final int sessionTimeout;
-  @NotNull private final Serializer serializer;
+  @NotNull private final SerializerMode serializer;
 
   private ZkClientSetting(@NotNull ZkClientSettingBuilder builder) {
     this.addresses = Objects.requireNonNull(builder.addresses);
     this.connectionTimeout = builder.connectionTimeout;
     this.sessionTimeout = builder.sessionTimeout;
-    this.serializer = SerializerManager.INSTANCE.getSerializer(builder.serializer);
+    this.serializer = builder.serializer;
   }
 
   @NotNull
-  public String addresses() {
-    return addresses;
-  }
-
-  public int connectionTimeout() {
-    return connectionTimeout;
-  }
-
-  public int sessionTimeout() {
-    return sessionTimeout;
-  }
-
-  @NotNull
-  public Serializer serializer() {
-    return serializer;
+  public ZookeeperClient createZookeeperClient() {
+    ZookeeperClientConfig config = new ZookeeperClientConfig(addresses, connectionTimeout, sessionTimeout, serializer);
+    return ZookeeperClientBuffer.INSTANCE.create(config);
   }
 
   @NotNull
@@ -81,6 +67,11 @@ final public class ZkClientSetting {
     public ZkClientSettingBuilder serializer(@NotNull SerializerMode serializer) {
       this.serializer = serializer;
       return this;
+    }
+
+    @NotNull
+    public ZkClientSetting build() {
+      return new ZkClientSetting(this);
     }
   }
 }

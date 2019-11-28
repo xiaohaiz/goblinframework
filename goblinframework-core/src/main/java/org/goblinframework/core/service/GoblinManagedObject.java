@@ -54,14 +54,14 @@ abstract public class GoblinManagedObject
   }
 
   @Override
-  final public void initialize() {
+  public void initialize() {
     if (initialized.compareAndSet(false, true)) {
       initializeBean();
     }
   }
 
   @Override
-  final public void dispose() {
+  public void dispose() {
     if (disposed.compareAndSet(false, true)) {
       if (registerMBean) {
         MBeanServer server = ManagementFactory.getPlatformMBeanServer();
