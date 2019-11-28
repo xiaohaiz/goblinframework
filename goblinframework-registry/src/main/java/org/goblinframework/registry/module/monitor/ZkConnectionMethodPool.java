@@ -4,7 +4,7 @@ import org.I0Itec.zkclient.IZkConnection;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.data.Stat;
-import org.goblinframework.registry.core.GoblinRegistryException;
+import org.goblinframework.registry.module.exception.RegistryException;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
@@ -20,7 +20,7 @@ final class ZkConnectionMethodPool {
     try {
       initialize();
     } catch (NoSuchMethodException ex) {
-      throw new GoblinRegistryException(ex);
+      throw new RegistryException(ex);
     }
   }
 

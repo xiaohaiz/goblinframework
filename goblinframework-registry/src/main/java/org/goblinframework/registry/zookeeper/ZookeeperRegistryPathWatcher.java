@@ -7,8 +7,8 @@ import org.goblinframework.core.event.EventBus;
 import org.goblinframework.core.event.GoblinEventContext;
 import org.goblinframework.core.event.SecondTimerEventListener;
 import org.goblinframework.core.util.TimeAndUnit;
-import org.goblinframework.registry.core.GoblinRegistryException;
 import org.goblinframework.registry.listener.RegistryChildListener;
+import org.goblinframework.registry.module.exception.RegistryException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -57,10 +57,10 @@ final public class ZookeeperRegistryPathWatcher implements Initializable, Dispos
   @Override
   public void initialize() {
     if (path == null) {
-      throw new GoblinRegistryException("Path is required");
+      throw new RegistryException("Path is required");
     }
     if (handler == null) {
-      throw new GoblinRegistryException("Handler is required");
+      throw new RegistryException("Handler is required");
     }
     if (!initialized.compareAndSet(false, true)) {
       return;
