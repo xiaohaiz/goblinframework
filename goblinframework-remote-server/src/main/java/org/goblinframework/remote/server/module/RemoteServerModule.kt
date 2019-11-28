@@ -1,13 +1,8 @@
 package org.goblinframework.remote.server.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.core.system.*
-import org.goblinframework.remote.server.handler.RemoteServerEventListener
-import org.goblinframework.remote.server.handler.RemoteServerManager
-import org.goblinframework.remote.server.module.config.RemoteServerConfigManager
-import org.goblinframework.remote.server.module.management.RemoteServerManagement
-import org.goblinframework.remote.server.service.ExposeSpringContainer
-import org.goblinframework.remote.server.service.RemoteServiceManager
+import org.goblinframework.core.system.GoblinSubModule
+import org.goblinframework.core.system.ISubModule
 
 @Install
 class RemoteServerModule : ISubModule {
@@ -16,26 +11,4 @@ class RemoteServerModule : ISubModule {
     return GoblinSubModule.REMOTE_SERVER
   }
 
-  override fun managementEntrance(): String? {
-    return "/goblin/remote/server/index.do"
-  }
-
-  override fun install(ctx: ModuleInstallContext) {
-    ctx.registerPriorFinalizationTask { RemoteServiceManager.INSTANCE.unregisterAll() }
-    ctx.registerEventChannel("/goblin/remote/server", 32768, 0)
-    ctx.subscribeEventListener(ExposeSpringContainer.INSTANCE)
-    ctx.subscribeEventListener(RemoteServerEventListener.INSTANCE)
-    ctx.registerManagementController(RemoteServerManagement.INSTANCE)
-  }
-
-  override fun initialize(ctx: ModuleInitializeContext) {
-    RemoteServerManager.INSTANCE.initialize()
-    RemoteServiceManager.INSTANCE.initialize()
-  }
-
-  override fun finalize(ctx: ModuleFinalizeContext) {
-    RemoteServiceManager.INSTANCE.dispose()
-    RemoteServerManager.INSTANCE.dispose()
-    RemoteServerConfigManager.INSTANCE.dispose()
-  }
 }
