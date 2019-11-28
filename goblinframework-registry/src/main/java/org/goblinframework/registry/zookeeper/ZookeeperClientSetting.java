@@ -6,14 +6,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-final public class ZkClientSetting {
+final public class ZookeeperClientSetting {
 
   @NotNull private final String addresses;
   private final int connectionTimeout;
   private final int sessionTimeout;
   @NotNull private final SerializerMode serializer;
 
-  private ZkClientSetting(@NotNull ZkClientSettingBuilder builder) {
+  private ZookeeperClientSetting(@NotNull Builder builder) {
     this.addresses = Objects.requireNonNull(builder.addresses);
     this.connectionTimeout = builder.connectionTimeout;
     this.sessionTimeout = builder.sessionTimeout;
@@ -27,28 +27,28 @@ final public class ZkClientSetting {
   }
 
   @NotNull
-  public static ZkClientSettingBuilder builder() {
-    return new ZkClientSettingBuilder();
+  public static Builder builder() {
+    return new Builder();
   }
 
-  final public static class ZkClientSettingBuilder {
+  final public static class Builder {
 
     private String addresses;
     private int connectionTimeout = Integer.MAX_VALUE;
     private int sessionTimeout = 30000;
     private SerializerMode serializer = SerializerMode.JAVA;
 
-    private ZkClientSettingBuilder() {
+    private Builder() {
     }
 
     @NotNull
-    public ZkClientSettingBuilder addresses(@NotNull String addresses) {
+    public Builder addresses(@NotNull String addresses) {
       this.addresses = StringUtils.formalizeServers(addresses, ",", () -> 2181);
       return this;
     }
 
     @NotNull
-    public ZkClientSettingBuilder connectionTimeout(int connectionTimeout) {
+    public Builder connectionTimeout(int connectionTimeout) {
       if (connectionTimeout > 0) {
         this.connectionTimeout = connectionTimeout;
       }
@@ -56,7 +56,7 @@ final public class ZkClientSetting {
     }
 
     @NotNull
-    public ZkClientSettingBuilder sessionTimeout(int sessionTimeout) {
+    public Builder sessionTimeout(int sessionTimeout) {
       if (sessionTimeout >= 0) {
         this.sessionTimeout = sessionTimeout;
       }
@@ -64,14 +64,14 @@ final public class ZkClientSetting {
     }
 
     @NotNull
-    public ZkClientSettingBuilder serializer(@NotNull SerializerMode serializer) {
+    public Builder serializer(@NotNull SerializerMode serializer) {
       this.serializer = serializer;
       return this;
     }
 
     @NotNull
-    public ZkClientSetting build() {
-      return new ZkClientSetting(this);
+    public ZookeeperClientSetting build() {
+      return new ZookeeperClientSetting(this);
     }
   }
 }

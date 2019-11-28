@@ -11,7 +11,7 @@ class ZookeeperClientTest {
 
   @Test
   fun zookeeperClient() {
-    val client = ZkClientSetting.builder()
+    val client = ZookeeperClientSetting.builder()
         .addresses("127.0.0.1")
         .build()
         .createZookeeperClient()
