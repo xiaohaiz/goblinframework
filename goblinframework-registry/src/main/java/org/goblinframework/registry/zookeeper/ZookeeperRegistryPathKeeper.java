@@ -1,10 +1,11 @@
 package org.goblinframework.registry.zookeeper;
 
+import org.goblinframework.api.function.Disposable;
+import org.goblinframework.api.function.Initializable;
 import org.goblinframework.core.event.EventBus;
 import org.goblinframework.core.event.GoblinEventContext;
 import org.goblinframework.core.event.SecondTimerEventListener;
 import org.goblinframework.core.util.TimeAndUnit;
-import org.goblinframework.registry.core.RegistryPathWatchdog;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-final public class ZookeeperRegistryPathKeeper implements RegistryPathWatchdog {
+final public class ZookeeperRegistryPathKeeper implements Initializable, Disposable {
   private static final Logger logger = LoggerFactory.getLogger(ZookeeperRegistryPathKeeper.class);
 
   @NotNull private final ZookeeperRegistry registry;
@@ -34,13 +35,11 @@ final public class ZookeeperRegistryPathKeeper implements RegistryPathWatchdog {
     this.registry = registry;
   }
 
-  @Override
-  public RegistryPathWatchdog scheduler(long time, @NotNull TimeUnit unit) {
+  public ZookeeperRegistryPathKeeper scheduler(long time, @NotNull TimeUnit unit) {
     period.set(new TimeAndUnit(time, unit));
     return this;
   }
 
-  @Override
   public void watch(@NotNull String path, boolean ephemeral, @Nullable Object data) {
     lock.writeLock().lock();
     try {
@@ -56,7 +55,6 @@ final public class ZookeeperRegistryPathKeeper implements RegistryPathWatchdog {
     }
   }
 
-  @Override
   public void unwatch(@NotNull String path) {
     lock.writeLock().lock();
     PathData removed;

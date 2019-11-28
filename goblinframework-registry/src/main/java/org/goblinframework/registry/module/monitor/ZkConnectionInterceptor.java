@@ -1,11 +1,10 @@
-package org.goblinframework.registry.zookeeper;
+package org.goblinframework.registry.module.monitor;
 
 import org.I0Itec.zkclient.IZkConnection;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.zookeeper.CreateMode;
 import org.goblinframework.core.util.ReflectionUtils;
-import org.goblinframework.registry.module.monitor.ZKP;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;

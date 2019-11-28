@@ -1,4 +1,4 @@
-package org.goblinframework.registry.zookeeper;
+package org.goblinframework.registry.module.monitor;
 
 import org.I0Itec.zkclient.IZkConnection;
 import org.apache.zookeeper.CreateMode;

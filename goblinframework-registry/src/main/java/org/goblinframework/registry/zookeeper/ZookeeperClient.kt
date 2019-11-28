@@ -8,6 +8,7 @@ import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.GoblinReferenceCount
 import org.goblinframework.core.util.ReflectionUtils
+import org.goblinframework.registry.module.monitor.ZkConnectionInterceptor
 
 @GoblinManagedBean("Registry")
 class ZookeeperClient
