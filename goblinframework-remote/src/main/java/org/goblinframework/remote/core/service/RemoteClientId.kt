@@ -3,4 +3,4 @@ package org.goblinframework.remote.core.service
 import org.goblinframework.api.annotation.HashSafe
 
 @HashSafe
-data class RemoteServiceId(val serviceInterface: String, val serviceVersion: String)
+data class RemoteClientId(val serviceId: RemoteServiceId, val serviceGroup: String)
