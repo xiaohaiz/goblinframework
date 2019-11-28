@@ -1,11 +1,11 @@
 package org.goblinframework.registry.zookeeper;
 
 import org.goblinframework.api.function.Block1;
-import org.goblinframework.api.function.Disposable;
-import org.goblinframework.api.function.Initializable;
 import org.goblinframework.core.event.EventBus;
 import org.goblinframework.core.event.GoblinEventContext;
 import org.goblinframework.core.event.SecondTimerEventListener;
+import org.goblinframework.core.service.GoblinManagedBean;
+import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.core.util.TimeAndUnit;
 import org.goblinframework.registry.listener.RegistryChildListener;
 import org.goblinframework.registry.module.exception.RegistryException;
@@ -18,7 +18,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-final public class ZookeeperRegistryPathWatcher implements Initializable, Disposable {
+@GoblinManagedBean(type = "Registry")
+final public class ZookeeperRegistryPathWatcher extends GoblinManagedObject
+    implements ZookeeperRegistryPathWatcherMXBean {
 
   private final ZookeeperRegistry registry;
   private String path;
@@ -29,8 +31,6 @@ final public class ZookeeperRegistryPathWatcher implements Initializable, Dispos
   private final AtomicReference<SecondTimerEventListener> scheduler = new AtomicReference<>();
   private final AtomicReference<Semaphore> semaphore = new AtomicReference<>();
   private final AtomicBoolean termination = new AtomicBoolean();
-  private final AtomicBoolean initialized = new AtomicBoolean();
-  private final AtomicBoolean disposed = new AtomicBoolean();
 
   ZookeeperRegistryPathWatcher(@NotNull ZookeeperRegistry registry) {
     this.registry = registry;
@@ -55,15 +55,12 @@ final public class ZookeeperRegistryPathWatcher implements Initializable, Dispos
   }
 
   @Override
-  public void initialize() {
+  protected void initializeBean() {
     if (path == null) {
       throw new RegistryException("Path is required");
     }
     if (handler == null) {
       throw new RegistryException("Handler is required");
-    }
-    if (!initialized.compareAndSet(false, true)) {
-      return;
     }
     CountDownLatch latch = new CountDownLatch(1);
     RegistryChildListener listener = (parentPath, children) -> {
@@ -103,10 +100,7 @@ final public class ZookeeperRegistryPathWatcher implements Initializable, Dispos
   }
 
   @Override
-  public void dispose() {
-    if (!disposed.compareAndSet(false, true)) {
-      return;
-    }
+  protected void disposeBean() {
     semaphore.set(new Semaphore(1));
     semaphore.get().acquireUninterruptibly();
     try {
