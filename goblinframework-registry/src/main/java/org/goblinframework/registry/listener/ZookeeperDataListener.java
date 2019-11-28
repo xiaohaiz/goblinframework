@@ -8,7 +8,7 @@ final public class ZookeeperDataListener implements IZkDataListener {
 
   @NotNull private final RegistryDataListener listener;
 
-  ZookeeperDataListener(@NotNull RegistryDataListener listener) {
+  public ZookeeperDataListener(@NotNull RegistryDataListener listener) {
     this.listener = listener;
   }
 

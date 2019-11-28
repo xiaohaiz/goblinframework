@@ -11,7 +11,7 @@ final public class ZookeeperStateListener implements IZkStateListener {
 
   @NotNull private final RegistryStateListener listener;
 
-  ZookeeperStateListener(@NotNull RegistryStateListener listener) {
+  public ZookeeperStateListener(@NotNull RegistryStateListener listener) {
     this.listener = listener;
   }
 

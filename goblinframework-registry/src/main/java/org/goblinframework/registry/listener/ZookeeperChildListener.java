@@ -10,7 +10,7 @@ final public class ZookeeperChildListener implements IZkChildListener {
 
   @NotNull private final RegistryChildListener listener;
 
-  ZookeeperChildListener(@NotNull RegistryChildListener listener) {
+  public ZookeeperChildListener(@NotNull RegistryChildListener listener) {
     this.listener = listener;
   }
 
