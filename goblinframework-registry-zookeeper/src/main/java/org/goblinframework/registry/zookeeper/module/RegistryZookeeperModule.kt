@@ -6,7 +6,7 @@ import org.goblinframework.core.system.ISubModule
 import org.goblinframework.core.system.ModuleFinalizeContext
 import org.goblinframework.core.system.ModuleInstallContext
 import org.goblinframework.registry.core.RegistrySystem
-import org.goblinframework.registry.core.module.RegistryModule
+import org.goblinframework.registry.module.RegistryModule
 import org.goblinframework.registry.zookeeper.client.ZookeeperClientManager
 import org.goblinframework.registry.zookeeper.module.config.ZookeeperConfigManager
 import org.goblinframework.registry.zookeeper.provider.ZookeeperRegistryBuilder

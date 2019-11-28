@@ -1,4 +1,4 @@
-package org.goblinframework.registry.core.module
+package org.goblinframework.registry.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
