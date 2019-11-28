@@ -1,6 +1,7 @@
 package org.goblinframework.registry.zookeeper
 
 import io.netty.buffer.ByteBufAllocator
+import io.netty.buffer.ByteBufInputStream
 import io.netty.buffer.ByteBufOutputStream
 import io.netty.buffer.ByteBufUtil
 import io.netty.util.ReferenceCountUtil
@@ -11,17 +12,22 @@ import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.transcoder.Transcoder
 import org.goblinframework.core.transcoder.TranscoderSetting
-import java.io.ByteArrayInputStream
 
-@GoblinManagedBean(type = "registry.zookeeper")
-class ZkTranscoder internal constructor(private val serializer: Serializer)
+@GoblinManagedBean(type = "Registry")
+class ZkTranscoder internal constructor(serializer: Serializer)
   : GoblinManagedObject(), ZkTranscoderMXBean, ZkSerializer {
+
+  private val transcoder: Transcoder
+
+  init {
+    val setting = TranscoderSetting.builder().serializer(serializer).build()
+    transcoder = setting.transcoder()
+  }
 
   override fun serialize(data: Any): ByteArray {
     val buf = ByteBufAllocator.DEFAULT.buffer()
     try {
       ByteBufOutputStream(buf).use {
-        val transcoder = TranscoderSetting.builder().serializer(serializer).build().transcoder()
         transcoder.encode(it, data)
       }
       return ByteBufUtil.getBytes(buf)
@@ -33,12 +39,16 @@ class ZkTranscoder internal constructor(private val serializer: Serializer)
   }
 
   override fun deserialize(bytes: ByteArray): Any {
+    val buf = ByteBufAllocator.DEFAULT.buffer()
     try {
-      return ByteArrayInputStream(bytes).use {
+      buf.writeBytes(bytes)
+      return ByteBufInputStream(buf).use {
         Transcoder.decode(it).result
       }
     } catch (ex: Exception) {
       throw ZkMarshallingError(ex)
+    } finally {
+      ReferenceCountUtil.release(buf)
     }
   }
 
