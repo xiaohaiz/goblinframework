@@ -1,7 +1,6 @@
 package org.goblinframework.registry.listener;
 
 import org.I0Itec.zkclient.IZkChildListener;
-import org.goblinframework.registry.core.RegistryChildListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

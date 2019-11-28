@@ -1,5 +1,8 @@
 package org.goblinframework.registry.core;
 
+import org.goblinframework.registry.listener.RegistryChildListener;
+import org.goblinframework.registry.listener.RegistryDataListener;
+import org.goblinframework.registry.listener.RegistryStateListener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

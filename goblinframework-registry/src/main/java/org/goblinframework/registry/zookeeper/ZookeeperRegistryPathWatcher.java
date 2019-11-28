@@ -8,7 +8,7 @@ import org.goblinframework.core.event.GoblinEventContext;
 import org.goblinframework.core.event.SecondTimerEventListener;
 import org.goblinframework.core.util.TimeAndUnit;
 import org.goblinframework.registry.core.GoblinRegistryException;
-import org.goblinframework.registry.core.RegistryChildListener;
+import org.goblinframework.registry.listener.RegistryChildListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

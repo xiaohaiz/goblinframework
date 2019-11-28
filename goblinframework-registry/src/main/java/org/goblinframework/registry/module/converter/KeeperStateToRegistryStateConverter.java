@@ -2,7 +2,7 @@ package org.goblinframework.registry.module.converter;
 
 import org.apache.zookeeper.Watcher;
 import org.goblinframework.api.annotation.Install;
-import org.goblinframework.registry.core.RegistryState;
+import org.goblinframework.registry.listener.RegistryState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.core.convert.converter.Converter;

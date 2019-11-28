@@ -3,8 +3,6 @@ package org.goblinframework.registry.listener;
 import org.I0Itec.zkclient.IZkStateListener;
 import org.apache.zookeeper.Watcher;
 import org.goblinframework.core.conversion.ConversionService;
-import org.goblinframework.registry.core.RegistryState;
-import org.goblinframework.registry.core.RegistryStateListener;
 import org.jetbrains.annotations.NotNull;
 
 final public class ZookeeperStateListener implements IZkStateListener {

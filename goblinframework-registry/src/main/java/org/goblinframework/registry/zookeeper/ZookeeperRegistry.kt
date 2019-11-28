@@ -5,12 +5,7 @@ import org.I0Itec.zkclient.exception.ZkNoNodeException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.StringUtils
-import org.goblinframework.registry.core.RegistryChildListener
-import org.goblinframework.registry.core.RegistryDataListener
-import org.goblinframework.registry.core.RegistryStateListener
-import org.goblinframework.registry.listener.ZookeeperChildListener
-import org.goblinframework.registry.listener.ZookeeperDataListener
-import org.goblinframework.registry.listener.ZookeeperStateListener
+import org.goblinframework.registry.listener.*
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
