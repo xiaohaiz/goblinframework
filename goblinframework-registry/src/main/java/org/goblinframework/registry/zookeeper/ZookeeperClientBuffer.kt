@@ -12,6 +12,7 @@ internal object ZookeeperClientBuffer {
     var client = buffer[config]
     if (client == null) {
       client = ZookeeperClient(config)
+      buffer[config] = client
     }
     client.retain()
     return client
