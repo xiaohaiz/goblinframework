@@ -1,8 +1,8 @@
 package org.goblinframework.registry.zookeeper;
 
-import org.goblinframework.api.core.Lifecycle;
 import org.goblinframework.api.function.Block1;
 import org.goblinframework.api.function.Disposable;
+import org.goblinframework.api.function.Initializable;
 import org.goblinframework.core.event.EventBus;
 import org.goblinframework.core.event.GoblinEventContext;
 import org.goblinframework.core.event.SecondTimerEventListener;
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-final public class ZookeeperRegistryPathWatcher implements Lifecycle, Disposable {
+final public class ZookeeperRegistryPathWatcher implements Initializable, Disposable {
 
   private final ZookeeperRegistry registry;
   private String path;
@@ -55,7 +55,7 @@ final public class ZookeeperRegistryPathWatcher implements Lifecycle, Disposable
   }
 
   @Override
-  public void start() {
+  public void initialize() {
     if (path == null) {
       throw new GoblinRegistryException("Path is required");
     }
@@ -100,16 +100,6 @@ final public class ZookeeperRegistryPathWatcher implements Lifecycle, Disposable
       EventBus.subscribe(scheduler);
       this.scheduler.set(scheduler);
     }
-  }
-
-  @Override
-  public boolean isRunning() {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public void stop() {
-    dispose();
   }
 
   @Override
