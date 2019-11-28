@@ -1,8 +1,8 @@
-package org.goblinframework.remote.core;
+package org.goblinframework.remote.core.module.exception;
 
 import org.goblinframework.api.core.GoblinException;
 
-public class GoblinRemoteException extends GoblinException {
+abstract public class GoblinRemoteException extends GoblinException {
   private static final long serialVersionUID = 1691633674084083629L;
 
   public GoblinRemoteException() {
