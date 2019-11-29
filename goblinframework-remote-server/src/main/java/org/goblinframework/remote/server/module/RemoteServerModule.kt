@@ -5,6 +5,7 @@ import org.goblinframework.core.system.GoblinSubModule
 import org.goblinframework.core.system.ISubModule
 import org.goblinframework.core.system.ModuleFinalizeContext
 import org.goblinframework.core.system.ModuleInitializeContext
+import org.goblinframework.remote.server.dispatcher.response.RemoteServerResponseDispatcher
 import org.goblinframework.remote.server.module.config.RemoteServerConfigManager
 import org.goblinframework.remote.server.transport.RemoteTransportServerManager
 
@@ -17,11 +18,13 @@ class RemoteServerModule : ISubModule {
 
   override fun initialize(ctx: ModuleInitializeContext) {
     RemoteServerConfigManager.INSTANCE.initialize()
+    RemoteServerResponseDispatcher.INSTANCE.initialize()
     RemoteTransportServerManager.INSTANCE.initialize()
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
     RemoteTransportServerManager.INSTANCE.dispose()
+    RemoteServerResponseDispatcher.INSTANCE.dispose()
     RemoteServerConfigManager.INSTANCE.dispose()
   }
 }
