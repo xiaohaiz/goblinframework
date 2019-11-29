@@ -3,7 +3,9 @@ package org.goblinframework.core.service;
 import org.goblinframework.api.function.Disposable;
 import org.goblinframework.api.function.Initializable;
 import org.goblinframework.core.util.AnnotationUtils;
+import org.goblinframework.core.util.StopWatch;
 import org.goblinframework.core.util.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,12 +16,14 @@ import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.lang.management.PlatformManagedObject;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 abstract public class GoblinManagedObject
     implements PlatformManagedObject, Initializable, Disposable {
 
   protected final Logger logger;
 
+  private final AtomicReference<StopWatch> stopWatchReference = new AtomicReference<>();
   private final ObjectName objectName;
   private final boolean registerMBean;
   private final AtomicBoolean initialized = new AtomicBoolean();
@@ -27,6 +31,7 @@ abstract public class GoblinManagedObject
 
   protected GoblinManagedObject() {
     logger = initializeLogger();
+    initializeStopWatch();
     GoblinManagedBean annotation = AnnotationUtils.getAnnotation(getClass(), GoblinManagedBean.class);
     if (annotation != null) {
       String type = annotation.type();
@@ -63,6 +68,20 @@ abstract public class GoblinManagedObject
     }
   }
 
+  private void initializeStopWatch() {
+    GoblinManagedStopWatch annotation = AnnotationUtils.getAnnotation(getClass(), GoblinManagedStopWatch.class);
+    if (annotation == null) {
+      return;
+    }
+    StopWatch stopWatch = annotation.autoStart() ? new StopWatch(true) : new StopWatch(false);
+    stopWatchReference.set(stopWatch);
+  }
+
+  @Nullable
+  public StopWatch getStopWatch() {
+    return stopWatchReference.get();
+  }
+
   @Override
   public ObjectName getObjectName() {
     return objectName;
@@ -78,6 +97,10 @@ abstract public class GoblinManagedObject
   @Override
   public void dispose() {
     if (disposed.compareAndSet(false, true)) {
+      StopWatch stopWatch = stopWatchReference.get();
+      if (stopWatch != null) {
+        stopWatch.stop();
+      }
       if (registerMBean) {
         MBeanServer server = ManagementFactory.getPlatformMBeanServer();
         if (server.isRegistered(objectName)) {
