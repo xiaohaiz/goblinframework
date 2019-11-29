@@ -10,7 +10,7 @@ import org.goblinframework.core.util.StringUtils
 class RemoteRegistryConfigParser internal constructor() : BufferedConfigParser<RemoteRegistryConfig>() {
 
   companion object {
-    private const val CONFIG_NAME = "REMOTE_REGISTRY_CONFIG"
+    internal const val CONFIG_NAME = "REMOTE_REGISTRY_CONFIG"
     private const val DEFAULT_ZOOKEEPER_PORT = 2181
   }
 

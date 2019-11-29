@@ -1,0 +1,7 @@
+{
+  "remote": {
+    "registry": {
+      "zookeeper": "127.0.0.1"
+    }
+  }
+}

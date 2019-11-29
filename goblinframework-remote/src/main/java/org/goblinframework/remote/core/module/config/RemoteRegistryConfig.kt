@@ -5,7 +5,7 @@ import org.goblinframework.core.serialization.SerializerMode
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 
-@GoblinManagedBean("RemoteCore")
+@GoblinManagedBean("Remote")
 class RemoteRegistryConfig internal constructor(internal val mapper: RemoteRegistryConfigMapper)
   : GoblinManagedObject(), GoblinConfig, RemoteRegistryConfigMXBean {
 
