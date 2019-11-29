@@ -24,6 +24,14 @@ internal constructor(private val client: ZookeeperClient)
   private val stateListenerLock = ReentrantLock()
   private val stateListeners = IdentityHashMap<RegistryStateListener, ZookeeperStateListener>()
 
+  fun createKeeper(): ZookeeperRegistryPathKeeper {
+    return ZookeeperRegistryPathKeeper(this)
+  }
+
+  fun createWatcher(): ZookeeperRegistryPathWatcher {
+    return ZookeeperRegistryPathWatcher(this)
+  }
+
   fun exists(path: String): Boolean {
     return zkClient.exists(path)
   }

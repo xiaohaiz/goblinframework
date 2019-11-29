@@ -1,31 +1,27 @@
 package org.goblinframework.registry.zookeeper;
 
-import org.goblinframework.api.function.Disposable;
-import org.goblinframework.api.function.Initializable;
 import org.goblinframework.core.event.EventBus;
 import org.goblinframework.core.event.GoblinEventContext;
 import org.goblinframework.core.event.SecondTimerEventListener;
+import org.goblinframework.core.service.GoblinManagedBean;
+import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.core.util.TimeAndUnit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-final public class ZookeeperRegistryPathKeeper implements Initializable, Disposable {
-  private static final Logger logger = LoggerFactory.getLogger(ZookeeperRegistryPathKeeper.class);
+@GoblinManagedBean(type = "Registry")
+final public class ZookeeperRegistryPathKeeper extends GoblinManagedObject
+    implements ZookeeperRegistryPathKeeperMXBean {
 
   @NotNull private final ZookeeperRegistry registry;
   private final AtomicReference<TimeAndUnit> period = new AtomicReference<>();
-  private final AtomicBoolean initialized = new AtomicBoolean();
-  private final AtomicBoolean disposed = new AtomicBoolean();
   private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
   private final Map<String, PathData> buffer = new HashMap<>();
   private final AtomicReference<SecondTimerEventListener> scheduler = new AtomicReference<>();
@@ -73,10 +69,7 @@ final public class ZookeeperRegistryPathKeeper implements Initializable, Disposa
   }
 
   @Override
-  public void initialize() {
-    if (!initialized.compareAndSet(false, true)) {
-      return;
-    }
+  protected void initializeBean() {
     TimeAndUnit period = this.period.get();
     if (period != null && period.time > 0) {
       SecondTimerEventListener scheduler = new SecondTimerEventListener() {
@@ -110,10 +103,7 @@ final public class ZookeeperRegistryPathKeeper implements Initializable, Disposa
   }
 
   @Override
-  public void dispose() {
-    if (!disposed.compareAndSet(false, true)) {
-      return;
-    }
+  protected void disposeBean() {
     SecondTimerEventListener scheduler = this.scheduler.getAndSet(null);
     if (scheduler != null) {
       EventBus.unsubscribe(scheduler);

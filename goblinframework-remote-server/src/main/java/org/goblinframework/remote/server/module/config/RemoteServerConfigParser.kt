@@ -4,7 +4,6 @@ import org.goblinframework.core.compression.CompressionThreshold
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.mapper.JsonMapper
-import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.core.util.SystemUtils
 
 class RemoteServerConfigParser internal constructor() : BufferedConfigParser<RemoteServerConfig>() {
@@ -30,7 +29,7 @@ class RemoteServerConfigParser internal constructor() : BufferedConfigParser<Rem
     val mapper = config.mapper
     mapper.name ?: kotlin.run { mapper.name = "goblin.remote.server" }
     mapper.weight ?: kotlin.run { mapper.weight = SystemUtils.availableProcessors() }
-    mapper.host ?: kotlin.run { mapper.host = NetworkUtils.getLocalAddress() }
+    mapper.host ?: kotlin.run { mapper.host = "0.0.0.0" }
     mapper.port ?: kotlin.run { mapper.port = 0 }
     mapper.bossThreads ?: kotlin.run { mapper.bossThreads = 1 }
     mapper.workerThreads ?: kotlin.run { mapper.workerThreads = SystemUtils.availableProcessors() }
