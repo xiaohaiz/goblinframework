@@ -2,6 +2,9 @@ package org.goblinframework.core.util;
 
 import org.apache.commons.lang3.Validate;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+
 abstract public class SystemUtils extends org.apache.commons.lang3.SystemUtils {
 
   private static final boolean testRunnerFound;
@@ -46,5 +49,11 @@ abstract public class SystemUtils extends org.apache.commons.lang3.SystemUtils {
   public static int estimateThreads(int threads) {
     Validate.isTrue(threads >= 0);
     return threads == 0 ? estimateThreads() : threads;
+  }
+
+  public static int getJvmPID() {
+    RuntimeMXBean runtime = ManagementFactory.getRuntimeMXBean();
+    String name = runtime.getName();
+    return Integer.parseInt(name.substring(0, name.indexOf("@")));
   }
 }
