@@ -24,6 +24,7 @@ public class GoblinEventException extends RuntimeException {
     exceptionList.addAll(causeList);
   }
 
+  @NotNull
   public List<Throwable> getExceptionList() {
     return exceptionList;
   }

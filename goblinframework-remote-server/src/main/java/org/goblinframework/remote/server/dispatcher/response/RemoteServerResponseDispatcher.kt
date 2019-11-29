@@ -4,6 +4,7 @@ import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedLogger
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.remote.server.invocation.RemoteServerInvocation
 import org.goblinframework.remote.server.module.config.RemoteServerConfigManager
 import java.util.concurrent.atomic.AtomicReference
 
@@ -27,6 +28,20 @@ class RemoteServerResponseDispatcher private constructor()
     val eventListener = RemoteServerResponseEventListener()
     EventBus.subscribe(CHANNEL_NAME, eventListener)
     eventListenerReference.set(eventListener)
+  }
+
+  fun onResponse(invocation: RemoteServerInvocation) {
+    check(eventListenerReference.get() != null) { "Initialization is required" }
+    val event = RemoteServerResponseEvent(invocation)
+    EventBus.publish(CHANNEL_NAME, event).addListener {
+      try {
+        it.get()
+      } catch (ex: Throwable) {
+        if (EventBus.isRingBufferFullException(ex)) {
+          logger.warn("WARNING: Remote server response event ring buffer full")
+        }
+      }
+    }
   }
 
   override fun disposeBean() {
