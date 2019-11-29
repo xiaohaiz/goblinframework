@@ -6,7 +6,7 @@ import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 
 @GoblinManagedBean("RemoteCore")
-class RemoteRegistryConfig internal constructor(private val mapper: RemoteRegistryConfigMapper)
+class RemoteRegistryConfig internal constructor(internal val mapper: RemoteRegistryConfigMapper)
   : GoblinManagedObject(), GoblinConfig, RemoteRegistryConfigMXBean {
 
   override fun getZookeeper(): String {
