@@ -34,6 +34,10 @@ abstract public class SystemUtils extends org.apache.commons.lang3.SystemUtils {
     return nettyFound;
   }
 
+  public static int availableProcessors() {
+    return Runtime.getRuntime().availableProcessors();
+  }
+
   public static int estimateThreads() {
     int processors = Runtime.getRuntime().availableProcessors();
     return Math.max(processors, 2);

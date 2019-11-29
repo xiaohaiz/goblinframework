@@ -1,13 +1,7 @@
 {
-  "zookeeper": {
-    "_ut": {
-      "servers": "127.0.0.1"
-    }
-  },
   "remote": {
-    "server": {
-      "name": "_ut",
-      "registry": "ZKP:_ut"
+    "registry": {
+      "zookeeper": "127.0.0.1"
     }
   }
 }
