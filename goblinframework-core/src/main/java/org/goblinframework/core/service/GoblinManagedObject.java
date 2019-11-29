@@ -3,6 +3,7 @@ package org.goblinframework.core.service;
 import org.goblinframework.api.function.Disposable;
 import org.goblinframework.api.function.Initializable;
 import org.goblinframework.core.util.AnnotationUtils;
+import org.goblinframework.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 abstract public class GoblinManagedObject
     implements PlatformManagedObject, Initializable, Disposable {
 
-  protected final Logger logger = LoggerFactory.getLogger(getClass());
+  protected final Logger logger;
 
   private final ObjectName objectName;
   private final boolean registerMBean;
@@ -25,6 +26,7 @@ abstract public class GoblinManagedObject
   private final AtomicBoolean disposed = new AtomicBoolean();
 
   protected GoblinManagedObject() {
+    logger = initializeLogger();
     GoblinManagedBean annotation = AnnotationUtils.getAnnotation(getClass(), GoblinManagedBean.class);
     if (annotation != null) {
       String type = annotation.type();
@@ -45,6 +47,19 @@ abstract public class GoblinManagedObject
         logger.trace("MBean '{}' already registered, ignore.", objectName);
       } catch (Exception ignore) {
       }
+    }
+  }
+
+  private Logger initializeLogger() {
+    GoblinManagedLogger annotation = AnnotationUtils.getAnnotation(getClass(), GoblinManagedLogger.class);
+    String name = null;
+    if (annotation != null) {
+      name = annotation.name();
+    }
+    if (StringUtils.isBlank(name)) {
+      return LoggerFactory.getLogger(getClass());
+    } else {
+      return LoggerFactory.getLogger(name.trim());
     }
   }
 
