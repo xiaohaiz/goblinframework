@@ -70,4 +70,40 @@ abstract public class ReflectionUtils extends org.springframework.util.Reflectio
     }
     return result;
   }
+
+  @NotNull
+  public static Method getMethod(@NotNull Class<?> clazz,
+                                 @NotNull String methodName,
+                                 @Nullable String[] parameterTypes)
+      throws ClassNotFoundException, NoSuchMethodException {
+    Class<?>[] resolvedParameterTypes;
+    if (parameterTypes == null || parameterTypes.length == 0) {
+      resolvedParameterTypes = new Class[0];
+    } else {
+      resolvedParameterTypes = new Class[parameterTypes.length];
+      for (int i = 0; i < resolvedParameterTypes.length; i++) {
+        String parameterType = parameterTypes[i];
+        resolvedParameterTypes[i] = ClassResolver.resolve(parameterType);
+      }
+    }
+    return clazz.getMethod(methodName, resolvedParameterTypes);
+  }
+
+  @NotNull
+  public static Method getDeclaredMethod(@NotNull Class<?> clazz,
+                                         @NotNull String methodName,
+                                         @Nullable String[] parameterTypes)
+      throws ClassNotFoundException, NoSuchMethodException {
+    Class<?>[] resolvedParameterTypes;
+    if (parameterTypes == null || parameterTypes.length == 0) {
+      resolvedParameterTypes = new Class[0];
+    } else {
+      resolvedParameterTypes = new Class[parameterTypes.length];
+      for (int i = 0; i < resolvedParameterTypes.length; i++) {
+        String parameterType = parameterTypes[i];
+        resolvedParameterTypes[i] = ClassResolver.resolve(parameterType);
+      }
+    }
+    return clazz.getDeclaredMethod(methodName, resolvedParameterTypes);
+  }
 }

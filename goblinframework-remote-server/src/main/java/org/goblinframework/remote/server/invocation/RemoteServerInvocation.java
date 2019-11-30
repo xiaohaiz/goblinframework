@@ -9,6 +9,7 @@ import org.goblinframework.transport.server.handler.TransportRequestContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 
 public class RemoteServerInvocation {
@@ -19,6 +20,7 @@ public class RemoteServerInvocation {
   public Serializer serializer;
   public Class<?> interfaceClass;
   public RemoteService service;
+  public Method method;
 
   public RemoteServerInvocation(@NotNull TransportRequestContext context) {
     this.context = context;

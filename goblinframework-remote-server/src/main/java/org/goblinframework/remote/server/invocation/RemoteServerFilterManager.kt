@@ -5,6 +5,7 @@ import org.goblinframework.core.service.GoblinManagedLogger
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.service.ServiceInstaller
 import org.goblinframework.remote.server.invocation.endpoint.RemoteServerInvocationEndpoint
+import org.goblinframework.remote.server.invocation.filter.LocateMethodFilter
 import org.goblinframework.remote.server.invocation.filter.LocateServiceFilter
 import org.goblinframework.remote.server.invocation.filter.SendResponseFilter
 
@@ -30,6 +31,7 @@ class RemoteServerFilterManager private constructor()
     val filters = mutableListOf<RemoteServerFilter>()
     filters.add(SendResponseFilter.INSTANCE)
     filters.add(LocateServiceFilter.INSTANCE)
+    filters.add(LocateMethodFilter.INSTANCE)
     filters.addAll(customized)
     filters.add(RemoteServerInvocationEndpoint.INSTANCE)
     return RemoteServerFilterChainImpl(filters)
@@ -38,6 +40,7 @@ class RemoteServerFilterManager private constructor()
   override fun disposeBean() {
     RemoteServerInvocationEndpoint.INSTANCE.dispose()
     customized.sortedByDescending { it.order }.forEach { it.dispose() }
+    LocateMethodFilter.INSTANCE.dispose()
     LocateServiceFilter.INSTANCE.dispose()
     SendResponseFilter.INSTANCE.dispose()
   }
