@@ -5,6 +5,7 @@ import org.goblinframework.core.system.*
 import org.goblinframework.remote.server.dispatcher.response.RemoteServerResponseDispatcher
 import org.goblinframework.remote.server.module.config.RemoteServerConfigManager
 import org.goblinframework.remote.server.service.RemoteServiceManager
+import org.goblinframework.remote.server.service.RemoteServiceScanner
 import org.goblinframework.remote.server.transport.RemoteTransportServerManager
 
 @Install
@@ -16,6 +17,7 @@ class RemoteServerModule : ISubModule {
 
   override fun install(ctx: ModuleInstallContext) {
     ctx.registerPriorFinalizationTask { RemoteServiceManager.INSTANCE.unregisterAll() }
+    ctx.subscribeEventListener(RemoteServiceScanner.getInstance())
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
