@@ -9,8 +9,6 @@ public @interface ExposeService {
 
   Class<?> interfaceClass();
 
-  ServiceGroup group() default @ServiceGroup(enable = false);
-
   ServiceVersion version() default @ServiceVersion(enable = false);
 
   boolean enable() default true;
