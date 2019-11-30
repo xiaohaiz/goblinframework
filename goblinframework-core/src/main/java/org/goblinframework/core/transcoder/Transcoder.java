@@ -1,6 +1,7 @@
 package org.goblinframework.core.transcoder;
 
 import kotlin.text.Charsets;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.compression.CompressorManager;
 import org.goblinframework.core.serialization.Serializer;
@@ -9,7 +10,6 @@ import org.goblinframework.core.util.IOUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
