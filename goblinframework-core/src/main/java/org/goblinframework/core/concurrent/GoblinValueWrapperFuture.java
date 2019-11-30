@@ -1,4 +1,4 @@
-package org.goblinframework.remote.core;
+package org.goblinframework.core.concurrent;
 
 import org.goblinframework.api.concurrent.GoblinFuture;
 import org.goblinframework.api.concurrent.GoblinFutureListener;
@@ -11,12 +11,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class ValueWrapperFuture<T> implements GoblinFuture<T>, ValueWrapper<T>, Serializable {
+public class GoblinValueWrapperFuture<T> implements GoblinFuture<T>, ValueWrapper<T>, Serializable {
   private static final long serialVersionUID = -3131974041565144600L;
 
   @Nullable private final T value;
 
-  public ValueWrapperFuture(@Nullable T value) {
+  public GoblinValueWrapperFuture(@Nullable T value) {
     this.value = value;
   }
 

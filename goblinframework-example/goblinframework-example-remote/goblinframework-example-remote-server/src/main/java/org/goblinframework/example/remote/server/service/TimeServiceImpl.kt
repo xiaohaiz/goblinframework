@@ -2,9 +2,9 @@ package org.goblinframework.example.remote.server.service
 
 import org.goblinframework.api.concurrent.GoblinFuture
 import org.goblinframework.api.remote.ExposeService
+import org.goblinframework.core.concurrent.GoblinValueWrapperFuture
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.example.remote.api.TimeService
-import org.goblinframework.remote.core.ValueWrapperFuture
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -17,6 +17,6 @@ class TimeServiceImpl : SpringContainerObject(), TimeService {
   }
 
   override fun currentDate(): GoblinFuture<Date> {
-    return ValueWrapperFuture(Date())
+    return GoblinValueWrapperFuture(Date())
   }
 }
