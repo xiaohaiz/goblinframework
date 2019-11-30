@@ -1,0 +1,5 @@
+package org.goblinframework.remote.server.invocation
+
+import java.lang.management.PlatformManagedObject
+
+interface RemoteServerFilterManagerMXBean : PlatformManagedObject
