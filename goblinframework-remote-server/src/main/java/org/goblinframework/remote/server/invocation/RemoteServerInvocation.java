@@ -21,6 +21,7 @@ public class RemoteServerInvocation {
   public Class<?> interfaceClass;
   public RemoteService service;
   public Method method;
+  public Object[] arguments;
 
   public RemoteServerInvocation(@NotNull TransportRequestContext context) {
     this.context = context;
