@@ -4,6 +4,7 @@ import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.remote.core.protocol.RemoteRequest;
 import org.goblinframework.remote.core.protocol.RemoteResponse;
 import org.goblinframework.remote.core.protocol.RemoteResponseCode;
+import org.goblinframework.remote.server.service.RemoteService;
 import org.goblinframework.transport.server.handler.TransportRequestContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,6 +17,8 @@ public class RemoteServerInvocation {
   @NotNull public final RemoteResponse response;
   public RemoteRequest request;
   public Serializer serializer;
+  public Class<?> interfaceClass;
+  public RemoteService service;
 
   public RemoteServerInvocation(@NotNull TransportRequestContext context) {
     this.context = context;
@@ -38,6 +41,15 @@ public class RemoteServerInvocation {
     response.writeCode(code);
     if (error != null) {
       response.writeError(error);
+    }
+  }
+
+  @NotNull
+  public String asText() {
+    if (request == null) {
+      return "client=" + context.asClientText();
+    } else {
+      return "client=" + context.asClientText() + ",service=" + request.serviceInterface + "/" + request.serviceVersion;
     }
   }
 }

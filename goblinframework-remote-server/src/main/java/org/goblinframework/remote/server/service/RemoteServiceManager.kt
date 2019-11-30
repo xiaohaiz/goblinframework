@@ -96,6 +96,10 @@ class RemoteServiceManager private constructor()
     }
   }
 
+  fun getRemoteService(serviceId: RemoteServiceId): RemoteService? {
+    return lock.read { services[serviceId] }
+  }
+
   fun publishAll() {
     lock.read { services.values.forEach { it.publish() } }
   }
