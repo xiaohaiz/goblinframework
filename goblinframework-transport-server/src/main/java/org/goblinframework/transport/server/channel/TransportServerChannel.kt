@@ -10,6 +10,7 @@ import org.goblinframework.transport.core.protocol.reader.TransportRequestReader
 import org.goblinframework.transport.core.protocol.writer.TransportResponseWriter
 import org.goblinframework.transport.server.handler.TransportRequestContext
 import org.slf4j.LoggerFactory
+import java.net.InetSocketAddress
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicReference
 
@@ -84,6 +85,18 @@ internal constructor(private val server: TransportServerImpl,
 
   override fun getClientId(): String? {
     return handshake.get()?.clientId
+  }
+
+  override fun getClientName(): String? {
+    return handshake.get()?.extensions?.get("clientName") as? String
+  }
+
+  override fun getClientHost(): String {
+    return (channel.remoteAddress() as InetSocketAddress).address.hostAddress
+  }
+
+  override fun getClientPort(): Int {
+    return (channel.remoteAddress() as InetSocketAddress).port
   }
 
   override fun getClientReceiveShutdown(): Boolean {

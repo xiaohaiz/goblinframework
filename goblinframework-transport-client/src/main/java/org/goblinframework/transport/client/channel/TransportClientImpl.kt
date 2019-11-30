@@ -76,6 +76,7 @@ internal constructor(private val client: TransportClient) {
         request.serverId = setting.serverId()
         request.clientId = GoblinSystem.applicationId()
         request.extensions = linkedMapOf()
+        request.extensions["clientName"] = GoblinSystem.applicationName()
         request.extensions["clientLanguage"] = "java/kotlin"
         request.extensions["receiveShutdown"] = setting.receiveShutdown()
         val serializer = TransportProtocol.getSerializerId(request.javaClass)

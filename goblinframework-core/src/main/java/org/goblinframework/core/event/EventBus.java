@@ -1,5 +1,6 @@
 package org.goblinframework.core.event;
 
+import org.goblinframework.api.concurrent.GoblinFuture;
 import org.goblinframework.api.function.GoblinCallback;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -57,6 +58,15 @@ final public class EventBus {
       future.complete(result);
     });
     return future;
+  }
+
+  public static boolean isRingBufferFull(@NotNull GoblinFuture<?> future) {
+    try {
+      future.get();
+      return false;
+    } catch (Throwable ex) {
+      return isRingBufferFullException(ex);
+    }
   }
 
   public static boolean isRingBufferFullException(@Nullable Throwable error) {
