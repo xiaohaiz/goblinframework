@@ -12,6 +12,9 @@ public class RemoteResponse implements Serializable {
 
   public byte code;
   public Object result;
+  public boolean jsonMode;
+  public long executionTime;
+  public long executionDuration;
   public LinkedHashMap<String, Object> extensions;
 
   public void writeCode(@NotNull RemoteResponseCode code) {

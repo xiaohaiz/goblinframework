@@ -30,7 +30,7 @@ class RemoteServiceManager private constructor()
   companion object {
     @JvmField val INSTANCE = RemoteServiceManager()
 
-    fun createDittoService(vararg beans: Any) {
+    fun createRemoteService(vararg beans: Any) {
       for (bean in beans) {
         val ids = RemoteServiceIdGenerator.generate(bean.javaClass)
         if (ids.isEmpty()) {

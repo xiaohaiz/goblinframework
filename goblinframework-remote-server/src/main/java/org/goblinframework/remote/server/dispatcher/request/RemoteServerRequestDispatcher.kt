@@ -42,7 +42,7 @@ class RemoteServerRequestDispatcher private constructor()
     EventBus.publish(CHANNEL_NAME, event).addListener {
       if (EventBus.isRingBufferFull(it)) {
         logger.error("{SERVER_BACK_PRESSURE_ERROR} " +
-            "DITTO server event ring buffer full, reject request from [{}]",
+            "Remote server event ring buffer full, reject request from [{}]",
             invocation.context.asClientText())
         invocation.writeError(RemoteResponseCode.SERVER_BACK_PRESSURE_ERROR)
         RemoteServerResponseDispatcher.INSTANCE.onResponse(invocation)

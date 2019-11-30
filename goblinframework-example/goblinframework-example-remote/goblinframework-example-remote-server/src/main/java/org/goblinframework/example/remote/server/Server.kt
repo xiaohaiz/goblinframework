@@ -10,7 +10,7 @@ import org.goblinframework.remote.server.service.RemoteServiceManager
 class Server : StandaloneServer() {
 
   override fun doService(container: SpringContainer?) {
-    RemoteServiceManager.createDittoService(EchoServiceImpl.INSTANCE)
+    RemoteServiceManager.createRemoteService(EchoServiceImpl.INSTANCE)
   }
 
 }

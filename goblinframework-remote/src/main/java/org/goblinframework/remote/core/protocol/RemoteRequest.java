@@ -12,6 +12,8 @@ public class RemoteRequest implements Serializable {
   public String[] parameterTypes;
   public String returnType;
   public Object[] arguments;
+  public long timeout;
+  public boolean jsonMode;
   public LinkedHashMap<String, Object> extensions;
 
 }
