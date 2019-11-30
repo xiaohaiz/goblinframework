@@ -2,6 +2,7 @@ package org.goblinframework.remote.server.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
+import org.goblinframework.remote.server.dispatcher.request.RemoteServerRequestDispatcher
 import org.goblinframework.remote.server.dispatcher.response.RemoteServerResponseDispatcher
 import org.goblinframework.remote.server.module.config.RemoteServerConfigManager
 import org.goblinframework.remote.server.service.RemoteServiceManager
@@ -23,6 +24,7 @@ class RemoteServerModule : ISubModule {
   override fun initialize(ctx: ModuleInitializeContext) {
     RemoteServerConfigManager.INSTANCE.initialize()
     RemoteServerResponseDispatcher.INSTANCE.initialize()
+    RemoteServerRequestDispatcher.INSTANCE.initialize()
     RemoteTransportServerManager.INSTANCE.initialize()
     RemoteServiceManager.INSTANCE.initialize()
   }
@@ -30,6 +32,7 @@ class RemoteServerModule : ISubModule {
   override fun finalize(ctx: ModuleFinalizeContext) {
     RemoteServiceManager.INSTANCE.dispose()
     RemoteTransportServerManager.INSTANCE.dispose()
+    RemoteServerRequestDispatcher.INSTANCE.dispose()
     RemoteServerResponseDispatcher.INSTANCE.dispose()
     RemoteServerConfigManager.INSTANCE.dispose()
   }
