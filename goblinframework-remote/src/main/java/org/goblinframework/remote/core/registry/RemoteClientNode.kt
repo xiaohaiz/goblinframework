@@ -9,7 +9,7 @@ class RemoteClientNode {
   var clientHost: String? = null
   var clientPid: Int? = null
 
-  fun toNode(): String {
+  fun toPath(): String {
     val map = LinkedHashMap<String, Any>()
     map["clientId"] = clientId!!
     map["clientName"] = clientName!!
@@ -19,6 +19,6 @@ class RemoteClientNode {
   }
 
   override fun toString(): String {
-    return toNode()
+    return toPath()
   }
 }

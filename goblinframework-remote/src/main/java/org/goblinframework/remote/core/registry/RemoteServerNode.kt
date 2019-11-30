@@ -12,7 +12,7 @@ class RemoteServerNode {
   var serverDomain: String? = null
   var serverWeight: Int? = null
 
-  fun toNode(): String {
+  fun toPath(): String {
     val map = LinkedHashMap<String, Any>()
     map["serverId"] = serverId!!
     map["serverName"] = serverName!!
@@ -25,6 +25,6 @@ class RemoteServerNode {
   }
 
   override fun toString(): String {
-    return toNode()
+    return toPath()
   }
 }
