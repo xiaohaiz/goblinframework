@@ -33,4 +33,19 @@ public class RemoteResponse implements Serializable {
     extensions.put("EXCEPTION_STACKTRACE", exceptionStackTrace);
   }
 
+
+  public void resetResult() {
+    this.result = null;
+    if (this.extensions != null) {
+      this.extensions.clear();
+    }
+  }
+
+  public void resetError() {
+    if (this.extensions != null) {
+      this.extensions.remove("EXCEPTION_CLASS");
+      this.extensions.remove("EXCEPTION_MESSAGE");
+      this.extensions.remove("EXCEPTION_STACKTRACE");
+    }
+  }
 }
