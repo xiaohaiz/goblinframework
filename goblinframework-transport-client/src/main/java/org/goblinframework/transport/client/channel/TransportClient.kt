@@ -89,6 +89,22 @@ class TransportClient internal constructor(val setting: TransportClientSetting,
     return referenceCount.release(decrement)
   }
 
+  override fun getServerId(): String? {
+    return setting.serverId()
+  }
+
+  override fun getServerName(): String? {
+    return null
+  }
+
+  override fun getServerHost(): String {
+    return setting.serverHost()
+  }
+
+  override fun getServerPort(): Int {
+    return setting.serverPort()
+  }
+
   override fun getWeight(): Int {
     return setting.weight()
   }

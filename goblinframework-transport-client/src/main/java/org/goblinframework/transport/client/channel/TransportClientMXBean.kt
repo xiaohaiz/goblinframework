@@ -4,6 +4,14 @@ import java.lang.management.PlatformManagedObject
 
 interface TransportClientMXBean : PlatformManagedObject {
 
+  fun getServerId(): String?
+
+  fun getServerName(): String?
+
+  fun getServerHost(): String
+
+  fun getServerPort(): Int
+
   fun getWeight(): Int
 
 }
