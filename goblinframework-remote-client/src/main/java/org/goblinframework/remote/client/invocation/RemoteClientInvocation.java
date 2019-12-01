@@ -3,7 +3,9 @@ package org.goblinframework.remote.client.invocation;
 import org.goblinframework.api.core.SerializerMode;
 import org.goblinframework.remote.client.module.monitor.RIC;
 import org.goblinframework.remote.client.service.RemoteServiceClient;
+import org.goblinframework.remote.core.protocol.RemoteRequest;
 import org.goblinframework.remote.core.service.RemoteServiceId;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 abstract public class RemoteClientInvocation {
@@ -35,4 +37,7 @@ abstract public class RemoteClientInvocation {
   abstract public void complete(@Nullable Object result);
 
   abstract public void complete(@Nullable Object result, @Nullable Throwable cause);
+
+  @NotNull
+  abstract public RemoteRequest createRequest();
 }

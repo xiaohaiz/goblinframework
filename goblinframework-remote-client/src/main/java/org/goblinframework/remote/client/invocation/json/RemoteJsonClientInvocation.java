@@ -2,6 +2,8 @@ package org.goblinframework.remote.client.invocation.json;
 
 import org.goblinframework.api.core.SerializerMode;
 import org.goblinframework.remote.client.invocation.RemoteClientInvocation;
+import org.goblinframework.remote.core.protocol.RemoteRequest;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class RemoteJsonClientInvocation extends RemoteClientInvocation {
@@ -49,5 +51,11 @@ public class RemoteJsonClientInvocation extends RemoteClientInvocation {
   @Override
   public void complete(@Nullable Object result, @Nullable Throwable cause) {
 
+  }
+
+  @NotNull
+  @Override
+  public RemoteRequest createRequest() {
+    throw new UnsupportedOperationException();
   }
 }
