@@ -5,6 +5,8 @@ import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedLogger
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.remote.core.registry.RemoteRegistryManager
+import java.util.concurrent.atomic.AtomicReference
 
 @Singleton
 @ThreadSafe
@@ -15,5 +17,17 @@ class RemoteServiceClientManager private constructor()
 
   companion object {
     @JvmField val INSTANCE = RemoteServiceClientManager()
+  }
+
+  private val subscriptionManagerReference = AtomicReference<RemoteServiceClientSubscriptionManager?>()
+
+  override fun initializeBean() {
+    RemoteRegistryManager.INSTANCE.getRemoteRegistry()?.run {
+      subscriptionManagerReference.set(RemoteServiceClientSubscriptionManager(this))
+    }
+  }
+
+  override fun disposeBean() {
+    subscriptionManagerReference.getAndSet(null)?.dispose()
   }
 }
