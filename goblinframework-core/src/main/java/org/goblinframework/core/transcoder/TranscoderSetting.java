@@ -1,12 +1,12 @@
 package org.goblinframework.core.transcoder;
 
+import org.goblinframework.api.core.CompressorMode;
+import org.goblinframework.api.core.SerializerMode;
 import org.goblinframework.core.compression.CompressionThreshold;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.compression.CompressorManager;
-import org.goblinframework.core.compression.CompressorMode;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
-import org.goblinframework.core.serialization.SerializerMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

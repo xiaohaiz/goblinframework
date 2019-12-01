@@ -4,6 +4,7 @@ import org.apache.commons.compress.compressors.CompressorInputStream;
 import org.apache.commons.compress.compressors.CompressorOutputStream;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.commons.compress.utils.IOUtils;
+import org.goblinframework.api.core.CompressorMode;
 import org.goblinframework.core.exception.GoblinCompressionException;
 import org.jetbrains.annotations.NotNull;
 

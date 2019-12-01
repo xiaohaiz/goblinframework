@@ -1,7 +1,7 @@
 package org.goblinframework.remote.server.module.runtime
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.core.serialization.SerializerMode
+import org.goblinframework.api.core.SerializerMode
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.transcoder.Transcoder

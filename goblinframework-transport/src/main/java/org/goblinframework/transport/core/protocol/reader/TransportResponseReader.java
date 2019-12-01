@@ -2,9 +2,9 @@ package org.goblinframework.transport.core.protocol.reader;
 
 import kotlin.text.Charsets;
 import org.goblinframework.api.annotation.ThreadSafe;
+import org.goblinframework.api.core.CompressorMode;
 import org.goblinframework.core.compression.Compressor;
 import org.goblinframework.core.compression.CompressorManager;
-import org.goblinframework.core.compression.CompressorMode;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
 import org.goblinframework.core.util.MapUtils;

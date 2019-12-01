@@ -1,7 +1,7 @@
 package org.goblinframework.remote.server.module.config
 
+import org.goblinframework.api.core.CompressorMode
 import org.goblinframework.core.compression.CompressionThreshold
-import org.goblinframework.core.compression.CompressorMode
 import java.io.Serializable
 
 class RemoteServerConfigMapper : Serializable {

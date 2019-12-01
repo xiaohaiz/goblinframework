@@ -1,5 +1,6 @@
 package org.goblinframework.core.serialization
 
+import org.goblinframework.api.core.SerializerMode
 import java.lang.management.PlatformManagedObject
 
 interface SerializerMXBean : PlatformManagedObject {

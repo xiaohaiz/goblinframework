@@ -1,10 +1,10 @@
 package org.goblinframework.remote.client.module.config
 
+import org.goblinframework.api.core.SerializerMode
 import org.goblinframework.core.compression.CompressionThreshold
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.mapper.JsonMapper
-import org.goblinframework.core.serialization.SerializerMode
 
 class RemoteClientConfigParser internal constructor()
   : BufferedConfigParser<RemoteClientConfig>() {

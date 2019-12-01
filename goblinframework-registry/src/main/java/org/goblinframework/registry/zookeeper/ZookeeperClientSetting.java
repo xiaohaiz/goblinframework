@@ -1,6 +1,6 @@
 package org.goblinframework.registry.zookeeper;
 
-import org.goblinframework.core.serialization.SerializerMode;
+import org.goblinframework.api.core.SerializerMode;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 

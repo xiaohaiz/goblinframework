@@ -1,7 +1,7 @@
 package org.goblinframework.transport.core.protocol.reader
 
+import org.goblinframework.api.core.CompressorMode
 import org.goblinframework.core.compression.CompressorManager
-import org.goblinframework.core.compression.CompressorMode
 import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.core.util.StringUtils
 import org.goblinframework.transport.core.protocol.TransportRequest

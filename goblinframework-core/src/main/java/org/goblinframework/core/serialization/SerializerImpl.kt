@@ -1,8 +1,9 @@
 package org.goblinframework.core.serialization
 
+import org.goblinframework.api.core.SerializerMode
+import org.goblinframework.core.exception.GoblinSerializationException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.core.exception.GoblinSerializationException
 import org.goblinframework.core.util.StopWatch
 import java.io.InputStream
 import java.io.OutputStream

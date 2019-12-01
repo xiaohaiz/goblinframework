@@ -1,4 +1,4 @@
-package org.goblinframework.core.serialization
+package org.goblinframework.api.core
 
 enum class SerializerMode constructor(val id: Byte) {
 

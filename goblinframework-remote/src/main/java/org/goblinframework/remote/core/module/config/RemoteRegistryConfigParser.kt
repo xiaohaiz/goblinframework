@@ -1,10 +1,10 @@
 package org.goblinframework.remote.core.module.config
 
+import org.goblinframework.api.core.SerializerMode
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.config.GoblinConfigException
 import org.goblinframework.core.mapper.JsonMapper
-import org.goblinframework.core.serialization.SerializerMode
 import org.goblinframework.core.util.StringUtils
 
 class RemoteRegistryConfigParser internal constructor() : BufferedConfigParser<RemoteRegistryConfig>() {

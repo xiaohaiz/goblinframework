@@ -1,5 +1,6 @@
 package org.goblinframework.core.compression;
 
+import org.goblinframework.api.core.CompressorMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;

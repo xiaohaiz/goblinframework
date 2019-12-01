@@ -1,4 +1,4 @@
-package org.goblinframework.core.compression
+package org.goblinframework.api.core
 
 enum class CompressorMode(val id: Byte, val algorithm: String) {
 

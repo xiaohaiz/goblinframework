@@ -2,11 +2,11 @@ package org.goblinframework.core.transcoder
 
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.bson.types.ObjectId
+import org.goblinframework.api.core.CompressorMode
+import org.goblinframework.api.core.SerializerMode
 import org.goblinframework.core.compression.CompressionThreshold
-import org.goblinframework.core.compression.CompressorMode
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.mapper.JsonMapper
-import org.goblinframework.core.serialization.SerializerMode
 import org.goblinframework.core.util.HostAndPort
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner

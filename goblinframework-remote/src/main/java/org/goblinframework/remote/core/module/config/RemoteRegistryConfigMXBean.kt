@@ -1,6 +1,6 @@
 package org.goblinframework.remote.core.module.config
 
-import org.goblinframework.core.serialization.SerializerMode
+import org.goblinframework.api.core.SerializerMode
 import java.lang.management.PlatformManagedObject
 
 interface RemoteRegistryConfigMXBean : PlatformManagedObject {
