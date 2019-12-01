@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.aop.framework.ProxyFactory;
 
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,6 +14,28 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 abstract public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
+
+  public static final MethodHandles.Lookup lookup;
+
+  static {
+    try {
+      Field field = MethodHandles.Lookup.class.getDeclaredField("IMPL_LOOKUP");
+      field.setAccessible(true);
+      lookup = (MethodHandles.Lookup) field.get(null);
+    } catch (Exception ex) {
+      throw new UnsupportedOperationException(ex);
+    }
+  }
+
+  public static Object invokeInterfaceDefaultMethod(@NotNull Object target, @NotNull Method method, @Nullable Object[] arguments) throws Throwable {
+    if (!method.isDefault()) {
+      throw new IllegalArgumentException("Default method is required");
+    }
+    return lookup.in(method.getDeclaringClass())
+        .unreflectSpecial(method, method.getDeclaringClass())
+        .bindTo(target)
+        .invokeWithArguments(arguments);
+  }
 
   @Nullable
   public static Object invoke(@Nullable Object target,
