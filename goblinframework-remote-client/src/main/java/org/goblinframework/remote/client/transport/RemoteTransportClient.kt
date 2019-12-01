@@ -4,6 +4,7 @@ import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedLogger
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager
 import org.goblinframework.remote.client.service.RemoteServiceClient
 import org.goblinframework.transport.client.channel.TransportClient
@@ -24,6 +25,7 @@ internal constructor(private val clientManager: RemoteTransportClientManager,
                      weight: Int)
   : GoblinManagedObject(), RemoteTransportClientMXBean {
 
+  private val id = RandomUtils.nextObjectId()
   private val transportClient: TransportClient
   private val lock = ReentrantReadWriteLock()
   private val buffer = IdentityHashMap<RemoteServiceClient, RemoteServiceClient>()
@@ -83,6 +85,10 @@ internal constructor(private val clientManager: RemoteTransportClientManager,
         }
       }
     }
+  }
+
+  override fun getId(): String {
+    return id
   }
 
   override fun dispose() {

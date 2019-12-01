@@ -8,6 +8,7 @@ import org.goblinframework.core.system.ModuleInitializeContext
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformationManager
 import org.goblinframework.remote.client.service.RemoteServiceClientManager
+import org.goblinframework.remote.client.service.RemoteServiceClientWarmUpManager
 import org.goblinframework.remote.client.transport.RemoteTransportClientManager
 
 @Install
@@ -21,11 +22,13 @@ class RemoteClientModule : ISubModule {
     RemoteClientConfigManager.INSTANCE.initialize()
     RemoteServiceInformationManager.INSTANCE.initialize()
     RemoteTransportClientManager.INSTANCE.initialize()
+    RemoteServiceClientWarmUpManager.INSTANCE.initialize()
     RemoteServiceClientManager.INSTANCE.initialize()
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
     RemoteServiceClientManager.INSTANCE.dispose()
+    RemoteServiceClientWarmUpManager.INSTANCE.dispose()
     RemoteTransportClientManager.INSTANCE.dispose()
     RemoteServiceInformationManager.INSTANCE.dispose()
     RemoteClientConfigManager.INSTANCE.dispose()
