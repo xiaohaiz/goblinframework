@@ -98,6 +98,10 @@ internal constructor(private val serviceId: RemoteServiceId,
     }
   }
 
+  fun addConnection(connection: RemoteTransportClient) {
+    TODO()
+  }
+
   override fun disposeBean() {
     subscriptionManager?.unwatch(serviceId.serviceInterface)
     watcherReference.getAndSet(null)?.dispose()

@@ -1,7 +1,11 @@
 package org.goblinframework.transport.client.channel
 
+import org.goblinframework.api.core.ReferenceCount
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.core.util.GoblinReferenceCount
+import org.goblinframework.core.util.StopWatch
+import org.goblinframework.core.util.ThreadUtils
 import org.goblinframework.transport.client.setting.TransportClientSetting
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.atomic.LongAdder
@@ -9,33 +13,34 @@ import java.util.concurrent.atomic.LongAdder
 @GoblinManagedBean(type = "transport.client")
 class TransportClient internal constructor(val setting: TransportClientSetting,
                                            val clientManager: TransportClientManager)
-  : GoblinManagedObject(), TransportClientMXBean {
+  : GoblinManagedObject(), ReferenceCount, TransportClientMXBean {
 
-  private val clientRef = AtomicReference<TransportClientImpl>()
+  private val clientReference = AtomicReference<TransportClientImpl>()
+  private val referenceCount = GoblinReferenceCount()
   private val reconnectTimes = LongAdder()
 
   init {
-    clientRef.set(TransportClientImpl(this))
+    clientReference.set(TransportClientImpl(this))
   }
 
   fun available(): Boolean {
-    return clientRef.get().available()
+    return clientReference.get().available()
   }
 
   fun stateChannel(): TransportClientChannel {
-    return clientRef.get().stateChannel()
+    return clientReference.get().stateChannel()
   }
 
   fun connectFuture(): TransportClientConnectFuture {
-    return clientRef.get().connectFuture
+    return clientReference.get().connectFuture
   }
 
   fun disconnectFuture(): TransportClientDisconnectFuture {
-    return clientRef.get().disconnectFuture
+    return clientReference.get().disconnectFuture
   }
 
   internal fun sendHeartbeat() {
-    clientRef.get().sendHeartbeat()
+    clientReference.get().sendHeartbeat()
   }
 
   fun onStateChange(state: TransportClientState) {
@@ -57,11 +62,31 @@ class TransportClient internal constructor(val setting: TransportClientSetting,
 
   private fun terminate(reconnect: Boolean = false) {
     if (reconnect && setting.autoReconnect()) {
-      clientRef.getAndSet(TransportClientImpl(this)).close()
+      clientReference.getAndSet(TransportClientImpl(this)).close()
       reconnectTimes.increment()
     } else {
       clientManager.closeConnection(setting.name())
     }
+  }
+
+  override fun count(): Int {
+    return referenceCount.count()
+  }
+
+  override fun retain() {
+    referenceCount.retain()
+  }
+
+  override fun retain(increment: Int) {
+    referenceCount.retain(increment)
+  }
+
+  override fun release(): Boolean {
+    return referenceCount.release()
+  }
+
+  override fun release(decrement: Int): Boolean {
+    return referenceCount.release(decrement)
   }
 
   override fun getWeight(): Int {
@@ -69,6 +94,13 @@ class TransportClient internal constructor(val setting: TransportClientSetting,
   }
 
   override fun disposeBean() {
-    clientRef.get().close()
+    val watch = StopWatch()
+    while (count() > 0) {
+      ThreadUtils.sleepCurrentThread(100)
+      if (watch.time >= 3000) {
+        break
+      }
+    }
+    clientReference.get().close()
   }
 }
