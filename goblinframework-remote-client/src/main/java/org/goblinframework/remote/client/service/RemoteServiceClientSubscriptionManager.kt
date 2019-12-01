@@ -57,7 +57,7 @@ internal constructor(val registry: RemoteRegistry)
       val rc = buffer[serviceInterface] ?: return
       if (rc.release()) {
         buffer.remove(serviceInterface)
-        val fullPath = "/alps/ditto/service/$serviceInterface/client/$path"
+        val fullPath = "/goblin/remote/service/$serviceInterface/client/$path"
         keeper.unwatch(fullPath)
       }
     }

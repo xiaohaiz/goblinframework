@@ -18,8 +18,8 @@ class RemoteTransportClientRouter internal constructor()
   : GoblinManagedObject(), RemoteTransportClientRouterMXBean {
 
   private val lock = ReentrantReadWriteLock()
-  private val buffer = LinkedHashMap<String, MutableDittoTransportClient>()
-  private val routerTable = mutableListOf<WeightedDittoTransportClient>()
+  private val buffer = LinkedHashMap<String, MutableRemoteTransportClient>()
+  private val routerTable = mutableListOf<WeightedRemoteTransportClient>()
   private val routerCounter = AtomicLong()
 
   fun addConnection(connection: RemoteTransportClient) {
@@ -27,7 +27,7 @@ class RemoteTransportClientRouter internal constructor()
       if (buffer[connection.getId()] != null) {
         return
       }
-      val mutable = MutableDittoTransportClient(this, connection)
+      val mutable = MutableRemoteTransportClient(this, connection)
       buffer[connection.getId()] = mutable
       if (mutable.requireWarmUp()) {
         RemoteServiceClientWarmUpManager.INSTANCE.register(mutable)
@@ -77,8 +77,8 @@ class RemoteTransportClientRouter internal constructor()
       routerCounter.set(0)
       return 0
     }
-    val nodes = mutableListOf<WeightedDittoTransportClient>()
-    val allClients = buffer.values.map { WeightedDittoTransportClient(it) }.toList()
+    val nodes = mutableListOf<WeightedRemoteTransportClient>()
+    val allClients = buffer.values.map { WeightedRemoteTransportClient(it) }.toList()
     val totalWeight = allClients.sumBy { it.effectiveWeight }
 
     for (i in 0 until totalWeight) {
@@ -126,8 +126,8 @@ class RemoteTransportClientRouter internal constructor()
     }
   }
 
-  class MutableDittoTransportClient(val router: RemoteTransportClientRouter,
-                                    val connection: RemoteTransportClient) {
+  class MutableRemoteTransportClient(val router: RemoteTransportClientRouter,
+                                     val connection: RemoteTransportClient) {
 
     val createTime = System.currentTimeMillis()
     private val weight = AtomicInteger(1)
@@ -145,7 +145,7 @@ class RemoteTransportClientRouter internal constructor()
     }
   }
 
-  class WeightedDittoTransportClient(val mutable: MutableDittoTransportClient) {
+  class WeightedRemoteTransportClient(val mutable: MutableRemoteTransportClient) {
     var effectiveWeight = mutable.weight()
     var currentWeight = 0
   }

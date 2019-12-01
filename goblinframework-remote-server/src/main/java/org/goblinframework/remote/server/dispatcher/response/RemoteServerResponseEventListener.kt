@@ -27,7 +27,7 @@ class RemoteServerResponseEventListener internal constructor()
     var encoded = responseEncoder.encode(invocation)
     if (encoded.error != null) {
       logger.error("{SERVER_MARSHAL_RESPONSE_ERROR} " +
-          "Exception raised when encoding DittoResponse [{}]",
+          "Exception raised when encoding RemoteResponse [{}]",
           invocation.asText(), encoded.error)
       invocation.response.resetResult()
       invocation.response.resetError()

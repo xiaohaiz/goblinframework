@@ -20,7 +20,7 @@ class RemoteServiceClientWarmUpManager private constructor()
   }
 
   private val lock = ReentrantReadWriteLock()
-  private val queue = mutableListOf<RemoteTransportClientRouter.MutableDittoTransportClient>()
+  private val queue = mutableListOf<RemoteTransportClientRouter.MutableRemoteTransportClient>()
   private val eventListenerReference = AtomicReference<SecondTimerEventListener?>()
 
   override fun initializeBean() {
@@ -38,13 +38,13 @@ class RemoteServiceClientWarmUpManager private constructor()
     eventListenerReference.set(listener)
   }
 
-  internal fun register(mutable: RemoteTransportClientRouter.MutableDittoTransportClient) {
+  internal fun register(mutable: RemoteTransportClientRouter.MutableRemoteTransportClient) {
     check(eventListenerReference.get() != null) { "Initialization is required" }
     lock.write { queue.add(mutable) }
   }
 
   private fun scan() {
-    val candidates = mutableListOf<RemoteTransportClientRouter.MutableDittoTransportClient>()
+    val candidates = mutableListOf<RemoteTransportClientRouter.MutableRemoteTransportClient>()
     val current = System.currentTimeMillis()
     lock.write {
       val it = queue.iterator()

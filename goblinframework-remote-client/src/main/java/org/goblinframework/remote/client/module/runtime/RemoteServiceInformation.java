@@ -30,7 +30,7 @@ public class RemoteServiceInformation extends GoblinManagedObject
   }
 
   @Nullable
-  public RemoteServiceMethodInformation getDittoServiceMethodInformation(@NotNull Method method) {
+  public RemoteServiceMethodInformation getRemoteServiceMethodInformation(@NotNull Method method) {
     return methodInformationMap.get(method);
   }
 
