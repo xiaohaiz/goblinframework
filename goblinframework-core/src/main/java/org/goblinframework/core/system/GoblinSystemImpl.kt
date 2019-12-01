@@ -5,7 +5,6 @@ import org.goblinframework.core.container.SpringContainerManager
 import org.goblinframework.core.module.SystemModule
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.core.util.ClassUtils
 import org.slf4j.LoggerFactory
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -79,18 +78,6 @@ internal constructor(private val systemManager: GoblinSystemManager)
     }
     executorService.shutdown()
     executorService.awaitTermination(1, TimeUnit.MINUTES)
-
-    logger.info("FAREWELL")
-    shutdownLog4j2IfNecessary()
   }
 
-  private fun shutdownLog4j2IfNecessary() {
-    try {
-      val clazz = ClassUtils.loadClass("org.apache.logging.log4j.LogManager")
-      val method = clazz.getMethod("shutdown")
-      method.invoke(null)
-    } catch (ignore: Exception) {
-    }
-
-  }
 }

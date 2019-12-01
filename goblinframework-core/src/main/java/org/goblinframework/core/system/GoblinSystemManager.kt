@@ -1,42 +1,32 @@
 package org.goblinframework.core.system
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.core.Lifecycle
 import org.goblinframework.api.function.Block0
+import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.core.util.ClassUtils
 import org.goblinframework.core.util.RandomUtils
 import java.util.concurrent.atomic.AtomicReference
 
 @Singleton
 @GoblinManagedBean(type = "Core")
 class GoblinSystemManager private constructor() :
-    GoblinManagedObject(), Lifecycle, GoblinSystemManagerMXBean {
+    GoblinManagedObject(), GoblinSystemManagerMXBean {
 
   companion object {
     @JvmField val INSTANCE = GoblinSystemManager()
   }
 
   private val applicationId = RandomUtils.nextObjectId()
-  private val running = AtomicReference<GoblinSystemImpl>()
+  private val systemReference = AtomicReference<GoblinSystemImpl?>()
   internal val priorFinalizationTasks = mutableListOf<Block0>()
 
-  @Synchronized
-  override fun start() {
-    if (running.get() == null) {
-      val gs = GoblinSystemImpl(this)
-      running.set(gs)
-      gs.initialize()
-    }
-  }
-
-  override fun stop() {
-    running.getAndSet(null)?.dispose()
-    dispose()
-  }
-
-  override fun isRunning(): Boolean {
-    return running.get() != null
+  override fun initializeBean() {
+    ConfigManager.INSTANCE.initialize()
+    val system = GoblinSystemImpl(this)
+    system.initialize()
+    systemReference.set(system)
   }
 
   fun applicationId(): String {
@@ -44,14 +34,31 @@ class GoblinSystemManager private constructor() :
   }
 
   fun applicationName(): String {
-    return running.get()?.applicationName() ?: throw GoblinSystemException("GOBLIN system not started")
+    return ConfigManager.INSTANCE.getApplicationName()
   }
 
   fun runtimeMode(): RuntimeMode {
-    return running.get()?.runtimeMode() ?: throw GoblinSystemException("GOBLIN system not started")
+    return ConfigManager.INSTANCE.getRuntimeMode()
   }
 
   fun registerPriorFinalizationTask(action: Block0) {
     priorFinalizationTasks.add(action)
+  }
+
+  override fun disposeBean() {
+    systemReference.getAndSet(null)?.dispose()
+    ConfigManager.INSTANCE.dispose()
+
+    logger.info("FAREWELL")
+    shutdownLog4j2IfNecessary()
+  }
+
+  private fun shutdownLog4j2IfNecessary() {
+    try {
+      val clazz = ClassUtils.loadClass("org.apache.logging.log4j.LogManager")
+      val method = clazz.getMethod("shutdown")
+      method.invoke(null)
+    } catch (ignore: Exception) {
+    }
   }
 }
