@@ -12,12 +12,15 @@ import org.goblinframework.transport.client.handler.TransportClientConnectedHand
 import org.goblinframework.transport.client.setting.TransportClientSetting
 import java.util.*
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
+import kotlin.concurrent.write
 
 @ThreadSafe
 @GoblinManagedBean("RemoteClient")
 @GoblinManagedLogger("goblin.remote.client.transport")
 class RemoteTransportClient
-internal constructor(private val clientId: RemoteTransportClientId,
+internal constructor(private val clientManager: RemoteTransportClientManager,
+                     private val clientId: RemoteTransportClientId,
                      weight: Int)
   : GoblinManagedObject(), RemoteTransportClientMXBean {
 
@@ -42,7 +45,11 @@ internal constructor(private val clientId: RemoteTransportClientId,
           it.enableMessageFlight()
           it.transportClientConnectedHandler(object : TransportClientConnectedHandler {
             override fun handleTransportClientConnected(client: TransportClient) {
-              TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+              lock.read {
+                buffer.keys.forEach { c ->
+                  c.addConnection(this@RemoteTransportClient)
+                }
+              }
             }
           })
         }
@@ -55,11 +62,27 @@ internal constructor(private val clientId: RemoteTransportClientId,
   }
 
   fun retain(client: RemoteServiceClient) {
-    TODO()
+    lock.write {
+      if (buffer[client] != null) {
+        // specified client already retained, ignore
+        return
+      }
+      transportClient.retain()
+      if (transportClient.available()) {
+        client.addConnection(this)
+      }
+      buffer[client] = client
+    }
   }
 
   fun release(client: RemoteServiceClient) {
-    TODO()
+    lock.write {
+      buffer.remove(client)?.run {
+        if (transportClient.release()) {
+          clientManager.closeConnection(clientId)
+        }
+      }
+    }
   }
 
   override fun dispose() {

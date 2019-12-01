@@ -20,4 +20,8 @@ class RemoteTransportClientManager private constructor()
   fun openConnection(node: String): RemoteTransportClient {
     TODO()
   }
+
+  internal fun closeConnection(clientId: RemoteTransportClientId) {
+    TODO()
+  }
 }

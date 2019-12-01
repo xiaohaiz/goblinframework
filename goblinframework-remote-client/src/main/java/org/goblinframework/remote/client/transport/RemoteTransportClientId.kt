@@ -5,10 +5,4 @@ import org.goblinframework.api.annotation.HashSafe
 @HashSafe
 data class RemoteTransportClientId(val serverId: String,
                                    val serverHost: String,
-                                   val serverPort: Int) {
-
-  fun asText(): String {
-    return "$serverId/$serverHost/$serverPort"
-  }
-
-}
+                                   val serverPort: Int)
