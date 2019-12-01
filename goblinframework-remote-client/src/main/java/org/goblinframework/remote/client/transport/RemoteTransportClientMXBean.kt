@@ -1,4 +1,4 @@
-package org.goblinframework.remote.client.module.transport
+package org.goblinframework.remote.client.transport
 
 import java.lang.management.PlatformManagedObject
 

@@ -42,7 +42,11 @@ class TransportClient internal constructor(val setting: TransportClientSetting,
     when (state) {
       TransportClientState.CONNECTING -> return
       TransportClientState.CONNECTED -> return
-      TransportClientState.HANDSHAKED -> return
+      TransportClientState.HANDSHAKED -> {
+        val handlerSetting = setting.handlerSetting()
+        val connectedHandler = handlerSetting.transportClientConnectedHandler()
+        connectedHandler?.handleTransportClientConnected(this)
+      }
       TransportClientState.SHUTDOWN -> return
       TransportClientState.CONNECT_FAILED -> terminate()
       TransportClientState.HANDSHAKE_FAILED -> terminate()
