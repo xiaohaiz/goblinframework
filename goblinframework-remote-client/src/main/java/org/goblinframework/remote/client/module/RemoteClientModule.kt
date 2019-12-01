@@ -9,6 +9,7 @@ import org.goblinframework.remote.client.dispatcher.request.RemoteClientRequestD
 import org.goblinframework.remote.client.dispatcher.response.RemoteClientResponseDispatcher
 import org.goblinframework.remote.client.invocation.RemoteClientFilterManager
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager
+import org.goblinframework.remote.client.module.runtime.RemoteClientTranscoderManager
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformationManager
 import org.goblinframework.remote.client.service.RemoteServiceClientManager
 import org.goblinframework.remote.client.service.RemoteServiceClientWarmUpManager
@@ -24,6 +25,7 @@ class RemoteClientModule : ISubModule {
   override fun initialize(ctx: ModuleInitializeContext) {
     RemoteClientConfigManager.INSTANCE.initialize()
     RemoteServiceInformationManager.INSTANCE.initialize()
+    RemoteClientTranscoderManager.INSTANCE.initialize()
     RemoteClientResponseDispatcher.INSTANCE.initialize()
     RemoteClientFilterManager.INSTANCE.initialize()
     RemoteClientRequestDispatcher.INSTANCE.initialize()
@@ -39,6 +41,7 @@ class RemoteClientModule : ISubModule {
     RemoteClientRequestDispatcher.INSTANCE.dispose()
     RemoteClientFilterManager.INSTANCE.dispose()
     RemoteClientResponseDispatcher.INSTANCE.dispose()
+    RemoteClientTranscoderManager.INSTANCE.dispose()
     RemoteServiceInformationManager.INSTANCE.dispose()
     RemoteClientConfigManager.INSTANCE.dispose()
   }

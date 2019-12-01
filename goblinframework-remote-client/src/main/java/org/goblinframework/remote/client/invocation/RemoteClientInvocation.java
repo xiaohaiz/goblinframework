@@ -14,6 +14,7 @@ abstract public class RemoteClientInvocation {
   public int maxTimeout;
   public RemoteServiceClient client;
   public RIC instruction;
+  public byte[] encodedRequest;
 
   public void reset() {
     client = null;
