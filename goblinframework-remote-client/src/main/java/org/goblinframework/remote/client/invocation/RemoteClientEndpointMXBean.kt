@@ -1,0 +1,3 @@
+package org.goblinframework.remote.client.invocation
+
+interface RemoteClientEndpointMXBean : RemoteClientFilterMXBean

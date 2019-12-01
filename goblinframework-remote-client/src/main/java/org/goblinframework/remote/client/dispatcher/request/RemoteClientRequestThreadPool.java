@@ -4,6 +4,8 @@ import org.goblinframework.core.service.GoblinManagedBean;
 import org.goblinframework.core.service.GoblinManagedLogger;
 import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.core.util.NamedDaemonThreadFactory;
+import org.goblinframework.remote.client.invocation.RemoteClientFilterChain;
+import org.goblinframework.remote.client.invocation.RemoteClientFilterManager;
 import org.goblinframework.remote.client.invocation.RemoteClientInvocation;
 import org.goblinframework.remote.client.module.config.RemoteClientConfig;
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager;
@@ -50,7 +52,8 @@ public class RemoteClientRequestThreadPool extends GoblinManagedObject
     }
     executor.submit(() -> {
       try {
-        System.out.println("!");
+        RemoteClientFilterChain chain = RemoteClientFilterManager.INSTANCE.createFilterChain();
+        chain.filter(invocation);
       } finally {
         semaphore.release();
       }
