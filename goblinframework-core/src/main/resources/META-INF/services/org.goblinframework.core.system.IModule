@@ -1,3 +1,2 @@
-org.goblinframework.core.module.InitializationModule
 org.goblinframework.core.module.CoreModule
 org.goblinframework.core.module.SystemModule

@@ -6,6 +6,7 @@ import org.goblinframework.core.container.ContainerRefreshedEventListener
 import org.goblinframework.core.module.management.ConfigManagement
 import org.goblinframework.core.module.management.CoreManagement
 import org.goblinframework.core.module.management.EventManagement
+import org.goblinframework.core.reactor.CoreScheduler
 import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.core.system.GoblinModule
 import org.goblinframework.core.system.IModule
@@ -33,5 +34,6 @@ class CoreModule : IModule {
   override fun finalize(ctx: ModuleFinalizeContext) {
     CompressorManager.INSTANCE.dispose()
     SerializerManager.INSTANCE.dispose()
+    CoreScheduler.INSTANCE.dispose()
   }
 }
