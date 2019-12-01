@@ -102,7 +102,6 @@ internal constructor(private val serviceId: RemoteServiceId,
     router.addConnection(connection)
   }
 
-
   override fun disposeBean() {
     subscriptionManager?.unwatch(serviceId.serviceInterface)
     watcherReference.getAndSet(null)?.dispose()

@@ -25,8 +25,8 @@ class GoblinSystemManager private constructor() :
   override fun start() {
     if (running.get() == null) {
       val gs = GoblinSystemImpl(this)
-      gs.initialize()
       running.set(gs)
+      gs.initialize()
     }
   }
 

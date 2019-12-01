@@ -1,15 +1,15 @@
 package org.goblinframework.example.remote.client
 
-import org.goblinframework.bootstrap.core.StandaloneClient
+import org.goblinframework.bootstrap.core.StandaloneServer
 import org.goblinframework.core.container.GoblinSpringContainer
 import org.goblinframework.core.container.SpringContainer
 
 @GoblinSpringContainer("/config/goblinframework-example-remote-client.xml")
-class Client : StandaloneClient() {
+class Client : StandaloneServer() {
 
-  override fun doExecute(container: SpringContainer?) {
+  override fun doService(container: SpringContainer?) {
+
   }
-
 }
 
 fun main(args: Array<String>) {
