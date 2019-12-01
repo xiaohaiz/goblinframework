@@ -44,6 +44,10 @@ internal constructor(private val serviceId: RemoteServiceId,
     }
   }
 
+  fun future(): RemoteServiceClientFuture {
+    return future
+  }
+
   private fun onNodes(nodes: List<String>) {
     val firstTime = this.firstTime.compareAndSet(false, true)
     val recognized = nodes.filter {

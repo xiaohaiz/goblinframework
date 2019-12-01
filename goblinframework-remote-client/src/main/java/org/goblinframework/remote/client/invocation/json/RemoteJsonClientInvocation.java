@@ -6,6 +6,11 @@ import org.jetbrains.annotations.Nullable;
 public class RemoteJsonClientInvocation extends RemoteClientInvocation {
 
   @Override
+  public void initializeFuture() {
+
+  }
+
+  @Override
   public void complete(@Nullable Object result) {
 
   }

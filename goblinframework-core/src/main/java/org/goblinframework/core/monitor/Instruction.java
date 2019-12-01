@@ -60,7 +60,9 @@ public interface Instruction extends Lifecycle, AutoCloseable {
     VMC,
     MNG,
     MSQ,
-    ZKP
+    ZKP,
+    RIC,
+    RIS
   }
 
   enum Mode {

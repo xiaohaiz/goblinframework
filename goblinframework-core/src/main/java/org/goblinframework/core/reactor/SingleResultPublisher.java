@@ -9,7 +9,7 @@ import reactor.extra.processor.TopicProcessor;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-final public class SingleResultPublisher<T> implements Publisher<T> {
+public class SingleResultPublisher<T> implements Publisher<T> {
 
   private final AtomicReference<TopicProcessor<T>> topic = new AtomicReference<>();
   private final Flux<T> flux;
