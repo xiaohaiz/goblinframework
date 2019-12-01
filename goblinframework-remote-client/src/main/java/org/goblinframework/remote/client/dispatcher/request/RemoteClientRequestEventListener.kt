@@ -9,12 +9,18 @@ import org.goblinframework.core.service.GoblinManagedObject
 class RemoteClientRequestEventListener internal constructor()
   : GoblinManagedObject(), GoblinEventListener, RemoteClientRequestEventListenerMXBean {
 
+  private val threadPool = RemoteClientRequestThreadPool()
+
   override fun accept(context: GoblinEventContext): Boolean {
     return context.event is RemoteClientRequestEvent
   }
 
   override fun onEvent(context: GoblinEventContext) {
     val event = context.event as RemoteClientRequestEvent
-    val invocation = event.invocation
+    threadPool.onInvocation(event.invocation)
+  }
+
+  override fun disposeBean() {
+    threadPool.dispose()
   }
 }
