@@ -12,6 +12,14 @@ class RemoteClientConfig
 internal constructor(internal val mapper: RemoteClientConfigMapper)
   : GoblinManagedObject(), GoblinConfig, RemoteClientConfigMXBean {
 
+  override fun getWorkerThreads(): Int {
+    return mapper.workerThreads!!
+  }
+
+  override fun getSendHeartbeat(): Boolean {
+    return mapper.sendHeartbeat!!
+  }
+
   override fun getSerializer(): SerializerMode {
     return mapper.serializer!!
   }
@@ -24,4 +32,27 @@ internal constructor(internal val mapper: RemoteClientConfigMapper)
     return mapper.compressionThreshold!!
   }
 
+  override fun getMaxTimeout(): Int {
+    return mapper.maxTimeout!!
+  }
+
+  override fun getRequestBufferSize(): Int {
+    return mapper.requestBufferSize!!
+  }
+
+  override fun getRequestBufferWorker(): Int {
+    return mapper.requestBufferWorker!!
+  }
+
+  override fun getRequestConcurrent(): Int {
+    return mapper.requestConcurrent!!
+  }
+
+  override fun getResponseBufferSize(): Int {
+    return mapper.responseBufferSize!!
+  }
+
+  override fun getResponseBufferWorker(): Int {
+    return mapper.responseBufferWorker!!
+  }
 }

@@ -7,10 +7,26 @@ import java.lang.management.PlatformManagedObject
 
 interface RemoteClientConfigMXBean : PlatformManagedObject {
 
+  fun getWorkerThreads(): Int
+
+  fun getSendHeartbeat(): Boolean
+
   fun getSerializer(): SerializerMode
 
   fun getCompressor(): CompressorMode?
 
   fun getCompressionThreshold(): CompressionThreshold
+
+  fun getMaxTimeout(): Int
+
+  fun getRequestBufferSize(): Int
+
+  fun getRequestBufferWorker(): Int
+
+  fun getRequestConcurrent(): Int
+
+  fun getResponseBufferSize(): Int
+
+  fun getResponseBufferWorker(): Int
 
 }
