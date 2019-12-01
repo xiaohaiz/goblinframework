@@ -27,6 +27,18 @@ abstract public class ReflectionUtils extends org.springframework.util.Reflectio
     }
   }
 
+  public static boolean hasDefaultMethod(@NotNull Class<?> interfaceClass) {
+    if (!interfaceClass.isInterface()) {
+      throw new IllegalArgumentException("Interface class is required");
+    }
+    for (Method method : interfaceClass.getMethods()) {
+      if (method.isDefault()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public static Object invokeInterfaceDefaultMethod(@NotNull Object target, @NotNull Method method, @Nullable Object[] arguments) throws Throwable {
     if (!method.isDefault()) {
       throw new IllegalArgumentException("Default method is required");
