@@ -5,6 +5,7 @@ import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.service.ServiceInstaller
 import org.goblinframework.remote.client.invocation.endpoint.RemoteClientInvocationEndpoint
+import org.goblinframework.remote.client.invocation.filter.CreateFlightFilter
 import org.goblinframework.remote.client.invocation.filter.EncodeRequestFilter
 
 @Singleton
@@ -28,6 +29,7 @@ class RemoteClientFilterManager private constructor()
   fun createFilterChain(): RemoteClientFilterChain {
     val filters = mutableListOf<RemoteClientFilter>()
     filters.add(EncodeRequestFilter.INSTANCE)
+    filters.add(CreateFlightFilter.INSTANCE)
     filters.addAll(customized)
     filters.add(RemoteClientInvocationEndpoint.INSTANCE)
     return RemoteClientFilterChainImpl(filters)
@@ -36,6 +38,7 @@ class RemoteClientFilterManager private constructor()
   override fun disposeBean() {
     RemoteClientInvocationEndpoint.INSTANCE.dispose()
     customized.sortedByDescending { it.order }.forEach { it.dispose() }
+    CreateFlightFilter.INSTANCE.dispose()
     EncodeRequestFilter.INSTANCE.dispose()
   }
 

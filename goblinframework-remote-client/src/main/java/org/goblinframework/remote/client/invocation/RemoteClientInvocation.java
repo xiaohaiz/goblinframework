@@ -5,6 +5,7 @@ import org.goblinframework.remote.client.module.monitor.RIC;
 import org.goblinframework.remote.client.service.RemoteServiceClient;
 import org.goblinframework.remote.core.protocol.RemoteRequest;
 import org.goblinframework.remote.core.service.RemoteServiceId;
+import org.goblinframework.transport.client.flight.MessageFlight;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,6 +16,7 @@ abstract public class RemoteClientInvocation {
   public RemoteServiceClient client;
   public RIC instruction;
   public byte[] encodedRequest;
+  public MessageFlight flight;
 
   public void reset() {
     client = null;
