@@ -7,6 +7,7 @@ import org.goblinframework.core.concurrent.GoblinTimeoutException;
 import org.goblinframework.remote.client.module.exception.ClientInvocationException;
 import org.goblinframework.remote.client.module.monitor.RIC;
 import org.goblinframework.remote.core.module.exception.RemoteException;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.ExecutionException;
@@ -50,5 +51,10 @@ public class RemoteJavaClientInvokerFuture extends GoblinFutureImpl<Object> {
       instruction.complete();
     }
     return super.complete(result, cause);
+  }
+
+  @NotNull
+  public RemoteJavaClientInvokerPublisher asPublisher() {
+    return new RemoteJavaClientInvokerPublisher(this);
   }
 }

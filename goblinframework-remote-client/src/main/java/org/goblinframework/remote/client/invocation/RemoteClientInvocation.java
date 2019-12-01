@@ -1,5 +1,6 @@
 package org.goblinframework.remote.client.invocation;
 
+import org.goblinframework.api.core.SerializerMode;
 import org.goblinframework.remote.client.module.monitor.RIC;
 import org.goblinframework.remote.client.service.RemoteServiceClient;
 import org.goblinframework.remote.core.service.RemoteServiceId;
@@ -11,6 +12,23 @@ abstract public class RemoteClientInvocation {
   public int maxTimeout;
   public RemoteServiceClient client;
   public RIC instruction;
+
+  public void reset() {
+    client = null;
+    instruction = null;
+  }
+
+  abstract public SerializerMode encoder();
+
+  abstract public long timeout();
+
+  abstract public boolean asynchronous();
+
+  abstract public boolean noResponseWait();
+
+  abstract public boolean dispatchAll();
+
+  abstract public boolean ignoreNoProvider();
 
   abstract public void initializeFuture();
 
