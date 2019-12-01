@@ -5,6 +5,7 @@ import org.goblinframework.core.system.GoblinSubModule
 import org.goblinframework.core.system.ISubModule
 import org.goblinframework.core.system.ModuleFinalizeContext
 import org.goblinframework.core.system.ModuleInitializeContext
+import org.goblinframework.remote.client.dispatcher.request.RemoteClientRequestDispatcher
 import org.goblinframework.remote.client.dispatcher.response.RemoteClientResponseDispatcher
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformationManager
@@ -23,6 +24,7 @@ class RemoteClientModule : ISubModule {
     RemoteClientConfigManager.INSTANCE.initialize()
     RemoteServiceInformationManager.INSTANCE.initialize()
     RemoteClientResponseDispatcher.INSTANCE.initialize()
+    RemoteClientRequestDispatcher.INSTANCE.initialize()
     RemoteTransportClientManager.INSTANCE.initialize()
     RemoteServiceClientWarmUpManager.INSTANCE.initialize()
     RemoteServiceClientManager.INSTANCE.initialize()
@@ -32,6 +34,7 @@ class RemoteClientModule : ISubModule {
     RemoteServiceClientManager.INSTANCE.dispose()
     RemoteServiceClientWarmUpManager.INSTANCE.dispose()
     RemoteTransportClientManager.INSTANCE.dispose()
+    RemoteClientRequestDispatcher.INSTANCE.dispose()
     RemoteClientResponseDispatcher.INSTANCE.dispose()
     RemoteServiceInformationManager.INSTANCE.dispose()
     RemoteClientConfigManager.INSTANCE.dispose()
