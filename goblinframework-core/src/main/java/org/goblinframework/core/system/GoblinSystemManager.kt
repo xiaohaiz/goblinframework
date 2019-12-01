@@ -3,6 +3,9 @@ package org.goblinframework.core.system
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.function.Block0
 import org.goblinframework.core.config.ConfigManager
+import org.goblinframework.core.event.EventBusBoss
+import org.goblinframework.core.event.GoblinCallbackEventListener
+import org.goblinframework.core.event.TimerEventGenerator
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.ClassUtils
@@ -23,7 +26,18 @@ class GoblinSystemManager private constructor() :
   internal val priorFinalizationTasks = mutableListOf<Block0>()
 
   override fun initializeBean() {
+    // Load and initialize CONFIG module
     ConfigManager.INSTANCE.initialize()
+
+    // Load and initialize EVENT module
+    EventBusBoss.INSTANCE.initialize()
+    EventBusBoss.INSTANCE.register("/goblin/core", 32768, 0)
+    EventBusBoss.INSTANCE.register("/goblin/timer", 32768, 4)
+    EventBusBoss.INSTANCE.register("/goblin/monitor", 65536, 8)
+    EventBusBoss.INSTANCE.subscribe(GoblinCallbackEventListener.INSTANCE)
+    EventBusBoss.INSTANCE.subscribe(SubModuleEventListener.INSTANCE)
+    TimerEventGenerator.INSTANCE.install()
+
     val system = GoblinSystemImpl(this)
     system.initialize()
     systemReference.set(system)
@@ -47,6 +61,10 @@ class GoblinSystemManager private constructor() :
 
   override fun disposeBean() {
     systemReference.getAndSet(null)?.dispose()
+
+    TimerEventGenerator.INSTANCE.dispose()
+    EventBusBoss.INSTANCE.dispose()
+
     ConfigManager.INSTANCE.dispose()
 
     logger.info("FAREWELL")

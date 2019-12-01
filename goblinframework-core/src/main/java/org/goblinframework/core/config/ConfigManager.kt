@@ -142,8 +142,6 @@ class ConfigManager private constructor() : GoblinManagedObject(), ConfigManager
     this.config.set(config)
   }
 
-  fun install() {}
-
   override fun disposeBean() {
     configListenerPublisher.dispose()
     mappingLocationScanner.dispose()
