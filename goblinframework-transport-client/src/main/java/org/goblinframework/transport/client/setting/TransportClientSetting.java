@@ -21,6 +21,7 @@ public class TransportClientSetting {
   private final boolean receiveShutdown;
   private final boolean sendHeartbeat;
   private final ShutdownRequestHandler shutdownRequestHandler;
+  private final int weight;
   private final boolean debugMode;
   private final TransportClientHandlerSetting handlerSetting;
 
@@ -36,6 +37,7 @@ public class TransportClientSetting {
     this.receiveShutdown = builder.receiveShutdown;
     this.sendHeartbeat = builder.sendHeartbeat;
     this.shutdownRequestHandler = builder.shutdownRequestHandler;
+    this.weight = builder.weight;
     this.debugMode = builder.debugMode;
     this.handlerSetting = builder.handlerSettingBuilder.build();
   }
@@ -87,6 +89,10 @@ public class TransportClientSetting {
     return shutdownRequestHandler;
   }
 
+  public int weight() {
+    return weight;
+  }
+
   public boolean debugMode() {
     return debugMode;
   }
@@ -115,6 +121,7 @@ public class TransportClientSetting {
     private boolean sendHeartbeat = false;
     private ShutdownRequestHandler shutdownRequestHandler = DefaultShutdownRequestHandler.INSTANCE;
     private boolean debugMode = false;
+    private int weight;
     private final TransportClientHandlerSetting.TransportClientHandlerSettingBuilder handlerSettingBuilder = TransportClientHandlerSetting.builder();
 
     public TransportClientSettingBuilder name(String name) {
@@ -165,14 +172,32 @@ public class TransportClientSetting {
     }
 
     @NotNull
+    public TransportClientSettingBuilder receiveShutdown(boolean receiveShutdown) {
+      this.receiveShutdown = receiveShutdown;
+      return this;
+    }
+
+    @NotNull
     public TransportClientSettingBuilder enableSendHeartbeat() {
       this.sendHeartbeat = true;
       return this;
     }
 
     @NotNull
+    public TransportClientSettingBuilder sendHeartbeat(boolean sendHeartbeat) {
+      this.sendHeartbeat = sendHeartbeat;
+      return this;
+    }
+
+    @NotNull
     public TransportClientSettingBuilder shutdownRequestHandler(ShutdownRequestHandler shutdownRequestHandler) {
       this.shutdownRequestHandler = shutdownRequestHandler;
+      return this;
+    }
+
+    @NotNull
+    public TransportClientSettingBuilder weight(int weight) {
+      this.weight = weight;
       return this;
     }
 

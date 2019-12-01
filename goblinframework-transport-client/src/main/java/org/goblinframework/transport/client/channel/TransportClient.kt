@@ -64,6 +64,10 @@ class TransportClient internal constructor(val setting: TransportClientSetting,
     }
   }
 
+  override fun getWeight(): Int {
+    return setting.weight()
+  }
+
   override fun disposeBean() {
     clientRef.get().close()
   }

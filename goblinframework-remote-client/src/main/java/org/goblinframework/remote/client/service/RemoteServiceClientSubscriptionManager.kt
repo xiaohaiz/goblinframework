@@ -20,7 +20,7 @@ import kotlin.concurrent.withLock
 @GoblinManagedBean("RemoteClient")
 @GoblinManagedLogger("goblin.remote.client.service")
 class RemoteServiceClientSubscriptionManager
-internal constructor(registry: RemoteRegistry)
+internal constructor(val registry: RemoteRegistry)
   : GoblinManagedObject(), RemoteServiceClientSubscriptionManagerMXBean {
 
   private val path: String
@@ -36,6 +36,7 @@ internal constructor(registry: RemoteRegistry)
     node.clientPid = SystemUtils.getJvmPID()
     path = node.toPath()
     keeper = registry.createKeeper().scheduler(1, TimeUnit.MINUTES)
+    keeper.initialize()
   }
 
   internal fun watch(serviceInterface: String) {
