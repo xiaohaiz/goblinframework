@@ -21,6 +21,7 @@ abstract public class RemoteClientInvocation {
   public byte[] encodedRequest;
   public MessageFlight flight;
   public List<TransportClient> routes;
+  public Throwable transportError;
 
   public void reset() {
     client = null;
