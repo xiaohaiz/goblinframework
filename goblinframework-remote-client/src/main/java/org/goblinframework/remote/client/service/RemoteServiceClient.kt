@@ -10,6 +10,7 @@ import org.goblinframework.registry.zookeeper.ZookeeperRegistryPathWatcher
 import org.goblinframework.remote.client.transport.RemoteTransportClient
 import org.goblinframework.remote.client.transport.RemoteTransportClientManager
 import org.goblinframework.remote.core.service.RemoteServiceId
+import org.goblinframework.transport.client.channel.TransportClient
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
@@ -104,6 +105,14 @@ internal constructor(private val serviceId: RemoteServiceId,
 
   fun addConnection(connection: RemoteTransportClient) {
     router.addConnection(connection)
+  }
+
+  fun selectTransportClient(): TransportClient? {
+    return router.selectRemoteTransportClient()?.transportClient()
+  }
+
+  fun selectTransportClients(): List<TransportClient> {
+    return router.selectRemoteTransportClients().map { it.transportClient() }.toList()
   }
 
   override fun disposeBean() {

@@ -33,7 +33,7 @@ internal constructor(private val clientManager: RemoteTransportClientManager,
   init {
     val clientConfig = RemoteClientConfigManager.INSTANCE.getRemoteClientConfig()
     val setting = TransportClientSetting.builder()
-        .name(clientId.serverId)
+        .name(clientId.asText())
         .serverId(clientId.serverId)
         .serverHost(clientId.serverHost)
         .serverPort(clientId.serverPort)

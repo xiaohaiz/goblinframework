@@ -7,7 +7,7 @@ import org.goblinframework.core.service.ServiceInstaller
 import org.goblinframework.remote.client.invocation.endpoint.RemoteClientInvocationEndpoint
 import org.goblinframework.remote.client.invocation.filter.CreateFlightFilter
 import org.goblinframework.remote.client.invocation.filter.EncodeRequestFilter
-import org.goblinframework.remote.client.invocation.filter.SelectRouterFilter
+import org.goblinframework.remote.client.invocation.filter.SelectRouteFilter
 
 @Singleton
 @GoblinManagedBean("RemoveClient")
@@ -31,7 +31,7 @@ class RemoteClientFilterManager private constructor()
     val filters = mutableListOf<RemoteClientFilter>()
     filters.add(EncodeRequestFilter.INSTANCE)
     filters.add(CreateFlightFilter.INSTANCE)
-    filters.add(SelectRouterFilter.INSTANCE)
+    filters.add(SelectRouteFilter.INSTANCE)
     filters.addAll(customized)
     filters.add(RemoteClientInvocationEndpoint.INSTANCE)
     return RemoteClientFilterChainImpl(filters)
@@ -40,7 +40,7 @@ class RemoteClientFilterManager private constructor()
   override fun disposeBean() {
     RemoteClientInvocationEndpoint.INSTANCE.dispose()
     customized.sortedByDescending { it.order }.forEach { it.dispose() }
-    SelectRouterFilter.INSTANCE.dispose()
+    SelectRouteFilter.INSTANCE.dispose()
     CreateFlightFilter.INSTANCE.dispose()
     EncodeRequestFilter.INSTANCE.dispose()
   }
