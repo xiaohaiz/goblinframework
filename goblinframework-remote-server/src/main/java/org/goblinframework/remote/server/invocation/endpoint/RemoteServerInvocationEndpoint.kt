@@ -5,7 +5,6 @@ import org.goblinframework.api.concurrent.GoblinFuture
 import org.goblinframework.api.function.ValueWrapper
 import org.goblinframework.api.reactor.GoblinPublisher
 import org.goblinframework.core.mapper.JsonMapper
-import org.goblinframework.core.reactor.BlockingMonoSubscriber
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedLogger
 import org.goblinframework.core.service.GoblinManagedObject
@@ -42,13 +41,7 @@ class RemoteServerInvocationEndpoint private constructor()
           result.get()
         }
       } else if (result is GoblinPublisher<*>) {
-        result = if (result is ValueWrapper<*>) {
-          (result as ValueWrapper<*>).value
-        } else {
-          val subscriber = BlockingMonoSubscriber<Any?>()
-          result.subscribe(subscriber)
-          subscriber.block()
-        }
+        result = result.block()
       }
       // 如果請求是jsonMode那麽就把結果轉換成json字符串
       if (invocation.request.jsonMode) {

@@ -36,4 +36,9 @@ public class GoblinValueWrapperPublisher<T> implements GoblinPublisher<T>, Seria
     publisher.subscribe(s);
   }
 
+  @Nullable
+  @Override
+  public T block() {
+    return value;
+  }
 }
