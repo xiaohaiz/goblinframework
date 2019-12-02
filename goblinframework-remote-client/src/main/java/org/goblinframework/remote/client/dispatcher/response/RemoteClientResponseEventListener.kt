@@ -13,6 +13,7 @@ class RemoteClientResponseEventListener internal constructor()
   : GoblinManagedObject(), GoblinEventListener, RemoteClientResponseEventListenerMXBean {
 
   private val responseDecoder = RemoteClientResponseDecoder()
+  private val responseTranslator = RemoteClientResponseTranslator()
 
   override fun accept(context: GoblinEventContext): Boolean {
     return context.event is RemoteClientResponseEvent
@@ -33,9 +34,16 @@ class RemoteClientResponseEventListener internal constructor()
       invocation.complete(null, ClientDecodeResponseException(this))
       return
     }
+    val response = decoded.response
+    responseTranslator.translate(invocation, response)?.run {
+      invocation.complete(null, this)
+      return
+    }
+    invocation.complete(response.result)
   }
 
   override fun disposeBean() {
     responseDecoder.dispose()
+    responseTranslator.dispose()
   }
 }
