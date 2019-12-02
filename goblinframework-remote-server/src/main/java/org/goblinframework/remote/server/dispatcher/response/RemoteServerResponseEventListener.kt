@@ -31,7 +31,7 @@ class RemoteServerResponseEventListener internal constructor()
           invocation.asText(), encoded.error)
       invocation.response.resetResult()
       invocation.response.resetError()
-      invocation.response.writeCode(RemoteResponseCode.SERVER_MARSHAL_RESPONSE_ERROR)
+      invocation.response.writeCode(RemoteResponseCode.SERVER_ENCODE_RESPONSE_ERROR)
       invocation.response.writeError(encoded.error)
       // Encode again, exception shouldn't raise this time
       encoded = responseEncoder.encode(invocation)

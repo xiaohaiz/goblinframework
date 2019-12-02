@@ -1,6 +1,7 @@
 package org.goblinframework.remote.client.invocation.java;
 
 import org.goblinframework.api.core.SerializerMode;
+import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.remote.client.invocation.RemoteClientInvocation;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceMethodInformation;
 import org.goblinframework.remote.core.protocol.RemoteRequest;
@@ -89,5 +90,10 @@ public class RemoteJavaClientInvocation extends RemoteClientInvocation {
     request.timeout = timeout();
     request.jsonMode = false;
     return request;
+  }
+
+  @Override
+  public String asMethodText() {
+    return StringUtils.getMethodText(method);
   }
 }

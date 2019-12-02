@@ -29,7 +29,7 @@ class RemoteServerRequestEventListener internal constructor()
       logger.error("{SERVER_UNMARSHAL_REQUEST_ERROR} " +
           "Exception raised when decoding request [client={}]",
           invocation.context.asClientText(), this)
-      invocation.writeError(RemoteResponseCode.SERVER_UNMARSHAL_REQUEST_ERROR, this)
+      invocation.writeError(RemoteResponseCode.SERVER_DECODE_REQUEST_ERROR, this)
       RemoteServerResponseDispatcher.INSTANCE.onResponse(invocation)
       return
     }

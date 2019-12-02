@@ -8,6 +8,10 @@ import org.jetbrains.annotations.Nullable;
 
 public class RemoteJsonClientInvocation extends RemoteClientInvocation {
 
+  public String methodName;
+  public String[] parameterTypes;
+  public String returnType;
+
   @Override
   public SerializerMode encoder() {
     return null;
@@ -57,5 +61,24 @@ public class RemoteJsonClientInvocation extends RemoteClientInvocation {
   @Override
   public RemoteRequest createRequest() {
     throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public String asMethodText() {
+    StringBuilder sbuf = new StringBuilder();
+    if (parameterTypes != null && parameterTypes.length > 0) {
+      for (String parameterType : parameterTypes) {
+        sbuf.append(parameterType);
+        sbuf.append(",");
+      }
+    }
+    if (sbuf.length() > 0) {
+      sbuf.setLength(sbuf.length() - 1);
+    }
+    String text = methodName + "(" + sbuf.toString() + ")";
+    if (returnType != null) {
+      text = returnType + " " + text;
+    }
+    return text;
   }
 }

@@ -48,4 +48,6 @@ abstract public class RemoteClientInvocation {
 
   @NotNull
   abstract public RemoteRequest createRequest();
+
+  abstract public String asMethodText();
 }

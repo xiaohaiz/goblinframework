@@ -10,6 +10,7 @@ import io.netty.handler.logging.LoggingHandler
 import org.apache.commons.collections4.map.LRUMap
 import org.goblinframework.core.system.GoblinSystem
 import org.goblinframework.core.util.RandomUtils
+import org.goblinframework.core.util.StringUtils
 import org.goblinframework.transport.client.handler.TransportResponseContext
 import org.goblinframework.transport.client.module.TransportClientModule
 import org.goblinframework.transport.core.codec.TransportMessage
@@ -19,7 +20,6 @@ import org.goblinframework.transport.core.protocol.*
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicReference
 
 class TransportClientImpl
@@ -157,7 +157,12 @@ internal constructor(private val client: TransportClient) {
         val handler = client.setting.handlerSetting().transportResponseHandler()
         val ctx = TransportResponseContext()
         ctx.response = message
-        ctx.extensions = ConcurrentHashMap()
+        if (ctx.response.extensions == null) {
+          ctx.response.extensions = linkedMapOf()
+        }
+        ctx.response.extensions["SERVER_ID"] = StringUtils.defaultString(client.setting.serverId())
+        ctx.response.extensions["SERVER_HOST"] = client.setting.serverHost()
+        ctx.response.extensions["SERVER_PORT"] = client.setting.serverPort().toString()
         handler.handleTransportResponse(ctx)
         return
       }
