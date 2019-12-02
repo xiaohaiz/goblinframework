@@ -6,4 +6,6 @@ interface RemoteTransportClientMXBean : PlatformManagedObject {
 
   fun getId(): String
 
+  fun getWeight(): Int
+
 }

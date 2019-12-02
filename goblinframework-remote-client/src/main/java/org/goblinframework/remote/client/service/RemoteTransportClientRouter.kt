@@ -61,7 +61,7 @@ class RemoteTransportClientRouter internal constructor()
       buffer[id]?.run {
         this.restore()
         if (logger.isDebugEnabled) {
-          logger.debug("{} weight restored to {}", connection, connection.transportClient().getWeight())
+          logger.debug("{} weight restored to {}", connection, connection.getWeight())
         }
         val size = calculateRouterTable()
         if (logger.isDebugEnabled) {
@@ -137,11 +137,11 @@ class RemoteTransportClientRouter internal constructor()
     }
 
     fun requireWarmUp(): Boolean {
-      return connection.transportClient().getWeight() > 1
+      return connection.getWeight() > 1
     }
 
     fun restore() {
-      weight.set(connection.transportClient().getWeight())
+      weight.set(connection.getWeight())
     }
   }
 

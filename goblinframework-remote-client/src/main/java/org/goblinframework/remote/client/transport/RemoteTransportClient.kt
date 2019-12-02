@@ -22,7 +22,7 @@ import kotlin.concurrent.write
 class RemoteTransportClient
 internal constructor(private val clientManager: RemoteTransportClientManager,
                      private val clientId: RemoteTransportClientId,
-                     weight: Int)
+                     private val weight: Int)
   : GoblinManagedObject(), RemoteTransportClientMXBean {
 
   private val id = RandomUtils.nextObjectId()
@@ -42,7 +42,6 @@ internal constructor(private val clientManager: RemoteTransportClientManager,
         .autoReconnect(true)
         .sendHeartbeat(clientConfig.getSendHeartbeat())
         .receiveShutdown(false)
-        .weight(weight)
         .applyHandlerSetting {
           it.enableMessageFlight()
           it.transportClientConnectedHandler(object : TransportClientConnectedHandler {
@@ -89,6 +88,10 @@ internal constructor(private val clientManager: RemoteTransportClientManager,
 
   override fun getId(): String {
     return id
+  }
+
+  override fun getWeight(): Int {
+    return weight
   }
 
   override fun dispose() {

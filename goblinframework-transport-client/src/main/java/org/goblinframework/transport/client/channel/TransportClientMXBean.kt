@@ -12,6 +12,4 @@ interface TransportClientMXBean : PlatformManagedObject {
 
   fun getServerPort(): Int
 
-  fun getWeight(): Int
-
 }

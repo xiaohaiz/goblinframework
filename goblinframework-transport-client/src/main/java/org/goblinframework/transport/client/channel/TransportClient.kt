@@ -105,10 +105,6 @@ class TransportClient internal constructor(val setting: TransportClientSetting,
     return setting.serverPort()
   }
 
-  override fun getWeight(): Int {
-    return setting.weight()
-  }
-
   override fun disposeBean() {
     val watch = StopWatch()
     while (count() > 0) {
