@@ -1,7 +1,6 @@
 package org.goblinframework.core.system
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.function.Block0
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.event.EventBusBoss
 import org.goblinframework.core.event.GoblinCallbackEventListener
@@ -23,7 +22,6 @@ class GoblinSystemManager private constructor() :
 
   private val applicationId = RandomUtils.nextObjectId()
   private val systemReference = AtomicReference<GoblinSystemImpl?>()
-  internal val priorFinalizationTasks = mutableListOf<Block0>()
 
   override fun initializeBean() {
     // Load and initialize CONFIG module
@@ -53,10 +51,6 @@ class GoblinSystemManager private constructor() :
 
   fun runtimeMode(): RuntimeMode {
     return ConfigManager.INSTANCE.getRuntimeMode()
-  }
-
-  fun registerPriorFinalizationTask(action: Block0) {
-    priorFinalizationTasks.add(action)
   }
 
   override fun disposeBean() {

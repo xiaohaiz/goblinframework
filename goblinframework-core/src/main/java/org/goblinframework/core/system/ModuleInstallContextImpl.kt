@@ -19,8 +19,7 @@ class ModuleInstallContextImpl private constructor() : ModuleContextImpl(), Modu
   }
 
   override fun registerPriorFinalizationTask(action: Block0) {
-    val gsm = GoblinSystemManager.INSTANCE
-    gsm.registerPriorFinalizationTask(action)
+    PriorFinalizationTaskManager.INSTANCE.register(action)
   }
 
   override fun registerEventChannel(channel: String, ringBufferSize: Int, workerHandlers: Int) {

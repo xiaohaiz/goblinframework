@@ -2,10 +2,8 @@ package org.goblinframework.core.system
 
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.container.SpringContainerManager
-import org.goblinframework.core.module.SystemModule
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.slf4j.LoggerFactory
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
@@ -51,14 +49,8 @@ internal constructor(private val systemManager: GoblinSystemManager)
   override fun disposeBean() {
     logger.info("Shutdown GOBLIN system")
 
-    systemManager.priorFinalizationTasks.forEach {
-      try {
-        it.apply()
-      } catch (ex: Exception) {
-        val logger = LoggerFactory.getLogger(SystemModule::class.java)
-        logger.error("Exception raised when executing PriorFinalizationTask: $it")
-      }
-    }
+    // Execute prior finalization tasks
+    PriorFinalizationTaskManager.INSTANCE.dispose()
 
     // Close spring container
     SpringContainerManager.INSTANCE.dispose()
