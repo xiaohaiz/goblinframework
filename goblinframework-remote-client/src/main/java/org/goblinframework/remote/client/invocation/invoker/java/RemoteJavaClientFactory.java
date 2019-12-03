@@ -1,13 +1,16 @@
 package org.goblinframework.remote.client.invocation.invoker.java;
 
 import org.goblinframework.api.annotation.ThreadSafe;
+import org.goblinframework.api.remote.ImportService;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformation;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformationManager;
 import org.goblinframework.remote.core.service.RemoteServiceId;
+import org.goblinframework.remote.core.util.ServiceVersionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +25,24 @@ final public class RemoteJavaClientFactory {
   @NotNull
   public static <E> E createJavaClient(@NotNull Class<E> interfaceClass) {
     return createJavaClient(interfaceClass, null);
+  }
+
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static <E> E createJavaClient(@NotNull Field field) {
+    ImportService importService = field.getAnnotation(ImportService.class);
+    if (importService == null || !importService.enable()) {
+      throw new IllegalArgumentException("No @ImportService presented on field: " + field);
+    }
+    Class<?> interfaceClass = importService.interfaceClass();
+    if (!interfaceClass.isInterface()) {
+      throw new IllegalArgumentException("Interface class is required");
+    }
+    if (!field.getType().isAssignableFrom(interfaceClass)) {
+      throw new IllegalArgumentException("Field [" + field.getType().getName() + "] is not [" + interfaceClass.getName() + "]");
+    }
+    String version = ServiceVersionUtils.calculateServerVersion(field);
+    return (E) createJavaClient(interfaceClass, version);
   }
 
   @SuppressWarnings("unchecked")

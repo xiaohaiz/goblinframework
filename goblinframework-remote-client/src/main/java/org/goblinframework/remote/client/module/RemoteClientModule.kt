@@ -1,14 +1,12 @@
 package org.goblinframework.remote.client.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.core.system.GoblinSubModule
-import org.goblinframework.core.system.ISubModule
-import org.goblinframework.core.system.ModuleFinalizeContext
-import org.goblinframework.core.system.ModuleInitializeContext
+import org.goblinframework.core.system.*
 import org.goblinframework.remote.client.dispatcher.request.RemoteClientRequestDispatcher
 import org.goblinframework.remote.client.dispatcher.response.RemoteClientResponseDispatcher
 import org.goblinframework.remote.client.invocation.RemoteClientFilterManager
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager
+import org.goblinframework.remote.client.module.container.InjectRemoteService
 import org.goblinframework.remote.client.module.runtime.RemoteClientTranscoderManager
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformationManager
 import org.goblinframework.remote.client.service.RemoteServiceClientManager
@@ -20,6 +18,10 @@ class RemoteClientModule : ISubModule {
 
   override fun id(): GoblinSubModule {
     return GoblinSubModule.REMOTE_CLIENT
+  }
+
+  override fun install(ctx: ModuleInstallContext) {
+    ctx.registerContainerBeanPostProcessor(InjectRemoteService.INSTANCE)
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {

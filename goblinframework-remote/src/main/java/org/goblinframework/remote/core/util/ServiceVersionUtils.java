@@ -1,12 +1,26 @@
 package org.goblinframework.remote.core.util;
 
 import org.goblinframework.api.remote.ExposeService;
+import org.goblinframework.api.remote.ImportService;
 import org.goblinframework.api.remote.ServiceVersion;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Field;
+
 final public class ServiceVersionUtils {
+
+  @Nullable
+  public static String calculateServerVersion(@NotNull Field field) {
+    ServiceVersion serviceVersion = field.getAnnotation(ServiceVersion.class);
+    String version = calculateServerVersion(serviceVersion);
+    if (version != null) {
+      return version;
+    }
+    ImportService importService = field.getAnnotation(ImportService.class);
+    return calculateServerVersion(importService);
+  }
 
   @NotNull
   public static String calculateServerVersion(@NotNull Class<?> interfaceClass) {
@@ -25,6 +39,14 @@ final public class ServiceVersionUtils {
       return version;
     }
     return calculateServerVersion(annotation.interfaceClass());
+  }
+
+  @Nullable
+  public static String calculateServerVersion(@Nullable ImportService annotation) {
+    if (annotation == null || !annotation.enable()) {
+      return null;
+    }
+    return calculateServerVersion(annotation.version());
   }
 
   @Nullable
