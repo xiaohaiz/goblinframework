@@ -4,6 +4,7 @@ import org.goblinframework.api.core.ReferenceCount
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.GoblinReferenceCount
+import org.goblinframework.core.util.MapUtils
 import org.goblinframework.core.util.StopWatch
 import org.goblinframework.core.util.ThreadUtils
 import org.goblinframework.transport.client.setting.TransportClientSetting
@@ -15,12 +16,13 @@ class TransportClient internal constructor(val setting: TransportClientSetting,
                                            val clientManager: TransportClientManager)
   : GoblinManagedObject(), ReferenceCount, TransportClientMXBean {
 
-  private val clientReference = AtomicReference<TransportClientImpl>()
+  private val clientReference: AtomicReference<TransportClientImpl>
   private val referenceCount = GoblinReferenceCount()
   private val reconnectTimes = LongAdder()
 
   init {
-    clientReference.set(TransportClientImpl(this))
+    val impl = TransportClientImpl(this)
+    clientReference = AtomicReference(impl)
   }
 
   fun available(): Boolean {
@@ -94,7 +96,8 @@ class TransportClient internal constructor(val setting: TransportClientSetting,
   }
 
   override fun getServerName(): String? {
-    return null
+    val extensions = clientReference.get().handshakeResponseReference.get()?.extensions
+    return MapUtils.getString(extensions, "serverName")
   }
 
   override fun getServerHost(): String {

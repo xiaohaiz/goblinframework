@@ -22,16 +22,16 @@ import java.net.InetSocketAddress
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 
-class TransportClientImpl
-internal constructor(private val client: TransportClient) {
+class TransportClientImpl internal constructor(private val client: TransportClient) {
 
   companion object {
     private val logger = LoggerFactory.getLogger(TransportClientImpl::class.java)
   }
 
+  internal val handshakeResponseReference = AtomicReference<HandshakeResponse?>()
   private val heartbeatInProgress = Collections.synchronizedMap(LRUMap<String, HeartbeatRequest>(32))
-  private val stateChannelRef = AtomicReference<TransportClientChannel>(TransportClientChannel.CONNECTING)
-  private val channelRef = AtomicReference<Channel>()
+  private val stateChannelReference = AtomicReference<TransportClientChannel>(TransportClientChannel.CONNECTING)
+  private val channelReference = AtomicReference<Channel?>()
   private val worker: NioEventLoopGroup
 
   internal val connectFuture = TransportClientConnectFuture()
@@ -69,7 +69,7 @@ internal constructor(private val client: TransportClient) {
           return
         }
         val channel = future.channel()
-        channelRef.set(channel)
+        channelReference.set(channel)
         updateStateChannel(TransportClientChannel(TransportClientState.CONNECTED, this@TransportClientImpl))
 
         val request = HandshakeRequest()
@@ -87,11 +87,11 @@ internal constructor(private val client: TransportClient) {
 
   @Synchronized
   fun updateStateChannel(sc: TransportClientChannel) {
-    val previous = stateChannelRef.get().state
+    val previous = stateChannelReference.get().state
     if (previous === TransportClientState.SHUTDOWN) {
       return
     }
-    stateChannelRef.set(sc)
+    stateChannelReference.set(sc)
     if (logger.isDebugEnabled) {
       logger.debug("{} state changed: {} -> {}", this, previous, sc.state)
     }
@@ -99,11 +99,11 @@ internal constructor(private val client: TransportClient) {
   }
 
   fun available(): Boolean {
-    return stateChannelRef.get().available()
+    return stateChannelReference.get().available()
   }
 
   fun stateChannel(): TransportClientChannel {
-    return stateChannelRef.get()
+    return stateChannelReference.get()
   }
 
   fun sendHeartbeat() {
@@ -131,6 +131,7 @@ internal constructor(private val client: TransportClient) {
     when (val message = msg.message) {
       is HandshakeResponse -> {
         if (message.success) {
+          handshakeResponseReference.set(message)
           updateStateChannel(TransportClientChannel(TransportClientState.HANDSHAKED, this))
         } else {
           updateStateChannel(TransportClientChannel.HANDSHAKE_FAILED)
@@ -171,7 +172,7 @@ internal constructor(private val client: TransportClient) {
   }
 
   fun writeTransportMessage(msg: TransportMessage) {
-    channelRef.get()?.writeAndFlush(msg)
+    channelReference.get()?.writeAndFlush(msg)
   }
 
   internal fun close() {
