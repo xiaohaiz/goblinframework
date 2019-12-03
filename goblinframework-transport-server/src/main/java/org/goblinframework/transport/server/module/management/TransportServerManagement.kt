@@ -1,5 +1,6 @@
 package org.goblinframework.transport.server.module.management
 
+import org.goblinframework.transport.server.channel.TransportServerManager
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -12,6 +13,7 @@ class TransportServerManagement private constructor() {
 
   @RequestMapping("index.do")
   fun index(model: Model): String {
+    model.addAttribute("transportServerManager", TransportServerManager.INSTANCE)
     return "goblin/transport/server/index"
   }
 }

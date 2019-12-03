@@ -12,6 +12,12 @@ class TransportServerModule : ISubModule {
     return GoblinSubModule.TRANSPORT_SERVER
   }
 
+  override fun managementEntrance(): String? {
+    return if (TransportServerManager.INSTANCE.getTransportServerList().isNotEmpty()) {
+      "/goblin/transport/server/index.do"
+    } else null
+  }
+
   override fun install(ctx: ModuleInstallContext) {
     ctx.registerManagementController(TransportServerManagement.INSTANCE)
   }
