@@ -48,7 +48,7 @@ class RemoteServiceManager private constructor()
 
   override fun initializeBean() {
     RemoteTransportServerManager.INSTANCE.getRemoteTransportServer()?.run {
-      val port = this.getTransportServer().getPort()
+      val port = this.getTransportServer().getPort()!!
       val host = this.getTransportServer().getHost()!!
       if (host == NetworkUtils.ALL_HOST) {
         NetworkUtils.getLocalAddresses().forEach { addresses.add(HostAndPort(it, port)) }

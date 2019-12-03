@@ -12,7 +12,7 @@ import kotlin.concurrent.write
 
 @Singleton
 @ThreadSafe
-@GoblinManagedBean(type = "transport.server")
+@GoblinManagedBean("TransportServer")
 class TransportServerManager private constructor() : GoblinManagedObject(), TransportServerManagerMXBean {
 
   companion object {

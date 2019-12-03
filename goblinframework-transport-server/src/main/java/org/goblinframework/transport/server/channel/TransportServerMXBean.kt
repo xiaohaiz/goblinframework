@@ -4,7 +4,7 @@ import java.lang.management.PlatformManagedObject
 
 interface TransportServerMXBean : PlatformManagedObject {
 
-  fun getUpTime(): String
+  fun getUpTime(): String?
 
   fun getName(): String
 
@@ -12,5 +12,5 @@ interface TransportServerMXBean : PlatformManagedObject {
 
   fun getHost(): String?
 
-  fun getPort(): Int
+  fun getPort(): Int?
 }
