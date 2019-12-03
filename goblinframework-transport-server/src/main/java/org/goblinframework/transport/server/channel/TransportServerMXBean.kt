@@ -13,4 +13,6 @@ interface TransportServerMXBean : PlatformManagedObject {
   fun getHost(): String?
 
   fun getPort(): Int?
+
+  fun getTransportServerChannelManager(): TransportServerChannelManagerMXBean?
 }

@@ -17,20 +17,18 @@ class TransportServer internal constructor(private val setting: TransportServerS
   @Synchronized
   override fun start() {
     if (serverReference.get() == null) {
-      serverReference.set(TransportServerImpl(setting))
+      val server = TransportServerImpl(setting)
+      serverReference.set(server)
+      logger.debug("Transport server [{}] started at [{}:{}]", setting.name(), server.host, server.port)
     }
   }
 
   override fun stop() {
-    serverReference.getAndSet(null)?.close()
+    serverReference.getAndSet(null)?.dispose()
   }
 
   override fun isRunning(): Boolean {
     return serverReference.get() != null
-  }
-
-  override fun disposeBean() {
-    stop()
   }
 
   override fun getUpTime(): String? {
@@ -51,5 +49,14 @@ class TransportServer internal constructor(private val setting: TransportServerS
 
   override fun getPort(): Int? {
     return serverReference.get()?.port
+  }
+
+  override fun getTransportServerChannelManager(): TransportServerChannelManagerMXBean? {
+    return serverReference.get()?.channelManager
+  }
+
+  override fun disposeBean() {
+    stop()
+    logger.debug("Transport server [{}] disposed", setting.name())
   }
 }
