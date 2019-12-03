@@ -1,5 +1,6 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.listener
 
+import org.goblinframework.core.event.monitor.GoblinEventCountMXBean
 import java.lang.management.PlatformManagedObject
 
 interface GoblinEventListenerMXBean : PlatformManagedObject {

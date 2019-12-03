@@ -1,5 +1,6 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.monitor
 
+import org.goblinframework.core.event.GoblinEvent
 import org.goblinframework.core.service.GoblinManagedObject
 import java.util.concurrent.atomic.LongAdder
 

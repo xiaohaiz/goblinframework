@@ -1,4 +1,4 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.monitor
 
 import java.lang.management.PlatformManagedObject
 
