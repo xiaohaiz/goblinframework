@@ -4,8 +4,6 @@ import org.goblinframework.api.function.Ordered
 import org.goblinframework.core.event.GoblinEvent
 import org.goblinframework.core.event.GoblinEventContext
 import org.goblinframework.core.event.GoblinEventListener
-import org.goblinframework.core.event.monitor.GoblinEventCount
-import org.goblinframework.core.event.monitor.GoblinEventCountMXBean
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.ObjectUtils
@@ -110,5 +108,9 @@ internal constructor(private val delegator: GoblinEventListener)
 
   override fun getEventCountList(): Array<GoblinEventCountMXBean> {
     return lock.read { counts.values.sortedByDescending { it.getAcceptedCount() }.toTypedArray() }
+  }
+
+  override fun toString(): String {
+    return "GoblinEventListener:$delegator"
   }
 }

@@ -1,4 +1,4 @@
-package org.goblinframework.core.event.monitor
+package org.goblinframework.core.event.listener
 
 import org.goblinframework.core.event.GoblinEvent
 import org.goblinframework.core.service.GoblinManagedObject

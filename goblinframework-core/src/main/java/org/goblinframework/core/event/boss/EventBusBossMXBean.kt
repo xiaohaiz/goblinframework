@@ -1,5 +1,6 @@
 package org.goblinframework.core.event.boss
 
+import org.goblinframework.core.event.timer.TimerEventGeneratorMXBean
 import org.goblinframework.core.event.worker.EventBusWorkerMXBean
 import java.lang.management.PlatformManagedObject
 
@@ -26,5 +27,7 @@ interface EventBusBossMXBean : PlatformManagedObject {
   fun getDispatchedCount(): Long
 
   fun getEventBusWorkerList(): Array<EventBusWorkerMXBean>
+
+  fun getTimerEventGenerator(): TimerEventGeneratorMXBean?
 
 }

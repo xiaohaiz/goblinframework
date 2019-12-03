@@ -1,19 +1,12 @@
 package org.goblinframework.core.event.timer
 
-import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.schedule.ICronTaskManager
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import java.util.*
 
-@Singleton
 @GoblinManagedBean("Core")
-class TimerEventGenerator private constructor() :
-    GoblinManagedObject(), TimerEventGeneratorMXBean {
-
-  companion object {
-    @JvmField val INSTANCE = TimerEventGenerator()
-  }
+class TimerEventGenerator : GoblinManagedObject(), TimerEventGeneratorMXBean {
 
   private val secondTimerEventGenerator = SecondTimerEventGenerator()
   private val minuteTimerEventGenerator = MinuteTimerEventGenerator()

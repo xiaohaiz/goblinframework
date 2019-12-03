@@ -9,6 +9,8 @@ import org.goblinframework.core.event.config.EventBusConfigLoader
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.context.GoblinEventFutureImpl
 import org.goblinframework.core.event.exception.EventBossBufferFullException
+import org.goblinframework.core.event.timer.TimerEventGenerator
+import org.goblinframework.core.event.timer.TimerEventGeneratorMXBean
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.event.worker.EventBusWorkerMXBean
 import org.goblinframework.core.service.GoblinManagedBean
@@ -18,6 +20,7 @@ import org.goblinframework.core.service.ServiceInstaller
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.NamedDaemonThreadFactory
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.atomic.LongAdder
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
@@ -46,6 +49,8 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   private val listenerMissedCount = LongAdder()
   private val dispatchedCount = LongAdder()
 
+  private val timerEventGeneratorReference = AtomicReference<TimerEventGenerator?>()
+
   init {
     val threadFactory = NamedDaemonThreadFactory.getInstance("EventBusBoss")
     val eventFactory = EventBusBossEventFactory.INSTANCE
@@ -53,6 +58,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     val handlers = Array(DEFAULT_WORK_HANDLER_NUMBER) { EventBusBossEventHandler.INSTANCE }
     disruptor.handleEventsWithWorkerPool(*handlers)
     disruptor.start()
+    logger.debug("{EventBus} EventBusBoss disruptor started")
   }
 
   override fun initializeBean() {
@@ -62,6 +68,10 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     ServiceInstaller.asList(GoblinEventListener::class.java).forEach {
       subscribe(it)
     }
+    val timerEventGenerator = TimerEventGenerator()
+    timerEventGenerator.initialize()
+    timerEventGeneratorReference.set(timerEventGenerator)
+    logger.debug("{EventBus} EventBusBoss initialized")
   }
 
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
@@ -71,6 +81,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
         throw IllegalArgumentException("Channel [$channel] already registered")
       }
       workers[channel] = EventBusWorker(channel, ringBufferSize, workerHandlers)
+      logger.debug("{EventBus} Channel [$channel] registered")
     }
   }
 
@@ -176,14 +187,23 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     return lock.read { workers.values.toTypedArray() }
   }
 
+  override fun getTimerEventGenerator(): TimerEventGeneratorMXBean? {
+    return timerEventGeneratorReference.get()
+  }
+
   override fun disposeBean() {
-    try {
+    timerEventGeneratorReference.getAndSet(null)?.dispose()
+    val state = try {
       disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
+      "SUCCESS"
     } catch (ignore: TimeoutException) {
+      "TIMEOUT"
     }
+    logger.debug("{EventBus} EventBusBoss disruptor shutdown [$state]")
     lock.write {
       workers.values.reversed().forEach { it.dispose() }
       workers.clear()
     }
+    logger.debug("{EventBus} EventBusBoss disposed")
   }
 }

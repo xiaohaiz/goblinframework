@@ -10,9 +10,9 @@ import org.goblinframework.core.event.listener.GoblinEventListenerImpl
 import org.goblinframework.core.event.listener.GoblinEventListenerMXBean
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedStopWatch
 import org.goblinframework.core.util.NamedDaemonThreadFactory
 import org.goblinframework.core.util.RandomUtils
-import org.goblinframework.core.util.StopWatch
 import org.goblinframework.core.util.SystemUtils
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -22,6 +22,7 @@ import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 @GoblinManagedBean(type = "Core")
+@GoblinManagedStopWatch
 class EventBusWorker internal constructor(private val channel: String,
                                           private val bufferSize: Int,
                                           workers: Int)
@@ -32,7 +33,6 @@ class EventBusWorker internal constructor(private val channel: String,
   }
 
   private val id = RandomUtils.nextObjectId()
-  private val watch = StopWatch()
   private val workers: Int
   private val disruptor: Disruptor<EventBusWorkerEvent>
   private val lock = ReentrantReadWriteLock()
@@ -52,6 +52,7 @@ class EventBusWorker internal constructor(private val channel: String,
     val handlers = Array(this.workers) { EventBusWorkerEventHandler.INSTANCE }
     disruptor.handleEventsWithWorkerPool(*handlers)
     disruptor.start()
+    logger.debug("{EventBus} EventBusWorker [$channel] disruptor started")
   }
 
   internal fun subscribe(listener: GoblinEventListener) {
@@ -59,12 +60,17 @@ class EventBusWorker internal constructor(private val channel: String,
       if (listeners[listener] != null) {
         throw IllegalArgumentException("Listener [$listener] already subscribed on channel [$channel]")
       }
-      listeners[listener] = GoblinEventListenerImpl(listener)
+      val delegator = GoblinEventListenerImpl(listener)
+      listeners[listener] = delegator
+      logger.debug("{EventBus} EventBusWorker [$channel] subscribed with [$delegator]")
     }
   }
 
   internal fun unsubscribe(listener: GoblinEventListener) {
-    lock.write { listeners.remove(listener) }?.dispose()
+    lock.write { listeners.remove(listener) }?.run {
+      this.dispose()
+      logger.debug("{EventBus} EventBusWorker [$channel] unsubscribed [$this]")
+    }
   }
 
   internal fun lookup(ctx: GoblinEventContext): List<GoblinEventListener> {
@@ -89,24 +95,12 @@ class EventBusWorker internal constructor(private val channel: String,
     }
   }
 
-  override fun disposeBean() {
-    lock.write {
-      listeners.values.forEach { it.dispose() }
-      listeners.clear()
-    }
-    try {
-      disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
-    } catch (ignore: TimeoutException) {
-    }
-    watch.stop()
-  }
-
   override fun getId(): String {
     return id
   }
 
-  override fun getUpTime(): String {
-    return watch.toString()
+  override fun getUpTime(): String? {
+    return stopWatch?.toString()
   }
 
   override fun getChannel(): String {
@@ -147,5 +141,22 @@ class EventBusWorker internal constructor(private val channel: String,
 
   override fun getEventListenerList(): Array<GoblinEventListenerMXBean> {
     return lock.read { listeners.values.toTypedArray() }
+  }
+
+  override fun disposeBean() {
+    lock.write {
+      listeners.values.forEach {
+        it.dispose()
+        logger.debug("{EventBus} EventBusWorker [$channel] unsubscribed [$it]")
+      }
+      listeners.clear()
+    }
+    val state = try {
+      disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
+      "SUCCESS"
+    } catch (ignore: TimeoutException) {
+      "TIMEOUT"
+    }
+    logger.debug("{EventBus} EventBusWorker [$channel] disruptor shutdown [$state] and disposed")
   }
 }

@@ -3,7 +3,6 @@ package org.goblinframework.core.system
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.event.boss.EventBusBoss
-import org.goblinframework.core.event.timer.TimerEventGenerator
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.ClassUtils
@@ -28,7 +27,6 @@ class GoblinSystemManager private constructor() :
 
     // Load and initialize EVENT module
     EventBusBoss.INSTANCE.initialize()
-    TimerEventGenerator.INSTANCE.initialize()
 
     val system = GoblinSystemImpl(this)
     system.initialize()
@@ -50,7 +48,6 @@ class GoblinSystemManager private constructor() :
   override fun disposeBean() {
     systemReference.getAndSet(null)?.dispose()
 
-    TimerEventGenerator.INSTANCE.dispose()
     EventBusBoss.INSTANCE.dispose()
 
     ConfigManager.INSTANCE.dispose()
