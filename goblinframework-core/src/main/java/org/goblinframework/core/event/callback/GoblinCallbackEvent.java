@@ -1,6 +1,8 @@
-package org.goblinframework.core.event;
+package org.goblinframework.core.event.callback;
 
 import org.goblinframework.api.function.GoblinCallback;
+import org.goblinframework.core.event.GoblinEvent;
+import org.goblinframework.core.event.GoblinEventChannel;
 import org.jetbrains.annotations.NotNull;
 
 @GoblinEventChannel("/goblin/core")

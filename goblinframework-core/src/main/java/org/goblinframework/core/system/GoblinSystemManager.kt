@@ -2,8 +2,8 @@ package org.goblinframework.core.system
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.config.ConfigManager
-import org.goblinframework.core.event.GoblinCallbackEventListener
 import org.goblinframework.core.event.boss.EventBusBoss
+import org.goblinframework.core.event.callback.GoblinCallbackEventListener
 import org.goblinframework.core.event.timer.TimerEventGenerator
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject

@@ -1,4 +1,4 @@
-package org.goblinframework.core.event;
+package org.goblinframework.core.event.callback;
 
 import org.goblinframework.core.concurrent.GoblinFutureImpl;
 

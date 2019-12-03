@@ -1,4 +1,4 @@
-package org.goblinframework.core.event;
+package org.goblinframework.core.event.callback;
 
 import org.goblinframework.api.core.GoblinException;
 import org.jetbrains.annotations.NotNull;

@@ -1,4 +1,8 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.callback
+
+import org.goblinframework.core.event.GoblinEventChannel
+import org.goblinframework.core.event.GoblinEventContext
+import org.goblinframework.core.event.GoblinEventListener
 
 @GoblinEventChannel("/goblin/core")
 class GoblinCallbackEventListener private constructor() : GoblinEventListener {

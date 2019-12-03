@@ -4,7 +4,6 @@ import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.core.event.GoblinEvent
 import org.goblinframework.core.event.GoblinEventChannel
-import org.goblinframework.core.event.GoblinEventException
 import org.goblinframework.core.event.GoblinEventListener
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.context.GoblinEventFutureImpl
@@ -55,10 +54,10 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   }
 
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
-    if (channel.isBlank()) throw GoblinEventException("Channel must not be blank")
+    if (channel.isBlank()) throw IllegalArgumentException("Channel must not be blank")
     lock.write {
       if (workers[channel] != null) {
-        throw GoblinEventException("Channel [$channel] already registered")
+        throw IllegalArgumentException("Channel [$channel] already registered")
       }
       workers[channel] = EventBusWorker(channel, ringBufferSize, workerHandlers)
     }
@@ -71,35 +70,35 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   fun subscribe(listener: GoblinEventListener) {
     AnnotationUtils.getAnnotation(listener.javaClass, GoblinEventChannel::class.java)?.run {
       subscribe(this.value, listener)
-    } ?: throw GoblinEventException("No @GoblinEventChannel presented on [$listener]")
+    } ?: throw IllegalArgumentException("No @GoblinEventChannel presented on [$listener]")
   }
 
   fun subscribe(channel: String, listener: GoblinEventListener) {
-    if (channel.isBlank()) throw GoblinEventException("Channel must not be blank")
-    val worker = lock.read { workers[channel] } ?: throw GoblinEventException("Channel [$channel] not found")
+    if (channel.isBlank()) throw IllegalArgumentException("Channel must not be blank")
+    val worker = lock.read { workers[channel] } ?: throw IllegalArgumentException("Channel [$channel] not found")
     worker.subscribe(listener)
   }
 
   fun unsubscribe(listener: GoblinEventListener) {
     AnnotationUtils.getAnnotation(listener.javaClass, GoblinEventChannel::class.java)?.run {
       unsubscribe(this.value, listener)
-    } ?: throw GoblinEventException("No @GoblinEventChannel presented on [$listener]")
+    } ?: throw IllegalArgumentException("No @GoblinEventChannel presented on [$listener]")
   }
 
   fun unsubscribe(channel: String, listener: GoblinEventListener) {
-    if (channel.isBlank()) throw GoblinEventException("Channel must not be blank")
-    val worker = lock.read { workers[channel] } ?: throw GoblinEventException("Channel [$channel] not found")
+    if (channel.isBlank()) throw IllegalArgumentException("Channel must not be blank")
+    val worker = lock.read { workers[channel] } ?: throw IllegalArgumentException("Channel [$channel] not found")
     worker.unsubscribe(listener)
   }
 
   fun publish(event: GoblinEvent): GoblinEventFutureImpl {
     AnnotationUtils.getAnnotation(event.javaClass, GoblinEventChannel::class.java)?.run {
       return publish(this.value, event)
-    } ?: throw GoblinEventException("No @GoblinEventChannel presented on [$event]")
+    } ?: throw IllegalArgumentException("No @GoblinEventChannel presented on [$event]")
   }
 
   fun publish(channel: String, event: GoblinEvent): GoblinEventFutureImpl {
-    if (channel.isBlank()) throw GoblinEventException("Channel must not be blank")
+    if (channel.isBlank()) throw IllegalArgumentException("Channel must not be blank")
     val ctx = GoblinEventContextImpl(channel, event, GoblinEventFutureImpl())
     val published = disruptor.ringBuffer.tryPublishEvent { e, _ ->
       e.ctx = ctx
