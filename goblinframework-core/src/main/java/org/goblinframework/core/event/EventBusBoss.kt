@@ -2,6 +2,7 @@ package org.goblinframework.core.event
 
 import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
+import org.goblinframework.core.event.exception.EventBossBufferFullException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.AnnotationUtils
@@ -101,7 +102,7 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     }
     if (!published) {
       discardedCount.increment()
-      ctx.exceptionCaught(BossRingBufferFullException())
+      ctx.exceptionCaught(EventBossBufferFullException())
       ctx.complete()
     } else {
       publishedCount.increment()

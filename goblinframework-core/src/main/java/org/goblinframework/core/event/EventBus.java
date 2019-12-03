@@ -2,6 +2,7 @@ package org.goblinframework.core.event;
 
 import org.goblinframework.api.concurrent.GoblinFuture;
 import org.goblinframework.api.function.GoblinCallback;
+import org.goblinframework.core.event.exception.EventBossBufferFullException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -75,7 +76,7 @@ final public class EventBus {
     }
     List<Throwable> exceptionList = ((GoblinEventException) error).getExceptionList();
     for (Throwable ex : exceptionList) {
-      if (ex instanceof BossRingBufferFullException) {
+      if (ex instanceof EventBossBufferFullException) {
         return true;
       }
       if (ex instanceof WorkerRingBufferFullException) {
