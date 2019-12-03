@@ -1,4 +1,4 @@
-package org.goblinframework.remote.client.invocation.java;
+package org.goblinframework.remote.client.invocation.invoker.java;
 
 import org.goblinframework.api.concurrent.GoblinFuture;
 import org.goblinframework.api.reactor.GoblinPublisher;

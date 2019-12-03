@@ -1,4 +1,4 @@
-package org.goblinframework.remote.client.invocation.java;
+package org.goblinframework.remote.client.invocation.invoker.java;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

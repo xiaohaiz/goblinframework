@@ -1,4 +1,4 @@
-package org.goblinframework.remote.client.invocation.java;
+package org.goblinframework.remote.client.invocation.invoker.java;
 
 import org.goblinframework.api.annotation.ThreadSafe;
 import org.goblinframework.core.util.ReflectionUtils;

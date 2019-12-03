@@ -1,4 +1,4 @@
-package org.goblinframework.remote.client.invocation.json;
+package org.goblinframework.remote.client.invocation.invoker.json;
 
 import org.goblinframework.api.core.SerializerMode;
 import org.goblinframework.remote.client.invocation.RemoteClientInvocation;

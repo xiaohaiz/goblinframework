@@ -1,4 +1,4 @@
-package org.goblinframework.remote.client.invocation.java;
+package org.goblinframework.remote.client.invocation.invoker.java;
 
 import org.goblinframework.api.reactor.GoblinPublisher;
 import org.goblinframework.core.reactor.BlockingMonoSubscriber;
