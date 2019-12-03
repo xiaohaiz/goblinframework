@@ -1,0 +1,7 @@
+description = "goblinframework-database"
+
+dependencies {
+  compile(project(":goblinframework-database-mysql"))
+  compile(project(":goblinframework-database-mongo"))
+  compile(project(":goblinframework-bootstrap"))
+}

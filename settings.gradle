@@ -33,5 +33,6 @@ include "goblinframework-example:goblinframework-example-transport:goblinframewo
 include "goblinframework-example:goblinframework-example-remote:goblinframework-example-remote-api"
 include "goblinframework-example:goblinframework-example-remote:goblinframework-example-remote-client"
 include "goblinframework-example:goblinframework-example-remote:goblinframework-example-remote-server"
+include "goblinframework-example:goblinframework-example-mysql"
 
 
