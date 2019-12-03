@@ -14,6 +14,7 @@ import org.goblinframework.core.event.worker.EventBusWorkerMXBean
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.service.GoblinManagedStopWatch
+import org.goblinframework.core.service.ServiceInstaller
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.NamedDaemonThreadFactory
 import java.util.concurrent.TimeUnit
@@ -57,6 +58,9 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
   override fun initializeBean() {
     EventBusConfigLoader.INSTANCE.getChannelConfigs().forEach {
       register(it.channel, it.ringBufferSize, it.workerHandlers)
+    }
+    ServiceInstaller.asList(GoblinEventListener::class.java).forEach {
+      subscribe(it)
     }
   }
 

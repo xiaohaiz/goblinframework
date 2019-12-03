@@ -1,10 +1,12 @@
 package org.goblinframework.core.event.callback
 
+import org.goblinframework.api.annotation.Install
+import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.event.GoblinEventChannel
 import org.goblinframework.core.event.GoblinEventContext
 import org.goblinframework.core.event.GoblinEventListener
 
-@GoblinEventChannel("/goblin/core")
+@Singleton
 class GoblinCallbackEventListener private constructor() : GoblinEventListener {
 
   companion object {
@@ -26,6 +28,9 @@ class GoblinCallbackEventListener private constructor() : GoblinEventListener {
     } catch (ex: Throwable) {
       GoblinCallbackException.throwException(ex)
     }
-
   }
+
+  @Install
+  @GoblinEventChannel("/goblin/core")
+  class Installer : GoblinEventListener by INSTANCE
 }

@@ -3,7 +3,6 @@ package org.goblinframework.core.system
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.event.boss.EventBusBoss
-import org.goblinframework.core.event.callback.GoblinCallbackEventListener
 import org.goblinframework.core.event.timer.TimerEventGenerator
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
@@ -29,8 +28,6 @@ class GoblinSystemManager private constructor() :
 
     // Load and initialize EVENT module
     EventBusBoss.INSTANCE.initialize()
-    EventBusBoss.INSTANCE.subscribe(GoblinCallbackEventListener.INSTANCE)
-    EventBusBoss.INSTANCE.subscribe(SubModuleEventListener.INSTANCE)
     TimerEventGenerator.INSTANCE.initialize()
 
     val system = GoblinSystemImpl(this)
