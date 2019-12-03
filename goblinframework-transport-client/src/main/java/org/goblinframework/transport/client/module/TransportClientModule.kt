@@ -17,6 +17,7 @@ class TransportClientModule : ISubModule {
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
+    MessageFlightManager.INSTANCE.initialize()
     TransportClientManager.INSTANCE.initialize()
   }
 

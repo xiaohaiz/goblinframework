@@ -6,7 +6,7 @@ import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.transport.core.protocol.TransportResponse
 import java.util.concurrent.atomic.AtomicBoolean
 
-@GoblinManagedBean(type = "transport.client")
+@GoblinManagedBean(type = "TransportClient")
 class MessageFlightManager private constructor() : GoblinManagedObject(), MessageFlightManagerMXBean {
 
   companion object {
