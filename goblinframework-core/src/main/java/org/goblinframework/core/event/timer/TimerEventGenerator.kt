@@ -1,4 +1,4 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.timer
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.function.Disposable

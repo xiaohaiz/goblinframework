@@ -1,5 +1,7 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.timer
 
+import org.goblinframework.core.event.GoblinEvent
+import org.goblinframework.core.event.GoblinEventChannel
 import org.goblinframework.core.util.DateFormatUtils
 import java.time.Instant
 import java.util.*

@@ -3,7 +3,7 @@ package org.goblinframework.remote.client.service
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.event.GoblinEventContext
-import org.goblinframework.core.event.SecondTimerEventListener
+import org.goblinframework.core.event.timer.SecondTimerEventListener
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import java.util.concurrent.atomic.AtomicReference

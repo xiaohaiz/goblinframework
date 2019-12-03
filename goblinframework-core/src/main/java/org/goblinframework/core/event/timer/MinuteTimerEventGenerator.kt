@@ -1,26 +1,27 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.timer
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.schedule.CronConstants
 import org.goblinframework.core.schedule.CronTask
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
 
 @Singleton
-class SecondTimerEventGenerator private constructor() : CronTask {
+class MinuteTimerEventGenerator private constructor() : CronTask {
 
   companion object {
-    @JvmField val INSTANCE = SecondTimerEventGenerator()
+    @JvmField val INSTANCE = MinuteTimerEventGenerator()
   }
 
   private val sequence = AtomicLong()
 
   override fun name(): String {
-    return "SecondTimerEventGenerator"
+    return "MinuteTimerEventGenerator"
   }
 
   override fun cronExpression(): String {
-    return CronConstants.SECOND_TIMER
+    return CronConstants.MINUTE_TIMER
   }
 
   override fun concurrent(): Boolean {
@@ -33,7 +34,7 @@ class SecondTimerEventGenerator private constructor() : CronTask {
 
   override fun execute() {
     val next = sequence.getAndIncrement()
-    val event = GoblinTimerEvent(TimeUnit.SECONDS, next)
+    val event = GoblinTimerEvent(TimeUnit.MINUTES, next)
     EventBus.publish("/goblin/timer", event)
   }
 }
