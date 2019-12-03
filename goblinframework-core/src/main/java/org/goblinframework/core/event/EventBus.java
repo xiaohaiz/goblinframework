@@ -2,6 +2,7 @@ package org.goblinframework.core.event;
 
 import org.goblinframework.api.concurrent.GoblinFuture;
 import org.goblinframework.api.function.GoblinCallback;
+import org.goblinframework.core.event.boss.EventBusBoss;
 import org.goblinframework.core.event.exception.EventBossBufferFullException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

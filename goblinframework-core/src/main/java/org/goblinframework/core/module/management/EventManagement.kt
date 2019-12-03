@@ -1,7 +1,7 @@
 package org.goblinframework.core.module.management
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.core.event.EventBusBoss
+import org.goblinframework.core.event.boss.EventBusBoss
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam

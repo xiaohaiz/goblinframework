@@ -1,10 +1,11 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.boss
 
+import org.goblinframework.core.event.EventBusWorkerMXBean
 import java.lang.management.PlatformManagedObject
 
 interface EventBusBossMXBean : PlatformManagedObject {
 
-  fun getUpTime(): String
+  fun getUpTime(): String?
 
   fun getBufferSize(): Int
 

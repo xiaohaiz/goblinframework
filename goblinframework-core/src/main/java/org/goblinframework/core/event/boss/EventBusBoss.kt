@@ -1,13 +1,14 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.boss
 
 import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
+import org.goblinframework.core.event.*
 import org.goblinframework.core.event.exception.EventBossBufferFullException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedStopWatch
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.NamedDaemonThreadFactory
-import org.goblinframework.core.util.StopWatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.LongAdder
 import java.util.concurrent.locks.ReentrantReadWriteLock
@@ -15,6 +16,7 @@ import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 @GoblinManagedBean(type = "Core")
+@GoblinManagedStopWatch
 class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMXBean {
 
   companion object {
@@ -25,7 +27,6 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     @JvmField val INSTANCE = EventBusBoss()
   }
 
-  private val watch = StopWatch()
   private val disruptor: Disruptor<EventBusBossEvent>
   private val lock = ReentrantReadWriteLock()
   private val workers = mutableMapOf<String, EventBusWorker>()
@@ -114,20 +115,8 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     return lock.read { workers[channel] }
   }
 
-  override fun disposeBean() {
-    try {
-      disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
-    } catch (ignore: TimeoutException) {
-    }
-    lock.write {
-      workers.values.reversed().forEach { it.dispose() }
-      workers.clear()
-    }
-    watch.stop()
-  }
-
-  override fun getUpTime(): String {
-    return watch.toString()
+  override fun getUpTime(): String? {
+    return stopWatch?.toString()
   }
 
   override fun getBufferSize(): Int {
@@ -168,5 +157,16 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
 
   override fun getEventBusWorkerList(): Array<EventBusWorkerMXBean> {
     return lock.read { workers.values.toTypedArray() }
+  }
+
+  override fun disposeBean() {
+    try {
+      disruptor.shutdown(DEFAULT_SHUTDOWN_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
+    } catch (ignore: TimeoutException) {
+    }
+    lock.write {
+      workers.values.reversed().forEach { it.dispose() }
+      workers.clear()
+    }
   }
 }
