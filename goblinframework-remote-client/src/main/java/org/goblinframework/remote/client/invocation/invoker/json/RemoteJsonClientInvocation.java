@@ -11,15 +11,21 @@ public class RemoteJsonClientInvocation extends RemoteClientInvocation {
   public String methodName;
   public String[] parameterTypes;
   public String returnType;
+  public String arguments;
+  public SerializerMode encoder;
+  public long timeout;
+  public boolean noResponseWait;
+  public boolean dispatchAll;
+  public boolean ignoreNoProvider;
 
   @Override
   public SerializerMode encoder() {
-    return null;
+    return encoder;
   }
 
   @Override
   public long timeout() {
-    return 0;
+    return timeout;
   }
 
   @Override
@@ -29,17 +35,17 @@ public class RemoteJsonClientInvocation extends RemoteClientInvocation {
 
   @Override
   public boolean noResponseWait() {
-    return false;
+    return noResponseWait;
   }
 
   @Override
   public boolean dispatchAll() {
-    return false;
+    return dispatchAll;
   }
 
   @Override
   public boolean ignoreNoProvider() {
-    return false;
+    return ignoreNoProvider;
   }
 
   @Override
