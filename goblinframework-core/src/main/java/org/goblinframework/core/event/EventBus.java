@@ -1,13 +1,8 @@
 package org.goblinframework.core.event;
 
-import org.goblinframework.api.concurrent.GoblinFuture;
 import org.goblinframework.api.function.GoblinCallback;
 import org.goblinframework.core.event.boss.EventBusBoss;
-import org.goblinframework.core.event.exception.EventBossBufferFullException;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 final public class EventBus {
 
@@ -62,28 +57,4 @@ final public class EventBus {
     return future;
   }
 
-  public static boolean isRingBufferFull(@NotNull GoblinFuture<?> future) {
-    try {
-      future.get();
-      return false;
-    } catch (Throwable ex) {
-      return isRingBufferFullException(ex);
-    }
-  }
-
-  public static boolean isRingBufferFullException(@Nullable Throwable error) {
-    if (!(error instanceof GoblinEventException)) {
-      return false;
-    }
-    List<Throwable> exceptionList = ((GoblinEventException) error).getExceptionList();
-    for (Throwable ex : exceptionList) {
-      if (ex instanceof EventBossBufferFullException) {
-        return true;
-      }
-      if (ex instanceof WorkerRingBufferFullException) {
-        return true;
-      }
-    }
-    return false;
-  }
 }

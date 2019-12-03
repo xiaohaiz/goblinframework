@@ -33,10 +33,8 @@ class RemoteServerResponseDispatcher private constructor()
   fun onResponse(invocation: RemoteServerInvocation) {
     check(eventListenerReference.get() != null) { "Initialization is required" }
     val event = RemoteServerResponseEvent(invocation)
-    EventBus.publish(CHANNEL_NAME, event).addListener {
-      if (EventBus.isRingBufferFull(it)) {
-        logger.warn("WARNING: Remote server response event ring buffer full")
-      }
+    EventBus.publish(CHANNEL_NAME, event).addDiscardListener {
+      logger.warn("WARNING: Remote server response event ring buffer full")
     }
   }
 

@@ -36,13 +36,11 @@ class RemoteClientRequestDispatcher private constructor()
   fun onRequest(invocation: RemoteClientInvocation) {
     check(listenerReference.get() != null) { "Initialization is required" }
     val event = RemoteClientRequestEvent(invocation)
-    EventBus.publish(CHANNEL_NAME, event).addListener {
-      if (EventBus.isRingBufferFull(it)) {
-        logger.error("{CLIENT_BACK_PRESSURE_ERROR} " +
-            "Remote client event ring buffer full, reject request [service={}]",
-            invocation.serviceId.asText())
-        invocation.complete(null, ClientBackPressureException())
-      }
+    EventBus.publish(CHANNEL_NAME, event).addDiscardListener {
+      logger.error("{CLIENT_BACK_PRESSURE_ERROR} " +
+          "Remote client event ring buffer full, reject request [service={}]",
+          invocation.serviceId.asText())
+      invocation.complete(null, ClientBackPressureException())
     }
   }
 

@@ -39,14 +39,12 @@ class RemoteServerRequestDispatcher private constructor()
     check(eventListenerReference.get() != null) { "Initialization is required" }
     val invocation = RemoteServerInvocation(ctx)
     val event = RemoteServerRequestEvent(invocation)
-    EventBus.publish(CHANNEL_NAME, event).addListener {
-      if (EventBus.isRingBufferFull(it)) {
-        logger.error("{SERVER_BACK_PRESSURE_ERROR} " +
-            "Remote server event ring buffer full, reject request from [{}]",
-            invocation.context.asClientText())
-        invocation.writeError(RemoteResponseCode.SERVER_BACK_PRESSURE_ERROR)
-        RemoteServerResponseDispatcher.INSTANCE.onResponse(invocation)
-      }
+    EventBus.publish(CHANNEL_NAME, event).addDiscardListener {
+      logger.error("{SERVER_BACK_PRESSURE_ERROR} " +
+          "Remote server event ring buffer full, reject request from [{}]",
+          invocation.context.asClientText())
+      invocation.writeError(RemoteResponseCode.SERVER_BACK_PRESSURE_ERROR)
+      RemoteServerResponseDispatcher.INSTANCE.onResponse(invocation)
     }
   }
 

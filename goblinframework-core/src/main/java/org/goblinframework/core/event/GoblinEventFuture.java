@@ -1,7 +1,7 @@
 package org.goblinframework.core.event;
 
 import org.goblinframework.api.concurrent.GoblinFuture;
-import org.goblinframework.api.function.Block0;
+import org.goblinframework.api.function.Block1;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,5 +15,5 @@ public interface GoblinEventFuture extends GoblinFuture<GoblinEventContext> {
   /**
    * Callback the specified action in case of event future discarded.
    */
-  void addDiscardListener(@NotNull Block0 action);
+  void addDiscardListener(@NotNull Block1<GoblinEventContext> action);
 }
