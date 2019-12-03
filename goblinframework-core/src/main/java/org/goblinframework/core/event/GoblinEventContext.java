@@ -27,5 +27,4 @@ public interface GoblinEventContext {
   @Nullable
   Object setExtension(@NotNull String name, @NotNull Object extension);
 
-  void throwException();
 }

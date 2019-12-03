@@ -3,6 +3,7 @@ package org.goblinframework.core.event.worker
 import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.core.event.*
+import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.EventWorkerBufferFullException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject

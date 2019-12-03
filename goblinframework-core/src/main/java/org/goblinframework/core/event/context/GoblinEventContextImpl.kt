@@ -1,13 +1,14 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.context
 
-import org.goblinframework.core.event.context.GoblinEventFutureImpl
+import org.goblinframework.core.event.GoblinEvent
+import org.goblinframework.core.event.GoblinEventContext
+import org.goblinframework.core.event.GoblinEventState
 import org.goblinframework.core.event.exception.EventBossException
 import org.goblinframework.core.event.exception.EventBusException
 import org.goblinframework.core.event.exception.EventWorkerException
 import org.goblinframework.core.util.GoblinReferenceCount
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 
 class GoblinEventContextImpl
@@ -16,12 +17,8 @@ internal constructor(private val channel: String,
                      private val future: GoblinEventFutureImpl) : GoblinEventContext {
 
   private val state = AtomicReference(GoblinEventState.SUCCESS)
-
-  private val taskCount = AtomicReference<AtomicInteger?>()
-  private val exceptions = Collections.synchronizedList(LinkedList<Throwable>())
   private val extensions = ConcurrentHashMap<String, Any>()
-
-  private var totalTaskCount = 0
+  private var taskCount = 0
   private var taskReferenceCount: GoblinReferenceCount? = null
   private val bossExceptions = LinkedList<EventBossException>()
   private val workerExceptions = ConcurrentHashMap<Int, EventWorkerException>()
@@ -73,7 +70,7 @@ internal constructor(private val channel: String,
   }
 
   fun initializeTask(count: Int) {
-    totalTaskCount = count
+    taskCount = count
     taskReferenceCount = GoblinReferenceCount(count)
   }
 
@@ -87,20 +84,7 @@ internal constructor(private val channel: String,
     if (isSuccess || !event.isRaiseException) {
       return null
     }
-    return EventBusException(bossExceptions.firstOrNull(), workerExceptions, totalTaskCount)
-  }
-
-  override fun throwException() {
-    if (isSuccess) {
-      return
-    }
-    val c = taskCount.get()
-    if (c == null) {
-      // task not started yet
-      throw GoblinEventException(exceptions.first())
-    } else {
-      throw GoblinEventException(totalTaskCount, exceptions)
-    }
+    return EventBusException(bossExceptions.firstOrNull(), workerExceptions, taskCount)
   }
 
   internal fun complete() {

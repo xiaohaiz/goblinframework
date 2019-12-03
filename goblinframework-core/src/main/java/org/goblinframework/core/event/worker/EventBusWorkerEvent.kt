@@ -1,7 +1,7 @@
 package org.goblinframework.core.event.worker
 
-import org.goblinframework.core.event.GoblinEventContextImpl
 import org.goblinframework.core.event.GoblinEventListener
+import org.goblinframework.core.event.context.GoblinEventContextImpl
 import java.util.concurrent.atomic.LongAdder
 
 class EventBusWorkerEvent {
