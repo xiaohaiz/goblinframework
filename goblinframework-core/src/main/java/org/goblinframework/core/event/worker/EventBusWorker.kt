@@ -1,7 +1,9 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.worker
 
 import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
+import org.goblinframework.core.event.*
+import org.goblinframework.core.event.exception.EventWorkerBufferFullException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.NamedDaemonThreadFactory
@@ -15,11 +17,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-@GoblinManagedBean(type = "core")
-class EventBusWorker
-internal constructor(private val channel: String,
-                     private val bufferSize: Int,
-                     workers: Int)
+@GoblinManagedBean(type = "Core")
+class EventBusWorker internal constructor(private val channel: String,
+                                          private val bufferSize: Int,
+                                          workers: Int)
   : GoblinManagedObject(), EventBusWorkerMXBean {
 
   companion object {
@@ -66,8 +67,9 @@ internal constructor(private val channel: String,
     return lock.read { listeners.values.filter { it.accept(ctx) }.toList() }
   }
 
-  internal fun public(ctx: GoblinEventContextImpl, listeners: List<GoblinEventListener>) {
+  fun publish(taskId: Int, ctx: GoblinEventContextImpl, listeners: List<GoblinEventListener>) {
     val published = disruptor.ringBuffer.tryPublishEvent { e, _ ->
+      e.taskId = taskId
       e.ctx = ctx
       e.listeners = listeners
       e.receivedCount = receivedCount
@@ -76,7 +78,7 @@ internal constructor(private val channel: String,
     }
     if (!published) {
       discardedCount.increment()
-      ctx.exceptionCaught(WorkerRingBufferFullException(ctx.channel))
+      ctx.workerExceptionCaught(taskId, EventWorkerBufferFullException())
       ctx.finishTask()
     } else {
       publishedCount.increment()

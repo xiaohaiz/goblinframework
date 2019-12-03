@@ -1,9 +1,12 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.worker
 
+import org.goblinframework.core.event.GoblinEventContextImpl
+import org.goblinframework.core.event.GoblinEventListener
 import java.util.concurrent.atomic.LongAdder
 
 class EventBusWorkerEvent {
 
+  var taskId: Int? = null
   var ctx: GoblinEventContextImpl? = null
   var listeners: List<GoblinEventListener>? = null
   var receivedCount: LongAdder? = null
@@ -11,6 +14,7 @@ class EventBusWorkerEvent {
   var failedCount: LongAdder? = null
 
   fun clear() {
+    taskId = null
     ctx = null
     listeners = null
     receivedCount = null

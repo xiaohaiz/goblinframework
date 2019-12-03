@@ -1,6 +1,7 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.worker
 
 import com.lmax.disruptor.WorkHandler
+import org.goblinframework.core.event.exception.EventWorkerExecutionException
 
 class EventBusWorkerEventHandler private constructor() : WorkHandler<EventBusWorkerEvent> {
 
@@ -23,9 +24,9 @@ class EventBusWorkerEventHandler private constructor() : WorkHandler<EventBusWor
     try {
       listeners.forEach { it.onEvent(ctx) }
       event.succeedCount?.increment()
-    } catch (ex: Exception) {
+    } catch (ex: Throwable) {
       event.failedCount?.increment()
-      ctx.exceptionCaught(ex)
+      ctx.workerExceptionCaught(event.taskId!!, EventWorkerExecutionException.rethrow(ex))
     } finally {
       ctx.finishTask()
     }

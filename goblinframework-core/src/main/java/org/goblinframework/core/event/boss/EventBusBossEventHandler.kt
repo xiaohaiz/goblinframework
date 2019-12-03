@@ -1,8 +1,8 @@
 package org.goblinframework.core.event.boss
 
 import com.lmax.disruptor.WorkHandler
-import org.goblinframework.core.event.ListenerNotFoundException
-import org.goblinframework.core.event.WorkerNotFoundException
+import org.goblinframework.core.event.exception.EventBossChannelNotFoundException
+import org.goblinframework.core.event.exception.EventBossListenerNotFoundException
 import org.goblinframework.core.util.ObjectUtils
 
 class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossEvent> {
@@ -25,14 +25,14 @@ class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossE
     val worker = EventBusBoss.INSTANCE.lookup(ctx.channel)
     if (worker == null) {
       event.workerMissedCount?.increment()
-      ctx.exceptionCaught(WorkerNotFoundException(ctx.channel))
+      ctx.bossExceptionCaught(EventBossChannelNotFoundException())
       ctx.complete()
       return
     }
     val listeners = worker.lookup(ctx)
     if (listeners.isEmpty()) {
       event.listenerMissedCount?.increment()
-      ctx.exceptionCaught(ListenerNotFoundException(ctx.channel))
+      ctx.bossExceptionCaught(EventBossListenerNotFoundException())
       ctx.complete()
       return
     }
@@ -40,13 +40,13 @@ class EventBusBossEventHandler private constructor() : WorkHandler<EventBusBossE
       val sorted = listeners.sortedWith(Comparator { o1, o2 ->
         ObjectUtils.calculateOrder(o1).compareTo(ObjectUtils.calculateOrder(o2))
       }).toList()
-      ctx.initializeTaskCount(1)
-      worker.public(ctx, sorted)
+      ctx.initializeTask(1)
+      worker.publish(0, ctx, sorted)
       event.dispatchedCount?.increment()
     } else {
-      ctx.initializeTaskCount(listeners.size)
-      listeners.forEach {
-        worker.public(ctx, listOf(it))
+      ctx.initializeTask(listeners.size)
+      listeners.forEachIndexed { taskId, listener ->
+        worker.publish(taskId, ctx, listOf(listener))
         event.dispatchedCount?.increment()
       }
     }

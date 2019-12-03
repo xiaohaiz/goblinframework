@@ -1,19 +1,21 @@
 package org.goblinframework.core.event
 
+import org.goblinframework.api.concurrent.GoblinFuture
 import org.goblinframework.core.concurrent.GoblinFutureImpl
-import org.goblinframework.core.concurrent.GoblinFutureResult
+import org.goblinframework.core.event.exception.EventBusException
 
 class GoblinEventFuture : GoblinFutureImpl<GoblinEventContext>() {
 
-  override fun doResultObtained(result: GoblinFutureResult<GoblinEventContext>) {
-    val ctx = result.result!!
-    if (ctx.isSuccess) {
-      return
+  override fun complete(result: GoblinEventContext?): GoblinFuture<GoblinEventContext> {
+    var error: EventBusException? = null
+    (result as? GoblinEventContextImpl)?.run {
+      error = this.throwExceptionIfNecessary()
     }
-    if (ctx.event.isRaiseException) {
-      ctx.throwException()
-    } else {
-      result.cause = null;
-    }
+    return super.complete(result, error)
   }
+
+  override fun complete(result: GoblinEventContext?, cause: Throwable?): GoblinFuture<GoblinEventContext> {
+    throw UnsupportedOperationException()
+  }
+
 }
