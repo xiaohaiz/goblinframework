@@ -34,7 +34,7 @@ class GoblinSystemManager private constructor() :
     EventBusBoss.INSTANCE.register("/goblin/monitor", 65536, 8)
     EventBusBoss.INSTANCE.subscribe(GoblinCallbackEventListener.INSTANCE)
     EventBusBoss.INSTANCE.subscribe(SubModuleEventListener.INSTANCE)
-    TimerEventGenerator.INSTANCE.install()
+    TimerEventGenerator.INSTANCE.initialize()
 
     val system = GoblinSystemImpl(this)
     system.initialize()
