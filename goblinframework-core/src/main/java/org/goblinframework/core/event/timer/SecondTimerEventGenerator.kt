@@ -1,18 +1,12 @@
 package org.goblinframework.core.event.timer
 
-import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.schedule.CronConstants
 import org.goblinframework.core.schedule.CronTask
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
 
-@Singleton
-class SecondTimerEventGenerator private constructor() : CronTask {
-
-  companion object {
-    @JvmField val INSTANCE = SecondTimerEventGenerator()
-  }
+class SecondTimerEventGenerator internal constructor() : CronTask {
 
   private val sequence = AtomicLong()
 
