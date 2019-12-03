@@ -6,12 +6,12 @@ import org.goblinframework.embedded.core.EmbeddedServerMode
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting
 
-@GoblinManagedBean(type = "management")
+@GoblinManagedBean(type = "Management")
 class ManagementServer internal constructor()
   : GoblinManagedObject(), ManagementServerMXBean {
 
   companion object {
-    private const val SERVER_NAME = "GoblinManagementServer"
+    private const val SERVER_NAME = "goblin.management.server"
   }
 
   override fun initializeBean() {
