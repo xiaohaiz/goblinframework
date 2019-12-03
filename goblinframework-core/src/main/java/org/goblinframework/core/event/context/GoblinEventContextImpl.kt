@@ -3,9 +3,7 @@ package org.goblinframework.core.event.context
 import org.goblinframework.core.event.GoblinEvent
 import org.goblinframework.core.event.GoblinEventContext
 import org.goblinframework.core.event.GoblinEventState
-import org.goblinframework.core.event.exception.EventBossException
-import org.goblinframework.core.event.exception.EventBusException
-import org.goblinframework.core.event.exception.EventWorkerException
+import org.goblinframework.core.event.exception.*
 import org.goblinframework.core.util.GoblinReferenceCount
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
@@ -35,6 +33,10 @@ internal constructor(private val channel: String,
     return state.get() === GoblinEventState.SUCCESS
   }
 
+  override fun isDiscard(): Boolean {
+    return state.get() === GoblinEventState.DISCARD
+  }
+
   override fun getExtensions(): MutableMap<String, Any> {
     return extensions
   }
@@ -56,16 +58,26 @@ internal constructor(private val channel: String,
   }
 
   fun bossExceptionCaught(ex: EventBossException) {
-    state.set(GoblinEventState.FAILURE)
-    if (event.isRaiseException) {
-      bossExceptions.add(ex)
+    if (ex is EventBossBufferFullException) {
+      state.set(GoblinEventState.DISCARD)
+    } else {
+      state.set(GoblinEventState.FAILURE)
     }
+    bossExceptions.add(ex)
   }
 
   fun workerExceptionCaught(taskId: Int, ex: EventWorkerException) {
-    state.set(GoblinEventState.FAILURE)
-    if (event.isRaiseException) {
-      workerExceptions[taskId] = ex
+    if (taskCount == 1 && ex is EventWorkerBufferFullException) {
+      state.set(GoblinEventState.DISCARD)
+    } else {
+      state.set(GoblinEventState.FAILURE)
+    }
+    workerExceptions[taskId] = ex
+    if (taskCount != 1 && workerExceptions.size == taskCount) {
+      val fullExceptionCount = workerExceptions.values.filterIsInstance(EventWorkerBufferFullException::class.java).size
+      if (fullExceptionCount == taskCount) {
+        state.set(GoblinEventState.DISCARD)
+      }
     }
   }
 
@@ -81,7 +93,7 @@ internal constructor(private val channel: String,
   }
 
   fun throwExceptionIfNecessary(): EventBusException? {
-    if (isSuccess || !event.isRaiseException) {
+    if (isSuccess) {
       return null
     }
     return EventBusException(bossExceptions.firstOrNull(), workerExceptions, taskCount)

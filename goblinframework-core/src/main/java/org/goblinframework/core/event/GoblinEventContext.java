@@ -15,6 +15,8 @@ public interface GoblinEventContext {
 
   boolean isSuccess();
 
+  boolean isDiscard();
+
   @NotNull
   Map<String, Object> getExtensions();
 
