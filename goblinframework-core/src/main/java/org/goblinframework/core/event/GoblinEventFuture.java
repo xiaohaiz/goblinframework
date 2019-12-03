@@ -1,7 +1,6 @@
-package org.goblinframework.core.event.future;
+package org.goblinframework.core.event;
 
 import org.goblinframework.api.concurrent.GoblinFuture;
-import org.goblinframework.core.event.GoblinEventContext;
 
 /**
  * Goblin event future abstraction.

@@ -3,8 +3,8 @@ package org.goblinframework.core.event.boss
 import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.core.event.*
+import org.goblinframework.core.event.context.GoblinEventFutureImpl
 import org.goblinframework.core.event.exception.EventBossBufferFullException
-import org.goblinframework.core.event.future.GoblinEventFutureImpl
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.event.worker.EventBusWorkerMXBean
 import org.goblinframework.core.service.GoblinManagedBean

@@ -4,7 +4,6 @@ import org.goblinframework.api.concurrent.GoblinFuture;
 import org.goblinframework.api.function.GoblinCallback;
 import org.goblinframework.core.event.boss.EventBusBoss;
 import org.goblinframework.core.event.exception.EventBossBufferFullException;
-import org.goblinframework.core.event.future.GoblinEventFutureImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,12 +36,12 @@ final public class EventBus {
   }
 
   @NotNull
-  public static GoblinEventFutureImpl publish(@NotNull GoblinEvent event) {
+  public static GoblinEventFuture publish(@NotNull GoblinEvent event) {
     return EventBusBoss.INSTANCE.publish(event);
   }
 
   @NotNull
-  public static GoblinEventFutureImpl publish(@NotNull String channel, @NotNull GoblinEvent event) {
+  public static GoblinEventFuture publish(@NotNull String channel, @NotNull GoblinEvent event) {
     return EventBusBoss.INSTANCE.publish(channel, event);
   }
 

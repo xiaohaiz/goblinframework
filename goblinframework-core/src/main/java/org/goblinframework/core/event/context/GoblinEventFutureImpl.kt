@@ -1,9 +1,10 @@
-package org.goblinframework.core.event.future
+package org.goblinframework.core.event.context
 
 import org.goblinframework.api.concurrent.GoblinFuture
 import org.goblinframework.core.concurrent.GoblinFutureImpl
 import org.goblinframework.core.event.GoblinEventContext
 import org.goblinframework.core.event.GoblinEventContextImpl
+import org.goblinframework.core.event.GoblinEventFuture
 import org.goblinframework.core.event.exception.EventBusException
 
 class GoblinEventFutureImpl : GoblinFutureImpl<GoblinEventContext>(), GoblinEventFuture {

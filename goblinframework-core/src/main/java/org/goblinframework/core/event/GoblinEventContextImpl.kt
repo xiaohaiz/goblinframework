@@ -1,9 +1,9 @@
 package org.goblinframework.core.event
 
+import org.goblinframework.core.event.context.GoblinEventFutureImpl
 import org.goblinframework.core.event.exception.EventBossException
 import org.goblinframework.core.event.exception.EventBusException
 import org.goblinframework.core.event.exception.EventWorkerException
-import org.goblinframework.core.event.future.GoblinEventFutureImpl
 import org.goblinframework.core.util.GoblinReferenceCount
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
