@@ -1,5 +1,6 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.boss
 
+import org.goblinframework.core.event.GoblinEventContextImpl
 import java.util.concurrent.atomic.LongAdder
 
 class EventBusBossEvent {

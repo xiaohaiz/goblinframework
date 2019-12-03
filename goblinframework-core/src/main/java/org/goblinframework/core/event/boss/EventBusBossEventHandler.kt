@@ -1,7 +1,6 @@
 package org.goblinframework.core.event.boss
 
 import com.lmax.disruptor.WorkHandler
-import org.goblinframework.core.event.EventBusBossEvent
 import org.goblinframework.core.event.ListenerNotFoundException
 import org.goblinframework.core.event.WorkerNotFoundException
 import org.goblinframework.core.util.ObjectUtils
