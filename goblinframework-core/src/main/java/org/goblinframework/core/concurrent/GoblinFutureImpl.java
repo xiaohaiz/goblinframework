@@ -49,9 +49,17 @@ public class GoblinFutureImpl<T> implements GoblinFuture<T> {
     latch.await();
     GoblinFutureResult<T> fr = result.get();
     assert fr != null;
-    doResultObtained(fr);
     if (fr.cause != null) {
-      throw new ExecutionException(fr.cause);
+      if (bypassExecutionException()) {
+        Throwable error = fr.cause;
+        if (error instanceof RuntimeException) {
+          throw (RuntimeException) error;
+        } else {
+          throw new ExecutionException(error);
+        }
+      } else {
+        throw new ExecutionException(fr.cause);
+      }
     }
     return fr.result;
   }
@@ -64,9 +72,17 @@ public class GoblinFutureImpl<T> implements GoblinFuture<T> {
     }
     GoblinFutureResult<T> fr = result.get();
     assert fr != null;
-    doResultObtained(fr);
     if (fr.cause != null) {
-      throw new ExecutionException(fr.cause);
+      if (bypassExecutionException()) {
+        Throwable error = fr.cause;
+        if (error instanceof RuntimeException) {
+          throw (RuntimeException) error;
+        } else {
+          throw new ExecutionException(error);
+        }
+      } else {
+        throw new ExecutionException(fr.cause);
+      }
     }
     return fr.result;
   }
@@ -150,6 +166,10 @@ public class GoblinFutureImpl<T> implements GoblinFuture<T> {
     return this;
   }
 
+  protected boolean bypassExecutionException() {
+    return false;
+  }
+
   private void executeListenersAfterCompleted() {
     List<InternalGoblinFutureListener<T>> listenerList;
     lock.lock();
@@ -171,9 +191,6 @@ public class GoblinFutureImpl<T> implements GoblinFuture<T> {
         logger.warn("Exception caught when executing GoblinFutureListener: {}", listener.delegator, ex);
       }
     }
-  }
-
-  protected void doResultObtained(@NotNull GoblinFutureResult<T> result) {
   }
 
   private static class InternalGoblinFutureListener<E> implements GoblinFutureListener<E> {

@@ -11,6 +11,10 @@ class GoblinEventFutureImpl : GoblinFutureImpl<GoblinEventContext>(), GoblinEven
 
   private var context: GoblinEventContextImpl? = null
 
+  override fun bypassExecutionException(): Boolean {
+    return true
+  }
+
   override fun complete(result: GoblinEventContext?): GoblinFuture<GoblinEventContext> {
     val context = result as GoblinEventContextImpl
     this.context = context
