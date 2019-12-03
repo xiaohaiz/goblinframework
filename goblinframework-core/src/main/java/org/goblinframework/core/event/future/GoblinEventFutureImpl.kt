@@ -1,10 +1,12 @@
-package org.goblinframework.core.event
+package org.goblinframework.core.event.future
 
 import org.goblinframework.api.concurrent.GoblinFuture
 import org.goblinframework.core.concurrent.GoblinFutureImpl
+import org.goblinframework.core.event.GoblinEventContext
+import org.goblinframework.core.event.GoblinEventContextImpl
 import org.goblinframework.core.event.exception.EventBusException
 
-class GoblinEventFuture : GoblinFutureImpl<GoblinEventContext>() {
+class GoblinEventFutureImpl : GoblinFutureImpl<GoblinEventContext>() {
 
   override fun complete(result: GoblinEventContext?): GoblinFuture<GoblinEventContext> {
     var error: EventBusException? = null

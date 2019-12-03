@@ -3,6 +3,7 @@ package org.goblinframework.core.event
 import org.goblinframework.core.event.exception.EventBossException
 import org.goblinframework.core.event.exception.EventBusException
 import org.goblinframework.core.event.exception.EventWorkerException
+import org.goblinframework.core.event.future.GoblinEventFutureImpl
 import org.goblinframework.core.util.GoblinReferenceCount
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
@@ -12,7 +13,7 @@ import java.util.concurrent.atomic.AtomicReference
 class GoblinEventContextImpl
 internal constructor(private val channel: String,
                      private val event: GoblinEvent,
-                     private val future: GoblinEventFuture) : GoblinEventContext {
+                     private val future: GoblinEventFutureImpl) : GoblinEventContext {
 
   private val state = AtomicReference(GoblinEventState.SUCCESS)
 
@@ -53,7 +54,7 @@ internal constructor(private val channel: String,
     return extensions.put(name, extension)
   }
 
-  fun future(): GoblinEventFuture {
+  fun future(): GoblinEventFutureImpl {
     return future
   }
 

@@ -1,7 +1,7 @@
 package org.goblinframework.core.system;
 
 import org.goblinframework.core.event.EventBus;
-import org.goblinframework.core.event.GoblinEventFuture;
+import org.goblinframework.core.event.future.GoblinEventFutureImpl;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.LinkedMultiValueMap;
 
@@ -54,7 +54,7 @@ final class SubModulesImpl implements SubModules {
       if (idsList == null) {
         continue;
       }
-      List<GoblinEventFuture> futures = new ArrayList<>();
+      List<GoblinEventFutureImpl> futures = new ArrayList<>();
       for (List<GoblinSubModule> ids : idsList) {
         List<ISubModule> subModules = ids.stream()
             .map(SubModuleLoader::subModule)

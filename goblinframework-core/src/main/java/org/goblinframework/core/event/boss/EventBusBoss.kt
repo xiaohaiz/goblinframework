@@ -4,6 +4,7 @@ import com.lmax.disruptor.TimeoutException
 import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.core.event.*
 import org.goblinframework.core.event.exception.EventBossBufferFullException
+import org.goblinframework.core.event.future.GoblinEventFutureImpl
 import org.goblinframework.core.event.worker.EventBusWorker
 import org.goblinframework.core.event.worker.EventBusWorkerMXBean
 import org.goblinframework.core.service.GoblinManagedBean
@@ -87,15 +88,15 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     worker.unsubscribe(listener)
   }
 
-  fun publish(event: GoblinEvent): GoblinEventFuture {
+  fun publish(event: GoblinEvent): GoblinEventFutureImpl {
     AnnotationUtils.getAnnotation(event.javaClass, GoblinEventChannel::class.java)?.run {
       return publish(this.value, event)
     } ?: throw GoblinEventException("No @GoblinEventChannel presented on [$event]")
   }
 
-  fun publish(channel: String, event: GoblinEvent): GoblinEventFuture {
+  fun publish(channel: String, event: GoblinEvent): GoblinEventFutureImpl {
     if (channel.isBlank()) throw GoblinEventException("Channel must not be blank")
-    val ctx = GoblinEventContextImpl(channel, event, GoblinEventFuture())
+    val ctx = GoblinEventContextImpl(channel, event, GoblinEventFutureImpl())
     val published = disruptor.ringBuffer.tryPublishEvent { e, _ ->
       e.ctx = ctx
       e.receivedCount = receivedCount
