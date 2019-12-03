@@ -29,9 +29,6 @@ class GoblinSystemManager private constructor() :
 
     // Load and initialize EVENT module
     EventBusBoss.INSTANCE.initialize()
-    EventBusBoss.INSTANCE.register("/goblin/core", 32768, 0)
-    EventBusBoss.INSTANCE.register("/goblin/timer", 32768, 4)
-    EventBusBoss.INSTANCE.register("/goblin/monitor", 65536, 8)
     EventBusBoss.INSTANCE.subscribe(GoblinCallbackEventListener.INSTANCE)
     EventBusBoss.INSTANCE.subscribe(SubModuleEventListener.INSTANCE)
     TimerEventGenerator.INSTANCE.initialize()

@@ -5,6 +5,7 @@ import com.lmax.disruptor.dsl.Disruptor
 import org.goblinframework.core.event.GoblinEvent
 import org.goblinframework.core.event.GoblinEventChannel
 import org.goblinframework.core.event.GoblinEventListener
+import org.goblinframework.core.event.config.EventBusConfigLoader
 import org.goblinframework.core.event.context.GoblinEventContextImpl
 import org.goblinframework.core.event.context.GoblinEventFutureImpl
 import org.goblinframework.core.event.exception.EventBossBufferFullException
@@ -51,6 +52,12 @@ class EventBusBoss private constructor() : GoblinManagedObject(), EventBusBossMX
     val handlers = Array(DEFAULT_WORK_HANDLER_NUMBER) { EventBusBossEventHandler.INSTANCE }
     disruptor.handleEventsWithWorkerPool(*handlers)
     disruptor.start()
+  }
+
+  override fun initializeBean() {
+    EventBusConfigLoader.INSTANCE.getChannelConfigs().forEach {
+      register(it.channel, it.ringBufferSize, it.workerHandlers)
+    }
   }
 
   fun register(channel: String, ringBufferSize: Int, workerHandlers: Int) {
