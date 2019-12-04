@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class CacheValueModifierImpl<V> implements CacheValueModifier<V> {
+final public class CacheValueModifierImpl<V> implements CacheValueModifier<V> {
   private static final Logger logger = LoggerFactory.getLogger(CacheValueModifierImpl.class);
 
   private final Cache cache;
@@ -17,7 +17,7 @@ final class CacheValueModifierImpl<V> implements CacheValueModifier<V> {
   private Integer expiration;
   private CasOperation<V> modifier;
 
-  CacheValueModifierImpl(@NotNull Cache cache) {
+  public CacheValueModifierImpl(@NotNull Cache cache) {
     this.cache = cache;
   }
 

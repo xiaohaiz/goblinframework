@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-final class CacheValueLoaderImpl<K, V> implements CacheValueLoader<K, V> {
+final public class CacheValueLoaderImpl<K, V> implements CacheValueLoader<K, V> {
   private static final Logger logger = LoggerFactory.getLogger(CacheValueLoaderImpl.class);
 
   private final Cache cache;
@@ -29,7 +29,7 @@ final class CacheValueLoaderImpl<K, V> implements CacheValueLoader<K, V> {
 
   private boolean useValueWrapper = false;
 
-  CacheValueLoaderImpl(@NotNull Cache cache) {
+  public CacheValueLoaderImpl(@NotNull Cache cache) {
     this.cache = cache;
   }
 

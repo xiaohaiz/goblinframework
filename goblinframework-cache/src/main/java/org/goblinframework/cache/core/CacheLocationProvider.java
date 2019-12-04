@@ -8,12 +8,12 @@ public interface CacheLocationProvider {
   CacheLocation getCacheSystemLocation();
 
   @NotNull
-  default CacheSystem cacheSystem() {
+  default CacheSystem getCacheSystem() {
     return getCacheSystemLocation().system;
   }
 
   @NotNull
-  default String cacheName() {
+  default String getCacheName() {
     return getCacheSystemLocation().name;
   }
 }

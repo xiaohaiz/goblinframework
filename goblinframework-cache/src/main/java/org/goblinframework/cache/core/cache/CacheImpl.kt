@@ -13,14 +13,14 @@ internal constructor(private val delegator: Cache)
 
   override fun disposeBean() {
     (delegator as? Disposable)?.dispose()
-    logger.debug("Cache [${cacheSystem()}/${cacheName()}] disposed")
+    logger.debug("Cache [${getCacheSystem()}/${getCacheName()}] disposed")
   }
 
   override fun getCacheSystem(): CacheSystem {
-    return delegator.cacheSystem()
+    return delegator.getCacheSystem()
   }
 
   override fun getCacheName(): String {
-    return delegator.cacheName()
+    return delegator.getCacheName()
   }
 }

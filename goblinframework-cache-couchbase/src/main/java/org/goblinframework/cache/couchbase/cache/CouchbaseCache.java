@@ -4,9 +4,13 @@ import com.couchbase.client.java.document.LegacyDocument;
 import com.couchbase.client.java.error.DocumentAlreadyExistsException;
 import com.couchbase.client.java.error.DocumentDoesNotExistException;
 import org.goblinframework.cache.core.*;
-import org.goblinframework.cache.core.cache.AbstractCache;
+import org.goblinframework.cache.core.cache.CacheMXBean;
+import org.goblinframework.cache.core.cache.CacheValueLoaderImpl;
+import org.goblinframework.cache.core.cache.CacheValueModifierImpl;
 import org.goblinframework.cache.couchbase.client.CouchbaseClient;
 import org.goblinframework.cache.couchbase.module.exception.CouchbaseCacheException;
+import org.goblinframework.core.service.GoblinManagedBean;
+import org.goblinframework.core.service.GoblinManagedObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rx.Observable;
@@ -16,19 +20,58 @@ import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-final public class CouchbaseCache extends AbstractCache {
+@GoblinManagedBean(type = "CacheCouchbase")
+final public class CouchbaseCache extends GoblinManagedObject implements Cache, CacheMXBean {
 
-  private final CouchbaseClient client;
+  @NotNull private final CacheLocation location;
+  @NotNull private final CouchbaseClient client;
 
-  public CouchbaseCache(@NotNull CouchbaseClient client) {
-    super(new CacheLocation(CacheSystem.CBS, client.getName()));
+  CouchbaseCache(@NotNull CouchbaseClient client) {
+    this.location = new CacheLocation(CacheSystem.CBS, client.getName());
     this.client = client;
+  }
+
+  @NotNull
+  @Override
+  public CacheLocation getCacheSystemLocation() {
+    return location;
+  }
+
+  @NotNull
+  @Override
+  public CacheSystem getCacheSystem() {
+    return location.system;
+  }
+
+  @NotNull
+  @Override
+  public String getCacheName() {
+    return location.name;
   }
 
   @NotNull
   @Override
   public CouchbaseClient nativeCache() {
     return client;
+  }
+
+  @NotNull
+  @Override
+  public <K, V> CacheValueLoader<K, V> loader() {
+    return new CacheValueLoaderImpl<>(this);
+  }
+
+  @NotNull
+  @Override
+  public <V> CacheValueModifier<V> modifier() {
+    return new CacheValueModifierImpl<>(this);
+  }
+
+  @Nullable
+  @Override
+  public <T> T load(@Nullable String key) {
+    GetResult<T> gr = get(key);
+    return gr.value;
   }
 
   @NotNull
@@ -190,6 +233,12 @@ final public class CouchbaseCache extends AbstractCache {
   }
 
   @Override
+  public <T> boolean cas(@Nullable String key, int expirationInSeconds, @Nullable GetResult<T> getResult, @Nullable CasOperation<T> casOperation) {
+    int maxTries = casOperation == null ? 0 : casOperation.getMaxTries();
+    return cas(key, expirationInSeconds, getResult, maxTries, casOperation);
+  }
+
+  @Override
   public <T> boolean cas(@Nullable String key, int expirationInSeconds, @Nullable GetResult<T> getResult, int maxTries, @Nullable CasOperation<T> casOperation) {
     return false;
   }
@@ -215,4 +264,5 @@ final public class CouchbaseCache extends AbstractCache {
     }
     return seconds;
   }
+
 }

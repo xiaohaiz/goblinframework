@@ -3,7 +3,6 @@ package org.goblinframework.cache.couchbase.cache
 import org.apache.commons.lang3.mutable.MutableObject
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
-import org.goblinframework.api.function.Disposable
 import org.goblinframework.cache.core.Cache
 import org.goblinframework.cache.core.CacheBuilder
 import org.goblinframework.cache.core.CacheSystem
@@ -53,17 +52,13 @@ class CouchbaseCacheBuilder2 private constructor()
 
   override fun getCacheList(): Array<CacheMXBean> {
     return buffer.values.mapNotNull { it.value }
-        .filterIsInstance(CacheMXBean::class.java)
-        .sortedBy { it.getCacheName() }
-        .toTypedArray()
+        .sortedBy { it.cacheName }.toTypedArray()
   }
 
   override fun disposeBean() {
     CacheBuilderManager2.INSTANCE.unregisterCacheBuilder(this)
     lock.withLock {
-      buffer.values.mapNotNull { it.value }
-          .filterIsInstance(Disposable::class.java)
-          .forEach { it.dispose() }
+      buffer.values.mapNotNull { it.value }.forEach { it.dispose() }
       buffer.clear()
     }
   }
