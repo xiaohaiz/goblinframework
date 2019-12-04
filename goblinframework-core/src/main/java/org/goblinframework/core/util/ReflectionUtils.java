@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.aop.framework.ProxyFactory;
 
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,6 +14,40 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 abstract public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
+
+  public static final MethodHandles.Lookup lookup;
+
+  static {
+    try {
+      Field field = MethodHandles.Lookup.class.getDeclaredField("IMPL_LOOKUP");
+      field.setAccessible(true);
+      lookup = (MethodHandles.Lookup) field.get(null);
+    } catch (Exception ex) {
+      throw new UnsupportedOperationException(ex);
+    }
+  }
+
+  public static boolean hasDefaultMethod(@NotNull Class<?> interfaceClass) {
+    if (!interfaceClass.isInterface()) {
+      throw new IllegalArgumentException("Interface class is required");
+    }
+    for (Method method : interfaceClass.getMethods()) {
+      if (method.isDefault()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static Object invokeInterfaceDefaultMethod(@NotNull Object target, @NotNull Method method, @Nullable Object[] arguments) throws Throwable {
+    if (!method.isDefault()) {
+      throw new IllegalArgumentException("Default method is required");
+    }
+    return lookup.in(method.getDeclaringClass())
+        .unreflectSpecial(method, method.getDeclaringClass())
+        .bindTo(target)
+        .invokeWithArguments(arguments);
+  }
 
   @Nullable
   public static Object invoke(@Nullable Object target,
@@ -69,5 +104,41 @@ abstract public class ReflectionUtils extends org.springframework.util.Reflectio
       result.addAll(list);
     }
     return result;
+  }
+
+  @NotNull
+  public static Method getMethod(@NotNull Class<?> clazz,
+                                 @NotNull String methodName,
+                                 @Nullable String[] parameterTypes)
+      throws ClassNotFoundException, NoSuchMethodException {
+    Class<?>[] resolvedParameterTypes;
+    if (parameterTypes == null || parameterTypes.length == 0) {
+      resolvedParameterTypes = new Class[0];
+    } else {
+      resolvedParameterTypes = new Class[parameterTypes.length];
+      for (int i = 0; i < resolvedParameterTypes.length; i++) {
+        String parameterType = parameterTypes[i];
+        resolvedParameterTypes[i] = ClassResolver.resolve(parameterType);
+      }
+    }
+    return clazz.getMethod(methodName, resolvedParameterTypes);
+  }
+
+  @NotNull
+  public static Method getDeclaredMethod(@NotNull Class<?> clazz,
+                                         @NotNull String methodName,
+                                         @Nullable String[] parameterTypes)
+      throws ClassNotFoundException, NoSuchMethodException {
+    Class<?>[] resolvedParameterTypes;
+    if (parameterTypes == null || parameterTypes.length == 0) {
+      resolvedParameterTypes = new Class[0];
+    } else {
+      resolvedParameterTypes = new Class[parameterTypes.length];
+      for (int i = 0; i < resolvedParameterTypes.length; i++) {
+        String parameterType = parameterTypes[i];
+        resolvedParameterTypes[i] = ClassResolver.resolve(parameterType);
+      }
+    }
+    return clazz.getDeclaredMethod(methodName, resolvedParameterTypes);
   }
 }

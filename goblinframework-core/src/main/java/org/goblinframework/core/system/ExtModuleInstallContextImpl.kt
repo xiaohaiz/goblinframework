@@ -16,8 +16,7 @@ class ExtModuleInstallContextImpl private constructor() : ExtModuleContextImpl()
   }
 
   override fun registerPriorFinalizationTask(action: Block0) {
-    val gsm = GoblinSystemManager.INSTANCE
-    gsm.registerPriorFinalizationTask(action)
+    PriorFinalizationTaskManager.INSTANCE.register(action)
   }
 
   override fun registerTestExecutionListener(listener: TestExecutionListener) {

@@ -1,5 +1,5 @@
 <#-- @ftlvariable name="workerId" type="java.lang.String" -->
-<#-- @ftlvariable name="eventListenerMXBean" type="org.goblinframework.core.event.GoblinEventListenerMXBean" -->
+<#-- @ftlvariable name="eventListenerMXBean" type="org.goblinframework.core.event.listener.GoblinEventListenerMXBean" -->
 <!--suppress HtmlUnknownTarget -->
 <html lang="zh">
 <head>

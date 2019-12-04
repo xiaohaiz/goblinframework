@@ -5,19 +5,21 @@ import org.goblinframework.api.database.Collection
 import org.goblinframework.api.database.Database
 import org.goblinframework.api.database.Id
 import org.goblinframework.core.container.SpringContainerObject
+import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.database.core.GoblinDatabaseConnection
+import org.goblinframework.database.mongo.module.test.DropMongoDatabase
 import org.goblinframework.test.runner.GoblinTestRunner
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.reactivestreams.Subscriber
-import org.reactivestreams.Subscription
 import org.springframework.stereotype.Repository
 import org.springframework.test.context.ContextConfiguration
-import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
+@DropMongoDatabase("_ut")
 class GoblinStaticDaoTest : SpringContainerObject() {
 
   @Database("test")
@@ -34,6 +36,23 @@ class GoblinStaticDaoTest : SpringContainerObject() {
   @Inject private lateinit var dao: MockDataDao
 
   @Test
+  fun loads() {
+    val id1 = ObjectId()
+    val id2 = ObjectId()
+    val id3 = ObjectId()
+    dao.insert(MockData().apply { id = id1 })
+    dao.insert(MockData().apply { id = id2 })
+    dao.insert(MockData().apply { id = id3 })
+
+    val ids = listOf(id1, id2, id3)
+    val map = dao.loads(ids)
+    assertEquals(3, map.size)
+    assertTrue(map.containsKey(id1))
+    assertTrue(map.containsKey(id2))
+    assertTrue(map.containsKey(id3))
+  }
+
+  @Test
   fun dao() {
     println(dao.getDatabaseName())
     println(dao.getDatabase())
@@ -48,24 +67,12 @@ class GoblinStaticDaoTest : SpringContainerObject() {
     val publisher = dao.__inserts(dataList)
 
 
-    val latch = CountDownLatch(1)
-    publisher.subscribe(object : Subscriber<MockData?> {
-      override fun onComplete() {
-        latch.countDown()
-      }
+    val s1 = BlockingListSubscriber<MockData>()
+    publisher.subscribe(s1)
+    val ids = s1.block().map { it.id }.toList()
 
-      override fun onSubscribe(s: Subscription?) {
-        s?.request(Long.MAX_VALUE)
-      }
-
-      override fun onNext(t: MockData?) {
-      }
-
-      override fun onError(t: Throwable?) {
-        t?.printStackTrace()
-        latch.countDown()
-      }
-    })
-    latch.await()
+    val s2 = BlockingListSubscriber<MockData>()
+    dao.__loads(ids).subscribe(s2)
+    println(s2.block())
   }
 }

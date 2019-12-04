@@ -5,18 +5,25 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import de.undercouch.bson4jackson.BsonParser;
 import de.undercouch.bson4jackson.deserializers.BsonDeserializers;
 import de.undercouch.bson4jackson.serializers.BsonSerializers;
 import org.bson.types.ObjectId;
+import org.goblinframework.database.mongo.bson.deserializer.BsonCalendarDeserializer;
+import org.goblinframework.database.mongo.bson.deserializer.BsonDateDeserializer;
 import org.goblinframework.database.mongo.bson.deserializer.BsonInstantDeserializer;
 import org.goblinframework.database.mongo.bson.deserializer.BsonObjectIdDeserializer;
 import org.goblinframework.database.mongo.bson.introspect.BsonIntrospector;
 import org.goblinframework.database.mongo.bson.serializer.BsonInstantSerializer;
 import org.goblinframework.database.mongo.bson.serializer.BsonObjectIdSerializer;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedHashMap;
 
 abstract public class BsonMapper {
 
@@ -46,6 +53,8 @@ abstract public class BsonMapper {
         context.addSerializers(serializers);
 
         BsonDeserializers deserializers = new BsonDeserializers();
+        deserializers.addDeserializer(Calendar.class, new BsonCalendarDeserializer());
+        deserializers.addDeserializer(Date.class, new BsonDateDeserializer());
         deserializers.addDeserializer(Instant.class, new BsonInstantDeserializer());
         deserializers.addDeserializer(ObjectId.class, new BsonObjectIdDeserializer());
         context.addDeserializers(deserializers);
@@ -60,5 +69,10 @@ abstract public class BsonMapper {
 
   public static TypeFactory getDefaultTypeFactory() {
     return getDefaultObjectMapper().getTypeFactory();
+  }
+
+  public static MapType constructMapType(@NotNull Class<?> keyClass, @NotNull Class<?> valueClass) {
+    TypeFactory factory = getDefaultTypeFactory();
+    return factory.constructMapType(LinkedHashMap.class, keyClass, valueClass);
   }
 }

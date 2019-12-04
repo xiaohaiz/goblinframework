@@ -8,11 +8,11 @@ import org.jetbrains.annotations.NotNull;
 final public class GoblinSystem {
 
   public static void install() {
-    GoblinSystemManager.INSTANCE.start();
+    GoblinSystemManager.INSTANCE.initialize();
   }
 
   public static void uninstall() {
-    GoblinSystemManager.INSTANCE.stop();
+    GoblinSystemManager.INSTANCE.dispose();
   }
 
   @NotNull

@@ -24,4 +24,8 @@ public class TransportRequestContext {
     TransportResponse response = responseWriter.response();
     channel.writeTransportMessage(new TransportMessage(response, serializer));
   }
+
+  public String asClientText() {
+    return channel.getClientName() + "@" + channel.getClientHost() + ":" + channel.getClientPort();
+  }
 }

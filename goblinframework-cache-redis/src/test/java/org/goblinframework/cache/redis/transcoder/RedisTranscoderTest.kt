@@ -2,8 +2,8 @@ package org.goblinframework.cache.redis.transcoder
 
 import org.apache.commons.lang3.RandomStringUtils
 import org.bson.types.ObjectId
+import org.goblinframework.api.core.SerializerMode
 import org.goblinframework.core.serialization.SerializerManager
-import org.goblinframework.core.serialization.SerializerMode
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertArrayEquals

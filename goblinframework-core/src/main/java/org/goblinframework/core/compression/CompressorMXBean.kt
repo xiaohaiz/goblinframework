@@ -1,5 +1,6 @@
 package org.goblinframework.core.compression
 
+import org.goblinframework.api.core.CompressorMode
 import java.lang.management.PlatformManagedObject
 
 interface CompressorMXBean : PlatformManagedObject {

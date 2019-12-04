@@ -4,6 +4,8 @@ import java.lang.management.PlatformManagedObject
 
 interface RemoteServiceMXBean : PlatformManagedObject {
 
-  fun getMode(): String
+  fun getServiceInterface(): String
+
+  fun getServiceVersion(): String
 
 }

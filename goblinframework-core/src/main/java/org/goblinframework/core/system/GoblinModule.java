@@ -1,8 +1,6 @@
 package org.goblinframework.core.system;
 
 public enum GoblinModule {
-  CONFIG,
-  EVENT,
   CORE,
   MONITOR,
   HTTP,

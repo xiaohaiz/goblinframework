@@ -1,5 +1,6 @@
 package org.goblinframework.core.compression
 
+import org.goblinframework.api.core.CompressorMode
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner

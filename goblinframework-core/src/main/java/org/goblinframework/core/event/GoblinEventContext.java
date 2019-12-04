@@ -15,6 +15,8 @@ public interface GoblinEventContext {
 
   boolean isSuccess();
 
+  boolean isDiscard();
+
   @NotNull
   Map<String, Object> getExtensions();
 
@@ -27,5 +29,4 @@ public interface GoblinEventContext {
   @Nullable
   Object setExtension(@NotNull String name, @NotNull Object extension);
 
-  void throwException();
 }

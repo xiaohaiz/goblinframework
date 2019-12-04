@@ -165,8 +165,20 @@ public class TransportClientSetting {
     }
 
     @NotNull
+    public TransportClientSettingBuilder receiveShutdown(boolean receiveShutdown) {
+      this.receiveShutdown = receiveShutdown;
+      return this;
+    }
+
+    @NotNull
     public TransportClientSettingBuilder enableSendHeartbeat() {
       this.sendHeartbeat = true;
+      return this;
+    }
+
+    @NotNull
+    public TransportClientSettingBuilder sendHeartbeat(boolean sendHeartbeat) {
+      this.sendHeartbeat = sendHeartbeat;
       return this;
     }
 

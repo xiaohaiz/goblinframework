@@ -9,7 +9,7 @@ import org.goblinframework.database.core.module.DatabaseModule
 import org.goblinframework.database.mongo.client.MongoClientManager
 import org.goblinframework.database.mongo.mapping.MongoEntityMappingBuilderProvider
 import org.goblinframework.database.mongo.module.config.MongoConfigManager
-import org.goblinframework.database.mongo.reactor.MongoSchedulerManager
+import org.goblinframework.database.mongo.module.test.DropMongoDatabaseBeforeTestMethod
 
 @Install
 class DatabaseMongoModule : ISubModule {
@@ -19,14 +19,13 @@ class DatabaseMongoModule : ISubModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
+    ctx.registerTestExecutionListener(DropMongoDatabaseBeforeTestMethod.INSTANCE)
     val module = ctx.getExtension(DatabaseModule::class.java)
     module?.registerEntityMappingBuilderProvider(MongoEntityMappingBuilderProvider.INSTANCE)
-    ctx.registerConfigParser(MongoConfigManager.INSTANCE.configParser)
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
     MongoClientManager.INSTANCE.dispose()
     MongoConfigManager.INSTANCE.dispose()
-    MongoSchedulerManager.INSTANCE.dispose()
   }
 }

@@ -1,9 +1,9 @@
 package org.goblinframework.core.serialization.fst;
 
 import org.goblinframework.api.annotation.Singleton;
+import org.goblinframework.api.core.SerializerMode;
 import org.goblinframework.core.exception.GoblinSerializationException;
 import org.goblinframework.core.serialization.Serializer;
-import org.goblinframework.core.serialization.SerializerMode;
 import org.jetbrains.annotations.NotNull;
 import org.nustaq.serialization.FSTConfiguration;
 import org.nustaq.serialization.FSTObjectInput;

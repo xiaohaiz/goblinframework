@@ -13,7 +13,11 @@ class MongoConfigManager private constructor()
     @JvmField val INSTANCE = MongoConfigManager()
   }
 
-  val configParser = MongoConfigParser()
+  private val configParser = MongoConfigParser()
+
+  init {
+    configParser.initialize()
+  }
 
   fun getMongoClient(name: String): MongoConfig? {
     return configParser.getFromBuffer(name)

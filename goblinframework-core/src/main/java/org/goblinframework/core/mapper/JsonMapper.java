@@ -27,6 +27,9 @@ import java.util.List;
 
 abstract public class JsonMapper {
 
+  public static final String EMPTY_JSON_OBJECT = "{}";
+  public static final String EMPTY_JSON_ARRAY = "[]";
+
   private static final ObjectMapper DEFAULT_OBJECT_MAPPER;
 
   static {

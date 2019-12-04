@@ -3,40 +3,36 @@ package org.goblinframework.transport.server.channel
 import org.goblinframework.api.core.Lifecycle
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.core.util.StopWatch
+import org.goblinframework.core.service.GoblinManagedStopWatch
 import org.goblinframework.transport.server.setting.TransportServerSetting
 import java.util.concurrent.atomic.AtomicReference
 
-@GoblinManagedBean(type = "transport.server")
-class TransportServer
-internal constructor(private val setting: TransportServerSetting)
+@GoblinManagedBean("TransportServer")
+@GoblinManagedStopWatch
+class TransportServer internal constructor(private val setting: TransportServerSetting)
   : GoblinManagedObject(), Lifecycle, TransportServerMXBean {
 
-  private val watch = StopWatch()
-  private val server = AtomicReference<TransportServerImpl>()
+  private val serverReference = AtomicReference<TransportServerImpl?>()
 
   @Synchronized
   override fun start() {
-    if (server.get() == null) {
-      server.set(TransportServerImpl(setting))
+    if (serverReference.get() == null) {
+      val server = TransportServerImpl(setting)
+      serverReference.set(server)
+      logger.debug("Transport server [{}] started at [{}:{}]", setting.name(), server.host, server.port)
     }
   }
 
   override fun stop() {
-    server.getAndSet(null)?.close()
+    serverReference.getAndSet(null)?.dispose()
   }
 
   override fun isRunning(): Boolean {
-    return server.get() != null
+    return serverReference.get() != null
   }
 
-  override fun disposeBean() {
-    watch.stop()
-    stop()
-  }
-
-  override fun getUpTime(): String {
-    return watch.toString()
+  override fun getUpTime(): String? {
+    return stopWatch?.toString()
   }
 
   override fun getName(): String {
@@ -48,10 +44,19 @@ internal constructor(private val setting: TransportServerSetting)
   }
 
   override fun getHost(): String? {
-    return server.get()?.host
+    return serverReference.get()?.host
   }
 
-  override fun getPort(): Int {
-    return server.get()?.port ?: -1
+  override fun getPort(): Int? {
+    return serverReference.get()?.port
+  }
+
+  override fun getTransportServerChannelManager(): TransportServerChannelManagerMXBean? {
+    return serverReference.get()?.channelManager
+  }
+
+  override fun disposeBean() {
+    stop()
+    logger.debug("Transport server [{}] disposed", setting.name())
   }
 }

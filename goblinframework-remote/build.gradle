@@ -5,4 +5,5 @@ dependencies {
   compile(project(":goblinframework-registry"))
 
   testCompile(project(":goblinframework-test"))
+  testCompile(project(":goblinframework-monitor"))
 }

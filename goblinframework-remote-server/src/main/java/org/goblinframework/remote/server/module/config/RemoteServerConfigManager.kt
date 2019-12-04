@@ -1,9 +1,11 @@
 package org.goblinframework.remote.server.module.config
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 
 @Singleton
+@GoblinManagedBean("RemoteServer")
 class RemoteServerConfigManager private constructor()
   : GoblinManagedObject(), RemoteServerConfigManagerMXBean {
 
@@ -11,13 +13,17 @@ class RemoteServerConfigManager private constructor()
     @JvmField val INSTANCE = RemoteServerConfigManager()
   }
 
-  val configParser = RemoteServerConfigParser()
+  private val parser = RemoteServerConfigParser()
 
-  fun getRemoteServerConfig(): RemoteServerConfig? {
-    return configParser.getRemoteServerConfig()
+  override fun initializeBean() {
+    parser.initialize()
+  }
+
+  override fun getRemoteServerConfig(): RemoteServerConfig {
+    return parser.getFromBuffer(RemoteServerConfigParser.CONFIG_NAME)!!
   }
 
   override fun disposeBean() {
-    configParser.dispose()
+    parser.dispose()
   }
 }

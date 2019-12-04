@@ -1,6 +1,7 @@
 package org.goblinframework.core.container;
 
 import org.apache.commons.lang3.mutable.MutableObject;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
@@ -15,7 +16,7 @@ final public class SpringBeanPostProcessorDelegator implements BeanPostProcessor
   }
 
   @Override
-  public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+  public Object postProcessBeforeInitialization(@NotNull Object bean, String beanName) throws BeansException {
     if (processors.isEmpty()) {
       return bean;
     }
@@ -31,7 +32,7 @@ final public class SpringBeanPostProcessorDelegator implements BeanPostProcessor
   }
 
   @Override
-  public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+  public Object postProcessAfterInitialization(@NotNull Object bean, String beanName) throws BeansException {
     if (processors.isEmpty()) {
       return bean;
     }

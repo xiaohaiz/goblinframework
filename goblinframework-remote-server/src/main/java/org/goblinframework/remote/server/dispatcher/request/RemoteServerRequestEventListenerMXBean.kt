@@ -1,0 +1,5 @@
+package org.goblinframework.remote.server.dispatcher.request
+
+import java.lang.management.PlatformManagedObject
+
+interface RemoteServerRequestEventListenerMXBean : PlatformManagedObject

@@ -2,12 +2,10 @@ package org.goblinframework.core.system
 
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.container.SpringContainerManager
-import org.goblinframework.core.module.SystemModule
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.core.util.ClassUtils
-import org.slf4j.LoggerFactory
-import java.util.concurrent.Executors
+import reactor.core.scheduler.Schedulers
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 @GoblinManagedBean(type = "core", name = "GoblinSystem")
@@ -52,45 +50,34 @@ internal constructor(private val systemManager: GoblinSystemManager)
   override fun disposeBean() {
     logger.info("Shutdown GOBLIN system")
 
-    systemManager.priorFinalizationTasks.forEach {
-      try {
-        it.apply()
-      } catch (ex: Exception) {
-        val logger = LoggerFactory.getLogger(SystemModule::class.java)
-        logger.error("Exception raised when executing PriorFinalizationTask: $it")
-      }
-    }
+    // Execute prior finalization tasks
+    PriorFinalizationTaskManager.INSTANCE.dispose()
 
     // Close spring container
     SpringContainerManager.INSTANCE.dispose()
 
     // Execute FINALIZE
-    val executorService = Executors.newFixedThreadPool(1)
-    executorService.submit {
-      for (module in ExtModuleLoader.asList().reversed()) {
-        logger.info("Finalize {${module.id()}}")
-        module.finalize(ExtModuleFinalizeContextImpl.INSTANCE)
-      }
-      for (id in GoblinModule.values().reversed()) {
-        val module = ModuleLoader.module(id) ?: continue
-        logger.info("Finalize {${module.id()}}")
-        module.finalize(ModuleFinalizeContextImpl.INSTANCE)
+    val timeoutLatch = CountDownLatch(1)
+    val scheduler = Schedulers.newSingle("FinalizeModule", true)
+    val finalizeTask = scheduler.schedule {
+      try {
+        for (module in ExtModuleLoader.asList().reversed()) {
+          logger.info("Finalize {${module.id()}}")
+          module.finalize(ExtModuleFinalizeContextImpl.INSTANCE)
+        }
+        for (id in GoblinModule.values().reversed()) {
+          val module = ModuleLoader.module(id) ?: continue
+          logger.info("Finalize {${module.id()}}")
+          module.finalize(ModuleFinalizeContextImpl.INSTANCE)
+        }
+      } finally {
+        timeoutLatch.countDown()
       }
     }
-    executorService.shutdown()
-    executorService.awaitTermination(1, TimeUnit.MINUTES)
-
-    logger.info("FAREWELL")
-    shutdownLog4j2IfNecessary()
-  }
-
-  private fun shutdownLog4j2IfNecessary() {
-    try {
-      val clazz = ClassUtils.loadClass("org.apache.logging.log4j.LogManager")
-      val method = clazz.getMethod("shutdown")
-      method.invoke(null)
-    } catch (ignore: Exception) {
+    if (!timeoutLatch.await(1, TimeUnit.MINUTES)) {
+      finalizeTask.dispose()
     }
-
+    scheduler.dispose()
   }
+
 }

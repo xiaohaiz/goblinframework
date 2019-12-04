@@ -8,8 +8,6 @@ interface MongoConfigMXBean : PlatformManagedObject {
 
   fun getServers(): String
 
-  fun getStream(): String
-
   fun getMaxSize(): Int
 
   fun getMinSize(): Int

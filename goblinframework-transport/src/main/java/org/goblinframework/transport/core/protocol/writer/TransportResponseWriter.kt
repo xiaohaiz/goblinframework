@@ -1,8 +1,8 @@
 package org.goblinframework.transport.core.protocol.writer
 
 import org.goblinframework.api.annotation.ThreadSafe
+import org.goblinframework.api.core.CompressorMode
 import org.goblinframework.core.compression.CompressorManager
-import org.goblinframework.core.compression.CompressorMode
 import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.transport.core.protocol.TransportResponse
 import org.goblinframework.transport.core.protocol.TransportResponseException

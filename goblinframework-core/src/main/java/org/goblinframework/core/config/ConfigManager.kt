@@ -27,8 +27,7 @@ class ConfigManager private constructor() : GoblinManagedObject(), ConfigManager
 
   private val configLocationScanner = ConfigLocationScanner()
   private val mappingLocationScanner = MappingLocationScanner(configLocationScanner)
-  private val configParserManager = ConfigParserManager()
-  private val configListenerManager = ConfigListenerManager()
+  private val configListenerPublisher = ConfigListenerPublisher()
   private val configManagerScanner = ConfigManagerScanner(this)
 
   private val loadTimes = AtomicLong()
@@ -91,7 +90,7 @@ class ConfigManager private constructor() : GoblinManagedObject(), ConfigManager
   fun reload() {
     configLocationScanner.getConfigLocation()?.run {
       if (loadConfiguration(this)) {
-        configListenerManager.onConfigChanged()
+        configListenerPublisher.onNext()
       }
     }
   }
@@ -143,23 +142,14 @@ class ConfigManager private constructor() : GoblinManagedObject(), ConfigManager
     this.config.set(config)
   }
 
-  fun install() {}
-
-  override fun initializeBean() {
-    configParserManager.parseConfigs()
-  }
-
   override fun disposeBean() {
+    configListenerPublisher.dispose()
     mappingLocationScanner.dispose()
     configLocationScanner.dispose()
   }
 
-  fun registerConfigParser(parser: ConfigParser) {
-    configParserManager.register(parser)
-  }
-
-  fun registerConfigListener(listener: ConfigListener) {
-    configListenerManager.register(listener)
+  fun getConfigListenerPublisher(): ConfigListenerPublisher {
+    return configListenerPublisher
   }
 
   override fun getConfigLocationScanner(): ConfigLocationScannerMXBean {

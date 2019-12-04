@@ -1,5 +1,6 @@
 package org.goblinframework.core.system
 
+import org.goblinframework.api.annotation.Install
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.event.GoblinEventChannel
 import org.goblinframework.core.event.GoblinEventContext
@@ -7,7 +8,6 @@ import org.goblinframework.core.event.GoblinEventListener
 import org.slf4j.LoggerFactory
 
 @Singleton
-@GoblinEventChannel("/goblin/core")
 class SubModuleEventListener private constructor() : GoblinEventListener {
 
   companion object {
@@ -43,5 +43,8 @@ class SubModuleEventListener private constructor() : GoblinEventListener {
     }
   }
 
+  @Install
+  @GoblinEventChannel("/goblin/core")
+  class Installer : GoblinEventListener by INSTANCE
 
 }

@@ -4,7 +4,6 @@ import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.config.GoblinConfigException
 import org.goblinframework.core.util.StringUtils
-import org.goblinframework.core.util.SystemUtils
 
 class MongoConfigParser internal constructor()
   : BufferedConfigParser<MongoConfig>() {
@@ -28,9 +27,8 @@ class MongoConfigParser internal constructor()
       throw GoblinConfigException("mongo.servers is required")
     }
     mapper.servers = StringUtils.formalizeServers(mapper.servers, " ") { DEFAULT_MONGO_PORT }
-    mapper.stream = if (SystemUtils.isNettyFound()) "netty" else "nio2"
     mapper.maxSize ?: kotlin.run { mapper.maxSize = 100 }
-    mapper.minSize ?: kotlin.run { mapper.minSize = 100 }
+    mapper.minSize ?: kotlin.run { mapper.minSize = 0 }
     mapper.maxWaitQueueSize ?: kotlin.run { mapper.maxWaitQueueSize = 500 }
     mapper.maxWaitTimeMS ?: kotlin.run { mapper.maxWaitTimeMS = 120000 }
     mapper.maxConnectionLifeTimeMS ?: kotlin.run { mapper.maxConnectionLifeTimeMS = 0 }

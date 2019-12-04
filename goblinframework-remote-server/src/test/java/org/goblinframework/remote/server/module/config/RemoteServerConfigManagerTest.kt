@@ -12,7 +12,8 @@ class RemoteServerConfigManagerTest {
 
   @Test
   fun getRemoteServerConfig() {
-    val config = RemoteServerConfigManager.INSTANCE.getRemoteServerConfig()
-    assertNotNull(config)
+    val cm = RemoteServerConfigManager.INSTANCE
+    val c = cm.getRemoteServerConfig()
+    assertNotNull(c)
   }
 }

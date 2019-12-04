@@ -1,0 +1,9 @@
+<event-bus>
+
+  <channels>
+    <channel name="/goblin/core" ringBufferSize="32768" workerHandlers="0"/>
+    <channel name="/goblin/timer" ringBufferSize="32768" workerHandlers="4"/>
+    <channel name="/goblin/monitor" ringBufferSize="65536" workerHandlers="4"/>
+  </channels>
+
+</event-bus>

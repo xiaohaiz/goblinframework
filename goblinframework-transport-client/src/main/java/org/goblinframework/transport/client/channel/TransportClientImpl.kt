@@ -10,6 +10,7 @@ import io.netty.handler.logging.LoggingHandler
 import org.apache.commons.collections4.map.LRUMap
 import org.goblinframework.core.system.GoblinSystem
 import org.goblinframework.core.util.RandomUtils
+import org.goblinframework.core.util.StringUtils
 import org.goblinframework.transport.client.handler.TransportResponseContext
 import org.goblinframework.transport.client.module.TransportClientModule
 import org.goblinframework.transport.core.codec.TransportMessage
@@ -19,19 +20,18 @@ import org.goblinframework.transport.core.protocol.*
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicReference
 
-class TransportClientImpl
-internal constructor(private val client: TransportClient) {
+class TransportClientImpl internal constructor(private val client: TransportClient) {
 
   companion object {
     private val logger = LoggerFactory.getLogger(TransportClientImpl::class.java)
   }
 
+  internal val handshakeResponseReference = AtomicReference<HandshakeResponse?>()
   private val heartbeatInProgress = Collections.synchronizedMap(LRUMap<String, HeartbeatRequest>(32))
-  private val stateChannelRef = AtomicReference<TransportClientChannel>(TransportClientChannel.CONNECTING)
-  private val channelRef = AtomicReference<Channel>()
+  private val stateChannelReference = AtomicReference<TransportClientChannel>(TransportClientChannel.CONNECTING)
+  private val channelReference = AtomicReference<Channel?>()
   private val worker: NioEventLoopGroup
 
   internal val connectFuture = TransportClientConnectFuture()
@@ -69,13 +69,14 @@ internal constructor(private val client: TransportClient) {
           return
         }
         val channel = future.channel()
-        channelRef.set(channel)
+        channelReference.set(channel)
         updateStateChannel(TransportClientChannel(TransportClientState.CONNECTED, this@TransportClientImpl))
 
         val request = HandshakeRequest()
         request.serverId = setting.serverId()
         request.clientId = GoblinSystem.applicationId()
         request.extensions = linkedMapOf()
+        request.extensions["clientName"] = GoblinSystem.applicationName()
         request.extensions["clientLanguage"] = "java/kotlin"
         request.extensions["receiveShutdown"] = setting.receiveShutdown()
         val serializer = TransportProtocol.getSerializerId(request.javaClass)
@@ -86,11 +87,11 @@ internal constructor(private val client: TransportClient) {
 
   @Synchronized
   fun updateStateChannel(sc: TransportClientChannel) {
-    val previous = stateChannelRef.get().state
+    val previous = stateChannelReference.get().state
     if (previous === TransportClientState.SHUTDOWN) {
       return
     }
-    stateChannelRef.set(sc)
+    stateChannelReference.set(sc)
     if (logger.isDebugEnabled) {
       logger.debug("{} state changed: {} -> {}", this, previous, sc.state)
     }
@@ -98,11 +99,11 @@ internal constructor(private val client: TransportClient) {
   }
 
   fun available(): Boolean {
-    return stateChannelRef.get().available()
+    return stateChannelReference.get().available()
   }
 
   fun stateChannel(): TransportClientChannel {
-    return stateChannelRef.get()
+    return stateChannelReference.get()
   }
 
   fun sendHeartbeat() {
@@ -130,6 +131,7 @@ internal constructor(private val client: TransportClient) {
     when (val message = msg.message) {
       is HandshakeResponse -> {
         if (message.success) {
+          handshakeResponseReference.set(message)
           updateStateChannel(TransportClientChannel(TransportClientState.HANDSHAKED, this))
         } else {
           updateStateChannel(TransportClientChannel.HANDSHAKE_FAILED)
@@ -156,7 +158,12 @@ internal constructor(private val client: TransportClient) {
         val handler = client.setting.handlerSetting().transportResponseHandler()
         val ctx = TransportResponseContext()
         ctx.response = message
-        ctx.extensions = ConcurrentHashMap()
+        if (ctx.response.extensions == null) {
+          ctx.response.extensions = linkedMapOf()
+        }
+        ctx.response.extensions["SERVER_ID"] = StringUtils.defaultString(client.setting.serverId())
+        ctx.response.extensions["SERVER_HOST"] = client.setting.serverHost()
+        ctx.response.extensions["SERVER_PORT"] = client.setting.serverPort().toString()
         handler.handleTransportResponse(ctx)
         return
       }
@@ -165,7 +172,7 @@ internal constructor(private val client: TransportClient) {
   }
 
   fun writeTransportMessage(msg: TransportMessage) {
-    channelRef.get()?.writeAndFlush(msg)
+    channelReference.get()?.writeAndFlush(msg)
   }
 
   internal fun close() {

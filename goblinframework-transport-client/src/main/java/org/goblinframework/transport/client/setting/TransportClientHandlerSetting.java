@@ -1,22 +1,31 @@
 package org.goblinframework.transport.client.setting;
 
 import org.goblinframework.transport.client.flight.MessageFlightResponseHandler;
+import org.goblinframework.transport.client.handler.TransportClientConnectedHandler;
 import org.goblinframework.transport.client.handler.TransportResponseHandler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
 final public class TransportClientHandlerSetting {
 
   private final TransportResponseHandler transportResponseHandler;
+  private final TransportClientConnectedHandler transportClientConnectedHandler;
 
   private TransportClientHandlerSetting(@NotNull TransportClientHandlerSettingBuilder builder) {
     this.transportResponseHandler = Objects.requireNonNull(builder.transportResponseHandler);
+    this.transportClientConnectedHandler = builder.transportClientConnectedHandler;
   }
 
   @NotNull
   public TransportResponseHandler transportResponseHandler() {
     return transportResponseHandler;
+  }
+
+  @Nullable
+  public TransportClientConnectedHandler transportClientConnectedHandler() {
+    return transportClientConnectedHandler;
   }
 
   @NotNull
@@ -27,6 +36,7 @@ final public class TransportClientHandlerSetting {
   final public static class TransportClientHandlerSettingBuilder {
 
     private TransportResponseHandler transportResponseHandler;
+    private TransportClientConnectedHandler transportClientConnectedHandler;
 
     private TransportClientHandlerSettingBuilder() {
     }
@@ -40,6 +50,12 @@ final public class TransportClientHandlerSetting {
     @NotNull
     public TransportClientHandlerSettingBuilder enableMessageFlight() {
       transportResponseHandler(MessageFlightResponseHandler.INSTANCE);
+      return this;
+    }
+
+    @NotNull
+    public TransportClientHandlerSettingBuilder transportClientConnectedHandler(@NotNull TransportClientConnectedHandler transportClientConnectedHandler) {
+      this.transportClientConnectedHandler = transportClientConnectedHandler;
       return this;
     }
 

@@ -3,6 +3,7 @@ package org.goblinframework.core.util;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
@@ -71,5 +72,20 @@ abstract public class StringUtils extends org.apache.commons.lang3.StringUtils {
       message = replaceOnce(message, "{}", replacement);
     }
     return message;
+  }
+
+  @NotNull
+  public static String getMethodText(@NotNull Method method) {
+    StringBuilder sbuf = new StringBuilder();
+    if (method.getParameterCount() > 0) {
+      for (Class<?> parameterType : method.getParameterTypes()) {
+        sbuf.append(parameterType.getName());
+        sbuf.append(",");
+      }
+    }
+    if (sbuf.length() > 0) {
+      sbuf.setLength(sbuf.length() - 1);
+    }
+    return method.getReturnType().getName() + " " + method.getName() + "(" + sbuf.toString() + ")";
   }
 }
