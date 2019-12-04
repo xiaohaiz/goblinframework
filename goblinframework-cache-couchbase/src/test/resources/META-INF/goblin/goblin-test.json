@@ -1,0 +1,9 @@
+{
+  "couchbase": {
+    "_ut": {
+      "servers": "127.0.0.1",
+      "bucketName": "test",
+      "flushable": true
+    }
+  }
+}
