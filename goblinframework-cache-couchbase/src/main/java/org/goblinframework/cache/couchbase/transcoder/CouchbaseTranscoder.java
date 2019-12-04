@@ -2,11 +2,14 @@ package org.goblinframework.cache.couchbase.transcoder;
 
 import com.couchbase.client.core.lang.Tuple;
 import com.couchbase.client.core.lang.Tuple2;
+import com.couchbase.client.core.logging.CouchbaseLogger;
+import com.couchbase.client.core.logging.CouchbaseLoggerFactory;
 import com.couchbase.client.core.message.ResponseStatus;
 import com.couchbase.client.core.message.kv.MutationToken;
 import com.couchbase.client.deps.io.netty.buffer.ByteBuf;
 import com.couchbase.client.deps.io.netty.buffer.ByteBufOutputStream;
 import com.couchbase.client.deps.io.netty.buffer.Unpooled;
+import com.couchbase.client.deps.io.netty.util.CharsetUtil;
 import com.couchbase.client.java.document.LegacyDocument;
 import com.couchbase.client.java.transcoder.AbstractTranscoder;
 import com.couchbase.client.java.transcoder.LegacyTranscoder;
@@ -24,6 +27,8 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 final public class CouchbaseTranscoder extends AbstractTranscoder<LegacyDocument, Object> {
+
+  private static final CouchbaseLogger logger = CouchbaseLoggerFactory.getInstance(CouchbaseTranscoder.class);
 
   // General flags
   static final int SERIALIZED = 1;                        // 0000 0000 0000 0000 0000 0000 0000 0001
@@ -51,7 +56,56 @@ final public class CouchbaseTranscoder extends AbstractTranscoder<LegacyDocument
 
   @Override
   protected LegacyDocument doDecode(String id, ByteBuf content, long cas, int expiry, int flags, ResponseStatus status) throws Exception {
-    return null;
+    byte[] data = new byte[content.readableBytes()];
+    content.readBytes(data);
+    Object decoded = null;
+    if ((flags & COMPRESSED) != 0) {
+      Compressor compressor = CompressorManager.INSTANCE.getCompressor(CompressorMode.GZIP);
+      data = compressor.decompress(data);
+    }
+    int maskedFlags = flags & SPECIAL_MASK;
+    if ((flags & SERIALIZED) != 0) {
+      Serializer serializer = SerializerManager.INSTANCE.getSerializer(SerializerMode.JAVA);
+      decoded = serializer.deserialize(data);
+    } else if ((flags & FST) != 0) {
+      Serializer serializer = SerializerManager.INSTANCE.getSerializer(SerializerMode.FST);
+      decoded = serializer.deserialize(data);
+    } else if ((flags & HESSIAN2) != 0) {
+      Serializer serializer = SerializerManager.INSTANCE.getSerializer(SerializerMode.HESSIAN2);
+      decoded = serializer.deserialize(data);
+    } else if (maskedFlags != 0) {
+      switch (maskedFlags) {
+        case SPECIAL_BOOLEAN:
+          decoded = data[0] == '1';
+          break;
+        case SPECIAL_INT:
+          decoded = (int) LegacyTranscoder.decodeLong(data);
+          break;
+        case SPECIAL_LONG:
+          decoded = LegacyTranscoder.decodeLong(data);
+          break;
+        case SPECIAL_DATE:
+          decoded = new Date(LegacyTranscoder.decodeLong(data));
+          break;
+        case SPECIAL_BYTE:
+          decoded = data[0];
+          break;
+        case SPECIAL_FLOAT:
+          decoded = Float.intBitsToFloat((int) LegacyTranscoder.decodeLong(data));
+          break;
+        case SPECIAL_DOUBLE:
+          decoded = Double.longBitsToDouble(LegacyTranscoder.decodeLong(data));
+          break;
+        case SPECIAL_BYTEARRAY:
+          decoded = data;
+          break;
+        default:
+          logger.warn("Undecodeable with flags %x", flags);
+      }
+    } else {
+      decoded = new String(data, CharsetUtil.UTF_8);
+    }
+    return newDocument(id, expiry, decoded, cas);
   }
 
   @Override
