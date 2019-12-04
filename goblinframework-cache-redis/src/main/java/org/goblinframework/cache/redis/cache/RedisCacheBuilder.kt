@@ -19,6 +19,6 @@ class RedisCacheBuilder private constructor() : CacheBuilder {
 
   override fun getCache(name: String): Cache? {
     val client = RedisClientManager.INSTANCE.getRedisClient(name) ?: return null
-    return RedisCacheImpl(name, client)
+    return RedisCache(client)
   }
 }

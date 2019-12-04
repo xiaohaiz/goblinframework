@@ -19,12 +19,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-final class RedisCacheImpl extends AbstractCache {
+final class RedisCache extends AbstractCache {
 
   private final RedisClient client;
 
-  RedisCacheImpl(@NotNull String name, @NotNull RedisClient client) {
-    super(new CacheLocation(CacheSystem.RDS, name));
+  RedisCache(@NotNull RedisClient client) {
+    super(new CacheLocation(CacheSystem.RDS, client.getName()));
     this.client = client;
   }
 

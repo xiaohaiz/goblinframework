@@ -1,8 +1,6 @@
 package org.goblinframework.cache.redis.client
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig
-import org.goblinframework.core.service.GoblinManagedBean
-import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.cache.redis.command.RedisCommands
 import org.goblinframework.cache.redis.connection.RedisConnection
 import org.goblinframework.cache.redis.connection.TransactionCallback
@@ -10,8 +8,10 @@ import org.goblinframework.cache.redis.module.config.RedisConfig
 import org.goblinframework.cache.redis.transcoder.RedisTranscoder
 import org.goblinframework.core.compression.CompressorManager
 import org.goblinframework.core.serialization.SerializerManager
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 
-@GoblinManagedBean(type = "cache.redis")
+@GoblinManagedBean("CacheRedis")
 abstract class RedisClient(val config: RedisConfig)
   : GoblinManagedObject(), RedisClientMXBean {
 
@@ -68,4 +68,8 @@ abstract class RedisClient(val config: RedisConfig)
   abstract fun <E> executeTransaction(key: String, callback: TransactionCallback<E>): E
 
   abstract fun getRedisCommands(): RedisCommands
+
+  override fun getName(): String {
+    return config.getName()
+  }
 }
