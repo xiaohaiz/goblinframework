@@ -19,11 +19,11 @@ import kotlin.concurrent.withLock
 @Singleton
 @ThreadSafe
 @GoblinManagedBean("CacheCouchbase")
-class CouchbaseCacheBuilder2 private constructor()
+class CouchbaseCacheBuilder private constructor()
   : GoblinManagedObject(), CacheBuilder, CacheBuilderMXBean {
 
   companion object {
-    val INSTANCE = CouchbaseCacheBuilder2()
+    val INSTANCE = CouchbaseCacheBuilder()
   }
 
   private val buffer = ConcurrentHashMap<String, MutableObject<CouchbaseCache?>>()

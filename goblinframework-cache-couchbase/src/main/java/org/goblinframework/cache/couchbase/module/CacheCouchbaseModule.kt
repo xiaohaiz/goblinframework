@@ -1,7 +1,7 @@
 package org.goblinframework.cache.couchbase.module
 
 import org.goblinframework.api.annotation.Install
-import org.goblinframework.cache.couchbase.cache.CouchbaseCacheBuilder2
+import org.goblinframework.cache.couchbase.cache.CouchbaseCacheBuilder
 import org.goblinframework.cache.couchbase.client.CouchbaseClientManager
 import org.goblinframework.cache.couchbase.client.CouchbaseClusterManager
 import org.goblinframework.cache.couchbase.client.CouchbaseEnvironmentManager
@@ -23,11 +23,11 @@ class CacheCouchbaseModule : ISubModule {
     CouchbaseEnvironmentManager.INSTANCE.initialize()
     CouchbaseClusterManager.INSTANCE.initialize()
     CouchbaseClientManager.INSTANCE.initialize()
-    CouchbaseCacheBuilder2.INSTANCE.initialize()
+    CouchbaseCacheBuilder.INSTANCE.initialize()
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
-    CouchbaseCacheBuilder2.INSTANCE.dispose()
+    CouchbaseCacheBuilder.INSTANCE.dispose()
     CouchbaseClientManager.INSTANCE.dispose()
     CouchbaseClusterManager.INSTANCE.dispose()
     CouchbaseEnvironmentManager.INSTANCE.dispose()
