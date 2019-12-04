@@ -7,10 +7,13 @@ import io.lettuce.core.TransactionResult;
 import io.lettuce.core.api.async.RedisKeyAsyncCommands;
 import io.lettuce.core.api.async.RedisStringAsyncCommands;
 import org.goblinframework.cache.core.*;
-import org.goblinframework.cache.core.cache.AbstractCache;
+import org.goblinframework.cache.core.cache.CacheMXBean;
+import org.goblinframework.cache.core.cache.CacheValueLoaderImpl;
 import org.goblinframework.cache.redis.client.RedisClient;
 import org.goblinframework.core.concurrent.GoblinExecutionException;
 import org.goblinframework.core.concurrent.GoblinInterruptedException;
+import org.goblinframework.core.service.GoblinManagedBean;
+import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.core.util.NumberUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -19,13 +22,33 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-final class RedisCache extends AbstractCache {
+@GoblinManagedBean(type = "CacheRedis")
+final class RedisCache extends GoblinManagedObject implements Cache, CacheMXBean {
 
-  private final RedisClient client;
+  @NotNull private final CacheLocation location;
+  @NotNull private final RedisClient client;
 
   RedisCache(@NotNull RedisClient client) {
-    super(new CacheLocation(CacheSystem.RDS, client.getName()));
+    this.location = new CacheLocation(CacheSystem.RDS, client.getName());
     this.client = client;
+  }
+
+  @NotNull
+  @Override
+  public CacheLocation getCacheSystemLocation() {
+    return location;
+  }
+
+  @NotNull
+  @Override
+  public CacheSystem getCacheSystem() {
+    return location.system;
+  }
+
+  @NotNull
+  @Override
+  public String getCacheName() {
+    return location.name;
   }
 
   @NotNull
@@ -36,8 +59,21 @@ final class RedisCache extends AbstractCache {
 
   @NotNull
   @Override
+  public <K, V> CacheValueLoader<K, V> loader() {
+    return new CacheValueLoaderImpl<>(this);
+  }
+
+  @NotNull
+  @Override
   public <V> CacheValueModifier<V> modifier() {
     return new RedisCacheValueModifier<>(this);
+  }
+
+  @Nullable
+  @Override
+  public <T> T load(@Nullable String key) {
+    GetResult<T> gr = get(key);
+    return gr.value;
   }
 
   @NotNull
@@ -369,6 +405,12 @@ final class RedisCache extends AbstractCache {
       Object last = tr.get(1);
       return NumberUtils.toLong(last);
     });
+  }
+
+  @Override
+  public <T> boolean cas(@Nullable String key, int expirationInSeconds, @Nullable GetResult<T> getResult, @Nullable CasOperation<T> casOperation) {
+    int maxTries = casOperation == null ? 0 : casOperation.getMaxTries();
+    return cas(key, expirationInSeconds, getResult, maxTries, casOperation);
   }
 
   @Override

@@ -1,5 +1,6 @@
 package org.goblinframework.cache.redis.cache
 
+import org.apache.commons.lang3.mutable.MutableObject
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.cache.core.Cache
@@ -8,8 +9,12 @@ import org.goblinframework.cache.core.CacheSystem
 import org.goblinframework.cache.core.cache.CacheBuilderMXBean
 import org.goblinframework.cache.core.cache.CacheBuilderManager2
 import org.goblinframework.cache.core.cache.CacheMXBean
+import org.goblinframework.cache.redis.client.RedisClientManager
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
 @Singleton
 @ThreadSafe
@@ -21,6 +26,9 @@ class RedisCacheBuilder2 private constructor()
     @JvmField val INSTANCE = RedisCacheBuilder2()
   }
 
+  private val buffer = ConcurrentHashMap<String, MutableObject<RedisCache?>>()
+  private val lock = ReentrantLock()
+
   override fun initializeBean() {
     CacheBuilderManager2.INSTANCE.registerCacheBuilder(this)
   }
@@ -30,11 +38,20 @@ class RedisCacheBuilder2 private constructor()
   }
 
   override fun getCache(name: String): Cache? {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    buffer[name]?.run { return this.value }
+    lock.withLock {
+      buffer[name]?.run { return this.value }
+      val mutable = MutableObject<RedisCache?>()
+      RedisClientManager.INSTANCE.getRedisClient(name)?.run {
+        mutable.value = RedisCache(this)
+      }
+      buffer[name] = mutable
+      return mutable.value
+    }
   }
 
   override fun getCacheList(): Array<CacheMXBean> {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    return buffer.values.mapNotNull { it.value }.sortedBy { it.cacheName }.toTypedArray()
   }
 
   override fun disposeBean() {
