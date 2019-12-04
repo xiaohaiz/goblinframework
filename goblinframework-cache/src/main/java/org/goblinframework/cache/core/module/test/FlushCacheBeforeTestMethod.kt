@@ -18,10 +18,14 @@ class FlushCacheBeforeTestMethod private constructor() : TestExecutionListener {
     val annotations = extractAnnotations(testContext) ?: return
     annotations.forEach {
       val system = it.system
-      var caches = CacheBuilderManager.INSTANCE.asCacheList(system)
       val name = it.name.trim()
-      caches = caches.filter { c -> c.cacheName() == name }.toList()
-      caches.forEach { c -> c.flush() }
+      CacheBuilderManager.INSTANCE.cacheBuilder(system)?.run {
+        val cacheBuilder = this
+        cacheBuilder.cache(name)?.run {
+          val cache = this
+          cache.flush()
+        }
+      }
     }
   }
 
