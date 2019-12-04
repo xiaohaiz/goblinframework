@@ -44,7 +44,7 @@ final public class CouchbaseCache extends AbstractCache {
       throw new CouchbaseCacheException(ex);
     }
     if (document == null) {
-      return new GetResult<>(null);
+      return new GetResult<>(key);
     }
     Object cached = document.content();
     GetResult<T> gr = new GetResult<>(key);
