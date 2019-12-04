@@ -35,7 +35,8 @@ class CouchbaseEnvironmentManager private constructor()
   @Synchronized
   override fun disposeBean() {
     environmentReference.getAndSet(null)?.run {
-      this.shutdownAsync().toBlocking().single()
+      val state = if (this.shutdownAsync().toBlocking().single()) "SUCCESS" else "FAILURE"
+      logger.debug("{Couchbase} Couchbase environment shutdown [$state]")
     }
   }
 }
