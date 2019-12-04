@@ -3,6 +3,7 @@ package org.goblinframework.cache.core.cache
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.cache.core.CacheBuilder
 import org.goblinframework.cache.core.CacheSystem
+import org.goblinframework.cache.core.provider.InJvmCacheBuilder
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap
@@ -24,8 +25,12 @@ class CacheBuilderManager2 private constructor()
 
   private val buffer = ConcurrentHashMap<CacheSystem, CacheBuilder>()
 
+  override fun initializeBean() {
+    registerCacheBuilder(InJvmCacheBuilder.INSTANCE)
+  }
+
   fun registerCacheBuilder(cacheBuilder: CacheBuilder) {
-    val cacheSystem = cacheBuilder.getCacheSystem()
+    val cacheSystem = cacheBuilder.cacheSystem
     buffer.putIfAbsent(cacheSystem, cacheBuilder)?.run {
       throw IllegalStateException("CacheBuilder [$cacheSystem] already registered")
     }
@@ -33,7 +38,7 @@ class CacheBuilderManager2 private constructor()
   }
 
   fun unregisterCacheBuilder(cacheBuilder: CacheBuilder) {
-    val cacheSystem = cacheBuilder.getCacheSystem()
+    val cacheSystem = cacheBuilder.cacheSystem
     buffer.remove(cacheSystem)?.run {
       logger.debug("{Cache} CacheBuilder [$cacheSystem] unregistered")
     }
@@ -51,6 +56,7 @@ class CacheBuilderManager2 private constructor()
   }
 
   override fun disposeBean() {
+    unregisterCacheBuilder(InJvmCacheBuilder.INSTANCE)
     buffer.clear()
   }
 }

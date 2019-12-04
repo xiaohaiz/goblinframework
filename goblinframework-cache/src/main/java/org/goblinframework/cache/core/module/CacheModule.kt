@@ -7,7 +7,6 @@ import org.goblinframework.cache.core.cache.CacheBuilderManager2
 import org.goblinframework.cache.core.enhance.GoblinCacheEnhanceProcessor
 import org.goblinframework.cache.core.module.management.CacheManagement
 import org.goblinframework.cache.core.module.test.FlushCacheBeforeTestMethod
-import org.goblinframework.cache.core.provider.InJvmCacheBuilder
 import org.goblinframework.cache.core.provider.NoOpCacheBuilder
 import org.goblinframework.core.system.*
 
@@ -24,7 +23,6 @@ class CacheModule : IModule {
 
   override fun install(ctx: ModuleInstallContext) {
     registerCacheBuilder(NoOpCacheBuilder.INSTANCE)
-    registerCacheBuilder(InJvmCacheBuilder.INSTANCE)
     ctx.registerTestExecutionListener(FlushCacheBeforeTestMethod.INSTANCE)
     ctx.registerContainerBeanPostProcessor(GoblinCacheEnhanceProcessor.INSTANCE)
     ctx.registerManagementController(CacheManagement.INSTANCE)
