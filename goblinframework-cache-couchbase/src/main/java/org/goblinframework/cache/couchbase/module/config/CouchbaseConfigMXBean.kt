@@ -1,7 +1,7 @@
 package org.goblinframework.cache.couchbase.module.config
 
+import org.goblinframework.api.core.SerializerMode
 import org.goblinframework.core.compression.CompressionThreshold
-import org.goblinframework.core.serialization.Serializer
 import java.lang.management.PlatformManagedObject
 
 interface CouchbaseConfigMXBean : PlatformManagedObject {
@@ -16,7 +16,7 @@ interface CouchbaseConfigMXBean : PlatformManagedObject {
 
   fun getOpenBucketTimeoutInSeconds(): Int
 
-  fun getSerializer(): Serializer
+  fun getSerializer(): SerializerMode
 
   fun getCompressionThreshold(): CompressionThreshold
 

@@ -1,7 +1,7 @@
 package org.goblinframework.cache.couchbase.module.config
 
+import org.goblinframework.api.core.SerializerMode
 import org.goblinframework.core.compression.CompressionThreshold
-import org.goblinframework.core.serialization.Serializer
 import java.io.Serializable
 
 class CouchbaseConfigMapper : Serializable {
@@ -11,7 +11,7 @@ class CouchbaseConfigMapper : Serializable {
   var bucketName: String? = null
   var bucketPassword: String? = null
   var openBucketTimeoutInSeconds: Int? = null
-  var serializer: Serializer? = null
+  var serializer: SerializerMode? = null
   var compressionThreshold: CompressionThreshold? = null
   var flushable: Boolean? = null
 

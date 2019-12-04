@@ -1,8 +1,8 @@
 package org.goblinframework.cache.couchbase.module.config
 
+import org.goblinframework.api.core.SerializerMode
 import org.goblinframework.core.compression.CompressionThreshold
 import org.goblinframework.core.config.GoblinConfig
-import org.goblinframework.core.serialization.Serializer
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 
@@ -30,7 +30,7 @@ class CouchbaseConfig internal constructor(val mapper: CouchbaseConfigMapper)
     return mapper.openBucketTimeoutInSeconds!!
   }
 
-  override fun getSerializer(): Serializer {
+  override fun getSerializer(): SerializerMode {
     return mapper.serializer!!
   }
 
