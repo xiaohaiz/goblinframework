@@ -15,6 +15,7 @@ class CouchbaseClient internal constructor(private val config: CouchbaseConfig)
   : GoblinManagedObject(), CouchbaseClientMXBean {
 
   val bucket: Bucket
+  private val bucketType: BucketType
 
   init {
     val servers = config.getServers()
@@ -29,10 +30,25 @@ class CouchbaseClient internal constructor(private val config: CouchbaseConfig)
 
     val bucketManager = bucket.bucketManager()
     val bucketInfo = bucketManager.info()
-    val type = bucketInfo.type()
-    if (GoblinSystem.runtimeMode() === RuntimeMode.UNIT_TEST && type === BucketType.COUCHBASE) {
+    bucketType = bucketInfo.type()
+    if (GoblinSystem.runtimeMode() === RuntimeMode.UNIT_TEST && bucketType === BucketType.COUCHBASE) {
       throw IllegalArgumentException("COUCHBASE bucket not allowed under UNIT TEST")
     }
+  }
+
+  fun flush() {
+    if (getFlushable()) {
+      bucket.bucketManager().flush()
+      logger.debug("{Couchbase} Couchbase bucket [${config.getName()}/${config.getBucketName()}] flushed")
+    }
+  }
+
+  override fun getBucketType(): BucketType {
+    return bucketType
+  }
+
+  override fun getFlushable(): Boolean {
+    return bucketType != BucketType.COUCHBASE && config.getFlushable()
   }
 
   override fun disposeBean() {
