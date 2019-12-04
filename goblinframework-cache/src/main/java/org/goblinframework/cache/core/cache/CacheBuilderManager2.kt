@@ -24,9 +24,10 @@ class CacheBuilderManager2 private constructor()
   }
 
   private val buffer = ConcurrentHashMap<CacheSystem, CacheBuilder>()
+  private val inJvmCacheBuilder = InJvmCacheBuilder()
 
   override fun initializeBean() {
-    registerCacheBuilder(InJvmCacheBuilder.INSTANCE)
+    registerCacheBuilder(inJvmCacheBuilder)
   }
 
   fun registerCacheBuilder(cacheBuilder: CacheBuilder) {
@@ -56,7 +57,8 @@ class CacheBuilderManager2 private constructor()
   }
 
   override fun disposeBean() {
-    unregisterCacheBuilder(InJvmCacheBuilder.INSTANCE)
+    unregisterCacheBuilder(inJvmCacheBuilder)
+    inJvmCacheBuilder.dispose()
     buffer.clear()
   }
 }

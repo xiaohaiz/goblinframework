@@ -1,6 +1,5 @@
 package org.goblinframework.cache.core.provider
 
-import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.cache.core.Cache
 import org.goblinframework.cache.core.CacheBuilder
 import org.goblinframework.cache.core.CacheSystem
@@ -12,14 +11,8 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-@Singleton
 @GoblinManagedBean("Cache")
-class InJvmCacheBuilder private constructor()
-  : GoblinManagedObject(), CacheBuilder, CacheBuilderMXBean {
-
-  companion object {
-    @JvmField val INSTANCE = InJvmCacheBuilder()
-  }
+class InJvmCacheBuilder : GoblinManagedObject(), CacheBuilder, CacheBuilderMXBean {
 
   private val buffer = ConcurrentHashMap<String, InJvmCache>()
   private val lock = ReentrantLock()
