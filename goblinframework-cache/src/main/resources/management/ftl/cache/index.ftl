@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="cacheBuilderManagerMXBean" type="org.goblinframework.cache.core.cache.CacheBuilderManagerMXBean" -->
+<#-- @ftlvariable name="cacheBuilderManager" type="org.goblinframework.cache.core.cache.CacheBuilderManagerMXBean" -->
 <!--suppress HtmlUnknownTarget -->
 <html lang="zh">
 <head>
@@ -14,7 +14,7 @@
 
 <div class="container-fluid">
 
-    <#if cacheBuilderManagerMXBean.cacheBuilderList?has_content>
+    <#if cacheBuilderManager.cacheBuilderList?has_content>
       <div class="row">
         <table class="table table-bordered table-condensed table-striped">
           <thead>
@@ -27,7 +27,7 @@
             <td><strong>system</strong></td>
             <td><strong>name</strong></td>
           </tr>
-          <#list cacheBuilderManagerMXBean.cacheBuilderList as builder>
+          <#list cacheBuilderManager.cacheBuilderList as builder>
               <#if builder.cacheList?has_content>
                   <#list builder.cacheList as cache>
                     <tr>

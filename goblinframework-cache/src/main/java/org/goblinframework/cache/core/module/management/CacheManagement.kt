@@ -1,7 +1,7 @@
 package org.goblinframework.cache.core.module.management
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.cache.core.cache.CacheBuilderManager
+import org.goblinframework.cache.core.cache.CacheBuilderManager2
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -15,7 +15,7 @@ class CacheManagement private constructor() {
 
   @RequestMapping("index.do")
   fun index(model: Model): String {
-    model.addAttribute("cacheBuilderManagerMXBean", CacheBuilderManager.INSTANCE)
+    model.addAttribute("cacheBuilderManager", CacheBuilderManager2.INSTANCE)
     return "cache/index"
   }
 }
