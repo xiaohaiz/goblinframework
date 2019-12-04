@@ -1,4 +1,4 @@
-package org.goblinframework.cache.couchbase.provider
+package org.goblinframework.cache.couchbase.cache
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.cache.core.Cache
@@ -19,6 +19,6 @@ class CouchbaseCacheBuilder private constructor() : CacheBuilder {
 
   override fun getCache(name: String): Cache? {
     val client = CouchbaseClientManager.INSTANCE.getCouchbaseClient(name) ?: return null
-    return CouchbaseCache(name, client)
+    return CouchbaseCache(client)
   }
 }

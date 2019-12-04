@@ -1,4 +1,4 @@
-package org.goblinframework.cache.couchbase.provider;
+package org.goblinframework.cache.couchbase.cache;
 
 import com.couchbase.client.java.document.LegacyDocument;
 import com.couchbase.client.java.error.DocumentAlreadyExistsException;
@@ -20,8 +20,8 @@ final public class CouchbaseCache extends AbstractCache {
 
   private final CouchbaseClient client;
 
-  public CouchbaseCache(@NotNull String name, @NotNull CouchbaseClient client) {
-    super(new CacheLocation(CacheSystem.CBS, name));
+  public CouchbaseCache(@NotNull CouchbaseClient client) {
+    super(new CacheLocation(CacheSystem.CBS, client.getName()));
     this.client = client;
   }
 

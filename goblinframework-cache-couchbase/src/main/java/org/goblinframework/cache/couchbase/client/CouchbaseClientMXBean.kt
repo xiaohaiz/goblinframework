@@ -5,8 +5,10 @@ import java.lang.management.PlatformManagedObject
 
 interface CouchbaseClientMXBean : PlatformManagedObject {
 
-  fun getBucketType(): BucketType
+  fun getName(): String
 
   fun getFlushable(): Boolean
+
+  fun getBucketType(): BucketType
 
 }

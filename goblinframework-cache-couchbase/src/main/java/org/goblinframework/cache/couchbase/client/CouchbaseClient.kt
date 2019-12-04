@@ -43,12 +43,16 @@ class CouchbaseClient internal constructor(private val config: CouchbaseConfig)
     }
   }
 
-  override fun getBucketType(): BucketType {
-    return bucketType
+  override fun getName(): String {
+    return config.getName()
   }
 
   override fun getFlushable(): Boolean {
     return bucketType != BucketType.COUCHBASE && config.getFlushable()
+  }
+
+  override fun getBucketType(): BucketType {
+    return bucketType
   }
 
   override fun disposeBean() {
