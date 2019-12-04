@@ -2,10 +2,13 @@ package org.goblinframework.cache.core.provider;
 
 import org.apache.commons.collections4.map.LRUMap;
 import org.goblinframework.api.annotation.ThreadSafe;
-import org.goblinframework.api.function.Disposable;
 import org.goblinframework.cache.core.*;
-import org.goblinframework.cache.core.cache.AbstractCache;
+import org.goblinframework.cache.core.cache.CacheMXBean;
+import org.goblinframework.cache.core.cache.CacheValueLoaderImpl;
+import org.goblinframework.cache.core.cache.CacheValueModifierImpl;
 import org.goblinframework.cache.core.module.monitor.VMC;
+import org.goblinframework.core.service.GoblinManagedBean;
+import org.goblinframework.core.service.GoblinManagedObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,14 +18,16 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @ThreadSafe
-final public class InJvmCache extends AbstractCache implements Disposable {
+@GoblinManagedBean(type = "Cache")
+final public class InJvmCache extends GoblinManagedObject implements Cache, CacheMXBean {
 
+  private final String cacheName;
   private final Timer watchdogTimer;
   private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
   private final LRUMap<String, CacheItem> buffer = new LRUMap<>(65536);
 
-  InJvmCache(@NotNull String name) {
-    super(new CacheLocation(CacheSystem.JVM, name));
+  InJvmCache(@NotNull String cacheName) {
+    this.cacheName = cacheName;
     watchdogTimer = new Timer("InJvmCacheWatchdogTimer", true);
     watchdogTimer.scheduleAtFixedRate(new TimerTask() {
       @Override
@@ -73,8 +78,45 @@ final public class InJvmCache extends AbstractCache implements Disposable {
 
   @NotNull
   @Override
+  public CacheLocation getCacheSystemLocation() {
+    return new CacheLocation(CacheSystem.JVM, cacheName);
+  }
+
+  @NotNull
+  @Override
+  public CacheSystem getCacheSystem() {
+    return CacheSystem.JVM;
+  }
+
+  @NotNull
+  @Override
+  public String getCacheName() {
+    return cacheName;
+  }
+
+  @NotNull
+  @Override
   public Object nativeCache() {
     throw new UnsupportedOperationException();
+  }
+
+  @NotNull
+  @Override
+  public <K, V> CacheValueLoader<K, V> loader() {
+    return new CacheValueLoaderImpl<>(this);
+  }
+
+  @NotNull
+  @Override
+  public <V> CacheValueModifier<V> modifier() {
+    return new CacheValueModifierImpl<>(this);
+  }
+
+  @Nullable
+  @Override
+  public <T> T load(@Nullable String key) {
+    GetResult<T> gr = get(key);
+    return gr.value;
   }
 
   @NotNull
@@ -104,6 +146,20 @@ final public class InJvmCache extends AbstractCache implements Disposable {
     }
   }
 
+  @NotNull
+  @Override
+  public <T> Map<String, GetResult<T>> gets(@Nullable Collection<String> keys) {
+    if (keys == null || keys.isEmpty()) {
+      return Collections.emptyMap();
+    }
+    Map<String, GetResult<T>> result = new LinkedHashMap<>();
+    keys.stream().distinct().forEach(id -> {
+      GetResult<T> gr = get(id);
+      result.put(id, gr);
+    });
+    return result;
+  }
+
   @Override
   public boolean delete(@Nullable String key) {
     if (key == null) {
@@ -122,6 +178,12 @@ final public class InJvmCache extends AbstractCache implements Disposable {
       }
       return ci != null && !ci.isExpired();
     }
+  }
+
+  @Override
+  public void deletes(@Nullable Collection<String> keys) {
+    if (keys == null || keys.isEmpty()) return;
+    keys.stream().filter(Objects::nonNull).distinct().forEach(this::delete);
   }
 
   @Override
@@ -271,6 +333,12 @@ final public class InJvmCache extends AbstractCache implements Disposable {
   }
 
   @Override
+  public <T> boolean cas(@Nullable String key, int expirationInSeconds, @Nullable GetResult<T> getResult, @Nullable CasOperation<T> casOperation) {
+    int maxTries = casOperation == null ? 0 : casOperation.getMaxTries();
+    return cas(key, expirationInSeconds, getResult, maxTries, casOperation);
+  }
+
+  @Override
   public <T> boolean cas(@Nullable String key, int expirationInSeconds, @Nullable GetResult<T> getResult, int maxTries, @Nullable CasOperation<T> casOperation) {
     if (key == null || expirationInSeconds < 0 || getResult == null || casOperation == null) {
       return false;
@@ -304,17 +372,6 @@ final public class InJvmCache extends AbstractCache implements Disposable {
   }
 
   @Override
-  public void dispose() {
-    watchdogTimer.cancel();
-    lock.writeLock().lock();
-    try {
-      buffer.clear();
-    } finally {
-      lock.writeLock().unlock();
-    }
-  }
-
-  @Override
   public void flush() {
     try (VMC instruction = new VMC()) {
       instruction.setOperation("flush");
@@ -341,6 +398,17 @@ final public class InJvmCache extends AbstractCache implements Disposable {
     if (expires.isEmpty()) return;
     for (String key : expires) {
       retrieve(key);
+    }
+  }
+
+  @Override
+  protected void disposeBean() {
+    watchdogTimer.cancel();
+    lock.writeLock().lock();
+    try {
+      buffer.clear();
+    } finally {
+      lock.writeLock().unlock();
     }
   }
 }
