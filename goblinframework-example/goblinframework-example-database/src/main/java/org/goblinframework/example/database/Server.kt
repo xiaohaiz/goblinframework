@@ -9,7 +9,7 @@ import org.goblinframework.example.database.service.ExampleService
 class Server : StandaloneServer() {
   override fun doService(container: SpringContainer?) {
     val exampleService = container!!.applicationContext.getBean(ExampleService::class.java)
-    exampleService.staticExampleDataService()
+    exampleService.mysqlStaticExampleDataService()
   }
 }
 

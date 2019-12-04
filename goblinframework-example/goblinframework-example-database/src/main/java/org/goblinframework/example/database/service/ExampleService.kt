@@ -1,6 +1,8 @@
 package org.goblinframework.example.database.service
 
 import org.goblinframework.core.util.JsonUtils
+import org.goblinframework.example.database.mongo.dao.MongoExampleDataDao
+import org.goblinframework.example.database.mongo.entity.MongoExampleData
 import org.goblinframework.example.database.mysql.dao.StaticExampleDataDao
 import org.goblinframework.example.database.mysql.entity.StaticExampleData
 import javax.inject.Inject
@@ -12,7 +14,10 @@ class ExampleService {
   @Inject
   lateinit var staticExampleDataDao: StaticExampleDataDao
 
-  fun staticExampleDataService() {
+  @Inject
+  lateinit var mongoExampleDataDao: MongoExampleDataDao
+
+  fun mysqlStaticExampleDataService() {
     val data = StaticExampleData()
     data.name = "static_example"
     data.ext = StaticExampleData.Ext()
@@ -23,5 +28,11 @@ class ExampleService {
 
     val ret = staticExampleDataDao.queryByName(data.name!!)
     println(JsonUtils.toJson(ret))
+  }
+
+  fun mongoStaticExampleDataService() {
+    val data = MongoExampleData()
+
+    val publisher = mongoExampleDataDao.__insert(data)
   }
 }
