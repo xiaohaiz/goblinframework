@@ -12,11 +12,11 @@ class NoOpCacheBuilder private constructor() : CacheBuilder {
     @JvmField val INSTANCE = NoOpCacheBuilder()
   }
 
-  override fun system(): CacheSystem {
+  override fun getCacheSystem(): CacheSystem {
     return CacheSystem.NOP
   }
 
-  override fun cache(name: String): Cache {
+  override fun getCache(name: String): Cache {
     return NoOpCache.INSTANCE
   }
 }

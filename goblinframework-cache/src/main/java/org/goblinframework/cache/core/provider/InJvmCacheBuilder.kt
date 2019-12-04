@@ -12,11 +12,11 @@ class InJvmCacheBuilder private constructor() : CacheBuilder {
     @JvmField val INSTANCE = InJvmCacheBuilder()
   }
 
-  override fun system(): CacheSystem {
+  override fun getCacheSystem(): CacheSystem {
     return CacheSystem.JVM
   }
 
-  override fun cache(name: String): Cache {
+  override fun getCache(name: String): Cache {
     return InJvmCache(name)
   }
 }

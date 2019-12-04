@@ -13,11 +13,11 @@ class CouchbaseCacheBuilder private constructor() : CacheBuilder {
     @JvmField val INSTANCE = CouchbaseCacheBuilder()
   }
 
-  override fun system(): CacheSystem {
+  override fun getCacheSystem(): CacheSystem {
     return CacheSystem.CBS
   }
 
-  override fun cache(name: String): Cache? {
+  override fun getCache(name: String): Cache? {
     val client = CouchbaseClientManager.INSTANCE.getCouchbaseClient(name) ?: return null
     return CouchbaseCache(name, client)
   }

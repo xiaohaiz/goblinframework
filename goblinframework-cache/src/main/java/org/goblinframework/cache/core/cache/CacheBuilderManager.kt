@@ -24,7 +24,7 @@ class CacheBuilderManager private constructor()
 
   @Synchronized
   fun register(builder: CacheBuilder) {
-    val system = builder.system()
+    val system = builder.getCacheSystem()
     buffer[system]?.run {
       throw CacheException("Cache system $system already exists")
     }
@@ -46,8 +46,8 @@ class CacheBuilderManager private constructor()
 
   override fun getCacheBuilderList(): Array<CacheBuilderMXBean> {
     return buffer.values
-        .filter { it.system() !== CacheSystem.NOP }
-        .sortedBy { it.system() }
+        .filter { it.getCacheSystem() !== CacheSystem.NOP }
+        .sortedBy { it.getCacheSystem() }
         .toTypedArray()
   }
 

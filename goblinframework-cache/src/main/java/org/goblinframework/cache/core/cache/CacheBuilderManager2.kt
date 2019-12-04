@@ -25,7 +25,7 @@ class CacheBuilderManager2 private constructor()
   private val buffer = ConcurrentHashMap<CacheSystem, CacheBuilder>()
 
   fun registerCacheBuilder(cacheBuilder: CacheBuilder) {
-    val cacheSystem = cacheBuilder.system()
+    val cacheSystem = cacheBuilder.getCacheSystem()
     buffer.putIfAbsent(cacheSystem, cacheBuilder)?.run {
       throw IllegalStateException("CacheBuilder [$cacheSystem] already registered")
     }
@@ -33,7 +33,7 @@ class CacheBuilderManager2 private constructor()
   }
 
   fun unregisterCacheBuilder(cacheBuilder: CacheBuilder) {
-    val cacheSystem = cacheBuilder.system()
+    val cacheSystem = cacheBuilder.getCacheSystem()
     buffer.remove(cacheSystem)?.run {
       logger.debug("{Cache} CacheBuilder [$cacheSystem] unregistered")
     }
@@ -48,5 +48,9 @@ class CacheBuilderManager2 private constructor()
         .filterIsInstance(CacheBuilderMXBean::class.java)
         .sortedBy { it.getCacheSystem() }
         .toTypedArray()
+  }
+
+  override fun disposeBean() {
+    buffer.clear()
   }
 }

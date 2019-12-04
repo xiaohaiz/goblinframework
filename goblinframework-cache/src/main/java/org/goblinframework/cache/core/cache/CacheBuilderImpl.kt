@@ -20,19 +20,19 @@ internal constructor(private val delegator: CacheBuilder)
   private val lock = ReentrantLock()
   private val buffer = ConcurrentHashMap<String, MutableObject<CacheImpl?>>()
 
-  override fun system(): CacheSystem {
-    return delegator.system()
+  override fun getCacheSystem(): CacheSystem {
+    return delegator.getCacheSystem()
   }
 
-  override fun cache(name: String): Cache? {
-    if (system() === CacheSystem.NOP) {
+  override fun getCache(name: String): Cache? {
+    if (getCacheSystem() === CacheSystem.NOP) {
       // Bypass local buffer in case of system is NOP
-      return delegator.cache(name)
+      return delegator.getCache(name)
     }
     buffer[name]?.let { return it.value }
     return lock.withLock {
       buffer[name]?.let { return it.value }
-      val cache = delegator.cache(name)?.let { CacheImpl(it) }
+      val cache = delegator.getCache(name)?.let { CacheImpl(it) }
       buffer[name] = MutableObject(cache)
       cache
     }
@@ -47,10 +47,6 @@ internal constructor(private val delegator: CacheBuilder)
       buffer.values.mapNotNull { it.value }.forEach { it.dispose() }
       buffer.clear()
     }
-  }
-
-  override fun getCacheSystem(): CacheSystem {
-    return system()
   }
 
   override fun getCacheList(): Array<CacheMXBean> {

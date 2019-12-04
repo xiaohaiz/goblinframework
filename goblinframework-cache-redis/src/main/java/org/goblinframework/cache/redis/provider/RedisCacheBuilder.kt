@@ -13,11 +13,11 @@ class RedisCacheBuilder private constructor() : CacheBuilder {
     @JvmField val INSTANCE = RedisCacheBuilder()
   }
 
-  override fun system(): CacheSystem {
+  override fun getCacheSystem(): CacheSystem {
     return CacheSystem.RDS
   }
 
-  override fun cache(name: String): Cache? {
+  override fun getCache(name: String): Cache? {
     val client = RedisClientManager.INSTANCE.getRedisClient(name) ?: return null
     return RedisCacheImpl(name, client)
   }

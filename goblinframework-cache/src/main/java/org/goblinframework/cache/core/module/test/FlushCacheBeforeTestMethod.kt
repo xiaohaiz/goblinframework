@@ -21,7 +21,7 @@ class FlushCacheBeforeTestMethod private constructor() : TestExecutionListener {
       val name = it.name.trim()
       CacheBuilderManager.INSTANCE.cacheBuilder(system)?.run {
         val cacheBuilder = this
-        cacheBuilder.cache(name)?.run {
+        cacheBuilder.getCache(name)?.run {
           val cache = this
           cache.flush()
         }

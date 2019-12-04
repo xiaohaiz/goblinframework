@@ -18,6 +18,6 @@ public enum CacheSystem {
   @Nullable
   public Cache cache(String name) {
     CacheBuilder builder = cacheBuilder();
-    return builder == null ? null : builder.cache(name);
+    return builder == null ? null : builder.getCache(name);
   }
 }

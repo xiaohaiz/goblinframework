@@ -15,7 +15,7 @@ class RedisCacheBuilderTest {
   @Test
   fun getCache() {
     val builder = CacheBuilderManager.INSTANCE.cacheBuilder(CacheSystem.RDS)!!
-    val cache = builder.cache("_ut")
+    val cache = builder.getCache("_ut")
     assertNotNull(cache)
   }
 }
