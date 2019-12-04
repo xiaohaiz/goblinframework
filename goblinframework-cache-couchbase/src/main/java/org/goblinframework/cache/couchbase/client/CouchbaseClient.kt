@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 class CouchbaseClient internal constructor(private val config: CouchbaseConfig)
   : GoblinManagedObject(), CouchbaseClientMXBean {
 
-  private val bucket: Bucket
+  val bucket: Bucket
 
   init {
     val servers = config.getServers()
