@@ -11,7 +11,7 @@ final public class RemoteJavaClientInvokerPublisher
     extends SingleResultPublisher<Object> implements GoblinPublisher<Object> {
 
   RemoteJavaClientInvokerPublisher(@NotNull RemoteJavaClientInvokerFuture future) {
-    super(CoreScheduler.INSTANCE.get());
+    super(CoreScheduler.getInstance());
     future.addListener(f -> {
       Object result = null;
       Throwable cause = null;

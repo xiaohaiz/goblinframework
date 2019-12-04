@@ -18,7 +18,7 @@ class ConfigListenerPublisher internal constructor() : Disposable {
 
   init {
     processor = EmitterProcessor.create()
-    flux = Flux.from(processor).publishOn(CoreScheduler.INSTANCE.get())
+    flux = Flux.from(processor).publishOn(CoreScheduler.getInstance())
   }
 
   fun subscribe(listener: ConfigListener) {

@@ -40,11 +40,11 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
   }
 
   private <T> SingleResultPublisher<T> createSingleResultPublisher() {
-    return new SingleResultPublisher<>(CoreScheduler.INSTANCE.get());
+    return new SingleResultPublisher<>(CoreScheduler.getInstance());
   }
 
   private <T> MultipleResultsPublisher<T> createMultipleResultsPublisher() {
-    return new MultipleResultsPublisher<>(CoreScheduler.INSTANCE.get());
+    return new MultipleResultsPublisher<>(CoreScheduler.getInstance());
   }
 
   public void insert(@Nullable E entity) {

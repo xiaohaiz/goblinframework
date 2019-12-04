@@ -3,6 +3,7 @@ package org.goblinframework.core.system
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.config.ConfigManager
 import org.goblinframework.core.event.boss.EventBusBoss
+import org.goblinframework.core.reactor.CoreScheduler
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.ClassUtils
@@ -22,6 +23,8 @@ class GoblinSystemManager private constructor() :
   private val systemReference = AtomicReference<GoblinSystemImpl?>()
 
   override fun initializeBean() {
+    CoreScheduler.initialize()
+
     // Load and initialize CONFIG module
     ConfigManager.INSTANCE.initialize()
 
@@ -51,6 +54,8 @@ class GoblinSystemManager private constructor() :
     EventBusBoss.INSTANCE.dispose()
 
     ConfigManager.INSTANCE.dispose()
+
+    CoreScheduler.dispose()
 
     logger.info("FAREWELL")
     shutdownLog4j2IfNecessary()

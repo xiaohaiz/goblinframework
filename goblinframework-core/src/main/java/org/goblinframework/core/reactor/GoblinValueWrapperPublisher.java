@@ -31,7 +31,7 @@ public class GoblinValueWrapperPublisher<T> implements GoblinPublisher<T>, Seria
 
   @Override
   public void subscribe(Subscriber<? super T> s) {
-    SingleResultPublisher<T> publisher = new SingleResultPublisher<>(CoreScheduler.INSTANCE.get());
+    SingleResultPublisher<T> publisher = new SingleResultPublisher<>(CoreScheduler.getInstance());
     publisher.complete(value, null);
     publisher.subscribe(s);
   }
