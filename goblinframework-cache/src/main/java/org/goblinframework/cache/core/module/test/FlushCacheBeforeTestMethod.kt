@@ -5,7 +5,7 @@ import org.goblinframework.api.test.TestContext
 import org.goblinframework.api.test.TestExecutionListener
 import org.goblinframework.cache.core.annotation.FlushCache
 import org.goblinframework.cache.core.annotation.FlushCaches
-import org.goblinframework.cache.core.cache.CacheBuilderManager2
+import org.goblinframework.cache.core.cache.CacheBuilderManager
 
 @Singleton
 class FlushCacheBeforeTestMethod private constructor() : TestExecutionListener {
@@ -19,7 +19,7 @@ class FlushCacheBeforeTestMethod private constructor() : TestExecutionListener {
     annotations.forEach {
       val system = it.system
       val name = it.name.trim()
-      CacheBuilderManager2.INSTANCE.getCacheBuilder(system)?.run {
+      CacheBuilderManager.INSTANCE.getCacheBuilder(system)?.run {
         val cacheBuilder = this
         cacheBuilder.getCache(name)?.run {
           val cache = this

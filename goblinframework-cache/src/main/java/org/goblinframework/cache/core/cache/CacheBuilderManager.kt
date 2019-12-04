@@ -9,19 +9,13 @@ import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap
 
-/**
- * Management center of [CacheBuilder].
- *
- * @author Xiaohai Zhang
- * @since Dec 4, 2019
- */
 @Singleton
 @GoblinManagedBean("Cache")
-class CacheBuilderManager2 private constructor()
+class CacheBuilderManager private constructor()
   : GoblinManagedObject(), CacheBuilderManagerMXBean {
 
   companion object {
-    @JvmField val INSTANCE = CacheBuilderManager2()
+    @JvmField val INSTANCE = CacheBuilderManager()
   }
 
   private val buffer = ConcurrentHashMap<CacheSystem, CacheBuilder>()

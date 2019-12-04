@@ -7,7 +7,7 @@ import org.goblinframework.cache.core.Cache
 import org.goblinframework.cache.core.CacheBuilder
 import org.goblinframework.cache.core.CacheSystem
 import org.goblinframework.cache.core.cache.CacheBuilderMXBean
-import org.goblinframework.cache.core.cache.CacheBuilderManager2
+import org.goblinframework.cache.core.cache.CacheBuilderManager
 import org.goblinframework.cache.core.cache.CacheMXBean
 import org.goblinframework.cache.redis.client.RedisClientManager
 import org.goblinframework.core.service.GoblinManagedBean
@@ -30,7 +30,7 @@ class RedisCacheBuilder2 private constructor()
   private val lock = ReentrantLock()
 
   override fun initializeBean() {
-    CacheBuilderManager2.INSTANCE.registerCacheBuilder(this)
+    CacheBuilderManager.INSTANCE.registerCacheBuilder(this)
   }
 
   override fun getCacheSystem(): CacheSystem {
@@ -55,6 +55,6 @@ class RedisCacheBuilder2 private constructor()
   }
 
   override fun disposeBean() {
-    CacheBuilderManager2.INSTANCE.unregisterCacheBuilder(this)
+    CacheBuilderManager.INSTANCE.unregisterCacheBuilder(this)
   }
 }
