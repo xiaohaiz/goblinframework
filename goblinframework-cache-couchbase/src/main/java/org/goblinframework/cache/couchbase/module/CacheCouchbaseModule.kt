@@ -25,7 +25,7 @@ class CacheCouchbaseModule : ISubModule {
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {
-    CouchbaseClientManager.INSTANCE.initialize()
+    CouchbaseClientManager.INSTANCE.dispose()
     CouchbaseClusterManager.INSTANCE.dispose()
     CouchbaseEnvironmentManager.INSTANCE.dispose()
     CouchbaseConfigManager.INSTANCE.initialize()
