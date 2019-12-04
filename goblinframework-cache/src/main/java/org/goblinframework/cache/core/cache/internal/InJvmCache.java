@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.provider;
+package org.goblinframework.cache.core.cache.internal;
 
 import org.apache.commons.collections4.map.LRUMap;
 import org.goblinframework.api.annotation.ThreadSafe;

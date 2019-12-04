@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.provider;
+package org.goblinframework.cache.core.cache.internal;
 
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.cache.core.*;
