@@ -3,9 +3,9 @@ package org.goblinframework.cache.core.support;
 import org.goblinframework.cache.core.Cache;
 import org.goblinframework.cache.core.CacheLocation;
 import org.goblinframework.cache.core.CacheSystem;
-import org.goblinframework.cache.core.GoblinCacheException;
 import org.goblinframework.cache.core.annotation.GoblinCacheBean;
 import org.goblinframework.cache.core.annotation.GoblinCacheExpiration;
+import org.goblinframework.cache.core.module.exception.CacheException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,7 +40,7 @@ public class CacheBean {
       if (cache == null) {
         String errMsg = "GOBLIN cache [%s/%s] not available";
         errMsg = String.format(errMsg, cacheSystem, cacheName);
-        throw new GoblinCacheException(errMsg);
+        throw new CacheException(errMsg);
       }
       gc.cache = cache;
       caches.put(gc.type, gc);

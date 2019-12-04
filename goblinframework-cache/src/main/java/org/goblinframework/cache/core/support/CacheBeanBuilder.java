@@ -1,8 +1,8 @@
 package org.goblinframework.cache.core.support;
 
-import org.goblinframework.cache.core.GoblinCacheException;
 import org.goblinframework.cache.core.annotation.GoblinCacheBean;
 import org.goblinframework.cache.core.annotation.GoblinCacheBeans;
+import org.goblinframework.cache.core.module.exception.CacheException;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +54,7 @@ class CacheBeanBuilder {
       if (previous != null) {
         String errMsg = "Duplicated cache type (%s) declared in @GoblinCacheBean of (%s)";
         errMsg = String.format(errMsg, annotation.type().getName(), realClass.getName());
-        throw new GoblinCacheException(errMsg);
+        throw new CacheException(errMsg);
       }
     }
   }

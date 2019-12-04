@@ -5,7 +5,7 @@ import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.cache.core.Cache
 import org.goblinframework.cache.core.CacheBuilder
 import org.goblinframework.cache.core.CacheSystem
-import org.goblinframework.cache.core.GoblinCacheException
+import org.goblinframework.cache.core.module.exception.CacheException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap
@@ -26,7 +26,7 @@ class CacheBuilderManager private constructor()
   fun register(builder: CacheBuilder) {
     val system = builder.system()
     buffer[system]?.run {
-      throw GoblinCacheException("Cache system $system already exists")
+      throw CacheException("Cache system $system already exists")
     }
     buffer[system] = CacheBuilderImpl(builder)
   }

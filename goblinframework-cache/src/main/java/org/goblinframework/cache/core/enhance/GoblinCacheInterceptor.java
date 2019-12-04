@@ -3,6 +3,7 @@ package org.goblinframework.cache.core.enhance;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.goblinframework.cache.core.*;
+import org.goblinframework.cache.core.module.exception.CacheException;
 import org.goblinframework.cache.core.support.CacheBean;
 import org.goblinframework.cache.core.support.CacheMethod;
 import org.goblinframework.cache.core.support.CacheMethodParameter;
@@ -44,7 +45,7 @@ final class GoblinCacheInterceptor implements MethodInterceptor {
     Class<?> type = gcm.type;
     GoblinCache gc = capsule.getGoblinCache(type);
     if (gc == null) {
-      throw new GoblinCacheException("@GoblinCacheBean(s) missed: " + type.getName());
+      throw new CacheException("@GoblinCacheBean(s) missed: " + type.getName());
     }
     if (gcm.multipleCount == 0) {
       String ck = generateSingleCacheKey(gcm, arguments);

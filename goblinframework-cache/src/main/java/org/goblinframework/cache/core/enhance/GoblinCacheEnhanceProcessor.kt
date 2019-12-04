@@ -1,7 +1,7 @@
 package org.goblinframework.cache.core.enhance
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.cache.core.GoblinCacheException
+import org.goblinframework.cache.core.module.exception.CacheException
 import org.goblinframework.cache.core.support.CacheBeanManager
 import org.goblinframework.core.container.SpringContainerBeanPostProcessor
 import org.goblinframework.core.util.ClassUtils
@@ -26,7 +26,7 @@ class GoblinCacheEnhanceProcessor private constructor()
       return bean
     }
     if (Modifier.isFinal(bean.javaClass.modifiers)) {
-      throw GoblinCacheException("Final class not supported: ${bean.javaClass.name}")
+      throw CacheException("Final class not supported: ${bean.javaClass.name}")
     }
 
     val interceptor = GoblinCacheInterceptor(bean, capsule)
