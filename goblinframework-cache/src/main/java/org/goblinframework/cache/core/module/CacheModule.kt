@@ -3,6 +3,7 @@ package org.goblinframework.cache.core.module
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.cache.core.CacheBuilder
 import org.goblinframework.cache.core.cache.CacheBuilderManager
+import org.goblinframework.cache.core.cache.CacheBuilderManager2
 import org.goblinframework.cache.core.enhance.GoblinCacheEnhanceProcessor
 import org.goblinframework.cache.core.module.management.CacheManagement
 import org.goblinframework.cache.core.module.test.FlushCacheBeforeTestMethod
@@ -34,6 +35,7 @@ class CacheModule : IModule {
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
+    CacheBuilderManager2.INSTANCE.initialize()
     ctx.createSubModules()
         .module(GoblinSubModule.CACHE_COUCHBASE)
         .module(GoblinSubModule.CACHE_REDIS)
@@ -46,6 +48,7 @@ class CacheModule : IModule {
         .module(GoblinSubModule.CACHE_COUCHBASE)
         .module(GoblinSubModule.CACHE_REDIS)
         .finalize(ctx)
+    CacheBuilderManager2.INSTANCE.dispose()
   }
 
   fun registerCacheBuilder(builder: CacheBuilder) {
