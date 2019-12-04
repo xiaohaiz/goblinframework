@@ -19,11 +19,11 @@ import kotlin.concurrent.withLock
 @Singleton
 @ThreadSafe
 @GoblinManagedBean("CacheRedis")
-class RedisCacheBuilder2 private constructor()
+class RedisCacheBuilder private constructor()
   : GoblinManagedObject(), CacheBuilder, CacheBuilderMXBean {
 
   companion object {
-    @JvmField val INSTANCE = RedisCacheBuilder2()
+    @JvmField val INSTANCE = RedisCacheBuilder()
   }
 
   private val buffer = ConcurrentHashMap<String, MutableObject<RedisCache?>>()
