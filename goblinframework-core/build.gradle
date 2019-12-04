@@ -1,7 +1,7 @@
 description = "goblinframework-core"
 
 dependencies {
-  compile(project(":goblinframework-api"))
+  compile(project(":goblin-api"))
   compile("org.apache.commons:commons-lang3:${commons_lang3_version}")
   compile("org.apache.commons:commons-collections4:${commons_collections_version}")
   compile("org.apache.commons:commons-compress:${commons_compress_version}")

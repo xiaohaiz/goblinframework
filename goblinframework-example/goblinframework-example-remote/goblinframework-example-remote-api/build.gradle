@@ -1,5 +1,5 @@
 description = "goblinframework-example-remote-api"
 
 dependencies {
-  compile(project(":goblinframework-api"))
+  compile(project(":goblin-api"))
 }

@@ -1,4 +1,4 @@
-description = "goblinframework-api"
+description = "goblin-api"
 
 dependencies {
   compile("org.slf4j:slf4j-api:${slf4j_version}")

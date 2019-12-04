@@ -1,7 +1,7 @@
 description = "goblinframework-test"
 
 dependencies {
-  compile(project(":goblinframework-api"))
+  compile(project(":goblin-api"))
   compile("junit:junit:${junit_version}")
   compile("org.objenesis:objenesis:${objenesis_version}")
   compile("org.easymock:easymock:${easymock_version}") {
