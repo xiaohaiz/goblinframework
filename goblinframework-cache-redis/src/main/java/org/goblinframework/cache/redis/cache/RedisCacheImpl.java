@@ -1,4 +1,4 @@
-package org.goblinframework.cache.redis.provider;
+package org.goblinframework.cache.redis.cache;
 
 import io.lettuce.core.KeyValue;
 import io.lettuce.core.RedisFuture;

@@ -2,9 +2,9 @@ package org.goblinframework.cache.redis.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.cache.core.module.CacheModule
+import org.goblinframework.cache.redis.cache.RedisCacheBuilder
 import org.goblinframework.cache.redis.client.RedisClientManager
 import org.goblinframework.cache.redis.module.config.RedisConfigManager
-import org.goblinframework.cache.redis.provider.RedisCacheBuilder
 import org.goblinframework.core.system.*
 
 @Install

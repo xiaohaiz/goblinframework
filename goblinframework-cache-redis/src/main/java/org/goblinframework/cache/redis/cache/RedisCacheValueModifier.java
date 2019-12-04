@@ -1,4 +1,4 @@
-package org.goblinframework.cache.redis.provider;
+package org.goblinframework.cache.redis.cache;
 
 import org.goblinframework.cache.core.Cache;
 import org.goblinframework.cache.core.CacheValueModifier;
