@@ -2,7 +2,7 @@ package org.goblinframework.cache.core.enhance;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.goblinframework.cache.core.*;
+import org.goblinframework.cache.core.cache.*;
 import org.goblinframework.cache.core.module.exception.CacheException;
 import org.goblinframework.cache.core.support.CacheBean;
 import org.goblinframework.cache.core.support.CacheMethod;

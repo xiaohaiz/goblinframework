@@ -2,7 +2,7 @@ package org.goblinframework.database.mysql.support;
 
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableLong;
-import org.goblinframework.cache.core.GetResult;
+import org.goblinframework.cache.core.cache.GetResult;
 import org.goblinframework.cache.core.support.CacheBean;
 import org.goblinframework.cache.core.support.CacheBeanManager;
 import org.goblinframework.cache.core.support.CacheDimension;

@@ -1,6 +1,5 @@
-package org.goblinframework.cache.core;
+package org.goblinframework.cache.core.cache;
 
-import org.goblinframework.cache.core.cache.CacheBuilderManager;
 import org.jetbrains.annotations.Nullable;
 
 public enum CacheSystem {

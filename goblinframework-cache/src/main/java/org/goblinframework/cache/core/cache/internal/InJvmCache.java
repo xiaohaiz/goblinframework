@@ -2,10 +2,7 @@ package org.goblinframework.cache.core.cache.internal;
 
 import org.apache.commons.collections4.map.LRUMap;
 import org.goblinframework.api.annotation.ThreadSafe;
-import org.goblinframework.cache.core.*;
-import org.goblinframework.cache.core.cache.CacheMXBean;
-import org.goblinframework.cache.core.cache.CacheValueLoaderImpl;
-import org.goblinframework.cache.core.cache.CacheValueModifierImpl;
+import org.goblinframework.cache.core.cache.*;
 import org.goblinframework.cache.core.module.monitor.VMC;
 import org.goblinframework.core.service.GoblinManagedBean;
 import org.goblinframework.core.service.GoblinManagedObject;
@@ -78,12 +75,6 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
 
   @NotNull
   @Override
-  public CacheLocation getCacheSystemLocation() {
-    return new CacheLocation(CacheSystem.JVM, cacheName);
-  }
-
-  @NotNull
-  @Override
   public CacheSystem getCacheSystem() {
     return CacheSystem.JVM;
   }
@@ -96,7 +87,7 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
 
   @NotNull
   @Override
-  public Object nativeCache() {
+  public Object getNativeCache() {
     throw new UnsupportedOperationException();
   }
 

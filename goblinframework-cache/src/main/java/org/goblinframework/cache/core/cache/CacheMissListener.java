@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core;
+package org.goblinframework.cache.core.cache;
 
 public interface CacheMissListener {
 

@@ -1,8 +1,8 @@
 package org.goblinframework.cache.core.provider
 
 import org.bson.types.ObjectId
-import org.goblinframework.cache.core.CacheSystem
 import org.goblinframework.cache.core.annotation.FlushCache
+import org.goblinframework.cache.core.cache.CacheSystem
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.*

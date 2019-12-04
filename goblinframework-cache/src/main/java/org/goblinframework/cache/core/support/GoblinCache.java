@@ -1,8 +1,8 @@
 package org.goblinframework.cache.core.support;
 
-import org.goblinframework.cache.core.Cache;
-import org.goblinframework.cache.core.CacheLocation;
 import org.goblinframework.cache.core.annotation.GoblinCacheExpiration;
+import org.goblinframework.cache.core.cache.Cache;
+import org.goblinframework.cache.core.cache.CacheLocation;
 import org.goblinframework.cache.core.util.CacheExpirationCalculator;
 
 public class GoblinCache {

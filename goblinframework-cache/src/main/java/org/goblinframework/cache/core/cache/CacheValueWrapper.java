@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core;
+package org.goblinframework.cache.core.cache;
 
 import org.goblinframework.api.function.ValueWrapper;
 import org.jetbrains.annotations.Nullable;

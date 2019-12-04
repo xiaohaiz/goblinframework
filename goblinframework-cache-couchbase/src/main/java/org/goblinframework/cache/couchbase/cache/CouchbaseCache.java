@@ -3,10 +3,7 @@ package org.goblinframework.cache.couchbase.cache;
 import com.couchbase.client.java.document.LegacyDocument;
 import com.couchbase.client.java.error.DocumentAlreadyExistsException;
 import com.couchbase.client.java.error.DocumentDoesNotExistException;
-import org.goblinframework.cache.core.*;
-import org.goblinframework.cache.core.cache.CacheMXBean;
-import org.goblinframework.cache.core.cache.CacheValueLoaderImpl;
-import org.goblinframework.cache.core.cache.CacheValueModifierImpl;
+import org.goblinframework.cache.core.cache.*;
 import org.goblinframework.cache.couchbase.client.CouchbaseClient;
 import org.goblinframework.cache.couchbase.module.exception.CouchbaseCacheException;
 import org.goblinframework.core.service.GoblinManagedBean;
@@ -23,35 +20,27 @@ import java.util.concurrent.atomic.AtomicReference;
 @GoblinManagedBean(type = "CacheCouchbase")
 final public class CouchbaseCache extends GoblinManagedObject implements Cache, CacheMXBean {
 
-  @NotNull private final CacheLocation location;
   @NotNull private final CouchbaseClient client;
 
   CouchbaseCache(@NotNull CouchbaseClient client) {
-    this.location = new CacheLocation(CacheSystem.CBS, client.getName());
     this.client = client;
   }
 
   @NotNull
   @Override
-  public CacheLocation getCacheSystemLocation() {
-    return location;
-  }
-
-  @NotNull
-  @Override
   public CacheSystem getCacheSystem() {
-    return location.system;
+    return CacheSystem.CBS;
   }
 
   @NotNull
   @Override
   public String getCacheName() {
-    return location.name;
+    return client.getName();
   }
 
   @NotNull
   @Override
-  public CouchbaseClient nativeCache() {
+  public CouchbaseClient getNativeCache() {
     return client;
   }
 

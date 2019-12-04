@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core;
+package org.goblinframework.cache.core.cache;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -6,10 +6,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.Map;
 
-public interface Cache extends CacheLocationProvider {
+public interface Cache {
 
   @NotNull
-  Object nativeCache();
+  CacheSystem getCacheSystem();
+
+  @NotNull
+  String getCacheName();
+
+  @NotNull
+  Object getNativeCache();
 
   @NotNull
   <K, V> CacheValueLoader<K, V> loader();

@@ -6,9 +6,7 @@ import io.lettuce.core.SetArgs;
 import io.lettuce.core.TransactionResult;
 import io.lettuce.core.api.async.RedisKeyAsyncCommands;
 import io.lettuce.core.api.async.RedisStringAsyncCommands;
-import org.goblinframework.cache.core.*;
-import org.goblinframework.cache.core.cache.CacheMXBean;
-import org.goblinframework.cache.core.cache.CacheValueLoaderImpl;
+import org.goblinframework.cache.core.cache.*;
 import org.goblinframework.cache.redis.client.RedisClient;
 import org.goblinframework.core.concurrent.GoblinExecutionException;
 import org.goblinframework.core.concurrent.GoblinInterruptedException;
@@ -25,35 +23,27 @@ import java.util.concurrent.ExecutionException;
 @GoblinManagedBean(type = "CacheRedis")
 final class RedisCache extends GoblinManagedObject implements Cache, CacheMXBean {
 
-  @NotNull private final CacheLocation location;
   @NotNull private final RedisClient client;
 
   RedisCache(@NotNull RedisClient client) {
-    this.location = new CacheLocation(CacheSystem.RDS, client.getName());
     this.client = client;
   }
 
   @NotNull
   @Override
-  public CacheLocation getCacheSystemLocation() {
-    return location;
-  }
-
-  @NotNull
-  @Override
   public CacheSystem getCacheSystem() {
-    return location.system;
+    return CacheSystem.RDS;
   }
 
   @NotNull
   @Override
   public String getCacheName() {
-    return location.name;
+    return client.getName();
   }
 
   @NotNull
   @Override
-  public RedisClient nativeCache() {
+  public RedisClient getNativeCache() {
     return client;
   }
 

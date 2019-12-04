@@ -1,10 +1,7 @@
 package org.goblinframework.cache.core.cache.internal;
 
 import org.goblinframework.api.annotation.Singleton;
-import org.goblinframework.cache.core.*;
-import org.goblinframework.cache.core.cache.CacheMXBean;
-import org.goblinframework.cache.core.cache.CacheValueLoaderImpl;
-import org.goblinframework.cache.core.cache.CacheValueModifierImpl;
+import org.goblinframework.cache.core.cache.*;
 import org.goblinframework.core.service.GoblinManagedObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,12 +20,6 @@ final public class NoOpCache extends GoblinManagedObject implements Cache, Cache
 
   @NotNull
   @Override
-  public CacheLocation getCacheSystemLocation() {
-    return new CacheLocation(CacheSystem.NOP, getCacheName());
-  }
-
-  @NotNull
-  @Override
   public CacheSystem getCacheSystem() {
     return CacheSystem.NOP;
   }
@@ -41,7 +32,7 @@ final public class NoOpCache extends GoblinManagedObject implements Cache, Cache
 
   @NotNull
   @Override
-  public Object nativeCache() {
+  public Object getNativeCache() {
     throw new UnsupportedOperationException();
   }
 

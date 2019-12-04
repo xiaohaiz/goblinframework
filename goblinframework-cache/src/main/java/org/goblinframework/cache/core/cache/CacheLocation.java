@@ -1,10 +1,12 @@
-package org.goblinframework.cache.core;
+package org.goblinframework.cache.core.cache;
 
+import org.goblinframework.api.annotation.HashSafe;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@HashSafe
 public class CacheLocation implements Serializable {
   private static final long serialVersionUID = -4538796952895330820L;
 

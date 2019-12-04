@@ -1,10 +1,10 @@
 package org.goblinframework.database.mysql.persistence;
 
-import org.goblinframework.cache.core.CacheSystem;
 import org.goblinframework.cache.core.annotation.FlushCache;
 import org.goblinframework.cache.core.annotation.GoblinCacheBean;
 import org.goblinframework.cache.core.annotation.GoblinCacheMethod;
 import org.goblinframework.cache.core.annotation.GoblinCacheParameter;
+import org.goblinframework.cache.core.cache.CacheSystem;
 import org.goblinframework.cache.core.support.CacheDimension;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.database.core.GoblinCacheDimension;
