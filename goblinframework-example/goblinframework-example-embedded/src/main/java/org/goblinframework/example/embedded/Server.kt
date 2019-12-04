@@ -36,6 +36,9 @@ class Server : StandaloneServer() {
     val serverSetting = ServerSetting.builder()
         .name("GOBLIN")
         .mode(EmbeddedServerMode.NETTY)
+        .applyNetworkSetting {
+          it.port(9797)
+        }
         .applyHandlerSetting {
           it.contextPath("/")
           it.servletHandler(handler)
