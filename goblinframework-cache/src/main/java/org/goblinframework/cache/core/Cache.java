@@ -23,7 +23,7 @@ public interface Cache extends CacheLocationProvider {
   @NotNull
   <T> GetResult<T> get(@Nullable String key);
 
-  @Nullable
+  @NotNull
   <T> Map<String, GetResult<T>> gets(@Nullable Collection<String> keys);
 
   boolean delete(@Nullable String key);
