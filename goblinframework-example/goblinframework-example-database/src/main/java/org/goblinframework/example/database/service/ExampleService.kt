@@ -1,5 +1,6 @@
 package org.goblinframework.example.database.service
 
+import org.goblinframework.core.reactor.BlockingMonoSubscriber
 import org.goblinframework.core.util.JsonUtils
 import org.goblinframework.example.database.mongo.dao.MongoExampleDataDao
 import org.goblinframework.example.database.mongo.entity.MongoExampleData
@@ -33,6 +34,10 @@ class ExampleService {
   fun mongoStaticExampleDataService() {
     val data = MongoExampleData()
 
-    val publisher = mongoExampleDataDao.__insert(data)
+    mongoExampleDataDao.insert(data)
+    println("After insert ${JsonUtils.toJson(data)}")
+
+    val ret = mongoExampleDataDao.load(data.id)
+    println("After load ${JsonUtils.toJson(ret)}")
   }
 }

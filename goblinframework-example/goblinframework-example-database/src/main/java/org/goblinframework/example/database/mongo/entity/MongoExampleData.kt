@@ -1,5 +1,6 @@
 package org.goblinframework.example.database.mongo.entity
 
+import org.bson.types.ObjectId
 import org.goblinframework.api.database.*
 import org.goblinframework.api.database.Collection
 import java.io.Serializable
@@ -14,14 +15,14 @@ class MongoExampleData: Serializable {
     }
 
     @Id(Id.Generator.OBJECT_ID)
-    var id: String? = null
+    var id: ObjectId? = null
     var name: String? = null
     @CreateTime
     @Field("ct")
     var createTime: Date? = null
     @UpdateTime
     @Field("ut")
-    var updateTime1: Date? = null
+    var updateTime: Date? = null
     @Revision
     var revision: Int? = null
 }
