@@ -1,4 +1,4 @@
-description = "goblinframework-database-mongo"
+description = "goblin-dao-mongo"
 
 dependencies {
   compile(project(":goblinframework-database"))
