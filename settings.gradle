@@ -2,7 +2,7 @@ rootProject.name = "goblinframework"
 
 include "goblin-api"
 include "goblin-test"
-include "goblinframework-core"
+include "goblin-core"
 include "goblinframework-monitor"
 include "goblinframework-webmvc"
 include "goblinframework-embedded"

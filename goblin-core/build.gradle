@@ -1,4 +1,4 @@
-description = "goblinframework-core"
+description = "goblin-core"
 
 dependencies {
   compile(project(":goblin-api"))

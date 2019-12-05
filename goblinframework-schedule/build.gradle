@@ -1,7 +1,7 @@
 description = "goblinframework-schedule"
 
 dependencies {
-  compile(project(":goblinframework-core"))
+  compile(project(":goblin-core"))
   compile("org.springframework:spring-context-support:${spring_version}")
   compile("org.springframework:spring-tx:${spring_version}")
   compile("org.quartz-scheduler:quartz:${quartz_version}") {
