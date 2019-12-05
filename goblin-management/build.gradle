@@ -1,4 +1,4 @@
-description = "goblinframework-management"
+description = "goblin-management"
 
 dependencies {
   compile(project(":goblin-embedded"))

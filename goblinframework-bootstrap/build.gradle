@@ -12,7 +12,7 @@ dependencies {
   compile(project(":goblin-registry"))
   compile(project(":goblin-rpc"))
   compile(project(":goblin-schedule"))
-  compile(project(":goblinframework-management"))
+  compile(project(":goblin-management"))
   compile("org.slf4j:jcl-over-slf4j:${slf4j_version}")
   compile("org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}")
   compile("commons-cli:commons-cli:${commons_cli_version}")
