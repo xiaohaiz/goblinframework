@@ -32,6 +32,7 @@
     <module>goblin-rpc-client</module>
     <module>goblin-rpc-server</module>
     <module>goblin-schedule</module>
+    <module>goblin-management</module>
   </modules>
 
   <prerequisites>
