@@ -1,4 +1,4 @@
-description = "goblinframework-cache-redis"
+description = "goblin-cache-redis"
 
 dependencies {
   compile(project(":goblinframework-cache"))

@@ -1,7 +1,7 @@
 package org.goblinframework.cache.redis.module.monitor;
 
-import org.goblinframework.core.monitor.InstructionTranslator;
 import org.goblinframework.core.monitor.AbstractInstruction;
+import org.goblinframework.core.monitor.InstructionTranslator;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 

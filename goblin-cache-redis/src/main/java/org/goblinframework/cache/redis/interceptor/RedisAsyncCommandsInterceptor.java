@@ -1,29 +1,29 @@
 package org.goblinframework.cache.redis.interceptor;
 
 import io.lettuce.core.RedisFuture;
-import io.lettuce.core.cluster.api.async.RedisAdvancedClusterAsyncCommands;
+import io.lettuce.core.api.async.RedisAsyncCommands;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.goblinframework.core.monitor.Instruction;
 import org.goblinframework.cache.redis.module.monitor.RDS;
+import org.goblinframework.core.monitor.Instruction;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 
-final public class RedisAdvancedClusterAsyncCommandsInterceptor implements MethodInterceptor {
+final public class RedisAsyncCommandsInterceptor implements MethodInterceptor {
 
-  private final RedisAdvancedClusterAsyncCommands commands;
+  private final RedisAsyncCommands target;
 
-  public RedisAdvancedClusterAsyncCommandsInterceptor(@NotNull RedisAdvancedClusterAsyncCommands commands) {
-    this.commands = commands;
+  RedisAsyncCommandsInterceptor(@NotNull RedisAsyncCommands target) {
+    this.target = target;
   }
 
   @Override
   public Object invoke(MethodInvocation invocation) throws Throwable {
     Method method = invocation.getMethod();
     if (ReflectionUtils.isToStringMethod(method)) {
-      return commands.toString();
+      return "RedisAsyncCommandsInterceptor->" + target;
     }
     RDS rds;
     if (method.getReturnType() == RedisFuture.class) {
@@ -36,8 +36,8 @@ final public class RedisAdvancedClusterAsyncCommandsInterceptor implements Metho
     Object[] arguments = invocation.getArguments();
     RedisCommandsMethodPool.extractKeysIfNecessary(rds, method, arguments);
     try {
-      Object ret = ReflectionUtils.invoke(commands, method, arguments);
-      if (ret instanceof RedisFuture && rds.mode() == Instruction.Mode.ASY) {
+      Object ret = ReflectionUtils.invoke(target, method, arguments);
+      if (rds.mode() == Instruction.Mode.ASY && ret instanceof RedisFuture) {
         RedisFuture redisFuture = (RedisFuture) ret;
         redisFuture.thenRun(rds::complete);
       }
