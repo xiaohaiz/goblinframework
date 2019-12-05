@@ -17,11 +17,7 @@ import static org.junit.Assert.assertNull;
 public class BsonFloatDeserializerTest {
 
   public static class Data {
-    public Float a;
-    public Float b;
-    public Float c;
-    public Float d;
-    public Float e;
+    public Float a, b, c, d, e;
   }
 
   @Test

@@ -14,6 +14,7 @@ import org.bson.types.ObjectId;
 import org.goblinframework.dao.mongo.bson.deserializer.BsonBooleanDeserializer;
 import org.goblinframework.dao.mongo.bson.deserializer.BsonDoubleDeserializer;
 import org.goblinframework.dao.mongo.bson.deserializer.BsonFloatDeserializer;
+import org.goblinframework.dao.mongo.bson.deserializer.BsonIntegerDeserializer;
 import org.goblinframework.dao.mongo.bson.introspect.GoblinBsonIntrospector;
 import org.goblinframework.database.mongo.bson.deserializer.*;
 import org.goblinframework.database.mongo.bson.serializer.BsonInstantSerializer;
@@ -59,6 +60,7 @@ abstract public class BsonMapper {
         deserializers.addDeserializer(Double.class, new BsonDoubleDeserializer());
         deserializers.addDeserializer(Float.class, new BsonFloatDeserializer());
         deserializers.addDeserializer(Instant.class, new BsonInstantDeserializer());
+        deserializers.addDeserializer(Integer.class, new BsonIntegerDeserializer());
         deserializers.addDeserializer(ObjectId.class, new BsonObjectIdDeserializer());
         deserializers.addDeserializer(String.class, new BsonStringDeserializer());
         context.addDeserializers(deserializers);

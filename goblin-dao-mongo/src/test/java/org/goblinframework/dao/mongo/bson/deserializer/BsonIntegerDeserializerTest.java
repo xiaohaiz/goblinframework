@@ -9,30 +9,31 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.LinkedHashMap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
-public class BsonBooleanDeserializerTest {
+public class BsonIntegerDeserializerTest {
 
   public static class Data {
-    public Boolean a, b, c, d, e;
+    public Integer a, b, c, d, e;
   }
 
   @Test
   public void deserialize() {
     LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-    map.put("a", true);
-    map.put("b", false);
-    map.put("c", "true");
-    map.put("d", "false");
-    map.put("e", "I'm not boolean value.");
+    map.put("a", 1);
+    map.put("b", 2L);
+    map.put("c", 3D);
+    map.put("d", "4");
+    map.put("e", "I'm not integer value.");
     BsonDocument document = (BsonDocument) BsonConversionService.toBson(map);
     Data data = BsonConversionService.toObject(document, Data.class);
-    assertTrue(data.a);
-    assertFalse(data.b);
-    assertTrue(data.c);
-    assertFalse(data.d);
+    assertEquals(1, data.a.intValue());
+    assertEquals(2, data.b.intValue());
+    assertEquals(3, data.c.intValue());
+    assertEquals(4, data.d.intValue());
     assertNull(data.e);
   }
 }
