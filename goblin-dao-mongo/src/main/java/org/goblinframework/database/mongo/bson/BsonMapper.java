@@ -11,6 +11,7 @@ import de.undercouch.bson4jackson.BsonParser;
 import de.undercouch.bson4jackson.deserializers.BsonDeserializers;
 import de.undercouch.bson4jackson.serializers.BsonSerializers;
 import org.bson.types.ObjectId;
+import org.goblinframework.dao.mongo.bson.deserializer.BsonBooleanDeserializer;
 import org.goblinframework.dao.mongo.bson.introspect.GoblinBsonIntrospector;
 import org.goblinframework.database.mongo.bson.deserializer.*;
 import org.goblinframework.database.mongo.bson.serializer.BsonInstantSerializer;

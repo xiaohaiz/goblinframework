@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.bson.deserializer;
+package org.goblinframework.dao.mongo.bson.deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
