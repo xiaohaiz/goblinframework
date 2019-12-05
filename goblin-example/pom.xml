@@ -15,6 +15,7 @@
 
   <modules>
     <module>goblin-example-transport</module>
+    <module>goblin-example-rpc</module>
   </modules>
 
 </project>
