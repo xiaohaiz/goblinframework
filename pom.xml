@@ -17,6 +17,7 @@
     <module>goblin-embedded</module>
     <module>goblin-embedded-jetty</module>
     <module>goblin-embedded-netty</module>
+    <module>goblin-cache</module>
   </modules>
 
   <prerequisites>
