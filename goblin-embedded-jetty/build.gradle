@@ -1,4 +1,4 @@
-description = "goblinframework-embedded-jetty"
+description = "goblin-embedded-jetty"
 
 dependencies {
   compile(project(":goblinframework-embedded"))
