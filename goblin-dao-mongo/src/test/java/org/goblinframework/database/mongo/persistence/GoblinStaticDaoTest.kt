@@ -26,20 +26,20 @@ class GoblinStaticDaoTest : SpringContainerObject() {
   @Collection("ut_mock_data")
   class MockData {
     @Id(Id.Generator.OBJECT_ID)
-    var id: ObjectId? = null
+    var id: String? = null
   }
 
   @Repository
   @GoblinDatabaseConnection("_ut")
-  class MockDataDao : GoblinStaticDao<MockData, ObjectId>()
+  class MockDataDao : GoblinStaticDao<MockData, String>()
 
   @Inject private lateinit var dao: MockDataDao
 
   @Test
   fun loads() {
-    val id1 = ObjectId()
-    val id2 = ObjectId()
-    val id3 = ObjectId()
+    val id1 = ObjectId().toHexString()
+    val id2 = ObjectId().toHexString()
+    val id3 = ObjectId().toHexString()
     dao.insert(MockData().apply { id = id1 })
     dao.insert(MockData().apply { id = id2 })
     dao.insert(MockData().apply { id = id3 })
@@ -60,9 +60,9 @@ class GoblinStaticDaoTest : SpringContainerObject() {
     println(dao.getCollection())
 
     val dataList = listOf(
-        MockData().apply { id = ObjectId() },
-        MockData().apply { id = ObjectId() },
-        MockData().apply { id = ObjectId() }
+        MockData().apply { id = ObjectId().toHexString() },
+        MockData().apply { id = ObjectId().toHexString() },
+        MockData().apply { id = ObjectId().toHexString() }
     )
     val publisher = dao.__inserts(dataList)
 
