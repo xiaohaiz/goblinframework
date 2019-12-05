@@ -4,5 +4,5 @@ dependencies {
   compile(project(":goblin-core"))
 
   testCompile(project(":goblin-test"))
-  testCompile(project(":goblinframework-monitor"))
+  testCompile(project(":goblin-monitor"))
 }

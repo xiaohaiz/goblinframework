@@ -5,5 +5,5 @@ dependencies {
   compile("com.couchbase.client:java-client:${couchbase_version}")
 
   testCompile(project(":goblin-test"))
-  testCompile(project(":goblinframework-monitor"))
+  testCompile(project(":goblin-monitor"))
 }

@@ -1,4 +1,4 @@
-description = "goblinframework-monitor"
+description = "goblin-monitor"
 
 dependencies {
   compile(project(":goblin-core"))

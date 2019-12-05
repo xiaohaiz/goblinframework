@@ -13,5 +13,5 @@ dependencies {
   compile("io.netty:netty-all:${netty_version}")
 
   testCompile(project(":goblin-test"))
-  testCompile(project(":goblinframework-monitor"))
+  testCompile(project(":goblin-monitor"))
 }
