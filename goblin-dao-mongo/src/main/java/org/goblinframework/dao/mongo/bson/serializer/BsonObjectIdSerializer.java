@@ -8,6 +8,12 @@ import org.goblinframework.dao.mongo.bson.GoblinBsonGenerator;
 
 import java.io.IOException;
 
+/**
+ * ObjectId -> BsonObjectId
+ *
+ * @author Xiaohai Zhang
+ * @since Sep 27, 2019
+ */
 final public class BsonObjectIdSerializer extends JsonSerializer<ObjectId> {
 
   @Override
