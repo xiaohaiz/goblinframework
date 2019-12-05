@@ -12,10 +12,7 @@ import de.undercouch.bson4jackson.deserializers.BsonDeserializers;
 import de.undercouch.bson4jackson.serializers.BsonSerializers;
 import org.bson.types.ObjectId;
 import org.goblinframework.dao.mongo.bson.introspect.GoblinBsonIntrospector;
-import org.goblinframework.database.mongo.bson.deserializer.BsonCalendarDeserializer;
-import org.goblinframework.database.mongo.bson.deserializer.BsonDateDeserializer;
-import org.goblinframework.database.mongo.bson.deserializer.BsonInstantDeserializer;
-import org.goblinframework.database.mongo.bson.deserializer.BsonObjectIdDeserializer;
+import org.goblinframework.database.mongo.bson.deserializer.*;
 import org.goblinframework.database.mongo.bson.serializer.BsonInstantSerializer;
 import org.goblinframework.database.mongo.bson.serializer.BsonObjectIdSerializer;
 import org.jetbrains.annotations.NotNull;
@@ -57,6 +54,7 @@ abstract public class BsonMapper {
         deserializers.addDeserializer(Date.class, new BsonDateDeserializer());
         deserializers.addDeserializer(Instant.class, new BsonInstantDeserializer());
         deserializers.addDeserializer(ObjectId.class, new BsonObjectIdDeserializer());
+        deserializers.addDeserializer(String.class, new BsonStringDeserializer());
         context.addDeserializers(deserializers);
       }
     });
