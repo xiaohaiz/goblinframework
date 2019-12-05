@@ -21,6 +21,7 @@
     <module>goblin-cache-couchbase</module>
     <module>goblin-cache-redis</module>
     <module>goblin-dao</module>
+    <module>goblin-dao-mongo</module>
   </modules>
 
   <prerequisites>

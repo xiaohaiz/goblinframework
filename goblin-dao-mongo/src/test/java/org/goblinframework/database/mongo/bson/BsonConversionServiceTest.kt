@@ -196,7 +196,7 @@ class BsonConversionServiceTest : SpringContainerObject() {
     val doc = BsonConversionService.toBson(i) as BsonDocument
     val mt = BsonMapper.constructMapType(String::class.java, Instant::class.java)
     val o = BsonConversionService.toObject<LinkedHashMap<String, Instant>>(doc, mt)
-    assertEquals(now, o["value"] as Instant)
+    assertEquals(now.toEpochMilli(), (o["value"] as Instant).toEpochMilli())
   }
 
   @Test
