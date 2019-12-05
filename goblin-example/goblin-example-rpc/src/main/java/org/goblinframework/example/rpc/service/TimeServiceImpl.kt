@@ -1,7 +1,7 @@
 package org.goblinframework.example.remote.server.service
 
 import org.goblinframework.api.concurrent.GoblinFuture
-import org.goblinframework.api.remote.ExposeService
+import org.goblinframework.api.rpc.ExposeService
 import org.goblinframework.core.concurrent.GoblinValueWrapperFuture
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.example.remote.api.TimeService

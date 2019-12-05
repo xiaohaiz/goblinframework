@@ -1,6 +1,6 @@
 package org.goblinframework.database.mysql.persistence;
 
-import org.goblinframework.api.database.*;
+import org.goblinframework.api.dao.*;
 import org.goblinframework.core.container.SpringContainerObject;
 import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.database.core.GoblinDatabaseConnection;

@@ -3,7 +3,7 @@ package org.goblinframework.remote.client.module.runtime;
 import org.goblinframework.api.concurrent.GoblinFuture;
 import org.goblinframework.api.core.SerializerMode;
 import org.goblinframework.api.reactor.GoblinPublisher;
-import org.goblinframework.api.remote.NoResponseWait;
+import org.goblinframework.api.rpc.NoResponseWait;
 import org.goblinframework.remote.client.module.config.RemoteClientConfig;
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager;
 import org.goblinframework.remote.core.util.ServiceEncoderUtils;

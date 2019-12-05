@@ -1,6 +1,6 @@
 package org.goblinframework.example.database.mysql.entity
 
-import org.goblinframework.api.database.*
+import org.goblinframework.api.dao.*
 import java.io.Serializable
 import java.time.Instant
 import java.util.*

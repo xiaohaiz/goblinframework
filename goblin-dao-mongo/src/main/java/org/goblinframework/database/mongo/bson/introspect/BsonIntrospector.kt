@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.PropertyName
 import com.fasterxml.jackson.databind.introspect.Annotated
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector
 import org.goblinframework.api.annotation.Ignore
-import org.goblinframework.api.database.Id
+import org.goblinframework.api.dao.Id
 
 class BsonIntrospector : JacksonAnnotationIntrospector() {
 

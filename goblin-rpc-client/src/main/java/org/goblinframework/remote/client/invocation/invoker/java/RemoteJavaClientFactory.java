@@ -1,7 +1,7 @@
 package org.goblinframework.remote.client.invocation.invoker.java;
 
 import org.goblinframework.api.annotation.ThreadSafe;
-import org.goblinframework.api.remote.ImportService;
+import org.goblinframework.api.rpc.ImportService;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformation;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformationManager;

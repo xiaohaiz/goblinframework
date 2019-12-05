@@ -1,8 +1,8 @@
 package org.goblinframework.remote.core.util;
 
-import org.goblinframework.api.remote.ExposeService;
-import org.goblinframework.api.remote.ImportService;
-import org.goblinframework.api.remote.ServiceVersion;
+import org.goblinframework.api.rpc.ExposeService;
+import org.goblinframework.api.rpc.ImportService;
+import org.goblinframework.api.rpc.ServiceVersion;
 import org.goblinframework.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

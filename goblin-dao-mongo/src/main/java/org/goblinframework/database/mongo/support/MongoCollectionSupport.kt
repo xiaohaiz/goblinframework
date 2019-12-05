@@ -1,6 +1,6 @@
 package org.goblinframework.database.mongo.support
 
-import org.goblinframework.api.database.Collection
+import org.goblinframework.api.dao.Collection
 import org.goblinframework.database.core.GoblinDatabaseException
 import java.util.*
 

@@ -1,7 +1,7 @@
 package org.goblinframework.database.mysql.persistence
 
-import org.goblinframework.api.database.Id
-import org.goblinframework.api.database.Table
+import org.goblinframework.api.dao.Id
+import org.goblinframework.api.dao.Table
 
 /**
  * 只有主键的实体

@@ -1,16 +1,13 @@
-package org.goblinframework.api.remote;
+package org.goblinframework.api.rpc;
 
 import java.lang.annotation.*;
-import java.util.concurrent.TimeUnit;
 
 @Documented
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ServiceTimeout {
+public @interface ServiceRetries {
 
-  int timeout();
-
-  TimeUnit unit();
+  int retries() default 0;
 
   boolean enable() default true;
 

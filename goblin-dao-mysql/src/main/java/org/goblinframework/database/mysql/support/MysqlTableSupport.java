@@ -1,6 +1,6 @@
 package org.goblinframework.database.mysql.support;
 
-import org.goblinframework.api.database.Table;
+import org.goblinframework.api.dao.Table;
 import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -1,8 +1,8 @@
 package org.goblinframework.example.database.mongo.entity
 
 import org.bson.types.ObjectId
-import org.goblinframework.api.database.*
-import org.goblinframework.api.database.Collection
+import org.goblinframework.api.dao.*
+import org.goblinframework.api.dao.Collection
 import java.io.Serializable
 import java.util.*
 

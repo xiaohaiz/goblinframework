@@ -1,7 +1,7 @@
 package org.goblinframework.remote.core.util;
 
 import org.goblinframework.api.core.SerializerMode;
-import org.goblinframework.api.remote.ServiceEncoder;
+import org.goblinframework.api.rpc.ServiceEncoder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

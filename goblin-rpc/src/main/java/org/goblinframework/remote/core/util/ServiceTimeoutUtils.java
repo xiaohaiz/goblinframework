@@ -1,6 +1,6 @@
 package org.goblinframework.remote.core.util;
 
-import org.goblinframework.api.remote.ServiceTimeout;
+import org.goblinframework.api.rpc.ServiceTimeout;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

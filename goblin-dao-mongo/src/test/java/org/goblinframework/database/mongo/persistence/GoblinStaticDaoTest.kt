@@ -1,9 +1,9 @@
 package org.goblinframework.database.mongo.persistence
 
 import org.bson.types.ObjectId
-import org.goblinframework.api.database.Collection
-import org.goblinframework.api.database.Database
-import org.goblinframework.api.database.Id
+import org.goblinframework.api.dao.Collection
+import org.goblinframework.api.dao.Database
+import org.goblinframework.api.dao.Id
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.database.core.GoblinDatabaseConnection

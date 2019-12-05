@@ -1,4 +1,4 @@
-package org.goblinframework.api.remote;
+package org.goblinframework.api.rpc;
 
 import org.goblinframework.api.core.SerializerMode;
 

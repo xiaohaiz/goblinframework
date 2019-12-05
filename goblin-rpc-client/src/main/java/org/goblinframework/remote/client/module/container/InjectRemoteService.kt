@@ -1,6 +1,6 @@
 package org.goblinframework.remote.client.module.container
 
-import org.goblinframework.api.remote.ImportService
+import org.goblinframework.api.rpc.ImportService
 import org.goblinframework.core.container.SpringContainerBeanPostProcessor
 import org.goblinframework.core.util.GoblinField
 import org.goblinframework.core.util.ReflectionUtils

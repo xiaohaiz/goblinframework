@@ -1,7 +1,7 @@
 package org.goblinframework.database.mongo.support
 
 import org.bson.types.ObjectId
-import org.goblinframework.api.database.Id
+import org.goblinframework.api.dao.Id
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.database.core.GoblinDatabaseException
 import java.util.*

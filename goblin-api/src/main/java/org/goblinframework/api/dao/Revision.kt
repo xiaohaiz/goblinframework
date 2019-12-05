@@ -1,4 +1,4 @@
-package org.goblinframework.api.database
+package org.goblinframework.api.dao
 
 @MustBeDocumented
 @Target(AnnotationTarget.FIELD)

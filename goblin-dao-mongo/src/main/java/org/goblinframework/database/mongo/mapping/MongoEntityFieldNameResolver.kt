@@ -2,8 +2,8 @@ package org.goblinframework.database.mongo.mapping
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.api.database.Field
-import org.goblinframework.api.database.Id
+import org.goblinframework.api.dao.Field
+import org.goblinframework.api.dao.Id
 import org.goblinframework.core.util.StringUtils
 import org.goblinframework.database.core.mapping.EntityField
 import org.goblinframework.database.core.mapping.EntityFieldNameResolver
