@@ -12,7 +12,7 @@ import org.goblinframework.database.mongo.module.config.MongoConfigManager
 import org.goblinframework.database.mongo.module.test.DropMongoDatabaseBeforeTestMethod
 
 @Install
-class DatabaseMongoModule : ISubModule {
+class MongoDaoModule : ISubModule {
 
   override fun id(): GoblinSubModule {
     return GoblinSubModule.DAO_MONGO
