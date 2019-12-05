@@ -14,6 +14,7 @@
     <module>goblin-core</module>
     <module>goblin-monitor</module>
     <module>goblin-webmvc</module>
+    <module>goblin-embedded</module>
   </modules>
 
   <prerequisites>
