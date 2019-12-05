@@ -50,6 +50,7 @@ abstract public class BsonMapper {
         context.addSerializers(serializers);
 
         BsonDeserializers deserializers = new BsonDeserializers();
+        deserializers.addDeserializer(Boolean.class, new BsonBooleanDeserializer());
         deserializers.addDeserializer(Calendar.class, new BsonCalendarDeserializer());
         deserializers.addDeserializer(Date.class, new BsonDateDeserializer());
         deserializers.addDeserializer(Instant.class, new BsonInstantDeserializer());

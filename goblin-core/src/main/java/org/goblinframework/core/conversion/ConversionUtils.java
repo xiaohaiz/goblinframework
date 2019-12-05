@@ -17,6 +17,6 @@ abstract public class ConversionUtils {
     }
     String str = obj.toString();
     str = StringUtils.trim(str);
-    return StringUtils.equals(str, "true");
+    return StringUtils.equalsIgnoreCase(str, "true");
   }
 }
