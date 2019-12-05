@@ -1,4 +1,4 @@
-description = "goblinframework-database-mysql"
+description = "goblin-dao-mysql"
 
 dependencies {
   compile(project(":goblinframework-database"))
