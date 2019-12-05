@@ -20,6 +20,7 @@
     <module>goblin-cache</module>
     <module>goblin-cache-couchbase</module>
     <module>goblin-cache-redis</module>
+    <module>goblin-dao</module>
   </modules>
 
   <prerequisites>
