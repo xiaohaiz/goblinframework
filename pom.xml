@@ -22,6 +22,7 @@
     <module>goblin-cache-redis</module>
     <module>goblin-dao</module>
     <module>goblin-dao-mongo</module>
+    <module>goblin-dao-mysql</module>
   </modules>
 
   <prerequisites>
