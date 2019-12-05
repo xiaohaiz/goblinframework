@@ -1,4 +1,4 @@
-description = "goblinframework-schedule"
+description = "goblin-schedule"
 
 dependencies {
   compile(project(":goblin-core"))
