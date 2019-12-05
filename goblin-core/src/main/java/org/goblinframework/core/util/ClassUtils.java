@@ -19,6 +19,7 @@ abstract public class ClassUtils extends org.apache.commons.lang3.ClassUtils {
     return classLoader;
   }
 
+  @SuppressWarnings("deprecation")
   @NotNull
   public static Class<?> filterCglibProxyClass(@NotNull Class<?> clazz) {
     Class<?> clazzForUse = clazz;

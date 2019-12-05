@@ -95,11 +95,12 @@ class RequestHandlerImpl(val setting: RequestHandlerSetting,
     }
   }
 
+  @Suppress("DEPRECATION")
   private fun doInvoke() {
     if (request.method === HttpMethod.OPTIONS) {
       val allowedMethods = controllerMapping.methodMapping.allowMethods
-          .mapNotNull { ConversionService.INSTANCE.convert(it, HttpMethod::class.java) }
-          .toSet()
+              .mapNotNull { ConversionService.INSTANCE.convert(it, HttpMethod::class.java) }
+              .toSet()
       response.headers.allow = allowedMethods
       response.headers.contentLength = 0
       return
@@ -154,6 +155,6 @@ class RequestHandlerImpl(val setting: RequestHandlerSetting,
     }
 
     viewResolverManager.lookupView(viewName)?.render(modelMap, request, response)
-        ?: throw NoViewFoundException()
+            ?: throw NoViewFoundException()
   }
 }
