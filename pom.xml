@@ -18,6 +18,8 @@
     <module>goblin-embedded-jetty</module>
     <module>goblin-embedded-netty</module>
     <module>goblin-cache</module>
+    <module>goblin-cache-couchbase</module>
+    <module>goblin-cache-redis</module>
   </modules>
 
   <prerequisites>
