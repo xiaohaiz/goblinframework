@@ -25,6 +25,7 @@
     <module>goblin-dao-mysql</module>
     <module>goblin-queue</module>
     <module>goblin-transport</module>
+    <module>goblin-transport-client</module>
   </modules>
 
   <prerequisites>
