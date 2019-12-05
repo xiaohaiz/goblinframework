@@ -1,4 +1,4 @@
-description = "goblinframework-remote-server"
+description = "goblin-rpc-server"
 
 dependencies {
   compile(project(":goblinframework-remote"))

@@ -2,6 +2,6 @@ description = "goblinframework-example-remote-server"
 
 dependencies {
   compile(project(":goblinframework-example:goblinframework-example-remote:goblinframework-example-remote-api"))
-  compile(project(":goblinframework-remote-server"))
+  compile(project(":goblin-rpc-server"))
   compile(project(":goblinframework-bootstrap"))
 }
