@@ -15,6 +15,7 @@
     <module>goblin-monitor</module>
     <module>goblin-webmvc</module>
     <module>goblin-embedded</module>
+    <module>goblin-embedded-jetty</module>
   </modules>
 
   <prerequisites>

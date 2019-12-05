@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.goblinframework</groupId>
+    <artifactId>goblin</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+
+  <name>goblin-embedded-jetty</name>
+  <artifactId>goblin-embedded-jetty</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.goblinframework</groupId>
+      <artifactId>goblin-embedded</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>9.4.24.v20191120</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.goblinframework</groupId>
+      <artifactId>goblin-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.goblinframework</groupId>
+      <artifactId>goblin-monitor</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
