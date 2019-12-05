@@ -23,6 +23,7 @@
     <module>goblin-dao</module>
     <module>goblin-dao-mongo</module>
     <module>goblin-dao-mysql</module>
+    <module>goblin-queue</module>
   </modules>
 
   <prerequisites>
