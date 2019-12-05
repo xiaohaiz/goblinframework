@@ -14,33 +14,30 @@ import static org.junit.Assert.assertNull;
 
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
-public class BsonDoubleDeserializerTest {
+public class BsonFloatDeserializerTest {
 
   public static class Data {
-    public Double a;
-    public Double b;
-    public Double c;
-    public Double d;
-    public Double e;
-    public Double f;
+    public Float a;
+    public Float b;
+    public Float c;
+    public Float d;
+    public Float e;
   }
 
   @Test
   public void deserialize() {
     LinkedHashMap<String, Object> map = new LinkedHashMap<>();
     map.put("a", 1.1D);
-    map.put("b", 2.2F);
-    map.put("c", 3);
-    map.put("d", 4L);
-    map.put("e", "5.5");
-    map.put("f", "I'm not double value.");
+    map.put("b", 2);
+    map.put("c", 3L);
+    map.put("d", "4.4");
+    map.put("e", "I'm not float value.");
     BsonDocument document = (BsonDocument) BsonConversionService.toBson(map);
     Data data = BsonConversionService.toObject(document, Data.class);
-    assertEquals(1.1, data.a, 0.01);
-    assertEquals(2.2, data.b, 0.01);
-    assertEquals(3.0, data.c, 0.01);
-    assertEquals(4.0, data.d, 0.01);
-    assertEquals(5.5, data.e, 0.01);
-    assertNull(data.f);
+    assertEquals(1.1F, data.a, 0.01F);
+    assertEquals(2.0F, data.b, 0.01F);
+    assertEquals(3.0F, data.c, 0.01F);
+    assertEquals(4.4F, data.d, 0.01F);
+    assertNull(data.e);
   }
 }
