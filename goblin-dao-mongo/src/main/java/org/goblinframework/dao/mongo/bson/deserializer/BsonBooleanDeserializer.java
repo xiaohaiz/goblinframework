@@ -1,7 +1,6 @@
 package org.goblinframework.dao.mongo.bson.deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
@@ -10,7 +9,7 @@ import java.io.IOException;
 final public class BsonBooleanDeserializer extends JsonDeserializer<Boolean> {
 
   @Override
-  public Boolean deserialize(JsonParser p, DeserializationContext ctx) throws IOException, JsonProcessingException {
+  public Boolean deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
     Object value = p.getEmbeddedObject();
     if (value == null) {
       return null;
