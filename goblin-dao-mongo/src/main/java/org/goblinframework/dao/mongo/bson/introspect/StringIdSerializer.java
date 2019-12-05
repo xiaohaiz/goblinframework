@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import org.bson.types.ObjectId;
-import org.goblinframework.database.mongo.bson.GoblinBsonGenerator;
+import org.goblinframework.dao.mongo.bson.GoblinBsonGenerator;
 
 import java.io.IOException;
 
@@ -23,16 +23,12 @@ final public class StringIdSerializer extends JsonSerializer<String> {
   public void serialize(String value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
     if (value == null) {
       serializers.defaultSerializeNull(gen);
-      return;
-    }
-    if (ObjectId.isValid(value)) {
-      ObjectId objectId = new ObjectId(value);
-      if (!(gen instanceof GoblinBsonGenerator)) {
-        throw new UnsupportedOperationException();
-      }
-      ((GoblinBsonGenerator) gen).writeObjectId(objectId);
     } else {
-      gen.writeString(value);
+      if (ObjectId.isValid(value)) {
+        GoblinBsonGenerator.cast(gen).writeObjectId(new ObjectId(value));
+      } else {
+        gen.writeString(value);
+      }
     }
   }
 }
