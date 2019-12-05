@@ -2,7 +2,7 @@ description = "goblinframework-remote-server"
 
 dependencies {
   compile(project(":goblinframework-remote"))
-  compile(project(":goblinframework-transport-server"))
+  compile(project(":goblin-transport-server"))
 
   testCompile(project(":goblin-test"))
 }
