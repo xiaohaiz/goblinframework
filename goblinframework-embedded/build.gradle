@@ -1,7 +1,7 @@
 description = "goblinframework-embedded"
 
 dependencies {
-  compile(project(":goblinframework-webmvc"))
+  compile(project(":goblin-webmvc"))
 
   testCompile(project(":goblin-test"))
 }
