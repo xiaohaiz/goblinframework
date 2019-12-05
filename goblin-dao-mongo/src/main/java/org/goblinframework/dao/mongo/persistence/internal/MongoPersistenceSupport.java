@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.support;
+package org.goblinframework.dao.mongo.persistence.internal;
 
 import com.mongodb.MongoNamespace;
 import com.mongodb.ReadPreference;
@@ -18,6 +18,7 @@ import org.goblinframework.database.mongo.bson.BsonConversionService;
 import org.goblinframework.database.mongo.eql.MongoCriteriaTranslator;
 import org.goblinframework.database.mongo.eql.MongoQueryTranslator;
 import org.goblinframework.database.mongo.eql.MongoUpdateTranslator;
+import org.goblinframework.database.mongo.support.MongoConversionSupport;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Publisher;

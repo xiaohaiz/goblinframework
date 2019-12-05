@@ -3,7 +3,7 @@ package org.goblinframework.dao.mongo.persistence
 import com.mongodb.reactivestreams.client.MongoCollection
 import com.mongodb.reactivestreams.client.MongoDatabase
 import org.bson.BsonDocument
-import org.goblinframework.database.mongo.support.MongoPersistenceSupport
+import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceSupport
 
 abstract class GoblinStaticDao<E, ID> : MongoPersistenceSupport<E, ID>() {
 
