@@ -10,7 +10,7 @@ dependencies {
   compile(project(":goblin-queue"))
   compile(project(":goblin-transport"))
   compile(project(":goblin-registry"))
-  compile(project(":goblinframework-remote"))
+  compile(project(":goblin-rpc"))
   compile(project(":goblinframework-schedule"))
   compile(project(":goblinframework-management"))
   compile("org.slf4j:jcl-over-slf4j:${slf4j_version}")

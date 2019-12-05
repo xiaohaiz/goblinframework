@@ -1,7 +1,7 @@
 description = "goblin-rpc-client"
 
 dependencies {
-  compile(project(":goblinframework-remote"))
+  compile(project(":goblin-rpc"))
   compile(project(":goblin-transport-client"))
 
   testCompile(project(":goblin-test"))
