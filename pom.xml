@@ -12,6 +12,7 @@
     <module>goblin-api</module>
     <module>goblin-test</module>
     <module>goblin-core</module>
+    <module>goblin-monitor</module>
   </modules>
 
   <prerequisites>
