@@ -1,17 +1,18 @@
-package org.goblinframework.database.mongo.bson.serializer;
+package org.goblinframework.dao.mongo.bson.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import org.bson.types.ObjectId;
 import org.goblinframework.database.mongo.bson.GoblinBsonGenerator;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
 
-public class BsonObjectIdSerializer extends JsonSerializer<ObjectId> {
+final public class BsonInstantSerializer extends JsonSerializer<Instant> {
 
   @Override
-  public void serialize(ObjectId value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+  public void serialize(Instant value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
     if (value == null) {
       serializers.defaultSerializeNull(gen);
       return;
@@ -19,6 +20,6 @@ public class BsonObjectIdSerializer extends JsonSerializer<ObjectId> {
     if (!(gen instanceof GoblinBsonGenerator)) {
       throw new UnsupportedOperationException();
     }
-    ((GoblinBsonGenerator) gen).writeObjectId(value);
+    ((GoblinBsonGenerator) gen).writeDateTime(Date.from(value));
   }
 }
