@@ -15,7 +15,7 @@ import org.goblinframework.database.mongo.module.test.DropMongoDatabaseBeforeTes
 class DatabaseMongoModule : ISubModule {
 
   override fun id(): GoblinSubModule {
-    return GoblinSubModule.DATABASE_MONGO
+    return GoblinSubModule.DAO_MONGO
   }
 
   override fun install(ctx: ModuleInstallContext) {

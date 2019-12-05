@@ -15,7 +15,7 @@ import org.goblinframework.remote.server.transport.RemoteTransportServerManager
 class RemoteServerModule : ISubModule {
 
   override fun id(): GoblinSubModule {
-    return GoblinSubModule.REMOTE_SERVER
+    return GoblinSubModule.RPC_SERVER
   }
 
   override fun install(ctx: ModuleInstallContext) {

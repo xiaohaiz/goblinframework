@@ -8,13 +8,12 @@ public enum GoblinSubModule {
   EMBEDDED_NETTY(GoblinModule.EMBEDDED),
   CACHE_COUCHBASE(GoblinModule.CACHE),
   CACHE_REDIS(GoblinModule.CACHE),
-  DATABASE_MONGO(GoblinModule.DATABASE),
-  DATABASE_MYSQL(GoblinModule.DATABASE),
+  DAO_MONGO(GoblinModule.DAO),
+  DAO_MYSQL(GoblinModule.DAO),
   TRANSPORT_CLIENT(GoblinModule.TRANSPORT),
   TRANSPORT_SERVER(GoblinModule.TRANSPORT),
-  REGISTRY_ZOOKEEPER(GoblinModule.REGISTRY),
-  REMOTE_CLIENT(GoblinModule.REMOTE),
-  REMOTE_SERVER(GoblinModule.REMOTE);
+  RPC_CLIENT(GoblinModule.RPC),
+  RPC_SERVER(GoblinModule.RPC);
 
   private final GoblinModule parent;
 

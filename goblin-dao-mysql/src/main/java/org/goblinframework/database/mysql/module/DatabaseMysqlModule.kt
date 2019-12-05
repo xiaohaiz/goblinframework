@@ -12,7 +12,7 @@ import org.goblinframework.database.mysql.module.test.RebuildMysqlTableBeforeTes
 class DatabaseMysqlModule : ISubModule {
 
   override fun id(): GoblinSubModule {
-    return GoblinSubModule.DATABASE_MYSQL
+    return GoblinSubModule.DAO_MYSQL
   }
 
   override fun install(ctx: ModuleInstallContext) {
