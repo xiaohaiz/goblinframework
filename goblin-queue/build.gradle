@@ -1,4 +1,4 @@
-description = "goblinframework-queue"
+description = "goblin-queue"
 
 dependencies {
   compile(project(":goblin-core"))
