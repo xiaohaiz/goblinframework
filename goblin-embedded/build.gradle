@@ -1,4 +1,4 @@
-description = "goblinframework-embedded"
+description = "goblin-embedded"
 
 dependencies {
   compile(project(":goblin-webmvc"))
