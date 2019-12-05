@@ -13,6 +13,7 @@
     <module>goblin-test</module>
     <module>goblin-core</module>
     <module>goblin-monitor</module>
+    <module>goblin-webmvc</module>
   </modules>
 
   <prerequisites>
