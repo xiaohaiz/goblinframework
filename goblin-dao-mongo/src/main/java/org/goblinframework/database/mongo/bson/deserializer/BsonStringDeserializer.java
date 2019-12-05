@@ -23,6 +23,10 @@ final public class BsonStringDeserializer extends JsonDeserializer<String> {
     if (value instanceof String) {
       return (String) value;
     }
+    // BsonBoolean
+    if (value instanceof Boolean) {
+      return value.toString();
+    }
     // BsonInt32
     if (value instanceof Integer) {
       return value.toString();
