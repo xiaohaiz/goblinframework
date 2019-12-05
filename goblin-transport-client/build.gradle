@@ -1,4 +1,4 @@
-description = "goblinframework-transport-client"
+description = "goblin-transport-client"
 
 dependencies {
   compile(project(":goblinframework-transport"))
