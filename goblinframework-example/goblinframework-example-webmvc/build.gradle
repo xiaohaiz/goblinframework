@@ -3,5 +3,5 @@ description = "goblinframework-example-webmvc"
 apply plugin: "war"
 
 dependencies {
-  compile(project(":goblinframework-bootstrap"))
+  compile(project(":goblin-bootstrap"))
 }

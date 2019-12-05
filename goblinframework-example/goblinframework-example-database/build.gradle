@@ -3,5 +3,5 @@ description = "goblinframework-example-database"
 dependencies {
   compile(project(":goblin-dao-mysql"))
   compile(project(":goblin-dao-mongo"))
-  compile(project(":goblinframework-bootstrap"))
+  compile(project(":goblin-bootstrap"))
 }

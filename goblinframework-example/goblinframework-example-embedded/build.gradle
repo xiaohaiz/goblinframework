@@ -3,5 +3,5 @@ description = "goblinframework-example-embedded"
 dependencies {
   compile(project(":goblin-embedded-jetty"))
   compile(project(":goblin-embedded-netty"))
-  compile(project(":goblinframework-bootstrap"))
+  compile(project(":goblin-bootstrap"))
 }
