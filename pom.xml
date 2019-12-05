@@ -28,6 +28,9 @@
     <module>goblin-transport-client</module>
     <module>goblin-transport-server</module>
     <module>goblin-registry</module>
+    <module>goblin-rpc</module>
+    <module>goblin-rpc-client</module>
+    <module>goblin-rpc-server</module>
   </modules>
 
   <prerequisites>
