@@ -1,6 +1,0 @@
-description = "goblinframework-example-transport-server"
-
-dependencies {
-  compile(project(":goblin-transport-server"))
-  compile(project(":goblin-bootstrap"))
-}

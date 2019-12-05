@@ -9,7 +9,7 @@ import org.goblinframework.transport.server.handler.TransportRequestContext
 import org.goblinframework.transport.server.handler.TransportRequestHandler
 import org.goblinframework.transport.server.setting.TransportServerSetting
 
-@GoblinSpringContainer("/config/goblinframework-example-transport-server.xml")
+@GoblinSpringContainer("/config/transport-server.xml")
 class Server : StandaloneServer() {
 
   override fun doService(container: SpringContainer?) {

@@ -1,4 +1,4 @@
-package org.goblinframework.example.transport.client
+package org.goblinframework.example.transport.server
 
 import org.goblinframework.api.function.Block1
 import org.goblinframework.bootstrap.core.StandaloneClient
@@ -9,7 +9,7 @@ import org.goblinframework.transport.client.channel.TransportClientManager
 import org.goblinframework.transport.client.flight.MessageFlightManager
 import org.goblinframework.transport.client.setting.TransportClientSetting
 
-@GoblinSpringContainer("/config/goblinframework-example-transport-client.xml")
+@GoblinSpringContainer("/config/transport-client.xml")
 class Client : StandaloneClient() {
 
   override fun doExecute(container: SpringContainer?) {
