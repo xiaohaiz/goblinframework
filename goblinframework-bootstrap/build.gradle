@@ -5,7 +5,7 @@ dependencies {
   compile(project(":goblin-monitor"))
   compile(project(":goblin-webmvc"))
   compile(project(":goblin-embedded"))
-  compile(project(":goblinframework-cache"))
+  compile(project(":goblin-cache"))
   compile(project(":goblinframework-database"))
   compile(project(":goblinframework-transport"))
   compile(project(":goblinframework-registry"))

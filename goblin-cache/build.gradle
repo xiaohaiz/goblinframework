@@ -1,4 +1,4 @@
-description = "goblinframework-cache"
+description = "goblin-cache"
 
 dependencies {
   compile(project(":goblin-core"))

@@ -1,8 +1,8 @@
 package org.goblinframework.cache.core.module.monitor
 
+import org.goblinframework.core.monitor.AbstractInstruction
 import org.goblinframework.core.monitor.Instruction
 import org.goblinframework.core.monitor.InstructionTranslator
-import org.goblinframework.core.monitor.AbstractInstruction
 import org.goblinframework.core.util.StringUtils
 
 class VMC : AbstractInstruction(Instruction.Id.VMC, Instruction.Mode.SYN, true) {

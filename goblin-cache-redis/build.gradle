@@ -1,7 +1,7 @@
 description = "goblin-cache-redis"
 
 dependencies {
-  compile(project(":goblinframework-cache"))
+  compile(project(":goblin-cache"))
   compile("io.netty:netty-all:${netty_version}")
   compile("io.lettuce:lettuce-core:${lettuce_version}") {
     exclude(group: "io.netty", module: "netty-common")

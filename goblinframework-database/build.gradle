@@ -1,7 +1,7 @@
 description = "goblinframework-database"
 
 dependencies {
-  compile(project(":goblinframework-cache"))
+  compile(project(":goblin-cache"))
 
   testCompile(project(":goblin-test"))
 }
