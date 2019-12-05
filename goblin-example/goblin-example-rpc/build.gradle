@@ -1,0 +1,7 @@
+description = "goblin-example-rpc"
+
+dependencies {
+  compile(project(":goblin-rpc-client"))
+  compile(project(":goblin-rpc-server"))
+  compile(project(":goblin-bootstrap"))
+}
