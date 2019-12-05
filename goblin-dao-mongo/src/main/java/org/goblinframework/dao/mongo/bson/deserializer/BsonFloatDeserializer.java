@@ -7,39 +7,40 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import java.io.IOException;
 
 /**
- * 1. BsonDouble -> Double
- * 2. BsonInt32 -> Double
- * 3. BsonInt64 -> Double
- * 4. BsonString -> Double, if string is parsable double
+ * 1. BsonDouble -> Float, may lost precision
+ * 2. BsonInt32 -> Float
+ * 3. BsonInt64 -> Float, may lost precision
+ * 4. BsonString -> Float, if string is parsable float
  * 5. Otherwise returns null
  *
  * @author Xiaohai Zhang
  * @since Dec 5, 2019
  */
-final public class BsonDoubleDeserializer extends JsonDeserializer<Double> {
+final public class BsonFloatDeserializer extends JsonDeserializer<Float> {
 
   @Override
-  public Double deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
+  public Float deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
     Object value = p.getEmbeddedObject();
     if (value instanceof Double) {
       // BsonDouble
-      return (Double) value;
+      Double d = (Double) value;
+      return d.floatValue();
     }
     if (value instanceof Integer) {
       // BsonInt32
       Integer i = (Integer) value;
-      return i.doubleValue();
+      return i.floatValue();
     }
     if (value instanceof Long) {
       // BsonInt64
       Long l = (Long) value;
-      return l.doubleValue();
+      return l.floatValue();
     }
     if (value instanceof String) {
       // BsonString
       String s = (String) value;
       try {
-        return Double.parseDouble(s);
+        return Float.parseFloat(s);
       } catch (NumberFormatException ex) {
         return null;
       }
