@@ -10,10 +10,17 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     <version.kotlin>1.3.50</version.kotlin>
+
+    <version.jackson.annotations>2.10.1</version.jackson.annotations>
+    <version.reactive.streams>1.0.3</version.reactive.streams>
+    <version.slf4j>1.7.29</version.slf4j>
   </properties>
 
-  <modules></modules>
+  <modules>
+    <module>goblin-api</module>
+  </modules>
 
   <prerequisites>
     <maven>3.0</maven>
