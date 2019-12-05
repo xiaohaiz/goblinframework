@@ -10,6 +10,7 @@ import org.goblinframework.webmvc.util.HttpContentTypes
 import org.springframework.http.HttpHeaders
 import java.io.Closeable
 import java.io.PrintWriter
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 import javax.servlet.ServletOutputStream
 
@@ -20,6 +21,7 @@ class NettyHttpServletResponse(private val ctx: ChannelHandlerContext)
   private val writer = PrintWriter(outputStream)
   private val response = DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK)
   private val sendError = AtomicReference<SendError>()
+  private val commited = AtomicBoolean(false)
 
   override fun getOutputStream(): ServletOutputStream {
     return outputStream
@@ -67,6 +69,7 @@ class NettyHttpServletResponse(private val ctx: ChannelHandlerContext)
 
   override fun flushBuffer() {
     writer.flush()
+    commited.compareAndSet(false, true)
   }
 
   override fun resetBuffer() {
@@ -76,6 +79,11 @@ class NettyHttpServletResponse(private val ctx: ChannelHandlerContext)
   override fun reset() {
     outputStream.reset()
     response.headers().clear()
+    commited.set(false)
+  }
+
+  override fun isCommitted(): Boolean {
+    return commited.get()
   }
 
   override fun close() {
