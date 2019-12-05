@@ -16,6 +16,7 @@
     <module>goblin-webmvc</module>
     <module>goblin-embedded</module>
     <module>goblin-embedded-jetty</module>
+    <module>goblin-embedded-netty</module>
   </modules>
 
   <prerequisites>
