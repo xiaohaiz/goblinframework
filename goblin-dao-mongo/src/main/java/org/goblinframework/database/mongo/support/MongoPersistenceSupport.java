@@ -1,6 +1,7 @@
 package org.goblinframework.database.mongo.support;
 
 import com.mongodb.MongoNamespace;
+import com.mongodb.ReadPreference;
 import com.mongodb.WriteConcern;
 import com.mongodb.reactivestreams.client.FindPublisher;
 import com.mongodb.reactivestreams.client.MongoCollection;
@@ -11,6 +12,7 @@ import org.bson.BsonDocument;
 import org.bson.conversions.Bson;
 import org.goblinframework.core.reactor.*;
 import org.goblinframework.core.util.MapUtils;
+import org.goblinframework.core.util.NumberUtils;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.mongo.bson.BsonConversionService;
 import org.goblinframework.database.mongo.eql.MongoCriteriaTranslator;
@@ -230,6 +232,46 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
       });
     });
 
+    return publisher;
+  }
+
+  @NotNull
+  final public Publisher<Boolean> __exists(@Nullable ID id, @Nullable ReadPreference readPreference) {
+    SingleResultPublisher<Boolean> publisher = createSingleResultPublisher();
+    if (id == null) {
+      publisher.complete(false, null);
+      return publisher;
+    }
+    MongoNamespace namespace = getIdNamespace(id);
+    Criteria criteria = Criteria.where("_id").is(id);
+    Bson filter = criteriaTranslator.translate(criteria);
+
+    MongoDatabase database = getNativeMongoClient().getDatabase(namespace.getDatabaseName());
+    MongoCollection<BsonDocument> collection = database.getCollection(namespace.getCollectionName(), BsonDocument.class);
+    if (readPreference != null) {
+      collection = collection.withReadPreference(readPreference);
+    }
+    collection.countDocuments(filter).subscribe(new Subscriber<Long>() {
+      @Override
+      public void onSubscribe(Subscription s) {
+        s.request(1);
+      }
+
+      @Override
+      public void onNext(Long aLong) {
+        long count = NumberUtils.toLong(aLong);
+        publisher.complete(count > 0, null);
+      }
+
+      @Override
+      public void onError(Throwable t) {
+        publisher.complete(null, t);
+      }
+
+      @Override
+      public void onComplete() {
+      }
+    });
     return publisher;
   }
 }

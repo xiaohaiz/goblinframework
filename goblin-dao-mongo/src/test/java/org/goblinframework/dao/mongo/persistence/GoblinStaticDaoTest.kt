@@ -6,6 +6,7 @@ import org.goblinframework.api.dao.Database
 import org.goblinframework.api.dao.Id
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.reactor.BlockingListSubscriber
+import org.goblinframework.core.reactor.BlockingMonoSubscriber
 import org.goblinframework.database.core.GoblinDatabaseConnection
 import org.goblinframework.database.mongo.module.test.DropMongoDatabase
 import org.goblinframework.test.runner.GoblinTestRunner
@@ -74,5 +75,17 @@ class GoblinStaticDaoTest : SpringContainerObject() {
     val s2 = BlockingListSubscriber<MockData>()
     dao.__loads(ids).subscribe(s2)
     println(s2.block())
+  }
+
+  @Test
+  fun exists() {
+    val data = MockData()
+    dao.insert(data)
+    val id = data.id
+    val publisher = dao.__exists(id, null)
+    val mono = BlockingMonoSubscriber<Boolean>()
+    publisher.subscribe(mono)
+    val ret = mono.block()
+    assertTrue(ret!!)
   }
 }
