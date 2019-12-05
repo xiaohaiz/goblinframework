@@ -33,5 +33,5 @@ dependencies {
   }
   compile group: 'io.projectreactor.addons', name: 'reactor-extra', version: '3.3.0.RELEASE'
 
-  testCompile(project(":goblinframework-test"))
+  testCompile(project(":goblin-test"))
 }

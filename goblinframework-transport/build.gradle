@@ -4,5 +4,5 @@ dependencies {
   compile(project(":goblinframework-core"))
   compile("io.netty:netty-all:${netty_version}")
 
-  testCompile(project(":goblinframework-test"))
+  testCompile(project(":goblin-test"))
 }

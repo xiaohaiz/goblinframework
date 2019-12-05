@@ -11,5 +11,5 @@ dependencies {
     exclude(group: "org.slf4j", module: "slf4j-api")
   }
 
-  testCompile(project(":goblinframework-test"))
+  testCompile(project(":goblin-test"))
 }

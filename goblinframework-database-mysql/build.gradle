@@ -8,6 +8,6 @@ dependencies {
   }
   runtimeOnly("mysql:mysql-connector-java:${mysql_version}")
 
-  testCompile(project(":goblinframework-test"))
+  testCompile(project(":goblin-test"))
   testCompile(project(":goblinframework-monitor"))
 }

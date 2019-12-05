@@ -3,5 +3,5 @@ description = "goblinframework-management"
 dependencies {
   compile(project(":goblinframework-embedded"))
 
-  testCompile(project(":goblinframework-test"))
+  testCompile(project(":goblin-test"))
 }

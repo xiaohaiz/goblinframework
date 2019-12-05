@@ -4,5 +4,5 @@ dependencies {
   compile(project(":goblinframework-remote"))
   compile(project(":goblinframework-transport-client"))
 
-  testCompile(project(":goblinframework-test"))
+  testCompile(project(":goblin-test"))
 }
