@@ -27,6 +27,7 @@
     <module>goblin-transport</module>
     <module>goblin-transport-client</module>
     <module>goblin-transport-server</module>
+    <module>goblin-registry</module>
   </modules>
 
   <prerequisites>
