@@ -4,7 +4,6 @@ import org.bson.types.ObjectId
 import org.goblinframework.api.database.*
 import org.goblinframework.api.database.Collection
 import java.io.Serializable
-import java.time.Instant
 import java.util.*
 
 @Database("test")

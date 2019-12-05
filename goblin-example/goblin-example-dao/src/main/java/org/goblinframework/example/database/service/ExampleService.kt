@@ -1,6 +1,5 @@
 package org.goblinframework.example.database.service
 
-import org.goblinframework.core.reactor.BlockingMonoSubscriber
 import org.goblinframework.core.util.JsonUtils
 import org.goblinframework.example.database.mongo.dao.MongoExampleDataDao
 import org.goblinframework.example.database.mongo.entity.MongoExampleData
