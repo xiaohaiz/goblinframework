@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.persistence
+package org.goblinframework.dao.mongo.persistence
 
 import org.bson.types.ObjectId
 import org.goblinframework.api.dao.Collection

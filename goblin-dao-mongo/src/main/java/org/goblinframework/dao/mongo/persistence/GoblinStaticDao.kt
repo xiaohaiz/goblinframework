@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.persistence
+package org.goblinframework.dao.mongo.persistence
 
 import com.mongodb.reactivestreams.client.MongoCollection
 import com.mongodb.reactivestreams.client.MongoDatabase
