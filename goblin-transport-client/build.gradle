@@ -1,7 +1,7 @@
 description = "goblin-transport-client"
 
 dependencies {
-  compile(project(":goblinframework-transport"))
+  compile(project(":goblin-transport"))
 
   testCompile(project(":goblin-test"))
 }
