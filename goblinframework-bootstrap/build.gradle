@@ -6,7 +6,7 @@ dependencies {
   compile(project(":goblin-webmvc"))
   compile(project(":goblin-embedded"))
   compile(project(":goblin-cache"))
-  compile(project(":goblinframework-database"))
+  compile(project(":goblin-dao"))
   compile(project(":goblinframework-transport"))
   compile(project(":goblinframework-registry"))
   compile(project(":goblinframework-remote"))

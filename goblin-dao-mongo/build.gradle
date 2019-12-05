@@ -1,7 +1,7 @@
 description = "goblin-dao-mongo"
 
 dependencies {
-  compile(project(":goblinframework-database"))
+  compile(project(":goblin-dao"))
   compile("org.mongodb:mongodb-driver-reactivestreams:${mongo_version}") {
     exclude(group: "org.reactivestreams", module: "reactive-streams")
   }

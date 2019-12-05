@@ -1,7 +1,7 @@
 description = "goblin-dao-mysql"
 
 dependencies {
-  compile(project(":goblinframework-database"))
+  compile(project(":goblin-dao"))
   compile("org.springframework:spring-jdbc:${spring_version}")
   compile("com.zaxxer:HikariCP:${hikaricp_version}") {
     exclude(group: "org.slf4j", module: "slf4j-api")
