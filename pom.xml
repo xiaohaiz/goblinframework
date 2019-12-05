@@ -26,6 +26,7 @@
     <module>goblin-queue</module>
     <module>goblin-transport</module>
     <module>goblin-transport-client</module>
+    <module>goblin-transport-server</module>
   </modules>
 
   <prerequisites>

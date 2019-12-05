@@ -9,19 +9,14 @@
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <name>goblin-transport</name>
-  <artifactId>goblin-transport</artifactId>
+  <name>goblin-transport-server</name>
+  <artifactId>goblin-transport-server</artifactId>
 
   <dependencies>
     <dependency>
       <groupId>org.goblinframework</groupId>
-      <artifactId>goblin-core</artifactId>
+      <artifactId>goblin-transport</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.netty</groupId>
-      <artifactId>netty-all</artifactId>
-      <version>4.1.43.Final</version>
     </dependency>
 
     <dependency>
