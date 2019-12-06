@@ -14,7 +14,10 @@ import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.conversions.Bson;
 import org.goblinframework.core.conversion.ConversionUtils;
-import org.goblinframework.core.reactor.*;
+import org.goblinframework.core.reactor.BlockingListSubscriber;
+import org.goblinframework.core.reactor.BlockingMonoSubscriber;
+import org.goblinframework.core.reactor.MultipleResultsPublisher;
+import org.goblinframework.core.reactor.SingleResultPublisher;
 import org.goblinframework.core.util.GoblinReferenceCount;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.NumberUtils;
@@ -52,11 +55,11 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
   }
 
   private <T> SingleResultPublisher<T> createSingleResultPublisher() {
-    return new SingleResultPublisher<>(CoreScheduler.getInstance());
+    return new SingleResultPublisher<>(null);
   }
 
   private <T> MultipleResultsPublisher<T> createMultipleResultsPublisher() {
-    return new MultipleResultsPublisher<>(CoreScheduler.getInstance());
+    return new MultipleResultsPublisher<>(null);
   }
 
   public void insert(@Nullable E entity) {

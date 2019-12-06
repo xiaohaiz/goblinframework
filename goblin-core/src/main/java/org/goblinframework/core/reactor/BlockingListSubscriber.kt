@@ -3,6 +3,7 @@ package org.goblinframework.core.reactor
 import org.goblinframework.api.function.Disposable
 import org.goblinframework.core.concurrent.GoblinInterruptedException
 import org.goblinframework.core.util.ExceptionUtils
+import org.reactivestreams.Publisher
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 import java.util.concurrent.CountDownLatch
@@ -59,5 +60,10 @@ class BlockingListSubscriber<T> : CountDownLatch(1), Subscriber<T>, Disposable {
       throw cause
     }
     return values.toList()
+  }
+
+  fun subscribe(publisher: Publisher<T>): BlockingListSubscriber<T> {
+    publisher.subscribe(this)
+    return this
   }
 }

@@ -1,9 +1,13 @@
 package org.goblinframework.dao.mongo.persistence
 
+import com.mongodb.MongoNamespace
+import com.mongodb.ReadPreference
 import com.mongodb.reactivestreams.client.MongoCollection
 import com.mongodb.reactivestreams.client.MongoDatabase
 import org.bson.BsonDocument
+import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceSupport
+import org.goblinframework.database.core.eql.Query
 
 abstract class GoblinStaticDao<E, ID> : MongoPersistenceSupport<E, ID>() {
 
@@ -31,5 +35,14 @@ abstract class GoblinStaticDao<E, ID> : MongoPersistenceSupport<E, ID>() {
   fun getCollection(): MongoCollection<BsonDocument> {
     val collectionName = getCollectionName()
     return getDatabase().getCollection(collectionName, BsonDocument::class.java)
+  }
+
+  fun getNamespace(): MongoNamespace {
+    return MongoNamespace(getDatabaseName(), getCollectionName())
+  }
+
+  fun executeQuery(query: Query, readPreference: ReadPreference?): List<E> {
+    val publisher = __executeQuery(query, getNamespace(), readPreference)
+    return BlockingListSubscriber<E>().subscribe(publisher).block()
   }
 }
