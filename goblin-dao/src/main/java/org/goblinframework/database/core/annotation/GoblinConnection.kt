@@ -6,4 +6,4 @@ package org.goblinframework.database.core.annotation
 @MustBeDocumented
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class GoblinDatabaseConnection(val name: String)
+annotation class GoblinConnection(val name: String)

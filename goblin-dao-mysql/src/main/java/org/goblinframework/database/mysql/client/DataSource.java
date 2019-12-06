@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-@GoblinManagedBean(type = "DAO.MYSQL")
+@GoblinManagedBean(type = "MysqlDao")
 final class DataSource extends GoblinManagedObject implements DataSourceMXBean {
 
   private static final Constructor<?> dataSourceSpyConstructor;

@@ -4,7 +4,7 @@ import org.goblinframework.api.dao.*;
 import org.goblinframework.core.container.SpringContainerObject;
 import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.dao.mysql.annotation.Table;
-import org.goblinframework.database.core.annotation.GoblinDatabaseConnection;
+import org.goblinframework.database.core.annotation.GoblinConnection;
 import org.goblinframework.database.mysql.module.test.RebuildMysqlTable;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class GoblinStaticPersistenceTest extends SpringContainerObject {
   }
 
   @Repository
-  @GoblinDatabaseConnection(name = "_ut")
+  @GoblinConnection(name = "_ut")
   public static class MockDataPersistence extends GoblinStaticPersistence<MockData, Long> {
   }
 

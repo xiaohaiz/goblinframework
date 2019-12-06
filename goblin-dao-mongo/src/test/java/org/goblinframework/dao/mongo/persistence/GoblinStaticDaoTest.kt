@@ -4,9 +4,9 @@ import org.bson.types.ObjectId
 import org.goblinframework.api.dao.Id
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.reactor.BlockingListSubscriber
-import org.goblinframework.dao.mongo.annotation.Collection
-import org.goblinframework.dao.mongo.annotation.Database
-import org.goblinframework.database.core.annotation.GoblinDatabaseConnection
+import org.goblinframework.dao.mongo.annotation.GoblinCollection
+import org.goblinframework.dao.mongo.annotation.GoblinDatabase
+import org.goblinframework.database.core.annotation.GoblinConnection
 import org.goblinframework.database.mongo.module.test.DropMongoDatabase
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.*
@@ -21,15 +21,15 @@ import javax.inject.Inject
 @DropMongoDatabase("_ut")
 class GoblinStaticDaoTest : SpringContainerObject() {
 
-  @Database("test")
-  @Collection("ut_mock_data")
   class MockData {
     @Id(Id.Generator.OBJECT_ID)
     var id: String? = null
   }
 
   @Repository
-  @GoblinDatabaseConnection("_ut")
+  @GoblinConnection("_ut")
+  @GoblinDatabase("test")
+  @GoblinCollection("ut_mock_data")
   class MockDataDao : GoblinStaticDao<MockData, String>()
 
   @Inject private lateinit var dao: MockDataDao

@@ -2,7 +2,7 @@ package org.goblinframework.database.mysql.support;
 
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.database.core.annotation.GoblinDatabaseConnection;
+import org.goblinframework.database.core.annotation.GoblinConnection;
 import org.goblinframework.database.mysql.client.MysqlClient;
 import org.goblinframework.database.mysql.client.MysqlClientManager;
 import org.goblinframework.database.mysql.client.MysqlMasterConnection;
@@ -16,7 +16,7 @@ abstract public class MysqlClientSupport<E, ID> extends MysqlEntityMappingSuppor
 
   protected MysqlClientSupport() {
     Class<?> clazz = ClassUtils.filterCglibProxyClass(getClass());
-    GoblinDatabaseConnection annotation = AnnotationUtils.getAnnotation(clazz, GoblinDatabaseConnection.class);
+    GoblinConnection annotation = AnnotationUtils.getAnnotation(clazz, GoblinConnection.class);
     if (annotation == null) {
       throw new GoblinPersistenceException("No @GoblinDatabaseConnection presented on " + clazz.getName());
     }

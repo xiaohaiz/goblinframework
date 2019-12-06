@@ -3,7 +3,7 @@ package org.goblinframework.database.mongo.support
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.ClassUtils
 import org.goblinframework.database.core.GoblinDatabaseException
-import org.goblinframework.database.core.annotation.GoblinDatabaseConnection
+import org.goblinframework.database.core.annotation.GoblinConnection
 import org.goblinframework.database.mongo.client.MongoClient
 import org.goblinframework.database.mongo.client.MongoClientManager
 
@@ -13,7 +13,7 @@ abstract class MongoClientSupport<E, ID> : MongoEntityMappingSupport<E, ID>() {
 
   init {
     val clazz = ClassUtils.filterCglibProxyClass(javaClass)
-    val annotation = AnnotationUtils.getAnnotation(clazz, GoblinDatabaseConnection::class.java)
+    val annotation = AnnotationUtils.getAnnotation(clazz, GoblinConnection::class.java)
         ?: throw GoblinDatabaseException("No @GoblinDatabaseConnection presented on ${clazz.name}")
     val name = annotation.name
     client = MongoClientManager.INSTANCE.getMongoClient(name)
