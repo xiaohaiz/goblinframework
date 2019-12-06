@@ -4,14 +4,14 @@ import org.bson.types.ObjectId
 import org.goblinframework.api.dao.Collection
 import org.goblinframework.api.dao.Database
 import org.goblinframework.api.dao.Id
+import org.goblinframework.api.dao.Revision
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.core.reactor.BlockingMonoSubscriber
 import org.goblinframework.database.core.GoblinDatabaseConnection
 import org.goblinframework.database.mongo.module.test.DropMongoDatabase
 import org.goblinframework.test.runner.GoblinTestRunner
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.stereotype.Repository
@@ -28,6 +28,8 @@ class GoblinStaticDaoTest : SpringContainerObject() {
   class MockData {
     @Id(Id.Generator.OBJECT_ID)
     var id: String? = null
+    @Revision
+    var revision: Int? = null
   }
 
   @Repository
@@ -87,5 +89,21 @@ class GoblinStaticDaoTest : SpringContainerObject() {
     publisher.subscribe(mono)
     val ret = mono.block()
     assertTrue(ret!!)
+  }
+
+  @Test
+  fun replace() {
+    var data = MockData()
+    dao.insert(data)
+    val id = data.id!!
+
+    data = MockData()
+    data.id = id
+    data.revision = 1
+    val publisher = dao.__replace(data)
+    val mono = BlockingMonoSubscriber<MockData>()
+    publisher.subscribe(mono)
+    val replaced = mono.block()
+    assertNotNull(replaced)
   }
 }
