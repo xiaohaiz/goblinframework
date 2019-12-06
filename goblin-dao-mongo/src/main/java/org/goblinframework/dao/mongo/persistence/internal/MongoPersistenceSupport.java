@@ -447,6 +447,33 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
   }
 
   @NotNull
+  final public Publisher<Boolean> __remove(@NotNull final ID id) {
+    SingleResultPublisher<Boolean> publisher = createSingleResultPublisher();
+    __removes(Collections.singleton(id)).subscribe(new Subscriber<Long>() {
+      @Override
+      public void onSubscribe(Subscription s) {
+        s.request(1);
+      }
+
+      @Override
+      public void onNext(Long aLong) {
+        long deletedCount = NumberUtils.toLong(aLong);
+        publisher.complete(deletedCount > 0, null);
+      }
+
+      @Override
+      public void onError(Throwable t) {
+        publisher.complete(null, t);
+      }
+
+      @Override
+      public void onComplete() {
+      }
+    });
+    return publisher;
+  }
+
+  @NotNull
   final public Publisher<Long> __removes(@NotNull final Collection<ID> ids) {
     SingleResultPublisher<Long> publisher = createSingleResultPublisher();
     List<ID> idList = ids.stream().filter(Objects::nonNull).distinct().collect(Collectors.toList());
