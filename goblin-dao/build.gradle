@@ -1,7 +1,0 @@
-description = "goblin-dao"
-
-dependencies {
-  compile(project(":goblin-cache"))
-
-  testCompile(project(":goblin-test"))
-}

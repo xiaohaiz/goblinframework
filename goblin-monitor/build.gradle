@@ -1,7 +1,0 @@
-description = "goblin-monitor"
-
-dependencies {
-  compile(project(":goblin-core"))
-
-  testCompile(project(":goblin-test"))
-}

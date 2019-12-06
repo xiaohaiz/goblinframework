@@ -1,8 +1,0 @@
-description = "goblin-cache"
-
-dependencies {
-  compile(project(":goblin-core"))
-
-  testCompile(project(":goblin-test"))
-  testCompile(project(":goblin-monitor"))
-}

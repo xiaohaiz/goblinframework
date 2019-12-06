@@ -1,8 +1,0 @@
-description = "goblin-embedded-jetty"
-
-dependencies {
-  compile(project(":goblin-embedded"))
-  compile("org.eclipse.jetty:jetty-server:${jetty_version}")
-
-  testCompile(project(":goblin-test"))
-}

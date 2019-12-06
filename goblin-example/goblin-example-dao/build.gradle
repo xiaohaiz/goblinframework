@@ -1,7 +1,0 @@
-description = "goblin-example-dao"
-
-dependencies {
-  compile(project(":goblin-dao-mysql"))
-  compile(project(":goblin-dao-mongo"))
-  compile(project(":goblin-bootstrap"))
-}

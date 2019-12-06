@@ -1,7 +1,0 @@
-description = "goblin-management"
-
-dependencies {
-  compile(project(":goblin-embedded"))
-
-  testCompile(project(":goblin-test"))
-}

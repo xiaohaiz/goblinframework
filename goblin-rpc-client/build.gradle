@@ -1,8 +1,0 @@
-description = "goblin-rpc-client"
-
-dependencies {
-  compile(project(":goblin-rpc"))
-  compile(project(":goblin-transport-client"))
-
-  testCompile(project(":goblin-test"))
-}
