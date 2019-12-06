@@ -17,6 +17,10 @@ abstract class MongoDatabaseSupport<E, ID> : MongoClientSupport<E, ID>() {
     dynamic = annotation.dynamic
   }
 
+  fun isDynamicDatabase(): Boolean {
+    return dynamic
+  }
+
   fun getIdDatabaseName(id: ID?): String {
     return if (!dynamic) {
       database
@@ -24,7 +28,8 @@ abstract class MongoDatabaseSupport<E, ID> : MongoClientSupport<E, ID>() {
       Objects.requireNonNull(id)
       val entity = newEntityInstance()
       setEntityId(entity, id)
-      calculateDatabaseName(database, entity)
+      val database = calculateDatabaseName(database, entity)
+      requireNotNull(database)
     }
   }
 
@@ -33,11 +38,12 @@ abstract class MongoDatabaseSupport<E, ID> : MongoClientSupport<E, ID>() {
       database
     } else {
       Objects.requireNonNull(entity)
-      calculateDatabaseName(database, entity!!)
+      val database = calculateDatabaseName(database, entity!!)
+      requireNotNull(database)
     }
   }
 
-  abstract fun calculateDatabaseName(template: String, entity: E): String
+  abstract fun calculateDatabaseName(template: String, entity: E): String?
 
   private fun lookupDatabaseAnnotation(): GoblinDatabase? {
     return AnnotationUtils.getAnnotation(javaClass, GoblinDatabase::class.java)

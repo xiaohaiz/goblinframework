@@ -16,6 +16,10 @@ abstract class MongoCollectionSupport<E, ID> : MongoDatabaseSupport<E, ID>() {
     dynamic = annotation.dynamic
   }
 
+  fun isDynamicCollection(): Boolean {
+    return dynamic
+  }
+
   fun getIdCollectionName(id: ID?): String {
     return if (!dynamic) {
       collection
@@ -23,7 +27,8 @@ abstract class MongoCollectionSupport<E, ID> : MongoDatabaseSupport<E, ID>() {
       Objects.requireNonNull(id)
       val entity = newEntityInstance()
       setEntityId(entity, id)
-      calculateCollectionName(collection, entity)
+      val collection = calculateCollectionName(collection, entity)
+      requireNotNull(collection)
     }
   }
 
@@ -32,11 +37,12 @@ abstract class MongoCollectionSupport<E, ID> : MongoDatabaseSupport<E, ID>() {
       collection
     } else {
       Objects.requireNonNull(entity)
-      calculateCollectionName(collection, entity!!)
+      val collection = calculateCollectionName(collection, entity!!)
+      requireNotNull(collection)
     }
   }
 
-  abstract fun calculateCollectionName(template: String, entity: E): String
+  abstract fun calculateCollectionName(template: String, entity: E): String?
 
   private fun lookupCollectionAnnotation(): GoblinCollection? {
     return AnnotationUtils.getAnnotation(javaClass, GoblinCollection::class.java)

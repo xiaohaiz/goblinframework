@@ -7,11 +7,11 @@ import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceSuppor
 
 abstract class GoblinStaticDao<E, ID> : MongoPersistenceSupport<E, ID>() {
 
-  override fun calculateDatabaseName(template: String, entity: E): String {
+  override fun calculateDatabaseName(template: String, entity: E): String? {
     throw UnsupportedOperationException()
   }
 
-  override fun calculateCollectionName(template: String, entity: E): String {
+  override fun calculateCollectionName(template: String, entity: E): String? {
     throw UnsupportedOperationException()
   }
 
