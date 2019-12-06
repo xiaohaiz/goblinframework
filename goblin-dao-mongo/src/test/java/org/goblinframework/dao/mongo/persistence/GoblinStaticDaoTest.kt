@@ -30,7 +30,7 @@ class GoblinStaticDaoTest : SpringContainerObject() {
   @GoblinConnection("_ut")
   @GoblinDatabase("test")
   @GoblinCollection("ut_mock_data")
-  class MockDataDao : GoblinStaticDao<MockData, String>()
+  open class MockDataDao : GoblinStaticDao<MockData, String>()
 
   @Inject private lateinit var dao: MockDataDao
 

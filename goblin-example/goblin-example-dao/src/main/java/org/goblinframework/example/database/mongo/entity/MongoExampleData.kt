@@ -2,14 +2,10 @@ package org.goblinframework.example.database.mongo.entity
 
 import org.bson.types.ObjectId
 import org.goblinframework.api.dao.*
-import org.goblinframework.dao.mongo.annotation.GoblinCollection
-import org.goblinframework.dao.mongo.annotation.GoblinDatabase
 import java.io.Serializable
 import java.util.*
 
-@GoblinDatabase("test")
-@GoblinCollection("mongo_example_data")
-class MongoExampleData: Serializable {
+class MongoExampleData : Serializable {
     companion object {
         private const val serialVersionUID = -4568367284300289601L
     }
