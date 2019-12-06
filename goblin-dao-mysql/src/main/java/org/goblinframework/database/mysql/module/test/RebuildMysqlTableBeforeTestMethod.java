@@ -9,7 +9,7 @@ import org.goblinframework.api.test.TestExecutionListener;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.core.util.IOUtils;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.database.core.annotation.Table;
+import org.goblinframework.dao.mysql.annotation.Table;
 import org.goblinframework.database.mysql.client.MysqlClient;
 import org.goblinframework.database.mysql.client.MysqlClientManager;
 import org.jetbrains.annotations.NotNull;

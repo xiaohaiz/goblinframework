@@ -1,4 +1,4 @@
-package org.goblinframework.database.core.annotation
+package org.goblinframework.dao.mongo.annotation
 
 @MustBeDocumented
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
