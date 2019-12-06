@@ -6,26 +6,12 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.aop.framework.ProxyFactory;
 
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.invoke.MethodType;
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 abstract public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
-
-  public static final MethodHandles.Lookup lookup;
-
-  static {
-    try {
-      Field field = MethodHandles.Lookup.class.getDeclaredField("IMPL_LOOKUP");
-      field.setAccessible(true);
-      lookup = (MethodHandles.Lookup) field.get(null);
-    } catch (Exception ex) {
-      throw new UnsupportedOperationException(ex);
-    }
-  }
 
   public static boolean hasDefaultMethod(@NotNull Class<?> interfaceClass) {
     if (!interfaceClass.isInterface()) {
@@ -39,14 +25,30 @@ abstract public class ReflectionUtils extends org.springframework.util.Reflectio
     return false;
   }
 
+  @Nullable
   public static Object invokeInterfaceDefaultMethod(@NotNull Object target, @NotNull Method method, @Nullable Object[] arguments) throws Throwable {
     if (!method.isDefault()) {
       throw new IllegalArgumentException("Default method is required");
     }
-    return lookup.in(method.getDeclaringClass())
-        .unreflectSpecial(method, method.getDeclaringClass())
-        .bindTo(target)
-        .invokeWithArguments(arguments);
+    if (SystemUtils.IS_JAVA_1_8) {
+      final Constructor<MethodHandles.Lookup> constructor = MethodHandles.Lookup.class.getDeclaredConstructor(Class.class);
+      constructor.setAccessible(true);
+      final Class<?> clazz = method.getDeclaringClass();
+      return constructor.newInstance(clazz)
+          .in(clazz)
+          .unreflectSpecial(method, clazz)
+          .bindTo(target)
+          .invokeWithArguments(arguments);
+    } else {
+      return MethodHandles.lookup()
+          .findSpecial(
+              method.getDeclaringClass(),
+              method.getName(),
+              MethodType.methodType(method.getReturnType(), new Class[0]),
+              method.getDeclaringClass()
+          ).bindTo(target)
+          .invokeWithArguments(arguments);
+    }
   }
 
   @Nullable
