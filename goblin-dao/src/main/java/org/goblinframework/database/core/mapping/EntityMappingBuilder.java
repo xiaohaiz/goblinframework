@@ -15,7 +15,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 @ThreadSafe
-@GoblinManagedBean(type = "CORE")
+@GoblinManagedBean(type = "Dao")
 public class EntityMappingBuilder extends GoblinManagedObject implements EntityMappingBuilderMXBean {
 
   private final EntityFieldScanner scanner;
