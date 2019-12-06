@@ -1,0 +1,19 @@
+{
+  "couchbase": {
+    "example": {
+      "servers": "127.0.0.1",
+      "bucketName": "test",
+      "flushable": false
+    }
+  },
+  "redis": {
+    "example": {
+      "servers": "127.0.0.1",
+      "mode": "SINGLE",
+      "serializer": "FST",
+      "compressor": "DEFLATE",
+      "compressionThreshold": "_1K",
+      "flushable": false
+    }
+  }
+}
