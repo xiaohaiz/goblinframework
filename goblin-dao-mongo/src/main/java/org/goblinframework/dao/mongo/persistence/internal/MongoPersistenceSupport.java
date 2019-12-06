@@ -62,14 +62,14 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
     return new MultipleResultsPublisher<>(null);
   }
 
-  public void insert(@Nullable E entity) {
+  public void insert(@NotNull E entity) {
     Publisher<E> publisher = __insert(entity);
     BlockingMonoSubscriber<E> subscriber = new BlockingMonoSubscriber<>();
     publisher.subscribe(subscriber);
     subscriber.block();
   }
 
-  public void inserts(@Nullable Collection<E> entities) {
+  public void inserts(@NotNull Collection<E> entities) {
     Publisher<E> publisher = __inserts(entities);
     BlockingListSubscriber<E> subscriber = new BlockingListSubscriber<>();
     publisher.subscribe(subscriber);
