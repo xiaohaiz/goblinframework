@@ -5,6 +5,7 @@ import com.mongodb.ReadPreference;
 import com.mongodb.WriteConcern;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.reactivestreams.client.FindPublisher;
 import com.mongodb.reactivestreams.client.MongoCollection;
 import com.mongodb.reactivestreams.client.MongoDatabase;
@@ -14,6 +15,7 @@ import org.bson.BsonDocument;
 import org.bson.conversions.Bson;
 import org.goblinframework.core.conversion.ConversionUtils;
 import org.goblinframework.core.reactor.*;
+import org.goblinframework.core.util.GoblinReferenceCount;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.NumberUtils;
 import org.goblinframework.database.core.eql.Criteria;
@@ -32,6 +34,7 @@ import org.reactivestreams.Subscription;
 import org.springframework.util.LinkedMultiValueMap;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -440,6 +443,57 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
           public void onComplete() {
           }
         });
+    return publisher;
+  }
+
+  @NotNull
+  final public Publisher<Long> __removes(@NotNull final Collection<ID> ids) {
+    SingleResultPublisher<Long> publisher = createSingleResultPublisher();
+    List<ID> idList = ids.stream().filter(Objects::nonNull).distinct().collect(Collectors.toList());
+    if (idList.isEmpty()) {
+      publisher.complete(0L, null);
+      return publisher;
+    }
+    LinkedMultiValueMap<MongoNamespace, ID> grouped = groupIds(idList);
+    AtomicLong deletedCount = new AtomicLong();
+    GoblinReferenceCount referenceCount = new GoblinReferenceCount(grouped.size());
+    grouped.forEach((ns, ds) -> {
+      MongoDatabase database = getNativeMongoClient().getDatabase(ns.getDatabaseName());
+      MongoCollection<BsonDocument> collection = database.getCollection(ns.getCollectionName(), BsonDocument.class);
+      Publisher<DeleteResult> deletePublisher;
+      if (ds.size() == 1) {
+        Criteria criteria = Criteria.where("_id").is(ds.iterator().next());
+        Bson filter = criteriaTranslator.translate(criteria);
+        deletePublisher = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED).deleteOne(filter);
+      } else {
+        Criteria criteria = Criteria.where("_id").in(ds);
+        Bson filter = criteriaTranslator.translate(criteria);
+        deletePublisher = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED).deleteMany(filter);
+      }
+      deletePublisher.subscribe(new Subscriber<DeleteResult>() {
+        @Override
+        public void onSubscribe(Subscription s) {
+          s.request(1);
+        }
+
+        @Override
+        public void onNext(DeleteResult deleteResult) {
+          deletedCount.addAndGet(deleteResult.getDeletedCount());
+        }
+
+        @Override
+        public void onError(Throwable t) {
+          publisher.complete(null, t);
+        }
+
+        @Override
+        public void onComplete() {
+          if (referenceCount.release()) {
+            publisher.complete(deletedCount.get(), null);
+          }
+        }
+      });
+    });
     return publisher;
   }
 }
