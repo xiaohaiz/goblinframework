@@ -1,6 +1,7 @@
 package org.goblinframework.database.mongo.support
 
 import com.mongodb.MongoNamespace
+import org.goblinframework.dao.mongo.persistence.internal.MongoCollectionSupport
 import org.springframework.util.LinkedMultiValueMap
 
 abstract class MongoNamespaceSupport<E, ID> : MongoCollectionSupport<E, ID>() {
