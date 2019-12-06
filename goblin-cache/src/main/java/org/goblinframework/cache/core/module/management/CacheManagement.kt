@@ -16,6 +16,6 @@ class CacheManagement private constructor() {
   @RequestMapping("index.do")
   fun index(model: Model): String {
     model.addAttribute("cacheBuilderManager", CacheBuilderManager.INSTANCE)
-    return "cache/index"
+    return "goblin/cache/index"
   }
 }

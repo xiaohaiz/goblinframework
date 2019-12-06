@@ -16,6 +16,7 @@
   <modules>
     <module>goblin-example-webmvc</module>
     <module>goblin-example-embedded</module>
+    <module>goblin-example-cache</module>
     <module>goblin-example-dao</module>
     <module>goblin-example-transport</module>
     <module>goblin-example-rpc</module>
