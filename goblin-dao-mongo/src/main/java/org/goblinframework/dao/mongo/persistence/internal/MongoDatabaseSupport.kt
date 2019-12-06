@@ -1,8 +1,8 @@
 package org.goblinframework.dao.mongo.persistence.internal
 
-import org.goblinframework.api.dao.Database
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.database.core.GoblinDatabaseException
+import org.goblinframework.database.core.annotation.Database
 import org.goblinframework.database.mongo.support.MongoClientSupport
 import java.util.*
 

@@ -1,9 +1,9 @@
-package org.goblinframework.api.dao
+package org.goblinframework.database.core.annotation
 
 @MustBeDocumented
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Collection(
-    val collection: String,
+annotation class Database(
+    val database: String,
     val dynamic: Boolean = false
 )

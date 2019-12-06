@@ -1,12 +1,12 @@
 package org.goblinframework.dao.mongo.persistence
 
 import org.bson.types.ObjectId
-import org.goblinframework.api.dao.Collection
-import org.goblinframework.api.dao.Database
 import org.goblinframework.api.dao.Id
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.reactor.BlockingListSubscriber
-import org.goblinframework.database.core.GoblinDatabaseConnection
+import org.goblinframework.database.core.annotation.Collection
+import org.goblinframework.database.core.annotation.Database
+import org.goblinframework.database.core.annotation.GoblinDatabaseConnection
 import org.goblinframework.database.mongo.module.test.DropMongoDatabase
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.*

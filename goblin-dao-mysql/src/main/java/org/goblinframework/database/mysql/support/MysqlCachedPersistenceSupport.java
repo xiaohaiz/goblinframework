@@ -10,7 +10,7 @@ import org.goblinframework.cache.core.support.GoblinCache;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.database.core.GoblinCacheDimension;
+import org.goblinframework.database.core.annotation.GoblinCacheDimension;
 import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

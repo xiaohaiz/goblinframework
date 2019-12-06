@@ -1,4 +1,4 @@
-package org.goblinframework.database.core
+package org.goblinframework.database.core.annotation
 
 /**
  * 标注在`persistence`和`dao`的实现类上，用于定义连接到哪个数据库的配置。

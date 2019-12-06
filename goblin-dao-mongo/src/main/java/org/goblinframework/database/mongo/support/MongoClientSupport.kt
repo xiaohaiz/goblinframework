@@ -2,8 +2,8 @@ package org.goblinframework.database.mongo.support
 
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.ClassUtils
-import org.goblinframework.database.core.GoblinDatabaseConnection
 import org.goblinframework.database.core.GoblinDatabaseException
+import org.goblinframework.database.core.annotation.GoblinDatabaseConnection
 import org.goblinframework.database.mongo.client.MongoClient
 import org.goblinframework.database.mongo.client.MongoClientManager
 

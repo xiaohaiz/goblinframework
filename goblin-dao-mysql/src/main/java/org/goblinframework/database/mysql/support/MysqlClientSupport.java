@@ -2,7 +2,7 @@ package org.goblinframework.database.mysql.support;
 
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.database.core.GoblinDatabaseConnection;
+import org.goblinframework.database.core.annotation.GoblinDatabaseConnection;
 import org.goblinframework.database.mysql.client.MysqlClient;
 import org.goblinframework.database.mysql.client.MysqlClientManager;
 import org.goblinframework.database.mysql.client.MysqlMasterConnection;

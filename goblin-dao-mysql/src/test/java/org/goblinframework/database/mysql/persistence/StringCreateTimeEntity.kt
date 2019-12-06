@@ -2,7 +2,7 @@ package org.goblinframework.database.mysql.persistence
 
 import org.goblinframework.api.dao.CreateTime
 import org.goblinframework.api.dao.Id
-import org.goblinframework.api.dao.Table
+import org.goblinframework.database.core.annotation.Table
 
 /**
  * 创建时间字段为[String]
