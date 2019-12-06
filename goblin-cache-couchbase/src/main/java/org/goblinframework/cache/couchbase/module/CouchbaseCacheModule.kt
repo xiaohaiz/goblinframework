@@ -12,7 +12,7 @@ import org.goblinframework.core.system.ModuleFinalizeContext
 import org.goblinframework.core.system.ModuleInitializeContext
 
 @Install
-class CacheCouchbaseModule : ISubModule {
+class CouchbaseCacheModule : ISubModule {
 
   override fun id(): GoblinSubModule {
     return GoblinSubModule.CACHE_COUCHBASE
