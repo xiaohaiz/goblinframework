@@ -21,4 +21,4 @@
  *   +--------------------------+-------+----------+---------------------------------------------+
  * </pre>
  */
-package org.goblinframework.database.mysql.persistence;
+package org.goblinframework.dao.mysql.persistence;
