@@ -448,6 +448,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
 
   @NotNull
   final public Publisher<Boolean> __remove(@NotNull final ID id) {
+    AtomicLong deletedCount = new AtomicLong();
     SingleResultPublisher<Boolean> publisher = createSingleResultPublisher();
     __removes(Collections.singleton(id)).subscribe(new Subscriber<Long>() {
       @Override
@@ -457,8 +458,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
 
       @Override
       public void onNext(Long aLong) {
-        long deletedCount = NumberUtils.toLong(aLong);
-        publisher.complete(deletedCount > 0, null);
+        deletedCount.set(NumberUtils.toLong(aLong));
       }
 
       @Override
@@ -468,6 +468,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
 
       @Override
       public void onComplete() {
+        publisher.complete(deletedCount.get() > 0, null);
       }
     });
     return publisher;
