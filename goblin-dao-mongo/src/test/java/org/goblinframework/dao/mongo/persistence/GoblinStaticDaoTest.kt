@@ -99,5 +99,10 @@ class GoblinStaticDaoTest : SpringContainerObject() {
 //    assertNotNull(replaced)
   }
 
-
+  @Test
+  fun upsert() {
+    val data = MockData()
+    data.id = "a"
+    dao.upsert(data)
+  }
 }

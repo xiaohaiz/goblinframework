@@ -94,6 +94,18 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
     return ConversionUtils.toBoolean(subscriber.block());
   }
 
+  @Nullable
+  public E replace(@NotNull final E entity) {
+    Publisher<E> publisher = __replace(entity);
+    return new BlockingMonoSubscriber<E>().subscribe(publisher).block();
+  }
+
+  @Nullable
+  public E upsert(@NotNull final E entity) {
+    Publisher<E> publisher = __upsert(entity);
+    return new BlockingMonoSubscriber<E>().subscribe(publisher).block();
+  }
+
   @NotNull
   final public Publisher<E> __insert(@Nullable E entity) {
     if (entity == null) {
@@ -395,6 +407,10 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
     });
     if (revisionField != null) {
       update.inc(revisionField.getName(), 1);
+    }
+    if (update.export().isEmpty()) {
+      // There is nothing field(s) found when executing upsert operation, direct to insert
+      return __insert(entity);
     }
     MongoNamespace namespace = getIdNamespace(id);
     MongoDatabase database = getNativeMongoClient().getDatabase(namespace.getDatabaseName());
