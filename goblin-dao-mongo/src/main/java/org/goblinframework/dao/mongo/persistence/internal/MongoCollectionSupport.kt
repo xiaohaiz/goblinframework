@@ -1,6 +1,7 @@
 package org.goblinframework.dao.mongo.persistence.internal
 
 import org.goblinframework.api.dao.Collection
+import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.database.core.GoblinDatabaseException
 import org.goblinframework.database.mongo.support.MongoDatabaseSupport
 import java.util.*
@@ -12,7 +13,7 @@ abstract class MongoCollectionSupport<E, ID> : MongoDatabaseSupport<E, ID>() {
 
   init {
     val entityClass = entityMapping.entityClass
-    val annotation = entityClass.getAnnotation(Collection::class.java)
+    val annotation = lookupCollectionAnnotation()
         ?: throw GoblinDatabaseException("No @Collection presented on ${entityClass.name}")
     collection = annotation.collection
     dynamic = annotation.dynamic
@@ -40,4 +41,11 @@ abstract class MongoCollectionSupport<E, ID> : MongoDatabaseSupport<E, ID>() {
 
   abstract fun calculateCollectionName(template: String, entity: E): String
 
+  private fun lookupCollectionAnnotation(): Collection? {
+    val annotation = AnnotationUtils.getAnnotation(javaClass, Collection::class.java)
+    if (annotation != null) {
+      return annotation
+    }
+    return entityMapping.entityClass.getAnnotation(Collection::class.java)
+  }
 }
