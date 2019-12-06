@@ -115,6 +115,12 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
     return ConversionUtils.toBoolean(deleted);
   }
 
+  public long removes(@NotNull final Collection<ID> ids) {
+    Publisher<Long> publisher = __removes(ids);
+    Long deletedCount = new BlockingMonoSubscriber<Long>().subscribe(publisher).block();
+    return NumberUtils.toLong(deletedCount);
+  }
+
   @NotNull
   final public Publisher<E> __insert(@Nullable E entity) {
     if (entity == null) {
