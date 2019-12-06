@@ -109,6 +109,12 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
     return new BlockingMonoSubscriber<E>().subscribe(publisher).block();
   }
 
+  public boolean remove(@NotNull final ID id) {
+    Publisher<Boolean> publisher = __remove(id);
+    Boolean deleted = new BlockingMonoSubscriber<Boolean>().subscribe(publisher).block();
+    return ConversionUtils.toBoolean(deleted);
+  }
+
   @NotNull
   final public Publisher<E> __insert(@Nullable E entity) {
     if (entity == null) {
