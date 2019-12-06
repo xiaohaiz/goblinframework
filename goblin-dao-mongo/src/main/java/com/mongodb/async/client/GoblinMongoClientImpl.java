@@ -39,9 +39,11 @@ class GoblinMongoClientImpl extends MongoClientImpl {
     RuntimeMode mode = GoblinSystem.runtimeMode();
     String databaseName = name;
     if (mode == RuntimeMode.UNIT_TEST) {
-      // When executing unit tests, force use 'goblin-test-'
+      // When executing unit tests, force use 'goblin--ut--'
       // as default database prefix
-      databaseName = "goblin-test-" + databaseName;
+      if (!databaseName.startsWith("goblin--ut--")) {
+        databaseName = "goblin--ut--" + databaseName;
+      }
     }
     return super.getDatabase(databaseName);
   }

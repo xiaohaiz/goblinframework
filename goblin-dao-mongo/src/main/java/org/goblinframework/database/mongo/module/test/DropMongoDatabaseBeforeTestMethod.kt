@@ -26,7 +26,7 @@ class DropMongoDatabaseBeforeTestMethod private constructor() : TestExecutionLis
           ?: throw GoblinDatabaseException("MongoClient [$name] not found")
       val subscriber = BlockingListSubscriber<String>()
       client.getNativeClient().listDatabaseNames().subscribe(subscriber)
-      val databases = subscriber.block().filter { it.startsWith("goblin-test-") }.toList()
+      val databases = subscriber.block().filter { it.startsWith("goblin--ut--") }.toList()
       for (database in databases) {
         val db = client.getNativeClient().getDatabase(database)
         val s = BlockingMonoSubscriber<Success>()

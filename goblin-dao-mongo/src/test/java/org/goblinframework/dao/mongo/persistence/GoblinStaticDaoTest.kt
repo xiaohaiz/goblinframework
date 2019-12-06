@@ -9,8 +9,7 @@ import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.database.core.GoblinDatabaseConnection
 import org.goblinframework.database.mongo.module.test.DropMongoDatabase
 import org.goblinframework.test.runner.GoblinTestRunner
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.stereotype.Repository
@@ -104,5 +103,25 @@ class GoblinStaticDaoTest : SpringContainerObject() {
     val data = MockData()
     data.id = "a"
     dao.upsert(data)
+  }
+
+  @Test
+  fun remove() {
+    val data = MockData()
+    dao.insert(data)
+    val id = data.id!!
+    assertNotNull(dao.load(id))
+    assertTrue(dao.remove(id))
+    assertNull(dao.load(id))
+  }
+
+  @Test
+  fun removes() {
+    dao.insert(MockData().apply { id = "a" })
+    dao.insert(MockData().apply { id = "b" })
+    dao.insert(MockData().apply { id = "c" })
+    val ids = listOf("a", "b", "c")
+    val deletedCount = dao.removes(ids)
+    assertEquals(3, deletedCount)
   }
 }
