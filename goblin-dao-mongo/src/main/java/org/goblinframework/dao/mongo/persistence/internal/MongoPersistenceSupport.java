@@ -12,6 +12,7 @@ import com.mongodb.reactivestreams.client.Success;
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.conversions.Bson;
+import org.goblinframework.core.conversion.ConversionUtils;
 import org.goblinframework.core.reactor.*;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.NumberUtils;
@@ -84,6 +85,13 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
     Map<ID, E> result = subscriber.block().stream()
         .collect(Collectors.toMap(this::getEntityId, Function.identity()));
     return MapUtils.resort(result, ids);
+  }
+
+  public boolean exists(@NotNull final ID id) {
+    Publisher<Boolean> publisher = __exists(id, ReadPreference.primary());
+    BlockingMonoSubscriber<Boolean> subscriber = new BlockingMonoSubscriber<>();
+    publisher.subscribe(subscriber);
+    return ConversionUtils.toBoolean(subscriber.block());
   }
 
   @NotNull
@@ -241,21 +249,16 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
   }
 
   @NotNull
-  final public Publisher<Boolean> __exists(@Nullable ID id, @Nullable ReadPreference readPreference) {
-    SingleResultPublisher<Boolean> publisher = createSingleResultPublisher();
-    if (id == null) {
-      publisher.complete(false, null);
-      return publisher;
-    }
+  final public Publisher<Boolean> __exists(@NotNull ID id, @Nullable ReadPreference readPreference) {
     MongoNamespace namespace = getIdNamespace(id);
     Criteria criteria = Criteria.where("_id").is(id);
     Bson filter = criteriaTranslator.translate(criteria);
-
     MongoDatabase database = getNativeMongoClient().getDatabase(namespace.getDatabaseName());
     MongoCollection<BsonDocument> collection = database.getCollection(namespace.getCollectionName(), BsonDocument.class);
     if (readPreference != null) {
       collection = collection.withReadPreference(readPreference);
     }
+    SingleResultPublisher<Boolean> publisher = createSingleResultPublisher();
     collection.countDocuments(filter).subscribe(new Subscriber<Long>() {
       @Override
       public void onSubscribe(Subscription s) {

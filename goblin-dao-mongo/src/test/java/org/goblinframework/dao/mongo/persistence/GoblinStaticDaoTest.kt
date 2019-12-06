@@ -84,11 +84,7 @@ class GoblinStaticDaoTest : SpringContainerObject() {
     val data = MockData()
     dao.insert(data)
     val id = data.id
-    val publisher = dao.__exists(id, null)
-    val mono = BlockingMonoSubscriber<Boolean>()
-    publisher.subscribe(mono)
-    val ret = mono.block()
-    assertTrue(ret!!)
+    assertTrue(dao.exists(id!!))
   }
 
   @Test
