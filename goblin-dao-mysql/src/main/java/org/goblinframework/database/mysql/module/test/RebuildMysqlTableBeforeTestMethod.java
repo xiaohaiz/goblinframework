@@ -9,7 +9,7 @@ import org.goblinframework.api.test.TestExecutionListener;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.core.util.IOUtils;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.dao.mysql.annotation.Table;
+import org.goblinframework.dao.mysql.annotation.GoblinTable;
 import org.goblinframework.database.mysql.client.MysqlClient;
 import org.goblinframework.database.mysql.client.MysqlClientManager;
 import org.jetbrains.annotations.NotNull;
@@ -63,7 +63,7 @@ final public class RebuildMysqlTableBeforeTestMethod implements TestExecutionLis
     if (annotation.entity() != Void.class) {
       // Entity class specified
       Class<?> entityClass = annotation.entity();
-      Table table = entityClass.getAnnotation(Table.class);
+      GoblinTable table = entityClass.getAnnotation(GoblinTable.class);
       if (table != null) {
         tableName = table.table();
       }

@@ -1,12 +1,12 @@
 package org.goblinframework.example.database.mysql.entity
 
 import org.goblinframework.api.dao.*
-import org.goblinframework.dao.mysql.annotation.Table
+import org.goblinframework.dao.mysql.annotation.GoblinTable
 import java.io.Serializable
 import java.time.Instant
 import java.util.*
 
-@Table(table = "STATIC_EXAMPLE_DATA")
+@GoblinTable(table = "STATIC_EXAMPLE_DATA")
 class StaticExampleData : Serializable {
   companion object {
     private const val serialVersionUID = -4568367284300289600L

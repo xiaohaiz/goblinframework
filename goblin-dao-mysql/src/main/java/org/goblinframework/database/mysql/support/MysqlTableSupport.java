@@ -1,6 +1,6 @@
 package org.goblinframework.database.mysql.support;
 
-import org.goblinframework.dao.mysql.annotation.Table;
+import org.goblinframework.dao.mysql.annotation.GoblinTable;
 import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +16,7 @@ abstract public class MysqlTableSupport<E, ID> extends MysqlClientSupport<E, ID>
 
   protected MysqlTableSupport() {
     Class<?> entityClass = entityMapping.entityClass;
-    Table annotation = entityClass.getAnnotation(Table.class);
+    GoblinTable annotation = entityClass.getAnnotation(GoblinTable.class);
     if (annotation == null) {
       throw new GoblinPersistenceException("No @Table presented on entity: " + entityClass.getName());
     }
