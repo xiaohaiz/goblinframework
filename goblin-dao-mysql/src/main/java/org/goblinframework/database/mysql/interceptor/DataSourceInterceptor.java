@@ -2,6 +2,7 @@ package org.goblinframework.database.mysql.interceptor;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.goblinframework.core.util.ProxyUtils;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +38,7 @@ public class DataSourceInterceptor implements MethodInterceptor {
         return null;
       }
       ConnectionInterceptor interceptor = new ConnectionInterceptor(name, mode, connection);
-      return ReflectionUtils.createProxy(Connection.class, interceptor);
+      return ProxyUtils.createInterfaceProxy(Connection.class, interceptor);
     }
 
     return ReflectionUtils.invoke(target, method, arguments);

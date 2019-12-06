@@ -1,15 +1,16 @@
 package org.goblinframework.embedded.core.servlet
 
+import org.goblinframework.core.util.ProxyUtils
 import org.goblinframework.core.util.ReflectionUtils
 import javax.servlet.http.HttpServletRequest
 
 object HttpServletRequestAdapter {
 
   val adapter: HttpServletRequest by lazy {
-    ReflectionUtils.createProxy(HttpServletRequest::class.java) { invocation ->
+    ProxyUtils.createInterfaceProxy(HttpServletRequest::class.java) { invocation ->
       val method = invocation.method
       if (ReflectionUtils.isToStringMethod(method)) {
-        return@createProxy "HttpServletRequestAdapter"
+        return@createInterfaceProxy "HttpServletRequestAdapter"
       }
       throw UnsupportedOperationException("Unsupported HttpServletRequest method [${method.name}]")
     }

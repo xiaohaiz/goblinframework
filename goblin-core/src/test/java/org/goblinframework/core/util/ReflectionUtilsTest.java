@@ -32,7 +32,7 @@ public class ReflectionUtilsTest {
       }
       throw new UnsupportedOperationException();
     };
-    MockInterface mi = ReflectionUtils.createProxy(MockInterface.class, interceptor);
+    MockInterface mi = ProxyUtils.createInterfaceProxy(MockInterface.class, interceptor);
     String name = mi.getName();
     assertEquals("HELLO", name);
   }

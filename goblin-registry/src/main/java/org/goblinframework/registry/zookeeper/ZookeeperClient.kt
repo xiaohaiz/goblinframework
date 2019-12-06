@@ -7,7 +7,7 @@ import org.goblinframework.core.serialization.SerializerManager
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.GoblinReferenceCount
-import org.goblinframework.core.util.ReflectionUtils
+import org.goblinframework.core.util.ProxyUtils
 import org.goblinframework.registry.module.monitor.ZkConnectionInterceptor
 
 @GoblinManagedBean("Registry")
@@ -24,7 +24,7 @@ internal constructor(private val config: ZookeeperClientConfig)
     transcoder = ZkTranscoder(serializer)
     var connection: IZkConnection = ZkConnection(config.addresses, config.sessionTimeout)
     val interceptor = ZkConnectionInterceptor(connection)
-    connection = ReflectionUtils.createProxy(IZkConnection::class.java, interceptor)
+    connection = ProxyUtils.createInterfaceProxy(IZkConnection::class.java, interceptor)
     client = ZkClient(connection, config.connectionTimeout, transcoder)
   }
 

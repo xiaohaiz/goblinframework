@@ -7,7 +7,7 @@ import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.goblinframework.cache.redis.interceptor.StatefulRedisConnectionInterceptor;
 import org.goblinframework.cache.redis.transcoder.RedisTranscoder;
-import org.goblinframework.core.util.ReflectionUtils;
+import org.goblinframework.core.util.ProxyUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class SingleRedisConnectionFactory extends BasePooledObjectFactory<RedisConnection> {
@@ -38,7 +38,7 @@ public class SingleRedisConnectionFactory extends BasePooledObjectFactory<RedisC
   public static SingleRedisConnection createSingleRedisConnection(@NotNull RedisClient redisClient,
                                                                   @NotNull RedisTranscoder redisTranscoder) {
     StatefulRedisConnection<String, Object> connection = redisClient.connect(redisTranscoder);
-    StatefulRedisConnection<String, Object> proxy = ReflectionUtils.createProxy(StatefulRedisConnection.class, new StatefulRedisConnectionInterceptor(connection));
+    StatefulRedisConnection<String, Object> proxy = ProxyUtils.createInterfaceProxy(StatefulRedisConnection.class, new StatefulRedisConnectionInterceptor(connection));
     return new SingleRedisConnection(proxy);
   }
 }

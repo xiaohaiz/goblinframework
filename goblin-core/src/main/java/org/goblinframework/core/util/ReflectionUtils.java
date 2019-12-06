@@ -1,9 +1,7 @@
 package org.goblinframework.core.util;
 
-import org.aopalliance.intercept.MethodInterceptor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.aop.framework.ProxyFactory;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
@@ -63,19 +61,6 @@ abstract public class ReflectionUtils extends org.springframework.util.Reflectio
     } catch (InvocationTargetException ex) {
       throw ex.getTargetException();
     }
-  }
-
-  @SuppressWarnings("unchecked")
-  @NotNull
-  public static <T> T createProxy(@NotNull final Class<T> interfaceClass,
-                                  @NotNull final MethodInterceptor interceptor) {
-    if (!interfaceClass.isInterface()) {
-      throw new IllegalArgumentException(interfaceClass.getName() + " is not interface");
-    }
-    ProxyFactory proxyFactory = new ProxyFactory();
-    proxyFactory.setInterfaces(interfaceClass);
-    proxyFactory.addAdvice(interceptor);
-    return (T) proxyFactory.getProxy(ClassUtils.getDefaultClassLoader());
   }
 
   public static List<Field> allFieldsIncludingAncestors(@NotNull Class<?> clazz,

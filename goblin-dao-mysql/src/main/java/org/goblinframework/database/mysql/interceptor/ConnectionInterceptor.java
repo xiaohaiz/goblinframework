@@ -2,6 +2,7 @@ package org.goblinframework.database.mysql.interceptor;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.goblinframework.core.util.ProxyUtils;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +39,7 @@ public class ConnectionInterceptor implements MethodInterceptor {
         return null;
       }
       StatementInterceptor interceptor = new StatementInterceptor(name, mode, statement);
-      return ReflectionUtils.createProxy(Statement.class, interceptor);
+      return ProxyUtils.createInterfaceProxy(Statement.class, interceptor);
     } else if ("prepareStatement".equals(method.getName())) {
       PreparedStatement statement = (PreparedStatement) ReflectionUtils.invoke(target, method, arguments);
       if (statement == null) {
@@ -49,7 +50,7 @@ public class ConnectionInterceptor implements MethodInterceptor {
       }
       String sql = (String) arguments[0];
       PreparedStatementInterceptor interceptor = new PreparedStatementInterceptor(name, mode, statement, sql);
-      return ReflectionUtils.createProxy(PreparedStatement.class, interceptor);
+      return ProxyUtils.createInterfaceProxy(PreparedStatement.class, interceptor);
     } else {
       return ReflectionUtils.invoke(target, method, arguments);
     }

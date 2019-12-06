@@ -2,6 +2,7 @@ package org.goblinframework.remote.client.invocation.invoker.java;
 
 import org.goblinframework.api.annotation.ThreadSafe;
 import org.goblinframework.api.rpc.ImportService;
+import org.goblinframework.core.util.ProxyUtils;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformation;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformationManager;
@@ -71,8 +72,8 @@ final public class RemoteJavaClientFactory {
       Object cached = buffer.get(serviceId);
       if (cached != null) return (E) cached;
       RemoteJavaClientInterceptor interceptor = new RemoteJavaClientInterceptor(serviceId);
-      E proxy = ReflectionUtils.createProxy(interfaceClass, interceptor);
-      E client = ReflectionUtils.createProxy(interfaceClass, invocation -> {
+      E proxy = ProxyUtils.createInterfaceProxy(interfaceClass, interceptor);
+      E client = ProxyUtils.createInterfaceProxy(interfaceClass, invocation -> {
         Method method = invocation.getMethod();
         if (ReflectionUtils.isToStringMethod(method)) {
           return proxy.toString();

@@ -5,6 +5,7 @@ import io.lettuce.core.api.async.RedisAsyncCommands;
 import io.lettuce.core.api.sync.RedisCommands;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.goblinframework.core.util.ProxyUtils;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,10 +37,10 @@ final public class StatefulRedisConnectionInterceptor implements MethodIntercept
     this.target = Objects.requireNonNull(target);
 
     RedisCommands redisCommands = target.sync();
-    this.proxy_redisCommands = ReflectionUtils.createProxy(RedisCommands.class, new RedisCommandsInterceptor(redisCommands));
+    this.proxy_redisCommands = ProxyUtils.createInterfaceProxy(RedisCommands.class, new RedisCommandsInterceptor(redisCommands));
 
     RedisAsyncCommands redisAsyncCommands = target.async();
-    this.proxy_redisAsyncCommands = ReflectionUtils.createProxy(RedisAsyncCommands.class, new RedisAsyncCommandsInterceptor(redisAsyncCommands));
+    this.proxy_redisAsyncCommands = ProxyUtils.createInterfaceProxy(RedisAsyncCommands.class, new RedisAsyncCommandsInterceptor(redisAsyncCommands));
   }
 
   @Override

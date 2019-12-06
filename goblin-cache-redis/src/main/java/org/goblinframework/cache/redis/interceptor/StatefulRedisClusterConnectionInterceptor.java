@@ -6,6 +6,7 @@ import io.lettuce.core.cluster.api.async.RedisAdvancedClusterAsyncCommands;
 import io.lettuce.core.cluster.api.sync.RedisAdvancedClusterCommands;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.goblinframework.core.util.ProxyUtils;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,9 +40,9 @@ final public class StatefulRedisClusterConnectionInterceptor implements MethodIn
     RedisAdvancedClusterCommands redisAdvancedClusterCommands = target.sync();
     RedisAdvancedClusterAsyncCommands redisAdvancedClusterAsyncCommands = target.async();
 
-    this.proxy_redisAdvancedClusterCommands = ReflectionUtils.createProxy(RedisAdvancedClusterCommands.class, new RedisAdvancedClusterCommandsInterceptor(redisAdvancedClusterCommands));
+    this.proxy_redisAdvancedClusterCommands = ProxyUtils.createInterfaceProxy(RedisAdvancedClusterCommands.class, new RedisAdvancedClusterCommandsInterceptor(redisAdvancedClusterCommands));
 
-    this.proxy_redisAdvancedClusterAsyncCommands = ReflectionUtils.createProxy(RedisAdvancedClusterAsyncCommands.class, new RedisAdvancedClusterAsyncCommandsInterceptor(redisAdvancedClusterAsyncCommands));
+    this.proxy_redisAdvancedClusterAsyncCommands = ProxyUtils.createInterfaceProxy(RedisAdvancedClusterAsyncCommands.class, new RedisAdvancedClusterAsyncCommandsInterceptor(redisAdvancedClusterAsyncCommands));
   }
 
   @Override
@@ -61,7 +62,7 @@ final public class StatefulRedisClusterConnectionInterceptor implements MethodIn
           return null;
         }
         StatefulRedisConnectionInterceptor interceptor = new StatefulRedisConnectionInterceptor(c);
-        return ReflectionUtils.createProxy(StatefulRedisConnection.class, interceptor);
+        return ProxyUtils.createInterfaceProxy(StatefulRedisConnection.class, interceptor);
       }
       case 3: {
         return proxy_redisAdvancedClusterCommands;
