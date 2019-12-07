@@ -1,6 +1,5 @@
 package org.goblinframework.core.monitor;
 
-import org.goblinframework.api.function.Block0;
 import org.goblinframework.core.service.ServiceInstaller;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,14 +27,6 @@ abstract public class FlightRecorder {
     return flightMonitor;
   }
 
-  @Nullable
-  public static Flight currentThreadFlight() {
-    if (flightMonitor == null) {
-      return null;
-    }
-    return flightMonitor.currentFlight();
-  }
-
   public static FlightId currentThreadFlightId() {
     return threadLocal.get();
   }
@@ -46,18 +37,14 @@ abstract public class FlightRecorder {
     }
   }
 
-  public static void executeWithFlight(@Nullable Flight flight, @NotNull Block0 action) {
-    if (flight == null) {
-      action.apply();
-    } else {
-      FlightId flightId = flight.flightId();
-      threadLocal.set(flightId);
-      try {
-        action.apply();
-      } finally {
-        threadLocal.remove();
-      }
+  @NotNull
+  public static FlightExecutor currentFlightExecutor() {
+    Flight flight = null;
+    if (flightMonitor != null) {
+      flight = flightMonitor.currentFlight();
     }
+    return new FlightExecutor(threadLocal, flight);
   }
+
 
 }

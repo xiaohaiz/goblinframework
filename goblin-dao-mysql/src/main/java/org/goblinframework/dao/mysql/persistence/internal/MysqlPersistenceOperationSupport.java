@@ -3,7 +3,7 @@ package org.goblinframework.dao.mysql.persistence.internal;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.goblinframework.api.dao.GoblinId;
 import org.goblinframework.core.conversion.ConversionService;
-import org.goblinframework.core.monitor.Flight;
+import org.goblinframework.core.monitor.FlightExecutor;
 import org.goblinframework.core.monitor.FlightRecorder;
 import org.goblinframework.core.reactor.BlockingListSubscriber;
 import org.goblinframework.core.reactor.CoreScheduler;
@@ -160,11 +160,11 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     LinkedMultiValueMap<String, ID> groupedIds = groupIds(ids);
     GoblinReferenceCount referenceCount = new GoblinReferenceCount(groupedIds.size());
     MultipleResultsPublisher<E> publisher = new MultipleResultsPublisher<>(null);
-    Flight flight = FlightRecorder.currentThreadFlight();
+    FlightExecutor executor = FlightRecorder.currentFlightExecutor();
     groupedIds.forEach((tn, ds) -> {
       Scheduler scheduler = CoreScheduler.getInstance();
       scheduler.schedule(() -> {
-        FlightRecorder.executeWithFlight(flight, () -> {
+        executor.execute(() -> {
           try {
             Criteria criteria;
             if (ds.size() == 1) {
