@@ -116,6 +116,19 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
   }
 
   @Nullable
+  final public E __load(@NotNull final ID id, @Nullable final MysqlConnection connection) {
+    MysqlConnection connectionForUse = connection;
+    if (connectionForUse == null) {
+      connectionForUse = getMasterConnection();
+    }
+    String tableName = getIdTableName(id);
+    Criteria criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
+    Query query = Query.query(criteria);
+    List<E> entities = __executeQuery(connectionForUse, query, tableName);
+    return entities.stream().findFirst().orElse(null);
+  }
+
+  @Nullable
   final public E __load(@NotNull final MysqlConnection connection,
                         @Nullable final ID id) {
     if (id == null) return null;
