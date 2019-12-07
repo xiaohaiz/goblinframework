@@ -113,4 +113,25 @@ public class GoblinDynamicPersistenceTest {
     assertEquals(3, record.revision.intValue());
     assertEquals(10000, record.loginTime.getTime());
   }
+
+  @Test
+  @RebuildMysqlTable(name = "_ut", table = "UT_USER_LOGIN_RECORD_{}")
+  public void upsert() {
+    Long userId = 10L;
+    UserLoginRecord record = new UserLoginRecord();
+    record.userId = userId;
+    record.loginTime = new Date();
+    assertTrue(userLoginRecordPersistence.upsert(record));
+    record = userLoginRecordPersistence.load(userId);
+    assertNotNull(record);
+    assertEquals(1, record.revision.intValue());
+    record = new UserLoginRecord();
+    record.userId = userId;
+    record.loginTime = new Date(10000);
+    userLoginRecordPersistence.upsert(record);
+    record = userLoginRecordPersistence.load(userId);
+    assertNotNull(record);
+    assertEquals(2, record.revision.intValue());
+    assertEquals(10000, record.loginTime.getTime());
+  }
 }
