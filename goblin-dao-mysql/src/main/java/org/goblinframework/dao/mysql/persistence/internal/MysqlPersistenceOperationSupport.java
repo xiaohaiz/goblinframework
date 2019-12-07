@@ -251,33 +251,28 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return rows > 0;
   }
 
-  public long __deletes(@Nullable final Collection<ID> ids) {
-    if (ids == null || ids.isEmpty()) return 0;
-    if (ids.size() > 1) {
-      AtomicLong deletedCount = new AtomicLong();
-      getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
-        @Override
-        protected void doInTransactionWithoutResult(@NotNull TransactionStatus status) {
-          groupIds(ids).forEach((tableName, idList) -> {
-            Criteria criteria;
-            if (idList.size() == 1) {
-              ID id = idList.iterator().next();
-              criteria = Criteria.where(entityMapping.idField.getName()).is(id);
-            } else {
-              criteria = Criteria.where(entityMapping.idField.getName()).in(idList);
-            }
-            long rows = __executeDelete(criteria, tableName);
-            deletedCount.addAndGet(rows);
-          });
-        }
-      });
-      return deletedCount.get();
-    } else {
-      ID id = ids.iterator().next();
-      String tableName = getIdTableName(id);
-      Criteria criteria = Criteria.where(entityMapping.idField.getName()).is(id);
-      return __executeDelete(criteria, tableName);
+  final public long __deletes(@NotNull final Collection<ID> ids) {
+    List<ID> idList = ids.stream().filter(Objects::nonNull).collect(Collectors.toList());
+    if (idList.isEmpty()) {
+      return 0;
     }
+    if (idList.size() == 1) {
+      ID id = idList.stream().findFirst().orElse(null);
+      boolean success = __delete(id);
+      return success ? 1 : 0;
+    }
+    AtomicLong deletedCount = new AtomicLong();
+    getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
+      @Override
+      protected void doInTransactionWithoutResult(@NotNull TransactionStatus status) {
+        groupIds(idList).forEach((tableName, ds) -> {
+          Criteria criteria = Criteria.where(entityMapping.idField.getName()).in(ds);
+          long rows = __executeDelete(criteria, tableName);
+          deletedCount.addAndGet(rows);
+        });
+      }
+    });
+    return deletedCount.get();
   }
 
   // ==========================================================================
