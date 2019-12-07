@@ -22,6 +22,10 @@ final public class BlockingListPublisher<T> extends CountDownLatch {
   private final GoblinReferenceCount referenceCount;
   private Throwable error;
 
+  public BlockingListPublisher() {
+    this(1);
+  }
+
   public BlockingListPublisher(int count) {
     super(1);
     if (count <= 0) {
