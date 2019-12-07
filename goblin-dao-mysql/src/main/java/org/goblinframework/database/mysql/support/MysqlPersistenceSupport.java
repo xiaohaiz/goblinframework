@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-abstract public class MysqlPersistenceSupport<E, ID> extends MysqlListenerSupport<E, ID> {
+abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupport<E, ID> {
 
   protected final RowMapper<E> entityRowMapper;
   protected final MysqlCriteriaTranslator criteriaTranslator;
