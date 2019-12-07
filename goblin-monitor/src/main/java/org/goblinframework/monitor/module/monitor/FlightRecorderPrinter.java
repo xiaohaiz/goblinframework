@@ -19,6 +19,7 @@ abstract class FlightRecorderPrinter {
     }
     list.addAll(generateLocation(flight.location().id()));
     list.add(" |- duration:  " + flight.durationMillis() + "ms");
+    list.add(" |- thread->:  " + flight.getThreadName());
     list.add(" |- forceLog:  " + true);
     list.add(" \\- sequence:  " + flight.getInstructions().instructionCount());
 

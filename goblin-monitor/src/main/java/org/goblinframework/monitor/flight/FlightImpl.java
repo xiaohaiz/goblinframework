@@ -13,6 +13,7 @@ final public class FlightImpl implements Flight {
 
   private final FlightIdImpl flightId;
   private final FlightLocation location;
+  private final String threadName;
   private final Instant startTime;
   private Instant stopTime;
   private final AtomicLong lastDotTime;
@@ -21,8 +22,14 @@ final public class FlightImpl implements Flight {
   FlightImpl(@NotNull FlightIdImpl flightId, @NotNull FlightLocation location) {
     this.flightId = flightId;
     this.location = location;
+    this.threadName = Thread.currentThread().getName();
     this.startTime = Instant.now();
     this.lastDotTime = new AtomicLong(this.startTime.toEpochMilli());
+  }
+
+  @NotNull
+  public String getThreadName() {
+    return threadName;
   }
 
   @NotNull

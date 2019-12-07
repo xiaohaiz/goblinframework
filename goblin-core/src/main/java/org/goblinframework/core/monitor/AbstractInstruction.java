@@ -9,6 +9,7 @@ abstract public class AbstractInstruction implements Instruction {
 
   private final Id id;
   private final Mode mode;
+  private final String threadName;
 
   private Instant startTime;
   private Instant stopTime;
@@ -20,6 +21,7 @@ abstract public class AbstractInstruction implements Instruction {
     }
     this.id = id;
     this.mode = mode;
+    this.threadName = Thread.currentThread().getName();
     if (autoStart) {
       start();
     }
@@ -140,12 +142,15 @@ abstract public class AbstractInstruction implements Instruction {
   public String asLongText() {
     switch (mode) {
       case SYN:
-        return String.format("%s:%s %sms", id(), mode(), effectiveDurationMillis());
+        return String.format("%s:%s %sms {%s}",
+            id(), mode(), effectiveDurationMillis(), threadName);
       case ASY: {
         if (isCompleted()) {
-          return String.format("%s:%s %sms (%sms)", id(), mode(), actualDurationMillis(), effectiveDurationMillis());
+          return String.format("%s:%s %sms (%sms) {%s}",
+              id(), mode(), actualDurationMillis(), effectiveDurationMillis(), threadName);
         } else {
-          return String.format("%s:%s %sms (UNCOMPLETED)", id(), mode(), actualDurationMillis());
+          return String.format("%s:%s %sms (UNCOMPLETED) {%s}",
+              id(), mode(), actualDurationMillis(), threadName);
         }
       }
       default:
