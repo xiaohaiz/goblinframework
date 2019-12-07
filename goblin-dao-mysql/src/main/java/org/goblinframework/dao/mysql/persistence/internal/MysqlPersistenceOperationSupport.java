@@ -5,6 +5,7 @@ import org.goblinframework.api.dao.GoblinId;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;
+import org.goblinframework.dao.mysql.exception.GoblinMysqlPersistenceException;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.core.eql.NativeSQL;
 import org.goblinframework.database.core.eql.Query;
@@ -68,7 +69,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return __exists(id, getMasterConnection());
   }
 
-  public boolean replace(@Nullable E entity) {
+  public boolean replace(@NotNull E entity) {
     return __replace(entity);
   }
 
@@ -88,7 +89,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
   // Direct database access methods
   // ==========================================================================
 
-  final public void __insert(@NotNull E entity) {
+  final public void __insert(@NotNull final E entity) {
     beforeInsert(entity);
     String tableName = getEntityTableName(entity);
     __executeInsert(entity, tableName);
@@ -104,7 +105,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
       __insert(entity);
       return;
     }
-    beforeInsert(candidates);
+    candidates.forEach(this::beforeInsert);
     getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
       @Override
       protected void doInTransactionWithoutResult(@NotNull TransactionStatus status) {
@@ -173,7 +174,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return MapUtils.resort(entities, idList);
   }
 
-  final public boolean __exists(@NotNull ID id,
+  final public boolean __exists(@NotNull final ID id,
                                 @Nullable final MysqlConnection connection) {
     AtomicReference<MysqlConnection> connectionReference = new AtomicReference<>(connection);
     if (connection == null) {
@@ -185,15 +186,12 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return __executeCount(connectionReference.get(), query, tableName) > 0;
   }
 
-  final public boolean __replace(@Nullable E entity) {
-    if (entity == null) return false;
+  final public boolean __replace(@NotNull final E entity) {
     ID id = getEntityId(entity);
     if (id == null) {
-      logger.warn("ID must not be null when executing replace operation.");
-      return false;
+      throw new GoblinMysqlPersistenceException("ID must not be null when executing replace operation");
     }
-    long millis = System.currentTimeMillis();
-    touchUpdateTime(entity, millis);
+    beforeReplace(entity);
     Criteria criteria = Criteria.where(entityMapping.idField.getName()).is(id);
     EntityRevisionField revisionField = entityMapping.revisionField;
     if (revisionField != null) {
@@ -208,10 +206,8 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     MysqlUpdateOperation updateOperation = new MysqlUpdateOperation(entityMapping, entity, tableName);
     TranslatedCriteria tc2 = updateOperation.generateSQL();
     if (tc2 == null) {
-      logger.warn("Nothing found when executing replace operation.");
-      return false;
+      throw new GoblinMysqlPersistenceException("Nothing field(s) found when executing replace operation");
     }
-
     String sql = tc2.sql + tc1.sql;
     MapSqlParameterSource parameterSource = new MapSqlParameterSource();
     parameterSource.addValues(tc2.parameterSource.getValues());
@@ -221,17 +217,13 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return rows > 0;
   }
 
-  public boolean __upsert(@Nullable final E entity) {
-    if (entity == null) return false;
+  public boolean __upsert(@NotNull final E entity) {
     ID id = getEntityId(entity);
     if (id == null) {
       __insert(entity);
       return true;
     }
-    long millis = System.currentTimeMillis();
-    touchCreateTime(entity, millis);
-    touchUpdateTime(entity, millis);
-    initializeRevision(entity);
+    beforeInsert(entity);
     String tableName = getIdTableName(id);
     MysqlInsertOperation insertOperation = new MysqlInsertOperation(entityMapping, entity, tableName);
     MysqlUpdateOperation updateOperation = new MysqlUpdateOperation(entityMapping, entity, tableName);

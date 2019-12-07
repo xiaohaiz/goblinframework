@@ -126,11 +126,10 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
   }
 
   @Override
-  public boolean replace(@Nullable E entity) {
+  public boolean replace(@NotNull E entity) {
     if (dimension == GoblinCacheDimension.Dimension.NONE) {
       return __replace(entity);
     }
-    if (entity == null) return false;
     ID id = getEntityId(entity);
     if (id == null) {
       logger.warn("ID must not be null when executing replace operation.");
