@@ -123,14 +123,14 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
 
   @Nullable
   final public E __load(@NotNull final ID id, @Nullable final MysqlConnection connection) {
-    MysqlConnection connectionForUse = connection;
-    if (connectionForUse == null) {
-      connectionForUse = getMasterConnection();
+    AtomicReference<MysqlConnection> connectionReference = new AtomicReference<>(connection);
+    if (connection == null) {
+      connectionReference.set(getMasterConnection());
     }
     String tableName = getIdTableName(id);
     Criteria criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
     Query query = Query.query(criteria);
-    List<E> entities = __executeQuery(connectionForUse, query, tableName);
+    List<E> entities = __executeQuery(connectionReference.get(), query, tableName);
     return entities.stream().findFirst().orElse(null);
   }
 
@@ -172,9 +172,10 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
             }
             Query query = Query.query(criteria);
             __executeQuery(connectionReference.get(), query, tn).forEach(publisher::onNext);
-            publisher.onComplete();
           } catch (Throwable ex) {
             publisher.onError(ex);
+          } finally {
+            publisher.onComplete();
           }
         });
       });
@@ -185,13 +186,6 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
       entities.put(id, e);
     });
     return MapUtils.resort(entities, idList);
-  }
-
-  @Nullable
-  final public E __load(@NotNull final MysqlConnection connection,
-                        @Nullable final ID id) {
-    if (id == null) return null;
-    return __loads(connection, Collections.singleton(id)).get(id);
   }
 
   @NotNull

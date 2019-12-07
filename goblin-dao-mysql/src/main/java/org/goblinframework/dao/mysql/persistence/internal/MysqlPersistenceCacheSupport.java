@@ -140,7 +140,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
     getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
       @Override
       protected void doInTransactionWithoutResult(TransactionStatus status) {
-        E original = __load(getMasterConnection(), id);
+        E original = __load(id, getMasterConnection());
         if (original == null) {
           return;
         }
@@ -148,7 +148,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
         if (!ret) {
           return;
         }
-        E replaced = __load(getMasterConnection(), id);
+        E replaced = __load(id, getMasterConnection());
         assert replaced != null;
         if (dimension == GoblinCacheDimension.Dimension.ID_FIELD) {
           GoblinCache gc = getDefaultCache();
@@ -185,12 +185,12 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
       protected void doInTransactionWithoutResult(TransactionStatus status) {
         E original = null;
         if (dimension != GoblinCacheDimension.Dimension.ID_FIELD) {
-          original = __load(getMasterConnection(), id);
+          original = __load(id, getMasterConnection());
         }
         if (!__upsert(entity)) {
           return;
         }
-        E upserted = __load(getMasterConnection(), id);
+        E upserted = __load(id, getMasterConnection());
         assert upserted != null;
         if (dimension == GoblinCacheDimension.Dimension.ID_FIELD) {
           GoblinCache gc = getDefaultCache();
