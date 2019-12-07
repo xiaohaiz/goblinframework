@@ -8,7 +8,7 @@ import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.core.reactor.BlockingListSubscriber;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.database.core.annotation.GoblinCacheDimension;
+import org.goblinframework.dao.core.annotation.GoblinCacheDimension;
 import org.jetbrains.annotations.NotNull;
 import org.reactivestreams.Publisher;
 

@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.support;
+package org.goblinframework.dao.core.listener;
 
 import org.jetbrains.annotations.NotNull;
 

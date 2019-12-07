@@ -1,8 +1,8 @@
 package org.goblinframework.dao.mongo.persistence.internal
 
 import org.goblinframework.core.util.AnnotationUtils
+import org.goblinframework.dao.core.exception.GoblinDatabaseException
 import org.goblinframework.dao.mongo.annotation.GoblinCollection
-import org.goblinframework.database.core.GoblinDatabaseException
 import java.util.*
 
 abstract class MongoCollectionSupport<E, ID> : MongoDatabaseSupport<E, ID>() {

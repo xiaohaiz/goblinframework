@@ -4,9 +4,9 @@ import org.bson.types.ObjectId
 import org.goblinframework.api.dao.Id
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.reactor.BlockingListSubscriber
+import org.goblinframework.dao.core.annotation.GoblinConnection
 import org.goblinframework.dao.mongo.annotation.GoblinCollection
 import org.goblinframework.dao.mongo.annotation.GoblinDatabase
-import org.goblinframework.database.core.annotation.GoblinConnection
 import org.goblinframework.database.mongo.module.test.DropMongoDatabase
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.*

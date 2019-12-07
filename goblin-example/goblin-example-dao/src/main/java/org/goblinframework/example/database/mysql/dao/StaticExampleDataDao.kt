@@ -1,6 +1,6 @@
 package org.goblinframework.example.database.mysql.dao
 
-import org.goblinframework.database.core.annotation.GoblinConnection
+import org.goblinframework.dao.core.annotation.GoblinConnection
 import org.goblinframework.database.core.eql.Criteria
 import org.goblinframework.database.core.eql.Query
 import org.goblinframework.database.mysql.persistence.GoblinStaticPersistence

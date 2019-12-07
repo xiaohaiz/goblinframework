@@ -1,5 +1,6 @@
 package org.goblinframework.database.mysql.support;
 
+import org.goblinframework.dao.core.listener.BeforeInsertListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
