@@ -5,10 +5,8 @@ import org.goblinframework.api.dao.GoblinId;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.monitor.FlightExecutor;
 import org.goblinframework.core.monitor.FlightRecorder;
-import org.goblinframework.core.reactor.BlockingListSubscriber;
+import org.goblinframework.core.reactor.BlockingListPublisher;
 import org.goblinframework.core.reactor.CoreScheduler;
-import org.goblinframework.core.reactor.MultipleResultsPublisher;
-import org.goblinframework.core.util.GoblinReferenceCount;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.database.core.eql.Criteria;
@@ -157,9 +155,8 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     if (connection == null) {
       connectionReference.set(getMasterConnection());
     }
-    LinkedMultiValueMap<String, ID> groupedIds = groupIds(ids);
-    GoblinReferenceCount referenceCount = new GoblinReferenceCount(groupedIds.size());
-    MultipleResultsPublisher<E> publisher = new MultipleResultsPublisher<>(null);
+    LinkedMultiValueMap<String, ID> groupedIds = groupIds(idList);
+    BlockingListPublisher<E> publisher = new BlockingListPublisher<>(groupedIds.size());
     FlightExecutor executor = FlightRecorder.currentFlightExecutor();
     groupedIds.forEach((tn, ds) -> {
       Scheduler scheduler = CoreScheduler.getInstance();
@@ -175,21 +172,19 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
             }
             Query query = Query.query(criteria);
             __executeQuery(connectionReference.get(), query, tn).forEach(publisher::onNext);
-            if (referenceCount.release()) {
-              publisher.complete(null);
-            }
-          } catch (Exception ex) {
-            publisher.complete(ex);
+            publisher.onComplete();
+          } catch (Throwable ex) {
+            publisher.onError(ex);
           }
         });
       });
     });
     Map<ID, E> entities = new LinkedHashMap<>();
-    new BlockingListSubscriber<E>().subscribe(publisher).block().forEach(e -> {
+    publisher.block().forEach(e -> {
       ID id = getEntityId(e);
       entities.put(id, e);
     });
-    return entities;
+    return MapUtils.resort(entities, idList);
   }
 
   @Nullable
