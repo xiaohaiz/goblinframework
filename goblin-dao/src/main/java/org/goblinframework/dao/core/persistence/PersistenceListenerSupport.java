@@ -3,6 +3,7 @@ package org.goblinframework.dao.core.persistence;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 abstract public class PersistenceListenerSupport<E, ID> extends PersistenceEntityMappingSupport<E, ID> {
@@ -18,7 +19,17 @@ abstract public class PersistenceListenerSupport<E, ID> extends PersistenceEntit
     });
   }
 
-  public void registerBeforeInsertListener(@NotNull BeforeInsertListener<E> listener) {
+  protected void registerBeforeInsertListener(@NotNull BeforeInsertListener<E> listener) {
     beforeInsertListeners.add(listener);
+  }
+
+  protected void beforeInsert(@NotNull E entity) {
+    for (BeforeInsertListener<E> listener : beforeInsertListeners) {
+      listener.beforeInsert(entity);
+    }
+  }
+
+  protected void beforeInsert(@NotNull Collection<E> entities) {
+    entities.forEach(this::beforeInsert);
   }
 }

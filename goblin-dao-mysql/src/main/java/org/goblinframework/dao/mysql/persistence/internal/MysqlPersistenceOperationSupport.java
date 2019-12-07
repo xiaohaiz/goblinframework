@@ -5,7 +5,6 @@ import org.goblinframework.api.dao.GoblinId;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.dao.core.persistence.BeforeInsertListener;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.core.eql.NativeSQL;
 import org.goblinframework.database.core.eql.Query;
@@ -90,39 +89,30 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
   // ==========================================================================
 
   final public void __insert(@NotNull E entity) {
-    __inserts(Collections.singleton(entity));
+    beforeInsert(entity);
+    String tableName = getEntityTableName(entity);
+    __executeInsert(entity, tableName);
   }
 
-  final public void __inserts(@Nullable final Collection<E> entities) {
-    if (entities == null || entities.isEmpty()) return;
-
-    for (E entity : entities) {
-      for (BeforeInsertListener<E> listener : beforeInsertListeners) {
-        listener.beforeInsert(entity);
+  final public void __inserts(@NotNull final Collection<E> entities) {
+    List<E> candidates = entities.stream().filter(Objects::nonNull).collect(Collectors.toList());
+    if (candidates.isEmpty()) {
+      return;
+    }
+    if (candidates.size() == 1) {
+      E entity = candidates.iterator().next();
+      __insert(entity);
+      return;
+    }
+    beforeInsert(candidates);
+    getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
+      @Override
+      protected void doInTransactionWithoutResult(@NotNull TransactionStatus status) {
+        groupEntities(candidates).forEach((tableName, list) -> {
+          list.forEach(e -> __executeInsert(e, tableName));
+        });
       }
-    }
-    long millis = System.currentTimeMillis();
-    for (E entity : entities) {
-      generateEntityId(entity);
-      requireEntityId(entity);
-      touchCreateTime(entity, millis);
-      touchUpdateTime(entity, millis);
-      initializeRevision(entity);
-    }
-    if (entities.size() > 1) {
-      getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
-        @Override
-        protected void doInTransactionWithoutResult(TransactionStatus status) {
-          groupEntities(entities).forEach((tableName, list) -> {
-            list.forEach(e -> __executeInsert(e, tableName));
-          });
-        }
-      });
-    } else {
-      E entity = entities.iterator().next();
-      String tableName = getEntityTableName(entity);
-      __executeInsert(entity, tableName);
-    }
+    });
   }
 
   @Nullable
