@@ -217,7 +217,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return rows > 0;
   }
 
-  public boolean __upsert(@NotNull final E entity) {
+  final public boolean __upsert(@NotNull final E entity) {
     ID id = getEntityId(entity);
     if (id == null) {
       __insert(entity);
@@ -244,9 +244,11 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return jdbcTemplate.update(sql.toString(), params) > 0;
   }
 
-  public boolean __delete(@Nullable final ID id) {
-    if (id == null) return false;
-    return __deletes(Collections.singleton(id)) > 0;
+  final public boolean __delete(@NotNull final ID id) {
+    Criteria criteria = Criteria.where(entityMapping.idField.getName()).is(id);
+    String tableName = getIdTableName(id);
+    long rows = __executeDelete(criteria, tableName);
+    return rows > 0;
   }
 
   public long __deletes(@Nullable final Collection<ID> ids) {
