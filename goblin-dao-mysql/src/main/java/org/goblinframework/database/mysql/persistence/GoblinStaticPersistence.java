@@ -1,14 +1,14 @@
 package org.goblinframework.database.mysql.persistence;
 
+import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistenceOperationSupport;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.core.eql.Query;
 import org.goblinframework.database.core.eql.Update;
-import org.goblinframework.database.mysql.support.MysqlPersistenceSupport;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-abstract public class GoblinStaticPersistence<E, ID> extends MysqlPersistenceSupport<E, ID> {
+abstract public class GoblinStaticPersistence<E, ID> extends MysqlPersistenceOperationSupport<E, ID> {
 
   @NotNull
   @Override

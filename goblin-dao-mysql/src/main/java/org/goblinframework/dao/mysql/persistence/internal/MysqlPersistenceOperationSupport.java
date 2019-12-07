@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.support;
+package org.goblinframework.dao.mysql.persistence.internal;
 
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.goblinframework.api.dao.GoblinId;
@@ -6,7 +6,6 @@ import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.dao.core.persistence.BeforeInsertListener;
-import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistencePrimaryKeySupport;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.core.eql.NativeSQL;
 import org.goblinframework.database.core.eql.Query;
@@ -34,14 +33,14 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPersistencePrimaryKeySupport<E, ID> {
+abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersistencePrimaryKeySupport<E, ID> {
 
   protected final RowMapper<E> entityRowMapper;
   protected final MysqlCriteriaTranslator criteriaTranslator;
   protected final MysqlQueryTranslator queryTranslator;
   protected final MysqlUpdateTranslator updateTranslator;
 
-  protected MysqlPersistenceSupport() {
+  protected MysqlPersistenceOperationSupport() {
     entityRowMapper = new MysqlEntityRowMapper<>(entityMapping);
     criteriaTranslator = MysqlCriteriaTranslator.INSTANCE;
     queryTranslator = new MysqlQueryTranslator(entityMapping);

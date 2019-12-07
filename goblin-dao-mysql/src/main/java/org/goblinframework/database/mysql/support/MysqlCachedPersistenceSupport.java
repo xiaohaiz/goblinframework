@@ -11,6 +11,7 @@ import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.dao.core.annotation.GoblinCacheDimension;
+import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistenceOperationSupport;
 import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersistenceSupport<E, ID> {
+abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersistenceOperationSupport<E, ID> {
 
   private final CacheBean cacheBean;
   private final GoblinCacheDimension.Dimension dimension;
