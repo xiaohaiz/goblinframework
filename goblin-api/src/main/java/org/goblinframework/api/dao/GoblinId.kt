@@ -3,7 +3,7 @@ package org.goblinframework.api.dao
 @MustBeDocumented
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Id(val value: Generator) {
+annotation class GoblinId(val value: Generator) {
 
   enum class Generator {
     NONE,

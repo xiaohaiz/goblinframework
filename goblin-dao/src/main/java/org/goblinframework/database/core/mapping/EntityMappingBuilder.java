@@ -118,7 +118,7 @@ public class EntityMappingBuilder extends GoblinManagedObject implements EntityM
     Iterator<GoblinField> it = allFields.iterator();
     while (it.hasNext()) {
       GoblinField f = it.next();
-      if (!f.isAnnotationPresent(Id.class)) {
+      if (!f.isAnnotationPresent(GoblinId.class)) {
         continue;
       }
       idFieldList.add(new EntityIdField(nameResolver, f));
@@ -177,7 +177,7 @@ public class EntityMappingBuilder extends GoblinManagedObject implements EntityM
       it.remove();
       Class<?> embedEntityClass = f.getFieldType();
       for (GoblinField child : scanner.scan(embedEntityClass)) {
-        if (child.isAnnotationPresent(Id.class)) {
+        if (child.isAnnotationPresent(GoblinId.class)) {
           throw new GoblinMappingException("[" + embedEntityClass + "] embed entity must not has Id field");
         }
         if (child.isAnnotationPresent(Revision.class)) {

@@ -28,7 +28,7 @@ public class GoblinStaticPersistenceTest extends SpringContainerObject {
   public static class MockData implements Serializable {
     private static final long serialVersionUID = -4568367284300289600L;
 
-    @Id(Id.Generator.AUTO_INC) public Long id;
+    @GoblinId(GoblinId.Generator.AUTO_INC) public Long id;
     public String name;
     @CreateTime @Field("CT1") public Instant createTime1;
     @CreateTime @Field("CT2") public Date createTime2;

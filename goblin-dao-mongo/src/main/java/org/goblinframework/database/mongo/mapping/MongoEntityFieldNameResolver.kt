@@ -3,7 +3,7 @@ package org.goblinframework.database.mongo.mapping
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.dao.Field
-import org.goblinframework.api.dao.Id
+import org.goblinframework.api.dao.GoblinId
 import org.goblinframework.core.util.StringUtils
 import org.goblinframework.database.core.mapping.EntityField
 import org.goblinframework.database.core.mapping.EntityFieldNameResolver
@@ -16,7 +16,7 @@ class MongoEntityFieldNameResolver private constructor() : EntityFieldNameResolv
   }
 
   override fun resolve(field: EntityField): String {
-    field.getAnnotation(Id::class.java)?.run { return "_id" }
+    field.getAnnotation(GoblinId::class.java)?.run { return "_id" }
     var name = field.getAnnotation(Field::class.java)?.value
     if (StringUtils.isNotBlank(name)) {
       return StringUtils.trim(name)

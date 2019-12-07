@@ -1,6 +1,6 @@
 package org.goblinframework.database.mysql.persistence
 
-import org.goblinframework.api.dao.Id
+import org.goblinframework.api.dao.GoblinId
 import org.goblinframework.dao.mysql.annotation.GoblinTable
 
 /**
@@ -9,6 +9,6 @@ import org.goblinframework.dao.mysql.annotation.GoblinTable
 @GoblinTable(table = "UT_UNIQUE_ID_T")
 class UniqueIdEntity {
 
-  @Id(Id.Generator.AUTO_INC)
+  @GoblinId(GoblinId.Generator.AUTO_INC)
   var id: Long? = null
 }

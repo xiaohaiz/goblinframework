@@ -1,11 +1,12 @@
 package org.goblinframework.database.mysql.support;
 
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.goblinframework.api.dao.Id;
+import org.goblinframework.api.dao.GoblinId;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.dao.core.persistence.BeforeInsertListener;
+import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistencePrimaryKeySupport;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.core.eql.NativeSQL;
 import org.goblinframework.database.core.eql.Query;
@@ -33,7 +34,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupport<E, ID> {
+abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPersistencePrimaryKeySupport<E, ID> {
 
   protected final RowMapper<E> entityRowMapper;
   protected final MysqlCriteriaTranslator criteriaTranslator;
@@ -272,7 +273,7 @@ abstract public class MysqlPersistenceSupport<E, ID> extends MysqlPrimaryKeySupp
     MysqlInsertOperation insertOperation = new MysqlInsertOperation(entityMapping, entity, tableName);
     String sql = insertOperation.generateSQL();
     PreparedStatementCreatorFactory factory = insertOperation.newPreparedStatementCreatorFactory(sql);
-    if (generator == Id.Generator.AUTO_INC && !insertOperation.isIncludeId()) {
+    if (idGenerator == GoblinId.Generator.AUTO_INC && !insertOperation.isIncludeId()) {
       factory.setReturnGeneratedKeys(true);
       PreparedStatementCreator creator = factory.newPreparedStatementCreator(insertOperation.toParams());
       GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();

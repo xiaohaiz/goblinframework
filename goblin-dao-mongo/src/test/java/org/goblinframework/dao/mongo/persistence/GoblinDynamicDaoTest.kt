@@ -1,6 +1,6 @@
 package org.goblinframework.dao.mongo.persistence
 
-import org.goblinframework.api.dao.Id
+import org.goblinframework.api.dao.GoblinId
 import org.goblinframework.core.util.StringUtils
 import org.goblinframework.dao.core.annotation.GoblinConnection
 import org.goblinframework.dao.mongo.annotation.GoblinCollection
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class GoblinDynamicDaoTest {
 
   class MockDynamicData {
-    @Id(Id.Generator.NONE)
+    @GoblinId(GoblinId.Generator.NONE)
     var id: Long? = null
   }
 
