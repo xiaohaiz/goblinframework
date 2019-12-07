@@ -1,4 +1,4 @@
-package org.goblinframework.database.core.support;
+package org.goblinframework.dao.core.mapping;
 
 import org.goblinframework.api.dao.CreateTime;
 import org.goblinframework.api.dao.UpdateTime;
