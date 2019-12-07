@@ -94,12 +94,12 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
       return Collections.emptyMap();
     }
     if (!hasIdCache()) {
-      return __loads(getMasterConnection(), ids);
+      return __loads(ids, getMasterConnection());
     }
     GoblinCache gc = getDefaultCache();
     return gc.cache.<ID, E>loader()
         .keyGenerator(this::generateCacheKey)
-        .externalLoader(missed -> __loads(getMasterConnection(), missed))
+        .externalLoader(missed -> __loads(missed, getMasterConnection()))
         .keys(ids)
         .loads()
         .loadsMissed()
@@ -245,7 +245,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
         getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
           @Override
           protected void doInTransactionWithoutResult(TransactionStatus status) {
-            Map<ID, E> map = __loads(getMasterConnection(), ids);
+            Map<ID, E> map = __loads(ids, getMasterConnection());
             long deletedCount = __deletes(ids);
             if (deletedCount > 0) {
               CacheDimension gcd = new CacheDimension(entityMapping.entityClass, cacheBean);

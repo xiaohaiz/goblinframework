@@ -3,10 +3,6 @@ package org.goblinframework.dao.mysql.persistence.internal;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.goblinframework.api.dao.GoblinId;
 import org.goblinframework.core.conversion.ConversionService;
-import org.goblinframework.core.monitor.FlightExecutor;
-import org.goblinframework.core.monitor.FlightRecorder;
-import org.goblinframework.core.reactor.BlockingListPublisher;
-import org.goblinframework.core.reactor.CoreScheduler;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.database.core.eql.Criteria;
@@ -30,12 +26,10 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.util.LinkedMultiValueMap;
-import reactor.core.scheduler.Scheduler;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersistencePrimaryKeySupport<E, ID> {
@@ -115,7 +109,9 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
       @Override
       protected void doInTransactionWithoutResult(@NotNull TransactionStatus status) {
         groupEntities(candidates).forEach((tableName, list) -> {
-          list.forEach(e -> __executeInsert(e, tableName));
+          for (E e : list) {
+            __executeInsert(e, tableName);
+          }
         });
       }
     });
@@ -156,57 +152,25 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
       connectionReference.set(getMasterConnection());
     }
     LinkedMultiValueMap<String, ID> groupedIds = groupIds(idList);
-    BlockingListPublisher<E> publisher = new BlockingListPublisher<>(groupedIds.size());
-    FlightExecutor executor = FlightRecorder.currentFlightExecutor();
+    List<E> entityList = new ArrayList<>();
     groupedIds.forEach((tn, ds) -> {
-      Scheduler scheduler = CoreScheduler.getInstance();
-      scheduler.schedule(() -> {
-        executor.execute(() -> {
-          try {
-            Criteria criteria;
-            if (ds.size() == 1) {
-              ID id = ds.iterator().next();
-              criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
-            } else {
-              criteria = Criteria.where(entityMapping.getIdFieldName()).in(ds);
-            }
-            Query query = Query.query(criteria);
-            __executeQuery(connectionReference.get(), query, tn).forEach(publisher::onNext);
-          } catch (Throwable ex) {
-            publisher.onError(ex);
-          } finally {
-            publisher.onComplete();
-          }
-        });
-      });
+      Criteria criteria;
+      if (ds.size() == 1) {
+        ID id = ds.iterator().next();
+        criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
+      } else {
+        criteria = Criteria.where(entityMapping.getIdFieldName()).in(ds);
+      }
+      Query query = Query.query(criteria);
+      List<E> queried = __executeQuery(connectionReference.get(), query, tn);
+      entityList.addAll(queried);
     });
     Map<ID, E> entities = new LinkedHashMap<>();
-    publisher.block().forEach(e -> {
+    entityList.forEach(e -> {
       ID id = getEntityId(e);
       entities.put(id, e);
     });
     return MapUtils.resort(entities, idList);
-  }
-
-  @NotNull
-  final public Map<ID, E> __loads(@NotNull final MysqlConnection connection,
-                                  @Nullable final Collection<ID> ids) {
-    if (ids == null || ids.isEmpty()) return Collections.emptyMap();
-    List<E> entities = new LinkedList<>();
-    groupIds(ids).forEach((tableName, idList) -> {
-      assert !idList.isEmpty();
-      Criteria criteria;
-      if (idList.size() == 1) {
-        ID id = idList.iterator().next();
-        criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
-      } else {
-        criteria = Criteria.where(entityMapping.getIdFieldName()).in(idList);
-      }
-      Query query = Query.query(criteria);
-      entities.addAll(__executeQuery(connection, query, tableName));
-    });
-    Map<ID, E> map = entities.stream().collect(Collectors.toMap(this::getEntityId, Function.identity()));
-    return MapUtils.resort(map, ids);
   }
 
   final public boolean __exists(@NotNull final MysqlConnection connection,
@@ -296,7 +260,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
       AtomicLong deletedCount = new AtomicLong();
       getMasterConnection().executeTransactionWithoutResult(new TransactionCallbackWithoutResult() {
         @Override
-        protected void doInTransactionWithoutResult(TransactionStatus status) {
+        protected void doInTransactionWithoutResult(@NotNull TransactionStatus status) {
           groupIds(ids).forEach((tableName, idList) -> {
             Criteria criteria;
             if (idList.size() == 1) {
