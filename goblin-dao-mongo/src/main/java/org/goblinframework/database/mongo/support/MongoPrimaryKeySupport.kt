@@ -3,7 +3,7 @@ package org.goblinframework.database.mongo.support
 import org.bson.types.ObjectId
 import org.goblinframework.api.dao.Id
 import org.goblinframework.core.util.RandomUtils
-import org.goblinframework.dao.core.exception.GoblinDatabaseException
+import org.goblinframework.dao.core.exception.GoblinDaoException
 import java.util.*
 
 abstract class MongoPrimaryKeySupport<E, ID> : MongoNamespaceSupport<E, ID>() {
@@ -19,7 +19,7 @@ abstract class MongoPrimaryKeySupport<E, ID> : MongoNamespaceSupport<E, ID>() {
     val annotation = idField.getAnnotation(Id::class.java)!!
     generator = annotation.value
     if (!SUPPORTED.contains(generator)) {
-      throw GoblinDatabaseException("Id.Generator [$generator] not supported")
+      throw GoblinDaoException("Id.Generator [$generator] not supported")
     }
   }
 
@@ -39,6 +39,6 @@ abstract class MongoPrimaryKeySupport<E, ID> : MongoNamespaceSupport<E, ID>() {
     if (generator === Id.Generator.AUTO_INC) {
       return
     }
-    getEntityId(entity) ?: throw GoblinDatabaseException("Entity id is required")
+    getEntityId(entity) ?: throw GoblinDaoException("Entity id is required")
   }
 }

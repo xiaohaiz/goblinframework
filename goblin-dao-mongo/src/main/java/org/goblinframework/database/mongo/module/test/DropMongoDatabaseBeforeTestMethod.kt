@@ -6,7 +6,7 @@ import org.goblinframework.api.test.TestContext
 import org.goblinframework.api.test.TestExecutionListener
 import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.core.reactor.BlockingMonoSubscriber
-import org.goblinframework.dao.core.exception.GoblinDatabaseException
+import org.goblinframework.dao.core.exception.GoblinDaoException
 import org.goblinframework.database.mongo.client.MongoClientManager
 import org.slf4j.LoggerFactory
 
@@ -23,7 +23,7 @@ class DropMongoDatabaseBeforeTestMethod private constructor() : TestExecutionLis
     val names = annotations.map { it.value }.distinct().sorted().toList()
     for (name in names) {
       val client = MongoClientManager.INSTANCE.getMongoClient(name)
-          ?: throw GoblinDatabaseException("MongoClient [$name] not found")
+          ?: throw GoblinDaoException("MongoClient [$name] not found")
       val subscriber = BlockingListSubscriber<String>()
       client.getNativeClient().listDatabaseNames().subscribe(subscriber)
       val databases = subscriber.block().filter { it.startsWith("goblin--ut--") }.toList()

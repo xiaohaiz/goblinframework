@@ -1,7 +1,7 @@
 package org.goblinframework.dao.mongo.persistence.internal
 
 import org.goblinframework.core.util.AnnotationUtils
-import org.goblinframework.dao.core.exception.GoblinDatabaseException
+import org.goblinframework.dao.core.exception.GoblinDaoException
 import org.goblinframework.dao.mongo.annotation.GoblinDatabase
 import org.goblinframework.database.mongo.support.MongoClientSupport
 import java.util.*
@@ -12,7 +12,7 @@ abstract class MongoDatabaseSupport<E, ID> : MongoClientSupport<E, ID>() {
   private val dynamic: Boolean
 
   init {
-    val annotation = lookupDatabaseAnnotation() ?: throw GoblinDatabaseException("No @Database presented")
+    val annotation = lookupDatabaseAnnotation() ?: throw GoblinDaoException("No @Database presented")
     database = annotation.database
     dynamic = annotation.dynamic
   }

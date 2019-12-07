@@ -1,8 +1,8 @@
 package org.goblinframework.dao.mongo.module.exception;
 
-import org.goblinframework.dao.core.exception.GoblinDatabaseException;
+import org.goblinframework.dao.core.exception.GoblinDaoException;
 
-public class MongoDaoException extends GoblinDatabaseException {
+public class MongoDaoException extends GoblinDaoException {
   private static final long serialVersionUID = 2926658123126584743L;
 
   public MongoDaoException() {

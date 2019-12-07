@@ -4,9 +4,9 @@ import org.goblinframework.api.dao.CreateTime;
 import org.goblinframework.api.dao.UpdateTime;
 import org.goblinframework.core.container.SpringContainerObject;
 import org.goblinframework.core.conversion.ConversionService;
-import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.core.util.DateFormatUtils;
+import org.goblinframework.dao.core.exception.GoblinEntityMappingException;
 import org.goblinframework.database.core.mapping.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +26,7 @@ abstract public class PersistenceEntityMappingSupport<E, ID> extends SpringConta
     ParameterizedType type = (ParameterizedType) genericSuperClass;
     Type[] typeArgs = type.getActualTypeArguments();
     if (typeArgs.length != 2) {
-      throw new GoblinMappingException("Incorrect generic type declaration: " + clazz.getName());
+      throw new GoblinEntityMappingException("Incorrect generic type declaration");
     }
     @SuppressWarnings("unchecked") Class<E> entityClass = (Class<E>) typeArgs[0];
     @SuppressWarnings("unchecked") Class<ID> idClass = (Class<ID>) typeArgs[1];
@@ -34,14 +34,13 @@ abstract public class PersistenceEntityMappingSupport<E, ID> extends SpringConta
     EntityMappingBuilder mappingBuilder = getEntityMappingBuilder();
     entityMapping = mappingBuilder.getEntityMapping(entityClass);
     if (entityMapping.idClass != idClass) {
-      throw new GoblinMappingException("Incorrect id class declaration [" + idClass.getName()
-          + "], actual is [" + entityMapping.idClass.getName() + "]");
+      throw new GoblinEntityMappingException("Incorrect id field type declaration");
     }
 
     Object mock = entityMapping.newInstance();
     for (EntityField field : entityMapping.asFieldList()) {
       if (field.getValue(mock) != null) {
-        throw new GoblinMappingException("No initial value allowed: " + entityClass.getName());
+        throw new GoblinEntityMappingException("No initial value allowed: " + entityClass.getName());
       }
     }
   }
