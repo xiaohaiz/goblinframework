@@ -1,6 +1,7 @@
 package org.goblinframework.database.mysql.support;
 
 import org.goblinframework.dao.mysql.annotation.GoblinTable;
+import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistenceConnectionSupport;
 import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +10,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import java.util.Collection;
 import java.util.Objects;
 
-abstract public class MysqlTableSupport<E, ID> extends MysqlClientSupport<E, ID> {
+abstract public class MysqlTableSupport<E, ID> extends MysqlPersistenceConnectionSupport<E, ID> {
 
   private final String table;
   private final boolean dynamic;
