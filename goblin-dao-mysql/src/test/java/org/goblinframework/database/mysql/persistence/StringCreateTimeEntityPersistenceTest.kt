@@ -23,7 +23,7 @@ class StringCreateTimeEntityPersistenceTest : SpringContainerObject() {
     val e = StringCreateTimeEntity()
     persistence.insert(e)
     val id = e.id
-    val inserted = persistence.load(id)
+    val inserted = persistence.load(id!!)
     assertNotNull(inserted)
     assertNotNull(inserted?.createTime)
     val createTime = DateFormatUtils.parse(inserted?.createTime)

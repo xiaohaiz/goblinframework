@@ -56,18 +56,18 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     __insert(entity);
   }
 
-  public void inserts(@Nullable final Collection<E> entities) {
+  public void inserts(@NotNull final Collection<E> entities) {
     __inserts(entities);
   }
 
   @Nullable
-  public E load(@Nullable final ID id) {
-    return __load(getMasterConnection(), id);
+  public E load(@NotNull final ID id) {
+    return __load(id, getMasterConnection());
   }
 
   @NotNull
-  public Map<ID, E> loads(@Nullable final Collection<ID> ids) {
-    return __loads(getMasterConnection(), ids);
+  public Map<ID, E> loads(@NotNull final Collection<ID> ids) {
+    return __loads(ids, getMasterConnection());
   }
 
   public boolean exists(@Nullable ID id) {

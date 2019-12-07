@@ -22,14 +22,14 @@ class UniqueIdEntityPersistenceTest : SpringContainerObject() {
     var e = UniqueIdEntity()
     persistence.insert(e)
     var id = e.id
-    var inserted = persistence.load(id)
+    var inserted = persistence.load(id!!)
     assertNotNull(inserted)
 
     e = UniqueIdEntity()
-    e.id = id?.plus(1)
+    e.id = id.plus(1)
     persistence.insert(e)
     id = e.id
-    inserted = persistence.load(id)
+    inserted = persistence.load(id!!)
     assertNotNull(inserted)
   }
 }
