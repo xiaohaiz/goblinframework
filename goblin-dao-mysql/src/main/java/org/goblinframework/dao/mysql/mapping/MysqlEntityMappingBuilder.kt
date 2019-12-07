@@ -12,6 +12,6 @@ class MysqlEntityMappingBuilder private constructor()
   : EntityMappingBuilder(MysqlEntityFieldScanner.INSTANCE, MysqlEntityFieldNameResolver.INSTANCE) {
 
   companion object {
-    val INSTANCE = MysqlEntityMappingBuilder()
+    @JvmField val INSTANCE = MysqlEntityMappingBuilder()
   }
 }
