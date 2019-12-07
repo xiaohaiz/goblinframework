@@ -3,6 +3,10 @@ package org.goblinframework.dao.mysql.persistence.internal;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.goblinframework.api.dao.GoblinId;
 import org.goblinframework.core.conversion.ConversionService;
+import org.goblinframework.core.reactor.BlockingListSubscriber;
+import org.goblinframework.core.reactor.CoreScheduler;
+import org.goblinframework.core.reactor.MultipleResultsPublisher;
+import org.goblinframework.core.util.GoblinReferenceCount;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.database.core.eql.Criteria;
@@ -25,6 +29,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.util.LinkedMultiValueMap;
+import reactor.core.scheduler.Scheduler;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -126,6 +132,59 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     Query query = Query.query(criteria);
     List<E> entities = __executeQuery(connectionForUse, query, tableName);
     return entities.stream().findFirst().orElse(null);
+  }
+
+  @NotNull
+  final public Map<ID, E> __loads(@NotNull final Collection<ID> ids, @Nullable final MysqlConnection connection) {
+    List<ID> idList = ids.stream().filter(Objects::nonNull).collect(Collectors.toList());
+    if (idList.isEmpty()) {
+      return Collections.emptyMap();
+    }
+    if (idList.size() == 1) {
+      ID id = idList.iterator().next();
+      E entity = __load(id, connection);
+      if (entity == null) {
+        return Collections.emptyMap();
+      } else {
+        Map<ID, E> entities = new LinkedHashMap<>();
+        entities.put(id, entity);
+        return entities;
+      }
+    }
+    AtomicReference<MysqlConnection> connectionReference = new AtomicReference<>(connection);
+    if (connection == null) {
+      connectionReference.set(getMasterConnection());
+    }
+    LinkedMultiValueMap<String, ID> groupedIds = groupIds(ids);
+    GoblinReferenceCount referenceCount = new GoblinReferenceCount(groupedIds.size());
+    MultipleResultsPublisher<E> publisher = new MultipleResultsPublisher<>(CoreScheduler.getInstance());
+    groupedIds.forEach((tn, ds) -> {
+      Scheduler scheduler = CoreScheduler.getInstance();
+      scheduler.schedule(() -> {
+        try {
+          Criteria criteria;
+          if (ds.size() == 1) {
+            ID id = ds.iterator().next();
+            criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
+          } else {
+            criteria = Criteria.where(entityMapping.getIdFieldName()).in(ds);
+          }
+          Query query = Query.query(criteria);
+          __executeQuery(connectionReference.get(), query, tn).forEach(publisher::onNext);
+          if (referenceCount.release()) {
+            publisher.complete(null);
+          }
+        } catch (Exception ex) {
+          publisher.complete(ex);
+        }
+      });
+    });
+    Map<ID, E> entities = new LinkedHashMap<>();
+    new BlockingListSubscriber<E>().subscribe(publisher).block().forEach(e -> {
+      ID id = getEntityId(e);
+      entities.put(id, e);
+    });
+    return entities;
   }
 
   @Nullable
