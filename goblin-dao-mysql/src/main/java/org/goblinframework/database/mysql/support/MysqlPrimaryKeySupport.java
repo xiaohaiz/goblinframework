@@ -3,13 +3,14 @@ package org.goblinframework.database.mysql.support;
 import org.bson.types.ObjectId;
 import org.goblinframework.api.dao.Id;
 import org.goblinframework.core.util.RandomUtils;
+import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistenceTableSupport;
 import org.goblinframework.database.core.mapping.EntityIdField;
 import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
 
-abstract public class MysqlPrimaryKeySupport<E, ID> extends MysqlTableSupport<E, ID> {
+abstract public class MysqlPrimaryKeySupport<E, ID> extends MysqlPersistenceTableSupport<E, ID> {
 
   private static final EnumSet<Id.Generator> supported;
 

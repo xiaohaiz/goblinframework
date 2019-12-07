@@ -1,8 +1,8 @@
-package org.goblinframework.database.mysql.support;
+package org.goblinframework.dao.mysql.persistence.internal;
 
+import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.dao.mysql.annotation.GoblinTable;
-import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistenceConnectionSupport;
-import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;
+import org.goblinframework.dao.mysql.exception.GoblinMysqlPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
@@ -10,21 +10,23 @@ import org.springframework.util.LinkedMultiValueMap;
 import java.util.Collection;
 import java.util.Objects;
 
-abstract public class MysqlTableSupport<E, ID> extends MysqlPersistenceConnectionSupport<E, ID> {
+abstract public class MysqlPersistenceTableSupport<E, ID> extends MysqlPersistenceConnectionSupport<E, ID> {
 
   private final String table;
   private final boolean dynamic;
 
-  protected MysqlTableSupport() {
-    Class<?> entityClass = entityMapping.entityClass;
-    GoblinTable annotation = entityClass.getAnnotation(GoblinTable.class);
+  protected MysqlPersistenceTableSupport() {
+    GoblinTable annotation = AnnotationUtils.getAnnotation(getClass(), GoblinTable.class);
     if (annotation == null) {
-      throw new GoblinPersistenceException("No @Table presented on entity: " + entityClass.getName());
+      throw new GoblinMysqlPersistenceException("No @GoblinTable presented");
     }
     this.table = annotation.table();
     this.dynamic = annotation.dynamic();
   }
 
+  protected boolean isDynamicTable() {
+    return dynamic;
+  }
 
   protected LinkedMultiValueMap<String, E> groupEntities(Collection<E> entities) {
     LinkedMultiValueMap<String, E> map = new LinkedMultiValueMap<>();

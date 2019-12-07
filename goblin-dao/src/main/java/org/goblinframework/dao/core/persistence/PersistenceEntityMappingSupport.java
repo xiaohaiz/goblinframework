@@ -101,4 +101,9 @@ abstract public class PersistenceEntityMappingSupport<E, ID> extends SpringConta
   protected void setEntityId(E entity, ID id) {
     entityMapping.setId(entity, id);
   }
+
+  @SuppressWarnings("unchecked")
+  protected Class<E> getEntityClass() {
+    return (Class<E>) entityMapping.entityClass;
+  }
 }
