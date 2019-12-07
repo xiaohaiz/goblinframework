@@ -1,16 +1,15 @@
-package org.goblinframework.dao.core.listener;
+package org.goblinframework.dao.core.persistence;
 
-import org.goblinframework.dao.core.mapping.EntityMappingSupport;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-abstract public class ListenerSupport<E, ID> extends EntityMappingSupport<E, ID> {
+abstract public class PersistenceListenerSupport<E, ID> extends PersistenceEntityMappingSupport<E, ID> {
 
   protected final List<BeforeInsertListener<E>> beforeInsertListeners = new ArrayList<>();
 
-  protected ListenerSupport() {
+  protected PersistenceListenerSupport() {
   }
 
   public void registerBeforeInsertListener(@NotNull BeforeInsertListener<E> listener) {

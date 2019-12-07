@@ -1,4 +1,4 @@
-package org.goblinframework.dao.core.mapping;
+package org.goblinframework.dao.core.persistence;
 
 import org.goblinframework.api.dao.CreateTime;
 import org.goblinframework.api.dao.UpdateTime;
@@ -16,11 +16,11 @@ import java.lang.reflect.Type;
 /**
  * NOTE: spring container supported is optional.
  */
-abstract public class EntityMappingSupport<E, ID> extends SpringContainerObject {
+abstract public class PersistenceEntityMappingSupport<E, ID> extends SpringContainerObject {
 
   protected final EntityMapping entityMapping;
 
-  protected EntityMappingSupport() {
+  protected PersistenceEntityMappingSupport() {
     Class<?> clazz = ClassUtils.filterCglibProxyClass(getClass());
     Type genericSuperClass = clazz.getGenericSuperclass();
     ParameterizedType type = (ParameterizedType) genericSuperClass;

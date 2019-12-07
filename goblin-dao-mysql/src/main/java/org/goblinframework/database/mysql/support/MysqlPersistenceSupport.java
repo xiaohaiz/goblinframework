@@ -5,7 +5,7 @@ import org.goblinframework.api.dao.Id;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.dao.core.listener.BeforeInsertListener;
+import org.goblinframework.dao.core.persistence.BeforeInsertListener;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.core.eql.NativeSQL;
 import org.goblinframework.database.core.eql.Query;
