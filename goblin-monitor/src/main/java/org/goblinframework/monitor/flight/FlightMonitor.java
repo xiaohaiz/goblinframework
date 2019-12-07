@@ -77,20 +77,13 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
   }
 
   @Override
-  public void attachFlight(@NotNull Instruction instruction) {
-    attachFlight(null, instruction);
-  }
-
-  @Override
   public void attachFlight(@Nullable FlightId flightId, @NotNull Instruction instruction) {
-    FlightId id = flightId;
-    if (id == null) {
-      id = threadLocal.get();
+    FlightImpl flight;
+    if (flightId == null) {
+      flight = (FlightImpl) currentFlight();
+    } else {
+      flight = FlightPool.INSTANCE.get(flightId);
     }
-    if (id == null) {
-      return;
-    }
-    FlightImpl flight = FlightPool.INSTANCE.get(id);
     if (flight != null) {
       if (instruction instanceof Flight.Aware) {
         ((Flight.Aware) instruction).setFlight(flight);
@@ -102,7 +95,8 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
   @Override
   public void dot(@Nullable String name) {
     String dotName = StringUtils.defaultString(name, "unspecified");
-    attachFlight(new DOT(dotName));
+    FlightId flightId = FlightRecorder.currentThreadFlightId();
+    attachFlight(flightId, new DOT(dotName));
   }
 
   @Install
@@ -124,11 +118,6 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
     @Override
     public Flight currentFlight() {
       return INSTANCE.currentFlight();
-    }
-
-    @Override
-    public void attachFlight(@NotNull Instruction instruction) {
-      INSTANCE.attachFlight(instruction);
     }
 
     @Override

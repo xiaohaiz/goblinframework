@@ -105,7 +105,8 @@ abstract public class AbstractInstruction implements Instruction {
       startTime = Instant.now();
       IFlightMonitor monitor = FlightRecorder.getFlightMonitor();
       if (monitor != null) {
-        monitor.attachFlight(this);
+        FlightId flightId = FlightRecorder.currentThreadFlightId();
+        monitor.attachFlight(flightId, this);
       }
     }
   }

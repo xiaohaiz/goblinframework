@@ -27,8 +27,6 @@ public interface IFlightMonitor {
   @Nullable
   Flight currentFlight();
 
-  void attachFlight(@NotNull Instruction instruction);
-
   void attachFlight(@Nullable FlightId flightId, @NotNull Instruction instruction);
 
   void dot(@Nullable String name);

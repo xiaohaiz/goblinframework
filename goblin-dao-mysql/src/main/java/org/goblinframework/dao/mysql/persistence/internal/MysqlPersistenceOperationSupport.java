@@ -3,6 +3,8 @@ package org.goblinframework.dao.mysql.persistence.internal;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.goblinframework.api.dao.GoblinId;
 import org.goblinframework.core.conversion.ConversionService;
+import org.goblinframework.core.monitor.Flight;
+import org.goblinframework.core.monitor.FlightRecorder;
 import org.goblinframework.core.reactor.BlockingListSubscriber;
 import org.goblinframework.core.reactor.CoreScheduler;
 import org.goblinframework.core.reactor.MultipleResultsPublisher;
@@ -157,26 +159,29 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     }
     LinkedMultiValueMap<String, ID> groupedIds = groupIds(ids);
     GoblinReferenceCount referenceCount = new GoblinReferenceCount(groupedIds.size());
-    MultipleResultsPublisher<E> publisher = new MultipleResultsPublisher<>(CoreScheduler.getInstance());
+    MultipleResultsPublisher<E> publisher = new MultipleResultsPublisher<>(null);
+    Flight flight = FlightRecorder.currentThreadFlight();
     groupedIds.forEach((tn, ds) -> {
       Scheduler scheduler = CoreScheduler.getInstance();
       scheduler.schedule(() -> {
-        try {
-          Criteria criteria;
-          if (ds.size() == 1) {
-            ID id = ds.iterator().next();
-            criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
-          } else {
-            criteria = Criteria.where(entityMapping.getIdFieldName()).in(ds);
+        FlightRecorder.executeWithFlight(flight, () -> {
+          try {
+            Criteria criteria;
+            if (ds.size() == 1) {
+              ID id = ds.iterator().next();
+              criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
+            } else {
+              criteria = Criteria.where(entityMapping.getIdFieldName()).in(ds);
+            }
+            Query query = Query.query(criteria);
+            __executeQuery(connectionReference.get(), query, tn).forEach(publisher::onNext);
+            if (referenceCount.release()) {
+              publisher.complete(null);
+            }
+          } catch (Exception ex) {
+            publisher.complete(ex);
           }
-          Query query = Query.query(criteria);
-          __executeQuery(connectionReference.get(), query, tn).forEach(publisher::onNext);
-          if (referenceCount.release()) {
-            publisher.complete(null);
-          }
-        } catch (Exception ex) {
-          publisher.complete(ex);
-        }
+        });
       });
     });
     Map<ID, E> entities = new LinkedHashMap<>();
