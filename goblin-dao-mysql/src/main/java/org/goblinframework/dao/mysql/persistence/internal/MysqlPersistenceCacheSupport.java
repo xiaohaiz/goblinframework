@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.support;
+package org.goblinframework.dao.mysql.persistence.internal;
 
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableLong;
@@ -11,7 +11,6 @@ import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.dao.core.annotation.GoblinCacheDimension;
-import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistenceOperationSupport;
 import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,12 +23,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-abstract public class MysqlCachedPersistenceSupport<E, ID> extends MysqlPersistenceOperationSupport<E, ID> {
+abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersistenceOperationSupport<E, ID> {
 
   private final CacheBean cacheBean;
   private final GoblinCacheDimension.Dimension dimension;
 
-  protected MysqlCachedPersistenceSupport() {
+  protected MysqlPersistenceCacheSupport() {
     this.cacheBean = CacheBeanManager.getGoblinCacheBean(getClass());
     if (this.cacheBean.isEmpty()) {
       dimension = GoblinCacheDimension.Dimension.NONE;
