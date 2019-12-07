@@ -47,7 +47,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     updateTranslator = MysqlUpdateTranslator.INSTANCE;
   }
 
-  public void insert(@NotNull E entity) {
+  public void insert(@NotNull final E entity) {
     __insert(entity);
   }
 
@@ -65,23 +65,23 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return __loads(ids, getMasterConnection());
   }
 
-  public boolean exists(@NotNull ID id) {
+  public boolean exists(@NotNull final ID id) {
     return __exists(id, getMasterConnection());
   }
 
-  public boolean replace(@NotNull E entity) {
+  public boolean replace(@NotNull final E entity) {
     return __replace(entity);
   }
 
-  public boolean upsert(@Nullable E entity) {
+  public boolean upsert(@NotNull final E entity) {
     return __upsert(entity);
   }
 
-  public boolean delete(@Nullable ID id) {
+  public boolean delete(@NotNull final ID id) {
     return __delete(id);
   }
 
-  public long deletes(@Nullable Collection<ID> ids) {
+  public long deletes(@NotNull final Collection<ID> ids) {
     return __deletes(ids);
   }
 

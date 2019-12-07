@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
@@ -77,4 +77,16 @@ public class GoblinDynamicPersistenceTest {
     assertEquals(100, records.size());
   }
 
+
+  @Test
+  @RebuildMysqlTable(name = "_ut", table = "UT_USER_LOGIN_RECORD_{}")
+  public void exists() {
+    Long userId = 10L;
+    assertFalse(userLoginRecordPersistence.exists(userId));
+    UserLoginRecord record = new UserLoginRecord();
+    record.userId = userId;
+    record.loginTime = new Date();
+    userLoginRecordPersistence.insert(record);
+    assertTrue(userLoginRecordPersistence.exists(userId));
+  }
 }
