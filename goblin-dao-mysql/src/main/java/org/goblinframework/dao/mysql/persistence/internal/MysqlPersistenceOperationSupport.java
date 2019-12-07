@@ -64,8 +64,8 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return __loads(ids, getMasterConnection());
   }
 
-  public boolean exists(@Nullable ID id) {
-    return __exists(getMasterConnection(), id);
+  public boolean exists(@NotNull ID id) {
+    return __exists(id, getMasterConnection());
   }
 
   public boolean replace(@Nullable E entity) {
@@ -173,13 +173,16 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return MapUtils.resort(entities, idList);
   }
 
-  final public boolean __exists(@NotNull final MysqlConnection connection,
-                                @Nullable ID id) {
-    if (id == null) return false;
+  final public boolean __exists(@NotNull ID id,
+                                @Nullable final MysqlConnection connection) {
+    AtomicReference<MysqlConnection> connectionReference = new AtomicReference<>(connection);
+    if (connection == null) {
+      connectionReference.set(getMasterConnection());
+    }
     Criteria criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
     Query query = Query.query(criteria);
     String tableName = getIdTableName(id);
-    return __executeCount(connection, query, tableName) > 0;
+    return __executeCount(connectionReference.get(), query, tableName) > 0;
   }
 
   final public boolean __replace(@Nullable E entity) {

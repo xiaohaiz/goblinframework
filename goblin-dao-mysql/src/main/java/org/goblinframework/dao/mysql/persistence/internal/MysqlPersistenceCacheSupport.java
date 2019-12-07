@@ -113,7 +113,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
   public boolean exists(@Nullable ID id) {
     if (id == null) return false;
     if (!hasIdCache()) {
-      return __exists(getMasterConnection(), id);
+      return __exists(id, getMasterConnection());
     }
     String idCacheKey = generateCacheKey(id);
     GoblinCache gc = getDefaultCache();
@@ -121,7 +121,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
     if (gr.hit) {
       return gr.value != null;
     } else {
-      return __exists(getMasterConnection(), id);
+      return __exists(id, getMasterConnection());
     }
   }
 
