@@ -66,6 +66,16 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
     return flight;
   }
 
+  @Nullable
+  @Override
+  public Flight currentFlight() {
+    FlightIdImpl id = threadLocal.get();
+    if (id == null) {
+      return null;
+    }
+    return FlightPool.INSTANCE.get(id);
+  }
+
   @Override
   public void attachFlight(@NotNull Instruction instruction) {
     attachFlight(null, instruction);
@@ -108,6 +118,12 @@ final public class FlightMonitor implements IFlightMonitor, Ordered {
     @Override
     public FlightImpl terminateFlight() {
       return INSTANCE.terminateFlight();
+    }
+
+    @Nullable
+    @Override
+    public Flight currentFlight() {
+      return INSTANCE.currentFlight();
     }
 
     @Override

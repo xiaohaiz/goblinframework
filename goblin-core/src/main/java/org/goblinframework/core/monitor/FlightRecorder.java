@@ -26,6 +26,14 @@ abstract public class FlightRecorder {
     return flightMonitor;
   }
 
+  @Nullable
+  public static Flight currentThreadFlight() {
+    if (flightMonitor == null) {
+      return null;
+    }
+    return flightMonitor.currentFlight();
+  }
+
   public static void dot(@NotNull String name) {
     if (flightMonitor != null) {
       flightMonitor.dot(name);

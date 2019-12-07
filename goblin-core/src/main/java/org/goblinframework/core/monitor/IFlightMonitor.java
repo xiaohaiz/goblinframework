@@ -18,6 +18,15 @@ public interface IFlightMonitor {
   @Nullable
   Flight terminateFlight();
 
+  /**
+   * Try to lookup Flight of current thread, this operation takes no
+   * effects to Flight's reference count.
+   *
+   * @return Flight of current thread, return null if not Flight found
+   */
+  @Nullable
+  Flight currentFlight();
+
   void attachFlight(@NotNull Instruction instruction);
 
   void attachFlight(@Nullable FlightId flightId, @NotNull Instruction instruction);
