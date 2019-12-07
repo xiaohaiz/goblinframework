@@ -6,5 +6,6 @@
                            http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
   <context:component-scan base-package="org.goblinframework.database.mysql"/>
+  <context:component-scan base-package="org.goblinframework.dao.mysql"/>
 
 </beans>

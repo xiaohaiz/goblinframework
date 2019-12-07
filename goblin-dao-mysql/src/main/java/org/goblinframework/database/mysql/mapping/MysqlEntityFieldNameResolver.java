@@ -1,7 +1,7 @@
 package org.goblinframework.database.mysql.mapping;
 
 import org.goblinframework.api.annotation.Singleton;
-import org.goblinframework.api.dao.Field;
+import org.goblinframework.api.dao.GoblinField;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.database.core.mapping.EntityField;
 import org.goblinframework.database.core.mapping.EntityFieldNameResolver;
@@ -18,7 +18,7 @@ final public class MysqlEntityFieldNameResolver implements EntityFieldNameResolv
   @NotNull
   @Override
   public String resolve(@NotNull EntityField field) {
-    Field annotation = field.getAnnotation(Field.class);
+    GoblinField annotation = field.getAnnotation(GoblinField.class);
     if (annotation != null && StringUtils.isNotBlank(annotation.value())) {
       return annotation.value().trim();
     }
