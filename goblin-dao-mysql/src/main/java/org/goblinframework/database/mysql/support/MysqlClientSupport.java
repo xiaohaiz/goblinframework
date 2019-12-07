@@ -3,6 +3,7 @@ package org.goblinframework.database.mysql.support;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.dao.core.annotation.GoblinConnection;
+import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistenceEntityMappingSupport;
 import org.goblinframework.database.mysql.client.MysqlClient;
 import org.goblinframework.database.mysql.client.MysqlClientManager;
 import org.goblinframework.database.mysql.client.MysqlMasterConnection;
@@ -10,7 +11,7 @@ import org.goblinframework.database.mysql.client.MysqlSlaveConnection;
 import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 
-abstract public class MysqlClientSupport<E, ID> extends MysqlEntityMappingSupport<E, ID> {
+abstract public class MysqlClientSupport<E, ID> extends MysqlPersistenceEntityMappingSupport<E, ID> {
 
   private final MysqlClient client;
 

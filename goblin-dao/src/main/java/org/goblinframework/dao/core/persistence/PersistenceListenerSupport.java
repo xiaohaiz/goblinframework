@@ -10,6 +10,12 @@ abstract public class PersistenceListenerSupport<E, ID> extends PersistenceEntit
   protected final List<BeforeInsertListener<E>> beforeInsertListeners = new ArrayList<>();
 
   protected PersistenceListenerSupport() {
+    registerBeforeInsertListener(e -> {
+      long millis = System.currentTimeMillis();
+      touchCreateTime(e, millis);
+      touchUpdateTime(e, millis);
+      initializeRevision(e);
+    });
   }
 
   public void registerBeforeInsertListener(@NotNull BeforeInsertListener<E> listener) {
