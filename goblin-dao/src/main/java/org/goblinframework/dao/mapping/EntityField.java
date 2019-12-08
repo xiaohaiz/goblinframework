@@ -1,4 +1,4 @@
-package org.goblinframework.database.core.mapping;
+package org.goblinframework.dao.mapping;
 
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.goblinframework.core.exception.GoblinMappingException;

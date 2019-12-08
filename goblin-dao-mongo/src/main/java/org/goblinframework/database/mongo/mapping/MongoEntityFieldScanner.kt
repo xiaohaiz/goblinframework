@@ -6,7 +6,7 @@ import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.exception.GoblinMappingException
 import org.goblinframework.core.util.GoblinField
 import org.goblinframework.core.util.ReflectionUtils
-import org.goblinframework.database.core.mapping.EntityFieldScanner
+import org.goblinframework.dao.mapping.EntityFieldScanner
 
 @Singleton
 class MongoEntityFieldScanner private constructor() : EntityFieldScanner {

@@ -24,7 +24,7 @@ import org.goblinframework.core.util.NumberUtils;
 import org.goblinframework.dao.ql.Criteria;
 import org.goblinframework.dao.ql.Query;
 import org.goblinframework.dao.ql.Update;
-import org.goblinframework.database.core.mapping.EntityRevisionField;
+import org.goblinframework.dao.mapping.EntityRevisionField;
 import org.goblinframework.database.mongo.bson.BsonConversionService;
 import org.goblinframework.database.mongo.eql.MongoCriteriaTranslator;
 import org.goblinframework.database.mongo.eql.MongoQueryTranslator;

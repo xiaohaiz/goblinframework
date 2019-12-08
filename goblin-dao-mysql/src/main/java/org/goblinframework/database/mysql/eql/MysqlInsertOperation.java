@@ -3,7 +3,7 @@ package org.goblinframework.database.mysql.eql;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.database.core.mapping.*;
+import org.goblinframework.dao.mapping.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.SqlParameter;

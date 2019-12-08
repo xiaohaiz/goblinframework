@@ -5,7 +5,7 @@ import org.goblinframework.core.conversion.ConversionUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.dao.ql.NativeSQL;
 import org.goblinframework.dao.ql.Query;
-import org.goblinframework.database.core.mapping.EntityMapping;
+import org.goblinframework.dao.mapping.EntityMapping;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 

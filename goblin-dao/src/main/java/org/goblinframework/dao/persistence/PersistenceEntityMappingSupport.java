@@ -7,7 +7,7 @@ import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.core.util.DateFormatUtils;
 import org.goblinframework.dao.exception.GoblinEntityMappingException;
-import org.goblinframework.database.core.mapping.*;
+import org.goblinframework.dao.mapping.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.ParameterizedType;

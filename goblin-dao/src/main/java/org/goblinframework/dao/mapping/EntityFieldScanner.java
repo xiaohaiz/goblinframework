@@ -1,4 +1,4 @@
-package org.goblinframework.database.core.mapping;
+package org.goblinframework.dao.mapping;
 
 import org.goblinframework.core.util.GoblinField;
 import org.jetbrains.annotations.NotNull;

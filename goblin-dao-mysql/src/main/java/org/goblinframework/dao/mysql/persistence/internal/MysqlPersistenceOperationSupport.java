@@ -10,7 +10,7 @@ import org.goblinframework.dao.ql.Criteria;
 import org.goblinframework.dao.ql.NativeSQL;
 import org.goblinframework.dao.ql.Query;
 import org.goblinframework.dao.ql.Update;
-import org.goblinframework.database.core.mapping.EntityRevisionField;
+import org.goblinframework.dao.mapping.EntityRevisionField;
 import org.goblinframework.database.mysql.client.MysqlConnection;
 import org.goblinframework.database.mysql.eql.*;
 import org.goblinframework.database.mysql.mapping.MysqlEntityRowMapper;

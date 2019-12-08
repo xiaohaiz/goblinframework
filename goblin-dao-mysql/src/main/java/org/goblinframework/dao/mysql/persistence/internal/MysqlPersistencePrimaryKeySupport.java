@@ -4,7 +4,7 @@ import org.bson.types.ObjectId;
 import org.goblinframework.api.dao.GoblinId;
 import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.dao.mysql.exception.GoblinMysqlPersistenceException;
-import org.goblinframework.database.core.mapping.EntityIdField;
+import org.goblinframework.dao.mapping.EntityIdField;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;

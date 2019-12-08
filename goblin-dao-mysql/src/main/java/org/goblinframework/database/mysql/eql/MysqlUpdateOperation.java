@@ -1,7 +1,7 @@
 package org.goblinframework.database.mysql.eql;
 
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.database.core.mapping.*;
+import org.goblinframework.dao.mapping.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
