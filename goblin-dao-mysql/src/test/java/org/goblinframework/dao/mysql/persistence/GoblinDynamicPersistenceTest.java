@@ -6,7 +6,8 @@ import org.goblinframework.api.dao.GoblinRevision;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.dao.core.annotation.GoblinConnection;
 import org.goblinframework.dao.mysql.annotation.GoblinTable;
-import org.goblinframework.database.mysql.module.test.RebuildMysqlTable;
+import org.goblinframework.dao.mysql.module.test.RebuildTable;
+import org.goblinframework.dao.mysql.module.test.RebuildTableScope;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
@@ -57,10 +58,10 @@ public class GoblinDynamicPersistenceTest {
   private UserLoginRecordPersistence userLoginRecordPersistence;
 
   @Test
-  @RebuildMysqlTable(
-      name = "_ut",
+  @RebuildTable(
+      connection = "_ut",
       table = "UT_USER_LOGIN_RECORD_{}",
-      to = 9
+      scope = @RebuildTableScope(to = 9)
   )
   public void userLoginRecordPersistence() {
     List<UserLoginRecord> recordList = new ArrayList<>();
@@ -79,7 +80,11 @@ public class GoblinDynamicPersistenceTest {
 
 
   @Test
-  @RebuildMysqlTable(name = "_ut", table = "UT_USER_LOGIN_RECORD_{}")
+  @RebuildTable(
+      connection = "_ut",
+      table = "UT_USER_LOGIN_RECORD_{}",
+      scope = @RebuildTableScope
+  )
   public void exists() {
     Long userId = 10L;
     assertFalse(userLoginRecordPersistence.exists(userId));
@@ -91,7 +96,11 @@ public class GoblinDynamicPersistenceTest {
   }
 
   @Test
-  @RebuildMysqlTable(name = "_ut", table = "UT_USER_LOGIN_RECORD_{}")
+  @RebuildTable(
+      connection = "_ut",
+      table = "UT_USER_LOGIN_RECORD_{}",
+      scope = @RebuildTableScope
+  )
   public void replace() {
     Long userId = 10L;
     UserLoginRecord record = new UserLoginRecord();
@@ -115,7 +124,11 @@ public class GoblinDynamicPersistenceTest {
   }
 
   @Test
-  @RebuildMysqlTable(name = "_ut", table = "UT_USER_LOGIN_RECORD_{}")
+  @RebuildTable(
+      connection = "_ut",
+      table = "UT_USER_LOGIN_RECORD_{}",
+      scope = @RebuildTableScope
+  )
   public void upsert() {
     Long userId = 10L;
     UserLoginRecord record = new UserLoginRecord();

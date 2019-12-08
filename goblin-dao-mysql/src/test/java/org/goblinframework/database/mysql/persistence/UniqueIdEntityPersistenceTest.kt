@@ -1,7 +1,6 @@
 package org.goblinframework.database.mysql.persistence
 
 import org.goblinframework.core.container.SpringContainerObject
-import org.goblinframework.database.mysql.module.test.RebuildMysqlTable
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertNotNull
 import org.junit.Test
@@ -17,7 +16,6 @@ class UniqueIdEntityPersistenceTest : SpringContainerObject() {
   @Inject private lateinit var persistence: UniqueIdEntityPersistence
 
   @Test
-  @RebuildMysqlTable(name = "_ut", entity = UniqueIdEntity::class)
   fun uniqueIdEntity() {
     var e = UniqueIdEntity()
     persistence.insert(e)

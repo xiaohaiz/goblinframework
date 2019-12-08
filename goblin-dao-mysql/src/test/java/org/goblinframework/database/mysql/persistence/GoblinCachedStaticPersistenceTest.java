@@ -12,7 +12,6 @@ import org.goblinframework.dao.core.annotation.GoblinConnection;
 import org.goblinframework.dao.mysql.annotation.GoblinTable;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.core.eql.Query;
-import org.goblinframework.database.mysql.module.test.RebuildMysqlTable;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
@@ -54,7 +53,6 @@ public class GoblinCachedStaticPersistenceTest {
   @Inject private MockDataPersistence persistence;
 
   @Test
-  @RebuildMysqlTable(name = "_ut", entity = GoblinStaticPersistenceTest.MockData.class)
   public void persistence() {
     boolean ret = persistence.exists(1L);
     assertFalse(ret);

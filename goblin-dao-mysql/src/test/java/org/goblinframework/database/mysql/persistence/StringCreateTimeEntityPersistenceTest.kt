@@ -2,7 +2,6 @@ package org.goblinframework.database.mysql.persistence
 
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.util.DateFormatUtils
-import org.goblinframework.database.mysql.module.test.RebuildMysqlTable
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertNotNull
 import org.junit.Test
@@ -18,7 +17,6 @@ class StringCreateTimeEntityPersistenceTest : SpringContainerObject() {
   @Inject private lateinit var persistence: StringCreateTimeEntityPersistence
 
   @Test
-  @RebuildMysqlTable(name = "_ut", entity = StringCreateTimeEntity::class)
   fun stringCreateTimeEntity() {
     val e = StringCreateTimeEntity()
     persistence.insert(e)
