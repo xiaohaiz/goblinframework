@@ -273,58 +273,6 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
   }
 
   @NotNull
-  final public Publisher<E> __loads(@Nullable Collection<ID> ids) {
-    MultipleResultsPublisher<E> publisher = createMultipleResultsPublisher();
-    if (ids == null || ids.isEmpty()) {
-      publisher.complete(null);
-      return publisher;
-    }
-    LinkedMultiValueMap<MongoNamespace, ID> grouped = groupIds(ids);
-    publisher.initializeCount(grouped.size());
-    grouped.forEach((ns, ds) -> {
-      MongoDatabase database = mongoClient.getDatabase(ns.getDatabaseName());
-      MongoCollection<BsonDocument> collection = database.getCollection(ns.getCollectionName(), BsonDocument.class);
-      Criteria criteria;
-      if (ds.size() == 1) {
-        criteria = Criteria.where("_id").is(ds.iterator().next());
-      } else {
-        criteria = Criteria.where("_id").in(ds);
-      }
-      Bson filter = criteriaTranslator.translate(criteria);
-      FindPublisher<BsonDocument> findPublisher = collection.find(filter, BsonDocument.class);
-      findPublisher.subscribe(new Subscriber<BsonDocument>() {
-        @Override
-        public void onSubscribe(Subscription s) {
-          s.request(Long.MAX_VALUE);
-        }
-
-        @Override
-        public void onNext(BsonDocument bsonDocument) {
-          try {
-            E loaded = convertBsonDocument(bsonDocument);
-            Objects.requireNonNull(loaded);
-            publisher.onNext(loaded);
-          } catch (Exception ex) {
-            publisher.complete(ex);
-          }
-        }
-
-        @Override
-        public void onError(Throwable t) {
-          publisher.complete(t);
-        }
-
-        @Override
-        public void onComplete() {
-          publisher.release();
-        }
-      });
-    });
-
-    return publisher;
-  }
-
-  @NotNull
   final public Publisher<Boolean> __exists(@NotNull ID id, @Nullable ReadPreference readPreference) {
     MongoNamespace namespace = getIdNamespace(id);
     Criteria criteria = Criteria.where("_id").is(id);
