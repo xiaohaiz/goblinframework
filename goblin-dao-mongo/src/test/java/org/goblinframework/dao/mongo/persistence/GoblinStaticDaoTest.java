@@ -92,4 +92,13 @@ public class GoblinStaticDaoTest {
     Map<Long, User> map = userDao.loads(ids);
     assertEquals(3, map.size());
   }
+
+  @Test
+  public void exists() {
+    assertFalse(userDao.exists(1L));
+    User user = new User();
+    user.userId = 1L;
+    userDao.insert(user);
+    assertTrue(userDao.exists(1L));
+  }
 }

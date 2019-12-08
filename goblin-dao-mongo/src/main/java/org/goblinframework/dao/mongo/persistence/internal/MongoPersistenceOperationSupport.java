@@ -79,10 +79,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
   }
 
   public boolean exists(@NotNull final ID id) {
-    Publisher<Boolean> publisher = __exists(id, ReadPreference.primary());
-    BlockingMonoSubscriber<Boolean> subscriber = new BlockingMonoSubscriber<>();
-    publisher.subscribe(subscriber);
-    return ConversionUtils.toBoolean(subscriber.block());
+    return __exists(id, ReadPreference.primary());
   }
 
   @Nullable
@@ -123,8 +120,11 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     Publisher<Success> insertPublisher = collection.insertOne(document);
     BlockingMonoSubscriber<Success> subscriber = new BlockingMonoSubscriber<>();
     insertPublisher.subscribe(subscriber);
-    subscriber.block();
-    subscriber.dispose();
+    try {
+      subscriber.block();
+    } finally {
+      subscriber.dispose();
+    }
   }
 
   /**
@@ -153,8 +153,11 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
             Publisher<Success> insertPublisher = collection.insertMany(documents);
             BlockingListSubscriber<Success> subscriber = new BlockingListSubscriber<>();
             insertPublisher.subscribe(subscriber);
-            subscriber.block();
-            subscriber.dispose();
+            try {
+              subscriber.block();
+            } finally {
+              subscriber.dispose();
+            }
           } catch (Throwable ex) {
             publisher.onError(ex);
           } finally {
@@ -178,8 +181,12 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     FindPublisher<BsonDocument> findPublisher = collection.find(filter);
     BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
     subscriber.subscribe(findPublisher);
-    List<BsonDocument> documents = subscriber.block();
-    subscriber.dispose();
+    List<BsonDocument> documents;
+    try {
+      documents = subscriber.block();
+    } finally {
+      subscriber.dispose();
+    }
     BsonDocument document = documents.stream().findFirst().orElse(null);
     return convertBsonDocument(document);
   }
@@ -272,39 +279,32 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return MapUtils.resort(entities, idList);
   }
 
-  @NotNull
-  final public Publisher<Boolean> __exists(@NotNull ID id, @Nullable ReadPreference readPreference) {
-    MongoNamespace namespace = getIdNamespace(id);
+  /**
+   * Check if specified id exists or not.
+   *
+   * @param id             Id to be checked.
+   * @param readPreference Read preference, use default in case of null passed in.
+   * @return Exists or not.
+   */
+  final public boolean __exists(@NotNull final ID id,
+                                @Nullable final ReadPreference readPreference) {
     Criteria criteria = Criteria.where("_id").is(id);
     Bson filter = criteriaTranslator.translate(criteria);
-    MongoDatabase database = mongoClient.getDatabase(namespace.getDatabaseName());
-    MongoCollection<BsonDocument> collection = database.getCollection(namespace.getCollectionName(), BsonDocument.class);
+    MongoNamespace namespace = getIdNamespace(id);
+    MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
     if (readPreference != null) {
       collection = collection.withReadPreference(readPreference);
     }
-    SingleResultPublisher<Boolean> publisher = createSingleResultPublisher();
-    collection.countDocuments(filter).subscribe(new Subscriber<Long>() {
-      @Override
-      public void onSubscribe(Subscription s) {
-        s.request(1);
-      }
-
-      @Override
-      public void onNext(Long aLong) {
-        long count = NumberUtils.toLong(aLong);
-        publisher.complete(count > 0, null);
-      }
-
-      @Override
-      public void onError(Throwable t) {
-        publisher.complete(null, t);
-      }
-
-      @Override
-      public void onComplete() {
-      }
-    });
-    return publisher;
+    Publisher<Long> countPublisher = collection.countDocuments(filter);
+    BlockingMonoSubscriber<Long> subscriber = new BlockingMonoSubscriber<>();
+    subscriber.subscribe(countPublisher);
+    Long count;
+    try {
+      count = subscriber.block();
+    } finally {
+      subscriber.dispose();
+    }
+    return NumberUtils.toLong(count) > 0;
   }
 
   @NotNull
@@ -624,8 +624,12 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     }
     BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
     subscriber.subscribe(findPublisher);
-    List<BsonDocument> documents = subscriber.block();
-    subscriber.dispose();
+    List<BsonDocument> documents;
+    try {
+      documents = subscriber.block();
+    } finally {
+      subscriber.dispose();
+    }
     return convertBsonDocuments(documents);
   }
 }
