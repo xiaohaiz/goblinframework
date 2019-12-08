@@ -4,10 +4,11 @@ import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.ClassUtils
 import org.goblinframework.dao.annotation.PersistenceConnection
 import org.goblinframework.dao.exception.GoblinDaoException
+import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceEntityMappingSupport
 import org.goblinframework.database.mongo.client.MongoClient
 import org.goblinframework.database.mongo.client.MongoClientManager
 
-abstract class MongoClientSupport<E, ID> : MongoEntityMappingSupport<E, ID>() {
+abstract class MongoClientSupport<E, ID> : MongoPersistenceEntityMappingSupport<E, ID>() {
 
   private val client: MongoClient
 
