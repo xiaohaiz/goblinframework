@@ -90,7 +90,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
 
   @Nullable
   public E upsert(@NotNull final E entity) {
-    Publisher<E> publisher = __upsert(entity);
+    Publisher<E> publisher = __upsert1(entity);
     return new BlockingMonoSubscriber<E>().subscribe(publisher).block();
   }
 
@@ -325,6 +325,12 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     }
     Bson filter = criteriaTranslator.translate(criteria);
     Update update = new Update();
+    entityMapping.updateTimeFields.forEach(ut -> {
+      Object val = ut.getField().get(entity);
+      if (val != null) {
+        update.set(ut.getName(), val);
+      }
+    });
     entityMapping.normalFields.forEach(n -> {
       Object val = n.getField().get(entity);
       if (val != null) {
@@ -355,7 +361,65 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
   }
 
   @NotNull
-  final public Publisher<E> __upsert(@NotNull final E entity) {
+  final public E __upsert(@NotNull final E entity) {
+    ID id = getEntityId(entity);
+    if (id == null) {
+      // No id field specified, redirect to insert operation
+      __insert(entity);
+      return entity;
+    }
+    beforeInsert(entity);
+
+    Criteria criteria = Criteria.where("_id").is(id);
+    Bson filter = criteriaTranslator.translate(criteria);
+    Update update = new Update();
+    entityMapping.createTimeFields.forEach(ct -> {
+      Object val = ct.getField().get(entity);
+      if (val != null) {
+        update.setOnInsert(ct.getName(), val);
+      }
+    });
+    entityMapping.updateTimeFields.forEach(ut -> {
+      Object val = ut.getField().get(entity);
+      if (val != null) {
+        update.set(ut.getName(), val);
+      }
+    });
+    entityMapping.normalFields.forEach(n -> {
+      Object val = n.getField().get(entity);
+      if (val != null) {
+        update.set(n.getName(), val);
+      }
+    });
+    if (entityMapping.revisionField != null) {
+      update.inc(entityMapping.revisionField.getName(), 1);
+    }
+    if (update.export().isEmpty()) {
+      // There is nothing field(s) found when executing upsert operation, direct to insert
+      __insert(entity);
+      return entity;
+    }
+    MongoNamespace namespace = getIdNamespace(id);
+    MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
+    collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
+    FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER);
+    Publisher<BsonDocument> upsertPublisher = collection.findOneAndUpdate(filter, updateTranslator.translate(update), options);
+    BlockingMonoSubscriber<BsonDocument> subscriber = new BlockingMonoSubscriber<>();
+    upsertPublisher.subscribe(subscriber);
+    BsonDocument upserted;
+    try {
+      upserted = subscriber.block();
+    } finally {
+      subscriber.dispose();
+    }
+    E result = convertBsonDocument(upserted);
+    assert result != null;
+    return result;
+  }
+
+  @NotNull
+  @Deprecated
+  final public Publisher<E> __upsert1(@NotNull final E entity) {
     ID id = getEntityId(entity);
     if (id == null) {
       // No id field specified, redirect to insert operation
