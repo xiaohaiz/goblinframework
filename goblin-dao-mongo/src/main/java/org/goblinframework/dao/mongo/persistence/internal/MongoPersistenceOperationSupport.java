@@ -13,7 +13,6 @@ import com.mongodb.reactivestreams.client.Success;
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.conversions.Bson;
-import org.goblinframework.core.conversion.ConversionUtils;
 import org.goblinframework.core.monitor.FlightExecutor;
 import org.goblinframework.core.monitor.FlightRecorder;
 import org.goblinframework.core.reactor.*;
@@ -94,9 +93,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
   }
 
   public boolean remove(@NotNull final ID id) {
-    Publisher<Boolean> publisher = __remove1(id);
-    Boolean deleted = new BlockingMonoSubscriber<Boolean>().subscribe(publisher).block();
-    return ConversionUtils.toBoolean(deleted);
+    return __remove(id);
   }
 
   public long removes(@NotNull final Collection<ID> ids) {
@@ -433,35 +430,6 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     }
     assert deleteResult != null;
     return deleteResult.getDeletedCount() > 0;
-  }
-
-  @NotNull
-  @Deprecated
-  final public Publisher<Boolean> __remove1(@NotNull final ID id) {
-    AtomicLong deletedCount = new AtomicLong();
-    SingleResultPublisher<Boolean> publisher = createSingleResultPublisher();
-    __removes(Collections.singleton(id)).subscribe(new Subscriber<Long>() {
-      @Override
-      public void onSubscribe(Subscription s) {
-        s.request(1);
-      }
-
-      @Override
-      public void onNext(Long aLong) {
-        deletedCount.set(NumberUtils.toLong(aLong));
-      }
-
-      @Override
-      public void onError(Throwable t) {
-        publisher.complete(null, t);
-      }
-
-      @Override
-      public void onComplete() {
-        publisher.complete(deletedCount.get() > 0, null);
-      }
-    });
-    return publisher;
   }
 
   @NotNull
