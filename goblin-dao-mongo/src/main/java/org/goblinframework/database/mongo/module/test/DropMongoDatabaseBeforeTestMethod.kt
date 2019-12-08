@@ -6,7 +6,7 @@ import org.goblinframework.api.test.TestContext
 import org.goblinframework.api.test.TestExecutionListener
 import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.core.reactor.BlockingMonoSubscriber
-import org.goblinframework.dao.core.exception.GoblinDaoException
+import org.goblinframework.dao.exception.GoblinDaoException
 import org.goblinframework.database.mongo.client.MongoClientManager
 import org.slf4j.LoggerFactory
 

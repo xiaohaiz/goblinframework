@@ -1,6 +1,6 @@
 package org.goblinframework.database.mysql.persistence;
 
-import org.goblinframework.dao.core.exception.GoblinDaoException;
+import org.goblinframework.dao.exception.GoblinDaoException;
 
 public class GoblinPersistenceException extends GoblinDaoException {
   private static final long serialVersionUID = -1109476785668600971L;

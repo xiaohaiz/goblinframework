@@ -1,7 +1,7 @@
 package org.goblinframework.dao.mongo.persistence.internal
 
 import org.goblinframework.core.util.AnnotationUtils
-import org.goblinframework.dao.core.exception.GoblinDaoException
+import org.goblinframework.dao.exception.GoblinDaoException
 import org.goblinframework.dao.mongo.annotation.GoblinCollection
 import java.util.*
 

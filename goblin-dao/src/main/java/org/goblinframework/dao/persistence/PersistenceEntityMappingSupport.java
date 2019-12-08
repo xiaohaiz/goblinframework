@@ -1,4 +1,4 @@
-package org.goblinframework.dao.core.persistence;
+package org.goblinframework.dao.persistence;
 
 import org.goblinframework.api.dao.CreateTime;
 import org.goblinframework.api.dao.UpdateTime;
@@ -6,7 +6,7 @@ import org.goblinframework.core.container.SpringContainerObject;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.core.util.DateFormatUtils;
-import org.goblinframework.dao.core.exception.GoblinEntityMappingException;
+import org.goblinframework.dao.exception.GoblinEntityMappingException;
 import org.goblinframework.database.core.mapping.*;
 import org.jetbrains.annotations.NotNull;
 

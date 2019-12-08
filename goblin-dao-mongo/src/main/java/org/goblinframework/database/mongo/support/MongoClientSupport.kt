@@ -2,8 +2,8 @@ package org.goblinframework.database.mongo.support
 
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.core.util.ClassUtils
-import org.goblinframework.dao.core.annotation.PersistenceConnection
-import org.goblinframework.dao.core.exception.GoblinDaoException
+import org.goblinframework.dao.annotation.PersistenceConnection
+import org.goblinframework.dao.exception.GoblinDaoException
 import org.goblinframework.database.mongo.client.MongoClient
 import org.goblinframework.database.mongo.client.MongoClientManager
 

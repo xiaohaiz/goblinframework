@@ -1,10 +1,10 @@
-package org.goblinframework.database.core.module
+package org.goblinframework.dao.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
 
 @Install
-class DatabaseModule : IModule {
+class DaoModule : IModule {
 
   override fun id(): GoblinModule {
     return GoblinModule.DAO

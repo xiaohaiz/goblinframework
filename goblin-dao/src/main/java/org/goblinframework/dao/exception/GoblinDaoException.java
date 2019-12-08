@@ -1,4 +1,4 @@
-package org.goblinframework.dao.core.exception;
+package org.goblinframework.dao.exception;
 
 import org.goblinframework.api.core.GoblinException;
 

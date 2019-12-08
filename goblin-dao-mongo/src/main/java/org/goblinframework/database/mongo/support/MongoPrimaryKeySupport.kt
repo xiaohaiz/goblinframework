@@ -3,7 +3,7 @@ package org.goblinframework.database.mongo.support
 import org.bson.types.ObjectId
 import org.goblinframework.api.dao.GoblinId
 import org.goblinframework.core.util.RandomUtils
-import org.goblinframework.dao.core.exception.GoblinDaoException
+import org.goblinframework.dao.exception.GoblinDaoException
 import java.util.*
 
 abstract class MongoPrimaryKeySupport<E, ID> : MongoNamespaceSupport<E, ID>() {

@@ -1,4 +1,4 @@
-package org.goblinframework.dao.core.exception;
+package org.goblinframework.dao.exception;
 
 public class GoblinEntityMappingException extends GoblinDaoException {
   private static final long serialVersionUID = 7068009992842893876L;

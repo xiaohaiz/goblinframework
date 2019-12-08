@@ -1,7 +1,7 @@
 package org.goblinframework.example.database.mongo.dao
 
 import org.bson.types.ObjectId
-import org.goblinframework.dao.core.annotation.PersistenceConnection
+import org.goblinframework.dao.annotation.PersistenceConnection
 import org.goblinframework.dao.mongo.annotation.GoblinCollection
 import org.goblinframework.dao.mongo.annotation.GoblinDatabase
 import org.goblinframework.dao.mongo.persistence.GoblinStaticDao

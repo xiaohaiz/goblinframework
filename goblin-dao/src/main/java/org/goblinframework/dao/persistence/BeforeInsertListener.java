@@ -1,4 +1,4 @@
-package org.goblinframework.dao.core.persistence;
+package org.goblinframework.dao.persistence;
 
 import org.jetbrains.annotations.NotNull;
 

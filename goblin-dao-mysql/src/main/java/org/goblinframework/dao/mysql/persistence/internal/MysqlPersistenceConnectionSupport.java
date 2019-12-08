@@ -2,7 +2,7 @@ package org.goblinframework.dao.mysql.persistence.internal;
 
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.dao.core.annotation.PersistenceConnection;
+import org.goblinframework.dao.annotation.PersistenceConnection;
 import org.goblinframework.dao.mysql.exception.GoblinMysqlPersistenceException;
 import org.goblinframework.database.mysql.client.MysqlClient;
 import org.goblinframework.database.mysql.client.MysqlClientManager;

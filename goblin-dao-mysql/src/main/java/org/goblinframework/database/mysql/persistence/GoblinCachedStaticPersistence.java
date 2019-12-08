@@ -1,9 +1,9 @@
 package org.goblinframework.database.mysql.persistence;
 
 import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistenceCacheSupport;
-import org.goblinframework.database.core.eql.Criteria;
-import org.goblinframework.database.core.eql.Query;
-import org.goblinframework.database.core.eql.Update;
+import org.goblinframework.dao.ql.Criteria;
+import org.goblinframework.dao.ql.Query;
+import org.goblinframework.dao.ql.Update;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

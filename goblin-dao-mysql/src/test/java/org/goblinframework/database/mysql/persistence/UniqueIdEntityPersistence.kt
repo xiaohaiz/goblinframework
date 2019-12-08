@@ -1,6 +1,6 @@
 package org.goblinframework.database.mysql.persistence
 
-import org.goblinframework.dao.core.annotation.PersistenceConnection
+import org.goblinframework.dao.annotation.PersistenceConnection
 import org.goblinframework.dao.mysql.annotation.GoblinTable
 import org.springframework.stereotype.Repository
 

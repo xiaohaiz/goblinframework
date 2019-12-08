@@ -2,7 +2,7 @@ package org.goblinframework.dao.mongo.persistence
 
 import org.goblinframework.api.dao.GoblinId
 import org.goblinframework.core.util.StringUtils
-import org.goblinframework.dao.core.annotation.PersistenceConnection
+import org.goblinframework.dao.annotation.PersistenceConnection
 import org.goblinframework.dao.mongo.annotation.GoblinCollection
 import org.goblinframework.dao.mongo.annotation.GoblinDatabase
 import org.goblinframework.database.mongo.module.test.DropMongoDatabase

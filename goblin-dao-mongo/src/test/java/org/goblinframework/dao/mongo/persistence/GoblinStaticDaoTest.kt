@@ -4,7 +4,7 @@ import org.bson.types.ObjectId
 import org.goblinframework.api.dao.GoblinId
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.reactor.BlockingListSubscriber
-import org.goblinframework.dao.core.annotation.PersistenceConnection
+import org.goblinframework.dao.annotation.PersistenceConnection
 import org.goblinframework.dao.mongo.annotation.GoblinCollection
 import org.goblinframework.dao.mongo.annotation.GoblinDatabase
 import org.goblinframework.database.mongo.module.test.DropMongoDatabase

@@ -1,4 +1,4 @@
-package org.goblinframework.database.core.eql;
+package org.goblinframework.dao.ql;
 
 /**
  * Translator of {@link Criteria}.

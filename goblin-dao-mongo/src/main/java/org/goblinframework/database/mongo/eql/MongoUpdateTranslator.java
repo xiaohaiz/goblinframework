@@ -5,7 +5,7 @@ import org.bson.BsonDocument;
 import org.bson.BsonInt32;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.core.util.ArrayUtils;
-import org.goblinframework.database.core.eql.*;
+import org.goblinframework.dao.ql.*;
 import org.goblinframework.database.mongo.bson.BsonConversionService;
 
 import java.util.Map;

@@ -7,7 +7,7 @@ import com.mongodb.reactivestreams.client.MongoDatabase
 import org.bson.BsonDocument
 import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceSupport
-import org.goblinframework.database.core.eql.Query
+import org.goblinframework.dao.ql.Query
 
 abstract class GoblinStaticDao<E, ID> : MongoPersistenceSupport<E, ID>() {
 

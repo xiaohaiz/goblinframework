@@ -1,4 +1,4 @@
-package org.goblinframework.database.core.eql;
+package org.goblinframework.dao.ql;
 
 import java.util.LinkedHashMap;
 

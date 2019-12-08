@@ -1,4 +1,4 @@
-package org.goblinframework.database.core.eql;
+package org.goblinframework.dao.ql;
 
 import org.goblinframework.api.core.Pageable;
 import org.goblinframework.api.core.Sort;
