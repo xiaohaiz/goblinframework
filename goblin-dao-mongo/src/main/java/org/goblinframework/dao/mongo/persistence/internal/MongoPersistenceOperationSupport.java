@@ -190,6 +190,94 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return convertBsonDocument(document);
   }
 
+  /**
+   * Load entities of specified ids from mongo database (parallel mode).
+   *
+   * @param ids            Entity ids.
+   * @param readPreference Read preference, use default in case of null passed in.
+   * @return Loaded entities.
+   */
+  @NotNull
+  final public Map<ID, E> __loads(@NotNull final Collection<ID> ids,
+                                  @Nullable ReadPreference readPreference) {
+    return __loads(ids, readPreference, true);
+  }
+
+  /**
+   * Load entities of specified ids from mongo database.
+   *
+   * @param ids            Entity ids.
+   * @param readPreference Read preference, use default in case of null passed in.
+   * @param parallel       Parallel mode or not
+   * @return Loaded entities.
+   */
+  @NotNull
+  final public Map<ID, E> __loads(@NotNull final Collection<ID> ids,
+                                  @Nullable ReadPreference readPreference,
+                                  boolean parallel) {
+    List<ID> idList = ids.stream().filter(Objects::nonNull).distinct().collect(Collectors.toList());
+    if (idList.isEmpty()) {
+      return Collections.emptyMap();
+    }
+    if (idList.size() == 1) {
+      ID id = idList.iterator().next();
+      E entity = __load(id, readPreference);
+      if (entity == null) {
+        return Collections.emptyMap();
+      } else {
+        Map<ID, E> entities = new LinkedHashMap<>();
+        entities.put(id, entity);
+        return entities;
+      }
+    }
+    List<E> entityList;
+    LinkedMultiValueMap<MongoNamespace, ID> groupIds = groupIds(idList);
+    if (groupIds.size() > 1 && parallel) {
+      BlockingListPublisher<E> publisher = new BlockingListPublisher<>(groupIds.size());
+      FlightExecutor executor = FlightRecorder.currentFlightExecutor();
+      groupIds.forEach((ns, ds) -> {
+        Scheduler scheduler = CoreScheduler.getInstance();
+        scheduler.schedule(() -> executor.execute(() -> {
+          try {
+            Criteria criteria;
+            if (ds.size() == 1) {
+              ID id = ds.iterator().next();
+              criteria = Criteria.where("_id").is(id);
+            } else {
+              criteria = Criteria.where("_id").in(ds);
+            }
+            Query query = Query.query(criteria);
+            __query(query, ns, readPreference).forEach(publisher::onNext);
+          } catch (Throwable ex) {
+            publisher.onError(ex);
+          } finally {
+            publisher.onComplete();
+          }
+        }));
+      });
+      entityList = publisher.block();
+    } else {
+      entityList = new ArrayList<>();
+      groupIds.forEach((ns, ds) -> {
+        Criteria criteria;
+        if (ds.size() == 1) {
+          ID id = ds.iterator().next();
+          criteria = Criteria.where("_id").is(id);
+        } else {
+          criteria = Criteria.where("_id").in(ds);
+        }
+        Query query = Query.query(criteria);
+        entityList.addAll(__query(query, ns, readPreference));
+      });
+    }
+    Map<ID, E> entities = new LinkedHashMap<>();
+    entityList.forEach(e -> {
+      ID id = getEntityId(e);
+      entities.put(id, e);
+    });
+    return MapUtils.resort(entities, idList);
+  }
+
   @NotNull
   final public Publisher<E> __loads(@Nullable Collection<ID> ids) {
     MultipleResultsPublisher<E> publisher = createMultipleResultsPublisher();
@@ -558,5 +646,44 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
       }
     });
     return publisher;
+  }
+
+  /**
+   * Execute query operation on specified mongo namespace.
+   *
+   * @param query          Query to be executed.
+   * @param namespace      Mongo namespace.
+   * @param readPreference Read preference, use default in case of null passed in.
+   * @return Query result list.
+   */
+  @NotNull
+  final public List<E> __query(@NotNull final Query query,
+                               @NotNull final MongoNamespace namespace,
+                               @Nullable final ReadPreference readPreference) {
+    MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
+    if (readPreference != null) {
+      collection = collection.withReadPreference(readPreference);
+    }
+    Bson filter = queryTranslator.toFilter(query);
+    FindPublisher<BsonDocument> findPublisher = collection.find(filter);
+    if (query.getLimit() != null) {
+      findPublisher = findPublisher.limit(query.getLimit());
+    }
+    if (query.getSkip() != null) {
+      findPublisher = findPublisher.skip(query.getSkip());
+    }
+    Bson projection = queryTranslator.toProjection(query);
+    if (projection != null) {
+      findPublisher = findPublisher.projection(projection);
+    }
+    Bson sort = queryTranslator.toSort(query);
+    if (sort != null) {
+      findPublisher = findPublisher.sort(sort);
+    }
+    BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
+    subscriber.subscribe(findPublisher);
+    List<BsonDocument> documents = subscriber.block();
+    subscriber.dispose();
+    return convertBsonDocuments(documents);
   }
 }
