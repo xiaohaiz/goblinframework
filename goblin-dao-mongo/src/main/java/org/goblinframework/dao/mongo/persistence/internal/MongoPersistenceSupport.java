@@ -21,10 +21,10 @@ import org.goblinframework.core.reactor.SingleResultPublisher;
 import org.goblinframework.core.util.GoblinReferenceCount;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.NumberUtils;
+import org.goblinframework.dao.mapping.EntityRevisionField;
 import org.goblinframework.dao.ql.Criteria;
 import org.goblinframework.dao.ql.Query;
 import org.goblinframework.dao.ql.Update;
-import org.goblinframework.dao.mapping.EntityRevisionField;
 import org.goblinframework.database.mongo.bson.BsonConversionService;
 import org.goblinframework.database.mongo.eql.MongoCriteriaTranslator;
 import org.goblinframework.database.mongo.eql.MongoQueryTranslator;
@@ -160,7 +160,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
     LinkedMultiValueMap<MongoNamespace, E> grouped = groupEntities(entities);
     publisher.initializeCount(grouped.size());
     grouped.forEach((ns, es) -> {
-      MongoDatabase database = getNativeMongoClient().getDatabase(ns.getDatabaseName());
+      MongoDatabase database = mongoClient.getDatabase(ns.getDatabaseName());
       MongoCollection<BsonDocument> collection = database.getCollection(ns.getCollectionName(), BsonDocument.class);
       BsonArray array = (BsonArray) BsonConversionService.toBson(es);
       List<BsonDocument> docs = array.stream().map(e -> (BsonDocument) e).collect(Collectors.toList());
@@ -237,7 +237,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
     LinkedMultiValueMap<MongoNamespace, ID> grouped = groupIds(ids);
     publisher.initializeCount(grouped.size());
     grouped.forEach((ns, ds) -> {
-      MongoDatabase database = getNativeMongoClient().getDatabase(ns.getDatabaseName());
+      MongoDatabase database = mongoClient.getDatabase(ns.getDatabaseName());
       MongoCollection<BsonDocument> collection = database.getCollection(ns.getCollectionName(), BsonDocument.class);
       Criteria criteria;
       if (ds.size() == 1) {
@@ -284,7 +284,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
     MongoNamespace namespace = getIdNamespace(id);
     Criteria criteria = Criteria.where("_id").is(id);
     Bson filter = criteriaTranslator.translate(criteria);
-    MongoDatabase database = getNativeMongoClient().getDatabase(namespace.getDatabaseName());
+    MongoDatabase database = mongoClient.getDatabase(namespace.getDatabaseName());
     MongoCollection<BsonDocument> collection = database.getCollection(namespace.getCollectionName(), BsonDocument.class);
     if (readPreference != null) {
       collection = collection.withReadPreference(readPreference);
@@ -361,7 +361,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
     }
 
     MongoNamespace namespace = getIdNamespace(id);
-    MongoDatabase database = getNativeMongoClient().getDatabase(namespace.getDatabaseName());
+    MongoDatabase database = mongoClient.getDatabase(namespace.getDatabaseName());
     MongoCollection<BsonDocument> collection = database.getCollection(namespace.getCollectionName(), BsonDocument.class);
     FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(false).returnDocument(ReturnDocument.AFTER);
     collection.withWriteConcern(WriteConcern.ACKNOWLEDGED)
@@ -432,7 +432,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
       return __insert(entity);
     }
     MongoNamespace namespace = getIdNamespace(id);
-    MongoDatabase database = getNativeMongoClient().getDatabase(namespace.getDatabaseName());
+    MongoDatabase database = mongoClient.getDatabase(namespace.getDatabaseName());
     MongoCollection<BsonDocument> collection = database.getCollection(namespace.getCollectionName(), BsonDocument.class);
     FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER);
     SingleResultPublisher<E> publisher = createSingleResultPublisher();
@@ -502,7 +502,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
     AtomicLong deletedCount = new AtomicLong();
     GoblinReferenceCount referenceCount = new GoblinReferenceCount(grouped.size());
     grouped.forEach((ns, ds) -> {
-      MongoDatabase database = getNativeMongoClient().getDatabase(ns.getDatabaseName());
+      MongoDatabase database = mongoClient.getDatabase(ns.getDatabaseName());
       MongoCollection<BsonDocument> collection = database.getCollection(ns.getCollectionName(), BsonDocument.class);
       Publisher<DeleteResult> deletePublisher;
       if (ds.size() == 1) {
@@ -543,7 +543,7 @@ abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupp
 
   @NotNull
   final protected Publisher<E> __executeQuery(@NotNull Query query, @NotNull MongoNamespace namespace, @Nullable ReadPreference readPreference) {
-    MongoDatabase database = getNativeMongoClient().getDatabase(namespace.getDatabaseName());
+    MongoDatabase database = mongoClient.getDatabase(namespace.getDatabaseName());
     MongoCollection<BsonDocument> collection = database.getCollection(namespace.getCollectionName(), BsonDocument.class);
     if (readPreference != null) {
       collection = collection.withReadPreference(readPreference);

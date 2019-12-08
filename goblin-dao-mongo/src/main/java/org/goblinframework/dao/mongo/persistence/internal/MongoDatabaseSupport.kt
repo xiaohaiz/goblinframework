@@ -3,10 +3,9 @@ package org.goblinframework.dao.mongo.persistence.internal
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.dao.exception.GoblinDaoException
 import org.goblinframework.dao.mongo.annotation.GoblinDatabase
-import org.goblinframework.database.mongo.support.MongoClientSupport
 import java.util.*
 
-abstract class MongoDatabaseSupport<E, ID> : MongoClientSupport<E, ID>() {
+abstract class MongoDatabaseSupport<E, ID> : MongoPersistenceConnectionSupport<E, ID>() {
 
   private val database: String
   private val dynamic: Boolean

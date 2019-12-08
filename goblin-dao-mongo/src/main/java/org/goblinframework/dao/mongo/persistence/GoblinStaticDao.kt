@@ -25,7 +25,7 @@ abstract class GoblinStaticDao<E, ID> : MongoPersistenceSupport<E, ID>() {
 
   fun getDatabase(): MongoDatabase {
     val databaseName = getDatabaseName()
-    return getNativeMongoClient().getDatabase(databaseName)
+    return mongoClient.getDatabase(databaseName)
   }
 
   fun getCollectionName(): String {
