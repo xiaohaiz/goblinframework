@@ -13,9 +13,12 @@ import org.springframework.test.context.ContextConfiguration;
 
 import javax.inject.Inject;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
+@DropMongoDatabase("_ut")
 public class GoblinStaticDaoTest {
 
   public static class User implements Serializable {
@@ -35,10 +38,24 @@ public class GoblinStaticDaoTest {
   @Inject private UserDao userDao;
 
   @Test
-  @DropMongoDatabase("_ut")
   public void insert() {
     User user = new User();
     user.userId = 1L;
     userDao.insert(user);
+  }
+
+  @Test
+  public void inserts() {
+    List<User> users = new ArrayList<>();
+    User user = new User();
+    user.userId = 1L;
+    users.add(user);
+    user = new User();
+    user.userId = 2L;
+    users.add(user);
+    user = new User();
+    user.userId = 3L;
+    users.add(user);
+    userDao.inserts(users);
   }
 }

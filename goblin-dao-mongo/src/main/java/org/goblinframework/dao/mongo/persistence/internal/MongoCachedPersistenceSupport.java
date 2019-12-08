@@ -5,12 +5,10 @@ import org.goblinframework.cache.core.support.CacheBeanManager;
 import org.goblinframework.cache.core.support.CacheDimension;
 import org.goblinframework.cache.core.support.GoblinCache;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
-import org.goblinframework.core.reactor.BlockingListSubscriber;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.dao.annotation.GoblinCacheDimension;
 import org.jetbrains.annotations.NotNull;
-import org.reactivestreams.Publisher;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -71,8 +69,7 @@ abstract public class MongoCachedPersistenceSupport<E, ID> extends MongoPersiste
     if (candidates.isEmpty()) {
       return;
     }
-    Publisher<E> insertPublisher = __inserts(entities);
-    new BlockingListSubscriber<E>().subscribe(insertPublisher).block();
+    __inserts(entities);
     if (dimension == GoblinCacheDimension.Dimension.NONE) {
       return;
     }

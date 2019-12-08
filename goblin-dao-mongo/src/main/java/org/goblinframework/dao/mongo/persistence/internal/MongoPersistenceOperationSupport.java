@@ -14,10 +14,9 @@ import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.conversions.Bson;
 import org.goblinframework.core.conversion.ConversionUtils;
-import org.goblinframework.core.reactor.BlockingListSubscriber;
-import org.goblinframework.core.reactor.BlockingMonoSubscriber;
-import org.goblinframework.core.reactor.MultipleResultsPublisher;
-import org.goblinframework.core.reactor.SingleResultPublisher;
+import org.goblinframework.core.monitor.FlightExecutor;
+import org.goblinframework.core.monitor.FlightRecorder;
+import org.goblinframework.core.reactor.*;
 import org.goblinframework.core.util.GoblinReferenceCount;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.NumberUtils;
@@ -35,6 +34,7 @@ import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.springframework.util.LinkedMultiValueMap;
+import reactor.core.scheduler.Scheduler;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -65,11 +65,8 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     __insert(entity);
   }
 
-  public void inserts(@NotNull Collection<E> entities) {
-    Publisher<E> publisher = __inserts(entities);
-    BlockingListSubscriber<E> subscriber = new BlockingListSubscriber<>();
-    publisher.subscribe(subscriber);
-    subscriber.block();
+  public void inserts(@NotNull final Collection<E> entities) {
+    __inserts(entities);
   }
 
   @Nullable
@@ -139,86 +136,43 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     subscriber.dispose();
   }
 
-  @NotNull
-  final public Publisher<E> __inserts(@Nullable Collection<E> entities) {
-    MultipleResultsPublisher<E> publisher = createMultipleResultsPublisher();
-    if (entities == null || entities.isEmpty()) {
-      publisher.complete(null);
-      return publisher;
+  /**
+   * Insert specified entities into mongo database.
+   *
+   * @param entities Entities to be inserted.
+   */
+  final public void __inserts(@NotNull final Collection<E> entities) {
+    List<E> entityList = entities.stream().filter(Objects::nonNull).collect(Collectors.toList());
+    if (entityList.isEmpty()) {
+      return;
     }
-
-    long millis = System.currentTimeMillis();
-    for (E entity : entities) {
-      generateEntityId(entity);
-      try {
-        requireEntityId(entity);
-      } catch (Exception ex) {
-        publisher.complete(ex);
-        return publisher;
-      }
-      touchCreateTime(entity, millis);
-      touchUpdateTime(entity, millis);
-      initializeRevision(entity);
-    }
-
-    LinkedMultiValueMap<MongoNamespace, E> grouped = groupEntities(entities);
-    publisher.initializeCount(grouped.size());
-    grouped.forEach((ns, es) -> {
-      MongoDatabase database = mongoClient.getDatabase(ns.getDatabaseName());
-      MongoCollection<BsonDocument> collection = database.getCollection(ns.getCollectionName(), BsonDocument.class);
-      BsonArray array = (BsonArray) BsonConversionService.toBson(es);
-      List<BsonDocument> docs = array.stream().map(e -> (BsonDocument) e).collect(Collectors.toList());
-      if (docs.size() == 1) {
-        collection.withWriteConcern(WriteConcern.ACKNOWLEDGED)
-            .insertOne(docs.iterator().next())
-            .subscribe(new Subscriber<Success>() {
-              @Override
-              public void onSubscribe(Subscription s) {
-                s.request(1);
-              }
-
-              @Override
-              public void onNext(Success success) {
-                publisher.onNext(es.iterator().next());
-              }
-
-              @Override
-              public void onError(Throwable t) {
-                publisher.complete(t);
-              }
-
-              @Override
-              public void onComplete() {
-                publisher.release();
-              }
-            });
-      } else {
-        collection.withWriteConcern(WriteConcern.ACKNOWLEDGED)
-            .insertMany(docs)
-            .subscribe(new Subscriber<Success>() {
-              @Override
-              public void onSubscribe(Subscription s) {
-                s.request(docs.size());
-              }
-
-              @Override
-              public void onNext(Success success) {
-              }
-
-              @Override
-              public void onError(Throwable t) {
-                publisher.complete(t);
-              }
-
-              @Override
-              public void onComplete() {
-                es.forEach(publisher::onNext);
-                publisher.release();
-              }
-            });
-      }
+    entityList.forEach(this::beforeInsert);
+    LinkedMultiValueMap<MongoNamespace, E> groupedEntities = groupEntities(entityList);
+    BlockingListPublisher<Success> publisher = new BlockingListPublisher<>(groupedEntities.size());
+    FlightExecutor executor = FlightRecorder.currentFlightExecutor();
+    groupedEntities.forEach((ns, es) -> {
+      Scheduler scheduler = CoreScheduler.getInstance();
+      scheduler.schedule(() -> {
+        executor.execute(() -> {
+          try {
+            List<BsonDocument> documents = ((BsonArray) BsonConversionService.toBson(es)).stream()
+                .map(e -> (BsonDocument) e).collect(Collectors.toList());
+            MongoCollection<BsonDocument> collection = getMongoCollection(ns);
+            collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
+            Publisher<Success> insertPublisher = collection.insertMany(documents);
+            BlockingListSubscriber<Success> subscriber = new BlockingListSubscriber<>();
+            insertPublisher.subscribe(subscriber);
+            subscriber.block();
+            subscriber.dispose();
+          } catch (Throwable ex) {
+            publisher.onError(ex);
+          } finally {
+            publisher.onComplete();
+          }
+        });
+      });
     });
-    return publisher;
+    publisher.block();
   }
 
   @NotNull
