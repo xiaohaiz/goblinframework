@@ -38,7 +38,6 @@ import reactor.core.scheduler.Scheduler;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersistenceConversionSupport<E, ID> {
@@ -75,13 +74,8 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
   }
 
   @NotNull
-  public Map<ID, E> loads(@Nullable Collection<ID> ids) {
-    Publisher<E> publisher = __loads(ids);
-    BlockingListSubscriber<E> subscriber = new BlockingListSubscriber<>();
-    publisher.subscribe(subscriber);
-    Map<ID, E> result = subscriber.block().stream()
-        .collect(Collectors.toMap(this::getEntityId, Function.identity()));
-    return MapUtils.resort(result, ids);
+  public Map<ID, E> loads(@NotNull Collection<ID> ids) {
+    return __loads(ids, ReadPreference.primary());
   }
 
   public boolean exists(@NotNull final ID id) {
