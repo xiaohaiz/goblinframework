@@ -94,7 +94,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
   }
 
   public boolean remove(@NotNull final ID id) {
-    Publisher<Boolean> publisher = __remove(id);
+    Publisher<Boolean> publisher = __remove1(id);
     Boolean deleted = new BlockingMonoSubscriber<Boolean>().subscribe(publisher).block();
     return ConversionUtils.toBoolean(deleted);
   }
@@ -416,8 +416,28 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return result;
   }
 
+  final public boolean __remove(@NotNull final ID id) {
+    MongoNamespace namespace = getIdNamespace(id);
+    MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
+    collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
+    Criteria criteria = Criteria.where("_id").is(id);
+    Bson filter = criteriaTranslator.translate(criteria);
+    Publisher<DeleteResult> deletePublisher = collection.deleteOne(filter);
+    BlockingMonoSubscriber<DeleteResult> subscriber = new BlockingMonoSubscriber<>();
+    deletePublisher.subscribe(subscriber);
+    DeleteResult deleteResult;
+    try {
+      deleteResult = subscriber.block();
+    } finally {
+      subscriber.dispose();
+    }
+    assert deleteResult != null;
+    return deleteResult.getDeletedCount() > 0;
+  }
+
   @NotNull
-  final public Publisher<Boolean> __remove(@NotNull final ID id) {
+  @Deprecated
+  final public Publisher<Boolean> __remove1(@NotNull final ID id) {
     AtomicLong deletedCount = new AtomicLong();
     SingleResultPublisher<Boolean> publisher = createSingleResultPublisher();
     __removes(Collections.singleton(id)).subscribe(new Subscriber<Long>() {
