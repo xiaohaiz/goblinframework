@@ -6,7 +6,7 @@ import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.dao.annotation.PersistenceConnection
 import org.goblinframework.dao.mongo.annotation.GoblinCollection
-import org.goblinframework.dao.mongo.annotation.GoblinDatabase
+import org.goblinframework.dao.mongo.annotation.MongoPersistenceDatabase
 import org.goblinframework.database.mongo.module.test.DropMongoDatabase
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.*
@@ -28,7 +28,7 @@ class GoblinStaticDaoTest : SpringContainerObject() {
 
   @Repository
   @PersistenceConnection(connection = "_ut")
-  @GoblinDatabase("test")
+  @MongoPersistenceDatabase(database = "test")
   @GoblinCollection("ut_mock_data")
   open class MockDataDao : GoblinStaticDao<MockData, String>()
 

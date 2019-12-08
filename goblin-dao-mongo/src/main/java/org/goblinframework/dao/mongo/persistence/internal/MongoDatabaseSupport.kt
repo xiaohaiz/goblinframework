@@ -2,7 +2,7 @@ package org.goblinframework.dao.mongo.persistence.internal
 
 import org.goblinframework.core.util.AnnotationUtils
 import org.goblinframework.dao.exception.GoblinDaoException
-import org.goblinframework.dao.mongo.annotation.GoblinDatabase
+import org.goblinframework.dao.mongo.annotation.MongoPersistenceDatabase
 import java.util.*
 
 abstract class MongoDatabaseSupport<E, ID> : MongoPersistenceConnectionSupport<E, ID>() {
@@ -44,8 +44,8 @@ abstract class MongoDatabaseSupport<E, ID> : MongoPersistenceConnectionSupport<E
 
   abstract fun calculateDatabaseName(template: String, entity: E): String?
 
-  private fun lookupDatabaseAnnotation(): GoblinDatabase? {
-    return AnnotationUtils.getAnnotation(javaClass, GoblinDatabase::class.java)
+  private fun lookupDatabaseAnnotation(): MongoPersistenceDatabase? {
+    return AnnotationUtils.getAnnotation(javaClass, MongoPersistenceDatabase::class.java)
   }
 
 }
