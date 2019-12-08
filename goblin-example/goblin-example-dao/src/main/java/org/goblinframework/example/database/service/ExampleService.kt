@@ -36,7 +36,7 @@ class ExampleService {
     mongoExampleDataDao.insert(data)
     println("After insert ${JsonUtils.toJson(data)}")
 
-    val ret = mongoExampleDataDao.load(data.id)
+    val ret = mongoExampleDataDao.load(data.id!!)
     println("After load ${JsonUtils.toJson(ret)}")
   }
 }

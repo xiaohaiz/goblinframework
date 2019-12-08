@@ -16,6 +16,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
 @DropMongoDatabase("_ut")
@@ -57,5 +60,16 @@ public class GoblinStaticDaoTest {
     user.userId = 3L;
     users.add(user);
     userDao.inserts(users);
+  }
+
+  @Test
+  public void load() {
+    User user = userDao.load(1L);
+    assertNull(user);
+    user = new User();
+    user.userId = 1L;
+    userDao.insert(user);
+    user = userDao.load(1L);
+    assertNotNull(user);
   }
 }

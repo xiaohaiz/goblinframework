@@ -70,11 +70,8 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
   }
 
   @Nullable
-  public E load(@Nullable ID id) {
-    Publisher<E> publisher = __load(id);
-    BlockingMonoSubscriber<E> subscriber = new BlockingMonoSubscriber<>();
-    publisher.subscribe(subscriber);
-    return subscriber.block();
+  public E load(@NotNull final ID id) {
+    return __load(id, ReadPreference.primary());
   }
 
   @NotNull
@@ -175,14 +172,22 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     publisher.block();
   }
 
-  @NotNull
-  final public Publisher<E> __load(@Nullable ID id) {
-    if (id == null) {
-      SingleResultPublisher<E> publisher = createSingleResultPublisher();
-      publisher.complete(null, null);
-      return publisher;
+  @Nullable
+  final public E __load(@NotNull final ID id, @Nullable ReadPreference readPreference) {
+    MongoNamespace namespace = getIdNamespace(id);
+    MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
+    if (readPreference != null) {
+      collection = collection.withReadPreference(readPreference);
     }
-    return __loads(Collections.singleton(id));
+    Criteria criteria = Criteria.where("_id").is(id);
+    Bson filter = criteriaTranslator.translate(criteria);
+    FindPublisher<BsonDocument> findPublisher = collection.find(filter);
+    BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
+    subscriber.subscribe(findPublisher);
+    List<BsonDocument> documents = subscriber.block();
+    subscriber.dispose();
+    BsonDocument document = documents.stream().findFirst().orElse(null);
+    return convertBsonDocument(document);
   }
 
   @NotNull
