@@ -85,8 +85,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
 
   @Nullable
   public E replace(@NotNull final E entity) {
-    Publisher<E> publisher = __replace1(entity);
-    return new BlockingMonoSubscriber<E>().subscribe(publisher).block();
+    return __replace(entity);
   }
 
   @Nullable
@@ -353,83 +352,6 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
       subscriber.dispose();
     }
     return convertBsonDocument(replaced);
-  }
-
-  @Deprecated
-  @NotNull
-  final public Publisher<E> __replace1(@NotNull final E entity) {
-    SingleResultPublisher<E> publisher = createSingleResultPublisher();
-    ID id = getEntityId(entity);
-    if (id == null) {
-      String errMsg = "Id must not be null when executing replace operation";
-      publisher.complete(null, new IllegalArgumentException(errMsg));
-      return publisher;
-    }
-    long millis = System.currentTimeMillis();
-    touchUpdateTime(entity, millis);
-
-    Criteria criteria = Criteria.where("_id").is(id);
-    EntityRevisionField revisionField = entityMapping.revisionField;
-    if (revisionField != null) {
-      Object revision = revisionField.getField().get(entity);
-      if (revision != null) {
-        // revision specified, use it for optimistic concurrency checks
-        criteria = criteria.and(revisionField.getName()).is(revision);
-      }
-    }
-    Bson filter = criteriaTranslator.translate(criteria);
-
-    Update update = new Update();
-    entityMapping.updateTimeFields.forEach(ut -> {
-      Object val = ut.getField().get(entity);
-      if (val != null) {
-        update.set(ut.getName(), val);
-      }
-    });
-    entityMapping.normalFields.forEach(n -> {
-      Object val = n.getField().get(entity);
-      if (val != null) {
-        update.set(n.getName(), val);
-      }
-    });
-    if (revisionField != null) {
-      update.inc(revisionField.getName(), 1);
-    }
-
-    if (update.export().isEmpty()) {
-      String errMsg = "There is nothing field(s) found when executing replace operation";
-      publisher.complete(null, new IllegalArgumentException(errMsg));
-      return publisher;
-    }
-
-    MongoNamespace namespace = getIdNamespace(id);
-    MongoDatabase database = mongoClient.getDatabase(namespace.getDatabaseName());
-    MongoCollection<BsonDocument> collection = database.getCollection(namespace.getCollectionName(), BsonDocument.class);
-    FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(false).returnDocument(ReturnDocument.AFTER);
-    collection.withWriteConcern(WriteConcern.ACKNOWLEDGED)
-        .findOneAndUpdate(filter, updateTranslator.translate(update), options)
-        .subscribe(new Subscriber<BsonDocument>() {
-          @Override
-          public void onSubscribe(Subscription s) {
-            s.request(1);
-          }
-
-          @Override
-          public void onNext(BsonDocument bsonDocument) {
-            E replaced = convertBsonDocument(bsonDocument);
-            publisher.complete(replaced, null);
-          }
-
-          @Override
-          public void onError(Throwable t) {
-            publisher.complete(null, t);
-          }
-
-          @Override
-          public void onComplete() {
-          }
-        });
-    return publisher;
   }
 
   @NotNull
