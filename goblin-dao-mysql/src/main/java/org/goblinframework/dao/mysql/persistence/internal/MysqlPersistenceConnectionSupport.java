@@ -2,7 +2,7 @@ package org.goblinframework.dao.mysql.persistence.internal;
 
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.dao.core.annotation.GoblinConnection;
+import org.goblinframework.dao.core.annotation.PersistenceConnection;
 import org.goblinframework.dao.mysql.exception.GoblinMysqlPersistenceException;
 import org.goblinframework.database.mysql.client.MysqlClient;
 import org.goblinframework.database.mysql.client.MysqlClientManager;
@@ -16,14 +16,14 @@ abstract public class MysqlPersistenceConnectionSupport<E, ID> extends MysqlPers
 
   protected MysqlPersistenceConnectionSupport() {
     Class<?> clazz = ClassUtils.filterCglibProxyClass(getClass());
-    GoblinConnection annotation = AnnotationUtils.getAnnotation(clazz, GoblinConnection.class);
+    PersistenceConnection annotation = AnnotationUtils.getAnnotation(clazz, PersistenceConnection.class);
     if (annotation == null) {
-      throw new GoblinMysqlPersistenceException("No @GoblinDatabaseConnection presented on " + clazz.getName());
+      throw new GoblinMysqlPersistenceException("No @PersistenceConnection presented on " + clazz.getName());
     }
-    String name = annotation.name();
-    MysqlClient client = MysqlClientManager.INSTANCE.getMysqlClient(name);
+    String connection = annotation.connection();
+    MysqlClient client = MysqlClientManager.INSTANCE.getMysqlClient(connection);
     if (client == null) {
-      throw new GoblinMysqlPersistenceException("MysqlClient [" + name + "] not found");
+      throw new GoblinMysqlPersistenceException("MysqlClient [" + connection + "] not found");
     }
     this.client = client;
   }

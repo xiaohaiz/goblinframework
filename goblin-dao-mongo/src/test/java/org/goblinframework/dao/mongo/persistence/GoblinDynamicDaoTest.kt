@@ -2,7 +2,7 @@ package org.goblinframework.dao.mongo.persistence
 
 import org.goblinframework.api.dao.GoblinId
 import org.goblinframework.core.util.StringUtils
-import org.goblinframework.dao.core.annotation.GoblinConnection
+import org.goblinframework.dao.core.annotation.PersistenceConnection
 import org.goblinframework.dao.mongo.annotation.GoblinCollection
 import org.goblinframework.dao.mongo.annotation.GoblinDatabase
 import org.goblinframework.database.mongo.module.test.DropMongoDatabase
@@ -25,7 +25,7 @@ class GoblinDynamicDaoTest {
   }
 
   @Repository
-  @GoblinConnection("_ut")
+  @PersistenceConnection(connection = "_ut")
   @GoblinDatabase("test")
   @GoblinCollection("ut_mock_dynamic_data_{}", true)
   open class MocDynamicDataDao : GoblinDynamicDao<MockDynamicData, Long>() {

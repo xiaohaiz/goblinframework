@@ -8,7 +8,7 @@ import org.goblinframework.cache.core.cache.CacheSystem;
 import org.goblinframework.cache.core.support.CacheDimension;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.dao.core.annotation.GoblinCacheDimension;
-import org.goblinframework.dao.core.annotation.GoblinConnection;
+import org.goblinframework.dao.core.annotation.PersistenceConnection;
 import org.goblinframework.dao.mysql.annotation.GoblinTable;
 import org.goblinframework.database.core.eql.Criteria;
 import org.goblinframework.database.core.eql.Query;
@@ -30,7 +30,7 @@ import static org.junit.Assert.*;
 public class GoblinCachedStaticPersistenceTest {
 
   @Repository
-  @GoblinConnection(name = "_ut")
+  @PersistenceConnection(connection = "_ut")
   @GoblinTable(table = "MOCK_DATA_T")
   @GoblinCacheBean(type = GoblinStaticPersistenceTest.MockData.class, system = CacheSystem.JVM, name = "_ut")
   @GoblinCacheDimension(dimension = GoblinCacheDimension.Dimension.ID_AND_OTHER_FIELDS)

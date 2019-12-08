@@ -3,7 +3,7 @@ package org.goblinframework.database.mysql.persistence;
 import org.goblinframework.api.dao.*;
 import org.goblinframework.core.container.SpringContainerObject;
 import org.goblinframework.core.util.RandomUtils;
-import org.goblinframework.dao.core.annotation.GoblinConnection;
+import org.goblinframework.dao.core.annotation.PersistenceConnection;
 import org.goblinframework.dao.mysql.annotation.GoblinTable;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.junit.Test;
@@ -46,7 +46,7 @@ public class GoblinStaticPersistenceTest extends SpringContainerObject {
   }
 
   @Repository
-  @GoblinConnection(name = "_ut")
+  @PersistenceConnection(connection = "_ut")
   @GoblinTable(table = "MOCK_DATA_T")
   public static class MockDataPersistence extends GoblinStaticPersistence<MockData, Long> {
   }
