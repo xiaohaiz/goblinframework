@@ -4,9 +4,10 @@ import org.bson.types.ObjectId
 import org.goblinframework.api.dao.GoblinId
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.dao.exception.GoblinDaoException
+import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceNamespaceSupport
 import java.util.*
 
-abstract class MongoPrimaryKeySupport<E, ID> : MongoNamespaceSupport<E, ID>() {
+abstract class MongoPrimaryKeySupport<E, ID> : MongoPersistenceNamespaceSupport<E, ID>() {
 
   companion object {
     private val SUPPORTED = EnumSet.of(GoblinId.Generator.NONE, GoblinId.Generator.OBJECT_ID)
