@@ -21,6 +21,7 @@ import org.goblinframework.core.util.GoblinReferenceCount;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.NumberUtils;
 import org.goblinframework.dao.mapping.EntityRevisionField;
+import org.goblinframework.dao.mongo.exception.GoblinMongoPersistenceException;
 import org.goblinframework.dao.ql.Criteria;
 import org.goblinframework.dao.ql.Query;
 import org.goblinframework.dao.ql.Update;
@@ -84,7 +85,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
 
   @Nullable
   public E replace(@NotNull final E entity) {
-    Publisher<E> publisher = __replace(entity);
+    Publisher<E> publisher = __replace1(entity);
     return new BlockingMonoSubscriber<E>().subscribe(publisher).block();
   }
 
@@ -297,7 +298,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     }
     Publisher<Long> countPublisher = collection.countDocuments(filter);
     BlockingMonoSubscriber<Long> subscriber = new BlockingMonoSubscriber<>();
-    subscriber.subscribe(countPublisher);
+    countPublisher.subscribe(subscriber);
     Long count;
     try {
       count = subscriber.block();
@@ -307,8 +308,56 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return NumberUtils.toLong(count) > 0;
   }
 
+  @Nullable
+  final public E __replace(@NotNull final E entity) {
+    ID id = getEntityId(entity);
+    if (id == null) {
+      throw new GoblinMongoPersistenceException("Id must not be null when executing replace operation");
+    }
+    beforeReplace(entity);
+    Criteria criteria = Criteria.where("_id").is(id);
+    EntityRevisionField revisionField = entityMapping.revisionField;
+    if (revisionField != null) {
+      Object revision = revisionField.getField().get(entity);
+      if (revision != null) {
+        // revision specified, use it for optimistic concurrency checks
+        criteria = criteria.and(revisionField.getName()).is(revision);
+      }
+    }
+    Bson filter = criteriaTranslator.translate(criteria);
+    Update update = new Update();
+    entityMapping.normalFields.forEach(n -> {
+      Object val = n.getField().get(entity);
+      if (val != null) {
+        update.set(n.getName(), val);
+      }
+    });
+    if (revisionField != null) {
+      update.inc(revisionField.getName(), 1);
+    }
+    if (update.export().isEmpty()) {
+      throw new GoblinMongoPersistenceException("There is nothing field(s) found when executing replace operation");
+    }
+
+    MongoNamespace namespace = getIdNamespace(id);
+    MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
+    collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
+    FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(false).returnDocument(ReturnDocument.AFTER);
+    Publisher<BsonDocument> replacePublisher = collection.findOneAndUpdate(filter, updateTranslator.translate(update), options);
+    BlockingMonoSubscriber<BsonDocument> subscriber = new BlockingMonoSubscriber<>();
+    replacePublisher.subscribe(subscriber);
+    BsonDocument replaced;
+    try {
+      replaced = subscriber.block();
+    } finally {
+      subscriber.dispose();
+    }
+    return convertBsonDocument(replaced);
+  }
+
+  @Deprecated
   @NotNull
-  final public Publisher<E> __replace(@NotNull final E entity) {
+  final public Publisher<E> __replace1(@NotNull final E entity) {
     SingleResultPublisher<E> publisher = createSingleResultPublisher();
     ID id = getEntityId(entity);
     if (id == null) {
