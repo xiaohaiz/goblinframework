@@ -29,7 +29,6 @@ import org.goblinframework.database.mongo.bson.BsonConversionService;
 import org.goblinframework.database.mongo.eql.MongoCriteriaTranslator;
 import org.goblinframework.database.mongo.eql.MongoQueryTranslator;
 import org.goblinframework.database.mongo.eql.MongoUpdateTranslator;
-import org.goblinframework.database.mongo.support.MongoConversionSupport;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Publisher;
@@ -42,13 +41,13 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-abstract public class MongoPersistenceSupport<E, ID> extends MongoConversionSupport<E, ID> {
+abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersistenceConversionSupport<E, ID> {
 
   protected final MongoCriteriaTranslator criteriaTranslator;
   protected final MongoQueryTranslator queryTranslator;
   protected final MongoUpdateTranslator updateTranslator;
 
-  protected MongoPersistenceSupport() {
+  protected MongoPersistenceOperationSupport() {
     this.criteriaTranslator = MongoCriteriaTranslator.INSTANCE;
     this.queryTranslator = MongoQueryTranslator.INSTANCE;
     this.updateTranslator = MongoUpdateTranslator.INSTANCE;

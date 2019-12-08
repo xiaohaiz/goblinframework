@@ -6,10 +6,10 @@ import com.mongodb.reactivestreams.client.MongoCollection
 import com.mongodb.reactivestreams.client.MongoDatabase
 import org.bson.BsonDocument
 import org.goblinframework.core.reactor.BlockingListSubscriber
-import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceSupport
+import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceOperationSupport
 import org.goblinframework.dao.ql.Query
 
-abstract class GoblinStaticDao<E, ID> : MongoPersistenceSupport<E, ID>() {
+abstract class GoblinStaticDao<E, ID> : MongoPersistenceOperationSupport<E, ID>() {
 
   override fun calculateDatabaseName(template: String, entity: E): String? {
     throw UnsupportedOperationException()

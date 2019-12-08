@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * @author Xiaohai Zhang
  * @since Dec 6, 2019
  */
-abstract public class MongoCachedPersistenceSupport<E, ID> extends MongoPersistenceSupport<E, ID> {
+abstract public class MongoCachedPersistenceSupport<E, ID> extends MongoPersistenceOperationSupport<E, ID> {
 
   private final CacheBean cacheBean;
   private final GoblinCacheDimension.Dimension dimension;
