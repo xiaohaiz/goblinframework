@@ -5,7 +5,7 @@ import org.goblinframework.dao.exception.GoblinDaoException
 import org.goblinframework.dao.mongo.annotation.GoblinCollection
 import java.util.*
 
-abstract class MongoCollectionSupport<E, ID> : MongoDatabaseSupport<E, ID>() {
+abstract class MongoCollectionSupport<E, ID> : MongoPersistenceDatabaseSupport<E, ID>() {
 
   private val collection: String
   private val dynamic: Boolean

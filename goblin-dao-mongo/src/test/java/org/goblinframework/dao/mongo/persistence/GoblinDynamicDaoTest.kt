@@ -30,7 +30,7 @@ class GoblinDynamicDaoTest {
   @GoblinCollection("ut_mock_dynamic_data_{}", true)
   open class MocDynamicDataDao : GoblinDynamicDao<MockDynamicData, Long>() {
 
-    override fun calculateDatabaseName(template: String, entity: MockDynamicData?): String? {
+    override fun calculateDatabaseName(template: String, entity: MockDynamicData): String? {
       return null
     }
 

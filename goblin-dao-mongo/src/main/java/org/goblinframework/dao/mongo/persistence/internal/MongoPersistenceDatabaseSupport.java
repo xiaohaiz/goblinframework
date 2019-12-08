@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-abstract public class MongoPersistenceDatabaseSupport<E, ID> extends MongoPersistenceEntityMappingSupport<E, ID> {
+abstract public class MongoPersistenceDatabaseSupport<E, ID> extends MongoPersistenceConnectionSupport<E, ID> {
 
   private final String database;
   private final boolean dynamic;
