@@ -483,60 +483,6 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return publisher;
   }
 
-  @NotNull
-  final protected Publisher<E> __executeQuery(@NotNull Query query, @NotNull MongoNamespace namespace, @Nullable ReadPreference readPreference) {
-    MongoDatabase database = mongoClient.getDatabase(namespace.getDatabaseName());
-    MongoCollection<BsonDocument> collection = database.getCollection(namespace.getCollectionName(), BsonDocument.class);
-    if (readPreference != null) {
-      collection = collection.withReadPreference(readPreference);
-    }
-    Bson filter = queryTranslator.toFilter(query);
-    FindPublisher<BsonDocument> findPublisher = collection.find(filter);
-    if (query.getLimit() != null) {
-      findPublisher = findPublisher.limit(query.getLimit());
-    }
-    if (query.getSkip() != null) {
-      findPublisher = findPublisher.skip(query.getSkip());
-    }
-    Bson projection = queryTranslator.toProjection(query);
-    if (projection != null) {
-      findPublisher = findPublisher.projection(projection);
-    }
-    Bson sort = queryTranslator.toSort(query);
-    if (sort != null) {
-      findPublisher = findPublisher.sort(sort);
-    }
-    MultipleResultsPublisher<E> publisher = createMultipleResultsPublisher();
-    findPublisher.subscribe(new Subscriber<BsonDocument>() {
-      @Override
-      public void onSubscribe(Subscription s) {
-        s.request(Long.MAX_VALUE);
-      }
-
-      @Override
-      public void onNext(BsonDocument bsonDocument) {
-        try {
-          E findResult = convertBsonDocument(bsonDocument);
-          Objects.requireNonNull(findResult);
-          publisher.onNext(findResult);
-        } catch (Exception ex) {
-          publisher.complete(ex);
-        }
-      }
-
-      @Override
-      public void onError(Throwable t) {
-        publisher.complete(t);
-      }
-
-      @Override
-      public void onComplete() {
-        publisher.complete(null);
-      }
-    });
-    return publisher;
-  }
-
   /**
    * Execute query operation on specified mongo namespace.
    *

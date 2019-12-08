@@ -5,7 +5,6 @@ import com.mongodb.ReadPreference
 import com.mongodb.reactivestreams.client.MongoCollection
 import com.mongodb.reactivestreams.client.MongoDatabase
 import org.bson.BsonDocument
-import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceOperationSupport
 import org.goblinframework.dao.ql.Query
 
@@ -42,7 +41,6 @@ abstract class GoblinStaticDao<E, ID> : MongoPersistenceOperationSupport<E, ID>(
   }
 
   fun executeQuery(query: Query, readPreference: ReadPreference?): List<E> {
-    val publisher = __executeQuery(query, getNamespace(), readPreference)
-    return BlockingListSubscriber<E>().subscribe(publisher).block()
+    return __query(query, getNamespace(), readPreference)
   }
 }
