@@ -5,12 +5,14 @@ import java.lang.annotation.*;
 @Documented
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RebuildTable {
+public @interface RebuildTableScope {
 
-  String connection();
+  boolean enable() default true;
 
-  String table();
+  RebuildTableParameter[] parameters() default {};
 
-  RebuildTableScope scope() default @RebuildTableScope(enable = false);
+  int from() default 0;
+
+  int to() default 0;
 
 }

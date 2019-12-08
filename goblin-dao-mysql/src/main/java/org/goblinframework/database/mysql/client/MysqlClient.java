@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-@GoblinManagedBean(type = "DAO.MYSQL")
+@GoblinManagedBean(type = "MysqlDao")
 final public class MysqlClient extends GoblinManagedObject implements MysqlClientMXBean {
 
   private final AtomicLong counter = new AtomicLong(0);
@@ -77,6 +77,12 @@ final public class MysqlClient extends GoblinManagedObject implements MysqlClien
   protected void disposeBean() {
     master.dispose();
     slaves.forEach(DataSource::dispose);
+  }
+
+  @NotNull
+  @Override
+  public String getName() {
+    return config.getName();
   }
 
   @NotNull

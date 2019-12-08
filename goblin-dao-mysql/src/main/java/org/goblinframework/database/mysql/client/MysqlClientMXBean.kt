@@ -4,6 +4,8 @@ import java.lang.management.PlatformManagedObject
 
 interface MysqlClientMXBean : PlatformManagedObject {
 
+  fun getName(): String
+
   fun getMaster(): DataSourceMXBean
 
 }
