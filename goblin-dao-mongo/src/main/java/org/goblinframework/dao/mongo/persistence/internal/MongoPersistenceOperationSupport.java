@@ -88,10 +88,9 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return __replace(entity);
   }
 
-  @Nullable
+  @NotNull
   public E upsert(@NotNull final E entity) {
-    Publisher<E> publisher = __upsert1(entity);
-    return new BlockingMonoSubscriber<E>().subscribe(publisher).block();
+    return __upsert(entity);
   }
 
   public boolean remove(@NotNull final ID id) {
@@ -415,81 +414,6 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     E result = convertBsonDocument(upserted);
     assert result != null;
     return result;
-  }
-
-  @NotNull
-  @Deprecated
-  final public Publisher<E> __upsert1(@NotNull final E entity) {
-    ID id = getEntityId(entity);
-    if (id == null) {
-      // No id field specified, redirect to insert operation
-      __insert(entity);
-      throw new UnsupportedOperationException("TODO");
-    }
-    long millis = System.currentTimeMillis();
-    touchUpdateTime(entity, millis);
-
-    Criteria criteria = Criteria.where("_id").is(id);
-    EntityRevisionField revisionField = entityMapping.revisionField;
-    if (revisionField != null) {
-      Object revision = revisionField.getField().get(entity);
-      if (revision != null) {
-        // revision specified, use it for optimistic concurrency checks
-        criteria = criteria.and(revisionField.getName()).is(revision);
-      }
-    }
-    Bson filter = criteriaTranslator.translate(criteria);
-
-    Update update = new Update();
-    entityMapping.updateTimeFields.forEach(ut -> {
-      Object val = ut.getField().get(entity);
-      if (val != null) {
-        update.set(ut.getName(), val);
-      }
-    });
-    entityMapping.normalFields.forEach(n -> {
-      Object val = n.getField().get(entity);
-      if (val != null) {
-        update.set(n.getName(), val);
-      }
-    });
-    if (revisionField != null) {
-      update.inc(revisionField.getName(), 1);
-    }
-    if (update.export().isEmpty()) {
-      // There is nothing field(s) found when executing upsert operation, direct to insert
-      __insert(entity);
-      throw new UnsupportedOperationException("TODO");
-    }
-    MongoNamespace namespace = getIdNamespace(id);
-    MongoDatabase database = mongoClient.getDatabase(namespace.getDatabaseName());
-    MongoCollection<BsonDocument> collection = database.getCollection(namespace.getCollectionName(), BsonDocument.class);
-    FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER);
-    SingleResultPublisher<E> publisher = createSingleResultPublisher();
-    collection.withWriteConcern(WriteConcern.ACKNOWLEDGED)
-        .findOneAndUpdate(filter, updateTranslator.translate(update), options)
-        .subscribe(new Subscriber<BsonDocument>() {
-          @Override
-          public void onSubscribe(Subscription s) {
-            s.request(1);
-          }
-
-          @Override
-          public void onNext(BsonDocument bsonDocument) {
-            E replaced = convertBsonDocument(bsonDocument);
-            publisher.complete(replaced, null);
-          }
-
-          @Override
-          public void onError(Throwable t) {
-            publisher.complete(null, t);
-          }
-
-          @Override
-          public void onComplete() {
-          }
-        });
-    return publisher;
   }
 
   @NotNull
