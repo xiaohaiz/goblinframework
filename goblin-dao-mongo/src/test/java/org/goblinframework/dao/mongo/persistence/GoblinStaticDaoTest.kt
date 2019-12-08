@@ -1,7 +1,7 @@
 package org.goblinframework.dao.mongo.persistence
 
 import org.bson.types.ObjectId
-import org.goblinframework.api.dao.GoblinId
+import org.goblinframework.api.dao.Id
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.core.reactor.BlockingListSubscriber
 import org.goblinframework.dao.annotation.PersistenceConnection
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class GoblinStaticDaoTest : SpringContainerObject() {
 
   class MockData {
-    @GoblinId(GoblinId.Generator.OBJECT_ID)
+    @Id(Id.Generator.OBJECT_ID)
     var id: String? = null
   }
 

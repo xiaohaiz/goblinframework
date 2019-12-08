@@ -12,7 +12,7 @@ class StaticExampleData : Serializable {
     private const val serialVersionUID = -4568367284300289600L
   }
 
-  @GoblinId(GoblinId.Generator.AUTO_INC)
+  @Id(Id.Generator.AUTO_INC)
   var id: Long? = null
   var name: String? = null
   @CreateTime

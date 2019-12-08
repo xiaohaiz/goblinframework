@@ -10,7 +10,7 @@ class MongoExampleData : Serializable {
         private const val serialVersionUID = -4568367284300289601L
     }
 
-    @GoblinId(GoblinId.Generator.OBJECT_ID)
+    @Id(Id.Generator.OBJECT_ID)
     var id: ObjectId? = null
     var name: String? = null
     @CreateTime

@@ -1,8 +1,8 @@
 package org.goblinframework.dao.mysql.persistence;
 
 import org.goblinframework.api.dao.GoblinField;
-import org.goblinframework.api.dao.GoblinId;
 import org.goblinframework.api.dao.GoblinRevision;
+import org.goblinframework.api.dao.Id;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.dao.annotation.PersistenceConnection;
 import org.goblinframework.dao.mysql.annotation.GoblinTable;
@@ -32,7 +32,7 @@ public class GoblinDynamicPersistenceTest {
   public static class UserLoginRecord implements Serializable {
     private static final long serialVersionUID = -4970313634722267478L;
 
-    @GoblinId(GoblinId.Generator.NONE)
+    @Id(Id.Generator.NONE)
     @GoblinField("USER_ID")
     public Long userId;
     @GoblinField("LOGIN_TIME")
