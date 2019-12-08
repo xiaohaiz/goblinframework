@@ -61,11 +61,8 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return new MultipleResultsPublisher<>(null);
   }
 
-  public void insert(@NotNull E entity) {
-    Publisher<E> publisher = __insert(entity);
-    BlockingMonoSubscriber<E> subscriber = new BlockingMonoSubscriber<>();
-    publisher.subscribe(subscriber);
-    subscriber.block();
+  public void insert(@NotNull final E entity) {
+    __insert(entity);
   }
 
   public void inserts(@NotNull Collection<E> entities) {
@@ -124,14 +121,22 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return NumberUtils.toLong(deletedCount);
   }
 
-  @NotNull
-  final public Publisher<E> __insert(@Nullable E entity) {
-    if (entity == null) {
-      SingleResultPublisher<E> publisher = createSingleResultPublisher();
-      publisher.complete(null, null);
-      return publisher;
-    }
-    return __inserts(Collections.singleton(entity));
+  /**
+   * Insert the specified entity into mongo database.
+   *
+   * @param entity The entity object to be inserted.
+   */
+  final public void __insert(@NotNull final E entity) {
+    beforeInsert(entity);
+    BsonDocument document = (BsonDocument) BsonConversionService.toBson(entity);
+    MongoNamespace namespace = getEntityNamespace(entity);
+    MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
+    collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
+    Publisher<Success> insertPublisher = collection.insertOne(document);
+    BlockingMonoSubscriber<Success> subscriber = new BlockingMonoSubscriber<>();
+    insertPublisher.subscribe(subscriber);
+    subscriber.block();
+    subscriber.dispose();
   }
 
   @NotNull
@@ -394,7 +399,8 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     ID id = getEntityId(entity);
     if (id == null) {
       // No id field specified, redirect to insert operation
-      return __insert(entity);
+      __insert(entity);
+      throw new UnsupportedOperationException("TODO");
     }
     long millis = System.currentTimeMillis();
     touchUpdateTime(entity, millis);
@@ -428,7 +434,8 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     }
     if (update.export().isEmpty()) {
       // There is nothing field(s) found when executing upsert operation, direct to insert
-      return __insert(entity);
+      __insert(entity);
+      throw new UnsupportedOperationException("TODO");
     }
     MongoNamespace namespace = getIdNamespace(id);
     MongoDatabase database = mongoClient.getDatabase(namespace.getDatabaseName());

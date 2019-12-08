@@ -1,6 +1,9 @@
 package org.goblinframework.dao.mongo.persistence.internal;
 
 import com.mongodb.MongoNamespace;
+import com.mongodb.reactivestreams.client.MongoCollection;
+import com.mongodb.reactivestreams.client.MongoDatabase;
+import org.bson.BsonDocument;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
@@ -52,5 +55,16 @@ abstract public class MongoPersistenceNamespaceSupport<E, ID> extends MongoPersi
       grouped.add(namespace, id);
     }
     return grouped;
+  }
+
+  @NotNull
+  protected MongoDatabase getMongoDatabase(@NotNull MongoNamespace namespace) {
+    return mongoClient.getDatabase(namespace.getDatabaseName());
+  }
+
+  @NotNull
+  protected MongoCollection<BsonDocument> getMongoCollection(@NotNull MongoNamespace namespace) {
+    MongoDatabase database = getMongoDatabase(namespace);
+    return database.getCollection(namespace.getCollectionName(), BsonDocument.class);
   }
 }
