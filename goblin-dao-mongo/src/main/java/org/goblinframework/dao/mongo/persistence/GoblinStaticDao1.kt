@@ -8,7 +8,8 @@ import org.bson.BsonDocument
 import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceOperationSupport
 import org.goblinframework.dao.ql.Query
 
-abstract class GoblinStaticDao<E, ID> : MongoPersistenceOperationSupport<E, ID>() {
+@Deprecated("")
+abstract class GoblinStaticDao1<E, ID> : MongoPersistenceOperationSupport<E, ID>() {
 
   override fun calculateDatabaseName(template: String, entity: E): String? {
     throw UnsupportedOperationException()

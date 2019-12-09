@@ -36,7 +36,7 @@ public class GoblinStaticDaoTest {
   @PersistenceConnection(connection = "_ut")
   @MongoPersistenceDatabase(database = "test")
   @MongoPersistenceCollection(collection = "user")
-  public static class UserDao extends GoblinStaticDao<User, Long> {
+  public static class UserDao extends GoblinStaticDao1<User, Long> {
   }
 
   @Inject private UserDao userDao;
