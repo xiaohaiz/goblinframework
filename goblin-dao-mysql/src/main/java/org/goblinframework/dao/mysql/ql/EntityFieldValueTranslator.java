@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.eql;
+package org.goblinframework.dao.mysql.ql;
 
 import org.bson.types.ObjectId;
 import org.goblinframework.core.conversion.ConversionService;

@@ -3,8 +3,6 @@ package org.goblinframework.dao.mysql.mapping
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.dao.mapping.EntityMappingBuilder
-import org.goblinframework.database.mysql.mapping.MysqlEntityFieldNameResolver
-import org.goblinframework.database.mysql.mapping.MysqlEntityFieldScanner
 
 @Singleton
 @GoblinManagedBean("MysqlDao")

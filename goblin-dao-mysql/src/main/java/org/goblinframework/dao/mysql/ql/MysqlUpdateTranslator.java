@@ -1,13 +1,13 @@
-package org.goblinframework.database.mysql.eql;
+package org.goblinframework.dao.mysql.ql;
 
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.core.conversion.ConversionService;
 import org.goblinframework.core.util.StringUtils;
+import org.goblinframework.dao.mapping.EntityMapping;
+import org.goblinframework.dao.mapping.EntityUpdateTimeField;
 import org.goblinframework.dao.ql.FieldValue;
 import org.goblinframework.dao.ql.Operator;
 import org.goblinframework.dao.ql.Update;
-import org.goblinframework.dao.mapping.EntityMapping;
-import org.goblinframework.dao.mapping.EntityUpdateTimeField;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

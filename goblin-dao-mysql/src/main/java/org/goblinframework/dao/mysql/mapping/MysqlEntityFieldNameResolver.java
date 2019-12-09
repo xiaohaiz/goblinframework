@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.mapping;
+package org.goblinframework.dao.mysql.mapping;
 
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.dao.GoblinField;

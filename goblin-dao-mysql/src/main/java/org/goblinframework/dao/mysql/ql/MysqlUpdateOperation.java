@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.eql;
+package org.goblinframework.dao.mysql.ql;
 
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.dao.mapping.*;

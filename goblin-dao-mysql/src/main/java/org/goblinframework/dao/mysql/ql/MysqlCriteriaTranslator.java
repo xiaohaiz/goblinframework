@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.eql;
+package org.goblinframework.dao.mysql.ql;
 
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.core.conversion.ConversionUtils;

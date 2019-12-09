@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.mapping;
+package org.goblinframework.dao.mysql.mapping;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.goblinframework.core.conversion.ConversionService;
@@ -25,7 +25,7 @@ public class MysqlEntityRowMapper<E> implements RowMapper<E> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public E mapRow(ResultSet rs, int rowNum) {
+  public E mapRow(@NotNull ResultSet rs, int rowNum) {
     Object entity = mapping.newInstance();
 
     List<ImmutablePair<String, EntityField>> candidate = new LinkedList<>();
