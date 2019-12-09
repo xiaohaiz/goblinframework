@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.client;
+package org.goblinframework.dao.mysql.client;
 
 import org.goblinframework.database.mysql.module.monitor.MSQ;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;

@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.client;
+package org.goblinframework.dao.mysql.client;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.client;
+package org.goblinframework.dao.mysql.client;
 
 import org.goblinframework.core.service.GoblinManagedBean;
 import org.goblinframework.core.service.GoblinManagedObject;

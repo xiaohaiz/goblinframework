@@ -1,11 +1,10 @@
-package org.goblinframework.database.mysql.client;
+package org.goblinframework.dao.mysql.client;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.goblinframework.core.service.GoblinManagedBean;
 import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.core.util.ProxyUtils;
-import org.goblinframework.database.mysql.interceptor.DataSourceInterceptor;
 import org.goblinframework.database.mysql.module.config.DataSourceConfig;
 import org.jetbrains.annotations.NotNull;
 

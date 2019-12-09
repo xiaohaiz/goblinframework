@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.client;
+package org.goblinframework.dao.mysql.client;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
