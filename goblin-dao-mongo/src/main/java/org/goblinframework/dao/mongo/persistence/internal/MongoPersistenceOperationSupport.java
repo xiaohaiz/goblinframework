@@ -56,10 +56,6 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return new SingleResultPublisher<>(null);
   }
 
-  private <T> MultipleResultsPublisher<T> createMultipleResultsPublisher() {
-    return new MultipleResultsPublisher<>(null);
-  }
-
   public void insert(@NotNull final E entity) {
     __insert(entity);
   }
@@ -97,7 +93,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
   }
 
   public long removes(@NotNull final Collection<ID> ids) {
-    Publisher<Long> publisher = __removes(ids);
+    Publisher<Long> publisher = __removes1(ids);
     Long deletedCount = new BlockingMonoSubscriber<Long>().subscribe(publisher).block();
     return NumberUtils.toLong(deletedCount);
   }
@@ -451,7 +447,8 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
   }
 
   @NotNull
-  final public Publisher<Long> __removes(@NotNull final Collection<ID> ids) {
+  @Deprecated
+  final public Publisher<Long> __removes1(@NotNull final Collection<ID> ids) {
     SingleResultPublisher<Long> publisher = createSingleResultPublisher();
     List<ID> idList = ids.stream().filter(Objects::nonNull).distinct().collect(Collectors.toList());
     if (idList.isEmpty()) {
