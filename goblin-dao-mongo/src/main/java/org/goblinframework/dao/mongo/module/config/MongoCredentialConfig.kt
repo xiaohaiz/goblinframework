@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.module.config
+package org.goblinframework.dao.mongo.module.config
 
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject

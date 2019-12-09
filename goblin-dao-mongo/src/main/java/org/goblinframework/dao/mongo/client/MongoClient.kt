@@ -2,7 +2,7 @@ package org.goblinframework.dao.mongo.client
 
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.database.mongo.module.config.MongoConfig
+import org.goblinframework.dao.mongo.module.config.MongoConfig
 
 @GoblinManagedBean("DatabaseMongo")
 class MongoClient internal constructor(private val config: MongoConfig)

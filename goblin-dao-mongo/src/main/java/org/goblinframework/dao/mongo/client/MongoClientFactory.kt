@@ -8,7 +8,7 @@ import com.mongodb.connection.netty.NettyStreamFactoryFactory
 import com.mongodb.reactivestreams.client.MongoClient
 import com.mongodb.reactivestreams.client.MongoClients
 import org.goblinframework.core.util.StringUtils
-import org.goblinframework.database.mongo.module.config.MongoConfig
+import org.goblinframework.dao.mongo.module.config.MongoConfig
 import java.util.concurrent.TimeUnit
 
 @Suppress("DEPRECATION")

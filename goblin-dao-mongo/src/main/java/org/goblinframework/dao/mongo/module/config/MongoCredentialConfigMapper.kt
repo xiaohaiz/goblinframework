@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.module.config
+package org.goblinframework.dao.mongo.module.config
 
 import java.io.Serializable
 
