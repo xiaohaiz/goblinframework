@@ -244,7 +244,16 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
               criteria = Criteria.where("_id").in(ds);
             }
             Query query = Query.query(criteria);
-            __query(query, ns, readPreference).forEach(publisher::onNext);
+            FindPublisher<BsonDocument> findPublisher = __query(query, ns, readPreference);
+            BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
+            findPublisher.subscribe(subscriber);
+            List<BsonDocument> documents;
+            try {
+              documents = subscriber.block();
+            } finally {
+              subscriber.dispose();
+            }
+            convertBsonDocuments(documents).forEach(publisher::onNext);
           } catch (Throwable ex) {
             publisher.onError(ex);
           } finally {
@@ -264,7 +273,16 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
           criteria = Criteria.where("_id").in(ds);
         }
         Query query = Query.query(criteria);
-        entityList.addAll(__query(query, ns, readPreference));
+        FindPublisher<BsonDocument> findPublisher = __query(query, ns, readPreference);
+        BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
+        findPublisher.subscribe(subscriber);
+        List<BsonDocument> documents;
+        try {
+          documents = subscriber.block();
+        } finally {
+          subscriber.dispose();
+        }
+        entityList.addAll(convertBsonDocuments(documents));
       });
     }
     Map<ID, E> entities = new LinkedHashMap<>();
@@ -509,12 +527,12 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
    * @param query          Query to be executed.
    * @param namespace      Mongo namespace.
    * @param readPreference Read preference, use default in case of null passed in.
-   * @return Query result list.
+   * @return BsonDocument FindPublisher.
    */
   @NotNull
-  final public List<E> __query(@NotNull final Query query,
-                               @NotNull final MongoNamespace namespace,
-                               @Nullable final ReadPreference readPreference) {
+  final public FindPublisher<BsonDocument> __query(@NotNull final Query query,
+                                                   @NotNull final MongoNamespace namespace,
+                                                   @Nullable final ReadPreference readPreference) {
     MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
     if (readPreference != null) {
       collection = collection.withReadPreference(readPreference);
@@ -535,14 +553,6 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     if (sort != null) {
       findPublisher = findPublisher.sort(sort);
     }
-    BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
-    subscriber.subscribe(findPublisher);
-    List<BsonDocument> documents;
-    try {
-      documents = subscriber.block();
-    } finally {
-      subscriber.dispose();
-    }
-    return convertBsonDocuments(documents);
+    return findPublisher;
   }
 }

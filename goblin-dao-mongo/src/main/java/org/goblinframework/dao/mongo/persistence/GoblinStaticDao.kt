@@ -41,6 +41,6 @@ abstract class GoblinStaticDao<E, ID> : MongoPersistenceOperationSupport<E, ID>(
   }
 
   fun executeQuery(query: Query, readPreference: ReadPreference?): List<E> {
-    return __query(query, getNamespace(), readPreference)
+    throw UnsupportedOperationException()
   }
 }
