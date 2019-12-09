@@ -5,11 +5,11 @@ import org.bson.*;
 import org.bson.types.ObjectId;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.core.util.StringUtils;
+import org.goblinframework.dao.mongo.bson.BsonConversionService;
 import org.goblinframework.dao.ql.Criteria;
 import org.goblinframework.dao.ql.CriteriaTranslator;
 import org.goblinframework.dao.ql.Operator;
 import org.goblinframework.dao.ql.OperatorValue;
-import org.goblinframework.database.mongo.bson.BsonConversionService;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;

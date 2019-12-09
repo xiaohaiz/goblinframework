@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.bson;
+package org.goblinframework.dao.mongo.bson;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;

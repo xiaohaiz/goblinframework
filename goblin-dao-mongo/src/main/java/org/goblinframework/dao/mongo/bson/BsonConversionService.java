@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.bson;
+package org.goblinframework.dao.mongo.bson;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +12,7 @@ import org.bson.io.BasicOutputBuffer;
 import org.bson.types.ObjectId;
 import org.goblinframework.api.function.ValueWrapper;
 import org.goblinframework.core.mapper.JsonMapper;
+import org.goblinframework.dao.mongo.exception.GoblinMongoBsonException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -111,7 +112,7 @@ abstract public class BsonConversionService {
       byte[] bytes = output.toByteArray();
       return BsonMapper.getDefaultObjectMapper().readValue(bytes, type);
     } catch (Exception ex) {
-      throw new GoblinBsonException(ex);
+      throw new GoblinMongoBsonException(ex);
     }
   }
 
@@ -134,7 +135,7 @@ abstract public class BsonConversionService {
       BsonMapper.getDefaultObjectMapper().writeValue((OutputStream) bos, map);
       bs = ByteBufUtil.getBytes(buf);
     } catch (Exception ex) {
-      throw new GoblinBsonException(ex);
+      throw new GoblinMongoBsonException(ex);
     } finally {
       buf.release();
     }

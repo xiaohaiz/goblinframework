@@ -1,9 +1,8 @@
-package org.goblinframework.database.mongo.bson
+package org.goblinframework.dao.mongo.bson
 
 import com.fasterxml.jackson.core.JsonEncoding
 import de.undercouch.bson4jackson.BsonFactory
 import de.undercouch.bson4jackson.BsonGenerator
-import org.goblinframework.dao.mongo.bson.GoblinBsonGenerator
 import java.io.OutputStream
 
 /**

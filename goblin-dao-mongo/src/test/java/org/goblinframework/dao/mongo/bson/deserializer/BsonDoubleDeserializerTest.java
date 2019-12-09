@@ -1,7 +1,7 @@
 package org.goblinframework.dao.mongo.bson.deserializer;
 
 import org.bson.BsonDocument;
-import org.goblinframework.database.mongo.bson.BsonConversionService;
+import org.goblinframework.dao.mongo.bson.BsonConversionService;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;

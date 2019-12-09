@@ -2,7 +2,7 @@ package org.goblinframework.dao.mongo.persistence.internal;
 
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
-import org.goblinframework.database.mongo.bson.BsonConversionService;
+import org.goblinframework.dao.mongo.bson.BsonConversionService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
