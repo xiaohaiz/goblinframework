@@ -45,11 +45,20 @@ abstract public class GoblinStaticDao<E, ID> extends MongoPersistenceOperationSu
   }
 
   final public long __count() {
-    return __count(new Criteria());
+    return __count(ReadPreference.primary());
+  }
+
+  final public long __count(@Nullable final ReadPreference readPreference) {
+    return __count(readPreference, new Criteria());
   }
 
   final public long __count(@NotNull final Criteria criteria) {
-    Publisher<Long> publisher = __count(criteria, getNamespace(), ReadPreference.primary());
+    return __count(ReadPreference.primary(), criteria);
+  }
+
+  final public long __count(@Nullable final ReadPreference readPreference,
+                            @NotNull final Criteria criteria) {
+    Publisher<Long> publisher = __count(criteria, getNamespace(), readPreference);
     BlockingMonoSubscriber<Long> subscriber = new BlockingMonoSubscriber<>();
     publisher.subscribe(subscriber);
     Long count;
