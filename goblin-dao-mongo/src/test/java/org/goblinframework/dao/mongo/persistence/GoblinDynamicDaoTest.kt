@@ -28,7 +28,7 @@ class GoblinDynamicDaoTest {
   @PersistenceConnection(connection = "_ut")
   @MongoPersistenceDatabase(database = "test")
   @MongoPersistenceCollection(collection = "ut_mock_dynamic_data_{}", dynamic = true)
-  open class MocDynamicDataDao : GoblinDynamicDao1<MockDynamicData, Long>() {
+  open class MocDynamicDataDao : GoblinDynamicDao<MockDynamicData, Long>() {
 
     override fun calculateDatabaseName(template: String, entity: MockDynamicData): String? {
       return null
