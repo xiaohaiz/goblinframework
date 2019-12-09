@@ -1,7 +1,7 @@
 package org.goblinframework.dao.mysql.persistence.internal;
 
 import org.goblinframework.core.util.AnnotationUtils;
-import org.goblinframework.dao.mysql.annotation.GoblinTable;
+import org.goblinframework.dao.mysql.annotation.MysqlPersistenceTable;
 import org.goblinframework.dao.mysql.exception.GoblinMysqlPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +16,7 @@ abstract public class MysqlPersistenceTableSupport<E, ID> extends MysqlPersisten
   private final boolean dynamic;
 
   protected MysqlPersistenceTableSupport() {
-    GoblinTable annotation = AnnotationUtils.getAnnotation(getClass(), GoblinTable.class);
+    MysqlPersistenceTable annotation = AnnotationUtils.getAnnotation(getClass(), MysqlPersistenceTable.class);
     if (annotation == null) {
       throw new GoblinMysqlPersistenceException("No @GoblinTable presented");
     }

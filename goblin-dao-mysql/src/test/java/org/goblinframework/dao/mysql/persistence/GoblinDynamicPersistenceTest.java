@@ -5,7 +5,7 @@ import org.goblinframework.api.dao.GoblinRevision;
 import org.goblinframework.api.dao.Id;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.dao.annotation.PersistenceConnection;
-import org.goblinframework.dao.mysql.annotation.GoblinTable;
+import org.goblinframework.dao.mysql.annotation.MysqlPersistenceTable;
 import org.goblinframework.dao.mysql.module.test.RebuildTable;
 import org.goblinframework.dao.mysql.module.test.RebuildTableScope;
 import org.goblinframework.test.runner.GoblinTestRunner;
@@ -44,7 +44,7 @@ public class GoblinDynamicPersistenceTest {
 
   @Repository
   @PersistenceConnection(connection = "_ut")
-  @GoblinTable(table = "UT_USER_LOGIN_RECORD_{}", dynamic = true)
+  @MysqlPersistenceTable(table = "UT_USER_LOGIN_RECORD_{}", dynamic = true)
   public static class UserLoginRecordPersistence extends GoblinDynamicPersistence<UserLoginRecord, Long> {
     @NotNull
     @Override
