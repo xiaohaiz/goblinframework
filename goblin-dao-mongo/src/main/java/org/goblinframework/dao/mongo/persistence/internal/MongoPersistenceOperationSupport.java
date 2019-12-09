@@ -8,15 +8,16 @@ import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.reactivestreams.client.FindPublisher;
 import com.mongodb.reactivestreams.client.MongoCollection;
-import com.mongodb.reactivestreams.client.MongoDatabase;
 import com.mongodb.reactivestreams.client.Success;
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.conversions.Bson;
 import org.goblinframework.core.monitor.FlightExecutor;
 import org.goblinframework.core.monitor.FlightRecorder;
-import org.goblinframework.core.reactor.*;
-import org.goblinframework.core.util.GoblinReferenceCount;
+import org.goblinframework.core.reactor.BlockingListPublisher;
+import org.goblinframework.core.reactor.BlockingListSubscriber;
+import org.goblinframework.core.reactor.BlockingMonoSubscriber;
+import org.goblinframework.core.reactor.CoreScheduler;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.NumberUtils;
 import org.goblinframework.dao.mapping.EntityRevisionField;
@@ -31,8 +32,6 @@ import org.goblinframework.database.mongo.eql.MongoUpdateTranslator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Publisher;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 import org.springframework.util.LinkedMultiValueMap;
 import reactor.core.scheduler.Scheduler;
 
@@ -50,10 +49,6 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     this.criteriaTranslator = MongoCriteriaTranslator.INSTANCE;
     this.queryTranslator = MongoQueryTranslator.INSTANCE;
     this.updateTranslator = MongoUpdateTranslator.INSTANCE;
-  }
-
-  private <T> SingleResultPublisher<T> createSingleResultPublisher() {
-    return new SingleResultPublisher<>(null);
   }
 
   public void insert(@NotNull final E entity) {
@@ -89,13 +84,11 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
   }
 
   public boolean remove(@NotNull final ID id) {
-    return __remove(id);
+    return __delete(id);
   }
 
   public long removes(@NotNull final Collection<ID> ids) {
-    Publisher<Long> publisher = __removes1(ids);
-    Long deletedCount = new BlockingMonoSubscriber<Long>().subscribe(publisher).block();
-    return NumberUtils.toLong(deletedCount);
+    return __deletes(ids);
   }
 
   /**
@@ -427,13 +420,10 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return result;
   }
 
-  final public boolean __remove(@NotNull final ID id) {
+  final public boolean __delete(@NotNull final ID id) {
     MongoNamespace namespace = getIdNamespace(id);
-    MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
-    collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
     Criteria criteria = Criteria.where("_id").is(id);
-    Bson filter = criteriaTranslator.translate(criteria);
-    Publisher<DeleteResult> deletePublisher = collection.deleteOne(filter);
+    Publisher<DeleteResult> deletePublisher = __deleteOne(namespace, criteria);
     BlockingMonoSubscriber<DeleteResult> subscriber = new BlockingMonoSubscriber<>();
     deletePublisher.subscribe(subscriber);
     DeleteResult deleteResult;
@@ -446,6 +436,10 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return deleteResult.getDeletedCount() > 0;
   }
 
+  final public long __deletes(@NotNull final Collection<ID> ids) {
+    return __deletes(ids, true);
+  }
+
   final public long __deletes(@NotNull final Collection<ID> ids,
                               final boolean parallel) {
     List<ID> idList = ids.stream().filter(Objects::nonNull).distinct().collect(Collectors.toList());
@@ -453,8 +447,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
       return 0;
     }
     if (idList.size() == 1) {
-      ID id = idList.iterator().next();
-      return __remove(id) ? 1 : 0;
+      return __delete(idList.iterator().next()) ? 1 : 0;
     }
     AtomicLong deletedCount = new AtomicLong();
     LinkedMultiValueMap<MongoNamespace, ID> groupIds = groupIds(idList);
@@ -515,58 +508,6 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
       });
     }
     return deletedCount.get();
-  }
-
-  @NotNull
-  @Deprecated
-  final public Publisher<Long> __removes1(@NotNull final Collection<ID> ids) {
-    SingleResultPublisher<Long> publisher = createSingleResultPublisher();
-    List<ID> idList = ids.stream().filter(Objects::nonNull).distinct().collect(Collectors.toList());
-    if (idList.isEmpty()) {
-      publisher.complete(0L, null);
-      return publisher;
-    }
-    LinkedMultiValueMap<MongoNamespace, ID> grouped = groupIds(idList);
-    AtomicLong deletedCount = new AtomicLong();
-    GoblinReferenceCount referenceCount = new GoblinReferenceCount(grouped.size());
-    grouped.forEach((ns, ds) -> {
-      MongoDatabase database = mongoClient.getDatabase(ns.getDatabaseName());
-      MongoCollection<BsonDocument> collection = database.getCollection(ns.getCollectionName(), BsonDocument.class);
-      Publisher<DeleteResult> deletePublisher;
-      if (ds.size() == 1) {
-        Criteria criteria = Criteria.where("_id").is(ds.iterator().next());
-        Bson filter = criteriaTranslator.translate(criteria);
-        deletePublisher = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED).deleteOne(filter);
-      } else {
-        Criteria criteria = Criteria.where("_id").in(ds);
-        Bson filter = criteriaTranslator.translate(criteria);
-        deletePublisher = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED).deleteMany(filter);
-      }
-      deletePublisher.subscribe(new Subscriber<DeleteResult>() {
-        @Override
-        public void onSubscribe(Subscription s) {
-          s.request(1);
-        }
-
-        @Override
-        public void onNext(DeleteResult deleteResult) {
-          deletedCount.addAndGet(deleteResult.getDeletedCount());
-        }
-
-        @Override
-        public void onError(Throwable t) {
-          publisher.complete(null, t);
-        }
-
-        @Override
-        public void onComplete() {
-          if (referenceCount.release()) {
-            publisher.complete(deletedCount.get(), null);
-          }
-        }
-      });
-    });
-    return publisher;
   }
 
   /**
