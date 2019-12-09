@@ -12,7 +12,7 @@ import kotlin.concurrent.withLock
 
 @Singleton
 @ThreadSafe
-@GoblinManagedBean("DatabaseMongo")
+@GoblinManagedBean("MongoDao")
 class MongoClientManager private constructor() : GoblinManagedObject(), MongoClientManagerMXBean {
 
   companion object {
@@ -27,7 +27,7 @@ class MongoClientManager private constructor() : GoblinManagedObject(), MongoCli
     lock.withLock {
       buffer[name]?.run { return value }
       val cm = MongoConfigManager.INSTANCE
-      val client = cm.getMongoClient(name)?.run { MongoClient(this) }
+      val client = cm.getMongoConfig(name)?.run { MongoClient(this) }
       buffer[name] = MutableObject(client)
       return client
     }

@@ -4,7 +4,7 @@ import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.dao.mongo.module.config.MongoConfig
 
-@GoblinManagedBean("DatabaseMongo")
+@GoblinManagedBean("MongoDao")
 class MongoClient internal constructor(private val config: MongoConfig)
   : GoblinManagedObject(), MongoClientMXBean {
 

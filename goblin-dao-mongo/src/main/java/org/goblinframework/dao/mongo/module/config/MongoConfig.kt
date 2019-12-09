@@ -4,7 +4,7 @@ import org.goblinframework.core.config.GoblinConfig
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 
-@GoblinManagedBean(type = "DatabaseMongo")
+@GoblinManagedBean(type = "MongoDao")
 class MongoConfig internal constructor(val mapper: MongoConfigMapper)
   : GoblinManagedObject(), GoblinConfig, MongoConfigMXBean {
 

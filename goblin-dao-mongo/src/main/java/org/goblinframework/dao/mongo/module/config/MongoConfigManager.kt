@@ -5,9 +5,8 @@ import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 
 @Singleton
-@GoblinManagedBean("DatabaseMongo")
-class MongoConfigManager private constructor()
-  : GoblinManagedObject(), MongoConfigManagerMXBean {
+@GoblinManagedBean("MongoDao")
+class MongoConfigManager private constructor() : GoblinManagedObject(), MongoConfigManagerMXBean {
 
   companion object {
     @JvmField val INSTANCE = MongoConfigManager()
@@ -15,12 +14,20 @@ class MongoConfigManager private constructor()
 
   private val configParser = MongoConfigParser()
 
-  init {
+  override fun initializeBean() {
     configParser.initialize()
   }
 
-  fun getMongoClient(name: String): MongoConfig? {
+  fun getMongoConfig(name: String): MongoConfig? {
     return configParser.getFromBuffer(name)
+  }
+
+  fun getMongoConfigs(): List<MongoConfig> {
+    return configParser.asList()
+  }
+
+  override fun getMongoConfigList(): Array<MongoConfigMXBean> {
+    return getMongoConfigs().toTypedArray()
   }
 
   override fun disposeBean() {

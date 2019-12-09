@@ -12,9 +12,9 @@ import org.springframework.test.context.ContextConfiguration
 class MongoConfigManagerTest : SpringContainerObject() {
 
   @Test
-  fun getMongoClient() {
+  fun getMongoConfig() {
     val configManager = MongoConfigManager.INSTANCE
-    val config = configManager.getMongoClient("_ut")
+    val config = configManager.getMongoConfig("_ut")
     assertNotNull(config)
   }
 }
