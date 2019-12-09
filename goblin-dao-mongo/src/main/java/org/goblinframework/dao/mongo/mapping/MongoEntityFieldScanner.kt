@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.mapping
+package org.goblinframework.dao.mongo.mapping
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.goblinframework.api.annotation.Ignore
