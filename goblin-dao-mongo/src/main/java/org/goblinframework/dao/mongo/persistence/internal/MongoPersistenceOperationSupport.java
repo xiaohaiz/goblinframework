@@ -165,7 +165,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     Bson filter = criteriaTranslator.translate(criteria);
     FindPublisher<BsonDocument> findPublisher = collection.find(filter);
     BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
-    subscriber.subscribe(findPublisher);
+    findPublisher.subscribe(subscriber);
     List<BsonDocument> documents;
     try {
       documents = subscriber.block();
