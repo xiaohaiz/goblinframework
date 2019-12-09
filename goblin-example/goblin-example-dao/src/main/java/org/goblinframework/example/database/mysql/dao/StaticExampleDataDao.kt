@@ -1,6 +1,7 @@
 package org.goblinframework.example.database.mysql.dao
 
 import org.goblinframework.dao.annotation.PersistenceConnection
+import org.goblinframework.dao.mysql.annotation.GoblinTable
 import org.goblinframework.dao.ql.Criteria
 import org.goblinframework.dao.ql.Query
 import org.goblinframework.database.mysql.persistence.GoblinStaticPersistence
@@ -8,7 +9,8 @@ import org.goblinframework.example.database.mysql.entity.StaticExampleData
 import org.springframework.stereotype.Repository
 
 @Repository
-@PersistenceConnection(connection = "exmaple")
+@PersistenceConnection(connection = "example")
+@GoblinTable(table = "STATIC_EXAMPLE_DATA")
 class StaticExampleDataDao : GoblinStaticPersistence<StaticExampleData, Long>() {
 
   fun queryByName(name: String): List<StaticExampleData> {

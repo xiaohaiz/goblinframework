@@ -23,7 +23,8 @@ class MysqlConfigManager private constructor() : GoblinManagedObject(), MysqlCon
   }
 
   fun getMysqlConfig(name: String): MysqlConfig? {
-    return configParser.getFromBuffer(name)
+    val c = configParser.getFromBuffer(name)
+    return c
   }
 
   override fun disposeBean() {

@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-@GoblinManagedBean(type = "DAO")
+@GoblinManagedBean(type = "Dao")
 public class EntityMapping extends GoblinManagedObject implements EntityMappingMXBean {
 
   public Class<?> entityClass;
