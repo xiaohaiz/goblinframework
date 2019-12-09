@@ -7,7 +7,7 @@ import org.goblinframework.core.system.ModuleFinalizeContext
 import org.goblinframework.core.system.ModuleInstallContext
 import org.goblinframework.dao.mongo.client.MongoClientManager
 import org.goblinframework.dao.mongo.module.config.MongoConfigManager
-import org.goblinframework.database.mongo.module.test.DropMongoDatabaseBeforeTestMethod
+import org.goblinframework.dao.mongo.module.test.DropDatabaseBeforeTestMethod
 
 @Install
 class MongoDaoModule : ISubModule {
@@ -17,7 +17,7 @@ class MongoDaoModule : ISubModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    ctx.registerTestExecutionListener(DropMongoDatabaseBeforeTestMethod.INSTANCE)
+    ctx.registerTestExecutionListener(DropDatabaseBeforeTestMethod.INSTANCE)
   }
 
   override fun finalize(ctx: ModuleFinalizeContext) {

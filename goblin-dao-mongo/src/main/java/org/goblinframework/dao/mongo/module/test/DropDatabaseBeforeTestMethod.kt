@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.module.test
+package org.goblinframework.dao.mongo.module.test
 
 import com.mongodb.reactivestreams.client.Success
 import org.goblinframework.api.annotation.Singleton
@@ -11,11 +11,11 @@ import org.goblinframework.dao.mongo.client.MongoClientManager
 import org.slf4j.LoggerFactory
 
 @Singleton
-class DropMongoDatabaseBeforeTestMethod private constructor() : TestExecutionListener {
+class DropDatabaseBeforeTestMethod private constructor() : TestExecutionListener {
 
   companion object {
-    private val logger = LoggerFactory.getLogger(DropMongoDatabaseBeforeTestMethod::class.java)
-    @JvmField val INSTANCE = DropMongoDatabaseBeforeTestMethod()
+    private val logger = LoggerFactory.getLogger(DropDatabaseBeforeTestMethod::class.java)
+    @JvmField val INSTANCE = DropDatabaseBeforeTestMethod()
   }
 
   override fun beforeTestMethod(testContext: TestContext) {
@@ -39,15 +39,15 @@ class DropMongoDatabaseBeforeTestMethod private constructor() : TestExecutionLis
     }
   }
 
-  private fun lookupAnnotations(testContext: TestContext): List<DropMongoDatabase>? {
-    val annotations = mutableListOf<DropMongoDatabase>()
-    var s = testContext.getTestMethod().getAnnotation(DropMongoDatabase::class.java)
+  private fun lookupAnnotations(testContext: TestContext): List<DropDatabase>? {
+    val annotations = mutableListOf<DropDatabase>()
+    var s = testContext.getTestMethod().getAnnotation(DropDatabase::class.java)
     s?.run { annotations.add(this) }
-    var m = testContext.getTestMethod().getAnnotation(DropMongoDatabases::class.java)
+    var m = testContext.getTestMethod().getAnnotation(DropDatabases::class.java)
     m?.run { annotations.addAll(this.value) }
-    s = testContext.getTestClass().getAnnotation(DropMongoDatabase::class.java)
+    s = testContext.getTestClass().getAnnotation(DropDatabase::class.java)
     s?.run { annotations.add(this) }
-    m = testContext.getTestClass().getAnnotation(DropMongoDatabases::class.java)
+    m = testContext.getTestClass().getAnnotation(DropDatabases::class.java)
     m?.run { annotations.addAll(this.value) }
     return if (annotations.isEmpty()) null else annotations
   }

@@ -5,7 +5,7 @@ import org.goblinframework.core.util.StringUtils
 import org.goblinframework.dao.annotation.PersistenceConnection
 import org.goblinframework.dao.mongo.annotation.MongoPersistenceCollection
 import org.goblinframework.dao.mongo.annotation.MongoPersistenceDatabase
-import org.goblinframework.database.mongo.module.test.DropMongoDatabase
+import org.goblinframework.dao.mongo.module.test.DropDatabase
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertNotNull
 import org.junit.Test
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-@DropMongoDatabase("_ut")
+@DropDatabase("_ut")
 class GoblinDynamicDaoTest {
 
   class MockDynamicData {

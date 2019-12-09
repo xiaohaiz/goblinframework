@@ -4,7 +4,7 @@ import org.goblinframework.api.dao.Id;
 import org.goblinframework.dao.annotation.PersistenceConnection;
 import org.goblinframework.dao.mongo.annotation.MongoPersistenceCollection;
 import org.goblinframework.dao.mongo.annotation.MongoPersistenceDatabase;
-import org.goblinframework.database.mongo.module.test.DropMongoDatabase;
+import org.goblinframework.dao.mongo.module.test.DropDatabase;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
-@DropMongoDatabase("_ut")
+@DropDatabase("_ut")
 public class GoblinStaticDaoTest {
 
   public static class User implements Serializable {
