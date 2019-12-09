@@ -12,8 +12,6 @@ import com.mongodb.reactivestreams.client.Success;
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.conversions.Bson;
-import org.goblinframework.core.monitor.FlightExecutor;
-import org.goblinframework.core.monitor.FlightRecorder;
 import org.goblinframework.core.reactor.BlockingListPublisher;
 import org.goblinframework.core.reactor.BlockingListSubscriber;
 import org.goblinframework.core.reactor.BlockingMonoSubscriber;
@@ -125,30 +123,27 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     entityList.forEach(this::beforeInsert);
     LinkedMultiValueMap<MongoNamespace, E> groupedEntities = groupEntities(entityList);
     BlockingListPublisher<Success> publisher = new BlockingListPublisher<>(groupedEntities.size());
-    FlightExecutor executor = FlightRecorder.currentFlightExecutor();
     groupedEntities.forEach((ns, es) -> {
       Scheduler scheduler = CoreScheduler.getInstance();
       scheduler.schedule(() -> {
-        executor.execute(() -> {
+        try {
+          List<BsonDocument> documents = ((BsonArray) BsonConversionService.toBson(es)).stream()
+              .map(e -> (BsonDocument) e).collect(Collectors.toList());
+          MongoCollection<BsonDocument> collection = getMongoCollection(ns);
+          collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
+          Publisher<Success> insertPublisher = collection.insertMany(documents);
+          BlockingListSubscriber<Success> subscriber = new BlockingListSubscriber<>();
+          insertPublisher.subscribe(subscriber);
           try {
-            List<BsonDocument> documents = ((BsonArray) BsonConversionService.toBson(es)).stream()
-                .map(e -> (BsonDocument) e).collect(Collectors.toList());
-            MongoCollection<BsonDocument> collection = getMongoCollection(ns);
-            collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
-            Publisher<Success> insertPublisher = collection.insertMany(documents);
-            BlockingListSubscriber<Success> subscriber = new BlockingListSubscriber<>();
-            insertPublisher.subscribe(subscriber);
-            try {
-              subscriber.block();
-            } finally {
-              subscriber.dispose();
-            }
-          } catch (Throwable ex) {
-            publisher.onError(ex);
+            subscriber.block();
           } finally {
-            publisher.onComplete();
+            subscriber.dispose();
           }
-        });
+        } catch (Throwable ex) {
+          publisher.onError(ex);
+        } finally {
+          publisher.onComplete();
+        }
       });
     });
     publisher.block();
@@ -220,10 +215,9 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     LinkedMultiValueMap<MongoNamespace, ID> groupIds = groupIds(idList);
     if (groupIds.size() > 1 && parallel) {
       BlockingListPublisher<E> publisher = new BlockingListPublisher<>(groupIds.size());
-      FlightExecutor executor = FlightRecorder.currentFlightExecutor();
       groupIds.forEach((ns, ds) -> {
         Scheduler scheduler = CoreScheduler.getInstance();
-        scheduler.schedule(() -> executor.execute(() -> {
+        scheduler.schedule(() -> {
           try {
             Criteria criteria;
             if (ds.size() == 1) {
@@ -248,7 +242,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
           } finally {
             publisher.onComplete();
           }
-        }));
+        });
       });
       entityList = publisher.block();
     } else {
@@ -453,10 +447,9 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     LinkedMultiValueMap<MongoNamespace, ID> groupIds = groupIds(idList);
     if (groupIds.size() > 1 && parallel) {
       BlockingListPublisher<DeleteResult> publisher = new BlockingListPublisher<>(groupIds.size());
-      FlightExecutor executor = FlightRecorder.currentFlightExecutor();
       groupIds.forEach((ns, ds) -> {
         Scheduler scheduler = CoreScheduler.getInstance();
-        scheduler.schedule(() -> executor.execute(() -> {
+        scheduler.schedule(() -> {
           try {
             Publisher<DeleteResult> deletePublisher;
             if (ds.size() == 1) {
@@ -481,7 +474,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
           } finally {
             publisher.onComplete();
           }
-        }));
+        });
       });
       deletedCount.set(publisher.block().stream().filter(Objects::nonNull).mapToLong(DeleteResult::getDeletedCount).sum());
     } else {
