@@ -101,4 +101,21 @@ public class GoblinStaticDaoTest {
     userDao.insert(user);
     assertTrue(userDao.exists(1L));
   }
+
+  @Test
+  public void count() {
+    List<User> users = new ArrayList<>();
+    User user = new User();
+    user.userId = 1L;
+    users.add(user);
+    user = new User();
+    user.userId = 2L;
+    users.add(user);
+    user = new User();
+    user.userId = 3L;
+    users.add(user);
+    userDao.inserts(users);
+    assertEquals(3, userDao.count());
+    assertEquals(3, userDao.find().size());
+  }
 }

@@ -44,20 +44,28 @@ abstract public class GoblinStaticDao<E, ID> extends MongoPersistenceOperationSu
     return new MongoNamespace(database, collection);
   }
 
-  final public long __count() {
+  public long count() {
+    return __count();
+  }
+
+  public List<E> find() {
+    return __find();
+  }
+
+  final protected long __count() {
     return __count(ReadPreference.primary());
   }
 
-  final public long __count(@Nullable final ReadPreference readPreference) {
+  final protected long __count(@Nullable final ReadPreference readPreference) {
     return __count(readPreference, new Criteria());
   }
 
-  final public long __count(@NotNull final Criteria criteria) {
+  final protected long __count(@NotNull final Criteria criteria) {
     return __count(ReadPreference.primary(), criteria);
   }
 
-  final public long __count(@Nullable final ReadPreference readPreference,
-                            @NotNull final Criteria criteria) {
+  final protected long __count(@Nullable final ReadPreference readPreference,
+                               @NotNull final Criteria criteria) {
     Publisher<Long> publisher = __count(criteria, getNamespace(), readPreference);
     BlockingMonoSubscriber<Long> subscriber = new BlockingMonoSubscriber<>();
     publisher.subscribe(subscriber);
@@ -71,25 +79,25 @@ abstract public class GoblinStaticDao<E, ID> extends MongoPersistenceOperationSu
   }
 
   @NotNull
-  final public List<E> __find() {
+  final protected List<E> __find() {
     return __find(ReadPreference.primary());
   }
 
   @NotNull
-  final public List<E> __find(@Nullable final ReadPreference readPreference) {
+  final protected List<E> __find(@Nullable final ReadPreference readPreference) {
     Criteria criteria = new Criteria();
     Query query = Query.query(criteria);
     return __find(readPreference, query);
   }
 
   @NotNull
-  final public List<E> __find(@NotNull final Query query) {
+  final protected List<E> __find(@NotNull final Query query) {
     return __find(ReadPreference.primary(), query);
   }
 
   @NotNull
-  final public List<E> __find(@Nullable final ReadPreference readPreference,
-                              @NotNull final Query query) {
+  final protected List<E> __find(@Nullable final ReadPreference readPreference,
+                                 @NotNull final Query query) {
     FindPublisher<BsonDocument> findPublisher = __find(query, getNamespace(), readPreference);
     BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
     findPublisher.subscribe(subscriber);
