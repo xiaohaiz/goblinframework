@@ -22,6 +22,12 @@ class MongoClientManager private constructor() : GoblinManagedObject(), MongoCli
   private val lock = ReentrantLock()
   private val buffer = ConcurrentHashMap<String, MutableObject<MongoClient?>>()
 
+  override fun initializeBean() {
+    MongoConfigManager.INSTANCE.getMongoConfigs()
+        .filter { it.getAutoInit() }
+        .forEach { getMongoClient(it.getName()) }
+  }
+
   fun getMongoClient(name: String): MongoClient? {
     buffer[name]?.run { return value }
     lock.withLock {
