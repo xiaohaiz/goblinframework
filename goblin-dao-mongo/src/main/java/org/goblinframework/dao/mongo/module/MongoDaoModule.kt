@@ -5,7 +5,7 @@ import org.goblinframework.core.system.GoblinSubModule
 import org.goblinframework.core.system.ISubModule
 import org.goblinframework.core.system.ModuleFinalizeContext
 import org.goblinframework.core.system.ModuleInstallContext
-import org.goblinframework.database.mongo.client.MongoClientManager
+import org.goblinframework.dao.mongo.client.MongoClientManager
 import org.goblinframework.database.mongo.module.config.MongoConfigManager
 import org.goblinframework.database.mongo.module.test.DropMongoDatabaseBeforeTestMethod
 

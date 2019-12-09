@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.client
+package org.goblinframework.dao.mongo.client
 
 import com.mongodb.MongoClientSettings
 import com.mongodb.MongoCredential

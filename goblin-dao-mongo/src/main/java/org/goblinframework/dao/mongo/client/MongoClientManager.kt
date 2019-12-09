@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.client
+package org.goblinframework.dao.mongo.client
 
 import org.apache.commons.lang3.mutable.MutableObject
 import org.goblinframework.api.annotation.Singleton

@@ -2,9 +2,9 @@ package org.goblinframework.dao.mongo.persistence.internal;
 
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.dao.annotation.PersistenceConnection;
+import org.goblinframework.dao.mongo.client.MongoClient;
+import org.goblinframework.dao.mongo.client.MongoClientManager;
 import org.goblinframework.dao.mongo.exception.GoblinMongoPersistenceException;
-import org.goblinframework.database.mongo.client.MongoClient;
-import org.goblinframework.database.mongo.client.MongoClientManager;
 
 abstract public class MongoPersistenceConnectionSupport<E, ID> extends MongoPersistenceEntityMappingSupport<E, ID> {
 
