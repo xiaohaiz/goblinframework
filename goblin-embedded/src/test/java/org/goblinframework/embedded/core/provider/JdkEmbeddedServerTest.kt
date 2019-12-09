@@ -1,10 +1,10 @@
 package org.goblinframework.embedded.core.provider
 
 import org.bson.types.ObjectId
-import org.goblinframework.embedded.core.EmbeddedServerMode
 import org.goblinframework.embedded.core.handler.ServletHandler
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting
+import org.goblinframework.embedded.server.EmbeddedServerMode
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.goblinframework.webmvc.servlet.ServletRequest
 import org.goblinframework.webmvc.servlet.ServletResponse

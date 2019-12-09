@@ -1,7 +1,7 @@
 package org.goblinframework.embedded.netty.provider
 
-import org.goblinframework.embedded.core.EmbeddedServer
 import org.goblinframework.embedded.core.setting.ServerSetting
+import org.goblinframework.embedded.server.EmbeddedServer
 import java.util.concurrent.atomic.AtomicReference
 
 class NettyEmbeddedServer(private val setting: ServerSetting) : EmbeddedServer {

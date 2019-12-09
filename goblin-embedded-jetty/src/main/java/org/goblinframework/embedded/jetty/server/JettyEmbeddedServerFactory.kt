@@ -1,9 +1,9 @@
-package org.goblinframework.embedded.jetty.provider
+package org.goblinframework.embedded.jetty.server
 
-import org.goblinframework.embedded.core.EmbeddedServer
-import org.goblinframework.embedded.core.EmbeddedServerMode
-import org.goblinframework.embedded.core.module.spi.EmbeddedServerFactory
 import org.goblinframework.embedded.core.setting.ServerSetting
+import org.goblinframework.embedded.server.EmbeddedServer
+import org.goblinframework.embedded.server.EmbeddedServerFactory
+import org.goblinframework.embedded.server.EmbeddedServerMode
 
 class JettyEmbeddedServerFactory : EmbeddedServerFactory {
 

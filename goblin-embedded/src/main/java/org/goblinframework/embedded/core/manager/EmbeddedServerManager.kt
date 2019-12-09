@@ -3,10 +3,10 @@ package org.goblinframework.embedded.core.manager
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.service.ServiceInstaller
-import org.goblinframework.embedded.core.EmbeddedServer
-import org.goblinframework.embedded.core.EmbeddedServerMode
-import org.goblinframework.embedded.core.module.spi.EmbeddedServerFactory
 import org.goblinframework.embedded.core.setting.ServerSetting
+import org.goblinframework.embedded.server.EmbeddedServer
+import org.goblinframework.embedded.server.EmbeddedServerFactory
+import org.goblinframework.embedded.server.EmbeddedServerMode
 import java.util.*
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read

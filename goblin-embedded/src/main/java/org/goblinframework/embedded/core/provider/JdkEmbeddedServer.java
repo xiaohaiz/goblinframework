@@ -1,7 +1,7 @@
 package org.goblinframework.embedded.core.provider;
 
-import org.goblinframework.embedded.core.EmbeddedServer;
 import org.goblinframework.embedded.core.setting.ServerSetting;
+import org.goblinframework.embedded.server.EmbeddedServer;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

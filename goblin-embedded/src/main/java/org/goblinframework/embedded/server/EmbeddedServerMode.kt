@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core
+package org.goblinframework.embedded.server
 
 enum class EmbeddedServerMode {
 

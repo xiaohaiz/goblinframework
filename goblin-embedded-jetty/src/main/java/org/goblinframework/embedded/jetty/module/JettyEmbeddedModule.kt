@@ -5,7 +5,7 @@ import org.goblinframework.core.system.GoblinSubModule
 import org.goblinframework.core.system.ISubModule
 
 @Install
-class EmbeddedJettyModule : ISubModule {
+class JettyEmbeddedModule : ISubModule {
 
   override fun id(): GoblinSubModule {
     return GoblinSubModule.EMBEDDED_JETTY

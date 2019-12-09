@@ -1,6 +1,6 @@
 package org.goblinframework.embedded.core.setting;
 
-import org.goblinframework.embedded.core.EmbeddedServerMode;
+import org.goblinframework.embedded.server.EmbeddedServerMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;

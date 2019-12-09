@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.module
+package org.goblinframework.embedded.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*

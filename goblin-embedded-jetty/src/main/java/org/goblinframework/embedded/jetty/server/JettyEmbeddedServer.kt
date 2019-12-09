@@ -1,7 +1,7 @@
-package org.goblinframework.embedded.jetty.provider
+package org.goblinframework.embedded.jetty.server
 
-import org.goblinframework.embedded.core.EmbeddedServer
 import org.goblinframework.embedded.core.setting.ServerSetting
+import org.goblinframework.embedded.server.EmbeddedServer
 import java.util.concurrent.atomic.AtomicReference
 
 class JettyEmbeddedServer(private val setting: ServerSetting) : EmbeddedServer {
@@ -18,7 +18,7 @@ class JettyEmbeddedServer(private val setting: ServerSetting) : EmbeddedServer {
   }
 
   override fun stop() {
-    server.getAndSet(null)?.run { close() }
+    server.getAndSet(null)?.dispose()
   }
 
   override fun isRunning(): Boolean {

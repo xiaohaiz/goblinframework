@@ -1,9 +1,9 @@
 package org.goblinframework.embedded.netty.provider
 
-import org.goblinframework.embedded.core.EmbeddedServer
-import org.goblinframework.embedded.core.EmbeddedServerMode
-import org.goblinframework.embedded.core.module.spi.EmbeddedServerFactory
 import org.goblinframework.embedded.core.setting.ServerSetting
+import org.goblinframework.embedded.server.EmbeddedServer
+import org.goblinframework.embedded.server.EmbeddedServerFactory
+import org.goblinframework.embedded.server.EmbeddedServerMode
 
 class NettyEmbeddedServerFactory : EmbeddedServerFactory {
 

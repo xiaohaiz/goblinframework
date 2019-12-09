@@ -1,1 +1,1 @@
-org.goblinframework.embedded.jetty.module.EmbeddedJettyModule
+org.goblinframework.embedded.jetty.module.JettyEmbeddedModule
