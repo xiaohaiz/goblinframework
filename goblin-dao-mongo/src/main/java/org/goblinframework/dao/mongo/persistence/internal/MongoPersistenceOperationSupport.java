@@ -446,6 +446,77 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return deleteResult.getDeletedCount() > 0;
   }
 
+  final public long __deletes(@NotNull final Collection<ID> ids,
+                              final boolean parallel) {
+    List<ID> idList = ids.stream().filter(Objects::nonNull).distinct().collect(Collectors.toList());
+    if (idList.isEmpty()) {
+      return 0;
+    }
+    if (idList.size() == 1) {
+      ID id = idList.iterator().next();
+      return __remove(id) ? 1 : 0;
+    }
+    AtomicLong deletedCount = new AtomicLong();
+    LinkedMultiValueMap<MongoNamespace, ID> groupIds = groupIds(idList);
+    if (groupIds.size() > 1 && parallel) {
+      BlockingListPublisher<DeleteResult> publisher = new BlockingListPublisher<>(groupIds.size());
+      FlightExecutor executor = FlightRecorder.currentFlightExecutor();
+      groupIds.forEach((ns, ds) -> {
+        Scheduler scheduler = CoreScheduler.getInstance();
+        scheduler.schedule(() -> executor.execute(() -> {
+          try {
+            Publisher<DeleteResult> deletePublisher;
+            if (ds.size() == 1) {
+              ID id = ds.iterator().next();
+              Criteria criteria = Criteria.where("_id").is(id);
+              deletePublisher = __deleteOne(ns, criteria);
+            } else {
+              Criteria criteria = Criteria.where("_id").in(ds);
+              deletePublisher = __deleteMany(ns, criteria);
+            }
+            BlockingMonoSubscriber<DeleteResult> subscriber = new BlockingMonoSubscriber<>();
+            deletePublisher.subscribe(subscriber);
+            DeleteResult deleteResult;
+            try {
+              deleteResult = subscriber.block();
+            } finally {
+              subscriber.dispose();
+            }
+            publisher.onNext(deleteResult);
+          } catch (Throwable ex) {
+            publisher.onError(ex);
+          } finally {
+            publisher.onComplete();
+          }
+        }));
+      });
+      deletedCount.set(publisher.block().stream().filter(Objects::nonNull).mapToLong(DeleteResult::getDeletedCount).sum());
+    } else {
+      groupIds.forEach((ns, ds) -> {
+        Publisher<DeleteResult> deletePublisher;
+        if (ds.size() == 1) {
+          ID id = ds.iterator().next();
+          Criteria criteria = Criteria.where("_id").is(id);
+          deletePublisher = __deleteOne(ns, criteria);
+        } else {
+          Criteria criteria = Criteria.where("_id").in(ds);
+          deletePublisher = __deleteMany(ns, criteria);
+        }
+        BlockingMonoSubscriber<DeleteResult> subscriber = new BlockingMonoSubscriber<>();
+        deletePublisher.subscribe(subscriber);
+        DeleteResult deleteResult;
+        try {
+          deleteResult = subscriber.block();
+        } finally {
+          subscriber.dispose();
+        }
+        assert deleteResult != null;
+        deletedCount.addAndGet(NumberUtils.toLong(deleteResult.getDeletedCount()));
+      });
+    }
+    return deletedCount.get();
+  }
+
   @NotNull
   @Deprecated
   final public Publisher<Long> __removes1(@NotNull final Collection<ID> ids) {
@@ -504,7 +575,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
    * @param criteria       Count operation criteria.
    * @param namespace      Mongo namespace.
    * @param readPreference Read preference, use default in case of null passed in.
-   * @return One element emitted count result.
+   * @return Single element emitted count result.
    */
   @NotNull
   final public Publisher<Long> __count(@NotNull final Criteria criteria,
@@ -524,7 +595,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
    * @param query          Query to be executed.
    * @param namespace      Mongo namespace.
    * @param readPreference Read preference, use default in case of null passed in.
-   * @return BsonDocument FindPublisher.
+   * @return Multiple elements emitted query result.
    */
   @NotNull
   final public FindPublisher<BsonDocument> __query(@NotNull final Query query,
@@ -551,5 +622,21 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
       findPublisher = findPublisher.sort(sort);
     }
     return findPublisher;
+  }
+
+  final protected Publisher<DeleteResult> __deleteOne(@NotNull final MongoNamespace namespace,
+                                                      @NotNull final Criteria criteria) {
+    Bson filter = criteriaTranslator.translate(criteria);
+    MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
+    collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
+    return collection.deleteOne(filter);
+  }
+
+  final protected Publisher<DeleteResult> __deleteMany(@NotNull final MongoNamespace namespace,
+                                                       @NotNull final Criteria criteria) {
+    Bson filter = criteriaTranslator.translate(criteria);
+    MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
+    collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
+    return collection.deleteMany(filter);
   }
 }
