@@ -11,7 +11,7 @@ import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.dao.annotation.GoblinCacheDimension;
-import org.goblinframework.dao.mysql.persistence.GoblinPersistenceException;
+import org.goblinframework.dao.mysql.exception.GoblinMysqlPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.transaction.TransactionStatus;
@@ -37,7 +37,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
       if (annotation == null) {
         String errMsg = "No @GoblinCacheDimension presented on %s";
         errMsg = String.format(errMsg, ClassUtils.filterCglibProxyClass(getClass()));
-        throw new GoblinPersistenceException(errMsg);
+        throw new GoblinMysqlPersistenceException(errMsg);
       }
       dimension = annotation.dimension();
     }
@@ -54,7 +54,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
     if (gc == null) {
       String errMsg = "No @GoblinCacheBean of type (%s) presented";
       errMsg = String.format(errMsg, entityMapping.entityClass.getName());
-      throw new GoblinPersistenceException(errMsg);
+      throw new GoblinMysqlPersistenceException(errMsg);
     }
     return gc;
   }

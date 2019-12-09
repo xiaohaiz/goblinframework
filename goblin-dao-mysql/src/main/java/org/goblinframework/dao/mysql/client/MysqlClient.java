@@ -2,9 +2,9 @@ package org.goblinframework.dao.mysql.client;
 
 import org.goblinframework.core.service.GoblinManagedBean;
 import org.goblinframework.core.service.GoblinManagedObject;
+import org.goblinframework.dao.mysql.exception.GoblinMysqlConfigException;
 import org.goblinframework.dao.mysql.module.config.DataSourceConfig;
 import org.goblinframework.dao.mysql.module.config.MysqlConfig;
-import org.goblinframework.dao.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,7 +51,7 @@ final public class MysqlClient extends GoblinManagedObject implements MysqlClien
       if (failOnNoSlave) {
         String errMsg = "MYSQL client [%s] No slave(s) configured";
         errMsg = String.format(errMsg, config.getName());
-        throw new GoblinPersistenceException(errMsg);
+        throw new GoblinMysqlConfigException(errMsg);
       } else {
         return null;
       }

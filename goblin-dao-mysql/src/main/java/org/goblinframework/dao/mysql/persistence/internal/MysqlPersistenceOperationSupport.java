@@ -9,7 +9,6 @@ import org.goblinframework.dao.mapping.EntityRevisionField;
 import org.goblinframework.dao.mysql.client.MysqlConnection;
 import org.goblinframework.dao.mysql.exception.GoblinMysqlPersistenceException;
 import org.goblinframework.dao.mysql.mapping.MysqlEntityRowMapper;
-import org.goblinframework.dao.mysql.persistence.GoblinPersistenceException;
 import org.goblinframework.dao.mysql.ql.*;
 import org.goblinframework.dao.ql.Criteria;
 import org.goblinframework.dao.ql.NativeSQL;
@@ -306,7 +305,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
                                  @NotNull final String tableName) {
     NamedParameterSQL u = updateTranslator.translate(update, entityMapping);
     if (StringUtils.isEmpty(u.sql)) {
-      throw new GoblinPersistenceException("No update SQL generated");
+      throw new GoblinMysqlPersistenceException("No update SQL generated");
     }
     TranslatedCriteria c = criteriaTranslator.translate(criteria);
 
