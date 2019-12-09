@@ -7,9 +7,12 @@ import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 final public class RemoteJavaClientInvokerPublisher implements GoblinPublisher<Object> {
 
   @NotNull private final RemoteJavaClientInvokerFuture future;
+  private final AtomicBoolean subscribed = new AtomicBoolean();
 
   RemoteJavaClientInvokerPublisher(@NotNull RemoteJavaClientInvokerFuture future) {
     this.future = future;
@@ -21,12 +24,16 @@ final public class RemoteJavaClientInvokerPublisher implements GoblinPublisher<O
       @Override
       public void request(long n) {
         if (n > 0) {
-          try {
-            Object result = future.get();
-            s.onNext(result);
-            s.onComplete();
-          } catch (Throwable ex) {
-            s.onError(ex);
+          if (subscribed.compareAndSet(false, true)) {
+            future.addListener(f -> {
+              try {
+                Object result = f.get();
+                s.onNext(result);
+                s.onComplete();
+              } catch (Throwable ex) {
+                s.onError(ex);
+              }
+            });
           }
         }
       }
