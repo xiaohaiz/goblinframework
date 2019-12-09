@@ -62,6 +62,23 @@ abstract public class GoblinStaticDao<E, ID> extends MongoPersistenceOperationSu
   }
 
   @NotNull
+  final public List<E> __find() {
+    return __find(ReadPreference.primary());
+  }
+
+  @NotNull
+  final public List<E> __find(@Nullable final ReadPreference readPreference) {
+    Criteria criteria = new Criteria();
+    Query query = Query.query(criteria);
+    return __find(readPreference, query);
+  }
+
+  @NotNull
+  final public List<E> __find(@NotNull final Query query) {
+    return __find(ReadPreference.primary(), query);
+  }
+
+  @NotNull
   final public List<E> __find(@Nullable final ReadPreference readPreference,
                               @NotNull final Query query) {
     FindPublisher<BsonDocument> findPublisher = __find(query, getNamespace(), readPreference);
