@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.module.config
+package org.goblinframework.dao.mysql.module.config
 
 import org.goblinframework.core.config.GoblinConfig
 import org.goblinframework.core.service.GoblinManagedBean

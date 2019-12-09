@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.module.config
+package org.goblinframework.dao.mysql.module.config
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.service.GoblinManagedBean
@@ -14,7 +14,7 @@ class MysqlConfigManager private constructor() : GoblinManagedObject(), MysqlCon
 
   private val configParser = MysqlConfigParser()
 
-  init {
+  override fun initializeBean() {
     configParser.initialize()
   }
 
@@ -23,8 +23,7 @@ class MysqlConfigManager private constructor() : GoblinManagedObject(), MysqlCon
   }
 
   fun getMysqlConfig(name: String): MysqlConfig? {
-    val c = configParser.getFromBuffer(name)
-    return c
+    return configParser.getFromBuffer(name)
   }
 
   override fun disposeBean() {

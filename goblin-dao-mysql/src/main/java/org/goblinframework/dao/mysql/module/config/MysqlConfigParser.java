@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.module.config;
+package org.goblinframework.dao.mysql.module.config;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;

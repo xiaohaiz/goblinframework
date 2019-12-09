@@ -2,7 +2,7 @@ package org.goblinframework.dao.mysql.client;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.goblinframework.database.mysql.module.config.DataSourceConfig;
+import org.goblinframework.dao.mysql.module.config.DataSourceConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashMap;

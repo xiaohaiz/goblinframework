@@ -5,7 +5,7 @@ import org.goblinframework.core.service.GoblinManagedBean;
 import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.core.util.ProxyUtils;
-import org.goblinframework.database.mysql.module.config.DataSourceConfig;
+import org.goblinframework.dao.mysql.module.config.DataSourceConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;

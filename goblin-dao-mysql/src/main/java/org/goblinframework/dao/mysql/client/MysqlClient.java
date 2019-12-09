@@ -2,8 +2,8 @@ package org.goblinframework.dao.mysql.client;
 
 import org.goblinframework.core.service.GoblinManagedBean;
 import org.goblinframework.core.service.GoblinManagedObject;
-import org.goblinframework.database.mysql.module.config.DataSourceConfig;
-import org.goblinframework.database.mysql.module.config.MysqlConfig;
+import org.goblinframework.dao.mysql.module.config.DataSourceConfig;
+import org.goblinframework.dao.mysql.module.config.MysqlConfig;
 import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
