@@ -21,7 +21,7 @@ public class GoblinHttpConnection extends HttpConnection {
     return new HttpChannelOverHttp(this, getConnector(), getHttpConfiguration(), getEndPoint(), this) {
       @Override
       public boolean startRequest(String method, String uri, HttpVersion version) {
-        return super.startRequest(method, HttpUtils.compactContinuousSlashes(uri), version);
+        return super.startRequest(method, HttpUtils.compactContinuousSlashes(uri, false), version);
       }
     };
   }

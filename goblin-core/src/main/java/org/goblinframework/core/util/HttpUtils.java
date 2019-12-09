@@ -20,6 +20,12 @@ abstract public class HttpUtils {
 
   @Nullable
   public static String compactContinuousSlashes(@Nullable final String path) {
+    return compactContinuousSlashes(path, true);
+  }
+
+  @Nullable
+  public static String compactContinuousSlashes(@Nullable final String path,
+                                                boolean stripTailSlash) {
     if (path == null) {
       return null;
     }
@@ -32,7 +38,7 @@ abstract public class HttpUtils {
     if ("/".equals(s)) {
       return "/";
     }
-    if (StringUtils.endsWith(s, "/")) {
+    if (stripTailSlash && StringUtils.endsWith(s, "/")) {
       s = s.substring(0, s.length() - 1);
     }
     return s;
