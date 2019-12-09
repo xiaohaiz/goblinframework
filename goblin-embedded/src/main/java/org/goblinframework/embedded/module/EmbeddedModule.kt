@@ -3,6 +3,7 @@ package org.goblinframework.embedded.module
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
+import org.goblinframework.embedded.server.EmbeddedServerFactoryManager
 
 @Install
 class EmbeddedModule : IModule {
@@ -31,5 +32,6 @@ class EmbeddedModule : IModule {
         .module(GoblinSubModule.EMBEDDED_NETTY)
         .finalize(ctx)
     EmbeddedServerManager.INSTANCE.dispose()
+    EmbeddedServerFactoryManager.INSTANCE.dispose()
   }
 }
