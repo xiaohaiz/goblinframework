@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.provider
+package org.goblinframework.embedded.java
 
 import org.bson.types.ObjectId
 import org.goblinframework.embedded.core.handler.ServletHandler
@@ -21,7 +21,7 @@ class JdkEmbeddedServerTest {
     val name = ObjectId().toHexString()
     val setting = ServerSetting.builder()
         .name(name)
-        .mode(EmbeddedServerMode.JDK)
+        .mode(EmbeddedServerMode.JAVA)
         .applyHandlerSetting {
           it.servletHandler(object : ServletHandler {
 

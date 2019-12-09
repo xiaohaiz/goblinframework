@@ -17,7 +17,7 @@ class ManagementServer internal constructor()
   override fun initializeBean() {
     val setting = ServerSetting.builder()
         .name(SERVER_NAME)
-        .mode(EmbeddedServerMode.JDK)
+        .mode(EmbeddedServerMode.JAVA)
         .applyHandlerSetting {
           it.contextPath("/")
           it.servletHandler(ManagementServletHandler.INSTANCE)

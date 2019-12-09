@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.provider
+package org.goblinframework.embedded.java
 
 import java.io.ByteArrayOutputStream
 import javax.servlet.ServletOutputStream

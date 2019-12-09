@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.provider
+package org.goblinframework.embedded.java
 
 import com.sun.net.httpserver.HttpServer
 import org.goblinframework.embedded.core.setting.ServerSetting

@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.netty.provider
+package org.goblinframework.embedded.java
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.embedded.core.setting.ServerSetting
@@ -7,17 +7,17 @@ import org.goblinframework.embedded.server.EmbeddedServerFactory
 import org.goblinframework.embedded.server.EmbeddedServerMode
 
 @Singleton
-class NettyEmbeddedServerFactory private constructor() : EmbeddedServerFactory {
+class JdkEmbeddedServerFactory private constructor() : EmbeddedServerFactory {
 
   companion object {
-    @JvmField val INSTANCE = NettyEmbeddedServerFactory()
+    @JvmField val INSTANCE = JdkEmbeddedServerFactory()
   }
 
   override fun mode(): EmbeddedServerMode {
-    return EmbeddedServerMode.NETTY
+    return EmbeddedServerMode.JAVA
   }
 
   override fun createEmbeddedServer(setting: ServerSetting): EmbeddedServer {
-    return NettyEmbeddedServer(setting)
+    return JdkEmbeddedServer(setting)
   }
 }

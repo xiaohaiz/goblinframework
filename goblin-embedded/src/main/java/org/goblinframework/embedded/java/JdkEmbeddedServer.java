@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.provider;
+package org.goblinframework.embedded.java;
 
 import org.goblinframework.embedded.core.setting.ServerSetting;
 import org.goblinframework.embedded.server.EmbeddedServer;

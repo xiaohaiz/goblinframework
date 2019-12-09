@@ -2,12 +2,9 @@ package org.goblinframework.embedded.core.manager
 
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.core.service.ServiceInstaller
 import org.goblinframework.embedded.core.setting.ServerSetting
 import org.goblinframework.embedded.server.EmbeddedServer
-import org.goblinframework.embedded.server.EmbeddedServerFactory
-import org.goblinframework.embedded.server.EmbeddedServerMode
-import java.util.*
+import org.goblinframework.embedded.server.EmbeddedServerFactoryManager
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
@@ -20,24 +17,13 @@ class EmbeddedServerManager private constructor()
     @JvmField val INSTANCE = EmbeddedServerManager()
   }
 
-  private val factories = EnumMap<EmbeddedServerMode, EmbeddedServerFactory>(EmbeddedServerMode::class.java)
   private val lock = ReentrantReadWriteLock()
   private val servers = mutableMapOf<String, DelegatedEmbeddedServer>()
-
-  init {
-    ServiceInstaller.asList(EmbeddedServerFactory::class.java).forEach {
-      val mode = it.mode()
-      factories[mode]?.run {
-        throw UnsupportedOperationException("Duplicated EmbeddedServerFactory not allowed")
-      }
-      factories[mode] = it
-    }
-  }
 
   fun createServer(setting: ServerSetting): EmbeddedServer {
     val name = setting.name()
     val mode = setting.mode()
-    val factory = factories[mode]
+    val factory = EmbeddedServerFactoryManager.INSTANCE.getFactory(mode)
         ?: throw UnsupportedOperationException("EmbeddedServerMode not available: $mode")
     return lock.write {
       servers[name]?.run {
