@@ -59,16 +59,16 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
 
   @Nullable
   public E load(@NotNull final ID id) {
-    return __load(id, ReadPreference.primary());
+    return __load(ReadPreference.primary(), id);
   }
 
   @NotNull
   public Map<ID, E> loads(@NotNull Collection<ID> ids) {
-    return __loads(ids, ReadPreference.primary());
+    return __loads(ReadPreference.primary(), ids);
   }
 
   public boolean exists(@NotNull final ID id) {
-    return __exists(id, ReadPreference.primary());
+    return __exists(ReadPreference.primary(), id);
   }
 
   @Nullable
@@ -89,11 +89,6 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return __deletes(ids);
   }
 
-  /**
-   * Insert the specified entity into mongo database.
-   *
-   * @param entity The entity object to be inserted.
-   */
   final public void __insert(@NotNull final E entity) {
     beforeInsert(entity);
     BsonDocument document = (BsonDocument) BsonConversionService.toBson(entity);
@@ -110,11 +105,6 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     }
   }
 
-  /**
-   * Insert specified entities into mongo database.
-   *
-   * @param entities Entities to be inserted.
-   */
   final public void __inserts(@NotNull final Collection<E> entities) {
     __inserts(entities, true);
   }
@@ -188,7 +178,8 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
   }
 
   @Nullable
-  final public E __load(@NotNull final ID id, @Nullable ReadPreference readPreference) {
+  final public E __load(@Nullable ReadPreference readPreference,
+                        @NotNull final ID id) {
     MongoNamespace namespace = getIdNamespace(id);
     MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
     if (readPreference != null) {
@@ -209,30 +200,15 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return convertBsonDocument(document);
   }
 
-  /**
-   * Load entities of specified ids from mongo database (parallel mode).
-   *
-   * @param ids            Entity ids.
-   * @param readPreference Read preference, use default in case of null passed in.
-   * @return Loaded entities.
-   */
   @NotNull
-  final public Map<ID, E> __loads(@NotNull final Collection<ID> ids,
-                                  @Nullable ReadPreference readPreference) {
-    return __loads(ids, readPreference, true);
+  final public Map<ID, E> __loads(@Nullable ReadPreference readPreference,
+                                  @NotNull final Collection<ID> ids) {
+    return __loads(readPreference, ids, true);
   }
 
-  /**
-   * Load entities of specified ids from mongo database.
-   *
-   * @param ids            Entity ids.
-   * @param readPreference Read preference, use default in case of null passed in.
-   * @param parallel       Parallel mode or not
-   * @return Loaded entities.
-   */
   @NotNull
-  final public Map<ID, E> __loads(@NotNull final Collection<ID> ids,
-                                  @Nullable ReadPreference readPreference,
+  final public Map<ID, E> __loads(@Nullable ReadPreference readPreference,
+                                  @NotNull final Collection<ID> ids,
                                   boolean parallel) {
     List<ID> idList = ids.stream().filter(Objects::nonNull).distinct().collect(Collectors.toList());
     if (idList.isEmpty()) {
@@ -240,7 +216,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     }
     if (idList.size() == 1) {
       ID id = idList.iterator().next();
-      E entity = __load(id, readPreference);
+      E entity = __load(readPreference, id);
       if (entity == null) {
         return Collections.emptyMap();
       } else {
@@ -314,15 +290,8 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return MapUtils.resort(entities, idList);
   }
 
-  /**
-   * Check if specified id exists or not.
-   *
-   * @param id             Id to be checked.
-   * @param readPreference Read preference, use default in case of null passed in.
-   * @return Exists or not.
-   */
-  final public boolean __exists(@NotNull final ID id,
-                                @Nullable final ReadPreference readPreference) {
+  final public boolean __exists(@Nullable final ReadPreference readPreference,
+                                @NotNull final ID id) {
     Criteria criteria = Criteria.where("_id").is(id);
     Bson filter = criteriaTranslator.translate(criteria);
     MongoNamespace namespace = getIdNamespace(id);
