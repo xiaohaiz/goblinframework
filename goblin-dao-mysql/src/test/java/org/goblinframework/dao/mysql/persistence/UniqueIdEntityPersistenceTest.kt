@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.persistence
+package org.goblinframework.dao.mysql.persistence
 
 import org.goblinframework.core.container.SpringContainerObject
 import org.goblinframework.test.runner.GoblinTestRunner

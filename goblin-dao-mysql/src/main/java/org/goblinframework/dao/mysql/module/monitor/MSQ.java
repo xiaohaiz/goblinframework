@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.module.monitor;
+package org.goblinframework.dao.mysql.module.monitor;
 
 import org.goblinframework.core.monitor.AbstractInstruction;
 import org.goblinframework.core.monitor.InstructionTranslator;

@@ -1,4 +1,4 @@
-package org.goblinframework.database.mysql.persistence;
+package org.goblinframework.dao.mysql.persistence;
 
 import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistenceOperationSupport;
 import org.goblinframework.dao.ql.Criteria;

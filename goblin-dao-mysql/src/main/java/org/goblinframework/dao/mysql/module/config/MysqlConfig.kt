@@ -4,7 +4,7 @@ import org.goblinframework.core.config.GoblinConfig
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 
-@GoblinManagedBean(type = "dao.mysql")
+@GoblinManagedBean(type = "MysqlDao")
 class MysqlConfig(private val name: String,
                   private val master: DataSourceConfig,
                   private val slaves: List<DataSourceConfig>)

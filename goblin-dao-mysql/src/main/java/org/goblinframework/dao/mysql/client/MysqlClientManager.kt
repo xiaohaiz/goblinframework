@@ -11,7 +11,7 @@ import kotlin.concurrent.withLock
 
 @Singleton
 @ThreadSafe
-@GoblinManagedBean(type = "dao.mysql")
+@GoblinManagedBean(type = "MysqlDao")
 class MysqlClientManager : GoblinManagedObject(), MysqlClientManagerMXBean {
 
   companion object {

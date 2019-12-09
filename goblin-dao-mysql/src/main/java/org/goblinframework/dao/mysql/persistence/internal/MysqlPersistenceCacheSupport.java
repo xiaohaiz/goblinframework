@@ -11,7 +11,7 @@ import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.dao.annotation.GoblinCacheDimension;
-import org.goblinframework.database.mysql.persistence.GoblinPersistenceException;
+import org.goblinframework.dao.mysql.persistence.GoblinPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.transaction.TransactionStatus;
