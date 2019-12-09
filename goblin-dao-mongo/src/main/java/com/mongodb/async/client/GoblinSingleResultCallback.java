@@ -7,8 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 @Compatible(
     group = "org.mongodb",
-    artifact = "mongodb-driver-async",
-    version = "3.11.0"
+    artifact = "mongodb-driver-reactivestreams",
+    version = "1.12.0"
 )
 @SuppressWarnings("deprecation")
 class GoblinSingleResultCallback<T> implements SingleResultCallback<T> {

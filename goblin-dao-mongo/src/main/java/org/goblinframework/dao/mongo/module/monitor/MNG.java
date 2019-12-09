@@ -6,6 +6,9 @@ import com.mongodb.operation.AsyncReadOperation;
 import com.mongodb.operation.AsyncWriteOperation;
 import org.goblinframework.core.monitor.AbstractInstruction;
 import org.goblinframework.core.monitor.InstructionTranslator;
+import org.goblinframework.core.util.StringUtils;
+import org.goblinframework.dao.mongo.module.monitor.translator.OperationTranslator;
+import org.goblinframework.dao.mongo.module.monitor.translator.OperationTranslatorFactory;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")
@@ -15,8 +18,8 @@ final public class MNG extends AbstractInstruction {
     super(Id.MNG, Mode.ASY, true);
   }
 
-  public AsyncReadOperation readOperation;
-  public AsyncWriteOperation writeOperation;
+  public AsyncReadOperation<?> readOperation;
+  public AsyncWriteOperation<?> writeOperation;
   public ReadPreference readPreference;
   public ReadConcern readConcern;
 
@@ -34,9 +37,31 @@ final public class MNG extends AbstractInstruction {
       if (operation == null) {
         operation = writeOperation.getClass().getSimpleName();
       }
-      return String.format("%s %s",
-          asLongText(),
-          operation);
+
+      OperationTranslator translator;
+      if (readOperation != null) {
+        translator = OperationTranslatorFactory.createTranslator(readOperation);
+      } else {
+        translator = OperationTranslatorFactory.createTranslator(writeOperation);
+      }
+      String operationDetail = null;
+      if (translator != null) {
+        try {
+          operationDetail = translator.translate();
+        } catch (Exception ignore) {
+        }
+      }
+
+      if (StringUtils.isBlank(operationDetail)) {
+        return String.format("%s %s",
+            asLongText(),
+            operation);
+      } else {
+        return String.format("%s %s %s",
+            asLongText(),
+            operation,
+            operationDetail);
+      }
     };
   }
 

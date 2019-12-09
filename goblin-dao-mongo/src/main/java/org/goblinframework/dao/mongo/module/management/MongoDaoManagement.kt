@@ -1,6 +1,7 @@
 package org.goblinframework.dao.mongo.module.management
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.dao.mongo.client.MongoClientManager
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -14,6 +15,7 @@ class MongoDaoManagement private constructor() {
 
   @RequestMapping("index.do")
   fun index(model: Model): String {
+    model.addAttribute("mongoClientManager", MongoClientManager.INSTANCE)
     return "goblin/dao/mongo/index"
   }
 }
