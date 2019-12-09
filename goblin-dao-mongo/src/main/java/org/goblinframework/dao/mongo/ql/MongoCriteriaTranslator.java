@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.eql;
+package org.goblinframework.dao.mongo.ql;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.bson.*;

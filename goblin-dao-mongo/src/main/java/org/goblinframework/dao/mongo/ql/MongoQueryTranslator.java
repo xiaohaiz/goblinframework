@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.eql;
+package org.goblinframework.dao.mongo.ql;
 
 import org.bson.BsonBoolean;
 import org.bson.BsonDocument;
