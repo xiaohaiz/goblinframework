@@ -58,6 +58,10 @@ class MongoConfig internal constructor(val mapper: MongoConfigMapper)
     return credential
   }
 
+  override fun getAutoInit(): Boolean {
+    return mapper.autoInit!!
+  }
+
   override fun disposeBean() {
     credential?.dispose()
   }

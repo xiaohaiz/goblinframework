@@ -2,8 +2,8 @@ package org.goblinframework.dao.mongo.module.config
 
 import org.goblinframework.core.config.BufferedConfigParser
 import org.goblinframework.core.config.ConfigManager
-import org.goblinframework.core.config.GoblinConfigException
 import org.goblinframework.core.util.StringUtils
+import org.goblinframework.dao.mongo.exception.GoblinMongoConfigException
 
 class MongoConfigParser internal constructor()
   : BufferedConfigParser<MongoConfig>() {
@@ -22,11 +22,10 @@ class MongoConfigParser internal constructor()
 
   override fun doProcessConfig(config: MongoConfig) {
     val mapper = config.mapper
-
-    mapper.servers ?: kotlin.run {
-      throw GoblinConfigException("mongo.servers is required")
-    }
     mapper.servers = StringUtils.formalizeServers(mapper.servers, " ") { DEFAULT_MONGO_PORT }
+    if (mapper.servers.isNullOrBlank()) {
+      throw GoblinMongoConfigException("mongo.servers is required")
+    }
     mapper.maxSize ?: kotlin.run { mapper.maxSize = 100 }
     mapper.minSize ?: kotlin.run { mapper.minSize = 0 }
     mapper.maxWaitQueueSize ?: kotlin.run { mapper.maxWaitQueueSize = 500 }
@@ -35,5 +34,6 @@ class MongoConfigParser internal constructor()
     mapper.maxConnectionIdleTimeMS ?: kotlin.run { mapper.maxConnectionIdleTimeMS = 0 }
     mapper.maintenanceInitialDelayMS ?: kotlin.run { mapper.maintenanceInitialDelayMS = 0 }
     mapper.maintenanceFrequencyMS ?: kotlin.run { mapper.maintenanceFrequencyMS = 60000 }
+    mapper.autoInit ?: kotlin.run { mapper.autoInit = false }
   }
 }
