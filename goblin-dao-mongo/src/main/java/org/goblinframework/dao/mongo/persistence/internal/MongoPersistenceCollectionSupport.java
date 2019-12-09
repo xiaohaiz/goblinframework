@@ -22,7 +22,7 @@ abstract public class MongoPersistenceCollectionSupport<E, ID> extends MongoPers
     this.dynamic = annotation.dynamic();
   }
 
-  public boolean isDynamicCollection() {
+  final protected boolean isDynamicCollection() {
     return dynamic;
   }
 

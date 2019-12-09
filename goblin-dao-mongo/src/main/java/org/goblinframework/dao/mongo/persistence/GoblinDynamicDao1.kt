@@ -2,7 +2,7 @@ package org.goblinframework.dao.mongo.persistence
 
 import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceOperationSupport
 
-abstract class GoblinDynamicDao<E, ID> : MongoPersistenceOperationSupport<E, ID>() {
+abstract class GoblinDynamicDao1<E, ID> : MongoPersistenceOperationSupport<E, ID>() {
 
   init {
     if (!isDynamicDatabase() && !isDynamicCollection()) {

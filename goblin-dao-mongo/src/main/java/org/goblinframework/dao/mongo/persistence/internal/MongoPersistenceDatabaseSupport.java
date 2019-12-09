@@ -22,7 +22,7 @@ abstract public class MongoPersistenceDatabaseSupport<E, ID> extends MongoPersis
     this.dynamic = annotation.dynamic();
   }
 
-  public boolean isDynamicDatabase() {
+  final protected boolean isDynamicDatabase() {
     return dynamic;
   }
 
