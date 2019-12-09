@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.bson.deserializer;
+package org.goblinframework.dao.mongo.bson.deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -8,7 +8,7 @@ import org.bson.types.ObjectId;
 import java.io.IOException;
 
 @SuppressWarnings("deprecation")
-public class BsonObjectIdDeserializer extends JsonDeserializer<ObjectId> {
+final public class BsonObjectIdDeserializer extends JsonDeserializer<ObjectId> {
 
   @Override
   public ObjectId deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
