@@ -2,7 +2,7 @@ package com.mongodb.async.client;
 
 import com.mongodb.async.SingleResultCallback;
 import org.goblinframework.api.annotation.Compatible;
-import org.goblinframework.database.mongo.module.monitor.MNG;
+import org.goblinframework.dao.mongo.module.monitor.MNG;
 import org.jetbrains.annotations.NotNull;
 
 @Compatible(

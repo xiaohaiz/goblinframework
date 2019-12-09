@@ -1,4 +1,4 @@
-package org.goblinframework.database.mongo.module.monitor;
+package org.goblinframework.dao.mongo.module.monitor;
 
 import com.mongodb.ReadConcern;
 import com.mongodb.ReadPreference;

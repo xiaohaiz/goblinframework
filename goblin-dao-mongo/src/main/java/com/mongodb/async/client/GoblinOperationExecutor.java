@@ -6,7 +6,7 @@ import com.mongodb.async.SingleResultCallback;
 import com.mongodb.operation.AsyncReadOperation;
 import com.mongodb.operation.AsyncWriteOperation;
 import org.goblinframework.api.annotation.Compatible;
-import org.goblinframework.database.mongo.module.monitor.MNG;
+import org.goblinframework.dao.mongo.module.monitor.MNG;
 import org.jetbrains.annotations.NotNull;
 
 @Compatible(
