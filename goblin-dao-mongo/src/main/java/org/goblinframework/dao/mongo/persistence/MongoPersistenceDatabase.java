@@ -1,13 +1,14 @@
-package org.goblinframework.dao.mysql.annotation;
+package org.goblinframework.dao.mongo.persistence;
 
 import java.lang.annotation.*;
 
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MysqlPersistenceTable {
+public @interface MongoPersistenceDatabase {
 
-  String table();
+  String database();
 
   boolean dynamic() default false;
+
 }

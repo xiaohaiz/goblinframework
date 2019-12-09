@@ -1,8 +1,8 @@
 package org.goblinframework.dao.mongo.persistence.internal;
 
 import org.goblinframework.core.util.AnnotationUtils;
-import org.goblinframework.dao.mongo.annotation.MongoPersistenceCollection;
 import org.goblinframework.dao.mongo.exception.GoblinMongoPersistenceException;
+import org.goblinframework.dao.mongo.persistence.MongoPersistenceCollection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -9,7 +9,6 @@ import org.goblinframework.cache.core.support.CacheDimension;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.dao.annotation.GoblinCacheDimension;
 import org.goblinframework.dao.annotation.PersistenceConnection;
-import org.goblinframework.dao.mysql.annotation.MysqlPersistenceTable;
 import org.goblinframework.dao.ql.Criteria;
 import org.goblinframework.dao.ql.Query;
 import org.goblinframework.test.runner.GoblinTestRunner;

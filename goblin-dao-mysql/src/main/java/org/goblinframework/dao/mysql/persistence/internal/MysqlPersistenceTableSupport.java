@@ -1,8 +1,8 @@
 package org.goblinframework.dao.mysql.persistence.internal;
 
 import org.goblinframework.core.util.AnnotationUtils;
-import org.goblinframework.dao.mysql.annotation.MysqlPersistenceTable;
 import org.goblinframework.dao.mysql.exception.GoblinMysqlPersistenceException;
+import org.goblinframework.dao.mysql.persistence.MysqlPersistenceTable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.util.LinkedMultiValueMap;

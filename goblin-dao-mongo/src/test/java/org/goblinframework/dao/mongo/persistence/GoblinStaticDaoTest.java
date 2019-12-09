@@ -2,8 +2,6 @@ package org.goblinframework.dao.mongo.persistence;
 
 import org.goblinframework.api.dao.Id;
 import org.goblinframework.dao.annotation.PersistenceConnection;
-import org.goblinframework.dao.mongo.annotation.MongoPersistenceCollection;
-import org.goblinframework.dao.mongo.annotation.MongoPersistenceDatabase;
 import org.goblinframework.dao.mongo.module.test.DropDatabase;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.junit.Test;

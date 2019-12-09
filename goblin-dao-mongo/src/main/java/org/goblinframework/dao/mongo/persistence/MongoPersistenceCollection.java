@@ -1,13 +1,13 @@
-package org.goblinframework.dao.mongo.annotation;
+package org.goblinframework.dao.mongo.persistence;
 
 import java.lang.annotation.*;
 
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MongoPersistenceDatabase {
+public @interface MongoPersistenceCollection {
 
-  String database();
+  String collection();
 
   boolean dynamic() default false;
 

@@ -4,7 +4,6 @@ import org.goblinframework.api.dao.*;
 import org.goblinframework.core.container.SpringContainerObject;
 import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.dao.annotation.PersistenceConnection;
-import org.goblinframework.dao.mysql.annotation.MysqlPersistenceTable;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
