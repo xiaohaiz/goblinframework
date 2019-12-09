@@ -116,37 +116,75 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
    * @param entities Entities to be inserted.
    */
   final public void __inserts(@NotNull final Collection<E> entities) {
+    __inserts(entities, true);
+  }
+
+  final public void __inserts(@NotNull final Collection<E> entities,
+                              boolean parallel) {
     List<E> entityList = entities.stream().filter(Objects::nonNull).collect(Collectors.toList());
     if (entityList.isEmpty()) {
       return;
     }
+    if (entityList.size() == 1) {
+      __insert(entityList.iterator().next());
+      return;
+    }
     entityList.forEach(this::beforeInsert);
     LinkedMultiValueMap<MongoNamespace, E> groupedEntities = groupEntities(entityList);
-    BlockingListPublisher<Success> publisher = new BlockingListPublisher<>(groupedEntities.size());
-    groupedEntities.forEach((ns, es) -> {
-      Scheduler scheduler = CoreScheduler.getInstance();
-      scheduler.schedule(() -> {
-        try {
+    if (groupedEntities.size() > 1 && parallel) {
+      BlockingListPublisher<Success> publisher = new BlockingListPublisher<>(groupedEntities.size());
+      groupedEntities.forEach((ns, es) -> {
+        Scheduler scheduler = CoreScheduler.getInstance();
+        scheduler.schedule(() -> {
+          try {
+            Publisher<Success> insertPublisher;
+            if (es.size() == 1) {
+              E entity = es.iterator().next();
+              BsonDocument document = (BsonDocument) BsonConversionService.toBson(entity);
+              insertPublisher = __insertOne(ns, document);
+            } else {
+              List<BsonDocument> documents = ((BsonArray) BsonConversionService.toBson(es)).stream()
+                  .map(e -> (BsonDocument) e).collect(Collectors.toList());
+              insertPublisher = __insertMany(ns, documents);
+            }
+            BlockingMonoSubscriber<Success> subscriber = new BlockingMonoSubscriber<>();
+            insertPublisher.subscribe(subscriber);
+            Success success;
+            try {
+              success = subscriber.block();
+            } finally {
+              subscriber.dispose();
+            }
+            publisher.onNext(success);
+          } catch (Throwable ex) {
+            publisher.onError(ex);
+          } finally {
+            publisher.onComplete();
+          }
+        });
+      });
+      publisher.block();
+    } else {
+      groupedEntities.forEach((ns, es) -> {
+        Publisher<Success> insertPublisher;
+        if (es.size() == 1) {
+          E entity = es.iterator().next();
+          BsonDocument document = (BsonDocument) BsonConversionService.toBson(entity);
+          insertPublisher = __insertOne(ns, document);
+        } else {
           List<BsonDocument> documents = ((BsonArray) BsonConversionService.toBson(es)).stream()
               .map(e -> (BsonDocument) e).collect(Collectors.toList());
-          MongoCollection<BsonDocument> collection = getMongoCollection(ns);
-          collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
-          Publisher<Success> insertPublisher = collection.insertMany(documents);
-          BlockingListSubscriber<Success> subscriber = new BlockingListSubscriber<>();
-          insertPublisher.subscribe(subscriber);
-          try {
-            subscriber.block();
-          } finally {
-            subscriber.dispose();
-          }
-        } catch (Throwable ex) {
-          publisher.onError(ex);
+          insertPublisher = __insertMany(ns, documents);
+        }
+        BlockingMonoSubscriber<Success> subscriber = new BlockingMonoSubscriber<>();
+        insertPublisher.subscribe(subscriber);
+        try {
+          subscriber.block();
         } finally {
-          publisher.onComplete();
+          subscriber.dispose();
         }
       });
-    });
-    publisher.block();
+    }
   }
 
   @Nullable
@@ -212,10 +250,10 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
       }
     }
     List<E> entityList;
-    LinkedMultiValueMap<MongoNamespace, ID> groupIds = groupIds(idList);
-    if (groupIds.size() > 1 && parallel) {
-      BlockingListPublisher<E> publisher = new BlockingListPublisher<>(groupIds.size());
-      groupIds.forEach((ns, ds) -> {
+    LinkedMultiValueMap<MongoNamespace, ID> groupedIds = groupIds(idList);
+    if (groupedIds.size() > 1 && parallel) {
+      BlockingListPublisher<E> publisher = new BlockingListPublisher<>(groupedIds.size());
+      groupedIds.forEach((ns, ds) -> {
         Scheduler scheduler = CoreScheduler.getInstance();
         scheduler.schedule(() -> {
           try {
@@ -227,7 +265,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
               criteria = Criteria.where("_id").in(ds);
             }
             Query query = Query.query(criteria);
-            FindPublisher<BsonDocument> findPublisher = __query(query, ns, readPreference);
+            FindPublisher<BsonDocument> findPublisher = __find(query, ns, readPreference);
             BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
             findPublisher.subscribe(subscriber);
             List<BsonDocument> documents;
@@ -247,7 +285,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
       entityList = publisher.block();
     } else {
       entityList = new ArrayList<>();
-      groupIds.forEach((ns, ds) -> {
+      groupedIds.forEach((ns, ds) -> {
         Criteria criteria;
         if (ds.size() == 1) {
           ID id = ds.iterator().next();
@@ -256,7 +294,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
           criteria = Criteria.where("_id").in(ds);
         }
         Query query = Query.query(criteria);
-        FindPublisher<BsonDocument> findPublisher = __query(query, ns, readPreference);
+        FindPublisher<BsonDocument> findPublisher = __find(query, ns, readPreference);
         BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
         findPublisher.subscribe(subscriber);
         List<BsonDocument> documents;
@@ -532,9 +570,9 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
    * @return Multiple elements emitted query result.
    */
   @NotNull
-  final public FindPublisher<BsonDocument> __query(@NotNull final Query query,
-                                                   @NotNull final MongoNamespace namespace,
-                                                   @Nullable final ReadPreference readPreference) {
+  final public FindPublisher<BsonDocument> __find(@NotNull final Query query,
+                                                  @NotNull final MongoNamespace namespace,
+                                                  @Nullable final ReadPreference readPreference) {
     MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
     if (readPreference != null) {
       collection = collection.withReadPreference(readPreference);
@@ -556,6 +594,22 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
       findPublisher = findPublisher.sort(sort);
     }
     return findPublisher;
+  }
+
+  @NotNull
+  final protected Publisher<Success> __insertOne(@NotNull final MongoNamespace namespace,
+                                                 @NotNull final BsonDocument document) {
+    MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
+    collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
+    return collection.insertOne(document);
+  }
+
+  @NotNull
+  final protected Publisher<Success> __insertMany(@NotNull final MongoNamespace namespace,
+                                                  @NotNull final List<BsonDocument> documents) {
+    MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
+    collection = collection.withWriteConcern(WriteConcern.ACKNOWLEDGED);
+    return collection.insertMany(documents);
   }
 
   final protected Publisher<DeleteResult> __deleteOne(@NotNull final MongoNamespace namespace,
