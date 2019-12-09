@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-@DropDatabase("_ut")
+@DropDatabase(connection = "_ut")
 class GoblinDynamicDaoTest {
 
   class MockDynamicData {

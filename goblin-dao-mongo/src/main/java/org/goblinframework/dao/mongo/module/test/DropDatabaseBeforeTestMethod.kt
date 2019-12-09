@@ -20,7 +20,7 @@ class DropDatabaseBeforeTestMethod private constructor() : TestExecutionListener
 
   override fun beforeTestMethod(testContext: TestContext) {
     val annotations = lookupAnnotations(testContext) ?: return
-    val names = annotations.map { it.value }.distinct().sorted().toList()
+    val names = annotations.map { it.connection }.distinct().sorted().toList()
     for (name in names) {
       val client = MongoClientManager.INSTANCE.getMongoClient(name)
           ?: throw GoblinDaoException("MongoClient [$name] not found")

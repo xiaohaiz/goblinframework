@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
-@DropDatabase("_ut")
+@DropDatabase(connection = "_ut")
 public class GoblinStaticDaoTest {
 
   public static class User implements Serializable {
