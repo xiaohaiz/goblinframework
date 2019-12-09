@@ -37,19 +37,19 @@ abstract public class GoblinStaticDao<E, ID> extends MongoPersistenceOperationSu
     throw new UnsupportedOperationException();
   }
 
-  @NotNull
-  final protected MongoNamespace getNamespace() {
-    String database = getEntityDatabaseName(null);
-    String collection = getEntityCollectionName(null);
-    return new MongoNamespace(database, collection);
-  }
-
   public long count() {
     return __count();
   }
 
   public List<E> find() {
     return __find();
+  }
+
+  @NotNull
+  final protected MongoNamespace getNamespace() {
+    String database = getEntityDatabaseName(null);
+    String collection = getEntityCollectionName(null);
+    return new MongoNamespace(database, collection);
   }
 
   final protected long __count() {
@@ -98,7 +98,7 @@ abstract public class GoblinStaticDao<E, ID> extends MongoPersistenceOperationSu
   @NotNull
   final protected List<E> __find(@Nullable final ReadPreference readPreference,
                                  @NotNull final Query query) {
-    FindPublisher<BsonDocument> findPublisher = __find(query, getNamespace(), readPreference);
+    FindPublisher<BsonDocument> findPublisher = __find(getNamespace(), readPreference, query);
     BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
     findPublisher.subscribe(subscriber);
     List<BsonDocument> documents;

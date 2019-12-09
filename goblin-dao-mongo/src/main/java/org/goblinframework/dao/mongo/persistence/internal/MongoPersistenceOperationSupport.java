@@ -265,7 +265,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
               criteria = Criteria.where("_id").in(ds);
             }
             Query query = Query.query(criteria);
-            FindPublisher<BsonDocument> findPublisher = __find(query, ns, readPreference);
+            FindPublisher<BsonDocument> findPublisher = __find(ns, readPreference, query);
             BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
             findPublisher.subscribe(subscriber);
             List<BsonDocument> documents;
@@ -294,7 +294,7 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
           criteria = Criteria.where("_id").in(ds);
         }
         Query query = Query.query(criteria);
-        FindPublisher<BsonDocument> findPublisher = __find(query, ns, readPreference);
+        FindPublisher<BsonDocument> findPublisher = __find(ns, readPreference, query);
         BlockingListSubscriber<BsonDocument> subscriber = new BlockingListSubscriber<>();
         findPublisher.subscribe(subscriber);
         List<BsonDocument> documents;
@@ -561,18 +561,10 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return collection.countDocuments(filter);
   }
 
-  /**
-   * Execute query operation on specified mongo namespace.
-   *
-   * @param query          Query to be executed.
-   * @param namespace      Mongo namespace.
-   * @param readPreference Read preference, use default in case of null passed in.
-   * @return Multiple elements emitted query result.
-   */
   @NotNull
-  final public FindPublisher<BsonDocument> __find(@NotNull final Query query,
-                                                  @NotNull final MongoNamespace namespace,
-                                                  @Nullable final ReadPreference readPreference) {
+  final public FindPublisher<BsonDocument> __find(@NotNull final MongoNamespace namespace,
+                                                  @Nullable final ReadPreference readPreference,
+                                                  @NotNull final Query query) {
     MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
     if (readPreference != null) {
       collection = collection.withReadPreference(readPreference);
