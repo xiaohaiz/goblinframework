@@ -483,24 +483,24 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
     return publisher;
   }
 
-  final public long __count(@NotNull final Criteria criteria,
-                            @NotNull final MongoNamespace namespace,
-                            @Nullable final ReadPreference readPreference) {
+  /**
+   * Execute count operation on specified mongo namespace.
+   *
+   * @param criteria       Count operation criteria.
+   * @param namespace      Mongo namespace.
+   * @param readPreference Read preference, use default in case of null passed in.
+   * @return One element emitted count result.
+   */
+  @NotNull
+  final public Publisher<Long> __count(@NotNull final Criteria criteria,
+                                       @NotNull final MongoNamespace namespace,
+                                       @Nullable final ReadPreference readPreference) {
     MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
     if (readPreference != null) {
       collection = collection.withReadPreference(readPreference);
     }
     Bson filter = criteriaTranslator.translate(criteria);
-    Publisher<Long> countPublisher = collection.countDocuments(filter);
-    BlockingMonoSubscriber<Long> subscriber = new BlockingMonoSubscriber<>();
-    countPublisher.subscribe(subscriber);
-    Long count;
-    try {
-      count = subscriber.block();
-    } finally {
-      subscriber.dispose();
-    }
-    return NumberUtils.toLong(count);
+    return collection.countDocuments(filter);
   }
 
   /**
