@@ -27,11 +27,13 @@ class DropMongoDatabaseBeforeTestMethod private constructor() : TestExecutionLis
       val subscriber = BlockingListSubscriber<String>()
       client.getNativeClient().listDatabaseNames().subscribe(subscriber)
       val databases = subscriber.block().filter { it.startsWith("goblin--ut--") }.toList()
+      subscriber.dispose()
       for (database in databases) {
         val db = client.getNativeClient().getDatabase(database)
         val s = BlockingMonoSubscriber<Success>()
         db.drop().subscribe(s)
         s.block()
+        s.dispose()
         logger.debug("Database [$database@$name] dropped")
       }
     }

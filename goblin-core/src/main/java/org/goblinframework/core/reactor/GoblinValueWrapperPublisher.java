@@ -2,8 +2,10 @@ package org.goblinframework.core.reactor;
 
 import org.goblinframework.api.function.ValueWrapper;
 import org.goblinframework.api.reactor.GoblinPublisher;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.io.Serializable;
 
@@ -30,10 +32,21 @@ public class GoblinValueWrapperPublisher<T> implements GoblinPublisher<T>, Seria
   }
 
   @Override
-  public void subscribe(Subscriber<? super T> s) {
-    SingleResultPublisher<T> publisher = new SingleResultPublisher<>(CoreScheduler.getInstance());
-    publisher.complete(value, null);
-    publisher.subscribe(s);
+  public void subscribe(@NotNull Subscriber<? super T> s) {
+    s.onSubscribe(new Subscription() {
+      @SuppressWarnings("ConstantConditions")
+      @Override
+      public void request(long n) {
+        if (n > 0) {
+          s.onNext(value);
+          s.onComplete();
+        }
+      }
+
+      @Override
+      public void cancel() {
+      }
+    });
   }
 
   @Nullable
