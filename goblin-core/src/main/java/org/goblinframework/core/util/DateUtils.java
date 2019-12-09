@@ -1,8 +1,11 @@
 package org.goblinframework.core.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
+import java.util.Date;
 
 abstract public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
@@ -55,7 +58,24 @@ abstract public class DateUtils extends org.apache.commons.lang3.time.DateUtils 
     return Math.max(1, (int) instant.until(calendar.toInstant(), ChronoUnit.SECONDS));
   }
 
-  public static void main(String[] args) {
-    System.out.println(getCurrentToDayEndSecond());
+  @Nullable
+  public static Date parseDate(@Nullable Object obj) {
+    if (obj instanceof Date) {
+      return (Date) obj;
+    }
+    if (obj instanceof Calendar) {
+      return ((Calendar) obj).getTime();
+    }
+    if (obj instanceof Instant) {
+      return Date.from((Instant) obj);
+    }
+    if (obj instanceof Integer || obj instanceof Long || obj instanceof Float || obj instanceof Double) {
+      Number number = (Number) obj;
+      return new Date(number.longValue());
+    }
+    if (obj instanceof String) {
+      return DateFormatUtils.parse((String) obj);
+    }
+    return null;
   }
 }
