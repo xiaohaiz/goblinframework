@@ -31,7 +31,7 @@ final public class CoreScheduler {
     logger.debug("{CoreScheduler} Core scheduler initialized [threadCap={},queuedTaskCap={},ttlSeconds={}]",
         threadCap, queuedTaskCap, ttlSeconds);
 
-    MethodInterceptor interceptor = new MethodInterceptor() {
+    MethodInterceptor schedulerInterceptor = new MethodInterceptor() {
       @Override
       public Object invoke(MethodInvocation methodInvocation) throws Throwable {
         Method method = methodInvocation.getMethod();
@@ -48,10 +48,36 @@ final public class CoreScheduler {
             arguments[0] = runnable;
           }
         }
-        return ReflectionUtils.invoke(scheduler, method, arguments);
+        Object ret = ReflectionUtils.invoke(scheduler, method, arguments);
+        if (methodName.equals("createWorker") && ret != null) {
+          Scheduler.Worker worker = (Scheduler.Worker) ret;
+          ret = createWorkerProxy(worker);
+        }
+        return ret;
       }
     };
-    schedulerProxy = ProxyUtils.createInterfaceProxy(Scheduler.class, interceptor);
+    schedulerProxy = ProxyUtils.createInterfaceProxy(Scheduler.class, schedulerInterceptor);
+  }
+
+  private static Scheduler.Worker createWorkerProxy(Scheduler.Worker worker) {
+    MethodInterceptor workerInterceptor = methodInvocation -> {
+      Method method = methodInvocation.getMethod();
+      if (ReflectionUtils.isToStringMethod(method)) {
+        return worker.toString();
+      }
+      Object[] arguments = methodInvocation.getArguments();
+      String methodName = method.getName();
+      if (methodName.equals("schedule") || methodName.equals("schedulePeriodically")) {
+        Runnable task = (Runnable) arguments[0];
+        if (task != null) {
+          FlightExecutor executor = FlightRecorder.currentFlightExecutor();
+          Runnable runnable = () -> executor.execute(task::run);
+          arguments[0] = runnable;
+        }
+      }
+      return ReflectionUtils.invoke(worker, method, arguments);
+    };
+    return ProxyUtils.createInterfaceProxy(Scheduler.Worker.class, workerInterceptor);
   }
 
   public static Scheduler getInstance() {

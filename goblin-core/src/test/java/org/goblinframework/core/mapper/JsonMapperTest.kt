@@ -26,6 +26,6 @@ class JsonMapperTest : SpringContainerObject() {
     val source = Instant.now()
     val s = JsonMapper.toJson(source)
     val target = JsonMapper.asObject(s, Instant::class.java)
-    assertEquals(source, target)
+    assertEquals(source.toEpochMilli(), target.toEpochMilli())
   }
 }

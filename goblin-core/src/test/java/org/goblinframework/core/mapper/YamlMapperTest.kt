@@ -26,6 +26,6 @@ class YamlMapperTest : SpringContainerObject() {
     val source = Instant.now()
     val s = YamlMapper.toJson(source)
     val target = YamlMapper.asObject(s, Instant::class.java)
-    assertEquals(source, target)
+    assertEquals(source.toEpochMilli(), target.toEpochMilli())
   }
 }
