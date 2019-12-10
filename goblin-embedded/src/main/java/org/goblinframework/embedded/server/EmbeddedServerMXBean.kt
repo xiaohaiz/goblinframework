@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.manager
+package org.goblinframework.embedded.server
 
 import java.lang.management.PlatformManagedObject
 
