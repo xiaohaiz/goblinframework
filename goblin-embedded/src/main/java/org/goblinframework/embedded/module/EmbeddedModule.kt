@@ -2,9 +2,9 @@ package org.goblinframework.embedded.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
-import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.java.JavaEmbeddedServerFactory
 import org.goblinframework.embedded.server.EmbeddedServerFactoryManager
+import org.goblinframework.embedded.server.EmbeddedServerManager
 
 @Install
 class EmbeddedModule : IModule {

@@ -2,9 +2,9 @@ package org.goblinframework.embedded.java
 
 import org.bson.types.ObjectId
 import org.goblinframework.embedded.core.handler.ServletHandler
-import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting
 import org.goblinframework.embedded.server.EmbeddedServerId
+import org.goblinframework.embedded.server.EmbeddedServerManager
 import org.goblinframework.embedded.server.EmbeddedServerMode
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.goblinframework.webmvc.servlet.ServletRequest

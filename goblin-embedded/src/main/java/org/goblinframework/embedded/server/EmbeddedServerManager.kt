@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.manager
+package org.goblinframework.embedded.server
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.function.Disposable
@@ -6,9 +6,6 @@ import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.embedded.core.setting.ServerSetting
-import org.goblinframework.embedded.server.EmbeddedServer
-import org.goblinframework.embedded.server.EmbeddedServerFactoryManager
-import org.goblinframework.embedded.server.EmbeddedServerId
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.write
 

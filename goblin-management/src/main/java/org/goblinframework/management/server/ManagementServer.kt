@@ -2,9 +2,9 @@ package org.goblinframework.management.server
 
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting
 import org.goblinframework.embedded.server.EmbeddedServerId
+import org.goblinframework.embedded.server.EmbeddedServerManager
 import org.goblinframework.embedded.server.EmbeddedServerMode
 
 @GoblinManagedBean(type = "Management")
