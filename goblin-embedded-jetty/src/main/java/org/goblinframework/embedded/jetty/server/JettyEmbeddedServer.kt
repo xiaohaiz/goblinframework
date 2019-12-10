@@ -26,10 +26,15 @@ class JettyEmbeddedServer(private val setting: ServerSetting)
     }
     val running = JettyEmbeddedServerImpl(setting)
     server.set(running)
+    logger.debug("{EMBEDDED} Embedded server [{}] started at [{}:{}]",
+        id().asText(), server.get()!!.host, server.get()!!.port)
   }
 
   override fun stop() {
-    server.getAndSet(null)?.dispose()
+    server.getAndSet(null)?.run {
+      this.dispose()
+      logger.debug("{EMBEDDED} Embedded server [{}] stopped", id().asText())
+    }
   }
 
   override fun isRunning(): Boolean {

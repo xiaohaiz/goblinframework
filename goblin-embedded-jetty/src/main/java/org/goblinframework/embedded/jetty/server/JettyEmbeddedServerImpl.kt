@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit
 class JettyEmbeddedServerImpl(private val setting: ServerSetting) : Disposable {
 
   private val server: Server
+  val host: String
+  val port: Int
 
   init {
     val maxThreads = setting.threadPoolSetting().maximumPoolSize()
@@ -24,7 +26,6 @@ class JettyEmbeddedServerImpl(private val setting: ServerSetting) : Disposable {
     val threadPool = QueuedThreadPool(maxThreads, minThreads, idleTimeout.toInt())
     server = Server(threadPool)
     val connector = ServerConnector(server)
-    //connector.connectionFactories = listOf(JettyHttpConnectionFactory())
     connector.host = setting.networkSetting().host()
     connector.port = setting.networkSetting().port()
     server.addConnector(connector)
@@ -44,6 +45,12 @@ class JettyEmbeddedServerImpl(private val setting: ServerSetting) : Disposable {
     server.handler = handlers
     server.start()
 
+    var h = connector.host
+    if (h == null) {
+      h = "0.0.0.0"
+    }
+    host = h
+    port = connector.localPort
   }
 
   override fun dispose() {
