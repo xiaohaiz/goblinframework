@@ -1,6 +1,6 @@
 package org.goblinframework.embedded.core.handler
 
-import org.goblinframework.embedded.core.filter.DefaultFilterChain
+import org.goblinframework.embedded.filter.DefaultFilterChain
 import org.goblinframework.webmvc.filter.LookupPathFilter
 import org.springframework.web.filter.CharacterEncodingFilter
 import org.springframework.web.filter.OncePerRequestFilter

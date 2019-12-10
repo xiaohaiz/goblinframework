@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.filter
+package org.goblinframework.embedded.filter
 
 import java.io.IOException
 import java.util.*
