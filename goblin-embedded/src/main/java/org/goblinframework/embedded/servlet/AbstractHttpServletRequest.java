@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.servlet;
+package org.goblinframework.embedded.servlet;
 
 import kotlin.text.Charsets;
 import org.apache.http.client.utils.DateUtils;

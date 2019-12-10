@@ -1,7 +1,7 @@
 package org.goblinframework.embedded.java
 
 import com.sun.net.httpserver.HttpExchange
-import org.goblinframework.embedded.core.servlet.AbstractHttpServletResponse
+import org.goblinframework.embedded.servlet.AbstractHttpServletResponse
 import org.springframework.http.HttpHeaders
 import java.io.Closeable
 import java.io.PrintWriter

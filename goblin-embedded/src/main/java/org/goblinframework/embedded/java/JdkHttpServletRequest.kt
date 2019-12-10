@@ -3,7 +3,7 @@ package org.goblinframework.embedded.java
 import com.sun.net.httpserver.HttpExchange
 import org.apache.commons.io.IOUtils
 import org.goblinframework.core.util.HttpUtils
-import org.goblinframework.embedded.core.servlet.AbstractHttpServletRequest
+import org.goblinframework.embedded.servlet.AbstractHttpServletRequest
 import org.springframework.util.LinkedMultiValueMap
 import java.util.*
 import javax.servlet.ServletInputStream

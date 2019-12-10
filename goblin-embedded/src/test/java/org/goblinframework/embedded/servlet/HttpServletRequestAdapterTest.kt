@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.servlet
+package org.goblinframework.embedded.servlet
 
 import org.junit.Assert.assertNotNull
 import org.junit.Test

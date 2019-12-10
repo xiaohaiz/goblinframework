@@ -4,8 +4,8 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.http.DefaultFullHttpResponse
 import io.netty.handler.codec.http.HttpResponseStatus
 import io.netty.handler.codec.http.HttpVersion
-import org.goblinframework.embedded.core.servlet.AbstractHttpServletResponse
-import org.goblinframework.embedded.core.servlet.SendError
+import org.goblinframework.embedded.servlet.AbstractHttpServletResponse
+import org.goblinframework.embedded.servlet.SendError
 import org.goblinframework.webmvc.util.HttpContentTypes
 import org.springframework.http.HttpHeaders
 import java.io.Closeable
