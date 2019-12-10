@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.java
+package org.goblinframework.embedded.server.internal
 
 import com.sun.net.httpserver.HttpExchange
 import org.goblinframework.embedded.servlet.AbstractHttpServletResponse
@@ -10,10 +10,10 @@ import java.util.concurrent.atomic.AtomicInteger
 import javax.servlet.ServletOutputStream
 import javax.servlet.http.HttpServletResponse
 
-class JdkHttpServletResponse(private val exchange: HttpExchange)
+class JavaHttpServletResponse(private val exchange: HttpExchange)
   : AbstractHttpServletResponse(), Closeable {
 
-  private val outputStream = JdkServletOutputStream()
+  private val outputStream = JavaServletOutputStream()
   private val writer = PrintWriter(outputStream, true)
   private val status = AtomicInteger(HttpServletResponse.SC_OK)
   private val committed = AtomicBoolean()

@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.java
+package org.goblinframework.embedded.server.internal
 
 import com.sun.net.httpserver.HttpExchange
 import org.apache.commons.io.IOUtils
@@ -8,16 +8,16 @@ import org.springframework.util.LinkedMultiValueMap
 import java.util.*
 import javax.servlet.ServletInputStream
 
-class JdkHttpServletRequest(private val exchange: HttpExchange,
-                            private val contextPath: String,
-                            private val path: String,
-                            private val query: String?) : AbstractHttpServletRequest() {
+class JavaHttpServletRequest(private val exchange: HttpExchange,
+                             private val contextPath: String,
+                             private val path: String,
+                             private val query: String?) : AbstractHttpServletRequest() {
 
   companion object {
     private const val FORM_CONTENT_TYPE = "application/x-www-form-urlencoded"
   }
 
-  private val inputStream = JdkServletInputStream(exchange)
+  private val inputStream = JavaServletInputStream(exchange)
   private val parameters = LinkedMultiValueMap<String, String>()
 
   init {

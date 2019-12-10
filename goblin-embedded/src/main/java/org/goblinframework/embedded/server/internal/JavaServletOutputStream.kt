@@ -1,12 +1,12 @@
-package org.goblinframework.embedded.java
+package org.goblinframework.embedded.server.internal
 
-import java.io.ByteArrayOutputStream
+import org.apache.commons.io.output.ByteArrayOutputStream
 import javax.servlet.ServletOutputStream
 import javax.servlet.WriteListener
 
-class JdkServletOutputStream : ServletOutputStream() {
+class JavaServletOutputStream : ServletOutputStream() {
 
-  private val outputStream = ByteArrayOutputStream(512)
+  private val outputStream = ByteArrayOutputStream()
 
   fun content(): ByteArray {
     return outputStream.toByteArray()

@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.java
+package org.goblinframework.embedded.server.internal
 
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject

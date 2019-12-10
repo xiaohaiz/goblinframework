@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.java
+package org.goblinframework.embedded.server.internal
 
 import com.sun.net.httpserver.HttpServer
 import org.goblinframework.api.function.Disposable
@@ -30,7 +30,7 @@ internal class JavaEmbeddedServerImpl(setting: ServerSetting) : Disposable {
         setting.threadPoolSetting().unit(),
         LinkedBlockingQueue())
     server.executor = executor
-    server.createContext("/", JdkHttpRequestHandler(setting))
+    server.createContext("/", JavaHttpRequestHandler(setting))
     server.start()
 
     var h = server.address.address.hostAddress

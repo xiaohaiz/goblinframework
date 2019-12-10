@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.java
+package org.goblinframework.embedded.server.internal
 
 import com.sun.net.httpserver.HttpExchange
 import org.apache.commons.io.IOUtils
@@ -6,7 +6,7 @@ import java.io.ByteArrayInputStream
 import javax.servlet.ReadListener
 import javax.servlet.ServletInputStream
 
-class JdkServletInputStream(exchange: HttpExchange) : ServletInputStream() {
+class JavaServletInputStream(exchange: HttpExchange) : ServletInputStream() {
 
   private val requestBody: ByteArray = exchange.requestBody.use { IOUtils.toByteArray(it) }
   private val inputStream: ByteArrayInputStream = ByteArrayInputStream(requestBody)

@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.java
+package org.goblinframework.embedded.server.internal
 
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
@@ -13,14 +13,14 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import java.net.URLDecoder
 
-class JdkHttpRequestHandler internal constructor(private val setting: ServerSetting) : HttpHandler {
+class JavaHttpRequestHandler internal constructor(private val setting: ServerSetting) : HttpHandler {
 
   override fun handle(exchange: HttpExchange) {
     val uri = exchange.requestURI
     val path = HttpUtils.compactContinuousSlashes(uri.rawPath)!!
     val query = uri.rawQuery
 
-    val response = ServletResponse(JdkHttpServletResponse(exchange))
+    val response = ServletResponse(JavaHttpServletResponse(exchange))
 
     val decodedPath = URLDecoder.decode(path, Charsets.UTF_8.name())
     val handlerSettings = setting.handlerSettings()
@@ -38,14 +38,14 @@ class JdkHttpRequestHandler internal constructor(private val setting: ServerSett
     val handler = handlerSetting.servletHandler()
     lookupPath = handler.transformLookupPath(lookupPath)
 
-    val request = ServletRequest(JdkHttpServletRequest(exchange, contextPath, lookupPath, query))
+    val request = ServletRequest(JavaHttpServletRequest(exchange, contextPath, lookupPath, query))
 
     try {
       doDispatch(handler, request, response)
     } finally {
       RequestAttribute.values().forEach { request.removeAttribute(it) }
       response.flush()
-      (response.servletResponse as JdkHttpServletResponse).close()
+      (response.servletResponse as JavaHttpServletResponse).close()
     }
   }
 

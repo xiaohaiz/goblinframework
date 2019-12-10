@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.java
+package org.goblinframework.embedded.server.internal
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.embedded.server.EmbeddedServer
