@@ -1,6 +1,5 @@
 package org.goblinframework.embedded.jetty.server
 
-import org.eclipse.jetty.server.GoblinHttpConnectionFactory
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.ServerConnector
 import org.eclipse.jetty.server.handler.ContextHandler
@@ -25,7 +24,7 @@ class JettyEmbeddedServerImpl(private val setting: ServerSetting) : Disposable {
     val threadPool = QueuedThreadPool(maxThreads, minThreads, idleTimeout.toInt())
     server = Server(threadPool)
     val connector = ServerConnector(server)
-    connector.connectionFactories = listOf(GoblinHttpConnectionFactory())
+    connector.connectionFactories = listOf(JettyHttpConnectionFactory())
     connector.host = setting.networkSetting().host()
     connector.port = setting.networkSetting().port()
     server.addConnector(connector)

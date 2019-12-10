@@ -1,8 +1,12 @@
-package org.eclipse.jetty.server;
+package org.goblinframework.embedded.jetty.server;
 
 import org.eclipse.jetty.http.HttpCompliance;
 import org.eclipse.jetty.http.HttpVersion;
 import org.eclipse.jetty.io.EndPoint;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpChannelOverHttp;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnection;
 import org.goblinframework.api.annotation.Compatible;
 import org.goblinframework.core.util.HttpUtils;
 
@@ -10,9 +14,9 @@ import org.goblinframework.core.util.HttpUtils;
     group = "org.eclipse.jetty",
     artifact = "jetty-server",
     version = "9.4.24.v20191120")
-public class GoblinHttpConnection extends HttpConnection {
+public class JettyHttpConnection extends HttpConnection {
 
-  GoblinHttpConnection(HttpConfiguration config, Connector connector, EndPoint endPoint, HttpCompliance compliance, boolean recordComplianceViolations) {
+  JettyHttpConnection(HttpConfiguration config, Connector connector, EndPoint endPoint, HttpCompliance compliance, boolean recordComplianceViolations) {
     super(config, connector, endPoint, compliance, recordComplianceViolations);
   }
 
