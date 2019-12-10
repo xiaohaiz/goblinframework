@@ -16,4 +16,6 @@
         p:suffix=".ftl"
         p:preferFileSystemAccess="false"/>
 
+  <bean class="org.goblinframework.example.embedded.interceptor.ManagedLogInterceptor"/>
+
 </beans>
