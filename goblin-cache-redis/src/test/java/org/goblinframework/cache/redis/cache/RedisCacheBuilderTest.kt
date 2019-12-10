@@ -1,4 +1,4 @@
-package org.goblinframework.cache.redis.provider
+package org.goblinframework.cache.redis.cache
 
 import org.goblinframework.cache.core.cache.CacheBuilderManager
 import org.goblinframework.cache.core.cache.CacheSystem

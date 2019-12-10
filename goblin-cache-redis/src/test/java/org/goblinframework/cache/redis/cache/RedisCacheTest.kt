@@ -1,4 +1,4 @@
-package org.goblinframework.cache.redis.provider
+package org.goblinframework.cache.redis.cache
 
 import org.bson.types.ObjectId
 import org.goblinframework.cache.core.annotation.FlushCache
