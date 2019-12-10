@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.netty.provider
+package org.goblinframework.embedded.netty.server
 
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelInitializer
@@ -7,14 +7,16 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.codec.http.*
 import io.netty.handler.timeout.IdleStateHandler
+import org.goblinframework.api.function.Disposable
 import org.goblinframework.core.exception.GoblinInitializationException
+import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.embedded.core.setting.ServerSetting
 import java.net.InetSocketAddress
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
-class NettyEmbeddedServerImpl(private val setting: ServerSetting) {
+class NettyEmbeddedServerImpl(private val setting: ServerSetting) : Disposable {
 
   companion object {
     private const val MAX_HTTP_CONTENT_LENGTH = 10 * 1024 * 1024
@@ -62,11 +64,15 @@ class NettyEmbeddedServerImpl(private val setting: ServerSetting) {
       throw GoblinInitializationException(future.cause())
     }
     val channel = future.channel()
-    host = (channel.localAddress() as InetSocketAddress).address.hostAddress
+    var h = (channel.localAddress() as InetSocketAddress).address.hostAddress
+    if (h == "0:0:0:0:0:0:0:0") {
+      h = NetworkUtils.ALL_HOST
+    }
+    host = h
     port = (channel.localAddress() as InetSocketAddress).port
   }
 
-  internal fun close() {
+  override fun dispose() {
     boss.shutdownGracefully().awaitUninterruptibly()
     worker.shutdownGracefully().awaitUninterruptibly()
     executor.shutdown()

@@ -1,1 +1,1 @@
-org.goblinframework.embedded.netty.module.EmbeddedNettyModule
+org.goblinframework.embedded.netty.module.NettyEmbeddedModule

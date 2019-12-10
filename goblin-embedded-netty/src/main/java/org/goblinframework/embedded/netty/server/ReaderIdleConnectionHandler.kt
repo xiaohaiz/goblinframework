@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.netty.provider
+package org.goblinframework.embedded.netty.server
 
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext

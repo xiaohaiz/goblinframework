@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicReference
 class JavaEmbeddedServer internal constructor(private val setting: ServerSetting)
   : GoblinManagedObject(), EmbeddedServer, EmbeddedServerMXBean {
 
-  private val server = AtomicReference<JdkEmbeddedServerImpl?>()
+  private val server = AtomicReference<JavaEmbeddedServerImpl?>()
 
   override fun id(): EmbeddedServerId {
     return EmbeddedServerId(EmbeddedServerMode.JAVA, setting.name())
@@ -24,7 +24,7 @@ class JavaEmbeddedServer internal constructor(private val setting: ServerSetting
     if (server.get() != null) {
       return
     }
-    server.set(JdkEmbeddedServerImpl(setting))
+    server.set(JavaEmbeddedServerImpl(setting))
     logger.debug("{EMBEDDED} Embedded server [{}] started at [{}:{}]",
         id().asText(), server.get()!!.host, server.get()!!.port)
   }
@@ -32,7 +32,7 @@ class JavaEmbeddedServer internal constructor(private val setting: ServerSetting
   @Synchronized
   override fun stop() {
     server.getAndSet(null)?.run {
-      this.stop()
+      this.dispose()
       logger.debug("{EMBEDDED} Embedded server [{}] stopped", id().asText())
     }
   }
@@ -42,4 +42,7 @@ class JavaEmbeddedServer internal constructor(private val setting: ServerSetting
     return server.get() != null
   }
 
+  override fun disposeBean() {
+    stop()
+  }
 }

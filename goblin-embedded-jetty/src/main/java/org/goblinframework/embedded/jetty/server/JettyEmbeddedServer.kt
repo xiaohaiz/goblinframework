@@ -1,12 +1,17 @@
 package org.goblinframework.embedded.jetty.server
 
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.embedded.core.setting.ServerSetting
 import org.goblinframework.embedded.server.EmbeddedServer
 import org.goblinframework.embedded.server.EmbeddedServerId
+import org.goblinframework.embedded.server.EmbeddedServerMXBean
 import org.goblinframework.embedded.server.EmbeddedServerMode
 import java.util.concurrent.atomic.AtomicReference
 
-class JettyEmbeddedServer(private val setting: ServerSetting) : EmbeddedServer {
+@GoblinManagedBean("JettyEmbedded")
+class JettyEmbeddedServer(private val setting: ServerSetting)
+  : GoblinManagedObject(), EmbeddedServer, EmbeddedServerMXBean {
 
   private val server = AtomicReference<JettyEmbeddedServerImpl>()
 
@@ -29,5 +34,9 @@ class JettyEmbeddedServer(private val setting: ServerSetting) : EmbeddedServer {
 
   override fun isRunning(): Boolean {
     return server.get() != null
+  }
+
+  override fun dispose() {
+    stop()
   }
 }

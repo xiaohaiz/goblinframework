@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.netty.provider
+package org.goblinframework.embedded.netty.server
 
 import java.io.ByteArrayOutputStream
 import javax.servlet.ServletOutputStream

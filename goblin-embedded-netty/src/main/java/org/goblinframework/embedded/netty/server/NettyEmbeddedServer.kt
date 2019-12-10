@@ -1,12 +1,17 @@
-package org.goblinframework.embedded.netty.provider
+package org.goblinframework.embedded.netty.server
 
+import org.goblinframework.core.service.GoblinManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.embedded.core.setting.ServerSetting
 import org.goblinframework.embedded.server.EmbeddedServer
 import org.goblinframework.embedded.server.EmbeddedServerId
+import org.goblinframework.embedded.server.EmbeddedServerMXBean
 import org.goblinframework.embedded.server.EmbeddedServerMode
 import java.util.concurrent.atomic.AtomicReference
 
-class NettyEmbeddedServer(private val setting: ServerSetting) : EmbeddedServer {
+@GoblinManagedBean("NettyEmbedded")
+class NettyEmbeddedServer(private val setting: ServerSetting)
+  : GoblinManagedObject(), EmbeddedServer, EmbeddedServerMXBean {
 
   private val server = AtomicReference<NettyEmbeddedServerImpl>()
 
@@ -21,13 +26,22 @@ class NettyEmbeddedServer(private val setting: ServerSetting) : EmbeddedServer {
     }
     val running = NettyEmbeddedServerImpl(setting)
     server.set(running)
+    logger.debug("{EMBEDDED} Embedded server [{}] started at [{}:{}]",
+        id().asText(), server.get()!!.host, server.get()!!.port)
   }
 
   override fun stop() {
-    server.getAndSet(null)?.run { close() }
+    server.getAndSet(null)?.run {
+      this.dispose()
+      logger.debug("{EMBEDDED} Embedded server [{}] stopped", id().asText())
+    }
   }
 
   override fun isRunning(): Boolean {
     return server.get() != null
+  }
+
+  override fun disposeBean() {
+    stop()
   }
 }

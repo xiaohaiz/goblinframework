@@ -1,6 +1,8 @@
 package org.goblinframework.embedded.java
 
 import com.sun.net.httpserver.HttpServer
+import org.goblinframework.api.function.Disposable
+import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.embedded.core.setting.ServerSetting
 
 import java.net.InetSocketAddress
@@ -8,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
-internal class JdkEmbeddedServerImpl(setting: ServerSetting) {
+internal class JavaEmbeddedServerImpl(setting: ServerSetting) : Disposable {
 
   val host: String
   val port: Int
@@ -31,11 +33,15 @@ internal class JdkEmbeddedServerImpl(setting: ServerSetting) {
     server.createContext("/", JdkHttpRequestHandler(setting))
     server.start()
 
-    host = server.address.address.hostAddress
+    var h = server.address.address.hostAddress
+    if (h == "0:0:0:0:0:0:0:0") {
+      h = NetworkUtils.ALL_HOST
+    }
+    host = h
     port = server.address.port
   }
 
-  fun stop() {
+  override fun dispose() {
     server.stop(0)
     executor.shutdown()
     executor.awaitTermination(5, TimeUnit.SECONDS)

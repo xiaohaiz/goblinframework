@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.netty.provider
+package org.goblinframework.embedded.netty.server
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.embedded.core.setting.ServerSetting
