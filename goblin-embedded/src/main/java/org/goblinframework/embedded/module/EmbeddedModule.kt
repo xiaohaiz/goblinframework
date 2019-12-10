@@ -14,6 +14,11 @@ class EmbeddedModule : IModule {
     return GoblinModule.EMBEDDED
   }
 
+  override fun managementEntrance(): String? {
+    return if (EmbeddedServerManager.INSTANCE.getEmbeddedServerList().isNotEmpty())
+      "/goblin/embedded/index.do" else null
+  }
+
   override fun install(ctx: ModuleInstallContext) {
     EmbeddedServerFactoryManager.INSTANCE.register(JavaEmbeddedServerFactory.INSTANCE)
     ctx.registerManagementController(EmbeddedManagement.INSTANCE)

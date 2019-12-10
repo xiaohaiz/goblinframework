@@ -1,7 +1,7 @@
 package org.goblinframework.embedded.module.management
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.embedded.server.EmbeddedServerFactoryManager
+import org.goblinframework.embedded.server.EmbeddedServerManager
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -15,7 +15,7 @@ class EmbeddedManagement private constructor() {
 
   @RequestMapping("index.do")
   fun index(model: Model): String {
-    model.addAttribute("embeddedServerFactory", EmbeddedServerFactoryManager.INSTANCE)
+    model.addAttribute("embeddedServerManager", EmbeddedServerManager.INSTANCE)
     return "goblin/embedded/index"
   }
 }
