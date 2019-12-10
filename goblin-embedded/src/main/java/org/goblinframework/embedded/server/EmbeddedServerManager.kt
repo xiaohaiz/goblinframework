@@ -1,15 +1,18 @@
 package org.goblinframework.embedded.server
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.function.Disposable
 import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.embedded.core.setting.ServerSetting
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 @Singleton
+@ThreadSafe
 @GoblinManagedBean("Embedded")
 class EmbeddedServerManager private constructor() : GoblinManagedObject(), EmbeddedServerManagerMXBean {
 
@@ -40,6 +43,12 @@ class EmbeddedServerManager private constructor() : GoblinManagedObject(), Embed
     lock.write { servers.remove(id) }?.run {
       this.stop()
       (this as? Disposable)?.dispose()
+    }
+  }
+
+  override fun getEmbeddedServerList(): Array<EmbeddedServerMXBean> {
+    return lock.read {
+      servers.values.filterIsInstance(EmbeddedServerMXBean::class.java).toTypedArray()
     }
   }
 
