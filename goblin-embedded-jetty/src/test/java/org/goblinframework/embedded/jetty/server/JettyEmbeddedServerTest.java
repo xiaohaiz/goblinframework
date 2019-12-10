@@ -35,7 +35,6 @@ public class JettyEmbeddedServerTest {
 
             @Override
             public void handle(@NotNull ServletRequest request, @NotNull ServletResponse response) throws ServletException {
-              System.out.println("");
             }
           });
         })
@@ -51,7 +50,6 @@ public class JettyEmbeddedServerTest {
 
             @Override
             public void handle(@NotNull ServletRequest request, @NotNull ServletResponse response) throws ServletException {
-              System.out.println("");
             }
           });
         })
@@ -59,11 +57,6 @@ public class JettyEmbeddedServerTest {
 
     JettyEmbeddedServer server = new JettyEmbeddedServer(setting);
     server.start();
-    try {
-      Thread.currentThread().join();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
     server.stop();
   }
 }

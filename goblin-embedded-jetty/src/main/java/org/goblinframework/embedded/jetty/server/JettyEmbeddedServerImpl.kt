@@ -24,7 +24,7 @@ class JettyEmbeddedServerImpl(private val setting: ServerSetting) : Disposable {
     val threadPool = QueuedThreadPool(maxThreads, minThreads, idleTimeout.toInt())
     server = Server(threadPool)
     val connector = ServerConnector(server)
-    connector.connectionFactories = listOf(JettyHttpConnectionFactory())
+    //connector.connectionFactories = listOf(JettyHttpConnectionFactory())
     connector.host = setting.networkSetting().host()
     connector.port = setting.networkSetting().port()
     server.addConnector(connector)
