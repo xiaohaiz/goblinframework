@@ -1,6 +1,9 @@
-package org.goblinframework.embedded.server;
+package org.goblinframework.embedded.server
 
-import org.goblinframework.api.core.Lifecycle;
+import org.goblinframework.api.core.Lifecycle
 
-public interface EmbeddedServer extends Lifecycle {
+interface EmbeddedServer : Lifecycle {
+
+  fun id(): EmbeddedServerId
+
 }

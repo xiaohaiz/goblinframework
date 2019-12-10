@@ -2,6 +2,8 @@ package org.goblinframework.embedded.java;
 
 import org.goblinframework.embedded.core.setting.ServerSetting;
 import org.goblinframework.embedded.server.EmbeddedServer;
+import org.goblinframework.embedded.server.EmbeddedServerId;
+import org.goblinframework.embedded.server.EmbeddedServerMode;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,12 @@ final public class JdkEmbeddedServer implements EmbeddedServer {
 
   JdkEmbeddedServer(@NotNull ServerSetting setting) {
     this.setting = setting;
+  }
+
+  @NotNull
+  @Override
+  public EmbeddedServerId id() {
+    return new EmbeddedServerId(EmbeddedServerMode.JAVA, setting.name());
   }
 
   @Override
