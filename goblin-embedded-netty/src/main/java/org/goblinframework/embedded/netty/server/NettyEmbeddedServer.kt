@@ -47,6 +47,14 @@ class NettyEmbeddedServer(private val setting: ServerSetting)
     return stopWatch?.toString()
   }
 
+  override fun getMode(): EmbeddedServerMode {
+    return EmbeddedServerMode.NETTY
+  }
+
+  override fun getName(): String {
+    return setting.name()
+  }
+
   override fun disposeBean() {
     stop()
   }

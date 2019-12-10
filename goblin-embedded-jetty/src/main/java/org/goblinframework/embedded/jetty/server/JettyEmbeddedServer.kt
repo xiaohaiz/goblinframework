@@ -47,6 +47,14 @@ class JettyEmbeddedServer(private val setting: ServerSetting)
     return stopWatch?.toString()
   }
 
+  override fun getMode(): EmbeddedServerMode {
+    return EmbeddedServerMode.JETTY
+  }
+
+  override fun getName(): String {
+    return setting.name()
+  }
+
   override fun dispose() {
     stop()
   }

@@ -6,4 +6,8 @@ interface EmbeddedServerMXBean : PlatformManagedObject {
 
   fun getUpTime(): String?
 
+  fun getMode(): EmbeddedServerMode
+
+  fun getName(): String
+
 }

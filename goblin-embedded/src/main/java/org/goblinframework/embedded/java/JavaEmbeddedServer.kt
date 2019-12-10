@@ -48,6 +48,14 @@ class JavaEmbeddedServer internal constructor(private val setting: ServerSetting
     return stopWatch?.toString()
   }
 
+  override fun getMode(): EmbeddedServerMode {
+    return EmbeddedServerMode.JAVA
+  }
+
+  override fun getName(): String {
+    return setting.name()
+  }
+
   override fun disposeBean() {
     stop()
   }
