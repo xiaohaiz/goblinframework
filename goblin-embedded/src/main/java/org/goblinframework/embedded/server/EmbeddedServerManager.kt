@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.write
 
 @Singleton
-@GoblinManagedBean(type = "Embedded")
+@GoblinManagedBean("Embedded")
 class EmbeddedServerManager private constructor() : GoblinManagedObject(), EmbeddedServerManagerMXBean {
 
   companion object {

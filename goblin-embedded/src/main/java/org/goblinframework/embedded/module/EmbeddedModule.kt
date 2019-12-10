@@ -22,6 +22,7 @@ class EmbeddedModule : IModule {
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
+    EmbeddedServerManager.INSTANCE.initialize()
     ctx.createSubModules()
         .module(GoblinSubModule.EMBEDDED_JETTY)
         .module(GoblinSubModule.EMBEDDED_NETTY)
@@ -34,6 +35,5 @@ class EmbeddedModule : IModule {
         .module(GoblinSubModule.EMBEDDED_NETTY)
         .finalize(ctx)
     EmbeddedServerManager.INSTANCE.dispose()
-    EmbeddedServerFactoryManager.INSTANCE.dispose()
   }
 }

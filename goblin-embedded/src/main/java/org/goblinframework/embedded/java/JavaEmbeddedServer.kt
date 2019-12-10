@@ -2,6 +2,7 @@ package org.goblinframework.embedded.java
 
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.core.service.GoblinManagedStopWatch
 import org.goblinframework.embedded.core.setting.ServerSetting
 import org.goblinframework.embedded.server.EmbeddedServer
 import org.goblinframework.embedded.server.EmbeddedServerId
@@ -10,6 +11,7 @@ import org.goblinframework.embedded.server.EmbeddedServerMode
 import java.util.concurrent.atomic.AtomicReference
 
 @GoblinManagedBean("Embedded")
+@GoblinManagedStopWatch
 class JavaEmbeddedServer internal constructor(private val setting: ServerSetting)
   : GoblinManagedObject(), EmbeddedServer, EmbeddedServerMXBean {
 
@@ -40,6 +42,10 @@ class JavaEmbeddedServer internal constructor(private val setting: ServerSetting
   @Synchronized
   override fun isRunning(): Boolean {
     return server.get() != null
+  }
+
+  override fun getUpTime(): String? {
+    return stopWatch?.toString()
   }
 
   override fun disposeBean() {
