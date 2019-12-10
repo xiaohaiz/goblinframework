@@ -21,6 +21,6 @@ class JavaEmbeddedServerFactory private constructor() : EmbeddedServerFactory {
     if (setting.mode() !== mode()) {
       throw UnsupportedOperationException()
     }
-    return JdkEmbeddedServer(setting)
+    return JavaEmbeddedServer(setting)
   }
 }

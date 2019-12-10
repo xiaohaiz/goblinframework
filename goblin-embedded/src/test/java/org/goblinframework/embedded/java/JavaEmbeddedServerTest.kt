@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class JdkEmbeddedServerTest {
+class JavaEmbeddedServerTest {
 
   @Test
   fun server() {
