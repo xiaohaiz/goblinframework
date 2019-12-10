@@ -4,6 +4,7 @@ import org.bson.types.ObjectId
 import org.goblinframework.embedded.core.handler.ServletHandler
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting
+import org.goblinframework.embedded.server.EmbeddedServerId
 import org.goblinframework.embedded.server.EmbeddedServerMode
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.goblinframework.webmvc.servlet.ServletRequest
@@ -36,6 +37,6 @@ class JdkEmbeddedServerTest {
         .build()
     val server = EmbeddedServerManager.INSTANCE.createServer(setting)
     server.start()
-    EmbeddedServerManager.INSTANCE.closeServer(name)
+    EmbeddedServerManager.INSTANCE.closeServer(EmbeddedServerId(EmbeddedServerMode.JAVA, name))
   }
 }

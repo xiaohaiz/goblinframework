@@ -18,6 +18,9 @@ class JettyEmbeddedServerFactory private constructor() : EmbeddedServerFactory {
   }
 
   override fun createEmbeddedServer(setting: ServerSetting): EmbeddedServer {
+    if (setting.mode() !== mode()) {
+      throw UnsupportedOperationException()
+    }
     return JettyEmbeddedServer(setting)
   }
 }

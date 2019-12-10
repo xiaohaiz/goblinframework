@@ -7,10 +7,10 @@ import org.goblinframework.embedded.server.EmbeddedServerFactory
 import org.goblinframework.embedded.server.EmbeddedServerMode
 
 @Singleton
-class JdkEmbeddedServerFactory private constructor() : EmbeddedServerFactory {
+class JavaEmbeddedServerFactory private constructor() : EmbeddedServerFactory {
 
   companion object {
-    @JvmField val INSTANCE = JdkEmbeddedServerFactory()
+    @JvmField val INSTANCE = JavaEmbeddedServerFactory()
   }
 
   override fun mode(): EmbeddedServerMode {
@@ -18,6 +18,9 @@ class JdkEmbeddedServerFactory private constructor() : EmbeddedServerFactory {
   }
 
   override fun createEmbeddedServer(setting: ServerSetting): EmbeddedServer {
+    if (setting.mode() !== mode()) {
+      throw UnsupportedOperationException()
+    }
     return JdkEmbeddedServer(setting)
   }
 }

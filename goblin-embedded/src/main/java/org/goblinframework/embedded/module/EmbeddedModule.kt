@@ -3,7 +3,7 @@ package org.goblinframework.embedded.module
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
-import org.goblinframework.embedded.java.JdkEmbeddedServerFactory
+import org.goblinframework.embedded.java.JavaEmbeddedServerFactory
 import org.goblinframework.embedded.server.EmbeddedServerFactoryManager
 
 @Install
@@ -14,7 +14,7 @@ class EmbeddedModule : IModule {
   }
 
   override fun install(ctx: ModuleInstallContext) {
-    EmbeddedServerFactoryManager.INSTANCE.register(JdkEmbeddedServerFactory.INSTANCE)
+    EmbeddedServerFactoryManager.INSTANCE.register(JavaEmbeddedServerFactory.INSTANCE)
     ctx.createSubModules()
         .module(GoblinSubModule.EMBEDDED_JETTY)
         .module(GoblinSubModule.EMBEDDED_NETTY)

@@ -1,48 +1,48 @@
 package org.goblinframework.embedded.core.manager
 
+import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.api.function.Disposable
+import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.embedded.core.setting.ServerSetting
 import org.goblinframework.embedded.server.EmbeddedServer
 import org.goblinframework.embedded.server.EmbeddedServerFactoryManager
+import org.goblinframework.embedded.server.EmbeddedServerId
 import java.util.concurrent.locks.ReentrantReadWriteLock
-import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-@GoblinManagedBean(type = "embedded")
-class EmbeddedServerManager private constructor()
-  : GoblinManagedObject(), EmbeddedServerManagerMXBean {
+@Singleton
+@GoblinManagedBean(type = "Embedded")
+class EmbeddedServerManager private constructor() : GoblinManagedObject(), EmbeddedServerManagerMXBean {
 
   companion object {
     @JvmField val INSTANCE = EmbeddedServerManager()
   }
 
   private val lock = ReentrantReadWriteLock()
-  private val servers = mutableMapOf<String, DelegatedEmbeddedServer>()
+  private val servers = mutableMapOf<EmbeddedServerId, EmbeddedServer>()
 
   fun createServer(setting: ServerSetting): EmbeddedServer {
     val name = setting.name()
     val mode = setting.mode()
     val factory = EmbeddedServerFactoryManager.INSTANCE.getFactory(mode)
         ?: throw UnsupportedOperationException("EmbeddedServerMode not available: $mode")
+    val id = EmbeddedServerId(mode, name)
     return lock.write {
-      servers[name]?.run {
-        throw IllegalStateException("EmbeddedServer [$name] already exists")
+      servers[id]?.run {
+        throw GoblinDuplicateException("EmbeddedServer [$mode/$name] already exists")
       }
       val server = factory.createEmbeddedServer(setting)
-      servers[name] = DelegatedEmbeddedServer(server)
+      servers[id] = server
       server
     }
   }
 
-  fun getServer(name: String): EmbeddedServer? {
-    return lock.read { servers[name] }
-  }
-
-  fun closeServer(name: String) {
-    lock.write { servers.remove(name) }?.run {
+  fun closeServer(id: EmbeddedServerId) {
+    lock.write { servers.remove(id) }?.run {
       this.stop()
-      this.dispose()
+      (this as? Disposable)?.dispose()
     }
   }
 
@@ -50,7 +50,7 @@ class EmbeddedServerManager private constructor()
     lock.write {
       servers.values.forEach {
         it.stop()
-        it.dispose()
+        (this as? Disposable)?.dispose()
       }
       servers.clear()
     }

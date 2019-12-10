@@ -4,6 +4,7 @@ import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.embedded.core.manager.EmbeddedServerManager
 import org.goblinframework.embedded.core.setting.ServerSetting
+import org.goblinframework.embedded.server.EmbeddedServerId
 import org.goblinframework.embedded.server.EmbeddedServerMode
 
 @GoblinManagedBean(type = "Management")
@@ -29,6 +30,6 @@ class ManagementServer internal constructor()
 
   override fun disposeBean() {
     val serverManager = EmbeddedServerManager.INSTANCE
-    serverManager.closeServer(SERVER_NAME)
+    serverManager.closeServer(EmbeddedServerId(EmbeddedServerMode.JAVA, SERVER_NAME))
   }
 }

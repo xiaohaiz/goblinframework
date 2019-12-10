@@ -18,6 +18,9 @@ class NettyEmbeddedServerFactory private constructor() : EmbeddedServerFactory {
   }
 
   override fun createEmbeddedServer(setting: ServerSetting): EmbeddedServer {
+    if (setting.mode() !== mode()) {
+      throw UnsupportedOperationException()
+    }
     return NettyEmbeddedServer(setting)
   }
 }
