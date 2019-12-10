@@ -10,7 +10,7 @@ import io.netty.handler.timeout.IdleStateHandler
 import org.goblinframework.api.function.Disposable
 import org.goblinframework.core.exception.GoblinInitializationException
 import org.goblinframework.core.util.NetworkUtils
-import org.goblinframework.embedded.core.setting.ServerSetting
+import org.goblinframework.embedded.setting.ServerSetting
 import java.net.InetSocketAddress
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor

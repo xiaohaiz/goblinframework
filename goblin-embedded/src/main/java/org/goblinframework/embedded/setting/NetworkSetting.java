@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.setting;
+package org.goblinframework.embedded.setting;
 
 import org.goblinframework.core.util.NetworkUtils;
 import org.jetbrains.annotations.NotNull;

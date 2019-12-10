@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.setting;
+package org.goblinframework.embedded.setting;
 
 import org.goblinframework.embedded.core.handler.ServletHandler;
 import org.jetbrains.annotations.NotNull;

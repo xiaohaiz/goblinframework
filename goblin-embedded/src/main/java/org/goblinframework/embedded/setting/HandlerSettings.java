@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.setting;
+package org.goblinframework.embedded.setting;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.goblinframework.core.util.StringUtils;

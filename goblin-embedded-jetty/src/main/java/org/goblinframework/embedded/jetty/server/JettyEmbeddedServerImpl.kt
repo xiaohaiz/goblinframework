@@ -8,7 +8,7 @@ import org.eclipse.jetty.server.handler.gzip.GzipHandler
 import org.eclipse.jetty.util.thread.QueuedThreadPool
 import org.goblinframework.api.function.Disposable
 import org.goblinframework.core.util.ClassUtils
-import org.goblinframework.embedded.core.setting.ServerSetting
+import org.goblinframework.embedded.setting.ServerSetting
 import java.util.concurrent.TimeUnit
 
 class JettyEmbeddedServerImpl(private val setting: ServerSetting) : Disposable {

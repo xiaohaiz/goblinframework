@@ -2,8 +2,8 @@ package org.goblinframework.embedded.jetty.server;
 
 import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.embedded.core.handler.ServletHandler;
-import org.goblinframework.embedded.core.setting.ServerSetting;
 import org.goblinframework.embedded.server.EmbeddedServerMode;
+import org.goblinframework.embedded.setting.ServerSetting;
 import org.goblinframework.test.runner.GoblinTestRunner;
 import org.goblinframework.webmvc.servlet.ServletRequest;
 import org.goblinframework.webmvc.servlet.ServletResponse;

@@ -6,7 +6,7 @@ import org.goblinframework.api.function.Disposable
 import org.goblinframework.core.exception.GoblinDuplicateException
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.embedded.core.setting.ServerSetting
+import org.goblinframework.embedded.setting.ServerSetting
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
