@@ -1,7 +1,7 @@
-package org.goblinframework.embedded.core.handler
+package org.goblinframework.embedded.handler
 
 import org.apache.commons.io.IOUtils
-import org.goblinframework.embedded.core.resource.StaticResourceManager
+import org.goblinframework.embedded.resource.StaticResourceManager
 import org.springframework.core.io.Resource
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference

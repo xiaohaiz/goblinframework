@@ -3,10 +3,10 @@ package org.goblinframework.example.embedded
 import org.goblinframework.bootstrap.core.StandaloneServer
 import org.goblinframework.core.container.GoblinSpringContainer
 import org.goblinframework.core.container.SpringContainer
-import org.goblinframework.embedded.core.handler.DispatchServletHandler
-import org.goblinframework.embedded.core.handler.ServletHandler
-import org.goblinframework.embedded.core.resource.ClassPathStaticResourceManager
-import org.goblinframework.embedded.core.resource.MapStaticResourceBuffer
+import org.goblinframework.embedded.handler.DispatchServletHandler
+import org.goblinframework.embedded.handler.ServletHandler
+import org.goblinframework.embedded.resource.ClassPathStaticResourceManager
+import org.goblinframework.embedded.resource.MapStaticResourceBuffer
 import org.goblinframework.embedded.server.EmbeddedServerManager
 import org.goblinframework.embedded.server.EmbeddedServerMode
 import org.goblinframework.embedded.setting.ServerSetting

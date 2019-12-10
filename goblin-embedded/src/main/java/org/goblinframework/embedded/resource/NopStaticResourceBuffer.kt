@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.resource
+package org.goblinframework.embedded.resource
 
 class NopStaticResourceBuffer private constructor() : StaticResourceBuffer {
 

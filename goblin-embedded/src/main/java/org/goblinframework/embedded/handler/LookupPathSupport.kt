@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.handler
+package org.goblinframework.embedded.handler
 
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read

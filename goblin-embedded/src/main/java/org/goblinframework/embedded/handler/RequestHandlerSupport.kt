@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.handler
+package org.goblinframework.embedded.handler
 
 import org.apache.commons.lang3.StringUtils
 import org.goblinframework.webmvc.handler.RequestHandlerManager

@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.handler
+package org.goblinframework.embedded.handler
 
 import org.goblinframework.webmvc.servlet.ServletRequest
 import org.goblinframework.webmvc.servlet.ServletResponse

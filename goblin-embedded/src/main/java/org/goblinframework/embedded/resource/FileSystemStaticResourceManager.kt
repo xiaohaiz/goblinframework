@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.resource
+package org.goblinframework.embedded.resource
 
 import org.goblinframework.core.util.StringUtils
 import org.springframework.core.io.FileSystemResource

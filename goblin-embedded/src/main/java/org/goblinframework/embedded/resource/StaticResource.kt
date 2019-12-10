@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.resource
+package org.goblinframework.embedded.resource
 
 import java.io.Serializable
 

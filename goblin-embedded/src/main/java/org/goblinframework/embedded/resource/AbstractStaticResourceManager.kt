@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.resource
+package org.goblinframework.embedded.resource
 
 import org.apache.commons.io.IOUtils
 import org.springframework.core.io.Resource

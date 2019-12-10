@@ -1,6 +1,6 @@
 package org.goblinframework.embedded.setting;
 
-import org.goblinframework.embedded.core.handler.ServletHandler;
+import org.goblinframework.embedded.handler.ServletHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

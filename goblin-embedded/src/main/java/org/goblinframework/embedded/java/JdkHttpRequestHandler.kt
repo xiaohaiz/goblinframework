@@ -4,7 +4,7 @@ import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.goblinframework.core.util.ExceptionUtils
 import org.goblinframework.core.util.HttpUtils
-import org.goblinframework.embedded.core.handler.ServletHandler
+import org.goblinframework.embedded.handler.ServletHandler
 import org.goblinframework.embedded.setting.ServerSetting
 import org.goblinframework.webmvc.servlet.RequestAttribute
 import org.goblinframework.webmvc.servlet.ServletRequest

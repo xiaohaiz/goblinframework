@@ -1,7 +1,7 @@
 package org.goblinframework.embedded.java
 
 import org.bson.types.ObjectId
-import org.goblinframework.embedded.core.handler.ServletHandler
+import org.goblinframework.embedded.handler.ServletHandler
 import org.goblinframework.embedded.server.EmbeddedServerId
 import org.goblinframework.embedded.server.EmbeddedServerManager
 import org.goblinframework.embedded.server.EmbeddedServerMode

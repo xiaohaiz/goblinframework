@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.core.handler
+package org.goblinframework.embedded.handler
 
 import org.goblinframework.embedded.filter.DefaultFilterChain
 import org.goblinframework.webmvc.filter.LookupPathFilter

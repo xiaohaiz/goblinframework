@@ -3,7 +3,7 @@ package org.goblinframework.embedded.jetty.server;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.embedded.core.handler.ServletHandler;
+import org.goblinframework.embedded.handler.ServletHandler;
 import org.goblinframework.webmvc.servlet.ServletRequest;
 import org.goblinframework.webmvc.servlet.ServletResponse;
 import org.goblinframework.webmvc.util.HttpContentTypes;
