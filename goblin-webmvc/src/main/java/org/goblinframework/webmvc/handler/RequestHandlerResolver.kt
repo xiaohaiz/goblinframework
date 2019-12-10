@@ -5,8 +5,8 @@ import org.goblinframework.core.conversion.ConversionService
 import org.goblinframework.core.util.JsonUtils
 import org.goblinframework.webmvc.exception.*
 import org.goblinframework.webmvc.mapping.parameter.*
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import org.goblinframework.webmvc.util.DefaultPathMatcher
 import org.goblinframework.webmvc.util.DefaultUrlPathHelper
 import org.springframework.validation.support.BindingAwareModelMap
@@ -17,8 +17,8 @@ import java.io.InputStream
 object RequestHandlerResolver {
 
   fun resolve(handler: RequestHandlerImpl,
-              request: ServletRequest,
-              response: ServletResponse): Array<Any?> {
+              request: GoblinServletRequest,
+              response: GoblinServletResponse): Array<Any?> {
 
     val mapping = handler.controllerMapping
     val parameters = mapping.requestHandlerParameters
@@ -49,8 +49,8 @@ object RequestHandlerResolver {
   }
 
   private fun internalResolve(handler: RequestHandlerImpl,
-                              request: ServletRequest,
-                              response: ServletResponse,
+                              request: GoblinServletRequest,
+                              response: GoblinServletResponse,
                               requestBody: InputStream?): Array<Any?> {
 
     val conversionService = ConversionService.INSTANCE

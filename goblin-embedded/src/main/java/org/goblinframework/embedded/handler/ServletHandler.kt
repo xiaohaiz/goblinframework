@@ -1,7 +1,7 @@
 package org.goblinframework.embedded.handler
 
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import javax.servlet.ServletException
 
 interface ServletHandler {
@@ -9,7 +9,7 @@ interface ServletHandler {
   fun transformLookupPath(path: String): String
 
   @Throws(ServletException::class)
-  fun handle(request: ServletRequest, response: ServletResponse)
+  fun handle(request: GoblinServletRequest, response: GoblinServletResponse)
 
 
 }

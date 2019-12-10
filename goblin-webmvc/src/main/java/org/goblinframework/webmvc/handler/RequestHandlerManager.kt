@@ -5,8 +5,8 @@ import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.StringUtils
 import org.goblinframework.webmvc.mapping.controller.ControllerMappingBuilder
 import org.goblinframework.webmvc.mapping.method.MethodMappingBuilder
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import org.goblinframework.webmvc.setting.RequestHandlerSetting
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.max
@@ -51,7 +51,7 @@ class RequestHandlerManager(private val setting: RequestHandlerSetting)
     }
   }
 
-  fun lookup(request: ServletRequest, response: ServletResponse): RequestHandler? {
+  fun lookup(request: GoblinServletRequest, response: GoblinServletResponse): RequestHandler? {
     val lookupPath = request.getLookupPath()
     val url = "${request.method!!.name} $lookupPath"
     var mapping = withoutPathVariables[url]

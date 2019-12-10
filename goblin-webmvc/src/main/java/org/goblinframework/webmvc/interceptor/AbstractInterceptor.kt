@@ -3,8 +3,8 @@ package org.goblinframework.webmvc.interceptor
 import org.goblinframework.core.util.ArrayUtils
 import org.goblinframework.core.util.StringUtils
 import org.goblinframework.webmvc.handler.RequestHandler
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import org.goblinframework.webmvc.util.DefaultPathMatcher
 import java.util.concurrent.atomic.AtomicReference
 
@@ -79,14 +79,14 @@ abstract class AbstractInterceptor protected constructor() : Interceptor {
     }
   }
 
-  override fun preHandle(request: ServletRequest, response: ServletResponse, handler: RequestHandler): Boolean {
+  override fun preHandle(request: GoblinServletRequest, response: GoblinServletResponse, handler: RequestHandler): Boolean {
     return true
   }
 
-  override fun postHandle(request: ServletRequest, response: ServletResponse, handler: RequestHandler) {
+  override fun postHandle(request: GoblinServletRequest, response: GoblinServletResponse, handler: RequestHandler) {
   }
 
-  override fun afterCompletion(request: ServletRequest, response: ServletResponse, handler: RequestHandler, cause: Throwable?) {
+  override fun afterCompletion(request: GoblinServletRequest, response: GoblinServletResponse, handler: RequestHandler, cause: Throwable?) {
   }
 
   @Synchronized

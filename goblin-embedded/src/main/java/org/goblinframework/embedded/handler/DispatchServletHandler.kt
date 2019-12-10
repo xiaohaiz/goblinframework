@@ -1,7 +1,7 @@
 package org.goblinframework.embedded.handler
 
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import java.util.*
@@ -12,14 +12,14 @@ open class DispatchServletHandler : FilterSupport(), ServletHandler {
     return doTransformLookupPath(path) ?: path
   }
 
-  override fun handle(request: ServletRequest, response: ServletResponse) {
+  override fun handle(request: GoblinServletRequest, response: GoblinServletResponse) {
     createFilterChain {
       internalHandle(request, response)
     }.doFilter(request.servletRequest, response.servletResponse)
   }
 
-  private fun internalHandle(request: ServletRequest,
-                             response: ServletResponse) {
+  private fun internalHandle(request: GoblinServletRequest,
+                             response: GoblinServletResponse) {
 
     val lookupPath = request.getLookupPath()
     val controllerManager = getRequestHandlerManager(lookupPath)

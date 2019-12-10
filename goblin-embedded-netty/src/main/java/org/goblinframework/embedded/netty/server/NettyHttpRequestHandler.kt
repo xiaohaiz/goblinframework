@@ -6,8 +6,8 @@ import io.netty.handler.codec.http.FullHttpRequest
 import io.netty.handler.codec.http.QueryStringDecoder
 import org.goblinframework.core.util.HttpUtils
 import org.goblinframework.embedded.setting.ServerSetting
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import org.springframework.http.MediaType
 import java.util.concurrent.ThreadPoolExecutor
 import javax.servlet.http.HttpServletResponse
@@ -48,7 +48,7 @@ class NettyHttpRequestHandler(private val setting: ServerSetting,
 
     val request = NettyHttpServletRequest(ctx, msg, decoder, contextPath, path)
     try {
-      handler.handle(ServletRequest(request), ServletResponse(response))
+      handler.handle(GoblinServletRequest(request), GoblinServletResponse(response))
     } catch (ex: Exception) {
       response.resetBuffer()
       response.status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR

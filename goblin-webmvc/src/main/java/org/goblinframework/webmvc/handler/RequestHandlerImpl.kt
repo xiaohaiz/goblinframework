@@ -10,8 +10,8 @@ import org.goblinframework.webmvc.interceptor.Interceptor
 import org.goblinframework.webmvc.interceptor.InterceptorLocator
 import org.goblinframework.webmvc.mapping.controller.ControllerMapping
 import org.goblinframework.webmvc.mapping.parameter.ModelParameterMapping
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import org.goblinframework.webmvc.setting.RequestHandlerSetting
 import org.goblinframework.webmvc.view.ViewResolverManager
 import org.slf4j.LoggerFactory
@@ -23,8 +23,8 @@ import java.util.concurrent.atomic.AtomicInteger
 import javax.servlet.ServletException
 
 class RequestHandlerImpl(val setting: RequestHandlerSetting,
-                         val request: ServletRequest,
-                         val response: ServletResponse,
+                         val request: GoblinServletRequest,
+                         val response: GoblinServletResponse,
                          val lookupPath: String,
                          val bestMatchingPattern: String,
                          val controllerMapping: ControllerMapping) : RequestHandler {

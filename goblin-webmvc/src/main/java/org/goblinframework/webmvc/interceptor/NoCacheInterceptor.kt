@@ -1,8 +1,8 @@
 package org.goblinframework.webmvc.interceptor
 
 import org.goblinframework.webmvc.handler.RequestHandler
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 
 class NoCacheInterceptor private constructor() : AbstractInterceptor() {
 
@@ -14,7 +14,7 @@ class NoCacheInterceptor private constructor() : AbstractInterceptor() {
     setIncludePatterns("/**")
   }
 
-  override fun preHandle(request: ServletRequest, response: ServletResponse, handler: RequestHandler): Boolean {
+  override fun preHandle(request: GoblinServletRequest, response: GoblinServletResponse, handler: RequestHandler): Boolean {
     response.headers.pragma = "no-cache"
     response.headers.expires = 1
     response.headers.cacheControl = "no-cache, no-store"

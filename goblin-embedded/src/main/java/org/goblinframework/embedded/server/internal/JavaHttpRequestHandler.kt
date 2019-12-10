@@ -6,9 +6,9 @@ import org.goblinframework.core.util.ExceptionUtils
 import org.goblinframework.core.util.HttpUtils
 import org.goblinframework.embedded.handler.ServletHandler
 import org.goblinframework.embedded.setting.ServerSetting
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import org.goblinframework.webmvc.servlet.RequestAttribute
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import java.net.URLDecoder
@@ -20,7 +20,7 @@ class JavaHttpRequestHandler internal constructor(private val setting: ServerSet
     val path = HttpUtils.compactContinuousSlashes(uri.rawPath)!!
     val query = uri.rawQuery
 
-    val response = ServletResponse(JavaHttpServletResponse(exchange))
+    val response = GoblinServletResponse(JavaHttpServletResponse(exchange))
 
     val decodedPath = URLDecoder.decode(path, Charsets.UTF_8.name())
     val handlerSettings = setting.handlerSettings()
@@ -38,7 +38,7 @@ class JavaHttpRequestHandler internal constructor(private val setting: ServerSet
     val handler = handlerSetting.servletHandler()
     lookupPath = handler.transformLookupPath(lookupPath)
 
-    val request = ServletRequest(JavaHttpServletRequest(exchange, contextPath, lookupPath, query))
+    val request = GoblinServletRequest(JavaHttpServletRequest(exchange, contextPath, lookupPath, query))
 
     try {
       doDispatch(handler, request, response)
@@ -50,8 +50,8 @@ class JavaHttpRequestHandler internal constructor(private val setting: ServerSet
   }
 
   private fun doDispatch(handler: ServletHandler,
-                         request: ServletRequest,
-                         response: ServletResponse) {
+                         request: GoblinServletRequest,
+                         response: GoblinServletResponse) {
     request.setAttribute(RequestAttribute.LOOKUP_PATH, request.getLookupPath())
 
     try {

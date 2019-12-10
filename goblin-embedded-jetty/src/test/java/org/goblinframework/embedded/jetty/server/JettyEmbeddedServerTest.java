@@ -5,8 +5,8 @@ import org.goblinframework.embedded.handler.ServletHandler;
 import org.goblinframework.embedded.server.EmbeddedServerMode;
 import org.goblinframework.embedded.setting.ServerSetting;
 import org.goblinframework.test.runner.GoblinTestRunner;
-import org.goblinframework.webmvc.servlet.ServletRequest;
-import org.goblinframework.webmvc.servlet.ServletResponse;
+import org.goblinframework.webmvc.servlet.GoblinServletRequest;
+import org.goblinframework.webmvc.servlet.GoblinServletResponse;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +34,7 @@ public class JettyEmbeddedServerTest {
             }
 
             @Override
-            public void handle(@NotNull ServletRequest request, @NotNull ServletResponse response) throws ServletException {
+            public void handle(@NotNull GoblinServletRequest request, @NotNull GoblinServletResponse response) throws ServletException {
             }
           });
         })
@@ -49,7 +49,7 @@ public class JettyEmbeddedServerTest {
             }
 
             @Override
-            public void handle(@NotNull ServletRequest request, @NotNull ServletResponse response) throws ServletException {
+            public void handle(@NotNull GoblinServletRequest request, @NotNull GoblinServletResponse response) throws ServletException {
             }
           });
         })

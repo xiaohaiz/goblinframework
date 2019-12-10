@@ -1,8 +1,8 @@
 package org.goblinframework.webmvc.mapping.parameter
 
 import org.goblinframework.core.util.StringUtils
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import org.springframework.http.server.ServletServerHttpRequest
 import org.springframework.http.server.ServletServerHttpResponse
 import org.springframework.ui.Model
@@ -27,10 +27,10 @@ object ParameterMappingBuilder {
     if (HttpServletResponse::class.java.isAssignableFrom(t)) {
       return HttpServletResponseParameterMapping(namedParameter)
     }
-    if (ServletRequest::class.java.isAssignableFrom(t)) {
+    if (GoblinServletRequest::class.java.isAssignableFrom(t)) {
       return ServletRequestParameterMapping(namedParameter)
     }
-    if (ServletResponse::class.java.isAssignableFrom(t)) {
+    if (GoblinServletResponse::class.java.isAssignableFrom(t)) {
       return ServletResponseParameterMapping(namedParameter)
     }
     if (ServletServerHttpRequest::class.java.isAssignableFrom(t)) {
