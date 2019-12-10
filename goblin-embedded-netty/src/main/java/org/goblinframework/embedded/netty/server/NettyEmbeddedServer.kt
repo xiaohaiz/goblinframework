@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicReference
 class NettyEmbeddedServer(private val setting: ServerSetting)
   : GoblinManagedObject(), EmbeddedServer, EmbeddedServerMXBean {
 
-  private val server = AtomicReference<NettyEmbeddedServerImpl>()
+  private val server = AtomicReference<NettyEmbeddedServerImpl?>()
 
   override fun id(): EmbeddedServerId {
     return EmbeddedServerId(EmbeddedServerMode.NETTY, setting.name())
@@ -28,8 +28,7 @@ class NettyEmbeddedServer(private val setting: ServerSetting)
     }
     val running = NettyEmbeddedServerImpl(setting)
     server.set(running)
-    logger.debug("{EMBEDDED} Embedded server [{}] started at [{}:{}]",
-        id().asText(), server.get()!!.host, server.get()!!.port)
+    logger.debug("{EMBEDDED} Embedded server [{}] started at [{}:{}]", id().asText(), getHost(), getPort())
   }
 
   override fun stop() {
@@ -53,6 +52,18 @@ class NettyEmbeddedServer(private val setting: ServerSetting)
 
   override fun getName(): String {
     return setting.name()
+  }
+
+  override fun getRunning(): Boolean {
+    return isRunning()
+  }
+
+  override fun getHost(): String? {
+    return server.get()?.host
+  }
+
+  override fun getPort(): Int? {
+    return server.get()?.port
   }
 
   override fun disposeBean() {

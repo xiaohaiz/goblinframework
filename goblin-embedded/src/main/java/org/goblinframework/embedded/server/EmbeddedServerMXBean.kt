@@ -10,4 +10,10 @@ interface EmbeddedServerMXBean : PlatformManagedObject {
 
   fun getName(): String
 
+  fun getRunning(): Boolean
+
+  fun getHost(): String?
+
+  fun getPort(): Int?
+
 }

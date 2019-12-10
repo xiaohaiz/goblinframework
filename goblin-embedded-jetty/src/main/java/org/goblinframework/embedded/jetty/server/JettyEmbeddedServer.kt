@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicReference
 class JettyEmbeddedServer(private val setting: ServerSetting)
   : GoblinManagedObject(), EmbeddedServer, EmbeddedServerMXBean {
 
-  private val server = AtomicReference<JettyEmbeddedServerImpl>()
+  private val server = AtomicReference<JettyEmbeddedServerImpl?>()
 
   override fun id(): EmbeddedServerId {
     return EmbeddedServerId(EmbeddedServerMode.JETTY, setting.name())
@@ -28,8 +28,7 @@ class JettyEmbeddedServer(private val setting: ServerSetting)
     }
     val running = JettyEmbeddedServerImpl(setting)
     server.set(running)
-    logger.debug("{EMBEDDED} Embedded server [{}] started at [{}:{}]",
-        id().asText(), server.get()!!.host, server.get()!!.port)
+    logger.debug("{EMBEDDED} Embedded server [{}] started at [{}:{}]", id().asText(), getHost(), getPort())
   }
 
   override fun stop() {
@@ -53,6 +52,18 @@ class JettyEmbeddedServer(private val setting: ServerSetting)
 
   override fun getName(): String {
     return setting.name()
+  }
+
+  override fun getRunning(): Boolean {
+    return isRunning()
+  }
+
+  override fun getHost(): String? {
+    return server.get()?.host
+  }
+
+  override fun getPort(): Int? {
+    return server.get()?.port
   }
 
   override fun dispose() {

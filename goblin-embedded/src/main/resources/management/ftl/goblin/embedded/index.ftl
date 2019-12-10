@@ -18,7 +18,7 @@
     <table class="table table-bordered table-condensed table-striped">
       <thead>
       <tr class="info">
-        <td colspan="3"><strong>Embedded Server(s)</strong></td>
+        <td colspan="6"><strong>Embedded Server(s)</strong></td>
       </tr>
       </thead>
       <tbody>
@@ -26,12 +26,18 @@
         <td><strong>upTime</strong></td>
         <td><strong>mode</strong></td>
         <td><strong>name</strong></td>
+        <td><strong>running</strong></td>
+        <td><strong>host</strong></td>
+        <td><strong>port</strong></td>
       </tr>
       <#list embeddedServerManager.embeddedServerList as server>
         <tr>
           <td>${server.upTime!''}</td>
           <td>${server.mode.name()}</td>
           <td>${server.name}</td>
+          <td>${server.getRunning()?c}</td>
+          <td>${server.host!''}</td>
+          <td>${server.port!''}</td>
         </tr>
       </#list>
       </tbody>

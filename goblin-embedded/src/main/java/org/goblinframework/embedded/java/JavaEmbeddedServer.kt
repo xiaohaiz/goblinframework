@@ -27,8 +27,7 @@ class JavaEmbeddedServer internal constructor(private val setting: ServerSetting
       return
     }
     server.set(JavaEmbeddedServerImpl(setting))
-    logger.debug("{EMBEDDED} Embedded server [{}] started at [{}:{}]",
-        id().asText(), server.get()!!.host, server.get()!!.port)
+    logger.debug("{EMBEDDED} Embedded server [{}] started at [{}:{}]", id().asText(), getHost(), getPort())
   }
 
   @Synchronized
@@ -54,6 +53,18 @@ class JavaEmbeddedServer internal constructor(private val setting: ServerSetting
 
   override fun getName(): String {
     return setting.name()
+  }
+
+  override fun getRunning(): Boolean {
+    return isRunning()
+  }
+
+  override fun getHost(): String? {
+    return server.get()?.host
+  }
+
+  override fun getPort(): Int? {
+    return server.get()?.port
   }
 
   override fun disposeBean() {
