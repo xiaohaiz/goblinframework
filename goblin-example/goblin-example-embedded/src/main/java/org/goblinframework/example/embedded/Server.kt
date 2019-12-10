@@ -15,6 +15,7 @@ import org.goblinframework.webmvc.handler.RequestHandlerManagerBuilder
 import org.goblinframework.webmvc.servlet.ServletRequest
 import org.goblinframework.webmvc.servlet.ServletResponse
 import org.goblinframework.webmvc.setting.RequestHandlerSetting
+import org.springframework.http.MediaType
 import javax.servlet.http.HttpServletResponse
 
 @GoblinSpringContainer("/config/goblin-example-embedded.xml")
@@ -61,9 +62,13 @@ class Server : StandaloneServer() {
             }
 
             override fun handle(request: ServletRequest, response: ServletResponse) {
+              response.headers.contentLength = 5
+              response.headers.contentType = MediaType.TEXT_PLAIN
+
               response.servletResponse.status = HttpServletResponse.SC_OK
               response.servletResponse.writer.println("hello")
-              response.servletResponse.flushBuffer()
+
+              response.flush()
             }
           })
         }
