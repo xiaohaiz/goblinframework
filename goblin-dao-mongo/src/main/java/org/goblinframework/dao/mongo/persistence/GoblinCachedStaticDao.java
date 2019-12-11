@@ -1,10 +1,10 @@
 package org.goblinframework.dao.mongo.persistence;
 
-import org.goblinframework.dao.mongo.persistence.internal.MongoCachedPersistenceSupport;
+import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceCacheSupport;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-abstract public class GoblinCachedStaticDao<E, ID> extends MongoCachedPersistenceSupport<E, ID> {
+abstract public class GoblinCachedStaticDao<E, ID> extends MongoPersistenceCacheSupport<E, ID> {
 
   protected GoblinCachedStaticDao() {
     if (isDynamicDatabase() || isDynamicCollection()) {
