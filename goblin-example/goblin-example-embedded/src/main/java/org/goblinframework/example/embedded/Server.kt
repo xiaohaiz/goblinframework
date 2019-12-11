@@ -7,9 +7,9 @@ import org.goblinframework.embedded.core.handler.DispatchServletHandler
 import org.goblinframework.embedded.core.handler.ServletHandler
 import org.goblinframework.embedded.core.resource.ClassPathStaticResourceManager
 import org.goblinframework.embedded.core.resource.MapStaticResourceBuffer
-import org.goblinframework.embedded.core.setting.ServerSetting
 import org.goblinframework.embedded.server.EmbeddedServerManager
 import org.goblinframework.embedded.server.EmbeddedServerMode
+import org.goblinframework.embedded.setting.ServerSetting
 import org.goblinframework.example.embedded.interceptor.StaticLogInterceptor
 import org.goblinframework.webmvc.handler.RequestHandlerManagerBuilder
 import org.goblinframework.webmvc.servlet.ServletRequest
@@ -54,7 +54,7 @@ class Server : StandaloneServer() {
           it.servletHandler(handler)
         }
         .nextHandlerSetting()
-        .applyHandlerSetting { 
+        .applyHandlerSetting {
           it.contextPath("/abc")
           it.servletHandler(object : ServletHandler {
             override fun transformLookupPath(path: String): String {
