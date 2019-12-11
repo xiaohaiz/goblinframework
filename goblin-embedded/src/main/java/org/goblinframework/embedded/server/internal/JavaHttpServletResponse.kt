@@ -1,6 +1,8 @@
 package org.goblinframework.embedded.server.internal
 
 import com.sun.net.httpserver.HttpExchange
+import org.goblinframework.api.core.CompressorMode
+import org.goblinframework.core.compression.CompressorManager
 import org.goblinframework.embedded.servlet.AbstractHttpServletResponse
 import org.springframework.http.HttpHeaders
 import java.io.Closeable
@@ -16,7 +18,12 @@ class JavaHttpServletResponse(private val exchange: HttpExchange)
   private val outputStream = JavaServletOutputStream()
   private val writer = PrintWriter(outputStream, true)
   private val status = AtomicInteger(HttpServletResponse.SC_OK)
+  private val compression = AtomicBoolean()
   private val committed = AtomicBoolean()
+
+  fun enableCompression(enableCompression: Boolean) {
+    this.compression.set(enableCompression)
+  }
 
   override fun getOutputStream(): ServletOutputStream {
     return outputStream
@@ -84,13 +91,26 @@ class JavaHttpServletResponse(private val exchange: HttpExchange)
   override fun close() {
     Closeable { exchange.close() }.use {
       val sc = getStatus()
-      val content = outputStream.content()
+      var content = outputStream.content()
       var contentLen = content.size
       if (sc == HttpServletResponse.SC_NOT_MODIFIED) {
         contentLen = -1
       } else {
-        if (getHeader(HttpHeaders.CONTENT_LENGTH) == null) {
+        var resetContentLen = false
+        if (compression.get()) {
+          val compressor = CompressorManager.INSTANCE.getCompressor(CompressorMode.GZIP)
+          val compressed = compressor.compress(content)
+          if (compressed.size < content.size) {
+            resetContentLen = true
+            contentLen = compressed.size
+            content = compressed
+          }
+        }
+        if (resetContentLen || getHeader(HttpHeaders.CONTENT_LENGTH) == null) {
           setContentLength(contentLen)
+        }
+        if (resetContentLen) {
+          setHeader(HttpHeaders.CONTENT_ENCODING, "gzip")
         }
       }
       exchange.sendResponseHeaders(sc, contentLen.toLong())

@@ -4,11 +4,13 @@ import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.goblinframework.core.util.ExceptionUtils
 import org.goblinframework.core.util.HttpUtils
+import org.goblinframework.core.util.StringUtils
 import org.goblinframework.embedded.handler.ServletHandler
 import org.goblinframework.embedded.setting.ServerSetting
 import org.goblinframework.webmvc.servlet.GoblinServletRequest
 import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import org.goblinframework.webmvc.servlet.RequestAttribute
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import java.net.URLDecoder
@@ -39,6 +41,9 @@ class JavaHttpRequestHandler internal constructor(private val setting: ServerSet
     lookupPath = handler.transformLookupPath(lookupPath)
 
     val request = GoblinServletRequest(JavaHttpServletRequest(exchange, contextPath, lookupPath, query))
+    val requestAcceptCompression = isRequestAcceptGzip(request)
+    val enableCompression = handlerSetting.enableCompression()
+    (response.servletResponse as JavaHttpServletResponse).enableCompression(requestAcceptCompression && enableCompression)
 
     try {
       doDispatch(handler, request, response)
@@ -47,6 +52,18 @@ class JavaHttpRequestHandler internal constructor(private val setting: ServerSet
       response.flush()
       (response.servletResponse as JavaHttpServletResponse).close()
     }
+  }
+
+  private fun isRequestAcceptGzip(request: GoblinServletRequest): Boolean {
+    val acceptEncoding = request.servletRequest.getHeader(HttpHeaders.ACCEPT_ENCODING)
+    if (acceptEncoding.isNullOrBlank()) {
+      return false
+    }
+    return StringUtils.split(acceptEncoding, ",")
+        .filter { it.isNotBlank() }
+        .map { it.trim() }
+        .map { it.toLowerCase() }
+        .firstOrNull { it == "gzip" } != null
   }
 
   private fun doDispatch(handler: ServletHandler,
