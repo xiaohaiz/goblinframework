@@ -3,17 +3,17 @@ package org.goblinframework.example.embedded
 import org.goblinframework.bootstrap.core.StandaloneServer
 import org.goblinframework.core.container.GoblinSpringContainer
 import org.goblinframework.core.container.SpringContainer
-import org.goblinframework.embedded.core.handler.DispatchServletHandler
-import org.goblinframework.embedded.core.handler.ServletHandler
-import org.goblinframework.embedded.core.resource.ClassPathStaticResourceManager
-import org.goblinframework.embedded.core.resource.MapStaticResourceBuffer
+import org.goblinframework.embedded.handler.DispatchServletHandler
+import org.goblinframework.embedded.handler.ServletHandler
+import org.goblinframework.embedded.resource.ClassPathStaticResourceManager
+import org.goblinframework.embedded.resource.MapStaticResourceBuffer
 import org.goblinframework.embedded.server.EmbeddedServerManager
 import org.goblinframework.embedded.server.EmbeddedServerMode
 import org.goblinframework.embedded.setting.ServerSetting
 import org.goblinframework.example.embedded.interceptor.StaticLogInterceptor
 import org.goblinframework.webmvc.handler.RequestHandlerManagerBuilder
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import org.goblinframework.webmvc.setting.RequestHandlerSetting
 import org.springframework.http.MediaType
 import javax.servlet.http.HttpServletResponse
@@ -61,7 +61,7 @@ class Server : StandaloneServer() {
               return path
             }
 
-            override fun handle(request: ServletRequest, response: ServletResponse) {
+            override fun handle(request: GoblinServletRequest, response: GoblinServletResponse) {
               response.headers.contentLength = 5
               response.headers.contentType = MediaType.TEXT_PLAIN
 

@@ -7,7 +7,7 @@ import io.netty.handler.codec.http.QueryStringDecoder
 import io.netty.handler.ssl.SslHandler
 import org.apache.commons.io.IOUtils
 import org.goblinframework.core.util.StringUtils
-import org.goblinframework.embedded.core.servlet.AbstractHttpServletRequest
+import org.goblinframework.embedded.servlet.AbstractHttpServletRequest
 import org.springframework.util.LinkedMultiValueMap
 import java.net.InetSocketAddress
 import java.util.*

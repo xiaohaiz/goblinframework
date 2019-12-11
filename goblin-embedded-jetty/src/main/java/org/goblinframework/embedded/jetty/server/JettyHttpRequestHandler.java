@@ -3,9 +3,9 @@ package org.goblinframework.embedded.jetty.server;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.embedded.core.handler.ServletHandler;
-import org.goblinframework.webmvc.servlet.ServletRequest;
-import org.goblinframework.webmvc.servlet.ServletResponse;
+import org.goblinframework.embedded.handler.ServletHandler;
+import org.goblinframework.webmvc.servlet.GoblinServletRequest;
+import org.goblinframework.webmvc.servlet.GoblinServletResponse;
 import org.goblinframework.webmvc.util.HttpContentTypes;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,8 +29,8 @@ final public class JettyHttpRequestHandler extends AbstractHandler {
       lookupPath = null;
     }
     try {
-      ServletRequest servletRequest = new ServletRequest(request, lookupPath);
-      ServletResponse servletResponse = new ServletResponse(response);
+      GoblinServletRequest servletRequest = new GoblinServletRequest(request, lookupPath);
+      GoblinServletResponse servletResponse = new GoblinServletResponse(response);
       handler.handle(servletRequest, servletResponse);
     } catch (Exception ex) {
       response.resetBuffer();

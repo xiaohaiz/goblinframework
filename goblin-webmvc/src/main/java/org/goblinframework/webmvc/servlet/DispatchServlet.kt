@@ -41,8 +41,8 @@ open class DispatchServlet : FrameworkServlet() {
   }
 
   override fun doService(request: HttpServletRequest, response: HttpServletResponse) {
-    val servletRequest = ServletRequest(request)
-    val servletResponse = ServletResponse(response)
+    val servletRequest = GoblinServletRequest(request)
+    val servletResponse = GoblinServletResponse(response)
     val requestHandler = requestHandlerManager.lookup(servletRequest, servletResponse)
         ?: throw NoRequestHandlerFoundException()
     requestHandler.invoke()

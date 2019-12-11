@@ -3,8 +3,8 @@ package org.goblinframework.example.embedded.interceptor
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.webmvc.handler.RequestHandler
 import org.goblinframework.webmvc.interceptor.AbstractInterceptor
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import org.slf4j.LoggerFactory
 
 @Singleton
@@ -20,16 +20,16 @@ class StaticLogInterceptor private constructor(): AbstractInterceptor() {
     setIncludePatterns("/**")
   }
 
-  override fun preHandle(request: ServletRequest, response: ServletResponse, handler: RequestHandler): Boolean {
+  override fun preHandle(request: GoblinServletRequest, response: GoblinServletResponse, handler: RequestHandler): Boolean {
     logger.info("StaticLogInterceptor pre-handle request [${request.uri}]")
     return true
   }
 
-  override fun postHandle(request: ServletRequest, response: ServletResponse, handler: RequestHandler) {
+  override fun postHandle(request: GoblinServletRequest, response: GoblinServletResponse, handler: RequestHandler) {
     logger.info("StaticLogInterceptor post-handle request [${request.uri}]")
   }
 
-  override fun afterCompletion(request: ServletRequest, response: ServletResponse, handler: RequestHandler, cause: Throwable?) {
+  override fun afterCompletion(request: GoblinServletRequest, response: GoblinServletResponse, handler: RequestHandler, cause: Throwable?) {
     logger.info("StaticLogInterceptor after complete request [${request.uri}]")
   }
 }

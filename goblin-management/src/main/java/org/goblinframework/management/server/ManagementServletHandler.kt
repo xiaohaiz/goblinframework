@@ -1,8 +1,8 @@
 package org.goblinframework.management.server
 
-import org.goblinframework.embedded.core.handler.DispatchServletHandler
-import org.goblinframework.embedded.core.resource.ClassPathStaticResourceManager
-import org.goblinframework.embedded.core.resource.MapStaticResourceBuffer
+import org.goblinframework.embedded.handler.DispatchServletHandler
+import org.goblinframework.embedded.resource.ClassPathStaticResourceManager
+import org.goblinframework.embedded.resource.MapStaticResourceBuffer
 import org.goblinframework.management.controller.ManagementControllerManager
 import org.goblinframework.webmvc.handler.RequestHandlerManagerBuilder
 import org.goblinframework.webmvc.setting.RequestHandlerSetting

@@ -38,9 +38,13 @@ class JettyEmbeddedServerImpl(private val setting: ServerSetting) : Disposable {
       contextHandler.classLoader = ClassUtils.getDefaultClassLoader()
       contextHandler.isCompactPath = true
       contextHandler.handler = JettyHttpRequestHandler(it.servletHandler())
-      val gzipHandler = GzipHandler()
-      gzipHandler.handler = contextHandler
-      handlers.addHandler(gzipHandler)
+      if (it.enableCompression()) {
+        val gzipHandler = GzipHandler()
+        gzipHandler.handler = contextHandler
+        handlers.addHandler(gzipHandler)
+      } else {
+        handlers.addHandler(contextHandler)
+      }
     }
     server.handler = handlers
     server.start()

@@ -1,8 +1,8 @@
 package org.goblinframework.webmvc.view
 
 import org.goblinframework.core.util.StringUtils
-import org.goblinframework.webmvc.servlet.ServletRequest
-import org.goblinframework.webmvc.servlet.ServletResponse
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
+import org.goblinframework.webmvc.servlet.GoblinServletResponse
 import org.springframework.ui.Model
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
@@ -99,7 +99,7 @@ abstract class AbstractViewResolver : ViewResolver {
       val instance = NilView()
     }
 
-    override fun render(model: Model?, request: ServletRequest, response: ServletResponse) {
+    override fun render(model: Model?, request: GoblinServletRequest, response: GoblinServletResponse) {
       throw UnsupportedOperationException()
     }
   }
