@@ -22,6 +22,7 @@ class ManagementServer internal constructor()
         .applyHandlerSetting {
           it.contextPath("/")
           it.servletHandler(ManagementServletHandler.INSTANCE)
+          it.enableCompression(true)
         }
         .build()
     val serverManager = EmbeddedServerManager.INSTANCE
