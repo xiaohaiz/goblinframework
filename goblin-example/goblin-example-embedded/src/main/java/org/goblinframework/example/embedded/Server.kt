@@ -10,6 +10,7 @@ import org.goblinframework.embedded.resource.MapStaticResourceBuffer
 import org.goblinframework.embedded.server.EmbeddedServerManager
 import org.goblinframework.embedded.server.EmbeddedServerMode
 import org.goblinframework.embedded.setting.ServerSetting
+import org.goblinframework.example.embedded.interceptor.SessionAuthInterceptor
 import org.goblinframework.example.embedded.interceptor.StaticLogInterceptor
 import org.goblinframework.webmvc.handler.RequestHandlerManagerBuilder
 import org.goblinframework.webmvc.servlet.GoblinServletRequest
@@ -33,6 +34,7 @@ class Server : StandaloneServer() {
           it.includeDefaultInterceptors(true)
           it.applicationContext(ctx)// for managed
           it.registerInterceptors(StaticLogInterceptor.INSTANCE)// for static
+          it.registerInterceptors(SessionAuthInterceptor.INSTANCE)// session auth
         }
         .applyViewResolverSetting { it.applicationContext(ctx) }
         .build()
