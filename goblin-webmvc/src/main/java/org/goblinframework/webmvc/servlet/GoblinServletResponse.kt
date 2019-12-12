@@ -2,6 +2,7 @@ package org.goblinframework.webmvc.servlet
 
 import org.goblinframework.core.util.HttpUtils
 import org.goblinframework.core.util.StringUtils
+import org.springframework.http.MediaType
 import org.springframework.http.server.ServletServerHttpResponse
 import org.springframework.ui.Model
 import javax.servlet.http.HttpServletResponse
@@ -25,5 +26,14 @@ class GoblinServletResponse(response: HttpServletResponse) : ServletServerHttpRe
 
   fun resetBuffer() {
     servletResponse.resetBuffer()
+  }
+
+  fun sendTextResponse(code: Int, text: String) {
+    headers.contentLength = text.length.toLong()
+    headers.contentType = MediaType.TEXT_PLAIN
+    servletResponse.status = code
+    servletResponse.writer.println(text)
+
+    flush()
   }
 }

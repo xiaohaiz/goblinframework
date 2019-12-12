@@ -1,5 +1,7 @@
 package org.goblinframework.example.embedded.controller
 
+import org.goblinframework.example.embedded.utils.AuthUtils
+import org.goblinframework.webmvc.servlet.GoblinServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestAttribute
 import org.springframework.web.bind.annotation.RequestMapping
@@ -37,9 +39,27 @@ class IndexController {
 
   @RequestMapping("json.goblin")
   @ResponseBody
-  fun json(@RequestAttribute("a") a: Int): ResponseData {
+  fun json(@RequestParam("a") a: Int): ResponseData {
     return ResponseData(200, "success")
         .add("userId", 1)
         .add("a", a)
+  }
+
+  @RequestMapping("user/info.goblin")
+  @ResponseBody
+  fun user(request: GoblinServletRequest): ResponseData {
+    val userInfo = request.servletRequest.getAttribute("userInfo") as AuthUtils.UserInfoMapper
+    return ResponseData(200, "success")
+        .add("name", userInfo.loginName)
+  }
+
+  @RequestMapping("key.goblin")
+  @ResponseBody
+  fun key(): ResponseData {
+    val userInfo = AuthUtils.UserInfoMapper("Moltres", "123456")
+    return ResponseData(200, "success")
+        .add("name", userInfo.loginName)
+        .add("password", userInfo.loginPW)
+        .add("session_key", AuthUtils.encodeSession(userInfo))
   }
 }
