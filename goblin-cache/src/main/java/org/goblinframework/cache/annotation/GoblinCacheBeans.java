@@ -7,6 +7,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface GoblinCacheBeans {
 
-  GoblinCacheBean[] value();
+  CacheBean[] value();
 
 }

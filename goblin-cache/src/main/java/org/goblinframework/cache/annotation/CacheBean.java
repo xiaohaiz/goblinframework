@@ -7,13 +7,13 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface GoblinCacheBean {
+public @interface CacheBean {
 
   Class<?> type();
 
-  CacheSystem system() default CacheSystem.CBS;
+  CacheSystem system();
 
-  String name();
+  String connection();
 
   boolean wrapper() default false;
 
