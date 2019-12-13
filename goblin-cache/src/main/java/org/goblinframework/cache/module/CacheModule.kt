@@ -4,7 +4,7 @@ import org.goblinframework.api.annotation.Install
 import org.goblinframework.cache.core.cache.CacheBuilderManager
 import org.goblinframework.cache.core.enhance.GoblinCacheEnhanceProcessor
 import org.goblinframework.cache.core.module.management.CacheManagement
-import org.goblinframework.cache.core.module.test.FlushCacheBeforeTestMethod
+import org.goblinframework.cache.module.test.FlushCacheBeforeTestMethod
 import org.goblinframework.core.system.*
 
 @Install
