@@ -1,7 +1,7 @@
 package org.goblinframework.cache.util;
 
-import org.goblinframework.cache.core.annotation.GoblinCacheKeyPrefix;
-import org.goblinframework.cache.core.annotation.GoblinCacheKeyRevision;
+import org.goblinframework.cache.annotation.GoblinCacheKeyPrefix;
+import org.goblinframework.cache.annotation.GoblinCacheKeyRevision;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

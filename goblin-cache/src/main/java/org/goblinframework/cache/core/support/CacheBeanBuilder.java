@@ -1,7 +1,7 @@
 package org.goblinframework.cache.core.support;
 
-import org.goblinframework.cache.core.annotation.GoblinCacheBean;
-import org.goblinframework.cache.core.annotation.GoblinCacheBeans;
+import org.goblinframework.cache.annotation.GoblinCacheBean;
+import org.goblinframework.cache.annotation.GoblinCacheBeans;
 import org.goblinframework.cache.exception.GoblinCacheException;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
