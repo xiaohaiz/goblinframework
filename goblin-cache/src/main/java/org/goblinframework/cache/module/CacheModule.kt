@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.module
+package org.goblinframework.cache.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.cache.core.cache.CacheBuilderManager
