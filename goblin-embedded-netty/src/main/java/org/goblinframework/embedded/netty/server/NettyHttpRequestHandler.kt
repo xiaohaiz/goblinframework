@@ -5,8 +5,6 @@ import io.netty.channel.SimpleChannelInboundHandler
 import io.netty.handler.codec.http.FullHttpRequest
 import io.netty.handler.codec.http.QueryStringDecoder
 import org.goblinframework.core.util.HttpUtils
-import org.goblinframework.embedded.netty.servlet.NettyHttpServletRequest
-import org.goblinframework.embedded.netty.servlet.NettyHttpServletResponse
 import org.goblinframework.embedded.setting.ServerSetting
 import org.goblinframework.webmvc.servlet.GoblinServletRequest
 import org.goblinframework.webmvc.servlet.GoblinServletResponse
@@ -48,7 +46,7 @@ class NettyHttpRequestHandler(private val setting: ServerSetting,
       return
     }
 
-    val request = NettyHttpServletRequest(ctx, msg, decoder, contextPath, path)
+    val request = NettyHttpServletRequest(ctx, msg, decoder, handlerSetting.contextPath(), path)
     try {
       handler.handle(GoblinServletRequest(request), GoblinServletResponse(response))
     } catch (ex: Exception) {

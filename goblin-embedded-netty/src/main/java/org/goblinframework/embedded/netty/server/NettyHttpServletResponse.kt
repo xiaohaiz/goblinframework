@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.netty.servlet
+package org.goblinframework.embedded.netty.server
 
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.http.DefaultFullHttpResponse

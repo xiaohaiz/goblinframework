@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.netty.servlet
+package org.goblinframework.embedded.jetty.server
 
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.core.web.CoreRestTemplate
@@ -9,7 +9,7 @@ import org.goblinframework.embedded.setting.ServerSetting
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.goblinframework.webmvc.servlet.GoblinServletRequest
 import org.goblinframework.webmvc.servlet.GoblinServletResponse
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class NettyHttpServletRequestTest {
+class JettyHttpRequestHandlerTest {
 
   @Test
   fun getContextPath() {
@@ -36,20 +36,19 @@ class NettyHttpServletRequestTest {
     val name = RandomUtils.nextObjectId()
     val setting = ServerSetting.builder()
         .name(name)
-        .mode(EmbeddedServerMode.NETTY)
+        .mode(EmbeddedServerMode.JETTY)
         .applyNetworkSetting {
           it.host("127.0.0.1")
         }
         .applyHandlerSetting {
-          it.contextPath("/test")
+          it.contextPath("/getContextPath")
           it.servletHandler(handler)
         }
         .build()
     val server = EmbeddedServerManager.INSTANCE.createServer(setting)
     server.start()
     val template = CoreRestTemplate.getInstance()
-    template.getForObject("http://127.0.0.1:${server.getPort()}/test/a", String::class.java)
-    Assert.assertEquals("/test/", contextPath.get())
+    template.getForObject("http://127.0.0.1:${server.getPort()}/getContextPath/a", String::class.java)
+    assertEquals("/getContextPath", contextPath.get())
   }
-
 }
