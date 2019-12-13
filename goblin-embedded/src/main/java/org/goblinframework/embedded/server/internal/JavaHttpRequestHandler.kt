@@ -39,7 +39,7 @@ class JavaHttpRequestHandler internal constructor(private val setting: ServerSet
     val handler = handlerSetting.servletHandler()
     lookupPath = handler.transformLookupPath(lookupPath)
 
-    val request = GoblinServletRequest(JavaHttpServletRequest(exchange, contextPath, lookupPath, query))
+    val request = GoblinServletRequest(JavaHttpServletRequest(exchange, handlerSetting.contextPath(), lookupPath, query))
     val requestAcceptCompression = isRequestAcceptGzip(request)
     val enableCompression = handlerSetting.enableCompression()
     (response.servletResponse as JavaHttpServletResponse).enableCompression(requestAcceptCompression && enableCompression)
