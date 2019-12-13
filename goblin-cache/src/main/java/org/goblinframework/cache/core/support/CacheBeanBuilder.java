@@ -1,7 +1,7 @@
 package org.goblinframework.cache.core.support;
 
 import org.goblinframework.cache.annotation.CacheBean;
-import org.goblinframework.cache.annotation.GoblinCacheBeans;
+import org.goblinframework.cache.annotation.CacheBeans;
 import org.goblinframework.cache.exception.GoblinCacheException;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
@@ -32,7 +32,7 @@ class CacheBeanBuilder {
     if (cacheBean != null && cacheBean.enable()) {
       annotations.add(cacheBean);
     }
-    GoblinCacheBeans cacheBeans = AnnotationUtils.getAnnotation(realClass, GoblinCacheBeans.class);
+    CacheBeans cacheBeans = AnnotationUtils.getAnnotation(realClass, CacheBeans.class);
     if (cacheBeans != null) {
       Arrays.stream(cacheBeans.value()).filter(CacheBean::enable).forEach(annotations::add);
     }

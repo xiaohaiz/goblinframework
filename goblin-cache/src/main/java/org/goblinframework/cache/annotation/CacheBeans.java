@@ -3,10 +3,10 @@ package org.goblinframework.cache.annotation;
 import java.lang.annotation.*;
 
 @Documented
-@Target(ElementType.METHOD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface GoblinCacheMethod {
+public @interface CacheBeans {
 
-  Class<?> value();
+  CacheBean[] value();
 
 }

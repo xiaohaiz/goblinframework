@@ -1,8 +1,8 @@
 package org.goblinframework.dao.mysql.persistence;
 
 import org.goblinframework.cache.annotation.CacheBean;
-import org.goblinframework.cache.annotation.GoblinCacheMethod;
-import org.goblinframework.cache.annotation.GoblinCacheParameter;
+import org.goblinframework.cache.annotation.CacheMethod;
+import org.goblinframework.cache.annotation.CacheParameter;
 import org.goblinframework.cache.core.cache.CacheSystem;
 import org.goblinframework.cache.core.support.CacheDimension;
 import org.goblinframework.cache.module.test.FlushCache;
@@ -42,8 +42,8 @@ public class GoblinCachedStaticPersistenceTest {
     }
 
     @NotNull
-    @GoblinCacheMethod(GoblinStaticPersistenceTest.MockData.class)
-    public List<GoblinStaticPersistenceTest.MockData> findByName(@GoblinCacheParameter("N") @NotNull String name) {
+    @CacheMethod(GoblinStaticPersistenceTest.MockData.class)
+    public List<GoblinStaticPersistenceTest.MockData> findByName(@CacheParameter("N") @NotNull String name) {
       Criteria criteria = Criteria.where("NAME").is(name);
       return directQuery(Query.query(criteria));
     }
