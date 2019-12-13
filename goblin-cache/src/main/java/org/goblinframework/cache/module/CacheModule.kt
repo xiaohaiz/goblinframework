@@ -1,6 +1,7 @@
 package org.goblinframework.cache.module
 
 import org.goblinframework.api.annotation.Install
+import org.goblinframework.cache.bean.GoblinCacheBeanManager
 import org.goblinframework.cache.core.cache.CacheBuilderManager
 import org.goblinframework.cache.core.enhance.GoblinCacheEnhanceProcessor
 import org.goblinframework.cache.module.management.CacheManagement
@@ -29,6 +30,7 @@ class CacheModule : IModule {
   }
 
   override fun initialize(ctx: ModuleInitializeContext) {
+    GoblinCacheBeanManager.INSTANCE.initialize()
     CacheBuilderManager.INSTANCE.initialize()
     ctx.createSubModules()
         .module(GoblinSubModule.CACHE_COUCHBASE)
@@ -42,6 +44,7 @@ class CacheModule : IModule {
         .module(GoblinSubModule.CACHE_REDIS)
         .finalize(ctx)
     CacheBuilderManager.INSTANCE.dispose()
+    GoblinCacheBeanManager.INSTANCE.dispose()
   }
 
 }
