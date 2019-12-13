@@ -1,4 +1,4 @@
-package org.goblinframework.embedded.netty.server
+package org.goblinframework.embedded.netty.servlet
 
 import io.netty.handler.codec.http.FullHttpRequest
 import java.io.ByteArrayInputStream
