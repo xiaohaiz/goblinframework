@@ -33,7 +33,5 @@ class GoblinServletResponse(response: HttpServletResponse) : ServletServerHttpRe
     headers.contentType = MediaType.TEXT_PLAIN
     servletResponse.status = code
     servletResponse.writer.println(text)
-
-    flush()
   }
 }
