@@ -1,6 +1,6 @@
 package org.goblinframework.cache.core.support;
 
-import org.goblinframework.cache.core.module.exception.CacheException;
+import org.goblinframework.cache.exception.GoblinCacheException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +30,7 @@ public class CacheDimension {
     if (cacheBean.getGoblinCache(type) == null) {
       String errMsg = "(%s) not found in @GoblinCacheBean(s)";
       errMsg = String.format(errMsg, type.getName());
-      throw new CacheException(errMsg);
+      throw new GoblinCacheException(errMsg);
     }
     Values vs;
     lock.readLock().lock();

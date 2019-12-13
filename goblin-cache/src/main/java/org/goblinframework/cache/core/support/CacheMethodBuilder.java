@@ -2,7 +2,7 @@ package org.goblinframework.cache.core.support;
 
 import org.goblinframework.cache.core.annotation.GoblinCacheMethod;
 import org.goblinframework.cache.core.annotation.GoblinCacheParameter;
-import org.goblinframework.cache.core.module.exception.CacheException;
+import org.goblinframework.cache.exception.GoblinCacheException;
 import org.goblinframework.core.util.ClassUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -90,7 +90,7 @@ class CacheMethodBuilder {
     }
 
     if (multipleCount > 1) {
-      throw new CacheException("At most 1 multiple CacheParameter");
+      throw new GoblinCacheException("At most 1 multiple CacheParameter");
     }
     if (multipleCount == 1) {
       Class<?> multipleParameterType = method.getParameterTypes()[multipleIndex];
@@ -98,12 +98,12 @@ class CacheMethodBuilder {
           && multipleParameterType != Set.class
           && multipleParameterType != List.class) {
         String errMsg = "The multiple cache parameter type must be Collection/List/Set";
-        throw new CacheException(errMsg);
+        throw new GoblinCacheException(errMsg);
       }
     }
     if (multipleCount == 1 && method.getReturnType() != Map.class) {
       String errMsg = "The result type of method which has multiple cache parameter must be Map";
-      throw new CacheException(errMsg);
+      throw new GoblinCacheException(errMsg);
     }
 
     gcm.annotationCount = annotationCount;
