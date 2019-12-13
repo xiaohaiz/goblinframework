@@ -6,12 +6,10 @@ import org.goblinframework.webmvc.handler.RequestHandler
 import org.goblinframework.webmvc.interceptor.AbstractInterceptor
 import org.goblinframework.webmvc.servlet.GoblinServletRequest
 import org.goblinframework.webmvc.servlet.GoblinServletResponse
-import org.goblinframework.webmvc.servlet.RequestAttribute
-import org.springframework.http.MediaType
 import javax.servlet.http.HttpServletResponse
 
 @Singleton
-class CookieAuthInterceptor private constructor(): AbstractInterceptor() {
+class CookieAuthInterceptor private constructor() : AbstractInterceptor() {
 
   companion object {
     @JvmField val INSTANCE = CookieAuthInterceptor()

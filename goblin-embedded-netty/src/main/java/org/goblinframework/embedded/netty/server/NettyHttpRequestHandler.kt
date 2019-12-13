@@ -46,7 +46,7 @@ class NettyHttpRequestHandler(private val setting: ServerSetting,
       return
     }
 
-    val request = NettyHttpServletRequest(ctx, msg, decoder, contextPath, path)
+    val request = NettyHttpServletRequest(ctx, msg, decoder, handlerSetting.contextPath(), path)
     try {
       handler.handle(GoblinServletRequest(request), GoblinServletResponse(response))
     } catch (ex: Exception) {

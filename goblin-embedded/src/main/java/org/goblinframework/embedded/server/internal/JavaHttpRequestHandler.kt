@@ -9,7 +9,6 @@ import org.goblinframework.embedded.handler.ServletHandler
 import org.goblinframework.embedded.setting.ServerSetting
 import org.goblinframework.webmvc.servlet.GoblinServletRequest
 import org.goblinframework.webmvc.servlet.GoblinServletResponse
-import org.goblinframework.webmvc.servlet.RequestAttribute
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -40,7 +39,7 @@ class JavaHttpRequestHandler internal constructor(private val setting: ServerSet
     val handler = handlerSetting.servletHandler()
     lookupPath = handler.transformLookupPath(lookupPath)
 
-    val request = GoblinServletRequest(JavaHttpServletRequest(exchange, contextPath, lookupPath, query))
+    val request = GoblinServletRequest(JavaHttpServletRequest(exchange, handlerSetting.contextPath(), lookupPath, query))
     val requestAcceptCompression = isRequestAcceptGzip(request)
     val enableCompression = handlerSetting.enableCompression()
     (response.servletResponse as JavaHttpServletResponse).enableCompression(requestAcceptCompression && enableCompression)
@@ -48,7 +47,6 @@ class JavaHttpRequestHandler internal constructor(private val setting: ServerSet
     try {
       doDispatch(handler, request, response)
     } finally {
-      RequestAttribute.values().forEach { request.removeAttribute(it) }
       response.flush()
       (response.servletResponse as JavaHttpServletResponse).close()
     }
@@ -69,8 +67,6 @@ class JavaHttpRequestHandler internal constructor(private val setting: ServerSet
   private fun doDispatch(handler: ServletHandler,
                          request: GoblinServletRequest,
                          response: GoblinServletResponse) {
-    request.setAttribute(RequestAttribute.LOOKUP_PATH, request.getLookupPath())
-
     try {
       handler.handle(request, response)
     } catch (ex: Exception) {

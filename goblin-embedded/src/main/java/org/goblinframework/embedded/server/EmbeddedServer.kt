@@ -6,4 +6,8 @@ interface EmbeddedServer : Lifecycle {
 
   fun id(): EmbeddedServerId
 
+  fun getHost(): String?
+
+  fun getPort(): Int?
+
 }

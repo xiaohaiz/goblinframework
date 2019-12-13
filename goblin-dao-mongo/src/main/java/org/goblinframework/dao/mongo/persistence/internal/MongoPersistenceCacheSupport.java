@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
  * @author Xiaohai Zhang
  * @since Dec 6, 2019
  */
-abstract public class MongoCachedPersistenceSupport<E, ID> extends MongoPersistenceOperationSupport<E, ID> {
+abstract public class MongoPersistenceCacheSupport<E, ID> extends MongoPersistenceOperationSupport<E, ID> {
 
   private final CacheBean cacheBean;
   private final GoblinCacheDimension.Dimension dimension;
 
-  protected MongoCachedPersistenceSupport() {
+  protected MongoPersistenceCacheSupport() {
     this.cacheBean = CacheBeanManager.getGoblinCacheBean(getClass());
     if (this.cacheBean.isEmpty()) {
       dimension = GoblinCacheDimension.Dimension.NONE;

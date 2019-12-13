@@ -91,7 +91,7 @@ class NettyHttpServletRequest(private val ctx: ChannelHandlerContext,
   }
 
   override fun getRequestURI(): String {
-    return path
+    return contextPath + path
   }
 
   override fun getParameter(name: String): String? {

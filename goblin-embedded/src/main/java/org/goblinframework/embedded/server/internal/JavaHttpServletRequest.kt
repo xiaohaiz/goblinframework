@@ -53,7 +53,7 @@ class JavaHttpServletRequest(private val exchange: HttpExchange,
   }
 
   override fun getRequestURI(): String {
-    return path
+    return contextPath + path
   }
 
   override fun getQueryString(): String? {

@@ -4,9 +4,11 @@ import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.function.Disposable
 import org.goblinframework.core.exception.GoblinDuplicateException
+import org.goblinframework.core.reactor.CoreScheduler
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.embedded.setting.ServerSetting
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
@@ -54,10 +56,21 @@ class EmbeddedServerManager private constructor() : GoblinManagedObject(), Embed
 
   override fun disposeBean() {
     lock.write {
-      servers.values.forEach {
-        it.stop()
-        (this as? Disposable)?.dispose()
+      if (servers.isEmpty()) {
+        return
       }
+      val latch = CountDownLatch(servers.size)
+      servers.values.forEach { server ->
+        CoreScheduler.getInstance().schedule {
+          try {
+            server.stop()
+            (server as? Disposable)?.dispose()
+          } finally {
+            latch.countDown()
+          }
+        }
+      }
+      latch.await()
       servers.clear()
     }
   }

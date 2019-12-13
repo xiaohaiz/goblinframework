@@ -1,7 +1,6 @@
 package org.goblinframework.embedded.handler
 
 import org.goblinframework.embedded.filter.DefaultFilterChain
-import org.goblinframework.webmvc.filter.LookupPathFilter
 import org.springframework.web.filter.CharacterEncodingFilter
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.filter.ShallowEtagHeaderFilter
@@ -15,7 +14,6 @@ open class FilterSupport : RequestHandlerSupport() {
   private val defaultFilterChain = DefaultFilterChain()
 
   init {
-    defaultFilterChain.addFilter(LookupPathFilter())
     defaultFilterChain.addFilter(ShallowEtagHeaderFilter())
     defaultFilterChain.addFilter(CharacterEncodingFilter(Charsets.UTF_8.name(), true))
   }

@@ -7,10 +7,8 @@ import org.goblinframework.core.module.management.ConfigManagement
 import org.goblinframework.core.module.management.CoreManagement
 import org.goblinframework.core.module.management.EventManagement
 import org.goblinframework.core.serialization.SerializerManager
-import org.goblinframework.core.system.GoblinModule
-import org.goblinframework.core.system.IModule
-import org.goblinframework.core.system.ModuleFinalizeContext
-import org.goblinframework.core.system.ModuleInstallContext
+import org.goblinframework.core.system.*
+import org.goblinframework.core.web.CoreRestTemplate
 
 @Install
 class CoreModule : IModule {
@@ -30,8 +28,13 @@ class CoreModule : IModule {
     ctx.registerManagementController(EventManagement.INSTANCE)
   }
 
+  override fun initialize(ctx: ModuleInitializeContext) {
+    CoreRestTemplate.initialize()
+  }
+
   override fun finalize(ctx: ModuleFinalizeContext) {
     CompressorManager.INSTANCE.dispose()
     SerializerManager.INSTANCE.dispose()
+    CoreRestTemplate.dispose()
   }
 }
