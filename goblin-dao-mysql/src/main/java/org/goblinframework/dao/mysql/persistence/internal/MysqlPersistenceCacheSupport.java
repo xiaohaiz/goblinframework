@@ -10,7 +10,7 @@ import org.goblinframework.cache.core.support.GoblinCache;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.dao.annotation.GoblinCacheDimension;
+import org.goblinframework.dao.annotation.PersistenceCacheDimension;
 import org.goblinframework.dao.mysql.exception.GoblinMysqlPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,14 +26,14 @@ import java.util.stream.Collectors;
 abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersistenceOperationSupport<E, ID> {
 
   private final CacheBean cacheBean;
-  private final GoblinCacheDimension.Dimension dimension;
+  private final PersistenceCacheDimension.Dimension dimension;
 
   protected MysqlPersistenceCacheSupport() {
     this.cacheBean = CacheBeanManager.getGoblinCacheBean(getClass());
     if (this.cacheBean.isEmpty()) {
-      dimension = GoblinCacheDimension.Dimension.NONE;
+      dimension = PersistenceCacheDimension.Dimension.NONE;
     } else {
-      GoblinCacheDimension annotation = AnnotationUtils.getAnnotation(getClass(), GoblinCacheDimension.class);
+      PersistenceCacheDimension annotation = AnnotationUtils.getAnnotation(getClass(), PersistenceCacheDimension.class);
       if (annotation == null) {
         String errMsg = "No @GoblinCacheDimension presented on %s";
         errMsg = String.format(errMsg, ClassUtils.filterCglibProxyClass(getClass()));
@@ -70,7 +70,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
       return;
     }
     __inserts(entities);
-    if (dimension == GoblinCacheDimension.Dimension.NONE) {
+    if (dimension == PersistenceCacheDimension.Dimension.NONE) {
       return;
     }
     CacheDimension gcd = new CacheDimension(entityMapping.entityClass, cacheBean);
@@ -127,7 +127,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
 
   @Override
   public boolean replace(@NotNull E entity) {
-    if (dimension == GoblinCacheDimension.Dimension.NONE) {
+    if (dimension == PersistenceCacheDimension.Dimension.NONE) {
       return __replace(entity);
     }
     ID id = getEntityId(entity);
@@ -149,7 +149,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
         }
         E replaced = __load(id, getMasterConnection());
         assert replaced != null;
-        if (dimension == GoblinCacheDimension.Dimension.ID_FIELD) {
+        if (dimension == PersistenceCacheDimension.Dimension.ID_FIELD) {
           GoblinCache gc = getDefaultCache();
           gc.cache().modifier()
               .key(generateCacheKey(id))
@@ -170,7 +170,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
   @Override
   public boolean upsert(@Nullable E entity) {
     if (entity == null) return false;
-    if (dimension == GoblinCacheDimension.Dimension.NONE) {
+    if (dimension == PersistenceCacheDimension.Dimension.NONE) {
       return __upsert(entity);
     }
     ID id = getEntityId(entity);
@@ -183,7 +183,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
       @Override
       protected void doInTransactionWithoutResult(TransactionStatus status) {
         E original = null;
-        if (dimension != GoblinCacheDimension.Dimension.ID_FIELD) {
+        if (dimension != PersistenceCacheDimension.Dimension.ID_FIELD) {
           original = __load(id, getMasterConnection());
         }
         if (!__upsert(entity)) {
@@ -191,7 +191,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
         }
         E upserted = __load(id, getMasterConnection());
         assert upserted != null;
-        if (dimension == GoblinCacheDimension.Dimension.ID_FIELD) {
+        if (dimension == PersistenceCacheDimension.Dimension.ID_FIELD) {
           GoblinCache gc = getDefaultCache();
           gc.cache().modifier()
               .key(generateCacheKey(id))
@@ -224,7 +224,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
     if (ids == null || ids.isEmpty()) {
       return 0;
     }
-    if (dimension == GoblinCacheDimension.Dimension.NONE) {
+    if (dimension == PersistenceCacheDimension.Dimension.NONE) {
       return __deletes(ids);
     }
     switch (dimension) {
@@ -263,7 +263,7 @@ abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersisten
   }
 
   private boolean hasIdCache() {
-    return dimension == GoblinCacheDimension.Dimension.ID_FIELD
-        || dimension == GoblinCacheDimension.Dimension.ID_AND_OTHER_FIELDS;
+    return dimension == PersistenceCacheDimension.Dimension.ID_FIELD
+        || dimension == PersistenceCacheDimension.Dimension.ID_AND_OTHER_FIELDS;
   }
 }

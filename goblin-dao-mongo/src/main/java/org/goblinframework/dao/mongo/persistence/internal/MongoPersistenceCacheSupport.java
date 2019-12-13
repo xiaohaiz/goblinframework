@@ -7,7 +7,7 @@ import org.goblinframework.cache.core.support.GoblinCache;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.dao.annotation.GoblinCacheDimension;
+import org.goblinframework.dao.annotation.PersistenceCacheDimension;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -25,14 +25,14 @@ import java.util.stream.Collectors;
 abstract public class MongoPersistenceCacheSupport<E, ID> extends MongoPersistenceOperationSupport<E, ID> {
 
   private final CacheBean cacheBean;
-  private final GoblinCacheDimension.Dimension dimension;
+  private final PersistenceCacheDimension.Dimension dimension;
 
   protected MongoPersistenceCacheSupport() {
     this.cacheBean = CacheBeanManager.getGoblinCacheBean(getClass());
     if (this.cacheBean.isEmpty()) {
-      dimension = GoblinCacheDimension.Dimension.NONE;
+      dimension = PersistenceCacheDimension.Dimension.NONE;
     } else {
-      GoblinCacheDimension annotation = AnnotationUtils.getAnnotation(getClass(), GoblinCacheDimension.class);
+      PersistenceCacheDimension annotation = AnnotationUtils.getAnnotation(getClass(), PersistenceCacheDimension.class);
       if (annotation == null) {
         String errMsg = "No @GoblinCacheDimension presented on %s";
         errMsg = String.format(errMsg, ClassUtils.filterCglibProxyClass(getClass()));
@@ -70,7 +70,7 @@ abstract public class MongoPersistenceCacheSupport<E, ID> extends MongoPersisten
       return;
     }
     __inserts(entities);
-    if (dimension == GoblinCacheDimension.Dimension.NONE) {
+    if (dimension == PersistenceCacheDimension.Dimension.NONE) {
       return;
     }
     CacheDimension gcd = new CacheDimension(entityMapping.entityClass, cacheBean);
