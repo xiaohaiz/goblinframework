@@ -1,12 +1,12 @@
 package org.goblinframework.dao.mysql.persistence;
 
-import org.goblinframework.cache.core.annotation.FlushCache;
 import org.goblinframework.cache.core.annotation.GoblinCacheBean;
 import org.goblinframework.cache.core.annotation.GoblinCacheMethod;
 import org.goblinframework.cache.core.annotation.GoblinCacheParameter;
 import org.goblinframework.cache.core.cache.CacheSystem;
 import org.goblinframework.cache.core.support.CacheDimension;
 import org.goblinframework.cache.core.util.CacheKeyGenerator;
+import org.goblinframework.cache.module.test.FlushCache;
 import org.goblinframework.dao.annotation.PersistenceCacheDimension;
 import org.goblinframework.dao.annotation.PersistenceConnection;
 import org.goblinframework.dao.ql.Criteria;
@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
 
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
-@FlushCache(system = CacheSystem.JVM, name = "_ut")
+@FlushCache(system = CacheSystem.JVM, connection = "_ut")
 public class GoblinCachedStaticPersistenceTest {
 
   @Repository

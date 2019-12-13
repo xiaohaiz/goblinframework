@@ -3,8 +3,6 @@ package org.goblinframework.cache.module.test
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.test.TestContext
 import org.goblinframework.api.test.TestExecutionListener
-import org.goblinframework.cache.core.annotation.FlushCache
-import org.goblinframework.cache.core.annotation.FlushCaches
 import org.goblinframework.cache.core.cache.CacheBuilderManager
 
 @Singleton
@@ -18,10 +16,10 @@ class FlushCacheBeforeTestMethod private constructor() : TestExecutionListener {
     val annotations = extractAnnotations(testContext) ?: return
     annotations.forEach {
       val system = it.system
-      val name = it.name.trim()
+      val connection = it.connection.trim()
       CacheBuilderManager.INSTANCE.getCacheBuilder(system)?.run {
         val cacheBuilder = this
-        cacheBuilder.getCache(name)?.run {
+        cacheBuilder.getCache(connection)?.run {
           val cache = this
           cache.flush()
         }

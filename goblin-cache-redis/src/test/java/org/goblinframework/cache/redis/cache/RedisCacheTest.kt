@@ -1,9 +1,9 @@
 package org.goblinframework.cache.redis.cache
 
 import org.bson.types.ObjectId
-import org.goblinframework.cache.core.annotation.FlushCache
 import org.goblinframework.cache.core.cache.CacheSystem
 import org.goblinframework.cache.core.cache.CasOperation
+import org.goblinframework.cache.module.test.FlushCache
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.*
@@ -15,7 +15,7 @@ import kotlin.math.abs
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-@FlushCache(system = CacheSystem.RDS, name = "_ut")
+@FlushCache(system = CacheSystem.RDS, connection = "_ut")
 class RedisCacheTest {
 
   @Test
