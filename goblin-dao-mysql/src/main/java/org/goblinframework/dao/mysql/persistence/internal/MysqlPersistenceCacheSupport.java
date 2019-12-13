@@ -7,7 +7,7 @@ import org.goblinframework.cache.core.support.CacheBean;
 import org.goblinframework.cache.core.support.CacheBeanManager;
 import org.goblinframework.cache.core.support.CacheDimension;
 import org.goblinframework.cache.core.support.GoblinCache;
-import org.goblinframework.cache.core.util.CacheKeyGenerator;
+import org.goblinframework.cache.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.dao.annotation.PersistenceCacheDimension;

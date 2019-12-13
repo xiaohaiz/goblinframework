@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.util;
+package org.goblinframework.cache.util;
 
 import org.goblinframework.cache.core.annotation.GoblinCacheKeyPrefix;
 import org.goblinframework.cache.core.annotation.GoblinCacheKeyRevision;

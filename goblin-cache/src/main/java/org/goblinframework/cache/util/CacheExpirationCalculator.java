@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.util;
+package org.goblinframework.cache.util;
 
 import org.goblinframework.cache.core.annotation.GoblinCacheExpiration;
 import org.goblinframework.core.util.DateUtils;
