@@ -17,7 +17,7 @@ public @interface CacheBean {
 
   boolean wrapper() default false;
 
-  GoblinCacheExpiration expiration() default @GoblinCacheExpiration(enable = false);
+  CacheExpiration expiration() default @CacheExpiration(enable = false);
 
   boolean enable() default true;
 

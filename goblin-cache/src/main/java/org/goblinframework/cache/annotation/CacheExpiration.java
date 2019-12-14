@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 @Documented
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface GoblinCacheExpiration {
+public @interface CacheExpiration {
 
   int DEFAULT_EXPIRATION = 3600;
 

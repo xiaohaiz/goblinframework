@@ -1,6 +1,6 @@
 package org.goblinframework.cache.core;
 
-import org.goblinframework.cache.annotation.GoblinCacheExpiration;
+import org.goblinframework.cache.annotation.CacheExpiration;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.NumberUtils;
 import org.jetbrains.annotations.NotNull;
@@ -170,7 +170,7 @@ final public class CacheValueLoaderImpl<K, V> implements CacheValueLoader<K, V> 
       }
       keyValues.put(key, value);
     }
-    int expiration = NumberUtils.toInt(this.expiration, GoblinCacheExpiration.DEFAULT_EXPIRATION);
+    int expiration = NumberUtils.toInt(this.expiration, CacheExpiration.DEFAULT_EXPIRATION);
     keyValues.forEach((k, v) -> cache.add(k, expiration, v));
     return this;
   }
@@ -190,7 +190,7 @@ final public class CacheValueLoaderImpl<K, V> implements CacheValueLoader<K, V> 
       }
       keyValues.put(key, value);
     }
-    int expiration = NumberUtils.toInt(this.expiration, GoblinCacheExpiration.DEFAULT_EXPIRATION);
+    int expiration = NumberUtils.toInt(this.expiration, CacheExpiration.DEFAULT_EXPIRATION);
     keyValues.forEach((k, v) -> cache.add(k, expiration, v));
     return this;
   }
@@ -210,7 +210,7 @@ final public class CacheValueLoaderImpl<K, V> implements CacheValueLoader<K, V> 
       }
       keyValues.put(key, value);
     }
-    int expiration = NumberUtils.toInt(this.expiration, GoblinCacheExpiration.DEFAULT_EXPIRATION);
+    int expiration = NumberUtils.toInt(this.expiration, CacheExpiration.DEFAULT_EXPIRATION);
     keyValues.forEach((k, v) -> cache.add(k, expiration, v));
     return this;
   }
@@ -230,7 +230,7 @@ final public class CacheValueLoaderImpl<K, V> implements CacheValueLoader<K, V> 
         keyValues.put(key, value);
       }
     }
-    int expiration = NumberUtils.toInt(this.expiration, GoblinCacheExpiration.DEFAULT_EXPIRATION);
+    int expiration = NumberUtils.toInt(this.expiration, CacheExpiration.DEFAULT_EXPIRATION);
     keyValues.forEach((k, v) -> cache.add(k, expiration, v));
     return this;
   }
@@ -251,7 +251,7 @@ final public class CacheValueLoaderImpl<K, V> implements CacheValueLoader<K, V> 
         keyValues.put(key, value);
       }
     }
-    int expiration = NumberUtils.toInt(this.expiration, GoblinCacheExpiration.DEFAULT_EXPIRATION);
+    int expiration = NumberUtils.toInt(this.expiration, CacheExpiration.DEFAULT_EXPIRATION);
     keyValues.forEach((k, v) -> cache.add(k, expiration, v));
     return this;
   }

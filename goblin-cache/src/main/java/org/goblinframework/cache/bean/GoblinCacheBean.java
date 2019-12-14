@@ -1,6 +1,6 @@
 package org.goblinframework.cache.bean;
 
-import org.goblinframework.cache.annotation.GoblinCacheExpiration;
+import org.goblinframework.cache.annotation.CacheExpiration;
 import org.goblinframework.cache.core.Cache;
 import org.goblinframework.cache.core.CacheLocation;
 import org.goblinframework.cache.core.CacheSystem;
@@ -28,7 +28,7 @@ public class GoblinCacheBean {
       gc.type = annotation.type();
       gc.location = new CacheLocation(annotation.system(), annotation.connection());
       gc.wrapper = annotation.wrapper();
-      GoblinCacheExpiration expiration = annotation.expiration();
+      CacheExpiration expiration = annotation.expiration();
       if (expiration.enable()) {
         gc.expirationPolicy = expiration.policy();
         gc.expirationValue = expiration.value();

@@ -1,19 +1,19 @@
-package org.goblinframework.cache.util;
+package org.goblinframework.cache.core;
 
-import org.goblinframework.cache.annotation.GoblinCacheExpiration;
+import org.goblinframework.cache.annotation.CacheExpiration;
 import org.goblinframework.core.util.DateUtils;
 import org.jetbrains.annotations.NotNull;
 
 abstract public class CacheExpirationCalculator {
 
-  public static int expirationInSeconds(@NotNull GoblinCacheExpiration annotation) {
+  public static int expirationInSeconds(@NotNull CacheExpiration annotation) {
     if (!annotation.enable()) {
       throw new IllegalArgumentException("@UtopiaCacheExpiration is not enabled");
     }
     return expirationInSeconds(annotation.policy(), annotation.value());
   }
 
-  public static int expirationInSeconds(@NotNull GoblinCacheExpiration.Policy policy, int value) {
+  public static int expirationInSeconds(@NotNull CacheExpiration.Policy policy, int value) {
     switch (policy) {
       case FIXED: {
         return Math.max(0, value);

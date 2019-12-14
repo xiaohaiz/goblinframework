@@ -5,8 +5,8 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface GoblinCacheKeyPrefix {
+public @interface CacheKeyRevision {
 
-  String prefix();
+  String revision();
 
 }

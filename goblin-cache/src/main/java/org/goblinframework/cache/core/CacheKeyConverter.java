@@ -1,4 +1,4 @@
-package org.goblinframework.cache.util;
+package org.goblinframework.cache.core;
 
 import org.goblinframework.core.util.PrimitiveUtils;
 import org.goblinframework.core.util.StringUtils;

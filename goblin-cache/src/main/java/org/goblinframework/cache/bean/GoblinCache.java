@@ -1,22 +1,22 @@
 package org.goblinframework.cache.bean;
 
-import org.goblinframework.cache.annotation.GoblinCacheExpiration;
+import org.goblinframework.cache.annotation.CacheExpiration;
 import org.goblinframework.cache.core.Cache;
+import org.goblinframework.cache.core.CacheExpirationCalculator;
 import org.goblinframework.cache.core.CacheLocation;
-import org.goblinframework.cache.util.CacheExpirationCalculator;
 
 public class GoblinCache {
 
   public Class<?> type;
   public CacheLocation location;
   public boolean wrapper;
-  public GoblinCacheExpiration.Policy expirationPolicy = GoblinCacheExpiration.Policy.FIXED;
-  public int expirationValue = GoblinCacheExpiration.DEFAULT_EXPIRATION;
+  public CacheExpiration.Policy expirationPolicy = CacheExpiration.Policy.FIXED;
+  public int expirationValue = CacheExpiration.DEFAULT_EXPIRATION;
 
   public Cache cache;
 
   public int calculateExpiration() {
-    GoblinCacheExpiration annotation = type.getAnnotation(GoblinCacheExpiration.class);
+    CacheExpiration annotation = type.getAnnotation(CacheExpiration.class);
     if (annotation != null && annotation.enable()) {
       return CacheExpirationCalculator.expirationInSeconds(annotation);
     }
