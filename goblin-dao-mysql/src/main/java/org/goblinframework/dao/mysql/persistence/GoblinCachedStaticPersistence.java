@@ -25,7 +25,7 @@ abstract public class GoblinCachedStaticPersistence<E, ID> extends MysqlPersiste
   }
 
   public long directCount(@NotNull Query query) {
-    return __executeCount(getMasterConnection(), query, getTableName());
+    return __count(getMasterConnection(), getTableName(), query);
   }
 
   @NotNull

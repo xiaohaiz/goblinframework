@@ -182,7 +182,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     Criteria criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
     Query query = Query.query(criteria);
     String tableName = getIdTableName(id);
-    return __executeCount(connectionReference.get(), query, tableName) > 0;
+    return __count(connectionReference.get(), tableName, query) > 0;
   }
 
   final public boolean __replace(@NotNull final E entity) {
@@ -350,9 +350,9 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return jdbcTemplate.update(sql.get(), source);
   }
 
-  protected long __executeCount(@NotNull final MysqlConnection connection,
-                                @NotNull final Query query,
-                                @NotNull final String tableName) {
+  final protected long __count(@NotNull final MysqlConnection connection,
+                               @NotNull final String tableName,
+                               @NotNull final Query query) {
     TranslatedCriteria tc = queryTranslator.translateCount(query, tableName);
     NamedParameterJdbcTemplate jdbcTemplate = connection.getNamedParameterJdbcTemplate();
     return jdbcTemplate.query(tc.sql, tc.parameterSource,
