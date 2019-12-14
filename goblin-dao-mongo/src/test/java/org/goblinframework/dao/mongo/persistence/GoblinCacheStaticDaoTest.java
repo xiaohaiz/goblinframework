@@ -98,4 +98,15 @@ public class GoblinCacheStaticDaoTest {
     assertNotNull(users.get(1L));
     assertNotNull(users.get(3L));
   }
+
+  @Test
+  public void exists() {
+    assertFalse(userDao.exists(1L));
+    User user = new User();
+    user.userId = 1L;
+    userDao.insert(user);
+    assertTrue(userDao.exists(1L));
+    userDao.load(1L);
+    assertTrue(userDao.exists(1L));
+  }
 }

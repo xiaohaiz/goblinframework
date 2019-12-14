@@ -138,4 +138,19 @@ abstract public class MongoPersistenceCacheOperationSupport<E, ID> extends Mongo
         .write()
         .getAndResortResult();
   }
+
+  @Override
+  public boolean exists(@NotNull ID id) {
+    if (!cacheOnId) {
+      return __exists(ReadPreference.primary(), id);
+    }
+    String key = generateCacheKey(id);
+    GoblinCache defaultCache = getDefaultCache();
+    GetResult<E> getResult = defaultCache.cache().get(key);
+    if (getResult.hit) {
+      return getResult.value != null;
+    } else {
+      return __exists(ReadPreference.primary(), id);
+    }
+  }
 }
