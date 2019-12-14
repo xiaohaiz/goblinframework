@@ -2,13 +2,13 @@ package org.goblinframework.dao.persistence;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 abstract public class PersistenceListenerSupport<E, ID> extends PersistenceEntityMappingSupport<E, ID> {
 
-  protected final List<BeforeInsertListener<E>> beforeInsertListeners = new ArrayList<>();
-  protected final List<BeforeReplaceListener<E>> beforeReplaceListeners = new ArrayList<>();
+  protected final List<BeforeInsertListener<E>> beforeInsertListeners = new LinkedList<>();
+  protected final List<BeforeReplaceListener<E>> beforeReplaceListeners = new LinkedList<>();
 
   protected PersistenceListenerSupport() {
     registerBeforeInsertListener(e -> {
@@ -24,11 +24,11 @@ abstract public class PersistenceListenerSupport<E, ID> extends PersistenceEntit
   }
 
   protected void registerBeforeInsertListener(@NotNull BeforeInsertListener<E> listener) {
-    beforeInsertListeners.add(listener);
+    beforeInsertListeners.add(0, listener);
   }
 
   protected void registerBeforeReplaceListener(@NotNull BeforeReplaceListener<E> listener) {
-    beforeReplaceListeners.add(listener);
+    beforeReplaceListeners.add(0, listener);
   }
 
   protected void beforeInsert(@NotNull E entity) {
