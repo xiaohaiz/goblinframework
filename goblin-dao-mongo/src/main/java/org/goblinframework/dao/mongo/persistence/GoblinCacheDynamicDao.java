@@ -2,10 +2,10 @@ package org.goblinframework.dao.mongo.persistence;
 
 import com.mongodb.MongoNamespace;
 import org.goblinframework.dao.mongo.exception.GoblinMongoPersistenceException;
-import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceCacheSupport;
+import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceCacheOperationSupport;
 import org.jetbrains.annotations.NotNull;
 
-abstract public class GoblinCacheDynamicDao<E, ID> extends MongoPersistenceCacheSupport<E, ID> {
+abstract public class GoblinCacheDynamicDao<E, ID> extends MongoPersistenceCacheOperationSupport<E, ID> {
 
   protected GoblinCacheDynamicDao() {
     if (!isDynamicDatabase() && !isDynamicCollection()) {

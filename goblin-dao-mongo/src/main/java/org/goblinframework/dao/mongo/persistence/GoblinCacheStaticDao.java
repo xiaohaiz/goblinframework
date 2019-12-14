@@ -8,7 +8,7 @@ import org.goblinframework.core.reactor.BlockingListSubscriber;
 import org.goblinframework.core.reactor.BlockingMonoSubscriber;
 import org.goblinframework.core.util.NumberUtils;
 import org.goblinframework.dao.mongo.exception.GoblinMongoPersistenceException;
-import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceCacheSupport;
+import org.goblinframework.dao.mongo.persistence.internal.MongoPersistenceCacheOperationSupport;
 import org.goblinframework.dao.ql.Criteria;
 import org.goblinframework.dao.ql.Query;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +17,7 @@ import org.reactivestreams.Publisher;
 
 import java.util.List;
 
-abstract public class GoblinCacheStaticDao<E, ID> extends MongoPersistenceCacheSupport<E, ID> {
+abstract public class GoblinCacheStaticDao<E, ID> extends MongoPersistenceCacheOperationSupport<E, ID> {
 
   protected GoblinCacheStaticDao() {
     if (isDynamicDatabase() || isDynamicCollection()) {

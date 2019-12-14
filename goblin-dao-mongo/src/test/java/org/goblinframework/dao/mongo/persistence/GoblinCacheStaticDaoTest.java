@@ -21,9 +21,12 @@ import org.springframework.test.context.ContextConfiguration;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
@@ -73,5 +76,26 @@ public class GoblinCacheStaticDaoTest {
     userDao.insert(user);
     user = userDao.load(userId);
     assertNotNull(user);
+  }
+
+  @Test
+  public void loads() {
+    List<Long> userIds = Arrays.asList(1L, 2L, 3L);
+    Map<Long, User> users = userDao.loads(userIds);
+    assertTrue(users.isEmpty());
+
+    List<User> userList = new ArrayList<>();
+    User user = new User();
+    user.userId = 1L;
+    userList.add(user);
+    user = new User();
+    user.userId = 3L;
+    userList.add(user);
+    userDao.inserts(userList);
+
+    users = userDao.loads(userIds);
+    assertEquals(2, users.size());
+    assertNotNull(users.get(1L));
+    assertNotNull(users.get(3L));
   }
 }

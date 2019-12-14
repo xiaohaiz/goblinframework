@@ -14,9 +14,7 @@ import org.goblinframework.dao.annotation.PersistenceCacheDimension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -25,13 +23,13 @@ import java.util.stream.Collectors;
  * @author Xiaohai Zhang
  * @since Dec 6, 2019
  */
-abstract public class MongoPersistenceCacheSupport<E, ID> extends MongoPersistenceOperationSupport<E, ID> {
+abstract public class MongoPersistenceCacheOperationSupport<E, ID> extends MongoPersistenceOperationSupport<E, ID> {
 
   private final GoblinCacheBean cacheBean;
   private final PersistenceCacheDimension.Dimension dimension;
   private final boolean cacheOnId;
 
-  protected MongoPersistenceCacheSupport() {
+  protected MongoPersistenceCacheOperationSupport() {
     this.cacheBean = GoblinCacheBeanManager.getGoblinCacheBean(getClass());
     if (this.cacheBean.isEmpty()) {
       dimension = PersistenceCacheDimension.Dimension.NONE;
@@ -116,5 +114,28 @@ abstract public class MongoPersistenceCacheSupport<E, ID> extends MongoPersisten
       defaultCache.cache().add(key, expiration, candidate);
     }
     return entity;
+  }
+
+  @NotNull
+  @Override
+  public Map<ID, E> loads(@NotNull Collection<ID> ids) {
+    List<ID> idList = ids.stream().filter(Objects::nonNull).distinct().collect(Collectors.toList());
+    if (idList.isEmpty()) {
+      return Collections.emptyMap();
+    }
+    if (!cacheOnId) {
+      return __loads(ReadPreference.primary(), idList);
+    }
+    GoblinCache defaultCache = getDefaultCache();
+    return defaultCache.cache().<ID, E>loader()
+        .keyGenerator(this::generateCacheKey)
+        .externalLoader(missed -> __loads(ReadPreference.primary(), missed))
+        .keys(idList)
+        .loads()
+        .loadsMissed()
+        .useValueWrapper(defaultCache.wrapper)
+        .expiration(defaultCache.calculateExpiration())
+        .write()
+        .getAndResortResult();
   }
 }
