@@ -12,6 +12,9 @@ final public class OperationTranslatorFactory {
     if (readOperation instanceof CountOperation) {
       return new CountOperationTranslator((CountOperation) readOperation);
     }
+    if (readOperation instanceof FindOperation) {
+      return new FindOperationTranslator((FindOperation<?>) readOperation);
+    }
     if (readOperation instanceof ListDatabasesOperation) {
       return new ListDatabasesOperationTranslator((ListDatabasesOperation<?>) readOperation);
     }
