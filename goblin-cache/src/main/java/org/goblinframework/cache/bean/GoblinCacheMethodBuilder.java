@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-class CacheMethodBuilder {
+class GoblinCacheMethodBuilder {
 
   @NotNull
   static Map<Method, GoblinCacheMethod> build(@NotNull final Class<?> type) {

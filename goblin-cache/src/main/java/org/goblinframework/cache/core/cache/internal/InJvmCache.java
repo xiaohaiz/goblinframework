@@ -3,7 +3,7 @@ package org.goblinframework.cache.core.cache.internal;
 import org.apache.commons.collections4.map.LRUMap;
 import org.goblinframework.api.annotation.ThreadSafe;
 import org.goblinframework.cache.core.cache.*;
-import org.goblinframework.cache.core.module.monitor.VMC;
+import org.goblinframework.cache.module.monitor.VMC;
 import org.goblinframework.core.service.GoblinManagedBean;
 import org.goblinframework.core.service.GoblinManagedObject;
 import org.jetbrains.annotations.NotNull;
@@ -117,8 +117,8 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
       return new GetResult<>(null);
     }
     try (VMC instruction = new VMC()) {
-      instruction.setOperation("get");
-      instruction.setKeys(Collections.singletonList(key));
+      instruction.operation = "get";
+      instruction.keys = Collections.singletonList(key);
 
       CacheItem ci = retrieve(key);
       if (ci == null) {
@@ -157,8 +157,8 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.setOperation("delete");
-      instruction.setKeys(Collections.singletonList(key));
+      instruction.operation = "delete";
+      instruction.keys = Collections.singletonList(key);
 
       CacheItem ci;
       lock.writeLock().lock();
@@ -183,8 +183,8 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.setOperation("add");
-      instruction.setKeys(Collections.singletonList(key));
+      instruction.operation = "add";
+      instruction.keys = Collections.singletonList(key);
 
       CacheItem ci = new CacheItem();
       ci.value = value;
@@ -204,8 +204,8 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.setOperation("set");
-      instruction.setKeys(Collections.singletonList(key));
+      instruction.operation = "set";
+      instruction.keys = Collections.singletonList(key);
 
       CacheItem ci = retrieve(key);
       if (ci != null) {
@@ -224,8 +224,8 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.setOperation("replace");
-      instruction.setKeys(Collections.singletonList(key));
+      instruction.operation = "replace";
+      instruction.keys = Collections.singletonList(key);
 
       CacheItem ci = retrieve(key);
       if (ci == null) {
@@ -244,8 +244,8 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.setOperation("append");
-      instruction.setKeys(Collections.singletonList(key));
+      instruction.operation = "append";
+      instruction.keys = Collections.singletonList(key);
 
       CacheItem ci = retrieve(key);
       if (ci == null || !(ci.value instanceof String)) {
@@ -263,8 +263,8 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.setOperation("touch");
-      instruction.setKeys(Collections.singletonList(key));
+      instruction.operation = "touch";
+      instruction.keys = Collections.singletonList(key);
 
       CacheItem ci = retrieve(key);
       if (ci == null) return false;
@@ -279,8 +279,8 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
       throw new IllegalArgumentException();
     }
     try (VMC instruction = new VMC()) {
-      instruction.setOperation("ttl");
-      instruction.setKeys(Collections.singletonList(key));
+      instruction.operation = "ttl";
+      instruction.keys = Collections.singletonList(key);
 
       CacheItem ci = retrieve(key);
       if (ci == null) return -1;
@@ -299,8 +299,8 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
       throw new IllegalArgumentException();
     }
     try (VMC instruction = new VMC()) {
-      instruction.setOperation("incr");
-      instruction.setKeys(Collections.singletonList(key));
+      instruction.operation = "incr";
+      instruction.keys = Collections.singletonList(key);
 
       CacheItem ci = retrieve(key);
       if (ci == null) {
@@ -335,8 +335,8 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
       return false;
     }
     try (VMC instruction = new VMC()) {
-      instruction.setOperation("cas");
-      instruction.setKeys(Collections.singletonList(key));
+      instruction.operation = "cas";
+      instruction.keys = Collections.singletonList(key);
 
       int max = Math.max(0, maxTries);
       int retries = 0;
@@ -365,7 +365,7 @@ final public class InJvmCache extends GoblinManagedObject implements Cache, Cach
   @Override
   public void flush() {
     try (VMC instruction = new VMC()) {
-      instruction.setOperation("flush");
+      instruction.operation = "flush";
       lock.writeLock().lock();
       try {
         buffer.clear();

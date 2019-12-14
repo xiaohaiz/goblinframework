@@ -33,7 +33,7 @@ public class GoblinCacheBeanManager {
       if (wrapper != null) {
         return wrapper.getValue();
       }
-      GoblinCacheBean capsule = CacheBeanBuilder.build(realClass);
+      GoblinCacheBean capsule = GoblinCacheBeanBuilder.build(realClass);
       wrapper = new MutableObject<>(capsule);
       buffer.put(realClass, wrapper);
       return capsule;

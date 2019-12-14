@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Method;
 import java.util.*;
 
-class CacheBeanBuilder {
+class GoblinCacheBeanBuilder {
 
   @NotNull
   static GoblinCacheBean build(@NotNull final Class<?> type) {
@@ -21,7 +21,7 @@ class CacheBeanBuilder {
       return new GoblinCacheBean();
     }
 
-    Map<Method, GoblinCacheMethod> methods = CacheMethodBuilder.build(realClass);
+    Map<Method, GoblinCacheMethod> methods = GoblinCacheMethodBuilder.build(realClass);
     cacheBean.methods.putAll(methods);
     return cacheBean;
   }
