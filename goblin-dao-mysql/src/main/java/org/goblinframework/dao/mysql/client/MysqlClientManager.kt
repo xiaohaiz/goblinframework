@@ -21,6 +21,12 @@ class MysqlClientManager : GoblinManagedObject(), MysqlClientManagerMXBean {
   private val buffer = ConcurrentHashMap<String, MysqlClient>()
   private val lock = ReentrantLock()
 
+  override fun initializeBean() {
+    MysqlConfigManager.INSTANCE.getMysqlConfigs()
+        .filter { it.getAutoInit() }
+        .forEach { getMysqlClient(it.getName()) }
+  }
+
   fun getMysqlClient(name: String): MysqlClient? {
     val config = MysqlConfigManager.INSTANCE.getMysqlConfig(name) ?: return null
     val id = config.getName()

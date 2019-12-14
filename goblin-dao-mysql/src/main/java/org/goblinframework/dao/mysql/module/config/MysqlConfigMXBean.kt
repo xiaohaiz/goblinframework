@@ -10,4 +10,6 @@ interface MysqlConfigMXBean : PlatformManagedObject {
 
   fun getSlaveList(): Array<DataSourceConfigMXBean>
 
+  fun getAutoInit(): Boolean
+
 }

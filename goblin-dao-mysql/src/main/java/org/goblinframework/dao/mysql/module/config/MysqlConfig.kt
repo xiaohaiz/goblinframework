@@ -7,7 +7,8 @@ import org.goblinframework.core.service.GoblinManagedObject
 @GoblinManagedBean(type = "MysqlDao")
 class MysqlConfig(private val name: String,
                   private val master: DataSourceConfig,
-                  private val slaves: List<DataSourceConfig>)
+                  private val slaves: List<DataSourceConfig>,
+                  private val autoInit: Boolean)
   : GoblinManagedObject(), MysqlConfigMXBean, GoblinConfig {
 
   override fun disposeBean() {
@@ -25,5 +26,9 @@ class MysqlConfig(private val name: String,
 
   override fun getSlaveList(): Array<DataSourceConfigMXBean> {
     return slaves.toTypedArray()
+  }
+
+  override fun getAutoInit(): Boolean {
+    return autoInit
   }
 }

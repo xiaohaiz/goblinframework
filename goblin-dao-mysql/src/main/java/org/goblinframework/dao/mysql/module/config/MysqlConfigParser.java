@@ -7,6 +7,7 @@ import org.goblinframework.core.config.ConfigManager;
 import org.goblinframework.core.config.ConfigMapping;
 import org.goblinframework.core.config.GoblinConfigException;
 import org.goblinframework.core.mapper.JsonMapper;
+import org.goblinframework.core.util.MapUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,6 +32,7 @@ final public class MysqlConfigParser extends BufferedConfigParser<MysqlConfig> {
   }
 
   private MysqlConfig createMysqlConfig(String name, Map value) {
+    boolean autoInit = MapUtils.getBoolean(value, "autoInit", false);
     ObjectMapper mapper = JsonMapper.getDefaultObjectMapper();
     DataSourceConfigMapper master = mapper.convertValue(value.get("master"), DataSourceConfigMapper.class);
     List<DataSourceConfigMapper> slaves = Collections.emptyList();
@@ -44,7 +46,7 @@ final public class MysqlConfigParser extends BufferedConfigParser<MysqlConfig> {
           DataSourceConfig config = processDataSourceConfig(new DataSourceConfig(e));
           config.getMapper().setReadOnly(true);
           return config;
-        }).collect(Collectors.toList()));
+        }).collect(Collectors.toList()), autoInit);
   }
 
   private DataSourceConfig processDataSourceConfig(DataSourceConfig config) {
