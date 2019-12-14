@@ -12,7 +12,7 @@ import de.undercouch.bson4jackson.deserializers.BsonDeserializers;
 import de.undercouch.bson4jackson.serializers.BsonSerializers;
 import org.bson.types.ObjectId;
 import org.goblinframework.dao.mongo.bson.deserializer.*;
-import org.goblinframework.dao.mongo.bson.introspect.GoblinBsonIntrospector;
+import org.goblinframework.dao.mongo.bson.introspect.BsonIntrospector;
 import org.goblinframework.dao.mongo.bson.serializer.BsonInstantSerializer;
 import org.goblinframework.dao.mongo.bson.serializer.BsonObjectIdSerializer;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ abstract public class BsonMapper {
 
   static {
     DEFAULT_OBJECT_MAPPER = createObjectMapper();
-    DEFAULT_OBJECT_MAPPER.setAnnotationIntrospector(new GoblinBsonIntrospector());
+    DEFAULT_OBJECT_MAPPER.setAnnotationIntrospector(new BsonIntrospector());
   }
 
   private static ObjectMapper createObjectMapper() {

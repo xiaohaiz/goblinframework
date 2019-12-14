@@ -8,7 +8,7 @@ import org.goblinframework.api.dao.Field;
 import org.goblinframework.api.dao.Id;
 import org.goblinframework.core.util.StringUtils;
 
-final public class GoblinBsonIntrospector extends JacksonAnnotationIntrospector {
+final public class BsonIntrospector extends JacksonAnnotationIntrospector {
 
   @Override
   public Object findSerializer(Annotated a) {
