@@ -179,4 +179,26 @@ abstract public class MongoPersistenceCacheOperationSupport<E, ID> extends Mongo
     cacheDimension.evict();
     return modified;
   }
+
+  @NotNull
+  @Override
+  public E upsert(@NotNull E entity) {
+    if (dimension == PersistenceCacheDimension.Dimension.NONE) {
+      return __upsert(entity);
+    }
+    ID id = getEntityId(entity);
+    if (id == null) {
+      insert(entity);
+      return entity;
+    }
+    E original = __load(ReadPreference.primary(), id);
+    E modified = __upsert(entity);
+    GoblinCacheDimension cacheDimension = createCacheDimension();
+    if (original != null) {
+      calculateCacheDimensions(original, cacheDimension);
+    }
+    calculateCacheDimensions(modified, cacheDimension);
+    cacheDimension.evict();
+    return modified;
+  }
 }

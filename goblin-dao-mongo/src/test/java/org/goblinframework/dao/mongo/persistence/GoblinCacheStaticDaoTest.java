@@ -153,4 +153,23 @@ public class GoblinCacheStaticDaoTest {
     assertNotNull(user);
     assertEquals("B", user.userName);
   }
+
+  @Test
+  public void upsert() {
+    assertNull(userDao.load(1L));
+    assertEquals(0, userDao.findByUserName("A").size());
+    User user = new User();
+    user.userId = 1L;
+    user.userName = "A";
+    userDao.upsert(user);
+    assertNotNull(userDao.load(1L));
+    assertEquals(1, userDao.findByUserName("A").size());
+    user = new User();
+    user.userId = 1L;
+    user.userName = "B";
+    userDao.upsert(user);
+    assertNotNull(userDao.load(1L));
+    assertEquals(0, userDao.findByUserName("A").size());
+    assertEquals(1, userDao.findByUserName("B").size());
+  }
 }
