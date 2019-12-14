@@ -11,7 +11,6 @@ import org.goblinframework.dao.annotation.PersistenceCacheDimension;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -46,6 +45,10 @@ abstract public class MongoPersistenceCacheSupport<E, ID> extends MongoPersisten
     return CacheKeyGenerator.generateCacheKey(entityMapping.entityClass, id);
   }
 
+  protected GoblinCacheDimension createCacheDimension() {
+    return new GoblinCacheDimension(getEntityClass(), cacheBean);
+  }
+
   abstract protected void calculateCacheDimensions(E document, GoblinCacheDimension dimension);
 
   public GoblinCache getDefaultCache() {
@@ -60,7 +63,13 @@ abstract public class MongoPersistenceCacheSupport<E, ID> extends MongoPersisten
 
   @Override
   public void insert(@NotNull E entity) {
-    inserts(Collections.singleton(entity));
+    __insert(entity);
+    if (dimension == PersistenceCacheDimension.Dimension.NONE) {
+      return;
+    }
+    GoblinCacheDimension cacheDimension = createCacheDimension();
+    calculateCacheDimensions(entity, cacheDimension);
+    cacheDimension.evict();
   }
 
   @Override
@@ -73,8 +82,8 @@ abstract public class MongoPersistenceCacheSupport<E, ID> extends MongoPersisten
     if (dimension == PersistenceCacheDimension.Dimension.NONE) {
       return;
     }
-    GoblinCacheDimension gcd = new GoblinCacheDimension(entityMapping.entityClass, cacheBean);
-    entities.forEach(e -> calculateCacheDimensions(e, gcd));
-    gcd.evict();
+    GoblinCacheDimension cacheDimension = createCacheDimension();
+    entities.forEach(e -> calculateCacheDimensions(e, cacheDimension));
+    cacheDimension.evict();
   }
 }
