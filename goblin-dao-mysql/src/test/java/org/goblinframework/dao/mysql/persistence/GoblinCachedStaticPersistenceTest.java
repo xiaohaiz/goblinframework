@@ -3,7 +3,7 @@ package org.goblinframework.dao.mysql.persistence;
 import org.goblinframework.cache.annotation.CacheBean;
 import org.goblinframework.cache.annotation.CacheMethod;
 import org.goblinframework.cache.annotation.CacheParameter;
-import org.goblinframework.cache.bean.CacheDimension;
+import org.goblinframework.cache.bean.GoblinCacheDimension;
 import org.goblinframework.cache.core.cache.CacheSystem;
 import org.goblinframework.cache.module.test.FlushCache;
 import org.goblinframework.cache.util.CacheKeyGenerator;
@@ -36,7 +36,7 @@ public class GoblinCachedStaticPersistenceTest {
   public static class MockDataPersistence extends GoblinCachedStaticPersistence<GoblinStaticPersistenceTest.MockData, Long> {
 
     @Override
-    protected void calculateCacheDimensions(GoblinStaticPersistenceTest.MockData document, CacheDimension dimension) {
+    protected void calculateCacheDimensions(GoblinStaticPersistenceTest.MockData document, GoblinCacheDimension dimension) {
       dimension.get().add(CacheKeyGenerator.generateCacheKey(GoblinStaticPersistenceTest.MockData.class, document.id));
       dimension.get().add(CacheKeyGenerator.generateCacheKey(GoblinStaticPersistenceTest.MockData.class, "N", document.name));
     }

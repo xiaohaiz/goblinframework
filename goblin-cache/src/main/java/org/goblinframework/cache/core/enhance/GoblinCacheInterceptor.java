@@ -2,10 +2,10 @@ package org.goblinframework.cache.core.enhance;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.goblinframework.cache.bean.CacheBean;
-import org.goblinframework.cache.bean.CacheMethod;
-import org.goblinframework.cache.bean.CacheMethodParameter;
 import org.goblinframework.cache.bean.GoblinCache;
+import org.goblinframework.cache.bean.GoblinCacheBean;
+import org.goblinframework.cache.bean.GoblinCacheMethod;
+import org.goblinframework.cache.bean.GoblinCacheMethodParameter;
 import org.goblinframework.cache.core.cache.*;
 import org.goblinframework.cache.exception.GoblinCacheException;
 import org.goblinframework.cache.util.CacheKeyGenerator;
@@ -21,9 +21,9 @@ import java.util.*;
 final class GoblinCacheInterceptor implements MethodInterceptor {
 
   @NotNull private final Object target;
-  @NotNull private final CacheBean capsule;
+  @NotNull private final GoblinCacheBean capsule;
 
-  GoblinCacheInterceptor(@NotNull Object target, @NotNull CacheBean capsule) {
+  GoblinCacheInterceptor(@NotNull Object target, @NotNull GoblinCacheBean capsule) {
     this.target = target;
     this.capsule = capsule;
   }
@@ -37,7 +37,7 @@ final class GoblinCacheInterceptor implements MethodInterceptor {
     }
     Object[] arguments = invocation.getArguments();
 
-    CacheMethod gcm = capsule.getGoblinCacheMethod(method);
+    GoblinCacheMethod gcm = capsule.getGoblinCacheMethod(method);
     if (gcm == null) {
       return ReflectionUtils.invoke(target, method, arguments);
     }
@@ -80,7 +80,7 @@ final class GoblinCacheInterceptor implements MethodInterceptor {
       KeyGenerator<Object> keyGenerator = each -> {
         List<String> keys = new ArrayList<>();
         List<Object> values = new ArrayList<>();
-        for (CacheMethodParameter pmi : gcm.parameterList) {
+        for (GoblinCacheMethodParameter pmi : gcm.parameterList) {
           keys.add(pmi.name);
           if (pmi.multiple) {
             values.add(each);
@@ -191,11 +191,11 @@ final class GoblinCacheInterceptor implements MethodInterceptor {
     }
   }
 
-  private String generateSingleCacheKey(CacheMethod cacheMethod,
+  private String generateSingleCacheKey(GoblinCacheMethod cacheMethod,
                                         Object[] arguments) {
     List<String> keys = new ArrayList<>();
     List<Object> values = new ArrayList<>();
-    for (CacheMethodParameter pmi : cacheMethod.parameterList) {
+    for (GoblinCacheMethodParameter pmi : cacheMethod.parameterList) {
       keys.add(pmi.name);
       values.add(arguments[pmi.index]);
     }

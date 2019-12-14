@@ -15,10 +15,10 @@ import java.util.*;
 class CacheMethodBuilder {
 
   @NotNull
-  static Map<Method, org.goblinframework.cache.bean.CacheMethod> build(@NotNull final Class<?> type) {
+  static Map<Method, GoblinCacheMethod> build(@NotNull final Class<?> type) {
     Class<?> realClass = ClassUtils.filterCglibProxyClass(type);
 
-    Map<Method, org.goblinframework.cache.bean.CacheMethod> map = new LinkedHashMap<>();
+    Map<Method, GoblinCacheMethod> map = new LinkedHashMap<>();
     Arrays.stream(realClass.getDeclaredMethods())
         .filter(e -> {
           int mod = e.getModifiers();
@@ -33,7 +33,7 @@ class CacheMethodBuilder {
           return !Modifier.isPrivate(mod);
         })
         .forEach(e -> {
-          org.goblinframework.cache.bean.CacheMethod gcm = generate(e);
+          GoblinCacheMethod gcm = generate(e);
           if (gcm != null) {
             map.put(e, gcm);
           }
@@ -43,12 +43,12 @@ class CacheMethodBuilder {
   }
 
   @Nullable
-  private static org.goblinframework.cache.bean.CacheMethod generate(@NotNull Method method) {
+  private static GoblinCacheMethod generate(@NotNull Method method) {
     CacheMethod annotation = method.getAnnotation(CacheMethod.class);
     if (annotation == null) {
       return null;
     }
-    org.goblinframework.cache.bean.CacheMethod gcm = new org.goblinframework.cache.bean.CacheMethod();
+    GoblinCacheMethod gcm = new GoblinCacheMethod();
     gcm.type = annotation.value();
     setCacheParameters(gcm, method);
     if (gcm.annotationCount == 0) {
@@ -57,15 +57,15 @@ class CacheMethodBuilder {
     return gcm;
   }
 
-  private static void setCacheParameters(@NotNull org.goblinframework.cache.bean.CacheMethod gcm,
+  private static void setCacheParameters(@NotNull GoblinCacheMethod gcm,
                                          @NotNull Method method) {
     Annotation[][] methodParamAnnotations = method.getParameterAnnotations();
     for (int i = 0; i < methodParamAnnotations.length; i++) {
       Annotation[] paramAnnotations = methodParamAnnotations[i];
-      CacheMethodParameter pmi = null;
+      GoblinCacheMethodParameter pmi = null;
       for (Annotation annotation : paramAnnotations) {
         if (annotation.annotationType() == CacheParameter.class) {
-          pmi = new CacheMethodParameter();
+          pmi = new GoblinCacheMethodParameter();
           pmi.name = ((CacheParameter) annotation).value();
           pmi.multiple = ((CacheParameter) annotation).multiple();
           break;
@@ -81,7 +81,7 @@ class CacheMethodBuilder {
     int multipleCount = 0;
     int multipleIndex = -1;
 
-    for (CacheMethodParameter pmi : gcm.parameterList) {
+    for (GoblinCacheMethodParameter pmi : gcm.parameterList) {
       annotationCount++;
       if (pmi.multiple) {
         multipleCount++;

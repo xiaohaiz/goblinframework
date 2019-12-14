@@ -1,6 +1,6 @@
 package org.goblinframework.cache.bean;
 
-public class CacheMethodParameter {
+public class GoblinCacheMethodParameter {
 
   public int index;
   public String name;

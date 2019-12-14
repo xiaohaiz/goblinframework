@@ -7,16 +7,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.IdentityHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class CacheBeanManager {
+public class GoblinCacheBeanManager {
 
   private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-  private static final IdentityHashMap<Class<?>, MutableObject<CacheBean>> buffer = new IdentityHashMap<>();
+  private static final IdentityHashMap<Class<?>, MutableObject<GoblinCacheBean>> buffer = new IdentityHashMap<>();
 
   @NotNull
-  public static CacheBean getGoblinCacheBean(@NotNull final Class<?> type) {
+  public static GoblinCacheBean getGoblinCacheBean(@NotNull final Class<?> type) {
     Class<?> realClass = ClassUtils.filterCglibProxyClass(type);
 
-    MutableObject<CacheBean> wrapper;
+    MutableObject<GoblinCacheBean> wrapper;
     lock.readLock().lock();
     try {
       wrapper = buffer.get(realClass);
@@ -33,7 +33,7 @@ public class CacheBeanManager {
       if (wrapper != null) {
         return wrapper.getValue();
       }
-      CacheBean capsule = CacheBeanBuilder.build(realClass);
+      GoblinCacheBean capsule = CacheBeanBuilder.build(realClass);
       wrapper = new MutableObject<>(capsule);
       buffer.put(realClass, wrapper);
       return capsule;

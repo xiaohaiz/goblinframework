@@ -13,20 +13,20 @@ import java.util.*;
 class CacheBeanBuilder {
 
   @NotNull
-  static org.goblinframework.cache.bean.CacheBean build(@NotNull final Class<?> type) {
+  static GoblinCacheBean build(@NotNull final Class<?> type) {
     Class<?> realClass = ClassUtils.filterCglibProxyClass(type);
 
-    org.goblinframework.cache.bean.CacheBean cacheBean = generate(realClass);
+    GoblinCacheBean cacheBean = generate(realClass);
     if (cacheBean == null) {
-      return new org.goblinframework.cache.bean.CacheBean();
+      return new GoblinCacheBean();
     }
 
-    Map<Method, CacheMethod> methods = CacheMethodBuilder.build(realClass);
+    Map<Method, GoblinCacheMethod> methods = CacheMethodBuilder.build(realClass);
     cacheBean.methods.putAll(methods);
     return cacheBean;
   }
 
-  private static org.goblinframework.cache.bean.CacheBean generate(Class<?> realClass) {
+  private static GoblinCacheBean generate(Class<?> realClass) {
     List<CacheBean> annotations = new LinkedList<>();
     CacheBean cacheBean = AnnotationUtils.getAnnotation(realClass, CacheBean.class);
     if (cacheBean != null && cacheBean.enable()) {
@@ -40,7 +40,7 @@ class CacheBeanBuilder {
       return null;
     }
     validateAnnotations(annotations, realClass);
-    return new org.goblinframework.cache.bean.CacheBean(annotations);
+    return new GoblinCacheBean(annotations);
   }
 
   private static void validateAnnotations(final List<CacheBean> annotations,
