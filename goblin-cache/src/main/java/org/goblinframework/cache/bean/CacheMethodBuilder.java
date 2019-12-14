@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.support;
+package org.goblinframework.cache.bean;
 
 import org.goblinframework.cache.annotation.CacheMethod;
 import org.goblinframework.cache.annotation.CacheParameter;
@@ -15,10 +15,10 @@ import java.util.*;
 class CacheMethodBuilder {
 
   @NotNull
-  static Map<Method, org.goblinframework.cache.core.support.CacheMethod> build(@NotNull final Class<?> type) {
+  static Map<Method, org.goblinframework.cache.bean.CacheMethod> build(@NotNull final Class<?> type) {
     Class<?> realClass = ClassUtils.filterCglibProxyClass(type);
 
-    Map<Method, org.goblinframework.cache.core.support.CacheMethod> map = new LinkedHashMap<>();
+    Map<Method, org.goblinframework.cache.bean.CacheMethod> map = new LinkedHashMap<>();
     Arrays.stream(realClass.getDeclaredMethods())
         .filter(e -> {
           int mod = e.getModifiers();
@@ -33,7 +33,7 @@ class CacheMethodBuilder {
           return !Modifier.isPrivate(mod);
         })
         .forEach(e -> {
-          org.goblinframework.cache.core.support.CacheMethod gcm = generate(e);
+          org.goblinframework.cache.bean.CacheMethod gcm = generate(e);
           if (gcm != null) {
             map.put(e, gcm);
           }
@@ -43,12 +43,12 @@ class CacheMethodBuilder {
   }
 
   @Nullable
-  private static org.goblinframework.cache.core.support.CacheMethod generate(@NotNull Method method) {
+  private static org.goblinframework.cache.bean.CacheMethod generate(@NotNull Method method) {
     CacheMethod annotation = method.getAnnotation(CacheMethod.class);
     if (annotation == null) {
       return null;
     }
-    org.goblinframework.cache.core.support.CacheMethod gcm = new org.goblinframework.cache.core.support.CacheMethod();
+    org.goblinframework.cache.bean.CacheMethod gcm = new org.goblinframework.cache.bean.CacheMethod();
     gcm.type = annotation.value();
     setCacheParameters(gcm, method);
     if (gcm.annotationCount == 0) {
@@ -57,7 +57,7 @@ class CacheMethodBuilder {
     return gcm;
   }
 
-  private static void setCacheParameters(@NotNull org.goblinframework.cache.core.support.CacheMethod gcm,
+  private static void setCacheParameters(@NotNull org.goblinframework.cache.bean.CacheMethod gcm,
                                          @NotNull Method method) {
     Annotation[][] methodParamAnnotations = method.getParameterAnnotations();
     for (int i = 0; i < methodParamAnnotations.length; i++) {

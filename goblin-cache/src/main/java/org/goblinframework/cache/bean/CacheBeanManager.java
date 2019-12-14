@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.support;
+package org.goblinframework.cache.bean;
 
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.goblinframework.core.util.ClassUtils;

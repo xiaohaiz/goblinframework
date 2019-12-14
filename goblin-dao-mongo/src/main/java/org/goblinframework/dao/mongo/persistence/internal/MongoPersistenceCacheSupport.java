@@ -1,9 +1,9 @@
 package org.goblinframework.dao.mongo.persistence.internal;
 
-import org.goblinframework.cache.core.support.CacheBean;
-import org.goblinframework.cache.core.support.CacheBeanManager;
-import org.goblinframework.cache.core.support.CacheDimension;
-import org.goblinframework.cache.core.support.GoblinCache;
+import org.goblinframework.cache.bean.CacheBean;
+import org.goblinframework.cache.bean.CacheBeanManager;
+import org.goblinframework.cache.bean.CacheDimension;
+import org.goblinframework.cache.bean.GoblinCache;
 import org.goblinframework.cache.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;

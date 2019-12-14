@@ -2,11 +2,11 @@ package org.goblinframework.dao.mysql.persistence.internal;
 
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableLong;
+import org.goblinframework.cache.bean.CacheBean;
+import org.goblinframework.cache.bean.CacheBeanManager;
+import org.goblinframework.cache.bean.CacheDimension;
+import org.goblinframework.cache.bean.GoblinCache;
 import org.goblinframework.cache.core.cache.GetResult;
-import org.goblinframework.cache.core.support.CacheBean;
-import org.goblinframework.cache.core.support.CacheBeanManager;
-import org.goblinframework.cache.core.support.CacheDimension;
-import org.goblinframework.cache.core.support.GoblinCache;
 import org.goblinframework.cache.util.CacheKeyGenerator;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;

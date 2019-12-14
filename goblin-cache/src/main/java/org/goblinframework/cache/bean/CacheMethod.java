@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.support;
+package org.goblinframework.cache.bean;
 
 import java.util.LinkedList;
 import java.util.List;

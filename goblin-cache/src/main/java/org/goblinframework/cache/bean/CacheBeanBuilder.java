@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.support;
+package org.goblinframework.cache.bean;
 
 import org.goblinframework.cache.annotation.CacheBean;
 import org.goblinframework.cache.annotation.CacheBeans;
@@ -13,12 +13,12 @@ import java.util.*;
 class CacheBeanBuilder {
 
   @NotNull
-  static org.goblinframework.cache.core.support.CacheBean build(@NotNull final Class<?> type) {
+  static org.goblinframework.cache.bean.CacheBean build(@NotNull final Class<?> type) {
     Class<?> realClass = ClassUtils.filterCglibProxyClass(type);
 
-    org.goblinframework.cache.core.support.CacheBean cacheBean = generate(realClass);
+    org.goblinframework.cache.bean.CacheBean cacheBean = generate(realClass);
     if (cacheBean == null) {
-      return new org.goblinframework.cache.core.support.CacheBean();
+      return new org.goblinframework.cache.bean.CacheBean();
     }
 
     Map<Method, CacheMethod> methods = CacheMethodBuilder.build(realClass);
@@ -26,7 +26,7 @@ class CacheBeanBuilder {
     return cacheBean;
   }
 
-  private static org.goblinframework.cache.core.support.CacheBean generate(Class<?> realClass) {
+  private static org.goblinframework.cache.bean.CacheBean generate(Class<?> realClass) {
     List<CacheBean> annotations = new LinkedList<>();
     CacheBean cacheBean = AnnotationUtils.getAnnotation(realClass, CacheBean.class);
     if (cacheBean != null && cacheBean.enable()) {
@@ -40,7 +40,7 @@ class CacheBeanBuilder {
       return null;
     }
     validateAnnotations(annotations, realClass);
-    return new org.goblinframework.cache.core.support.CacheBean(annotations);
+    return new org.goblinframework.cache.bean.CacheBean(annotations);
   }
 
   private static void validateAnnotations(final List<CacheBean> annotations,
