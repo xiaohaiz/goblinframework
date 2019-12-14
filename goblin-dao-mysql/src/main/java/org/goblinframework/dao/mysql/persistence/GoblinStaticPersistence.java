@@ -20,33 +20,33 @@ abstract public class GoblinStaticPersistence<E, ID> extends MysqlPersistenceOpe
     return getEntityTableName(null);
   }
 
-  public long directCount() {
-    return directCount(Query.query(new Criteria()));
+  public long __count() {
+    return __count(Query.query(new Criteria()));
   }
 
-  public long directCount(@NotNull Query query) {
+  public long __count(@NotNull Query query) {
     return __count(getMasterConnection(), getTableName(), query);
   }
 
   @NotNull
-  public List<E> directQuery() {
-    return directQuery(Query.query(new Criteria()));
+  public List<E> __find() {
+    return __find(Query.query(new Criteria()));
   }
 
   @NotNull
-  public List<E> directQuery(@NotNull Query query) {
+  public List<E> __find(@NotNull Query query) {
     return __find(getMasterConnection(), getTableName(), query);
   }
 
-  public long directUpdate(@NotNull Update update, @NotNull Criteria criteria) {
+  public long __update(@NotNull Update update, @NotNull Criteria criteria) {
     return __executeUpdate(update, criteria, getTableName());
   }
 
-  public long directRemove(@NotNull Query query) {
+  public long __delete(@NotNull Query query) {
     return __executeDelete(query, getTableName());
   }
 
-  public long directRemove(@NotNull Criteria criteria) {
+  public long __delete(@NotNull Criteria criteria) {
     return __executeDelete(criteria, getTableName());
   }
 

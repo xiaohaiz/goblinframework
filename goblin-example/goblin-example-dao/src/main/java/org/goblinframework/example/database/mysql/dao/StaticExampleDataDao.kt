@@ -15,6 +15,6 @@ class StaticExampleDataDao : GoblinStaticPersistence<StaticExampleData, Long>() 
 
   fun queryByName(name: String): List<StaticExampleData> {
     val criteria = Criteria.where("name").`is`(name)
-    return directQuery(Query.query(criteria))
+    return __find(Query.query(criteria))
   }
 }

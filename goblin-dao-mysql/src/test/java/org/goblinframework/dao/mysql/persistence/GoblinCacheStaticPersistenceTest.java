@@ -26,14 +26,14 @@ import static org.junit.Assert.*;
 @RunWith(GoblinTestRunner.class)
 @ContextConfiguration("/UT.xml")
 @FlushCache(system = CacheSystem.JVM, connection = "_ut")
-public class GoblinCachedStaticPersistenceTest {
+public class GoblinCacheStaticPersistenceTest {
 
   @Repository
   @PersistenceConnection(connection = "_ut")
   @MysqlPersistenceTable(table = "MOCK_DATA_T")
   @CacheBean(type = GoblinStaticPersistenceTest.MockData.class, system = CacheSystem.JVM, connection = "_ut")
   @PersistenceCacheDimension(dimension = PersistenceCacheDimension.Dimension.ID_AND_OTHER_FIELDS)
-  public static class MockDataPersistence extends GoblinCachedStaticPersistence<GoblinStaticPersistenceTest.MockData, Long> {
+  public static class MockDataPersistence extends GoblinCacheStaticPersistence<GoblinStaticPersistenceTest.MockData, Long> {
 
     @Override
     protected void calculateCacheDimensions(GoblinStaticPersistenceTest.MockData document, GoblinCacheDimension dimension) {
@@ -45,7 +45,7 @@ public class GoblinCachedStaticPersistenceTest {
     @CacheMethod(GoblinStaticPersistenceTest.MockData.class)
     public List<GoblinStaticPersistenceTest.MockData> findByName(@CacheParameter("N") @NotNull String name) {
       Criteria criteria = Criteria.where("NAME").is(name);
-      return directQuery(Query.query(criteria));
+      return __find(Query.query(criteria));
     }
   }
 
