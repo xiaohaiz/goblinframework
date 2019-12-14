@@ -1,8 +1,8 @@
 package org.goblinframework.cache.redis.cache
 
 import org.bson.types.ObjectId
-import org.goblinframework.cache.core.cache.CacheSystem
-import org.goblinframework.cache.core.cache.CasOperation
+import org.goblinframework.cache.core.CacheSystem
+import org.goblinframework.cache.core.CasOperation
 import org.goblinframework.cache.module.test.FlushCache
 import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.test.runner.GoblinTestRunner

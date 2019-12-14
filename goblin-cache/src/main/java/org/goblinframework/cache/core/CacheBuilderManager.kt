@@ -1,8 +1,8 @@
-package org.goblinframework.cache.core.cache
+package org.goblinframework.cache.core
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.cache.core.cache.internal.InJvmCacheBuilder
-import org.goblinframework.cache.core.cache.internal.NoOpCacheBuilder
+import org.goblinframework.cache.core.internal.InJvmCacheBuilder
+import org.goblinframework.cache.core.internal.NoOpCacheBuilder
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import java.util.concurrent.ConcurrentHashMap

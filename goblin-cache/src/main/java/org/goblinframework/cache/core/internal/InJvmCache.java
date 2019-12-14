@@ -1,8 +1,8 @@
-package org.goblinframework.cache.core.cache.internal;
+package org.goblinframework.cache.core.internal;
 
 import org.apache.commons.collections4.map.LRUMap;
 import org.goblinframework.api.annotation.ThreadSafe;
-import org.goblinframework.cache.core.cache.*;
+import org.goblinframework.cache.core.*;
 import org.goblinframework.cache.module.monitor.VMC;
 import org.goblinframework.core.service.GoblinManagedBean;
 import org.goblinframework.core.service.GoblinManagedObject;

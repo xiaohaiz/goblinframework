@@ -1,7 +1,7 @@
-package org.goblinframework.cache.core.cache.internal;
+package org.goblinframework.cache.core.internal;
 
 import org.goblinframework.api.annotation.Singleton;
-import org.goblinframework.cache.core.cache.*;
+import org.goblinframework.cache.core.*;
 import org.goblinframework.core.service.GoblinManagedObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

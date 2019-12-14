@@ -1,6 +1,6 @@
-package org.goblinframework.cache.core.cache.internal
+package org.goblinframework.cache.core.internal
 
-import org.goblinframework.cache.core.cache.*
+import org.goblinframework.cache.core.*
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 

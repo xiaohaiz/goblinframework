@@ -1,7 +1,7 @@
 package org.goblinframework.cache.module.management
 
 import org.goblinframework.api.annotation.Singleton
-import org.goblinframework.cache.core.cache.CacheBuilderManager
+import org.goblinframework.cache.core.CacheBuilderManager
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 

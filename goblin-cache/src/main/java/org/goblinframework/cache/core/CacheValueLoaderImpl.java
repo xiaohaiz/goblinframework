@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.cache;
+package org.goblinframework.cache.core;
 
 import org.goblinframework.cache.annotation.GoblinCacheExpiration;
 import org.goblinframework.core.util.MapUtils;

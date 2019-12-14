@@ -3,7 +3,7 @@ package org.goblinframework.cache.couchbase.cache;
 import com.couchbase.client.java.document.LegacyDocument;
 import com.couchbase.client.java.error.DocumentAlreadyExistsException;
 import com.couchbase.client.java.error.DocumentDoesNotExistException;
-import org.goblinframework.cache.core.cache.*;
+import org.goblinframework.cache.core.*;
 import org.goblinframework.cache.couchbase.client.CouchbaseClient;
 import org.goblinframework.cache.couchbase.module.exception.CouchbaseCacheException;
 import org.goblinframework.core.service.GoblinManagedBean;

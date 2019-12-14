@@ -3,7 +3,7 @@ package org.goblinframework.cache.couchbase.cache
 import org.apache.commons.lang3.mutable.MutableObject
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.api.annotation.ThreadSafe
-import org.goblinframework.cache.core.cache.*
+import org.goblinframework.cache.core.*
 import org.goblinframework.cache.couchbase.client.CouchbaseClientManager
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject

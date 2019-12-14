@@ -1,9 +1,9 @@
 package org.goblinframework.cache.bean;
 
 import org.goblinframework.cache.annotation.GoblinCacheExpiration;
-import org.goblinframework.cache.core.cache.Cache;
-import org.goblinframework.cache.core.cache.CacheLocation;
-import org.goblinframework.cache.core.cache.CacheSystem;
+import org.goblinframework.cache.core.Cache;
+import org.goblinframework.cache.core.CacheLocation;
+import org.goblinframework.cache.core.CacheSystem;
 import org.goblinframework.cache.exception.GoblinCacheException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

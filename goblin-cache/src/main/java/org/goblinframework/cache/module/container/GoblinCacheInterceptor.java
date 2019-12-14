@@ -6,7 +6,7 @@ import org.goblinframework.cache.bean.GoblinCache;
 import org.goblinframework.cache.bean.GoblinCacheBean;
 import org.goblinframework.cache.bean.GoblinCacheMethod;
 import org.goblinframework.cache.bean.GoblinCacheMethodParameter;
-import org.goblinframework.cache.core.cache.*;
+import org.goblinframework.cache.core.*;
 import org.goblinframework.cache.exception.GoblinCacheException;
 import org.goblinframework.cache.util.CacheKeyGenerator;
 import org.goblinframework.core.util.CollectionUtils;

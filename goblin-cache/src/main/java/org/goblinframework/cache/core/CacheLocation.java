@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.cache;
+package org.goblinframework.cache.core;
 
 import org.goblinframework.api.annotation.HashSafe;
 import org.jetbrains.annotations.NotNull;

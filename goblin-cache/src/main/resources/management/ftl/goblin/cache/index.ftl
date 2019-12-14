@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="cacheBuilderManager" type="org.goblinframework.cache.core.cache.CacheBuilderManagerMXBean" -->
+<#-- @ftlvariable name="cacheBuilderManager" type="org.goblinframework.cache.core.CacheBuilderManagerMXBean" -->
 <!--suppress HtmlUnknownTarget -->
 <html lang="zh">
 <head>
