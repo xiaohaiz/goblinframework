@@ -23,12 +23,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-abstract public class MysqlPersistenceCacheSupport<E, ID> extends MysqlPersistenceOperationSupport<E, ID> {
+abstract public class MysqlPersistenceCacheOperationSupport<E, ID> extends MysqlPersistenceOperationSupport<E, ID> {
 
   private final GoblinCacheBean cacheBean;
   private final PersistenceCacheDimension.Dimension dimension;
 
-  protected MysqlPersistenceCacheSupport() {
+  protected MysqlPersistenceCacheOperationSupport() {
     this.cacheBean = GoblinCacheBeanManager.getGoblinCacheBean(getClass());
     if (this.cacheBean.isEmpty()) {
       dimension = PersistenceCacheDimension.Dimension.NONE;

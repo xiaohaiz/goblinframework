@@ -1,6 +1,6 @@
 package org.goblinframework.dao.mysql.persistence;
 
-import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistenceCacheSupport;
+import org.goblinframework.dao.mysql.persistence.internal.MysqlPersistenceCacheOperationSupport;
 import org.goblinframework.dao.ql.Criteria;
 import org.goblinframework.dao.ql.Query;
 import org.goblinframework.dao.ql.Update;
@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-abstract public class GoblinCachedStaticPersistence<E, ID> extends MysqlPersistenceCacheSupport<E, ID> {
+abstract public class GoblinCachedStaticPersistence<E, ID> extends MysqlPersistenceCacheOperationSupport<E, ID> {
 
   @NotNull
   @Override
