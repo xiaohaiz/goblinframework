@@ -35,7 +35,7 @@ abstract public class GoblinCachedStaticPersistence<E, ID> extends MysqlPersiste
 
   @NotNull
   public List<E> directQuery(@NotNull Query query) {
-    return __executeQuery(getMasterConnection(), query, getTableName());
+    return __find(getMasterConnection(), getTableName(), query);
   }
 
   public long directUpdate(@NotNull Update update, @NotNull Criteria criteria) {

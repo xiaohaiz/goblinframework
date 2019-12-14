@@ -126,7 +126,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     String tableName = getIdTableName(id);
     Criteria criteria = Criteria.where(entityMapping.getIdFieldName()).is(id);
     Query query = Query.query(criteria);
-    List<E> entities = __executeQuery(connectionReference.get(), query, tableName);
+    List<E> entities = __find(connectionReference.get(), tableName, query);
     return entities.stream().findFirst().orElse(null);
   }
 
@@ -162,7 +162,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
         criteria = Criteria.where(entityMapping.getIdFieldName()).in(ds);
       }
       Query query = Query.query(criteria);
-      List<E> queried = __executeQuery(connectionReference.get(), query, tn);
+      List<E> queried = __find(connectionReference.get(), tn, query);
       entityList.addAll(queried);
     });
     Map<ID, E> entities = new LinkedHashMap<>();
@@ -360,9 +360,9 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
   }
 
   @NotNull
-  protected List<E> __executeQuery(@NotNull final MysqlConnection connection,
-                                   @NotNull final Query query,
-                                   @NotNull final String tableName) {
+  final protected List<E> __find(@NotNull final MysqlConnection connection,
+                                 @NotNull final String tableName,
+                                 @NotNull final Query query) {
     TranslatedCriteria tc = queryTranslator.translateQuery(query, tableName);
     NamedParameterJdbcTemplate jdbcTemplate = connection.getNamedParameterJdbcTemplate();
     return jdbcTemplate.query(tc.sql, tc.parameterSource, entityRowMapper);
