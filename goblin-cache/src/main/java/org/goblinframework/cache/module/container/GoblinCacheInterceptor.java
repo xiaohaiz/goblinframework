@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.enhance;
+package org.goblinframework.cache.module.container;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

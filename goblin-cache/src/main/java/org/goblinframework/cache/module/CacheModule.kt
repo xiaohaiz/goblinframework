@@ -2,7 +2,7 @@ package org.goblinframework.cache.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.cache.core.cache.CacheBuilderManager
-import org.goblinframework.cache.core.enhance.GoblinCacheEnhanceProcessor
+import org.goblinframework.cache.module.container.GoblinCacheEnhanceProcessor
 import org.goblinframework.cache.module.management.CacheManagement
 import org.goblinframework.cache.module.test.FlushCacheBeforeTestMethod
 import org.goblinframework.core.system.*

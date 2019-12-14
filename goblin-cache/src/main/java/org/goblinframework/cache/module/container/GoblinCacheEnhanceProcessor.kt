@@ -1,4 +1,4 @@
-package org.goblinframework.cache.core.enhance
+package org.goblinframework.cache.module.container
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.cache.bean.GoblinCacheBeanManager
