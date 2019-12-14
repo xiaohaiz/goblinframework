@@ -5,6 +5,8 @@ import org.goblinframework.api.dao.Id;
 import org.goblinframework.api.dao.Revision;
 import org.goblinframework.api.dao.UpdateTime;
 import org.goblinframework.cache.annotation.CacheBean;
+import org.goblinframework.cache.annotation.CacheMethod;
+import org.goblinframework.cache.annotation.CacheParameter;
 import org.goblinframework.cache.bean.GoblinCacheDimension;
 import org.goblinframework.cache.core.CacheKeyGenerator;
 import org.goblinframework.cache.core.CacheSystem;
@@ -12,7 +14,10 @@ import org.goblinframework.cache.module.test.FlushCache;
 import org.goblinframework.dao.annotation.PersistenceCacheDimension;
 import org.goblinframework.dao.annotation.PersistenceConnection;
 import org.goblinframework.dao.mongo.module.test.DropDatabase;
+import org.goblinframework.dao.ql.Criteria;
+import org.goblinframework.dao.ql.Query;
 import org.goblinframework.test.runner.GoblinTestRunner;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.stereotype.Repository;
@@ -54,16 +59,36 @@ public class GoblinCacheStaticDaoTest {
   @MongoPersistenceDatabase(database = "test")
   @MongoPersistenceCollection(collection = "user")
   @CacheBean(type = User.class, system = CacheSystem.JVM, connection = "_ut", wrapper = true)
-  @PersistenceCacheDimension(dimension = PersistenceCacheDimension.Dimension.ID_FIELD)
+  @PersistenceCacheDimension(dimension = PersistenceCacheDimension.Dimension.ID_AND_OTHER_FIELDS)
   public static class UserDao extends GoblinCacheStaticDao<User, Long> {
 
     @Override
     protected void calculateCacheDimensions(User document, GoblinCacheDimension dimension) {
       dimension.get().add(CacheKeyGenerator.generateCacheKey(User.class, document.userId));
+      dimension.get().add(CacheKeyGenerator.generateCacheKey(User.class, "userName", document.userName));
+    }
+
+    @CacheMethod(User.class)
+    public List<User> findByUserName(@NotNull @CacheParameter("userName") String userName) {
+      Criteria criteria = Criteria.where("userName").is(userName);
+      return __find(Query.query(criteria));
     }
   }
 
   @Inject private UserDao userDao;
+
+
+  @Test
+  public void findByUserName() {
+    List<User> userList = userDao.findByUserName("A");
+    assertEquals(0, userList.size());
+    User user = new User();
+    user.userId = 1L;
+    user.userName = "A";
+    userDao.insert(user);
+    userList = userDao.findByUserName("A");
+    assertEquals(1, userList.size());
+  }
 
   @Test
   public void load() {
@@ -108,5 +133,24 @@ public class GoblinCacheStaticDaoTest {
     assertTrue(userDao.exists(1L));
     userDao.load(1L);
     assertTrue(userDao.exists(1L));
+  }
+
+  @Test
+  public void replace() {
+    User user = new User();
+    user.userId = 1L;
+    user.userName = "A";
+    userDao.insert(user);
+    user = userDao.load(1L);
+    assertNotNull(user);
+    assertEquals("A", user.userName);
+    user = new User();
+    user.userId = 1L;
+    user.userName = "B";
+    user = userDao.replace(user);
+    assertNotNull(user);
+    user = userDao.load(1L);
+    assertNotNull(user);
+    assertEquals("B", user.userName);
   }
 }

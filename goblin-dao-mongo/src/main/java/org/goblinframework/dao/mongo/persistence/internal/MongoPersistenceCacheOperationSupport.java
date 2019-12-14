@@ -11,6 +11,7 @@ import org.goblinframework.cache.core.GetResult;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.dao.annotation.PersistenceCacheDimension;
+import org.goblinframework.dao.mongo.exception.GoblinMongoPersistenceException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -152,5 +153,30 @@ abstract public class MongoPersistenceCacheOperationSupport<E, ID> extends Mongo
     } else {
       return __exists(ReadPreference.primary(), id);
     }
+  }
+
+  @Nullable
+  @Override
+  public E replace(@NotNull E entity) {
+    if (dimension == PersistenceCacheDimension.Dimension.NONE) {
+      return __replace(entity);
+    }
+    ID id = getEntityId(entity);
+    if (id == null) {
+      throw new GoblinMongoPersistenceException("Id must not be null when executing replace operation");
+    }
+    E original = __load(ReadPreference.primary(), id);
+    if (original == null) {
+      return null;
+    }
+    E modified = __replace(entity);
+    if (modified == null) {
+      return null;
+    }
+    GoblinCacheDimension cacheDimension = createCacheDimension();
+    calculateCacheDimensions(original, cacheDimension);
+    calculateCacheDimensions(modified, cacheDimension);
+    cacheDimension.evict();
+    return modified;
   }
 }
