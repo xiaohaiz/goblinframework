@@ -27,21 +27,21 @@ public class GoblinStaticPersistenceTest extends SpringContainerObject {
 
     @Id(Id.Generator.AUTO_INC) public Long id;
     public String name;
-    @CreateTime @GoblinField("CT1") public Instant createTime1;
-    @CreateTime @GoblinField("CT2") public Date createTime2;
-    @CreateTime @GoblinField("UT1") public Calendar updateTime1;
-    @CreateTime @GoblinField("UT2") public Long updateTime2;
-    @CreateTime @GoblinField("UT3") public String updateTime3;
-    @GoblinRevision public Integer revision;
+    @CreateTime @Field("CT1") public Instant createTime1;
+    @CreateTime @Field("CT2") public Date createTime2;
+    @CreateTime @Field("UT1") public Calendar updateTime1;
+    @CreateTime @Field("UT2") public Long updateTime2;
+    @CreateTime @Field("UT3") public String updateTime3;
+    @Revision public Integer revision;
     @Embed public Ext ext;
   }
 
   public static class Ext implements Serializable {
     private static final long serialVersionUID = -4549264762618662638L;
 
-    @GoblinField("F1") public String field1;
-    @GoblinField("F2") public String field2;
-    @GoblinField("F3") public String field3;
+    @Field("F1") public String field1;
+    @Field("F2") public String field2;
+    @Field("F3") public String field3;
   }
 
   @Repository

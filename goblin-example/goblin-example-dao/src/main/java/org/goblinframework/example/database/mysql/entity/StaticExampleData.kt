@@ -14,21 +14,21 @@ class StaticExampleData : Serializable {
   var id: Long? = null
   var name: String? = null
   @CreateTime
-  @GoblinField("CT1")
+  @Field("CT1")
   var createTime1: Instant? = null
   @CreateTime
-  @GoblinField("CT2")
+  @Field("CT2")
   var createTime2: Date? = null
   @UpdateTime
-  @GoblinField("UT1")
+  @Field("UT1")
   var updateTime1: Calendar? = null
   @UpdateTime
-  @GoblinField("UT2")
+  @Field("UT2")
   var updateTime2: Long? = null
   @UpdateTime
-  @GoblinField("UT3")
+  @Field("UT3")
   var updateTime3: String? = null
-  @GoblinRevision
+  @Revision
   var revision: Int? = null
   @Embed
   var ext: Ext? = null
@@ -38,11 +38,11 @@ class StaticExampleData : Serializable {
       private const val serialVersionUID = -4549264762618662638L
     }
 
-    @GoblinField("F1")
+    @Field("F1")
     var field1: String? = null
-    @GoblinField("F2")
+    @Field("F2")
     var field2: String? = null
-    @GoblinField("F3")
+    @Field("F3")
     var field3: String? = null
 
 
