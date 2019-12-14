@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.PropertyName;
 import com.fasterxml.jackson.databind.introspect.Annotated;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import org.goblinframework.api.annotation.Ignore;
+import org.goblinframework.api.dao.Field;
 import org.goblinframework.api.dao.Id;
+import org.goblinframework.core.util.StringUtils;
 
 final public class GoblinBsonIntrospector extends JacksonAnnotationIntrospector {
 
@@ -21,6 +23,10 @@ final public class GoblinBsonIntrospector extends JacksonAnnotationIntrospector 
     if (_findAnnotation(a, Id.class) != null) {
       return new PropertyName("_id");
     }
+    Field field = _findAnnotation(a, Field.class);
+    if (field != null && StringUtils.isNotBlank(field.value())) {
+      return new PropertyName(field.value().trim());
+    }
     return super.findNameForSerialization(a);
   }
 
@@ -28,6 +34,10 @@ final public class GoblinBsonIntrospector extends JacksonAnnotationIntrospector 
   public PropertyName findNameForDeserialization(Annotated a) {
     if (_findAnnotation(a, Id.class) != null) {
       return new PropertyName("_id");
+    }
+    Field field = _findAnnotation(a, Field.class);
+    if (field != null && StringUtils.isNotBlank(field.value())) {
+      return new PropertyName(field.value().trim());
     }
     return super.findNameForDeserialization(a);
   }
