@@ -2,7 +2,7 @@ package org.goblinframework.cache.bean;
 
 import org.goblinframework.cache.annotation.CacheExpiration;
 import org.goblinframework.cache.core.Cache;
-import org.goblinframework.cache.core.CacheExpirationCalculator;
+import org.goblinframework.cache.core.CacheExpirationCalculatorKt;
 import org.goblinframework.cache.core.CacheLocation;
 
 public class GoblinCache {
@@ -18,9 +18,9 @@ public class GoblinCache {
   public int calculateExpiration() {
     CacheExpiration annotation = type.getAnnotation(CacheExpiration.class);
     if (annotation != null && annotation.enable()) {
-      return CacheExpirationCalculator.expirationInSeconds(annotation);
+      return CacheExpirationCalculatorKt.calculateExpirationInSeconds(annotation);
     }
-    return CacheExpirationCalculator.expirationInSeconds(expirationPolicy, expirationValue);
+    return CacheExpirationCalculatorKt.calculateExpirationInSeconds(expirationPolicy, expirationValue);
   }
 
   public Cache cache() {
