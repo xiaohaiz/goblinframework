@@ -1,14 +1,18 @@
 package org.goblinframework.dao.mongo.persistence.internal;
 
+import com.mongodb.ReadPreference;
 import org.goblinframework.cache.bean.GoblinCache;
 import org.goblinframework.cache.bean.GoblinCacheBean;
 import org.goblinframework.cache.bean.GoblinCacheBeanManager;
 import org.goblinframework.cache.bean.GoblinCacheDimension;
 import org.goblinframework.cache.core.CacheKeyGenerator;
+import org.goblinframework.cache.core.CacheValueWrapper;
+import org.goblinframework.cache.core.GetResult;
 import org.goblinframework.core.util.AnnotationUtils;
 import org.goblinframework.core.util.ClassUtils;
 import org.goblinframework.dao.annotation.PersistenceCacheDimension;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,6 +29,7 @@ abstract public class MongoPersistenceCacheSupport<E, ID> extends MongoPersisten
 
   private final GoblinCacheBean cacheBean;
   private final PersistenceCacheDimension.Dimension dimension;
+  private final boolean cacheOnId;
 
   protected MongoPersistenceCacheSupport() {
     this.cacheBean = GoblinCacheBeanManager.getGoblinCacheBean(getClass());
@@ -39,6 +44,8 @@ abstract public class MongoPersistenceCacheSupport<E, ID> extends MongoPersisten
       }
       dimension = annotation.dimension();
     }
+    cacheOnId = dimension == PersistenceCacheDimension.Dimension.ID_FIELD
+        || dimension == PersistenceCacheDimension.Dimension.ID_AND_OTHER_FIELDS;
   }
 
   protected String generateCacheKey(final ID id) {
@@ -85,5 +92,29 @@ abstract public class MongoPersistenceCacheSupport<E, ID> extends MongoPersisten
     GoblinCacheDimension cacheDimension = createCacheDimension();
     entities.forEach(e -> calculateCacheDimensions(e, cacheDimension));
     cacheDimension.evict();
+  }
+
+  @Nullable
+  @Override
+  public E load(@NotNull ID id) {
+    if (!cacheOnId) {
+      return __load(ReadPreference.primary(), id);
+    }
+    GoblinCache defaultCache = getDefaultCache();
+    String key = generateCacheKey(id);
+    GetResult<E> getResult = defaultCache.cache().get(key);
+    if (getResult.hit) {
+      return getResult.value;
+    }
+    E entity = __load(ReadPreference.primary(), id);
+    Object candidate = entity;
+    if (candidate == null && defaultCache.wrapper) {
+      candidate = new CacheValueWrapper(null);
+    }
+    if (candidate != null) {
+      int expiration = defaultCache.calculateExpiration();
+      defaultCache.cache().add(key, expiration, candidate);
+    }
+    return entity;
   }
 }

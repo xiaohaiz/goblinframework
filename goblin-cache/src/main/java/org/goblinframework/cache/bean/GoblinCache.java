@@ -4,6 +4,7 @@ import org.goblinframework.cache.annotation.CacheExpiration;
 import org.goblinframework.cache.core.Cache;
 import org.goblinframework.cache.core.CacheExpirationCalculatorKt;
 import org.goblinframework.cache.core.CacheLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class GoblinCache {
 
@@ -23,7 +24,9 @@ public class GoblinCache {
     return CacheExpirationCalculatorKt.calculateExpirationInSeconds(expirationPolicy, expirationValue);
   }
 
+  @NotNull
   public Cache cache() {
+    assert cache != null;
     return cache;
   }
 }
