@@ -14,11 +14,11 @@ class MongoExampleData : Serializable {
     var id: ObjectId? = null
     var name: String? = null
     @CreateTime
-    @GoblinField("ct")
+    @Field("ct")
     var createTime: Date? = null
   @UpdateTime
-  @GoblinField("ut")
+  @Field("ut")
     var updateTime: Date? = null
-  @GoblinRevision
+  @Revision
     var revision: Int? = null
 }
