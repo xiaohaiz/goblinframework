@@ -3,6 +3,7 @@ package org.goblinframework.dao.mongo.persistence.internal;
 import com.mongodb.MongoNamespace;
 import com.mongodb.ReadPreference;
 import com.mongodb.WriteConcern;
+import com.mongodb.client.model.CountOptions;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.result.DeleteResult;
@@ -513,13 +514,20 @@ abstract public class MongoPersistenceOperationSupport<E, ID> extends MongoPersi
   @NotNull
   final public Publisher<Long> __count(@NotNull final MongoNamespace namespace,
                                        @Nullable final ReadPreference readPreference,
-                                       @NotNull final Criteria criteria) {
+                                       @NotNull final Query query) {
     MongoCollection<BsonDocument> collection = getMongoCollection(namespace);
     if (readPreference != null) {
       collection = collection.withReadPreference(readPreference);
     }
-    Bson filter = criteriaTranslator.translate(criteria);
-    return collection.countDocuments(filter);
+    Bson filter = queryTranslator.toFilter(query);
+    CountOptions options = new CountOptions();
+    if (query.getLimit() != null) {
+      options.limit(query.getLimit());
+    }
+    if (query.getSkip() != null) {
+      options.skip(query.getSkip());
+    }
+    return collection.countDocuments(filter, options);
   }
 
   @NotNull
