@@ -20,6 +20,7 @@ final public class DropDatabaseOperationTranslator implements OperationTranslato
     Field field = DropDatabaseOperation.class.getDeclaredField("databaseName");
     field.setAccessible(true);
     String databaseName = (String) field.get(operation);
-    return "databaseName=" + databaseName + " writeConcern=" + operation.getWriteConcern() + "}";
+    return "databaseName=" + databaseName
+        + " writeConcern=" + _OperationTranslatorKt.translateWriteConcern(operation.getWriteConcern());
   }
 }

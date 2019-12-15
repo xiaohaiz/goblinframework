@@ -26,6 +26,9 @@ final public class OperationTranslatorFactory {
     if (writeOperation instanceof DropDatabaseOperation) {
       return new DropDatabaseOperationTranslator((DropDatabaseOperation) writeOperation);
     }
+    if (writeOperation instanceof MixedBulkWriteOperation) {
+      return new MixedBulkWriteOperationTranslator((MixedBulkWriteOperation) writeOperation);
+    }
     return null;
   }
 }
