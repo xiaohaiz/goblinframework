@@ -91,7 +91,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
   final public void __insert(@NotNull final E entity) {
     beforeInsert(entity);
     String tableName = getEntityTableName(entity);
-    __executeInsert(entity, tableName);
+    __insert(tableName, entity);
   }
 
   final public void __inserts(@NotNull final Collection<E> entities) {
@@ -110,7 +110,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
       protected void doInTransactionWithoutResult(@NotNull TransactionStatus status) {
         groupEntities(candidates).forEach((tableName, list) -> {
           for (E e : list) {
-            __executeInsert(e, tableName);
+            __insert(tableName, e);
           }
         });
       }
@@ -274,12 +274,8 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return deletedCount.get();
   }
 
-  // ==========================================================================
-  // Helper methods
-  // ==========================================================================
-
-  protected void __executeInsert(@NotNull final E entity,
-                                 @NotNull final String tableName) {
+  final protected void __insert(@NotNull final String tableName,
+                                @NotNull final E entity) {
     MysqlInsertOperation insertOperation = new MysqlInsertOperation(entityMapping, entity, tableName);
     String sql = insertOperation.generateSQL();
     PreparedStatementCreatorFactory factory = insertOperation.newPreparedStatementCreatorFactory(sql);
@@ -289,7 +285,6 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
       GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
       JdbcTemplate jdbcTemplate = getMasterConnection().getJdbcTemplate();
       jdbcTemplate.update(creator, keyHolder);
-
       ConversionService conversionService = ConversionService.INSTANCE;
       Object id = conversionService.convert(keyHolder.getKey(), entityMapping.idClass);
       entityMapping.idField.setValue(entity, id);
