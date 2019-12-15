@@ -246,7 +246,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
   final public boolean __delete(@NotNull final ID id) {
     Criteria criteria = Criteria.where(entityMapping.idField.getName()).is(id);
     String tableName = getIdTableName(id);
-    long rows = __executeDelete(criteria, tableName);
+    long rows = __delete(tableName, criteria);
     return rows > 0;
   }
 
@@ -266,7 +266,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
       protected void doInTransactionWithoutResult(@NotNull TransactionStatus status) {
         groupIds(idList).forEach((tableName, ds) -> {
           Criteria criteria = Criteria.where(entityMapping.idField.getName()).in(ds);
-          long rows = __executeDelete(criteria, tableName);
+          long rows = __delete(tableName, criteria);
           deletedCount.addAndGet(rows);
         });
       }
@@ -320,8 +320,8 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return jdbcTemplate.update(sql.get(), source);
   }
 
-  protected long __executeDelete(@NotNull final Criteria criteria,
-                                 @NotNull final String tableName) {
+  final protected long __delete(@NotNull final String tableName,
+                                @NotNull final Criteria criteria) {
     TranslatedCriteria tc = criteriaTranslator.translate(criteria);
     MapSqlParameterSource source = new MapSqlParameterSource();
     source.addValues(tc.parameterSource.getValues());
@@ -335,7 +335,7 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
   final protected long __delete(@NotNull final String tableName,
                                 @NotNull final Query query) {
     if (query.getNativeSQL() == null) {
-      return __executeDelete(query.getCriteria(), tableName);
+      return __delete(tableName, query.getCriteria());
     }
     NativeSQL nativeSQL = query.getNativeSQL();
     MapSqlParameterSource source = new MapSqlParameterSource();
