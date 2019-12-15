@@ -300,19 +300,17 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     }
   }
 
-  protected long __executeUpdate(@NotNull final Update update,
-                                 @NotNull final Criteria criteria,
-                                 @NotNull final String tableName) {
+  final protected long __update(@NotNull final String tableName,
+                                @NotNull final Update update,
+                                @NotNull final Criteria criteria) {
     NamedParameterSQL u = updateTranslator.translate(update, entityMapping);
     if (StringUtils.isEmpty(u.sql)) {
       throw new GoblinMysqlPersistenceException("No update SQL generated");
     }
     TranslatedCriteria c = criteriaTranslator.translate(criteria);
-
     MapSqlParameterSource source = new MapSqlParameterSource();
     source.addValues(u.source.getValues());
     source.addValues(c.parameterSource.getValues());
-
     String s = "UPDATE `%s` SET %s%s";
     s = String.format(s, tableName, u.sql, c.sql);
     AtomicReference<String> sql = new AtomicReference<>(s);

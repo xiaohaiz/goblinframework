@@ -39,7 +39,7 @@ abstract public class GoblinCacheStaticPersistence<E, ID> extends MysqlPersisten
   }
 
   public long __update(@NotNull Update update, @NotNull Criteria criteria) {
-    return __executeUpdate(update, criteria, getTableName());
+    return __update(getTableName(), update, criteria);
   }
 
   public long __delete(@NotNull Query query) {
