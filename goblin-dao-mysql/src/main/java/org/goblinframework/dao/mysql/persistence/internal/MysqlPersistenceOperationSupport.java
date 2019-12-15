@@ -332,7 +332,8 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
     return jdbcTemplate.update(sql.getValue(), source);
   }
 
-  protected long __executeDelete(@NotNull Query query, @NotNull String tableName) {
+  final protected long __delete(@NotNull final String tableName,
+                                @NotNull final Query query) {
     if (query.getNativeSQL() == null) {
       return __executeDelete(query.getCriteria(), tableName);
     }
@@ -342,7 +343,6 @@ abstract public class MysqlPersistenceOperationSupport<E, ID> extends MysqlPersi
       source.addValues(nativeSQL.getParameters());
     }
     TranslatedCriteria tc = new TranslatedCriteria(nativeSQL.getSql(), source);
-
     String s = "DELETE FROM `%s`%s";
     s = String.format(s, tableName, tc.sql);
     AtomicReference<String> sql = new AtomicReference<>(s);

@@ -43,7 +43,7 @@ abstract public class GoblinStaticPersistence<E, ID> extends MysqlPersistenceOpe
   }
 
   public long __delete(@NotNull Query query) {
-    return __executeDelete(query, getTableName());
+    return __delete(getTableName(), query);
   }
 
   public long __delete(@NotNull Criteria criteria) {
