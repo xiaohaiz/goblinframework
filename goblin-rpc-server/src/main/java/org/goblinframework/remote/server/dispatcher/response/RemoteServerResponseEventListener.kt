@@ -5,7 +5,7 @@ import org.goblinframework.core.event.GoblinEventListener
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedLogger
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.remote.core.protocol.RemoteResponseCode
+import org.goblinframework.rpc.protocol.RpcResponseCode
 
 @GoblinManagedBean("RemoteServer")
 @GoblinManagedLogger("goblin.remote.server.response")
@@ -31,7 +31,7 @@ class RemoteServerResponseEventListener internal constructor()
           invocation.asText(), encoded.error)
       invocation.response.resetResult()
       invocation.response.resetError()
-      invocation.response.writeCode(RemoteResponseCode.SERVER_ENCODE_RESPONSE_ERROR)
+      invocation.response.writeCode(RpcResponseCode.SERVER_ENCODE_RESPONSE_ERROR)
       invocation.response.writeError(encoded.error)
       // Encode again, exception shouldn't raise this time
       encoded = responseEncoder.encode(invocation)

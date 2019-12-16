@@ -1,4 +1,4 @@
-package org.goblinframework.remote.core.protocol;
+package org.goblinframework.rpc.protocol;
 
 import org.goblinframework.core.util.ExceptionUtils;
 import org.goblinframework.core.util.StringUtils;
@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
-public class RemoteResponse implements Serializable {
+public class RpcResponse implements Serializable {
   private static final long serialVersionUID = 6015472866822882653L;
 
   public byte code;
@@ -17,7 +17,7 @@ public class RemoteResponse implements Serializable {
   public long executionDuration;
   public LinkedHashMap<String, Object> extensions;
 
-  public void writeCode(@NotNull RemoteResponseCode code) {
+  public void writeCode(@NotNull RpcResponseCode code) {
     this.code = code.getId();
   }
 

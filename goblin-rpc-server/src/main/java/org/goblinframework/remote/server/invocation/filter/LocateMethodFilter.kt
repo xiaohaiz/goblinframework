@@ -2,9 +2,9 @@ package org.goblinframework.remote.server.invocation.filter
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.util.ReflectionUtils
-import org.goblinframework.remote.core.protocol.RemoteResponseCode
 import org.goblinframework.remote.server.invocation.RemoteServerInvocation
 import org.goblinframework.rpc.filter.RpcFilterChain
+import org.goblinframework.rpc.protocol.RpcResponseCode
 
 @Singleton
 class LocateMethodFilter private constructor() : AbstractInternalFilter() {
@@ -24,7 +24,7 @@ class LocateMethodFilter private constructor() : AbstractInternalFilter() {
       logger.error("{SERVER_METHOD_NOT_FOUND_ERROR} " +
           "Service method not found [{}]",
           invocation.asText(), ex)
-      invocation.writeError(RemoteResponseCode.SERVER_METHOD_NOT_FOUND_ERROR, ex)
+      invocation.writeError(RpcResponseCode.SERVER_METHOD_NOT_FOUND_ERROR, ex)
       return
     }
 
@@ -35,7 +35,7 @@ class LocateMethodFilter private constructor() : AbstractInternalFilter() {
         logger.error("{SERVER_METHOD_NOT_FOUND_ERROR} " +
             "Service method return type mismatch, expect {} but actual {} [{}]",
             request.returnType, actualReturnType, invocation.asText())
-        invocation.writeError(RemoteResponseCode.SERVER_METHOD_NOT_FOUND_ERROR)
+        invocation.writeError(RpcResponseCode.SERVER_METHOD_NOT_FOUND_ERROR)
         return
       }
     }

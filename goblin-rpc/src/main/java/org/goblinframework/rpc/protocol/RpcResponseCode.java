@@ -1,11 +1,11 @@
-package org.goblinframework.remote.core.protocol;
+package org.goblinframework.rpc.protocol;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum RemoteResponseCode {
+public enum RpcResponseCode {
 
   SUCCESS((byte) 0),
   SERVER_DECODE_REQUEST_ERROR((byte) 10),
@@ -17,7 +17,7 @@ public enum RemoteResponseCode {
 
   private final byte id;
 
-  RemoteResponseCode(byte id) {
+  RpcResponseCode(byte id) {
     this.id = id;
   }
 
@@ -25,17 +25,17 @@ public enum RemoteResponseCode {
     return id;
   }
 
-  private static final Map<Byte, RemoteResponseCode> codes;
+  private static final Map<Byte, RpcResponseCode> codes;
 
   static {
     codes = new HashMap<>();
-    for (RemoteResponseCode code : values()) {
+    for (RpcResponseCode code : values()) {
       codes.put(code.id, code);
     }
   }
 
   @Nullable
-  public static RemoteResponseCode parse(byte id) {
+  public static RpcResponseCode parse(byte id) {
     return codes.get(id);
   }
 }

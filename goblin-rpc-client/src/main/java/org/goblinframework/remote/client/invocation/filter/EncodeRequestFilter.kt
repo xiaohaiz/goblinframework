@@ -10,8 +10,8 @@ import org.goblinframework.core.mapper.JsonMapper
 import org.goblinframework.remote.client.invocation.RemoteClientInvocation
 import org.goblinframework.remote.client.module.exception.ClientEncodeRequestException
 import org.goblinframework.remote.client.module.runtime.RemoteClientTranscoderManager
-import org.goblinframework.remote.core.protocol.RemoteRequest
 import org.goblinframework.rpc.filter.RpcFilterChain
+import org.goblinframework.rpc.protocol.RpcRequest
 
 @Singleton
 class EncodeRequestFilter private constructor() : AbstractInternalFilter() {
@@ -34,7 +34,7 @@ class EncodeRequestFilter private constructor() : AbstractInternalFilter() {
     chain.filter(invocation)
   }
 
-  private fun encodeRequest(encoder: SerializerMode?, request: RemoteRequest): ByteArray {
+  private fun encodeRequest(encoder: SerializerMode?, request: RpcRequest): ByteArray {
     encoder?.run {
       val transcoder = RemoteClientTranscoderManager.INSTANCE.getTranscoder(this)
       val buf = ByteBufAllocator.DEFAULT.buffer()

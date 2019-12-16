@@ -12,7 +12,7 @@ import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.core.transcoder.DecodeResult;
 import org.goblinframework.core.transcoder.GoblinTranscoderException;
 import org.goblinframework.core.transcoder.Transcoder;
-import org.goblinframework.remote.core.protocol.RemoteResponse;
+import org.goblinframework.rpc.protocol.RpcResponse;
 import org.jetbrains.annotations.NotNull;
 
 @GoblinManagedBean(type = "RemoteClient")
@@ -44,15 +44,15 @@ public class RemoteClientResponseDecoder extends GoblinManagedObject
           return result;
         }
         result.serializer = serializer;
-        if (!(decoded.result instanceof RemoteResponse)) {
+        if (!(decoded.result instanceof RpcResponse)) {
           result.error = new GoblinTranscoderException("Decode result is not RemoteResponse: " + decoded.result);
           return result;
         }
-        result.response = (RemoteResponse) decoded.result;
+        result.response = (RpcResponse) decoded.result;
       } else {
         // JSON encoded
         ObjectMapper mapper = JsonMapper.getDefaultObjectMapper();
-        RemoteResponse response = mapper.readValue((byte[]) decoded.result, RemoteResponse.class);
+        RpcResponse response = mapper.readValue((byte[]) decoded.result, RpcResponse.class);
         if (response == null) {
           result.error = new GoblinTranscoderException("Unrecognized RemoteResponse JSON");
           return result;
@@ -68,7 +68,7 @@ public class RemoteClientResponseDecoder extends GoblinManagedObject
   }
 
   final public static class ResponseDecodeResult {
-    public RemoteResponse response;
+    public RpcResponse response;
     public SerializerMode serializer;
     public Throwable error;
   }

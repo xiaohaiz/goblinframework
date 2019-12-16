@@ -8,11 +8,11 @@ import org.goblinframework.core.mapper.JsonMapper
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedLogger
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.remote.core.protocol.RemoteResponseCode
 import org.goblinframework.remote.server.invocation.RemoteServerEndpointMXBean
 import org.goblinframework.remote.server.invocation.RemoteServerInvocation
 import org.goblinframework.remote.server.invocation.RpcServerEndpoint
 import org.goblinframework.rpc.filter.RpcFilterChain
+import org.goblinframework.rpc.protocol.RpcResponseCode
 import java.util.concurrent.atomic.LongAdder
 
 @Singleton
@@ -57,7 +57,7 @@ class RpcServerInvocationEndpoint private constructor()
       logger.error("{SERVER_SERVICE_EXECUTION_ERROR} " +
           "Exception raised when executing service method [{}]",
           invocation.asText(), ex)
-      invocation.writeError(RemoteResponseCode.SERVER_SERVICE_EXECUTION_ERROR, ex)
+      invocation.writeError(RpcResponseCode.SERVER_SERVICE_EXECUTION_ERROR, ex)
     } finally {
       val current = System.currentTimeMillis()
       invocation.response.executionDuration = (current - invocation.response.executionTime)

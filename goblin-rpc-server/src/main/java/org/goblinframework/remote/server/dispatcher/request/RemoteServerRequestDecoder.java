@@ -14,7 +14,7 @@ import org.goblinframework.core.transcoder.DecodeResult;
 import org.goblinframework.core.transcoder.GoblinTranscoderException;
 import org.goblinframework.core.transcoder.Transcoder;
 import org.goblinframework.core.util.IOUtils;
-import org.goblinframework.remote.core.protocol.RemoteRequest;
+import org.goblinframework.rpc.protocol.RpcRequest;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
@@ -28,7 +28,7 @@ public class RemoteServerRequestDecoder extends GoblinManagedObject
   }
 
   final static class RequestDecodeResult {
-    RemoteRequest request;
+    RpcRequest request;
     Serializer serializer;
     Throwable error;
   }
@@ -59,16 +59,16 @@ public class RemoteServerRequestDecoder extends GoblinManagedObject
         return result;
       }
       result.serializer = serializer;
-      if (!(decodeResult.result instanceof RemoteRequest)) {
+      if (!(decodeResult.result instanceof RpcRequest)) {
         result.error = new GoblinTranscoderException("RemoteRequest required: " + decodeResult.result);
         return result;
       }
-      result.request = (RemoteRequest) decodeResult.result;
+      result.request = (RpcRequest) decodeResult.result;
     } else {
       String json = new String((byte[]) decodeResult.result, StandardCharsets.UTF_8);
-      RemoteRequest request;
+      RpcRequest request;
       try {
-        request = JsonMapper.asObject(json, RemoteRequest.class);
+        request = JsonMapper.asObject(json, RpcRequest.class);
       } catch (Exception ex) {
         result.error = ex;
         return result;

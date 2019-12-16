@@ -5,7 +5,7 @@ import org.goblinframework.core.mapper.JsonMapper;
 import org.goblinframework.core.util.ArrayUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.remote.client.invocation.RemoteClientInvocation;
-import org.goblinframework.remote.core.protocol.RemoteRequest;
+import org.goblinframework.rpc.protocol.RpcRequest;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -71,8 +71,8 @@ public class RemoteJsonClientInvocation extends RemoteClientInvocation {
 
   @NotNull
   @Override
-  public RemoteRequest createRequest() {
-    RemoteRequest request = new RemoteRequest();
+  public RpcRequest createRequest() {
+    RpcRequest request = new RpcRequest();
     request.serviceInterface = serviceId.getServiceInterface();
     request.serviceVersion = serviceId.getServiceVersion();
     request.methodName = methodName;

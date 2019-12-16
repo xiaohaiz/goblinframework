@@ -5,8 +5,8 @@ import org.goblinframework.core.event.GoblinEventListener
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedLogger
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.remote.core.protocol.RemoteResponseCode
 import org.goblinframework.remote.server.dispatcher.response.RemoteServerResponseDispatcher
+import org.goblinframework.rpc.protocol.RpcResponseCode
 
 @GoblinManagedBean("RemoteServer")
 @GoblinManagedLogger("goblin.remote.server.request")
@@ -29,7 +29,7 @@ class RemoteServerRequestEventListener internal constructor()
       logger.error("{SERVER_UNMARSHAL_REQUEST_ERROR} " +
           "Exception raised when decoding request [client={}]",
           invocation.context.asClientText(), this)
-      invocation.writeError(RemoteResponseCode.SERVER_DECODE_REQUEST_ERROR, this)
+      invocation.writeError(RpcResponseCode.SERVER_DECODE_REQUEST_ERROR, this)
       RemoteServerResponseDispatcher.INSTANCE.onResponse(invocation)
       return
     }

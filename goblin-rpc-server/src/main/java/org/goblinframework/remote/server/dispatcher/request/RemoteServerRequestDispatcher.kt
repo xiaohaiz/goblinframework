@@ -5,10 +5,10 @@ import org.goblinframework.core.event.EventBus
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedLogger
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.remote.core.protocol.RemoteResponseCode
 import org.goblinframework.remote.server.dispatcher.response.RemoteServerResponseDispatcher
 import org.goblinframework.remote.server.invocation.RemoteServerInvocation
 import org.goblinframework.remote.server.module.config.RemoteServerConfigManager
+import org.goblinframework.rpc.protocol.RpcResponseCode
 import org.goblinframework.transport.server.handler.TransportRequestContext
 import java.util.concurrent.atomic.AtomicReference
 
@@ -43,7 +43,7 @@ class RemoteServerRequestDispatcher private constructor()
       logger.error("{SERVER_BACK_PRESSURE_ERROR} " +
           "Remote server event ring buffer full, reject request from [{}]",
           invocation.context.asClientText())
-      invocation.writeError(RemoteResponseCode.SERVER_BACK_PRESSURE_ERROR)
+      invocation.writeError(RpcResponseCode.SERVER_BACK_PRESSURE_ERROR)
       RemoteServerResponseDispatcher.INSTANCE.onResponse(invocation)
     }
   }

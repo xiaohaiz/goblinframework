@@ -2,11 +2,11 @@ package org.goblinframework.remote.server.invocation.filter
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.util.ClassResolver
-import org.goblinframework.remote.core.protocol.RemoteResponseCode
 import org.goblinframework.remote.core.service.RemoteServiceId
 import org.goblinframework.remote.server.invocation.RemoteServerInvocation
 import org.goblinframework.remote.server.service.RemoteServiceManager
 import org.goblinframework.rpc.filter.RpcFilterChain
+import org.goblinframework.rpc.protocol.RpcResponseCode
 
 @Singleton
 class LocateServiceFilter private constructor() : AbstractInternalFilter() {
@@ -23,7 +23,7 @@ class LocateServiceFilter private constructor() : AbstractInternalFilter() {
       logger.error("{SERVER_SERVICE_NOT_FOUND_ERROR} " +
           "Service interface class can't be resolved [{}]",
           invocation.asText(), ex)
-      invocation.writeError(RemoteResponseCode.SERVER_SERVICE_NOT_FOUND_ERROR, ex)
+      invocation.writeError(RpcResponseCode.SERVER_SERVICE_NOT_FOUND_ERROR, ex)
       return
     }
 
@@ -33,7 +33,7 @@ class LocateServiceFilter private constructor() : AbstractInternalFilter() {
       logger.error("{SERVER_SERVICE_NOT_FOUND_ERROR} " +
           "Service not found [{}]",
           invocation.asText())
-      invocation.writeError(RemoteResponseCode.SERVER_SERVICE_NOT_FOUND_ERROR)
+      invocation.writeError(RpcResponseCode.SERVER_SERVICE_NOT_FOUND_ERROR)
       return
     }
 

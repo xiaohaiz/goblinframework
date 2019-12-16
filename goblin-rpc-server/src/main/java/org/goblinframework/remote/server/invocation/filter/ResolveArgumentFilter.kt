@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.mapper.JsonMapper
-import org.goblinframework.remote.core.protocol.RemoteResponseCode
 import org.goblinframework.remote.server.invocation.RemoteServerInvocation
 import org.goblinframework.rpc.filter.RpcFilterChain
+import org.goblinframework.rpc.protocol.RpcResponseCode
 
 @Singleton
 class ResolveArgumentFilter private constructor() : AbstractInternalFilter() {
@@ -30,7 +30,7 @@ class ResolveArgumentFilter private constructor() : AbstractInternalFilter() {
         logger.error("{SERVER_SERVICE_EXECUTION_ERROR} " +
             "Exception raised when resolving arguments [{}]",
             invocation.asText(), ex)
-        invocation.writeError(RemoteResponseCode.SERVER_SERVICE_EXECUTION_ERROR, ex)
+        invocation.writeError(RpcResponseCode.SERVER_SERVICE_EXECUTION_ERROR, ex)
         return
       }
     }
