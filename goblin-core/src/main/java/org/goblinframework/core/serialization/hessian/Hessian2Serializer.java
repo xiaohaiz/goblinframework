@@ -2,6 +2,7 @@ package org.goblinframework.core.serialization.hessian;
 
 import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;
+import com.caucho.hessian.io.HessianFactory;
 import io.netty.buffer.*;
 import io.netty.util.ReferenceCountUtil;
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -19,7 +20,10 @@ final public class Hessian2Serializer implements Serializer {
 
   public static final Hessian2Serializer INSTANCE = new Hessian2Serializer();
 
+  private final HessianFactory hessianFactory;
+
   private Hessian2Serializer() {
+    this.hessianFactory = _Hessian2FactoryKt.getHessianFactory();
   }
 
   @NotNull
@@ -35,13 +39,13 @@ final public class Hessian2Serializer implements Serializer {
     }
     Hessian2Output ho = null;
     try {
-      ho = GoblinHessianFactory.INSTANCE.createHessian2Output(outStream);
+      ho = hessianFactory.createHessian2Output(outStream);
       ho.writeObject(obj);
       ho.flush();
     } catch (Exception ex) {
       throw new GoblinSerializationException(ex);
     } finally {
-      GoblinHessianFactory.INSTANCE.freeHessian2Output(ho);
+      hessianFactory.freeHessian2Output(ho);
     }
   }
 
@@ -78,12 +82,12 @@ final public class Hessian2Serializer implements Serializer {
   public Object deserialize(@NotNull InputStream inStream) {
     Hessian2Input hi = null;
     try {
-      hi = GoblinHessianFactory.INSTANCE.createHessian2Input(inStream);
+      hi = hessianFactory.createHessian2Input(inStream);
       return hi.readObject();
     } catch (Exception ex) {
       throw new GoblinSerializationException(ex);
     } finally {
-      GoblinHessianFactory.INSTANCE.freeHessian2Input(hi);
+      hessianFactory.freeHessian2Input(hi);
     }
   }
 
