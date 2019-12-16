@@ -6,10 +6,10 @@ import org.goblinframework.api.reactor.GoblinPublisher;
 import org.goblinframework.api.rpc.NoResponseWait;
 import org.goblinframework.remote.client.module.config.RemoteClientConfig;
 import org.goblinframework.remote.client.module.config.RemoteClientConfigManager;
-import org.goblinframework.remote.core.util.ServiceVersionUtils;
 import org.goblinframework.rpc.service._ServiceEncoderKt;
 import org.goblinframework.rpc.service._ServiceRetriesKt;
 import org.goblinframework.rpc.service._ServiceTimeoutKt;
+import org.goblinframework.rpc.service._ServiceVersionKt;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
@@ -20,7 +20,7 @@ final class RemoteServiceInformationParser {
   static RemoteServiceInformation parse(@NotNull Class<?> interfaceClass) {
     RemoteClientConfig clientConfig = RemoteClientConfigManager.INSTANCE.getRemoteClientConfig();
 
-    String version = ServiceVersionUtils.calculateServerVersion(interfaceClass);
+    String version = _ServiceVersionKt.calculateServerVersion(interfaceClass);
     long timeout = _ServiceTimeoutKt.calculateServiceTimeout(interfaceClass, clientConfig.getMaxTimeout());
     int retries = _ServiceRetriesKt.calculateServiceRetries(interfaceClass);
     SerializerMode encoder = _ServiceEncoderKt.calculateServiceEncoder(interfaceClass, clientConfig.getSerializer());

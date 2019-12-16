@@ -3,7 +3,6 @@ package org.goblinframework.remote.core.util;
 import org.goblinframework.api.rpc.ExposeService;
 import org.goblinframework.api.rpc.ImportService;
 import org.goblinframework.api.rpc.ServiceVersion;
-import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.rpc.service._ServiceVersionKt;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,13 +23,6 @@ final public class ServiceVersionUtils {
   }
 
   @NotNull
-  public static String calculateServerVersion(@NotNull Class<?> interfaceClass) {
-    ServiceVersion serviceVersion = interfaceClass.getAnnotation(ServiceVersion.class);
-    String version = _ServiceVersionKt.calculateServerVersion(serviceVersion);
-    return StringUtils.defaultString(version, ServiceVersion.DEFAULT_VERSION);
-  }
-
-  @NotNull
   public static String calculateServerVersion(@NotNull ExposeService annotation) {
     if (!annotation.enable()) {
       throw new IllegalArgumentException();
@@ -39,7 +31,7 @@ final public class ServiceVersionUtils {
     if (version != null) {
       return version;
     }
-    return calculateServerVersion(annotation.interfaceClass());
+    return _ServiceVersionKt.calculateServerVersion(annotation.interfaceClass());
   }
 
 }
