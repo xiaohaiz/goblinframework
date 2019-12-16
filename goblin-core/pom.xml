@@ -168,6 +168,12 @@
       <artifactId>reactor-extra</artifactId>
       <version>3.3.1.RELEASE</version>
     </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>4.1.43.Final</version>
+      <optional>true</optional>
+    </dependency>
 
     <dependency>
       <groupId>org.goblinframework</groupId>

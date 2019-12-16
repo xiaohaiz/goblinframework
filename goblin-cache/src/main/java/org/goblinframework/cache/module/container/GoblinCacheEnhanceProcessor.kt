@@ -4,7 +4,7 @@ import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.cache.bean.GoblinCacheBeanManager
 import org.goblinframework.cache.exception.GoblinCacheException
 import org.goblinframework.core.container.SpringContainerBeanPostProcessor
-import org.goblinframework.core.util.ClassUtils
+import org.goblinframework.core.util.getDefaultClassLoader
 import org.springframework.aop.framework.ProxyFactory
 import java.lang.reflect.Modifier
 
@@ -34,6 +34,6 @@ class GoblinCacheEnhanceProcessor private constructor()
     proxyFactory.isProxyTargetClass = true
     proxyFactory.setTarget(bean)
     proxyFactory.addAdvice(interceptor)
-    return proxyFactory.getProxy(ClassUtils.getDefaultClassLoader())
+    return proxyFactory.getProxy(getDefaultClassLoader())
   }
 }

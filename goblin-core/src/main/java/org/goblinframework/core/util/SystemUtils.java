@@ -21,7 +21,7 @@ abstract public class SystemUtils extends org.apache.commons.lang3.SystemUtils {
     testRunnerFound = found;
 
     try {
-      ClassUtils.loadClass("io.netty.util.Version");
+      _ClassUtilsKt.loadClass("io.netty.util.Version", false);
       found = true;
     } catch (ClassNotFoundException ex) {
       found = false;
