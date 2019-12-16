@@ -5,10 +5,10 @@ import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.system.GoblinSystem
 import org.goblinframework.core.util.MapUtils
-import org.goblinframework.transport.core.codec.TransportMessage
-import org.goblinframework.transport.core.protocol.*
-import org.goblinframework.transport.core.protocol.reader.TransportRequestReader
-import org.goblinframework.transport.core.protocol.writer.TransportResponseWriter
+import org.goblinframework.transport.codec.TransportMessage
+import org.goblinframework.transport.protocol.*
+import org.goblinframework.transport.protocol.reader.TransportRequestReader
+import org.goblinframework.transport.protocol.writer.TransportResponseWriter
 import org.goblinframework.transport.server.handler.TransportRequestContext
 import java.net.InetSocketAddress
 import java.util.concurrent.ConcurrentHashMap

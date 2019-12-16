@@ -13,10 +13,10 @@ import org.goblinframework.core.util.RandomUtils
 import org.goblinframework.core.util.StringUtils
 import org.goblinframework.transport.client.handler.TransportResponseContext
 import org.goblinframework.transport.client.module.TransportClientModule
-import org.goblinframework.transport.core.codec.TransportMessage
-import org.goblinframework.transport.core.codec.TransportMessageDecoder
-import org.goblinframework.transport.core.codec.TransportMessageEncoder
-import org.goblinframework.transport.core.protocol.*
+import org.goblinframework.transport.codec.TransportMessage
+import org.goblinframework.transport.codec.TransportMessageDecoder
+import org.goblinframework.transport.codec.TransportMessageEncoder
+import org.goblinframework.transport.protocol.*
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import java.util.*

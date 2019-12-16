@@ -2,7 +2,7 @@ package org.goblinframework.transport.server.handler
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.system.GoblinSystem
-import org.goblinframework.transport.core.protocol.HandshakeRequest
+import org.goblinframework.transport.protocol.HandshakeRequest
 
 @Singleton
 class DefaultHandshakeRequestHandler private constructor() : HandshakeRequestHandler {

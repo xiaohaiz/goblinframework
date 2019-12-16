@@ -9,8 +9,8 @@ import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
 import org.goblinframework.api.function.Disposable
 import org.goblinframework.core.util.NetworkUtils
-import org.goblinframework.transport.core.codec.TransportMessageDecoder
-import org.goblinframework.transport.core.codec.TransportMessageEncoder
+import org.goblinframework.transport.codec.TransportMessageDecoder
+import org.goblinframework.transport.codec.TransportMessageEncoder
 import org.goblinframework.transport.server.setting.TransportServerSetting
 import java.net.InetSocketAddress
 import java.util.concurrent.TimeUnit

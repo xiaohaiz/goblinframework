@@ -1,9 +1,9 @@
 package org.goblinframework.transport.server.handler;
 
-import org.goblinframework.transport.core.codec.TransportMessage;
-import org.goblinframework.transport.core.protocol.TransportResponse;
-import org.goblinframework.transport.core.protocol.reader.TransportRequestReader;
-import org.goblinframework.transport.core.protocol.writer.TransportResponseWriter;
+import org.goblinframework.transport.codec.TransportMessage;
+import org.goblinframework.transport.protocol.TransportResponse;
+import org.goblinframework.transport.protocol.reader.TransportRequestReader;
+import org.goblinframework.transport.protocol.writer.TransportResponseWriter;
 import org.goblinframework.transport.server.channel.TransportServerChannel;
 
 import java.util.concurrent.ConcurrentHashMap;

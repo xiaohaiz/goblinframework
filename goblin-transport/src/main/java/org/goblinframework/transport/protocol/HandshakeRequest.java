@@ -1,4 +1,4 @@
-package org.goblinframework.transport.core.protocol;
+package org.goblinframework.transport.protocol;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

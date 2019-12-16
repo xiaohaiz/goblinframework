@@ -1,12 +1,12 @@
-package org.goblinframework.transport.core.protocol.writer
+package org.goblinframework.transport.protocol.writer
 
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.core.CompressorMode
 import org.goblinframework.core.compression.CompressorManager
 import org.goblinframework.core.serialization.SerializerManager
-import org.goblinframework.transport.core.protocol.TransportResponse
-import org.goblinframework.transport.core.protocol.TransportResponseException
-import org.goblinframework.transport.core.protocol.reader.TransportRequestReader
+import org.goblinframework.transport.protocol.TransportResponse
+import org.goblinframework.transport.protocol.TransportResponseException
+import org.goblinframework.transport.protocol.reader.TransportRequestReader
 import java.util.*
 
 @ThreadSafe

@@ -1,4 +1,4 @@
-package org.goblinframework.transport.core.codec;
+package org.goblinframework.transport.codec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;

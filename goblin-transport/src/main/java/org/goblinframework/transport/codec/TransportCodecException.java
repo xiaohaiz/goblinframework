@@ -1,4 +1,4 @@
-package org.goblinframework.transport.core.codec;
+package org.goblinframework.transport.codec;
 
 import org.goblinframework.api.core.GoblinException;
 

@@ -2,11 +2,11 @@ package org.goblinframework.transport.client.flight
 
 import org.goblinframework.api.function.Block1
 import org.goblinframework.transport.client.channel.TransportClient
-import org.goblinframework.transport.core.protocol.*
-import org.goblinframework.transport.core.protocol.reader.TransportRequestReader
-import org.goblinframework.transport.core.protocol.reader.TransportResponseReader
-import org.goblinframework.transport.core.protocol.writer.TransportRequestWriter
-import org.goblinframework.transport.core.protocol.writer.TransportResponseWriter
+import org.goblinframework.transport.protocol.*
+import org.goblinframework.transport.protocol.reader.TransportRequestReader
+import org.goblinframework.transport.protocol.reader.TransportResponseReader
+import org.goblinframework.transport.protocol.writer.TransportRequestWriter
+import org.goblinframework.transport.protocol.writer.TransportResponseWriter
 import java.util.concurrent.TimeUnit
 
 class MessageFlight

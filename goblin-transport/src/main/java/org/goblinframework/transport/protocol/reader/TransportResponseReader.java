@@ -1,4 +1,4 @@
-package org.goblinframework.transport.core.protocol.reader;
+package org.goblinframework.transport.protocol.reader;
 
 import kotlin.text.Charsets;
 import org.goblinframework.api.annotation.ThreadSafe;
@@ -9,10 +9,10 @@ import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
 import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.transport.core.protocol.TransportResponse;
-import org.goblinframework.transport.core.protocol.TransportResponseCode;
-import org.goblinframework.transport.core.protocol.TransportResponseException;
-import org.goblinframework.transport.core.protocol.TransportResponseReference;
+import org.goblinframework.transport.protocol.TransportResponse;
+import org.goblinframework.transport.protocol.TransportResponseCode;
+import org.goblinframework.transport.protocol.TransportResponseException;
+import org.goblinframework.transport.protocol.TransportResponseReference;
 
 import java.util.Objects;
 

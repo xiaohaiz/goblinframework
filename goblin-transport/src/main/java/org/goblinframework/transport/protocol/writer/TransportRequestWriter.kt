@@ -1,10 +1,10 @@
-package org.goblinframework.transport.core.protocol.writer
+package org.goblinframework.transport.protocol.writer
 
 import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.api.core.CompressorMode
 import org.goblinframework.core.compression.CompressorManager
 import org.goblinframework.core.serialization.SerializerManager
-import org.goblinframework.transport.core.protocol.TransportRequest
+import org.goblinframework.transport.protocol.TransportRequest
 
 @ThreadSafe
 class TransportRequestWriter(private val request: TransportRequest) {

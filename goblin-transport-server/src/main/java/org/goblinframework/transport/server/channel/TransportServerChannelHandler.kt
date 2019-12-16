@@ -2,7 +2,7 @@ package org.goblinframework.transport.server.channel
 
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
-import org.goblinframework.transport.core.codec.TransportMessage
+import org.goblinframework.transport.codec.TransportMessage
 import org.slf4j.LoggerFactory
 
 class TransportServerChannelHandler(private val channelManager: TransportServerChannelManager)

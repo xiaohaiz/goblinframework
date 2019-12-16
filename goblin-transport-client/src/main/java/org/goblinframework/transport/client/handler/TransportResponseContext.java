@@ -1,6 +1,6 @@
 package org.goblinframework.transport.client.handler;
 
-import org.goblinframework.transport.core.protocol.TransportResponse;
+import org.goblinframework.transport.protocol.TransportResponse;
 
 import java.util.concurrent.ConcurrentHashMap;
 

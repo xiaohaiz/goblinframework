@@ -1,7 +1,7 @@
 package org.goblinframework.transport.client.channel
 
-import org.goblinframework.transport.core.codec.TransportMessage
-import org.goblinframework.transport.core.protocol.TransportProtocol
+import org.goblinframework.transport.codec.TransportMessage
+import org.goblinframework.transport.protocol.TransportProtocol
 
 class TransportClientChannel(val state: TransportClientState,
                              val client: TransportClientImpl?) {
