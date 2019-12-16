@@ -1,9 +1,10 @@
-package org.goblinframework.transport.codec
+package org.goblinframework.transport.module.converter
 
 import com.fasterxml.jackson.databind.JsonNode
 import org.goblinframework.core.transcoder.DecodeResult
 import org.goblinframework.core.transcoder.GoblinTranscoderException
 import org.goblinframework.core.util.JsonUtils
+import org.goblinframework.transport.codec.TransportMessage
 import org.goblinframework.transport.protocol.*
 import org.springframework.core.convert.converter.Converter
 
