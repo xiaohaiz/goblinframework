@@ -1,6 +1,12 @@
 package org.goblinframework.rpc.service
 
 import org.goblinframework.api.rpc.ServiceRetries
+import java.lang.reflect.Method
+
+fun calculateServiceRetries(method: Method): Int? {
+  val serviceRetries = method.getAnnotation(ServiceRetries::class.java)
+  return calculateServiceRetries(serviceRetries)
+}
 
 fun calculateServiceRetries(annotation: ServiceRetries?): Int? {
   return annotation?.run {

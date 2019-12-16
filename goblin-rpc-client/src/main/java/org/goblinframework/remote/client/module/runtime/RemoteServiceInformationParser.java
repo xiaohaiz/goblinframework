@@ -10,6 +10,7 @@ import org.goblinframework.remote.core.util.ServiceRetriesUtils;
 import org.goblinframework.remote.core.util.ServiceTimeoutUtils;
 import org.goblinframework.remote.core.util.ServiceVersionUtils;
 import org.goblinframework.rpc.service._ServiceEncoderKt;
+import org.goblinframework.rpc.service._ServiceRetriesKt;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
@@ -41,7 +42,7 @@ final class RemoteServiceInformationParser {
   private static RemoteServiceMethodInformation parse(Method method,
                                                       RemoteServiceInformation serviceInformation) {
     Long timeout = ServiceTimeoutUtils.calculateServiceTimeout(method);
-    Integer retries = ServiceRetriesUtils.calculateServiceRetries(method);
+    Integer retries = _ServiceRetriesKt.calculateServiceRetries(method);
     SerializerMode encoder = _ServiceEncoderKt.calculateServiceEncoder(method);
     boolean asynchronous = false;
     boolean noResponseWait = false;
