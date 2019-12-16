@@ -2,6 +2,7 @@ package org.goblinframework.remote.core.util;
 
 import org.goblinframework.api.core.SerializerMode;
 import org.goblinframework.api.rpc.ServiceEncoder;
+import org.goblinframework.rpc.service._ServiceEncoderKt;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,22 +13,14 @@ final public class ServiceEncoderUtils {
   @NotNull
   public static SerializerMode calculateServiceEncoder(@NotNull Class<?> interfaceClass, @NotNull SerializerMode defaultSerializer) {
     ServiceEncoder annotation = interfaceClass.getAnnotation(ServiceEncoder.class);
-    SerializerMode serializer = calculateServiceEncoder(annotation);
+    SerializerMode serializer = _ServiceEncoderKt.calculateServiceEncoder(annotation);
     return serializer != null ? serializer : defaultSerializer;
   }
 
   @Nullable
   public static SerializerMode calculateServiceEncoder(@NotNull Method method) {
     ServiceEncoder serviceEncoder = method.getAnnotation(ServiceEncoder.class);
-    return calculateServiceEncoder(serviceEncoder);
-  }
-
-  @Nullable
-  public static SerializerMode calculateServiceEncoder(@Nullable ServiceEncoder annotation) {
-    if (annotation == null || !annotation.enable()) {
-      return null;
-    }
-    return annotation.serializer();
+    return _ServiceEncoderKt.calculateServiceEncoder(serviceEncoder);
   }
 
 }
