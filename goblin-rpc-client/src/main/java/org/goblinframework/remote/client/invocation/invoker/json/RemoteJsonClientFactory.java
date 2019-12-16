@@ -1,7 +1,7 @@
 package org.goblinframework.remote.client.invocation.invoker.json;
 
 import org.goblinframework.api.annotation.ThreadSafe;
-import org.goblinframework.remote.core.service.RemoteServiceId;
+import org.goblinframework.rpc.service.RemoteServiceId;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;

@@ -3,8 +3,8 @@ package org.goblinframework.remote.server.service;
 import org.goblinframework.api.rpc.ExposeService;
 import org.goblinframework.api.rpc.ExposeServices;
 import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.remote.core.service.RemoteServiceId;
 import org.goblinframework.remote.core.util.ServiceVersionUtils;
+import org.goblinframework.rpc.service.RemoteServiceId;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

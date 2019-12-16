@@ -6,7 +6,7 @@ import org.goblinframework.remote.client.dispatcher.request.RemoteClientRequestD
 import org.goblinframework.remote.client.invocation.RemoteClientInvoker;
 import org.goblinframework.remote.client.module.exception.ServerBackPressureException;
 import org.goblinframework.remote.client.module.monitor.RIC;
-import org.goblinframework.remote.core.service.RemoteServiceId;
+import org.goblinframework.rpc.service.RemoteServiceId;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

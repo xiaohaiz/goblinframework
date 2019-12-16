@@ -5,7 +5,7 @@ import org.goblinframework.remote.client.module.config.RemoteClientConfigManager
 import org.goblinframework.remote.client.module.monitor.RIC;
 import org.goblinframework.remote.client.service.RemoteServiceClient;
 import org.goblinframework.remote.client.service.RemoteServiceClientManager;
-import org.goblinframework.remote.core.service.RemoteServiceId;
+import org.goblinframework.rpc.service.RemoteServiceId;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

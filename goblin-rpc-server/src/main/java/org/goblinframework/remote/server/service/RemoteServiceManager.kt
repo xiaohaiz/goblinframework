@@ -10,10 +10,10 @@ import org.goblinframework.core.util.ClassUtils
 import org.goblinframework.core.util.HostAndPort
 import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.registry.zookeeper.ZookeeperRegistryPathKeeper
-import org.goblinframework.remote.core.service.RemoteServiceId
 import org.goblinframework.remote.server.module.exception.DuplicateServiceException
 import org.goblinframework.remote.server.transport.RemoteTransportServerManager
 import org.goblinframework.rpc.registry.RpcRegistryManager
+import org.goblinframework.rpc.service.RemoteServiceId
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.locks.ReentrantReadWriteLock

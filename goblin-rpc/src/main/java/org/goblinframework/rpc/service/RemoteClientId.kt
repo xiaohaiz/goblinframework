@@ -1,4 +1,4 @@
-package org.goblinframework.remote.core.service
+package org.goblinframework.rpc.service
 
 import org.goblinframework.api.annotation.HashSafe
 

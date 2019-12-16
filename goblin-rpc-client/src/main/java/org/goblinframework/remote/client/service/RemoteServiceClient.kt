@@ -9,7 +9,7 @@ import org.goblinframework.core.util.HttpUtils
 import org.goblinframework.registry.zookeeper.ZookeeperRegistryPathWatcher
 import org.goblinframework.remote.client.transport.RemoteTransportClient
 import org.goblinframework.remote.client.transport.RemoteTransportClientManager
-import org.goblinframework.remote.core.service.RemoteServiceId
+import org.goblinframework.rpc.service.RemoteServiceId
 import org.goblinframework.transport.client.channel.TransportClient
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean

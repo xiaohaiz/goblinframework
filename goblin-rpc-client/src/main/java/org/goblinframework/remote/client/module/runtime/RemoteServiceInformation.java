@@ -4,7 +4,7 @@ import org.goblinframework.api.core.SerializerMode;
 import org.goblinframework.core.service.GoblinManagedBean;
 import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.core.util.StringUtils;
-import org.goblinframework.remote.core.service.RemoteServiceId;
+import org.goblinframework.rpc.service.RemoteServiceId;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

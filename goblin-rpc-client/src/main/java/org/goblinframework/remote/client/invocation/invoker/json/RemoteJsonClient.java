@@ -1,7 +1,7 @@
 package org.goblinframework.remote.client.invocation.invoker.json;
 
 import org.goblinframework.remote.client.module.exception.ClientInvocationException;
-import org.goblinframework.remote.core.service.RemoteServiceId;
+import org.goblinframework.rpc.service.RemoteServiceId;
 import org.jetbrains.annotations.NotNull;
 
 final public class RemoteJsonClient {

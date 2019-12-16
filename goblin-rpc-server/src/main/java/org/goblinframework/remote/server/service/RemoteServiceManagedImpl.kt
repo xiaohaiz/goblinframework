@@ -2,7 +2,7 @@ package org.goblinframework.remote.server.service
 
 import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.core.util.HostAndPort
-import org.goblinframework.remote.core.service.RemoteServiceId
+import org.goblinframework.rpc.service.RemoteServiceId
 
 class RemoteServiceManagedImpl
 internal constructor(serviceId: RemoteServiceId,

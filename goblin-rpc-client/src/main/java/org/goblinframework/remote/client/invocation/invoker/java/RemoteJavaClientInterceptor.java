@@ -8,7 +8,7 @@ import org.goblinframework.remote.client.module.exception.ClientMethodNotFoundEx
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformation;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformationManager;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceMethodInformation;
-import org.goblinframework.remote.core.service.RemoteServiceId;
+import org.goblinframework.rpc.service.RemoteServiceId;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;

@@ -2,11 +2,11 @@ package org.goblinframework.remote.server.invocation.filter
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.util.ClassResolver
-import org.goblinframework.remote.core.service.RemoteServiceId
 import org.goblinframework.remote.server.invocation.RemoteServerInvocation
 import org.goblinframework.remote.server.service.RemoteServiceManager
 import org.goblinframework.rpc.filter.RpcFilterChain
 import org.goblinframework.rpc.protocol.RpcResponseCode
+import org.goblinframework.rpc.service.RemoteServiceId
 
 @Singleton
 class LocateServiceFilter private constructor() : AbstractInternalFilter() {

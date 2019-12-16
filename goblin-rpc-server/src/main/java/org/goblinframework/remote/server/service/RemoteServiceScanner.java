@@ -8,8 +8,8 @@ import org.goblinframework.core.event.GoblinEventChannel;
 import org.goblinframework.core.event.GoblinEventContext;
 import org.goblinframework.core.event.GoblinEventListener;
 import org.goblinframework.core.util.SystemUtils;
-import org.goblinframework.remote.core.service.RemoteServiceId;
 import org.goblinframework.remote.server.module.exception.ServiceCreationException;
+import org.goblinframework.rpc.service.RemoteServiceId;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 

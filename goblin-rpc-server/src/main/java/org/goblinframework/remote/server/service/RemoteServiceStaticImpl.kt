@@ -2,7 +2,7 @@ package org.goblinframework.remote.server.service
 
 import org.goblinframework.api.function.Disposable
 import org.goblinframework.core.util.HostAndPort
-import org.goblinframework.remote.core.service.RemoteServiceId
+import org.goblinframework.rpc.service.RemoteServiceId
 
 class RemoteServiceStaticImpl
 internal constructor(serviceId: RemoteServiceId,

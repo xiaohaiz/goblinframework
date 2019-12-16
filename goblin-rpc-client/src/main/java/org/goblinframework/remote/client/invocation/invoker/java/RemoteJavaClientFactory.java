@@ -6,8 +6,8 @@ import org.goblinframework.core.util.ProxyUtils;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformation;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformationManager;
-import org.goblinframework.remote.core.service.RemoteServiceId;
 import org.goblinframework.remote.core.util.ServiceVersionUtils;
+import org.goblinframework.rpc.service.RemoteServiceId;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
