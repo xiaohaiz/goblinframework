@@ -1,10 +1,13 @@
 package org.goblinframework.core.serialization.java;
 
+import io.netty.buffer.*;
+import io.netty.util.ReferenceCountUtil;
 import org.apache.commons.lang3.SerializationUtils;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.core.SerializerMode;
 import org.goblinframework.core.serialization.GoblinSerializationException;
 import org.goblinframework.core.serialization.Serializer;
+import org.goblinframework.core.util.SystemUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
@@ -43,10 +46,24 @@ final public class JavaSerializer implements Serializer {
     if (!(obj instanceof Serializable)) {
       throw GoblinSerializationException.requiredSerializable(obj);
     }
-    try {
-      return SerializationUtils.serialize((Serializable) obj);
-    } catch (Exception ex) {
-      throw new GoblinSerializationException(ex);
+    if (SystemUtils.isNettyFound()) {
+      ByteBuf buf = ByteBufAllocator.DEFAULT.buffer();
+      try {
+        try (ByteBufOutputStream bos = new ByteBufOutputStream(buf)) {
+          SerializationUtils.serialize((Serializable) obj, bos);
+        }
+        return ByteBufUtil.getBytes(buf);
+      } catch (Exception ex) {
+        throw new GoblinSerializationException(ex);
+      } finally {
+        ReferenceCountUtil.release(buf);
+      }
+    } else {
+      try {
+        return SerializationUtils.serialize((Serializable) obj);
+      } catch (Exception ex) {
+        throw new GoblinSerializationException(ex);
+      }
     }
   }
 
@@ -63,10 +80,24 @@ final public class JavaSerializer implements Serializer {
   @NotNull
   @Override
   public Object deserialize(@NotNull byte[] bs) {
-    try {
-      return SerializationUtils.deserialize(bs);
-    } catch (Exception ex) {
-      throw new GoblinSerializationException(ex);
+    if (SystemUtils.isNettyFound()) {
+      ByteBuf buf = ByteBufAllocator.DEFAULT.buffer();
+      try {
+        buf.writeBytes(bs);
+        try (ByteBufInputStream bis = new ByteBufInputStream(buf)) {
+          return SerializationUtils.deserialize(bis);
+        }
+      } catch (Exception ex) {
+        throw new GoblinSerializationException(ex);
+      } finally {
+        ReferenceCountUtil.release(buf);
+      }
+    } else {
+      try {
+        return SerializationUtils.deserialize(bs);
+      } catch (Exception ex) {
+        throw new GoblinSerializationException(ex);
+      }
     }
   }
 }
