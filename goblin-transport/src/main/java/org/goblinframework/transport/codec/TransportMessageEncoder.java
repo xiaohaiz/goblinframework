@@ -8,6 +8,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import org.goblinframework.core.serialization.Serializer;
 import org.goblinframework.core.serialization.SerializerManager;
 import org.goblinframework.core.transcoder.TranscoderSetting;
+import org.goblinframework.transport.exception.GoblinTransportCodecException;
 
 @ChannelHandler.Sharable
 public class TransportMessageEncoder extends MessageToByteEncoder<TransportMessage> {
@@ -26,13 +27,13 @@ public class TransportMessageEncoder extends MessageToByteEncoder<TransportMessa
   @Override
   protected void encode(ChannelHandlerContext ctx, TransportMessage msg, ByteBuf out) throws Exception {
     if (msg.message == null) {
-      throw new TransportCodecException("Encoding null message not allowed");
+      throw new GoblinTransportCodecException("Encoding null message not allowed");
     }
     Serializer serializer = null;
     if (msg.serializer != 0) {
       serializer = SerializerManager.INSTANCE.getSerializer(msg.serializer);
       if (serializer == null) {
-        throw new TransportCodecException("Serializer [" + msg.serializer + "] not found");
+        throw new GoblinTransportCodecException("Serializer [" + msg.serializer + "] not found");
       }
     }
     int startIdx = out.writerIndex();
