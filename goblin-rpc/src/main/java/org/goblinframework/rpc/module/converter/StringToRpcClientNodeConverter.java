@@ -1,4 +1,4 @@
-package org.goblinframework.remote.core.module.converter;
+package org.goblinframework.rpc.module.converter;
 
 import org.goblinframework.api.annotation.Install;
 import org.goblinframework.core.util.HttpUtils;
@@ -10,7 +10,7 @@ import org.springframework.core.convert.converter.Converter;
 import java.util.LinkedHashMap;
 
 @Install
-public class StringToRemoteClientNodeConverter implements Converter<String, RemoteClientNode> {
+public class StringToRpcClientNodeConverter implements Converter<String, RemoteClientNode> {
 
   @NotNull
   @Override

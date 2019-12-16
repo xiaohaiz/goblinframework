@@ -1,2 +1,2 @@
-org.goblinframework.remote.core.module.converter.StringToRemoteClientNodeConverter
-org.goblinframework.remote.core.module.converter.StringToRemoteServerNodeConverter
+org.goblinframework.rpc.module.converter.StringToRpcClientNodeConverter
+org.goblinframework.rpc.module.converter.StringToRpcServerNodeConverter
