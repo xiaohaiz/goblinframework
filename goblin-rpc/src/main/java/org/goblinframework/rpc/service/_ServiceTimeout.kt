@@ -1,6 +1,12 @@
 package org.goblinframework.rpc.service
 
 import org.goblinframework.api.rpc.ServiceTimeout
+import java.lang.reflect.Method
+
+fun calculateServiceTimeout(method: Method): Long? {
+  val serviceTimeout = method.getAnnotation(ServiceTimeout::class.java)
+  return calculateServiceTimeout(serviceTimeout)
+}
 
 fun calculateServiceTimeout(annotation: ServiceTimeout?): Long? {
   return annotation?.run {
