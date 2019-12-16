@@ -1,6 +1,7 @@
 package org.goblinframework.remote.core.util;
 
 import org.goblinframework.api.rpc.ServiceTimeout;
+import org.goblinframework.rpc.service._ServiceTimeoutKt;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,7 +11,7 @@ final public class ServiceTimeoutUtils {
 
   public static long calculateServiceTimeout(@NotNull Class<?> interfaceClass, long defaultTimeout) {
     ServiceTimeout annotation = interfaceClass.getAnnotation(ServiceTimeout.class);
-    Long timeout = calculateServiceTimeout(annotation);
+    Long timeout = _ServiceTimeoutKt.calculateServiceTimeout(annotation);
     if (timeout == null) {
       return defaultTimeout;
     }
@@ -20,20 +21,8 @@ final public class ServiceTimeoutUtils {
   @Nullable
   public static Long calculateServiceTimeout(@NotNull Method method) {
     ServiceTimeout serviceTimeout = method.getAnnotation(ServiceTimeout.class);
-    return calculateServiceTimeout(serviceTimeout);
+    return _ServiceTimeoutKt.calculateServiceTimeout(serviceTimeout);
   }
 
-  @Nullable
-  public static Long calculateServiceTimeout(@Nullable ServiceTimeout annotation) {
-    if (annotation == null || !annotation.enable()) {
-      return null;
-    }
-    int t = annotation.timeout();
-    if (t < 0) {
-      return null;
-    }
-    long timeout = annotation.unit().toMillis(t);
-    return timeout < 0 ? null : timeout;
-  }
 
 }
