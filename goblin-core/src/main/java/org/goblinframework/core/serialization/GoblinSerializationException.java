@@ -1,4 +1,4 @@
-package org.goblinframework.core.exception;
+package org.goblinframework.core.serialization;
 
 import org.goblinframework.api.core.GoblinException;
 import org.jetbrains.annotations.NotNull;

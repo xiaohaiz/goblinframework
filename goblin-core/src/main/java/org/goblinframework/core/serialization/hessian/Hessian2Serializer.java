@@ -2,10 +2,14 @@ package org.goblinframework.core.serialization.hessian;
 
 import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;
+import io.netty.buffer.*;
+import io.netty.util.ReferenceCountUtil;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.goblinframework.api.annotation.Singleton;
 import org.goblinframework.api.core.SerializerMode;
-import org.goblinframework.core.exception.GoblinSerializationException;
+import org.goblinframework.core.serialization.GoblinSerializationException;
 import org.goblinframework.core.serialization.Serializer;
+import org.goblinframework.core.util.SystemUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -47,11 +51,25 @@ final public class Hessian2Serializer implements Serializer {
     if (!(obj instanceof Serializable)) {
       throw GoblinSerializationException.requiredSerializable(obj);
     }
-    try (ByteArrayOutputStream bos = new ByteArrayOutputStream(512)) {
-      serialize(obj, bos);
-      return bos.toByteArray();
-    } catch (IOException ex) {
-      throw new GoblinSerializationException(ex);
+    if (SystemUtils.isNettyFound()) {
+      ByteBuf buf = ByteBufAllocator.DEFAULT.buffer();
+      try {
+        try (ByteBufOutputStream bos = new ByteBufOutputStream(buf)) {
+          serialize(obj, bos);
+        }
+        return ByteBufUtil.getBytes(buf);
+      } catch (IOException ex) {
+        throw new GoblinSerializationException(ex);
+      } finally {
+        ReferenceCountUtil.release(buf);
+      }
+    } else {
+      try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+        serialize(obj, bos);
+        return bos.toByteArray();
+      } catch (IOException ex) {
+        throw new GoblinSerializationException(ex);
+      }
     }
   }
 
@@ -72,10 +90,24 @@ final public class Hessian2Serializer implements Serializer {
   @NotNull
   @Override
   public Object deserialize(@NotNull byte[] bs) {
-    try (ByteArrayInputStream bis = new ByteArrayInputStream(bs)) {
-      return deserialize(bis);
-    } catch (IOException ex) {
-      throw new GoblinSerializationException(ex);
+    if (SystemUtils.isNettyFound()) {
+      ByteBuf buf = ByteBufAllocator.DEFAULT.buffer();
+      try {
+        buf.writeBytes(bs);
+        try (ByteBufInputStream bis = new ByteBufInputStream(buf)) {
+          return deserialize(bis);
+        }
+      } catch (IOException ex) {
+        throw new GoblinSerializationException(ex);
+      } finally {
+        ReferenceCountUtil.release(buf);
+      }
+    } else {
+      try (ByteArrayInputStream bis = new ByteArrayInputStream(bs)) {
+        return deserialize(bis);
+      } catch (IOException ex) {
+        throw new GoblinSerializationException(ex);
+      }
     }
   }
 }

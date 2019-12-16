@@ -2,7 +2,7 @@ package org.goblinframework.core.serialization.hessian
 
 import com.caucho.hessian.io.HessianFactory
 import com.caucho.hessian.io.SerializerFactory
-import org.goblinframework.core.util.ClassUtils
+import org.goblinframework.core.util.getDefaultClassLoader
 
 class GoblinHessianFactory private constructor() : HessianFactory() {
 
@@ -11,6 +11,6 @@ class GoblinHessianFactory private constructor() : HessianFactory() {
   }
 
   init {
-    serializerFactory = SerializerFactory(ClassUtils.getDefaultClassLoader())
+    serializerFactory = SerializerFactory(getDefaultClassLoader())
   }
 }
