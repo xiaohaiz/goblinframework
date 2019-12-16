@@ -3,8 +3,8 @@ package org.goblinframework.remote.server.service;
 import org.goblinframework.api.rpc.ExposeService;
 import org.goblinframework.api.rpc.ExposeServices;
 import org.goblinframework.core.util.ClassUtils;
-import org.goblinframework.remote.core.util.ServiceVersionUtils;
 import org.goblinframework.rpc.service.RemoteServiceId;
+import org.goblinframework.rpc.service._ServiceVersionKt;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ final public class RemoteServiceIdGenerator {
     if (!interfaceClass.isAssignableFrom(clazz)) {
       throw new UnsupportedOperationException(clazz.getName() + " does not implement " + interfaceClass.getName());
     }
-    String version = ServiceVersionUtils.calculateServerVersion(annotation);
+    String version = _ServiceVersionKt.calculateServerVersion(annotation);
     return new RemoteServiceId(interfaceClass.getName(), version);
   }
 }

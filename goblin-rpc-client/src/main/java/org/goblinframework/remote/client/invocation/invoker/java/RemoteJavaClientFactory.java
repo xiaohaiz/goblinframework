@@ -6,8 +6,8 @@ import org.goblinframework.core.util.ProxyUtils;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformation;
 import org.goblinframework.remote.client.module.runtime.RemoteServiceInformationManager;
-import org.goblinframework.remote.core.util.ServiceVersionUtils;
 import org.goblinframework.rpc.service.RemoteServiceId;
+import org.goblinframework.rpc.service._ServiceVersionKt;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,7 +42,7 @@ final public class RemoteJavaClientFactory {
     if (!field.getType().isAssignableFrom(interfaceClass)) {
       throw new IllegalArgumentException("Field [" + field.getType().getName() + "] is not [" + interfaceClass.getName() + "]");
     }
-    String version = ServiceVersionUtils.calculateServerVersion(field);
+    String version = _ServiceVersionKt.calculateServerVersion(field);
     return (E) createJavaClient(interfaceClass, version);
   }
 
