@@ -16,7 +16,7 @@ class RemoteRegistryConfigParser internal constructor() : BufferedConfigParser<R
 
   override fun initializeBean() {
     val mapping = ConfigManager.INSTANCE.getMapping()
-    (mapping["remote"] as? Map<*, *>)?.run {
+    (mapping["rpc"] as? Map<*, *>)?.run {
       val remote = this
       (remote["registry"] as? Map<*, *>)?.run {
         val registry = this

@@ -6,9 +6,9 @@ import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.core.util.NamedDaemonThreadFactory;
 import org.goblinframework.remote.core.protocol.RemoteResponseCode;
 import org.goblinframework.remote.server.dispatcher.response.RemoteServerResponseDispatcher;
-import org.goblinframework.remote.server.invocation.RemoteServerFilterChain;
 import org.goblinframework.remote.server.invocation.RemoteServerFilterManager;
 import org.goblinframework.remote.server.invocation.RemoteServerInvocation;
+import org.goblinframework.remote.server.invocation.RpcServerFilterChain;
 import org.goblinframework.remote.server.module.config.RemoteServerConfig;
 import org.goblinframework.remote.server.module.config.RemoteServerConfigManager;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +54,7 @@ public class RemoteServerRequestThreadPool extends GoblinManagedObject
     }
     executor.execute(() -> {
       try {
-        RemoteServerFilterChain chain = RemoteServerFilterManager.INSTANCE.createFilterChain();
+        RpcServerFilterChain chain = RemoteServerFilterManager.INSTANCE.createFilterChain();
         chain.filter(invocation);
       } finally {
         semaphore.release();

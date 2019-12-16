@@ -15,7 +15,7 @@ class RemoteServerConfigParser internal constructor() : BufferedConfigParser<Rem
   override fun initializeBean() {
     var mapper: RemoteServerConfigMapper? = null
     val mapping = ConfigManager.INSTANCE.getMapping()
-    (mapping["remote"] as? Map<*, *>)?.run {
+    (mapping["rpc"] as? Map<*, *>)?.run {
       val remote = this
       (remote["server"] as? Map<*, *>)?.run {
         mapper = JsonMapper.getDefaultObjectMapper().convertValue(this, RemoteServerConfigMapper::class.java)

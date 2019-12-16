@@ -4,7 +4,7 @@ import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedLogger
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.service.ServiceInstaller
-import org.goblinframework.remote.server.invocation.endpoint.RemoteServerInvocationEndpoint
+import org.goblinframework.remote.server.invocation.endpoint.RpcServerInvocationEndpoint
 import org.goblinframework.remote.server.invocation.filter.LocateMethodFilter
 import org.goblinframework.remote.server.invocation.filter.LocateServiceFilter
 import org.goblinframework.remote.server.invocation.filter.ResolveArgumentFilter
@@ -19,28 +19,28 @@ class RemoteServerFilterManager private constructor()
     @JvmField val INSTANCE = RemoteServerFilterManager()
   }
 
-  private val customized = mutableListOf<RemoteServerFilterDelegator>()
+  private val customized = mutableListOf<RpcServerFilterDelegator>()
 
   init {
-    ServiceInstaller.asList(RemoteServerFilter::class.java)
-        .map { RemoteServerFilterDelegator(it) }
+    ServiceInstaller.asList(RpcServerFilter::class.java)
+        .map { RpcServerFilterDelegator(it) }
         .sortedBy { it.order }
         .forEach { customized.add(it) }
   }
 
-  fun createFilterChain(): RemoteServerFilterChain {
-    val filters = mutableListOf<RemoteServerFilter>()
+  fun createFilterChain(): RpcServerFilterChain {
+    val filters = mutableListOf<RpcServerFilter>()
     filters.add(SendResponseFilter.INSTANCE)
     filters.add(LocateServiceFilter.INSTANCE)
     filters.add(LocateMethodFilter.INSTANCE)
     filters.add(ResolveArgumentFilter.INSTANCE)
     filters.addAll(customized)
-    filters.add(RemoteServerInvocationEndpoint.INSTANCE)
-    return RemoteServerFilterChainImpl(filters)
+    filters.add(RpcServerInvocationEndpoint.INSTANCE)
+    return RpcServerFilterChainImpl(filters)
   }
 
   override fun disposeBean() {
-    RemoteServerInvocationEndpoint.INSTANCE.dispose()
+    RpcServerInvocationEndpoint.INSTANCE.dispose()
     customized.sortedByDescending { it.order }.forEach { it.dispose() }
     ResolveArgumentFilter.INSTANCE.dispose()
     LocateMethodFilter.INSTANCE.dispose()
@@ -48,7 +48,7 @@ class RemoteServerFilterManager private constructor()
     SendResponseFilter.INSTANCE.dispose()
   }
 
-  class RemoteServerFilterChainImpl(private val filterList: List<RemoteServerFilter>) : RemoteServerFilterChain {
+  class RpcServerFilterChainImpl(private val filterList: List<RpcServerFilter>) : RpcServerFilterChain {
     private var position = 0
     override fun filter(context: RemoteServerInvocation) {
       if (position < filterList.size) {

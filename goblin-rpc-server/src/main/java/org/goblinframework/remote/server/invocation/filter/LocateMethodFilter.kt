@@ -2,9 +2,9 @@ package org.goblinframework.remote.server.invocation.filter
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.util.ReflectionUtils
-import org.goblinframework.remote.core.filter.RemoteFilterChain
 import org.goblinframework.remote.core.protocol.RemoteResponseCode
 import org.goblinframework.remote.server.invocation.RemoteServerInvocation
+import org.goblinframework.rpc.filter.RpcFilterChain
 
 @Singleton
 class LocateMethodFilter private constructor() : AbstractInternalFilter() {
@@ -13,7 +13,7 @@ class LocateMethodFilter private constructor() : AbstractInternalFilter() {
     @JvmField val INSTANCE = LocateMethodFilter()
   }
 
-  override fun doFilter(invocation: RemoteServerInvocation, chain: RemoteFilterChain<RemoteServerInvocation>) {
+  override fun doFilter(invocation: RemoteServerInvocation, chain: RpcFilterChain<RemoteServerInvocation>) {
     val request = invocation.request
     val interfaceClass = invocation.interfaceClass
     val methodName = request.methodName

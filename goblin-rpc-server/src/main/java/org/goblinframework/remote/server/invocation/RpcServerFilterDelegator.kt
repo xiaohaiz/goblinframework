@@ -1,14 +1,14 @@
-package org.goblinframework.remote.client.invocation
+package org.goblinframework.remote.server.invocation
 
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.remote.core.filter.RemoteFilterChain
+import org.goblinframework.rpc.filter.RpcFilterChain
 import java.util.concurrent.atomic.LongAdder
 
-@GoblinManagedBean("RemoteClient")
-class RemoteClientFilterDelegator
-internal constructor(private val filter: RemoteClientFilter)
-  : GoblinManagedObject(), RemoteClientFilter, RemoteClientFilterMXBean {
+@GoblinManagedBean("RemoteServer")
+class RpcServerFilterDelegator
+internal constructor(private val filter: RpcServerFilter)
+  : GoblinManagedObject(), RemoteServerFilterMXBean, RpcServerFilter {
 
   private val executionCount = LongAdder()
 
@@ -16,7 +16,7 @@ internal constructor(private val filter: RemoteClientFilter)
     return filter.order
   }
 
-  override fun filter(invocation: RemoteClientInvocation, chain: RemoteFilterChain<RemoteClientInvocation>) {
+  override fun filter(invocation: RemoteServerInvocation, chain: RpcFilterChain<RemoteServerInvocation>) {
     executionCount.increment()
     filter.filter(invocation, chain)
   }

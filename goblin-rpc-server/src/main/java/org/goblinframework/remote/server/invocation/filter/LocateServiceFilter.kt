@@ -2,11 +2,11 @@ package org.goblinframework.remote.server.invocation.filter
 
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.util.ClassResolver
-import org.goblinframework.remote.core.filter.RemoteFilterChain
 import org.goblinframework.remote.core.protocol.RemoteResponseCode
 import org.goblinframework.remote.core.service.RemoteServiceId
 import org.goblinframework.remote.server.invocation.RemoteServerInvocation
 import org.goblinframework.remote.server.service.RemoteServiceManager
+import org.goblinframework.rpc.filter.RpcFilterChain
 
 @Singleton
 class LocateServiceFilter private constructor() : AbstractInternalFilter() {
@@ -15,7 +15,7 @@ class LocateServiceFilter private constructor() : AbstractInternalFilter() {
     @JvmField val INSTANCE = LocateServiceFilter()
   }
 
-  override fun doFilter(invocation: RemoteServerInvocation, chain: RemoteFilterChain<RemoteServerInvocation>) {
+  override fun doFilter(invocation: RemoteServerInvocation, chain: RpcFilterChain<RemoteServerInvocation>) {
     val request = invocation.request
     try {
       invocation.interfaceClass = ClassResolver.resolve(request.serviceInterface)

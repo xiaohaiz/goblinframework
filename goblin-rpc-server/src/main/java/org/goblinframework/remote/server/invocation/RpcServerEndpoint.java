@@ -1,6 +1,6 @@
 package org.goblinframework.remote.server.invocation;
 
-public interface RemoteServerEndpoint extends RemoteServerFilter {
+public interface RpcServerEndpoint extends RpcServerFilter {
 
   @Override
   default int getOrder() {

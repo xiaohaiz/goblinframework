@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
 import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.mapper.JsonMapper
-import org.goblinframework.remote.core.filter.RemoteFilterChain
 import org.goblinframework.remote.core.protocol.RemoteResponseCode
 import org.goblinframework.remote.server.invocation.RemoteServerInvocation
+import org.goblinframework.rpc.filter.RpcFilterChain
 
 @Singleton
 class ResolveArgumentFilter private constructor() : AbstractInternalFilter() {
@@ -15,7 +15,7 @@ class ResolveArgumentFilter private constructor() : AbstractInternalFilter() {
     @JvmField val INSTANCE = ResolveArgumentFilter()
   }
 
-  override fun doFilter(invocation: RemoteServerInvocation, chain: RemoteFilterChain<RemoteServerInvocation>) {
+  override fun doFilter(invocation: RemoteServerInvocation, chain: RpcFilterChain<RemoteServerInvocation>) {
     val request = invocation.request
     if (!invocation.request.jsonMode) {
       var arguments = request.arguments

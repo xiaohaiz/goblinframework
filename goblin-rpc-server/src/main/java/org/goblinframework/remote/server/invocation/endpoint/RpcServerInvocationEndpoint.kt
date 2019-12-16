@@ -8,28 +8,28 @@ import org.goblinframework.core.mapper.JsonMapper
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedLogger
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.remote.core.filter.RemoteFilterChain
 import org.goblinframework.remote.core.protocol.RemoteResponseCode
-import org.goblinframework.remote.server.invocation.RemoteServerEndpoint
 import org.goblinframework.remote.server.invocation.RemoteServerEndpointMXBean
 import org.goblinframework.remote.server.invocation.RemoteServerInvocation
+import org.goblinframework.remote.server.invocation.RpcServerEndpoint
+import org.goblinframework.rpc.filter.RpcFilterChain
 import java.util.concurrent.atomic.LongAdder
 
 @Singleton
 @GoblinManagedBean("RemoteServer")
 @GoblinManagedLogger("goblin.remote.server.invocation")
-class RemoteServerInvocationEndpoint private constructor()
-  : GoblinManagedObject(), RemoteServerEndpoint, RemoteServerEndpointMXBean {
+class RpcServerInvocationEndpoint private constructor()
+  : GoblinManagedObject(), RpcServerEndpoint, RemoteServerEndpointMXBean {
 
   companion object {
-    @JvmField val INSTANCE = RemoteServerInvocationEndpoint()
+    @JvmField val INSTANCE = RpcServerInvocationEndpoint()
   }
 
   private val executionCount = LongAdder()
   private val successCount = LongAdder()
   private val failureCount = LongAdder()
 
-  override fun filter(invocation: RemoteServerInvocation, chain: RemoteFilterChain<RemoteServerInvocation>) {
+  override fun filter(invocation: RemoteServerInvocation, chain: RpcFilterChain<RemoteServerInvocation>) {
     executionCount.increment()
     try {
       invocation.response.executionTime = System.currentTimeMillis()

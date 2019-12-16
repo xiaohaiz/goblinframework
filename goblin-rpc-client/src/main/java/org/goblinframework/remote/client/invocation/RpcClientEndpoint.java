@@ -1,6 +1,6 @@
 package org.goblinframework.remote.client.invocation;
 
-public interface RemoteClientEndpoint extends RemoteClientFilter {
+public interface RpcClientEndpoint extends RpcClientFilter {
 
   @Override
   default int getOrder() {
