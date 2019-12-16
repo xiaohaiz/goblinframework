@@ -1,4 +1,4 @@
-package org.goblinframework.remote.core.module
+package org.goblinframework.rpc.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
@@ -6,7 +6,7 @@ import org.goblinframework.remote.core.module.config.RemoteRegistryConfigManager
 import org.goblinframework.remote.core.registry.RemoteRegistryManager
 
 @Install
-class RemoteModule : IModule {
+class RpcModule : IModule {
 
   override fun id(): GoblinModule {
     return GoblinModule.RPC
