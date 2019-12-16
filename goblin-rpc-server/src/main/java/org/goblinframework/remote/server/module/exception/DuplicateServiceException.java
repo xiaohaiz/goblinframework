@@ -1,8 +1,8 @@
 package org.goblinframework.remote.server.module.exception;
 
-import org.goblinframework.remote.core.module.exception.RemoteServerException;
+import org.goblinframework.rpc.exception.RpcServerException;
 
-public class DuplicateServiceException extends RemoteServerException {
+public class DuplicateServiceException extends RpcServerException {
   private static final long serialVersionUID = -3481266184989563805L;
 
   public DuplicateServiceException(String message) {

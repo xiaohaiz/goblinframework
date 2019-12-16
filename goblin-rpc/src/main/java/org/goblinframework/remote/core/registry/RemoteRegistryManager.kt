@@ -3,7 +3,7 @@ package org.goblinframework.remote.core.registry
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.registry.zookeeper.ZookeeperClientSetting
-import org.goblinframework.remote.core.module.config.RemoteRegistryConfigManager
+import org.goblinframework.rpc.module.config.RpcRegistryConfigManager
 import java.util.concurrent.atomic.AtomicReference
 
 @GoblinManagedBean("Remote")
@@ -17,7 +17,7 @@ class RemoteRegistryManager private constructor()
   private val registryReference = AtomicReference<RemoteRegistry?>()
 
   override fun initializeBean() {
-    RemoteRegistryConfigManager.INSTANCE.getRemoteRegistryConfig()?.run {
+    RpcRegistryConfigManager.INSTANCE.getRpcRegistryConfig()?.run {
       val config = this
       val client = ZookeeperClientSetting.builder()
           .addresses(config.getZookeeper())

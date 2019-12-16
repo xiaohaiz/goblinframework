@@ -1,9 +1,9 @@
-package org.goblinframework.remote.core.module.config
+package org.goblinframework.rpc.module.config
 
 import org.goblinframework.api.core.SerializerMode
 import java.lang.management.PlatformManagedObject
 
-interface RemoteRegistryConfigMXBean : PlatformManagedObject {
+interface RpcRegistryConfigMXBean : PlatformManagedObject {
 
   fun getZookeeper(): String
 

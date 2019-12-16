@@ -7,9 +7,9 @@ import org.goblinframework.core.util.MapUtils;
 import org.goblinframework.core.util.StringUtils;
 import org.goblinframework.remote.client.invocation.RemoteClientInvocation;
 import org.goblinframework.remote.client.module.exception.*;
-import org.goblinframework.remote.core.module.exception.RemoteException;
 import org.goblinframework.remote.core.protocol.RemoteResponse;
 import org.goblinframework.remote.core.protocol.RemoteResponseCode;
+import org.goblinframework.rpc.exception.RpcException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,8 +24,8 @@ public class RemoteClientResponseTranslator extends GoblinManagedObject
    * Return null in case of remote response returns SUCCESS.
    */
   @Nullable
-  RemoteException translate(@NotNull RemoteClientInvocation invocation,
-                            @NotNull RemoteResponse response) {
+  RpcException translate(@NotNull RemoteClientInvocation invocation,
+                         @NotNull RemoteResponse response) {
     RemoteResponseCode code = RemoteResponseCode.parse(response.code);
     if (code == null) {
       throw new ClientUnknownResponseCodeException(response.code);

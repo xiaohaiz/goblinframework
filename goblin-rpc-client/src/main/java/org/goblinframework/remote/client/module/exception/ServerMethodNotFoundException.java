@@ -1,8 +1,8 @@
 package org.goblinframework.remote.client.module.exception;
 
-import org.goblinframework.remote.core.module.exception.RemoteServerException;
+import org.goblinframework.rpc.exception.RpcServerException;
 
-public class ServerMethodNotFoundException extends RemoteServerException {
+public class ServerMethodNotFoundException extends RpcServerException {
   private static final long serialVersionUID = 6299786083174958916L;
 
   public ServerMethodNotFoundException(String message) {

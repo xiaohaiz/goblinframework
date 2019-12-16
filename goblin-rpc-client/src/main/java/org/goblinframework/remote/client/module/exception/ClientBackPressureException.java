@@ -1,7 +1,7 @@
 package org.goblinframework.remote.client.module.exception;
 
-import org.goblinframework.remote.core.module.exception.RemoteClientException;
+import org.goblinframework.rpc.exception.RpcClientException;
 
-public class ClientBackPressureException extends RemoteClientException {
+public class ClientBackPressureException extends RpcClientException {
   private static final long serialVersionUID = -6873271863427232954L;
 }

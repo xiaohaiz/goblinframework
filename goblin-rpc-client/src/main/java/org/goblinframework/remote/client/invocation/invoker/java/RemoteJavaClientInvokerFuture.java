@@ -6,7 +6,7 @@ import org.goblinframework.core.concurrent.GoblinInterruptedException;
 import org.goblinframework.core.concurrent.GoblinTimeoutException;
 import org.goblinframework.remote.client.module.exception.ClientInvocationException;
 import org.goblinframework.remote.client.module.monitor.RIC;
-import org.goblinframework.remote.core.module.exception.RemoteException;
+import org.goblinframework.rpc.exception.RpcException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,8 +33,8 @@ public class RemoteJavaClientInvokerFuture extends GoblinFutureImpl<Object> {
       throw new GoblinTimeoutException(ex);
     } catch (ExecutionException ex) {
       Throwable cause = ex.getCause();
-      if (cause instanceof RemoteException) {
-        throw (RemoteException) cause;
+      if (cause instanceof RpcException) {
+        throw (RpcException) cause;
       }
       throw new ClientInvocationException(cause);
     }

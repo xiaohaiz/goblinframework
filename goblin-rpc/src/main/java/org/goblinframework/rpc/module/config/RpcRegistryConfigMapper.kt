@@ -1,9 +1,9 @@
-package org.goblinframework.remote.core.module.config
+package org.goblinframework.rpc.module.config
 
 import org.goblinframework.api.core.SerializerMode
 import java.io.Serializable
 
-class RemoteRegistryConfigMapper : Serializable {
+class RpcRegistryConfigMapper : Serializable {
 
   var zookeeper: String? = null
   var connectionTimeout: Int? = null

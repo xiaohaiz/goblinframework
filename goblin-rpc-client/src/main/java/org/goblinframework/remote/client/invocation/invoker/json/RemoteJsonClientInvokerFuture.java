@@ -10,7 +10,7 @@ import org.goblinframework.core.exception.GoblinMappingException;
 import org.goblinframework.core.mapper.JsonMapper;
 import org.goblinframework.remote.client.module.exception.ClientInvocationException;
 import org.goblinframework.remote.client.module.monitor.RIC;
-import org.goblinframework.remote.core.module.exception.RemoteException;
+import org.goblinframework.rpc.exception.RpcException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,8 +40,8 @@ final public class RemoteJsonClientInvokerFuture extends GoblinFutureImpl<String
       throw new GoblinTimeoutException(ex);
     } catch (ExecutionException ex) {
       Throwable cause = ex.getCause();
-      if (cause instanceof RemoteException) {
-        throw (RemoteException) cause;
+      if (cause instanceof RpcException) {
+        throw (RpcException) cause;
       }
       throw new ClientInvocationException(cause);
     }
