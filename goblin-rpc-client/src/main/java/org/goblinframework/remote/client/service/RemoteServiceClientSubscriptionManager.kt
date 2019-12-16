@@ -10,8 +10,8 @@ import org.goblinframework.core.util.GoblinReferenceCount
 import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.core.util.SystemUtils
 import org.goblinframework.registry.zookeeper.ZookeeperRegistryPathKeeper
-import org.goblinframework.remote.core.registry.RemoteClientNode
 import org.goblinframework.remote.core.registry.RemoteRegistry
+import org.goblinframework.rpc.registry.RpcClientNode
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
@@ -29,7 +29,7 @@ internal constructor(val registry: RemoteRegistry)
   private val buffer = mutableMapOf<String, ReferenceCount>()
 
   init {
-    val node = RemoteClientNode()
+    val node = RpcClientNode()
     node.clientId = GoblinSystem.applicationId()
     node.clientName = GoblinSystem.applicationName()
     node.clientHost = NetworkUtils.getLocalAddress()

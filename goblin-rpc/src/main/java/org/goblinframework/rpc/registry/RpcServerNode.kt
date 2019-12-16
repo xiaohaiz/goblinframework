@@ -1,8 +1,8 @@
-package org.goblinframework.remote.core.registry
+package org.goblinframework.rpc.registry
 
 import org.goblinframework.core.util.HttpUtils
 
-class RemoteServerNode {
+class RpcServerNode {
 
   var serverId: String? = null
   var serverName: String? = null

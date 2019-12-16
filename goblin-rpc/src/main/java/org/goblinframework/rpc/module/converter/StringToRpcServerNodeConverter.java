@@ -3,20 +3,20 @@ package org.goblinframework.rpc.module.converter;
 import org.goblinframework.api.annotation.Install;
 import org.goblinframework.core.util.HttpUtils;
 import org.goblinframework.core.util.NumberUtils;
-import org.goblinframework.remote.core.registry.RemoteServerNode;
+import org.goblinframework.rpc.registry.RpcServerNode;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.LinkedHashMap;
 
 @Install
-public class StringToRpcServerNodeConverter implements Converter<String, RemoteServerNode> {
+public class StringToRpcServerNodeConverter implements Converter<String, RpcServerNode> {
 
   @NotNull
   @Override
-  public RemoteServerNode convert(@NotNull String source) {
+  public RpcServerNode convert(@NotNull String source) {
     LinkedHashMap<String, String> map = HttpUtils.parseQueryString(source);
-    RemoteServerNode node = new RemoteServerNode();
+    RpcServerNode node = new RpcServerNode();
     node.setServerId(map.get("serverId"));
     node.setServerName(map.get("serverName"));
     node.setServerHost(map.get("serverHost"));

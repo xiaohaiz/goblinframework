@@ -7,10 +7,10 @@ import org.goblinframework.core.system.GoblinSystem;
 import org.goblinframework.core.util.HostAndPort;
 import org.goblinframework.core.util.ReflectionUtils;
 import org.goblinframework.registry.zookeeper.ZookeeperRegistryPathKeeper;
-import org.goblinframework.remote.core.registry.RemoteServerNode;
 import org.goblinframework.remote.core.service.RemoteServiceId;
 import org.goblinframework.remote.server.module.config.RemoteServerConfig;
 import org.goblinframework.remote.server.module.config.RemoteServerConfigManager;
+import org.goblinframework.rpc.registry.RpcServerNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,7 +68,7 @@ abstract public class RemoteService extends GoblinManagedObject
     RemoteServerConfig serverConfig = RemoteServerConfigManager.INSTANCE.getRemoteServerConfig();
     List<String> servicePathList = new ArrayList<>();
     for (HostAndPort address : serverAddresses) {
-      RemoteServerNode node = new RemoteServerNode();
+      RpcServerNode node = new RpcServerNode();
       node.setServerId(GoblinSystem.applicationId());
       node.setServerName(GoblinSystem.applicationName());
       node.setServerHost(address.host);
