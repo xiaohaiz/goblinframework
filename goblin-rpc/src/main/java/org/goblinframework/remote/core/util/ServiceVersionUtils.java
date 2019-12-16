@@ -20,7 +20,7 @@ final public class ServiceVersionUtils {
       return version;
     }
     ImportService importService = field.getAnnotation(ImportService.class);
-    return calculateServerVersion(importService);
+    return _ServiceVersionKt.calculateServerVersion(importService);
   }
 
   @NotNull
@@ -40,14 +40,6 @@ final public class ServiceVersionUtils {
       return version;
     }
     return calculateServerVersion(annotation.interfaceClass());
-  }
-
-  @Nullable
-  public static String calculateServerVersion(@Nullable ImportService annotation) {
-    if (annotation == null || !annotation.enable()) {
-      return null;
-    }
-    return _ServiceVersionKt.calculateServerVersion(annotation.version());
   }
 
 }
