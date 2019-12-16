@@ -5,8 +5,8 @@ import org.goblinframework.api.annotation.ThreadSafe
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedLogger
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.remote.core.registry.RemoteRegistryManager
 import org.goblinframework.remote.core.service.RemoteServiceId
+import org.goblinframework.rpc.registry.RpcRegistryManager
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
@@ -28,7 +28,7 @@ class RemoteServiceClientManager private constructor()
   private val buffer = mutableMapOf<RemoteServiceId, RemoteServiceClient>()
 
   override fun initializeBean() {
-    RemoteRegistryManager.INSTANCE.getRemoteRegistry()?.run {
+    RpcRegistryManager.INSTANCE.getRpcRegistry()?.run {
       subscriptionManagerReference.set(RemoteServiceClientSubscriptionManager(this))
     }
   }

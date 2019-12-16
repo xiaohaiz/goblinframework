@@ -10,8 +10,8 @@ import org.goblinframework.core.util.GoblinReferenceCount
 import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.core.util.SystemUtils
 import org.goblinframework.registry.zookeeper.ZookeeperRegistryPathKeeper
-import org.goblinframework.remote.core.registry.RemoteRegistry
 import org.goblinframework.rpc.registry.RpcClientNode
+import org.goblinframework.rpc.registry.RpcRegistry
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
@@ -20,7 +20,7 @@ import kotlin.concurrent.withLock
 @GoblinManagedBean("RemoteClient")
 @GoblinManagedLogger("goblin.remote.client.service")
 class RemoteServiceClientSubscriptionManager
-internal constructor(val registry: RemoteRegistry)
+internal constructor(val registry: RpcRegistry)
   : GoblinManagedObject(), RemoteServiceClientSubscriptionManagerMXBean {
 
   private val path: String

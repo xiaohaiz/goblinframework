@@ -1,4 +1,4 @@
-package org.goblinframework.remote.core.registry
+package org.goblinframework.rpc.registry
 
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
@@ -6,15 +6,15 @@ import org.goblinframework.registry.zookeeper.ZookeeperClientSetting
 import org.goblinframework.rpc.module.config.RpcRegistryConfigManager
 import java.util.concurrent.atomic.AtomicReference
 
-@GoblinManagedBean("Remote")
-class RemoteRegistryManager private constructor()
-  : GoblinManagedObject(), RemoteRegistryManagerMXBean {
+@GoblinManagedBean("Rpc")
+class RpcRegistryManager private constructor()
+  : GoblinManagedObject(), RpcRegistryManagerMXBean {
 
   companion object {
-    @JvmField val INSTANCE = RemoteRegistryManager()
+    @JvmField val INSTANCE = RpcRegistryManager()
   }
 
-  private val registryReference = AtomicReference<RemoteRegistry?>()
+  private val registryReference = AtomicReference<RpcRegistry?>()
 
   override fun initializeBean() {
     RpcRegistryConfigManager.INSTANCE.getRpcRegistryConfig()?.run {
@@ -26,12 +26,12 @@ class RemoteRegistryManager private constructor()
           .serializer(config.getSerializer())
           .build()
           .createZookeeperClient()
-      val registry = RemoteRegistry(client)
+      val registry = RpcRegistry(client)
       registryReference.set(registry)
     }
   }
 
-  override fun getRemoteRegistry(): RemoteRegistry? {
+  override fun getRpcRegistry(): RpcRegistry? {
     return registryReference.get()
   }
 

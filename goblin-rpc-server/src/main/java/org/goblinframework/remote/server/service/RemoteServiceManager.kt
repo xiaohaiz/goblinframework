@@ -10,10 +10,10 @@ import org.goblinframework.core.util.ClassUtils
 import org.goblinframework.core.util.HostAndPort
 import org.goblinframework.core.util.NetworkUtils
 import org.goblinframework.registry.zookeeper.ZookeeperRegistryPathKeeper
-import org.goblinframework.remote.core.registry.RemoteRegistryManager
 import org.goblinframework.remote.core.service.RemoteServiceId
 import org.goblinframework.remote.server.module.exception.DuplicateServiceException
 import org.goblinframework.remote.server.transport.RemoteTransportServerManager
+import org.goblinframework.rpc.registry.RpcRegistryManager
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.locks.ReentrantReadWriteLock
@@ -56,7 +56,7 @@ class RemoteServiceManager private constructor()
         addresses.add(HostAndPort(host, port))
       }
     }
-    RemoteRegistryManager.INSTANCE.getRemoteRegistry()?.run {
+    RpcRegistryManager.INSTANCE.getRpcRegistry()?.run {
       val keeper = this.createKeeper().scheduler(1, TimeUnit.MINUTES)
       keeper.initialize()
       keeperReference.set(keeper)

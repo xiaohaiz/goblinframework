@@ -2,8 +2,8 @@ package org.goblinframework.rpc.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
-import org.goblinframework.remote.core.registry.RemoteRegistryManager
 import org.goblinframework.rpc.module.config.RpcRegistryConfigManager
+import org.goblinframework.rpc.registry.RpcRegistryManager
 
 @Install
 class RpcModule : IModule {
@@ -22,7 +22,7 @@ class RpcModule : IModule {
 
   override fun initialize(ctx: ModuleInitializeContext) {
     RpcRegistryConfigManager.INSTANCE.initialize()
-    RemoteRegistryManager.INSTANCE.initialize()
+    RpcRegistryManager.INSTANCE.initialize()
     ctx.createSubModules()
         .module(GoblinSubModule.RPC_CLIENT)
         .next()
@@ -36,7 +36,7 @@ class RpcModule : IModule {
         .next()
         .module(GoblinSubModule.RPC_CLIENT)
         .finalize(ctx)
-    RemoteRegistryManager.INSTANCE.dispose()
+    RpcRegistryManager.INSTANCE.dispose()
     RpcRegistryConfigManager.INSTANCE.dispose()
   }
 }

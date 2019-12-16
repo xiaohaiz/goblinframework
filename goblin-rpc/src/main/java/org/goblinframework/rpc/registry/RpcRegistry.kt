@@ -1,4 +1,4 @@
-package org.goblinframework.remote.core.registry
+package org.goblinframework.rpc.registry
 
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
@@ -7,9 +7,9 @@ import org.goblinframework.registry.zookeeper.ZookeeperRegistryFactory
 import org.goblinframework.registry.zookeeper.ZookeeperRegistryPathKeeper
 import org.goblinframework.registry.zookeeper.ZookeeperRegistryPathWatcher
 
-@GoblinManagedBean("Remote")
-class RemoteRegistry internal constructor(private val client: ZookeeperClient)
-  : GoblinManagedObject(), RemoteRegistryMXBean {
+@GoblinManagedBean("Rpc")
+class RpcRegistry internal constructor(private val client: ZookeeperClient)
+  : GoblinManagedObject(), RpcRegistryMXBean {
 
   private val registry = ZookeeperRegistryFactory.createZookeeperRegistry(client)
 

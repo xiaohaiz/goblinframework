@@ -1,4 +1,4 @@
-package org.goblinframework.remote.core.registry
+package org.goblinframework.rpc.registry
 
 import org.goblinframework.test.runner.GoblinTestRunner
 import org.junit.Assert.assertNotNull
@@ -8,12 +8,12 @@ import org.springframework.test.context.ContextConfiguration
 
 @RunWith(GoblinTestRunner::class)
 @ContextConfiguration("/UT.xml")
-class RemoteRegistryManagerTest {
+class RpcRegistryManagerTest {
 
   @Test
-  fun getRemoteRegistry() {
-    val rm = RemoteRegistryManager.INSTANCE
-    val r = rm.getRemoteRegistry()
+  fun getRpcRegistry() {
+    val rm = RpcRegistryManager.INSTANCE
+    val r = rm.getRpcRegistry()
     assertNotNull(r)
   }
 }
