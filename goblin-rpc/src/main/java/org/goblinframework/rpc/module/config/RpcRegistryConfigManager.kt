@@ -5,7 +5,7 @@ import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 
 @Singleton
-@GoblinManagedBean("Remote")
+@GoblinManagedBean("Rpc")
 class RpcRegistryConfigManager private constructor()
   : GoblinManagedObject(), RpcRegistryConfigManagerMXBean {
 
