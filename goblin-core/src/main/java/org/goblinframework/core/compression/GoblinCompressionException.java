@@ -1,4 +1,4 @@
-package org.goblinframework.core.exception;
+package org.goblinframework.core.compression;
 
 import org.goblinframework.api.core.GoblinException;
 

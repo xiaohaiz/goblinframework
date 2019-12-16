@@ -1,6 +1,5 @@
 package org.goblinframework.core.util;
 
-import org.goblinframework.core.exception.GoblinNetworkException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

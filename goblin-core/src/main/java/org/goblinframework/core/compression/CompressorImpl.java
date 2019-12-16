@@ -1,7 +1,6 @@
 package org.goblinframework.core.compression;
 
 import org.goblinframework.api.core.CompressorMode;
-import org.goblinframework.core.exception.GoblinCompressionException;
 import org.goblinframework.core.service.GoblinManagedBean;
 import org.goblinframework.core.service.GoblinManagedObject;
 import org.goblinframework.core.util.StopWatch;
