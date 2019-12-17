@@ -15,12 +15,13 @@ import javax.servlet.ServletInputStream
 
 class NettyHttpServletRequest(private val ctx: ChannelHandlerContext,
                               private val request: FullHttpRequest,
-                              private val decoder: QueryStringDecoder,
+                              requestBody: ByteArray,
+                              decoder: QueryStringDecoder,
                               private val contextPath: String,
                               private val path: String)
   : AbstractHttpServletRequest() {
 
-  private val inputStream = NettyServletInputStream(request)
+  private val inputStream = NettyServletInputStream(requestBody)
   private val parameters = LinkedMultiValueMap<String, String>()
   private val query: String
 

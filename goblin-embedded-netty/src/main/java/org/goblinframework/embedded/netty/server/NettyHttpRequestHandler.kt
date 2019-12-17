@@ -1,5 +1,6 @@
 package org.goblinframework.embedded.netty.server
 
+import io.netty.buffer.ByteBufUtil
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 import io.netty.handler.codec.http.FullHttpRequest
@@ -16,14 +17,19 @@ class NettyHttpRequestHandler(private val setting: ServerSetting,
                               private val executor: ThreadPoolExecutor) : SimpleChannelInboundHandler<FullHttpRequest>() {
 
   override fun channelRead0(ctx: ChannelHandlerContext, msg: FullHttpRequest) {
-    executor.submit { onRequest(ctx, msg) }
+    val requestBody = if (msg.content().isReadable) {
+      ByteBufUtil.getBytes(msg.content())
+    } else {
+      ByteArray(0)
+    }
+    executor.submit { onRequest(ctx, msg, requestBody) }
   }
 
   override fun exceptionCaught(ctx: ChannelHandlerContext?, cause: Throwable?) {
     ctx?.close()
   }
 
-  private fun onRequest(ctx: ChannelHandlerContext, msg: FullHttpRequest) {
+  private fun onRequest(ctx: ChannelHandlerContext, msg: FullHttpRequest, requestBody: ByteArray) {
     val response = NettyHttpServletResponse(ctx)
 
     val decoder = QueryStringDecoder(msg.uri(), Charsets.UTF_8)
@@ -46,7 +52,7 @@ class NettyHttpRequestHandler(private val setting: ServerSetting,
       return
     }
 
-    val request = NettyHttpServletRequest(ctx, msg, decoder, handlerSetting.contextPath(), path)
+    val request = NettyHttpServletRequest(ctx, msg, requestBody, decoder, handlerSetting.contextPath(), path)
     try {
       handler.handle(GoblinServletRequest(request), GoblinServletResponse(response))
     } catch (ex: Exception) {

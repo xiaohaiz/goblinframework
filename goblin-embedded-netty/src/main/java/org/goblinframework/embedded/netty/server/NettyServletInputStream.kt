@@ -1,25 +1,12 @@
 package org.goblinframework.embedded.netty.server
 
-import io.netty.handler.codec.http.FullHttpRequest
 import java.io.ByteArrayInputStream
 import javax.servlet.ReadListener
 import javax.servlet.ServletInputStream
 
-class NettyServletInputStream(request: FullHttpRequest) : ServletInputStream() {
+class NettyServletInputStream(private val requestBody: ByteArray) : ServletInputStream() {
 
-  private val requestBody: ByteArray
-  private val inputStream: ByteArrayInputStream
-
-  init {
-    val content = request.content()
-    if (content.isReadable) {
-      requestBody = ByteArray(content.readableBytes())
-      content.readBytes(requestBody)
-    } else {
-      requestBody = ByteArray(0)
-    }
-    inputStream = ByteArrayInputStream(requestBody)
-  }
+  private val inputStream = ByteArrayInputStream(requestBody)
 
   fun content(): ByteArray {
     return requestBody
