@@ -3,17 +3,14 @@ package org.goblinframework.example.embedded.controller
 import org.goblinframework.example.embedded.utils.AuthUtils
 import org.goblinframework.webmvc.servlet.GoblinServletRequest
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestAttribute
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.*
 import java.io.Serializable
 
 @Controller
 @RequestMapping("/")
 class IndexController {
 
-  class ResponseData(val code: Int, val info: String): Serializable {
+  class ResponseData(val code: Int, val info: String) : Serializable {
 
     companion object {
       private const val serialVersionUID = -4568367284300289602L
@@ -35,6 +32,12 @@ class IndexController {
   @RequestMapping("index.goblin")
   fun index(): String {
     return "index"
+  }
+
+  @RequestMapping("postJson.goblin", method = [RequestMethod.POST])
+  @ResponseBody
+  fun postJson(@RequestBody s: String): String {
+    return "ok"
   }
 
   @RequestMapping("json.goblin")

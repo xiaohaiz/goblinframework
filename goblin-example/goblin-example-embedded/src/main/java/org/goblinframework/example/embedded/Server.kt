@@ -47,7 +47,7 @@ class Server : StandaloneServer() {
 
     val serverSetting = ServerSetting.builder()
         .name("GOBLIN")
-        .mode(EmbeddedServerMode.JETTY)
+        .mode(EmbeddedServerMode.NETTY)
         .applyNetworkSetting {
           it.port(9797)
         }

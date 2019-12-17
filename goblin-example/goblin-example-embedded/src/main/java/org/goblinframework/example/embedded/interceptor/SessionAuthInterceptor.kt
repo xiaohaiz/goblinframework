@@ -16,7 +16,7 @@ class SessionAuthInterceptor private constructor() : AbstractInterceptor() {
   }
 
   override fun preHandle(request: GoblinServletRequest, response: GoblinServletResponse, handler: RequestHandler): Boolean {
-    if (!request.uri.path.startsWith("/user")) {
+    if (!request.servletRequest.requestURI.startsWith("/user")) {
       return true
     }
     val session = request.servletRequest.getParameter("session_key")
