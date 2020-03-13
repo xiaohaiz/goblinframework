@@ -31,6 +31,11 @@ public class ClusterRedisConnectionFactory extends BasePooledObjectFactory<Redis
     return new DefaultPooledObject<>(obj);
   }
 
+  @Override
+  public void destroyObject(PooledObject<RedisConnection> p) throws Exception {
+    p.getObject().closeNativeConnection();
+  }
+
   @SuppressWarnings("unchecked")
   @NotNull
   public static ClusterRedisConnection createClusterRedisConnection(@NotNull RedisClusterClient redisClient,

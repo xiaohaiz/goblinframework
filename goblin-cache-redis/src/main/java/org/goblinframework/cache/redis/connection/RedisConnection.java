@@ -10,4 +10,7 @@ abstract public class RedisConnection implements AutoCloseable {
   }
 
   abstract protected void doClose();
+
+  abstract public void closeNativeConnection();
+
 }

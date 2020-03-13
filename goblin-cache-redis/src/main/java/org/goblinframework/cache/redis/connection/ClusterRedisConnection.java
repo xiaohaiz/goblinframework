@@ -31,4 +31,9 @@ public class ClusterRedisConnection extends RedisConnection {
       }
     }
   }
+
+  @Override
+  public void closeNativeConnection() {
+    connection.close();
+  }
 }

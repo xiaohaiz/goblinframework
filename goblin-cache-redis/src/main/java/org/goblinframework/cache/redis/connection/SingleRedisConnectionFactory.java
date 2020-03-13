@@ -33,6 +33,11 @@ public class SingleRedisConnectionFactory extends BasePooledObjectFactory<RedisC
     return new DefaultPooledObject<>(obj);
   }
 
+  @Override
+  public void destroyObject(PooledObject<RedisConnection> p) throws Exception {
+    p.getObject().closeNativeConnection();
+  }
+
   @SuppressWarnings("unchecked")
   @NotNull
   public static SingleRedisConnection createSingleRedisConnection(@NotNull RedisClient redisClient,

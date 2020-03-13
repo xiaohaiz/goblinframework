@@ -32,4 +32,9 @@ public class SingleRedisConnection extends RedisConnection {
       }
     }
   }
+
+  @Override
+  public void closeNativeConnection() {
+    connection.close();
+  }
 }
