@@ -2,6 +2,7 @@ package org.goblinframework.queue.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
+import org.goblinframework.queue.producer.processor.QueueProducerProcessor
 
 @Install
 class QueueModule : IModule {
@@ -14,6 +15,8 @@ class QueueModule : IModule {
                 .module(GoblinSubModule.QUEUE_KAFKA)
                 .module(GoblinSubModule.QUEUE_RABBITMQ)
                 .install(ctx)
+        ctx.registerContainerBeanPostProcessor(QueueProducerProcessor.INSTANCE)
+
     }
 
     override fun initialize(ctx: ModuleInitializeContext) {
