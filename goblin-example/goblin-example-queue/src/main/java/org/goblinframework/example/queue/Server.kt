@@ -6,6 +6,7 @@ import org.goblinframework.core.container.SpringContainer
 
 @GoblinSpringContainer("/config/queue.xml")
 class Server : StandaloneServer() {
+
   override fun doService(container: SpringContainer?) {
 
   }
