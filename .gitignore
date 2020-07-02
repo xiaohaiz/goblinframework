@@ -6,8 +6,10 @@
 *.iml
 
 # Build out
+*/target/
 */out/
 */build/
+target/
 build/
 out/
 

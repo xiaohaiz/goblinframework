@@ -1,8 +1,0 @@
-description = "goblinframework-cache-couchbase"
-
-dependencies {
-  compile(project(":goblinframework-cache"))
-  compile("com.couchbase.client:java-client:${couchbase_version}")
-
-  testCompile(project(":goblinframework-test"))
-}

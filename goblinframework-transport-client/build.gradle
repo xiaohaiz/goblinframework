@@ -1,7 +1,0 @@
-description = "goblinframework-transport-client"
-
-dependencies {
-  compile(project(":goblinframework-transport"))
-
-  testCompile(project(":goblinframework-test"))
-}

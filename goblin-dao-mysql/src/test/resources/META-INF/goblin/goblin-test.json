@@ -1,0 +1,20 @@
+{
+  "mysql": {
+    "_ut": {
+      "master": {
+        "jdbcUrl": "jdbc:mysql://127.0.0.1:3306/test",
+        "username": "test",
+        "password": "test"
+      },
+      "slaves": [
+        {
+          "jdbcUrl": "jdbc:mysql://127.0.0.1:3306/test",
+          "username": "readonly",
+          "password": "readonly",
+          "readOnly": true
+        }
+      ],
+      "autoInit": true
+    }
+  }
+}

@@ -1,8 +1,0 @@
-description = "goblinframework-example-remote-client"
-
-dependencies {
-  compile(project(":goblinframework-example:goblinframework-example-remote:goblinframework-example-remote-api"))
-  compile(project(":goblinframework-registry-zookeeper"))
-  compile(project(":goblinframework-remote-client"))
-  compile(project(":goblinframework-bootstrap"))
-}

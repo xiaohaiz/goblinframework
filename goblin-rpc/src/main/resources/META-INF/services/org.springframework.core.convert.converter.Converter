@@ -1,0 +1,2 @@
+org.goblinframework.rpc.module.converter.StringToRpcClientNodeConverter
+org.goblinframework.rpc.module.converter.StringToRpcServerNodeConverter

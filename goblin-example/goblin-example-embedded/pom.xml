@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.goblinframework</groupId>
+    <artifactId>goblin-example</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+
+  <name>goblin-example-embedded</name>
+  <artifactId>goblin-example-embedded</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.goblinframework</groupId>
+      <artifactId>goblin-embedded-jetty</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.goblinframework</groupId>
+      <artifactId>goblin-embedded-netty</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.goblinframework</groupId>
+      <artifactId>goblin-bootstrap</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+</project>
