@@ -1,4 +1,4 @@
-package org.goblinframework.queue.module.config
+package org.goblinframework.queue.kafka.module.config
 
 import org.goblinframework.core.config.GoblinConfig
 import org.goblinframework.core.service.GoblinManagedObject

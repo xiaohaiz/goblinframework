@@ -1,8 +1,8 @@
-package org.goblinframework.queue.module
+package org.goblinframework.queue.kafka.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
-import org.goblinframework.queue.module.config.KafkaConfigManager
+import org.goblinframework.queue.kafka.module.config.KafkaConfigManager
 
 @Install
 class QueueKafkaModule : ISubModule {
