@@ -13,7 +13,9 @@ public enum GoblinSubModule {
   TRANSPORT_CLIENT(GoblinModule.TRANSPORT),
   TRANSPORT_SERVER(GoblinModule.TRANSPORT),
   RPC_CLIENT(GoblinModule.RPC),
-  RPC_SERVER(GoblinModule.RPC);
+  RPC_SERVER(GoblinModule.RPC),
+  QUEUE_KAFKA(GoblinModule.QUEUE),
+  QUEUE_RABBITMQ(GoblinModule.QUEUE);
 
   private final GoblinModule parent;
 

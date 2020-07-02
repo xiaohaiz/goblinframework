@@ -15,7 +15,6 @@ class QueueKafkaModule : ISubModule {
     }
 
     override fun install(ctx: ModuleInstallContext) {
-        ctx.registerConfigParser(KafkaConfigManager.INSTANCE.configParser)
     }
 
     override fun finalize(ctx: ModuleFinalizeContext) {

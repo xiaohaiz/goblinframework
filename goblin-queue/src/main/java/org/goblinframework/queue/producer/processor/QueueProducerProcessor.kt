@@ -8,6 +8,7 @@ import org.goblinframework.core.util.ReflectionUtils
 import org.goblinframework.queue.api.QueueMessageProducer
 import org.goblinframework.queue.api.QueueProducer
 import org.goblinframework.queue.producer.DefaultQueueMessageProducer
+import org.goblinframework.queue.producer.DefaultQueueProducer
 import org.goblinframework.queue.producer.QueueProducerDefinitionBuilder
 import org.goblinframework.queue.producer.QueueProducerTuple
 import org.goblinframework.queue.producer.builder.QueueProducerBuilderManager
@@ -25,13 +26,12 @@ class QueueProducerProcessor private constructor() : SpringContainerBeanPostProc
   }
 
   private fun tryQueueProducerInjection(bean: Any): Any {
-    val producers = mutableListOf<QueueProducer>()
-
     ReflectionUtils.allFieldsIncludingAncestors(bean.javaClass, false, false)
         .map { GoblinField(it) }
         .forEach {
           val definitions = QueueProducerDefinitionBuilder.build(it)
           if (!CollectionUtils.isEmpty(definitions)) {
+            val producerTuples = mutableListOf<QueueProducerTuple>()
             definitions.forEach { def ->
               val builder = QueueProducerBuilderManager.INSTANCE.builder(def.location.queueSystem)
                   ?: throw IllegalArgumentException("Queue system ${def.location.queueSystem} not installed")
@@ -39,12 +39,18 @@ class QueueProducerProcessor private constructor() : SpringContainerBeanPostProc
               val producer = builder.producer(def)
                   ?: throw  IllegalArgumentException("Producer ${def.location} build failed")
 
-              producers.add(producer)
+              val producerTuple = QueueProducerTuple(producer, def)
+              producerTuples.add(producerTuple)
             }
 
             when (bean) {
-              is QueueMessageProducer -> it.set(bean, DefaultQueueMessageProducer(producers))
-              is QueueProducer -> it.set(bean, QueueProducerTuple(producers))
+              is QueueMessageProducer -> {
+                val queueProducer = DefaultQueueProducer(producerTuples)
+                it.set(bean, DefaultQueueMessageProducer(queueProducer))
+              }
+              is QueueProducer -> {
+                it.set(bean, DefaultQueueProducer(producerTuples))
+              }
               else -> throw  IllegalArgumentException("Producer $bean must be QueueMessageProducer or QueueProducer")
             }
           }

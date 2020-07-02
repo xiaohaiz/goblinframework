@@ -1,15 +1,25 @@
 package org.goblinframework.queue.producer
 
+import org.goblinframework.core.event.EventBus
 import org.goblinframework.queue.SendResultFuture
 import org.goblinframework.queue.api.QueueProducer
 
-class DefaultQueueProducer : QueueProducer {
-  override fun sendAsync(data: ByteArray?): SendResultFuture {
-    TODO("Not yet implemented")
+class DefaultQueueProducer(private val producerTuples: List<QueueProducerTuple>) : QueueProducer {
+  override fun send(data: ByteArray) {
+    sendAsync(data).awaitUninterruptibly()
   }
 
-  override fun send(data: ByteArray?) {
-    TODO("Not yet implemented")
-  }
+  override fun sendAsync(data: ByteArray): SendResultFuture {
+    val result = SendResultFuture(producerTuples.size)
 
+    producerTuples.forEach {
+      val event = QueueProducerEvent(it.definition, it.producer, result)
+      val future = EventBus.publish(event)
+      future.addDiscardListener {
+        // todo, local storage
+      }
+    }
+
+    return result
+  }
 }
