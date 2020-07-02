@@ -1,9 +1,9 @@
 package org.goblinframework.queue.api;
 
-import org.goblinframework.api.concurrent.GoblinFuture;
+import org.goblinframework.queue.SendResultFuture;
 
 public interface QueueProducer {
   void send(byte[] data);
 
-  GoblinFuture sendAsync(byte[] data);
+  SendResultFuture sendAsync(byte[] data);
 }

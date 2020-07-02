@@ -1,6 +1,8 @@
 package org.goblinframework.queue;
 
+import org.goblinframework.core.util.JsonUtils;
 import org.goblinframework.core.util.RandomUtils;
+import org.goblinframework.core.util.StringUtils;
 
 public class GoblinMessage {
 
@@ -8,7 +10,7 @@ public class GoblinMessage {
 
   private Object data;
 
-  private GoblinMessageSerializer serializer;
+  private GoblinMessageSerializer serializer = GoblinMessageSerializer.HESSIAN2;
 
   private GoblinMessage(String id) {
     this.id = id;
@@ -26,6 +28,15 @@ public class GoblinMessage {
   public GoblinMessage serializer(GoblinMessageSerializer serializer) {
     this.serializer = serializer;
     return this;
+  }
+
+  public GoblinMessageSerializer getSerializer() {
+    return this.serializer;
+  }
+
+  @Override
+  public String toString() {
+    return StringUtils.formatMessage("[id:{}, serializer:{}, data:{}]", id, serializer, JsonUtils.toJson(data).substring(0, 100));
   }
 
   public enum GoblinMessageSerializer {

@@ -7,7 +7,7 @@ import org.goblinframework.core.util.GoblinField
 import org.goblinframework.core.util.ReflectionUtils
 import org.goblinframework.queue.api.QueueMessageProducer
 import org.goblinframework.queue.api.QueueProducer
-import org.goblinframework.queue.producer.QueueMessageProducerTuple
+import org.goblinframework.queue.producer.DefaultQueueMessageProducer
 import org.goblinframework.queue.producer.QueueProducerDefinitionBuilder
 import org.goblinframework.queue.producer.QueueProducerTuple
 import org.goblinframework.queue.producer.builder.QueueProducerBuilderManager
@@ -43,7 +43,7 @@ class QueueProducerProcessor private constructor() : SpringContainerBeanPostProc
             }
 
             when (bean) {
-              is QueueMessageProducer -> it.set(bean, QueueMessageProducerTuple(producers))
+              is QueueMessageProducer -> it.set(bean, DefaultQueueMessageProducer(producers))
               is QueueProducer -> it.set(bean, QueueProducerTuple(producers))
               else -> throw  IllegalArgumentException("Producer $bean must be QueueMessageProducer or QueueProducer")
             }
