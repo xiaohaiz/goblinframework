@@ -1,4 +1,4 @@
-package org.goblinframework.example.cache
+package org.goblinframework.example.queue
 
 import org.goblinframework.bootstrap.core.StandaloneServer
 import org.goblinframework.cache.redis.client.RedisClientManager

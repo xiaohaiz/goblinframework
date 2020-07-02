@@ -20,6 +20,7 @@
     <module>goblin-example-dao</module>
     <module>goblin-example-transport</module>
     <module>goblin-example-rpc</module>
+    <module>goblin-example-queue</module>
   </modules>
 
 </project>
