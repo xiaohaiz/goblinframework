@@ -9,8 +9,9 @@ import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.queue.kafka.module.config.KafkaConfig
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
 import org.springframework.kafka.core.KafkaTemplate
+import java.util.concurrent.atomic.AtomicBoolean
 
-@GoblinManagedBean("Kafka")
+@GoblinManagedBean("Kafka", name = "KafkaQueueProducerClient")
 class KafkaQueueProducerClient internal constructor(config: KafkaConfig)
   : GoblinManagedObject(), KafkaQueueProducerClientMXBean {
 
@@ -18,6 +19,8 @@ class KafkaQueueProducerClient internal constructor(config: KafkaConfig)
 
   val producerFactory: DefaultKafkaProducerFactory<Int, Bytes>
   val kafkaTemplate: KafkaTemplate<Int, Bytes>
+
+  private val shutdown = AtomicBoolean(false)
 
   init {
     // 一个config对应一个producer factory
@@ -35,11 +38,13 @@ class KafkaQueueProducerClient internal constructor(config: KafkaConfig)
   }
 
   override fun shutdown() {
-    try {
-      producerFactory.destroy()
-      logger.info("Kafka producer factory shutdown: {}", producerFactory)
-    } catch (e: Exception) {
-      logger.error("Kafka producer client shutdown failed: {}", e)
+    if (shutdown.compareAndSet(false, true)) {
+      try {
+        producerFactory.destroy()
+        logger.info("Kafka producer factory shutdown: {}", producerFactory)
+      } catch (e: Exception) {
+        logger.error("Kafka producer client shutdown failed: {}", e)
+      }
     }
   }
 
