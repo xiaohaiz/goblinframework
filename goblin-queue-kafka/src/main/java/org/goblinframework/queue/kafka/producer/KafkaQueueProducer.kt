@@ -31,7 +31,8 @@ class KafkaQueueProducer constructor(definition: QueueProducerDefinition) : Gobl
     }
 
     val client = KafkaQueueProducerClientManager.INSTANCE.getClient(definition.location.config)
-        ?: return result
+        ?: throw IllegalArgumentException("No kafka client found for ${definition.location.config}")
+
     val template = client.kafkaTemplate
     val ret = template.send(definition.location.queue, Bytes(data))
 
