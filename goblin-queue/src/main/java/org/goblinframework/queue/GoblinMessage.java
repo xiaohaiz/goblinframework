@@ -4,7 +4,11 @@ import org.goblinframework.core.util.JsonUtils;
 import org.goblinframework.core.util.RandomUtils;
 import org.goblinframework.core.util.StringUtils;
 
-public class GoblinMessage {
+import java.io.Serializable;
+
+public class GoblinMessage implements Serializable {
+
+  private static final long serialVersionUID = 8980985171947400566L;
 
   private String id;
 

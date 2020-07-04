@@ -9,16 +9,17 @@ class QueueChannelManager private constructor() {
 
   companion object {
     @JvmField val INSTANCE = QueueChannelManager()
+
+    const val PRODUCER_CHANNEL = "/goblin/queue/producer"
+    const val CONSUMER_CHANNEL = "/goblin/queue/consumer"
+
+    private const val PRODUCER_CHANNEL_SIZE = 32768
+    private const val CONSUMER_CHANNEL_SIZE = 32768
+
+    private const val PRODUCER_WORKER_NUM = 4
+    private const val CONSUMER_WORKER_NUM = 4
+
   }
-
-  private val PRODUCER_CHANNEL = "/goblin/queue/producer"
-  private val CONSUMER_CHANNEL = "/goblin/queue/producer"
-
-  private val PRODUCER_CHANNEL_SIZE = 32768
-  private val CONSUMER_CHANNEL_SIZE = 32768
-
-  private val PRODUCER_WORKER_NUM = 4
-  private val CONSUMER_WORKER_NUM = 4
 
   private val producerEventListener = QueueProducerEventListener()
 
