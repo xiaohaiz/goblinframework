@@ -4,6 +4,7 @@ import org.goblinframework.api.annotation.Singleton
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.queue.kafka.module.config.KafkaConfig
+import org.goblinframework.queue.kafka.module.config.KafkaConfigManager
 import java.util.concurrent.ConcurrentHashMap
 
 @Singleton
@@ -19,6 +20,12 @@ class KafkaQueueProducerClientManager : GoblinManagedObject(), KafkaQueueProduce
 
   fun getClient(config: KafkaConfig): KafkaQueueProducerClient? {
     return buffer.computeIfAbsent(config) { KafkaQueueProducerClient(config) }
+  }
+
+  fun getClient(config: String): KafkaQueueProducerClient? {
+    val kafkaConfig = KafkaConfigManager.INSTANCE.getKafkaClient(config)
+        ?: return null
+    return getClient(kafkaConfig)
   }
 
   override fun getClients(): Array<KafkaQueueProducerClientMXBean> {
