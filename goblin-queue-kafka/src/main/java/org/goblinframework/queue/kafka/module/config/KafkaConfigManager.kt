@@ -13,7 +13,11 @@ class KafkaConfigManager private constructor()
         @JvmField val INSTANCE = KafkaConfigManager()
     }
 
-    val configParser = KafkaConfigParser()
+    private val configParser = KafkaConfigParser()
+
+    override fun initializeBean() {
+        configParser.initialize()
+    }
 
     fun getKafkaClient(name: String): KafkaConfig? {
         return configParser.getFromBuffer(name)

@@ -1,7 +1,7 @@
 {
   "kafka": {
     "default": {
-      "addresses": "192.168.100.16:9092",
+      "servers": "192.168.100.16:9092",
       "producer": {
         "asyncSend": false,
         "batchSize": 16384,

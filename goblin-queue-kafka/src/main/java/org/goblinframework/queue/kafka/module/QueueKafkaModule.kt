@@ -2,6 +2,7 @@ package org.goblinframework.queue.kafka.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
+import org.goblinframework.queue.kafka.client.KafkaQueueProducerClientManager
 import org.goblinframework.queue.kafka.module.config.KafkaConfigManager
 import org.goblinframework.queue.kafka.producer.KafkaQueueProducerBuilder
 import org.goblinframework.queue.producer.builder.QueueProducerBuilderManager
@@ -14,6 +15,7 @@ class QueueKafkaModule : ISubModule {
 
     override fun initialize(ctx: ModuleInitializeContext) {
         KafkaConfigManager.INSTANCE.initialize()
+        KafkaQueueProducerClientManager.INSTANCE.initialize()
         QueueProducerBuilderManager.INSTANCE.register(KafkaQueueProducerBuilder.INSTANCE)
     }
 
@@ -21,6 +23,7 @@ class QueueKafkaModule : ISubModule {
     }
 
     override fun finalize(ctx: ModuleFinalizeContext) {
+        KafkaQueueProducerClientManager.INSTANCE.dispose()
         KafkaConfigManager.INSTANCE.dispose()
     }
 }
