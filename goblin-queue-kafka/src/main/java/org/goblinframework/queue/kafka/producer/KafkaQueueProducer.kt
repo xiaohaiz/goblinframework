@@ -1,6 +1,7 @@
 package org.goblinframework.queue.kafka.producer
 
 import org.apache.kafka.common.utils.Bytes
+import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.queue.SendResultFuture
 import org.goblinframework.queue.api.QueueProducer
@@ -11,6 +12,7 @@ import org.springframework.kafka.support.SendResult
 import org.springframework.util.concurrent.ListenableFutureCallback
 import java.util.concurrent.atomic.AtomicLong
 
+@GoblinManagedBean(type = "Kafka", name = "KafkaQueueProducer")
 class KafkaQueueProducer constructor(definition: QueueProducerDefinition) : GoblinManagedObject(), QueueProducer, QueueProducerMXBean {
 
   private val definition: QueueProducerDefinition = definition
