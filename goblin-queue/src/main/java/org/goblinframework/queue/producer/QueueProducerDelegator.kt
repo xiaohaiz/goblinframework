@@ -15,4 +15,24 @@ internal constructor(private val delegator: QueueProducer)
     (delegator as? Disposable)?.dispose()
     logger.debug("Queue disposed")
   }
+
+  override fun getSuccessCount(): Long {
+    return (delegator as QueueProducerMXBean).successCount
+  }
+
+  override fun getDefinition(): String {
+    return (delegator as QueueProducerMXBean).definition
+  }
+
+  override fun getProducerType(): String {
+    return (delegator as QueueProducerMXBean).producerType
+  }
+
+  override fun getFailedCount(): Long {
+    return (delegator as QueueProducerMXBean).failedCount
+  }
+
+  override fun produceText(text: String?) {
+    (delegator as QueueProducerMXBean).produceText(text)
+  }
 }
