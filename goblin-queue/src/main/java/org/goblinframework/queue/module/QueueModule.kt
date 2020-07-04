@@ -16,10 +16,10 @@ class QueueModule : IModule {
                 .module(GoblinSubModule.QUEUE_RABBITMQ)
                 .install(ctx)
         ctx.registerContainerBeanPostProcessor(QueueProducerProcessor.INSTANCE)
-
     }
 
     override fun initialize(ctx: ModuleInitializeContext) {
+        QueueChannelManager.INSTANCE.initialize()
         ctx.createSubModules()
                 .module(GoblinSubModule.QUEUE_KAFKA)
                 .module(GoblinSubModule.QUEUE_RABBITMQ)
@@ -27,6 +27,7 @@ class QueueModule : IModule {
     }
 
     override fun finalize(ctx: ModuleFinalizeContext) {
+        QueueChannelManager.INSTANCE.shutdown()
         ctx.createSubModules()
                 .module(GoblinSubModule.QUEUE_KAFKA)
                 .module(GoblinSubModule.QUEUE_RABBITMQ)
