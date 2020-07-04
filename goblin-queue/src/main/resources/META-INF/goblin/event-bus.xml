@@ -1,0 +1,8 @@
+<event-bus>
+
+    <channels>
+        <channel name="/goblin/queue/producer" ringBufferSize="32768" workerHandlers="4"/>
+        <channel name="/goblin/queue/consumer" ringBufferSize="32768" workerHandlers="4"/>
+    </channels>
+
+</event-bus>

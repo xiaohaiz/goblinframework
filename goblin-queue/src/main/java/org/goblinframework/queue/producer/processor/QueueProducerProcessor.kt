@@ -43,12 +43,12 @@ class QueueProducerProcessor private constructor() : SpringContainerBeanPostProc
               producerTuples.add(producerTuple)
             }
 
-            when (bean) {
-              is QueueMessageProducer -> {
+            when (it.fieldType) {
+              QueueMessageProducer::class.java -> {
                 val queueProducer = DefaultQueueProducer(producerTuples)
                 it.set(bean, DefaultQueueMessageProducer(queueProducer))
               }
-              is QueueProducer -> {
+              QueueProducer::class.java -> {
                 it.set(bean, DefaultQueueProducer(producerTuples))
               }
               else -> throw  IllegalArgumentException("Producer $bean must be QueueMessageProducer or QueueProducer")

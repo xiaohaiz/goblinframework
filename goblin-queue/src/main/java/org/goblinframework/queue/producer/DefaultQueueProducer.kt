@@ -13,7 +13,7 @@ class DefaultQueueProducer(private val producerTuples: List<QueueProducerTuple>)
     val result = SendResultFuture(producerTuples.size)
 
     producerTuples.forEach {
-      val event = QueueProducerEvent(it.definition, it.producer, result)
+      val event = QueueProducerEvent(it.definition, it.producer, data, result)
       val future = EventBus.publish(event)
       future.addDiscardListener {
         // todo, local storage
