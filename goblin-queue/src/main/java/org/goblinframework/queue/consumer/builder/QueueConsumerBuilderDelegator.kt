@@ -17,19 +17,19 @@ internal constructor(private val delegator: QueueConsumerBuilder)
   : GoblinManagedObject(), QueueConsumerBuilder, QueueConsumerBuilderMXBean {
 
   private val lock = ReentrantReadWriteLock()
-  private val buffer = mutableMapOf<String, QueueConsumerDelegator>()
+  private val buffer = mutableMapOf<String, QueueConsumerDelegator?>()
 
   override fun system(): QueueSystem {
     return delegator.system()
   }
 
-  override fun consumer(definition: QueueConsumerDefinition): QueueConsumer {
+  override fun consumer(definition: QueueConsumerDefinition, reference: Any): QueueConsumer? {
     val name = definition.location.toString()
 
     lock.read { buffer[name] }?.let { return it }
     lock.write {
       buffer[name]?.let { return it }
-      val consumer = delegator.consumer(definition)?.let { QueueConsumerDelegator(it) }
+      val consumer = delegator.consumer(definition, reference)?.let { QueueConsumerDelegator(it) }
       buffer[name] = consumer
       return consumer
     }

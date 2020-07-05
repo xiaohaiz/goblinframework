@@ -7,5 +7,5 @@ import org.goblinframework.queue.consumer.QueueConsumerDefinition
 interface QueueConsumerBuilder {
   fun system(): QueueSystem
 
-  fun consumer(queueConsumerDefinition: QueueConsumerDefinition): QueueConsumer
+  fun consumer(definition: QueueConsumerDefinition, reference: Any): QueueConsumer?
 }
