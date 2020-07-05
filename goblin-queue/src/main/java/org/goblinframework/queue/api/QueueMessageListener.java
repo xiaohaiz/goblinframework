@@ -1,4 +1,4 @@
-package org.goblinframework.queue.consumer;
+package org.goblinframework.queue.api;
 
 import org.goblinframework.queue.GoblinMessage;
 

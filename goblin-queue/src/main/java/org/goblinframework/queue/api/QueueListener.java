@@ -1,4 +1,4 @@
-package org.goblinframework.queue.consumer;
+package org.goblinframework.queue.api;
 
 public interface QueueListener {
 
