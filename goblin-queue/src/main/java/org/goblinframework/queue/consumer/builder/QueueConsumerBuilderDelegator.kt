@@ -16,6 +16,7 @@ internal constructor(private val delegator: QueueConsumerBuilder)
   : GoblinManagedObject(), QueueConsumerBuilder, QueueConsumerBuilderMXBean {
 
   private val lock = ReentrantReadWriteLock()
+  // todo 看看是否要换成delegator
   private val buffer = mutableMapOf<String, QueueConsumer?>()
 
   override fun system(): QueueSystem {
