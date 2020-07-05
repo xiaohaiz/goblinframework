@@ -1,4 +1,4 @@
-package org.goblinframework.queue.consumer.builder
+package org.goblinframework.queue.consumer
 
 import org.goblinframework.api.function.Disposable
 import org.goblinframework.core.service.GoblinManagedBean

@@ -6,6 +6,7 @@ import org.goblinframework.queue.QueueSystem
 import org.goblinframework.queue.api.QueueConsumer
 import org.goblinframework.queue.api.QueueConsumerMXBean
 import org.goblinframework.queue.consumer.QueueConsumerDefinition
+import org.goblinframework.queue.consumer.QueueConsumerDelegator
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
