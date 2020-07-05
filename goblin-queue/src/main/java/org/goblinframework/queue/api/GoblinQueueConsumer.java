@@ -5,10 +5,9 @@ import org.goblinframework.queue.QueueSystem;
 import java.lang.annotation.*;
 
 @Documented
-@Target({ElementType.FIELD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Repeatable(GoblinQueueProducers.class)
-public @interface GoblinQueueProducer {
+public @interface GoblinQueueConsumer {
 
   QueueSystem system() default QueueSystem.KFK;
 
