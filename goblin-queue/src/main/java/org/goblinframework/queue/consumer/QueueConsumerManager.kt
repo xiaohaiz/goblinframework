@@ -6,6 +6,7 @@ import org.goblinframework.queue.api.QueueConsumer
 import org.goblinframework.queue.api.QueueConsumerMXBean
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
+import kotlin.concurrent.write
 
 @Singleton
 class QueueConsumerManager : GoblinManagedObject(), QueueConsumerManagerMXBean {
@@ -24,7 +25,10 @@ class QueueConsumerManager : GoblinManagedObject(), QueueConsumerManagerMXBean {
   }
 
   fun register(consumer: QueueConsumer) {
-
+    locker.write { consumers.add(consumer) }
   }
 
+  override fun disposeBean() {
+
+  }
 }
