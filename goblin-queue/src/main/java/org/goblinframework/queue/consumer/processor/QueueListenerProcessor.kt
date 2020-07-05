@@ -1,6 +1,7 @@
 package org.goblinframework.queue.consumer.processor
 
 import org.goblinframework.api.annotation.Singleton
+import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.core.container.ContainerRefreshedEvent
 import org.goblinframework.core.event.GoblinEventChannel
 import org.goblinframework.core.event.GoblinEventContext
@@ -40,7 +41,8 @@ class QueueListenerProcessor : GoblinEventListener {
         val builder = QueueConsumerBuilderManager.INSTANCE.builder(system)
             ?: throw GoblinQueueException("Queue system $system not installed")
 
-        val consumer = builder.consumer(definition, beanType)
+        val bean = ContainerManagedBean(it, applicationContext)
+        val consumer = builder.consumer(definition, bean)
             ?: throw GoblinQueueException("Build consumer $definition failed")
 
         QueueConsumerManager.INSTANCE.register(consumer)

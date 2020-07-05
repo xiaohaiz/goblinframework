@@ -10,6 +10,8 @@ import org.goblinframework.queue.api.QueueConsumerMXBean
 internal class QueueConsumerDelegator internal constructor(private val delegator: QueueConsumer)
   : GoblinManagedObject(), QueueConsumer by delegator, QueueConsumerMXBean {
 
+
+
   override fun disposeBean() {
     (delegator as? Disposable)?.dispose()
     logger.debug("Queue consumer disposed")
