@@ -13,7 +13,7 @@ internal constructor(private val delegator: QueueProducer)
 
   override fun disposeBean() {
     (delegator as? Disposable)?.dispose()
-    logger.debug("Queue disposed")
+    logger.debug("Queue producer disposed")
   }
 
   override fun getSuccessCount(): Long {
