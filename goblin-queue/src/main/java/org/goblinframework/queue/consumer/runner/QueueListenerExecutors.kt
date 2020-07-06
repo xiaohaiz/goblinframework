@@ -10,7 +10,12 @@ class QueueListenerExecutors(bean: ContainerManagedBean, semaphore: Semaphore, m
 
   private val listener: QueueListener = bean.getBean() as QueueListener
 
-  override fun doOnEvent(event: QueueConsumerEvent) {
-    listener.handle(event.data)
+  override fun transform(event: QueueConsumerEvent): Any? {
+    return event.data
+  }
+
+  override fun execute(data: Any?) {
+    if (data == null) return
+    listener.handle(data as ByteArray)
   }
 }

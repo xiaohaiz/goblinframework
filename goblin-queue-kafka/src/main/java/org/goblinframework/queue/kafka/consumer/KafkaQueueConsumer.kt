@@ -22,13 +22,14 @@ constructor(definition: QueueConsumerDefinition, bean: ContainerManagedBean)
         ?: throw GoblinQueueException("Failed to get consumer client for $definition")
 
     val factory = client.consumerFactory()
+    val properties = ContainerProperties(definition.location.queue)
     if (factory.isAutoCommit) {
-
+      properties.messageListener =
     } else {
-
+      properties.ackMode = ContainerProperties.AckMode.MANUAL
     }
 
-    val properties = ContainerProperties(definition.location.queue)
+
     container = ConcurrentMessageListenerContainer(factory, properties)
     container.concurrency = definition.maxConcurrentConsumers
     container.beanName = definition.location.queue

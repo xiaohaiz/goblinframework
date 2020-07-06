@@ -1,6 +1,7 @@
 package org.goblinframework.queue.consumer.runner
 
 import org.goblinframework.core.container.ContainerManagedBean
+import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.NamedDaemonThreadFactory
 import org.goblinframework.queue.consumer.ConsumerRecordListener
@@ -10,6 +11,7 @@ import java.util.concurrent.SynchronousQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
+@GoblinManagedBean("Queue")
 abstract class AbstractListenerExecutors constructor(private val bean: ContainerManagedBean,
                                                      private val semaphore: Semaphore,
                                                      maxPermits: Int)
@@ -32,6 +34,9 @@ abstract class AbstractListenerExecutors constructor(private val bean: Container
     event.recordListeners.forEach(ConsumerRecordListener::onHandled)
     executor.submit {
       try {
+        val data = transform(event)
+        event.recordListeners.forEach(ConsumerRecordListener::onTransformed)
+        execute(data)
         event.recordListeners.forEach(ConsumerRecordListener::onSuccess)
       } catch (e: Exception) {
         event.recordListeners.forEach(ConsumerRecordListener::onFailure)
@@ -51,7 +56,9 @@ abstract class AbstractListenerExecutors constructor(private val bean: Container
     }
   }
 
-  abstract fun doOnEvent(event: QueueConsumerEvent)
+  abstract fun transform(event: QueueConsumerEvent): Any?
+
+  abstract fun execute(data: Any?)
 
   override fun getPoolSize(): Int {
     return executor.poolSize

@@ -1,6 +1,7 @@
 package org.goblinframework.queue.consumer.runner
 
 import org.goblinframework.core.container.ContainerManagedBean
+import org.goblinframework.queue.GoblinMessage
 import org.goblinframework.queue.api.QueueMessageListener
 import org.goblinframework.queue.consumer.QueueConsumerEvent
 import org.goblinframework.queue.utils.QueueMessageEncoder
@@ -11,8 +12,12 @@ class QueueMessageListenerExecutors(bean: ContainerManagedBean, semaphore: Semap
 
   private val listener: QueueMessageListener = bean.getBean() as QueueMessageListener
 
-  override fun doOnEvent(event: QueueConsumerEvent) {
-    val message = QueueMessageEncoder.decode(event.data)
-    listener.handle(message)
+  override fun transform(event: QueueConsumerEvent): Any? {
+    return QueueMessageEncoder.decode(event.data)
+  }
+
+  override fun execute(data: Any?) {
+    if (data == null) return
+    listener.handle(data as GoblinMessage)
   }
 }

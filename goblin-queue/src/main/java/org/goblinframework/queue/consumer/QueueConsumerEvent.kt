@@ -1,8 +1,10 @@
 package org.goblinframework.queue.consumer
 
 import org.goblinframework.core.event.GoblinEvent
+import org.goblinframework.queue.consumer.runner.QueueListenerExecutors
 
 class QueueConsumerEvent(
     val data: ByteArray,
-    val recordListeners: List<ConsumerRecordListener>
+    val recordListeners: List<ConsumerRecordListener>,
+    val executors: QueueListenerExecutors
 ) : GoblinEvent()

@@ -2,17 +2,26 @@ package org.goblinframework.queue.consumer
 
 import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
+import org.goblinframework.queue.GoblinQueueException
 import org.goblinframework.queue.QueueSystem
 import org.goblinframework.queue.api.QueueConsumer
 import org.goblinframework.queue.api.QueueConsumerMXBean
+import org.goblinframework.queue.api.QueueListener
+import org.goblinframework.queue.api.QueueMessageListener
+import org.goblinframework.queue.consumer.runner.ListenerExecutors
+import org.goblinframework.queue.consumer.runner.QueueListenerExecutors
+import org.goblinframework.queue.consumer.runner.QueueMessageListenerExecutors
+import java.util.*
 import java.util.concurrent.Semaphore
 import java.util.concurrent.atomic.AtomicLong
 
 open class AbstractQueueConsumer
-constructor(protected val definition: QueueConsumerDefinition, protected val bean: ContainerManagedBean)
+constructor(protected val definition: QueueConsumerDefinition,
+            protected val bean: ContainerManagedBean)
   : GoblinManagedObject(), QueueConsumer, QueueConsumerMXBean {
 
   private val semaphore: Semaphore = Semaphore(definition.maxPermits)
+  private val executors: ListenerExecutors
 
   private val fetched = AtomicLong(0)
   private val transformed = AtomicLong(0)
@@ -22,6 +31,57 @@ constructor(protected val definition: QueueConsumerDefinition, protected val bea
   private val handled = AtomicLong(0)
   private val success = AtomicLong(0)
   private val failure = AtomicLong(0)
+
+  private val listeners = Collections.singleton(
+      object : ConsumerRecordListener {
+        override fun onFetched() {
+          fetched.incrementAndGet()
+        }
+
+        override fun onDiscarded() {
+          discarded.incrementAndGet()
+        }
+
+        override fun onPublished() {
+          published.incrementAndGet()
+        }
+
+        override fun onReceived() {
+          received.incrementAndGet()
+        }
+
+        override fun onTransformed() {
+          transformed.incrementAndGet()
+        }
+
+        override fun onHandled() {
+          handled.incrementAndGet()
+        }
+
+        override fun onSuccess() {
+          success.incrementAndGet()
+        }
+
+        override fun onFailure() {
+          failure.incrementAndGet()
+        }
+
+      }
+  )
+
+  init {
+    executors = when (bean.type) {
+      is QueueMessageListener -> {
+        QueueMessageListenerExecutors(bean, semaphore, definition.maxPermits)
+      }
+      is QueueListener -> {
+        QueueListenerExecutors(bean, semaphore, definition.maxPermits)
+      }
+      else -> {
+        throw GoblinQueueException("Unrecognized bean type for bean {${bean.beanName}}, must be QueueMessageListener or QueueListener")
+      }
+    }
+  }
 
   override fun disposeBean() {
   }
