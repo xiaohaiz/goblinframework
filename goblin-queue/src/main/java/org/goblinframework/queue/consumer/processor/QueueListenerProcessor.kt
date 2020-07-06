@@ -47,6 +47,8 @@ class QueueListenerProcessor : GoblinEventListener {
 
         QueueConsumerManager.INSTANCE.register(consumer)
       }
+
+      QueueConsumerManager.INSTANCE.start()
     }
   }
 }
