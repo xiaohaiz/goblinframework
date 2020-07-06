@@ -83,7 +83,7 @@ constructor(protected val definition: QueueConsumerDefinition,
   }
 
   override fun disposeBean() {
-
+    (executors as GoblinManagedObject).dispose()
   }
 
   override fun getConnectionName(): String {

@@ -50,6 +50,5 @@ constructor(definition: QueueConsumerDefinition, bean: ContainerManagedBean)
       container.stop()
       logger.info("Kafka Queue Consumer $definition stopped")
     }
-    executors.shutdown()
   }
 }

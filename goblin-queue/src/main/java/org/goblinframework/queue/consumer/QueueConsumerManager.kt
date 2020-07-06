@@ -28,7 +28,19 @@ class QueueConsumerManager : GoblinManagedObject(), QueueConsumerManagerMXBean {
     locker.write { consumers.add(consumer) }
   }
 
-  override fun disposeBean() {
+  fun start() {
+    locker.write { consumers.forEach { it.start() } }
+  }
 
+  fun stop() {
+    locker.write { consumers.forEach { it.stop() } }
+  }
+
+  override fun initializeBean() {
+    locker.write { consumers.forEach { (it as GoblinManagedObject).initialize() } }
+  }
+
+  override fun disposeBean() {
+    locker.write { consumers.forEach { (it as GoblinManagedObject).dispose() } }
   }
 }
