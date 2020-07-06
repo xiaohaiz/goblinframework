@@ -4,13 +4,13 @@ interface ConsumerRecordListener {
 
   fun onFetched()
 
-  fun onTransformed()
-
   fun onDiscarded()
 
   fun onPublished()
 
   fun onReceived()
+
+  fun onTransformed()
 
   fun onHandled()
 
