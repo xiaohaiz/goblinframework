@@ -4,6 +4,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.utils.Bytes
 import org.goblinframework.core.event.EventBus
 import org.goblinframework.queue.GoblinQueueException
+import org.goblinframework.queue.consumer.ConsumerRecordListener
 import org.goblinframework.queue.consumer.QueueConsumerEvent
 import org.goblinframework.queue.module.QueueChannelManager
 import java.util.concurrent.Semaphore
@@ -25,7 +26,7 @@ open class AbstractQueueConsumerListener(
       throw GoblinQueueException("Failed to acquire semaphore", ex)
     }
 
-    val event = QueueConsumerEvent(bytes)
+    val event = QueueConsumerEvent(bytes, this.recordListeners)
     EventBus.publish(QueueChannelManager.CONSUMER_CHANNEL, event)
     recordListeners.forEach(ConsumerRecordListener::onPublished)
   }

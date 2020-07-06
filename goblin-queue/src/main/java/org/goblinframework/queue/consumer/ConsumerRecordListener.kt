@@ -1,4 +1,4 @@
-package org.goblinframework.queue.kafka.listener
+package org.goblinframework.queue.consumer
 
 interface ConsumerRecordListener {
 
