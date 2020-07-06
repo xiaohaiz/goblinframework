@@ -1,22 +1,19 @@
 package org.goblinframework.queue.consumer.runner
 
 import org.goblinframework.core.container.ContainerManagedBean
+import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.core.util.NamedDaemonThreadFactory
 import org.goblinframework.queue.consumer.ConsumerRecordListener
 import org.goblinframework.queue.consumer.QueueConsumerEvent
-import org.slf4j.LoggerFactory
 import java.util.concurrent.Semaphore
 import java.util.concurrent.SynchronousQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
-abstract class AbstractQueueConsumerRunner constructor(private val bean: ContainerManagedBean,
-                                                   private val semaphore: Semaphore,
-                                                   maxPermits: Int) {
-
-  companion object {
-    private val logger = LoggerFactory.getLogger(this::class.java)
-  }
+abstract class AbstractListenerExecutors constructor(private val bean: ContainerManagedBean,
+                                                     private val semaphore: Semaphore,
+                                                     maxPermits: Int)
+  : GoblinManagedObject(), ListenerExecutors, ListenerExecutorsMXBean {
 
   private val executor: ThreadPoolExecutor
 
@@ -45,5 +42,54 @@ abstract class AbstractQueueConsumerRunner constructor(private val bean: Contain
     }
   }
 
+  override fun disposeBean() {
+    try {
+      executor.shutdown()
+      executor.awaitTermination(5, TimeUnit.SECONDS)
+    } catch (ignored: InterruptedException) {
+
+    }
+  }
+
   abstract fun doOnEvent(event: QueueConsumerEvent)
+
+  override fun getPoolSize(): Int {
+    return executor.poolSize
+  }
+
+  override fun getActiveCount(): Int {
+    return executor.activeCount
+  }
+
+  override fun getCorePoolSize(): Int {
+    return executor.corePoolSize
+  }
+
+  override fun getMaximumPoolSize(): Int {
+    return executor.maximumPoolSize
+  }
+
+  override fun getLargestPoolSize(): Int {
+    return executor.largestPoolSize
+  }
+
+  override fun getTaskCount(): Long {
+    return executor.taskCount
+  }
+
+  override fun getCompletedTaskCount(): Long {
+    return executor.completedTaskCount
+  }
+
+  override fun getShutdown(): Boolean {
+    return executor.isShutdown
+  }
+
+  override fun getTerminated(): Boolean {
+    return executor.isTerminated
+  }
+
+  override fun getTerminating(): Boolean {
+    return executor.isTerminating
+  }
 }

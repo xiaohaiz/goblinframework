@@ -5,8 +5,8 @@ import org.goblinframework.queue.api.QueueListener
 import org.goblinframework.queue.consumer.QueueConsumerEvent
 import java.util.concurrent.Semaphore
 
-class QueueConsumerRunner(bean: ContainerManagedBean, semaphore: Semaphore, maxPermits: Int)
-  : AbstractQueueConsumerRunner(bean, semaphore, maxPermits) {
+class QueueListenerExecutors(bean: ContainerManagedBean, semaphore: Semaphore, maxPermits: Int)
+  : AbstractListenerExecutors(bean, semaphore, maxPermits) {
 
   private val listener: QueueListener = bean.getBean() as QueueListener
 
