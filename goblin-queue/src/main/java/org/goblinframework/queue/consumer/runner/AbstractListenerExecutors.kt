@@ -47,13 +47,17 @@ abstract class AbstractListenerExecutors constructor(private val bean: Container
     }
   }
 
-  override fun disposeBean() {
+  override fun shutdown() {
     try {
       executor.shutdown()
       executor.awaitTermination(5, TimeUnit.SECONDS)
     } catch (ignored: InterruptedException) {
 
     }
+  }
+
+  override fun disposeBean() {
+    shutdown()
   }
 
   abstract fun transform(event: QueueConsumerEvent): Any?

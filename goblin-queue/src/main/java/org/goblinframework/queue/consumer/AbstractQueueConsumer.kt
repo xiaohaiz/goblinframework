@@ -14,7 +14,7 @@ import org.goblinframework.queue.consumer.runner.QueueMessageListenerExecutors
 import java.util.concurrent.Semaphore
 import java.util.concurrent.atomic.AtomicLong
 
-open class AbstractQueueConsumer
+abstract class AbstractQueueConsumer
 constructor(protected val definition: QueueConsumerDefinition,
             protected val bean: ContainerManagedBean)
   : GoblinManagedObject(), QueueConsumer, QueueConsumerMXBean {

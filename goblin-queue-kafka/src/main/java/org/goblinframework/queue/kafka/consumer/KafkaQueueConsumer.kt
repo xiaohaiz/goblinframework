@@ -37,4 +37,19 @@ constructor(definition: QueueConsumerDefinition, bean: ContainerManagedBean)
     container.concurrency = definition.maxConcurrentConsumers
     container.beanName = definition.location.queue
   }
+
+  override fun start() {
+    if (!container.isRunning) {
+      container.start()
+      logger.info("Kafka Queue Consumer $definition started")
+    }
+  }
+
+  override fun stop() {
+    if (container.isRunning) {
+      container.stop()
+      logger.info("Kafka Queue Consumer $definition stopped")
+    }
+    executors.shutdown()
+  }
 }
