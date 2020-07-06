@@ -18,10 +18,11 @@ class QueueConsumerDefinitionBuilder {
       queueConsumers?.let {consumers ->
         val maxConcurrentConsumers = consumers.maxConcurrentConsumers
         val maxPermits = consumers.maxPermits
+        val group = consumers.group
 
         consumers.consumers.forEach { consumer ->
           val location = QueueLocation(consumer.system, consumer.queue, consumer.config)
-          val definition = QueueConsumerDefinition(location, maxConcurrentConsumers, maxPermits)
+          val definition = QueueConsumerDefinition(location, maxConcurrentConsumers, maxPermits, group)
 
           definitionMap[location] = definition
         }
