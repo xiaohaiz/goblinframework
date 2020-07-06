@@ -14,7 +14,7 @@ class QueueListenerExecutors(bean: ContainerManagedBean, semaphore: Semaphore, m
     return event.data
   }
 
-  override fun execute(data: Any?) {
+  override fun doExecute(data: Any?) {
     if (data == null) return
     listener.handle(data as ByteArray)
   }

@@ -11,7 +11,6 @@ import org.goblinframework.queue.api.QueueMessageListener
 import org.goblinframework.queue.consumer.runner.ListenerExecutors
 import org.goblinframework.queue.consumer.runner.QueueListenerExecutors
 import org.goblinframework.queue.consumer.runner.QueueMessageListenerExecutors
-import java.util.*
 import java.util.concurrent.Semaphore
 import java.util.concurrent.atomic.AtomicLong
 
@@ -20,19 +19,19 @@ constructor(protected val definition: QueueConsumerDefinition,
             protected val bean: ContainerManagedBean)
   : GoblinManagedObject(), QueueConsumer, QueueConsumerMXBean {
 
-  private val semaphore: Semaphore = Semaphore(definition.maxPermits)
-  private val executors: ListenerExecutors
+  protected val semaphore: Semaphore = Semaphore(definition.maxPermits)
+  protected val executors: ListenerExecutors
 
-  private val fetched = AtomicLong(0)
-  private val transformed = AtomicLong(0)
-  private val discarded = AtomicLong(0)
-  private val published = AtomicLong(0)
-  private val received = AtomicLong(0)
-  private val handled = AtomicLong(0)
-  private val success = AtomicLong(0)
-  private val failure = AtomicLong(0)
+  protected val fetched = AtomicLong(0)
+  protected val transformed = AtomicLong(0)
+  protected val discarded = AtomicLong(0)
+  protected val published = AtomicLong(0)
+  protected val received = AtomicLong(0)
+  protected val handled = AtomicLong(0)
+  protected val success = AtomicLong(0)
+  protected val failure = AtomicLong(0)
 
-  private val listeners = Collections.singleton(
+  protected val recordListeners = mutableListOf<ConsumerRecordListener>(
       object : ConsumerRecordListener {
         override fun onFetched() {
           fetched.incrementAndGet()
@@ -84,6 +83,7 @@ constructor(protected val definition: QueueConsumerDefinition,
   }
 
   override fun disposeBean() {
+
   }
 
   override fun getConnectionName(): String {

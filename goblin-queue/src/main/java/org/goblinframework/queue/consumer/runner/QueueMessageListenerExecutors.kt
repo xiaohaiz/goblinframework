@@ -16,7 +16,7 @@ class QueueMessageListenerExecutors(bean: ContainerManagedBean, semaphore: Semap
     return QueueMessageEncoder.decode(event.data)
   }
 
-  override fun execute(data: Any?) {
+  override fun doExecute(data: Any?) {
     if (data == null) return
     listener.handle(data as GoblinMessage)
   }

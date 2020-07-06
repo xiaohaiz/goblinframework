@@ -13,7 +13,7 @@ class QueueConsumerEventListener : GoblinEventListener {
   override fun onEvent(context: GoblinEventContext) {
     val event = context.event as QueueConsumerEvent
     event.recordListeners.forEach(ConsumerRecordListener::onReceived)
-    event.executors.onEvent(event)
+    event.executors.execute(event)
   }
 
 }

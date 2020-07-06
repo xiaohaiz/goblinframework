@@ -7,6 +7,8 @@ import org.goblinframework.queue.GoblinQueueException
 import org.goblinframework.queue.consumer.AbstractQueueConsumer
 import org.goblinframework.queue.consumer.QueueConsumerDefinition
 import org.goblinframework.queue.kafka.client.KafkaQueueConsumerClientManager
+import org.goblinframework.queue.kafka.listener.AcknowledgeKafkaQueueConsumerListener
+import org.goblinframework.queue.kafka.listener.KafkaQueueConsumerListener
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer
 import org.springframework.kafka.listener.ContainerProperties
 
@@ -24,9 +26,10 @@ constructor(definition: QueueConsumerDefinition, bean: ContainerManagedBean)
     val factory = client.consumerFactory()
     val properties = ContainerProperties(definition.location.queue)
     if (factory.isAutoCommit) {
-      properties.messageListener =
+      properties.messageListener = KafkaQueueConsumerListener(semaphore, recordListeners, executors)
     } else {
       properties.ackMode = ContainerProperties.AckMode.MANUAL
+      properties.messageListener = AcknowledgeKafkaQueueConsumerListener(semaphore, recordListeners, executors)
     }
 
 

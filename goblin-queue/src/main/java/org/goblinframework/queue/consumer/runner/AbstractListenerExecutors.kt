@@ -30,13 +30,13 @@ abstract class AbstractListenerExecutors constructor(private val bean: Container
         NamedDaemonThreadFactory.getInstance("QueueConsumerRunner"))
   }
 
-  fun onEvent(event: QueueConsumerEvent) {
+  override fun execute(event: QueueConsumerEvent) {
     event.recordListeners.forEach(ConsumerRecordListener::onHandled)
     executor.submit {
       try {
         val data = transform(event)
         event.recordListeners.forEach(ConsumerRecordListener::onTransformed)
-        execute(data)
+        doExecute(data)
         event.recordListeners.forEach(ConsumerRecordListener::onSuccess)
       } catch (e: Exception) {
         event.recordListeners.forEach(ConsumerRecordListener::onFailure)
@@ -58,7 +58,7 @@ abstract class AbstractListenerExecutors constructor(private val bean: Container
 
   abstract fun transform(event: QueueConsumerEvent): Any?
 
-  abstract fun execute(data: Any?)
+  abstract fun doExecute(data: Any?)
 
   override fun getPoolSize(): Int {
     return executor.poolSize
