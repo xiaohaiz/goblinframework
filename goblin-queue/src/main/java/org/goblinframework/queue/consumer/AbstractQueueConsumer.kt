@@ -5,11 +5,14 @@ import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.queue.QueueSystem
 import org.goblinframework.queue.api.QueueConsumer
 import org.goblinframework.queue.api.QueueConsumerMXBean
+import java.util.concurrent.Semaphore
 import java.util.concurrent.atomic.AtomicLong
 
 open class AbstractQueueConsumer
 constructor(protected val definition: QueueConsumerDefinition, protected val bean: ContainerManagedBean)
   : GoblinManagedObject(), QueueConsumer, QueueConsumerMXBean {
+
+  private val semaphore: Semaphore = Semaphore(definition.maxPermits)
 
   private val fetched = AtomicLong(0)
   private val transformed = AtomicLong(0)
