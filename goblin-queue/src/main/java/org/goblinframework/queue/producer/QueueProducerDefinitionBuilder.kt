@@ -14,13 +14,13 @@ class QueueProducerDefinitionBuilder {
             if (field.isAnnotationPresent(GoblinQueueProducers::class.java)) {
                 val annotations = field.findAnnotationSetterFirst(GoblinQueueProducers::class.java)
                 annotations?.value?.forEach {
-                    definitions.add(QueueProducerDefinition(QueueLocation(it.system, it.queue, it.config)))
+                    definitions.add(QueueProducerDefinition(QueueLocation(it.system, it.queue, it.config), it.serializer))
                 }
             }
             if (field.isAnnotationPresent(GoblinQueueProducer::class.java)) {
                 val annotation = field.findAnnotationSetterFirst(GoblinQueueProducer::class.java)
                 if (annotation != null) {
-                    definitions.add(QueueProducerDefinition(QueueLocation(annotation.system, annotation.queue, annotation.config)))
+                    definitions.add(QueueProducerDefinition(QueueLocation(annotation.system, annotation.queue, annotation.config), annotation.serializer))
                 }
             }
             return definitions

@@ -1,5 +1,6 @@
 package org.goblinframework.queue.api;
 
+import org.goblinframework.queue.GoblinMessageSerializer;
 import org.goblinframework.queue.QueueSystem;
 
 import java.lang.annotation.*;
@@ -15,6 +16,8 @@ public @interface GoblinQueueProducer {
   String config() default "primary";
 
   String queue();
+
+  GoblinMessageSerializer serializer() default GoblinMessageSerializer.HESSIAN2;
 
   boolean enabled() default true;
 }

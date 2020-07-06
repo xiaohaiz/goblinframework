@@ -14,8 +14,6 @@ public class GoblinMessage implements Serializable {
 
   private Object data;
 
-  private GoblinMessageSerializer serializer = GoblinMessageSerializer.HESSIAN2;
-
   private GoblinMessage(String id) {
     this.id = id;
   }
@@ -29,24 +27,8 @@ public class GoblinMessage implements Serializable {
     return this;
   }
 
-  public GoblinMessage serializer(GoblinMessageSerializer serializer) {
-    this.serializer = serializer;
-    return this;
-  }
-
-  public GoblinMessageSerializer getSerializer() {
-    return this.serializer;
-  }
-
   @Override
   public String toString() {
-    return StringUtils.formatMessage("[id:{}, serializer:{}, data:{}]", id, serializer, JsonUtils.toJson(data).substring(0, 100));
-  }
-
-  public enum GoblinMessageSerializer {
-    HESSIAN2,
-    JSON,
-    FST,
-    JAVA,
+    return StringUtils.formatMessage("[id:{}, data:{}]", id, JsonUtils.toJson(data).substring(0, 100));
   }
 }

@@ -45,8 +45,7 @@ class QueueProducerProcessor private constructor() : SpringContainerBeanPostProc
 
             when (it.fieldType) {
               QueueMessageProducer::class.java -> {
-                val queueProducer = DefaultQueueProducer(producerTuples)
-                it.set(bean, DefaultQueueMessageProducer(queueProducer))
+                it.set(bean, DefaultQueueMessageProducer(producerTuples))
               }
               QueueProducer::class.java -> {
                 it.set(bean, DefaultQueueProducer(producerTuples))
