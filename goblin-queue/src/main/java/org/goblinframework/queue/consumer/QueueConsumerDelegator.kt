@@ -13,7 +13,7 @@ internal constructor(private val delegator: QueueConsumer)
 
   override fun disposeBean() {
     (delegator as? Disposable)?.dispose()
-    logger.debug("Queue consumer disposed")
+    logger.debug("Queue consumer [$location] disposed")
   }
 
   override fun getConsumerType(): String {
