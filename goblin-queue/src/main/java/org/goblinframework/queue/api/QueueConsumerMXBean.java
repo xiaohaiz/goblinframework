@@ -4,7 +4,7 @@ import java.lang.management.PlatformManagedObject;
 
 public interface QueueConsumerMXBean extends PlatformManagedObject {
 
-  String getMessageType();
+  String getConsumerType();
 
   String getLocation();
 

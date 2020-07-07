@@ -52,4 +52,10 @@ constructor(definition: QueueConsumerDefinition, bean: ContainerManagedBean)
     }
     executors.shutdown()
   }
+
+  override fun getConsumerType(): String {
+    return "KafkaConsumer"
+  }
+
+
 }
