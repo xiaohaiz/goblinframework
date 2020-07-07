@@ -6,6 +6,7 @@ import org.goblinframework.queue.QueueSystem
 import org.goblinframework.queue.api.QueueConsumer
 import org.goblinframework.queue.api.QueueConsumerMXBean
 import org.goblinframework.queue.consumer.QueueConsumerDefinition
+import org.goblinframework.queue.consumer.QueueConsumerDelegator
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
@@ -17,7 +18,7 @@ internal constructor(private val delegator: QueueConsumerBuilder)
 
   private val lock = ReentrantReadWriteLock()
   // todo 看看是否要换成delegator
-  private val buffer = mutableMapOf<String, QueueConsumer?>()
+  private val buffer = mutableMapOf<String, QueueConsumerDelegator?>()
 
   override fun system(): QueueSystem {
     return delegator.system()
@@ -29,7 +30,7 @@ internal constructor(private val delegator: QueueConsumerBuilder)
     lock.read { buffer[name] }?.let { return it }
     lock.write {
       buffer[name]?.let { return it }
-      val consumer = delegator.consumer(definition, reference)
+      val consumer = delegator.consumer(definition, reference)?.let { QueueConsumerDelegator(it) }
       buffer[name] = consumer
       return consumer
     }
@@ -45,5 +46,10 @@ internal constructor(private val delegator: QueueConsumerBuilder)
     }
   }
 
-
+  override fun disposeBean() {
+    lock.write {
+      buffer.values.mapNotNull { it }.forEach { it.dispose() }
+      buffer.clear()
+    }
+  }
 }

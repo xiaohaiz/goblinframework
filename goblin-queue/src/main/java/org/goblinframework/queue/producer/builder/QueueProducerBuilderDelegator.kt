@@ -7,8 +7,9 @@ import org.goblinframework.queue.api.QueueProducerMXBean
 import org.goblinframework.queue.producer.QueueProducerDefinition
 import org.goblinframework.queue.producer.QueueProducerDelegator
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.locks.ReentrantLock
-import kotlin.concurrent.withLock
+import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
+import kotlin.concurrent.write
 
 /**
  * Delegator for queue producer builder
@@ -18,7 +19,7 @@ class QueueProducerBuilderDelegator
 internal constructor(private val delegator: QueueProducerBuilder)
   : GoblinManagedObject(), QueueProducerBuilder, QueueProducerBuilderMXBean {
 
-  private val lock = ReentrantLock()
+  private val lock = ReentrantReadWriteLock()
   private val buffer = ConcurrentHashMap<String, QueueProducerDelegator?>()
 
 
@@ -35,12 +36,12 @@ internal constructor(private val delegator: QueueProducerBuilder)
   override fun producer(definition: QueueProducerDefinition): QueueProducer? {
     val name = definition.location.toString()
 
-    buffer[name]?.let { return it }
-    return lock.withLock {
+    lock.read { buffer[name]?.let { return it } }
+    lock.write {
       buffer[name]?.let { return it }
       val producer = delegator.producer(definition)?.let { QueueProducerDelegator(it) }
       buffer[name] = producer
-      producer
+      return producer
     }
   }
 

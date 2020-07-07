@@ -9,7 +9,6 @@ import org.goblinframework.core.event.GoblinEventListener
 import org.goblinframework.queue.GoblinQueueException
 import org.goblinframework.queue.api.QueueMessageListener
 import org.goblinframework.queue.consumer.QueueConsumerDefinitionBuilder
-import org.goblinframework.queue.consumer.QueueConsumerManager
 import org.goblinframework.queue.consumer.builder.QueueConsumerBuilderManager
 
 @Singleton
@@ -45,10 +44,8 @@ class QueueListenerProcessor : GoblinEventListener {
         val consumer = builder.consumer(definition, bean)
             ?: throw GoblinQueueException("Build consumer $definition failed")
 
-        QueueConsumerManager.INSTANCE.register(consumer)
+        consumer.start()
       }
-
-      QueueConsumerManager.INSTANCE.start()
     }
   }
 }

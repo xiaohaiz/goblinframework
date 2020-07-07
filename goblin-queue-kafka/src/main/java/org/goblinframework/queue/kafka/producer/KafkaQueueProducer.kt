@@ -67,7 +67,7 @@ class KafkaQueueProducer constructor(definition: QueueProducerDefinition) : Gobl
   }
 
   override fun getProducerType(): String {
-    return "KAFKA"
+    return "KafkaProducer"
   }
 
   override fun getFailedCount(): Long {

@@ -2,8 +2,9 @@ package org.goblinframework.queue.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
-import org.goblinframework.queue.consumer.QueueConsumerManager
+import org.goblinframework.queue.consumer.builder.QueueConsumerBuilderManager
 import org.goblinframework.queue.consumer.processor.QueueListenerProcessor
+import org.goblinframework.queue.producer.builder.QueueProducerBuilderManager
 import org.goblinframework.queue.producer.processor.QueueProducerProcessor
 
 @Install
@@ -31,7 +32,8 @@ class QueueModule : IModule {
 
     override fun finalize(ctx: ModuleFinalizeContext) {
         QueueChannelManager.INSTANCE.shutdown()
-        QueueConsumerManager.INSTANCE.stop()
+        QueueConsumerBuilderManager.INSTANCE.dispose()
+        QueueProducerBuilderManager.INSTANCE.dispose()
         ctx.createSubModules()
                 .module(GoblinSubModule.QUEUE_KAFKA)
                 .module(GoblinSubModule.QUEUE_RABBITMQ)
