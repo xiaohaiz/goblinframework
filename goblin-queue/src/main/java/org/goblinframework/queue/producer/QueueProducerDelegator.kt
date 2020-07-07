@@ -28,8 +28,8 @@ internal constructor(private val delegator: QueueProducer)
     return (delegator as QueueProducerMXBean).producerType
   }
 
-  override fun getFailedCount(): Long {
-    return (delegator as QueueProducerMXBean).failedCount
+  override fun getFailureCount(): Long {
+    return (delegator as QueueProducerMXBean).failureCount
   }
 
   override fun produceText(text: String?) {

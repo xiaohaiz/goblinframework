@@ -10,7 +10,7 @@ public interface QueueProducerMXBean extends PlatformManagedObject {
 
     Long getSuccessCount();
 
-    Long getFailedCount();
+    Long getFailureCount();
 
     void produceText(String text);
 }

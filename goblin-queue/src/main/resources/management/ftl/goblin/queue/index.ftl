@@ -15,33 +15,38 @@
 <div class="container-fluid">
 
     <#if queueProducerBuilderManager.queueProducerBuilderList?has_content>
-
     <div class="row">
         <table class="table table-bordered table-condensed table-striped">
             <thead>
             <tr class="info">
-                <td colspan="2"><strong>Cache(s)</strong></td>
+                <td colspan="5"><strong>Queue Producer(s)</strong></td>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <td><strong>system</strong></td>
-                <td><strong>name</strong></td>
+                <td><strong>type</strong></td>
+                <td><strong>definition</strong></td>
+                <td><strong>successCount</strong></td>
+                <td><strong>failureCount</strong></td>
             </tr>
-            <#list cacheBuilderManager.cacheBuilderList as builder>
-            <#if builder.cacheList?has_content>
-            <#list builder.cacheList as cache>
-            <tr>
-                <td>${cache.getCacheSystem().name()}</td>
-                <td>${cache.getCacheName()}</td>
-            </tr>
+            <#list queueProducerBuilderManager.queueProducerBuilderList as builder>
+                <#if builder.producerList?has_content>
+                <#list builder.producerList as producer>
+                <tr>
+                    <td>${builder.getSystem().name()}</td>
+                    <td>${producer.producerType}</td>
+                    <td>${producer.definition}</td>
+                    <td>${producer.successCount}</td>
+                    <td>${producer.failureCount}</td>
+                </tr>
+                </#list>
+            </#if>
             </#list>
-        </#if>
-    </#list>
-    </tbody>
-    </table>
-</div>
-</#if>
+         </tbody>
+        </table>
+    </div>
+    </#if>
 
 </div>
 

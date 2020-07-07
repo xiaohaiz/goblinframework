@@ -18,7 +18,7 @@ class KafkaQueueProducer constructor(definition: QueueProducerDefinition) : Gobl
   private val definition: QueueProducerDefinition = definition
 
   private val successCount = AtomicLong(0)
-  private val failedCount = AtomicLong(0)
+  private val failureCount = AtomicLong(0)
 
   override fun sendAsync(data: ByteArray?): SendResultFuture {
     // 到这层不支持异步了
@@ -36,12 +36,15 @@ class KafkaQueueProducer constructor(definition: QueueProducerDefinition) : Gobl
     val template = client.kafkaTemplate
     val ret = template.send(definition.location.queue, Bytes(data))
 
+
     ret.addCallback(object: ListenableFutureCallback<SendResult<Int, Bytes>> {
       override fun onSuccess(p0: SendResult<Int, Bytes>?) {
+        successCount.incrementAndGet()
         result.complete(1)
       }
 
       override fun onFailure(p0: Throwable) {
+        failureCount.incrementAndGet()
         result.complete(1)
       }
     })
@@ -70,8 +73,8 @@ class KafkaQueueProducer constructor(definition: QueueProducerDefinition) : Gobl
     return "KafkaProducer"
   }
 
-  override fun getFailedCount(): Long {
-    return failedCount.get()
+  override fun getFailureCount(): Long {
+    return failureCount.get()
   }
 
   override fun produceText(text: String?) {
