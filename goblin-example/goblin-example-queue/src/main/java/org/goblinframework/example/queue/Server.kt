@@ -15,6 +15,10 @@ class Server : StandaloneServer() {
     producer.getKafkaProducer().send(GoblinMessage.create().data("test"))
 
     producer.getKafkaProducer().sendAsync(GoblinMessage.create().data("test async")).uninterruptibly
+
+    producer.getKafkaLowLevelProducer().send("test low level".toByteArray(Charsets.UTF_8))
+
+    producer.getKafkaLowLevelProducer().sendAsync("test low level async".toByteArray(Charsets.UTF_8)).uninterruptibly
   }
 }
 

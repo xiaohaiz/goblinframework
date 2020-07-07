@@ -7,9 +7,11 @@ import org.goblinframework.core.event.GoblinEventChannel
 import org.goblinframework.core.event.GoblinEventContext
 import org.goblinframework.core.event.GoblinEventListener
 import org.goblinframework.queue.GoblinQueueException
+import org.goblinframework.queue.api.QueueListener
 import org.goblinframework.queue.api.QueueMessageListener
 import org.goblinframework.queue.consumer.QueueConsumerDefinitionBuilder
 import org.goblinframework.queue.consumer.builder.QueueConsumerBuilderManager
+import org.springframework.context.ApplicationContext
 
 @Singleton
 @GoblinEventChannel("/goblin/core")
@@ -28,24 +30,32 @@ class QueueListenerProcessor : GoblinEventListener {
 
     val queueMessageConsumerBeans = applicationContext.getBeanNamesForType(QueueMessageListener::class.java, true, false)
     queueMessageConsumerBeans.forEach {
-      val beanType = applicationContext.getType(it)
+      internalProcess(applicationContext, it)
+    }
+    val queueConsumerBeans = applicationContext.getBeanNamesForType(QueueListener::class.java, true, false)
+    queueConsumerBeans.forEach {
+      internalProcess(applicationContext, it)
+    }
+  }
 
-      val definitions = QueueConsumerDefinitionBuilder.build(beanType)
-      if (definitions.isNullOrEmpty()) {
-        return@forEach
-      }
+  private fun internalProcess(applicationContext: ApplicationContext, it: String) {
+    val beanType = applicationContext.getType(it)
 
-      definitions.filterNotNull().forEach { definition ->
-        val system = definition.location.queueSystem
-        val builder = QueueConsumerBuilderManager.INSTANCE.builder(system)
-            ?: throw GoblinQueueException("Queue system $system not installed")
+    val definitions = QueueConsumerDefinitionBuilder.build(beanType)
+    if (definitions.isNullOrEmpty()) {
+      return
+    }
 
-        val bean = ContainerManagedBean(it, applicationContext)
-        val consumer = builder.consumer(definition, bean)
-            ?: throw GoblinQueueException("Build consumer $definition failed")
+    definitions.filterNotNull().forEach { definition ->
+      val system = definition.location.queueSystem
+      val builder = QueueConsumerBuilderManager.INSTANCE.builder(system)
+          ?: throw GoblinQueueException("Queue system $system not installed")
 
-        consumer.start()
-      }
+      val bean = ContainerManagedBean(it, applicationContext)
+      val consumer = builder.consumer(definition, bean)
+          ?: throw GoblinQueueException("Build consumer $definition failed")
+
+      consumer.start()
     }
   }
 }
