@@ -3,7 +3,6 @@ package org.goblinframework.queue.consumer
 import org.goblinframework.core.container.ContainerManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
 import org.goblinframework.queue.GoblinQueueException
-import org.goblinframework.queue.QueueSystem
 import org.goblinframework.queue.api.QueueConsumer
 import org.goblinframework.queue.api.QueueConsumerMXBean
 import org.goblinframework.queue.api.QueueListener
@@ -86,16 +85,20 @@ constructor(protected val definition: QueueConsumerDefinition,
     (executors as GoblinManagedObject).dispose()
   }
 
-  override fun getConnectionName(): String {
-    return definition.location.config
+  override fun getLocation(): String {
+    return definition.location.toString()
   }
 
-  override fun getQueueName(): String {
-    return definition.location.queue
+  override fun getMaxConcurrentConsumers(): Int {
+    return definition.maxConcurrentConsumers
   }
 
-  override fun getQueueSystem(): QueueSystem {
-    return definition.location.queueSystem
+  override fun getMaxPermits(): Int {
+    return definition.maxPermits
+  }
+
+  override fun getGroup(): String {
+    return definition.group
   }
 
   override fun getFetched(): Long {

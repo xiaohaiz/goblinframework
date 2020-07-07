@@ -3,7 +3,6 @@ package org.goblinframework.queue.consumer
 import org.goblinframework.api.function.Disposable
 import org.goblinframework.core.service.GoblinManagedBean
 import org.goblinframework.core.service.GoblinManagedObject
-import org.goblinframework.queue.QueueSystem
 import org.goblinframework.queue.api.QueueConsumer
 import org.goblinframework.queue.api.QueueConsumerMXBean
 
@@ -15,6 +14,26 @@ internal constructor(private val delegator: QueueConsumer)
   override fun disposeBean() {
     (delegator as? Disposable)?.dispose()
     logger.debug("Queue consumer disposed")
+  }
+
+  override fun getConsumerType(): String {
+    return (delegator as QueueConsumerMXBean).consumerType
+  }
+
+  override fun getLocation(): String {
+    return (delegator as QueueConsumerMXBean).location
+  }
+
+  override fun getMaxConcurrentConsumers(): Int {
+    return (delegator as QueueConsumerMXBean).maxConcurrentConsumers
+  }
+
+  override fun getMaxPermits(): Int {
+    return (delegator as QueueConsumerMXBean).maxPermits
+  }
+
+  override fun getGroup(): String {
+    return (delegator as QueueConsumerMXBean).group
   }
 
   override fun getFetched(): Long {
@@ -35,18 +54,6 @@ internal constructor(private val delegator: QueueConsumer)
 
   override fun getFailure(): Long {
     return (delegator as QueueConsumerMXBean).failure
-  }
-
-  override fun getConnectionName(): String {
-    return (delegator as QueueConsumerMXBean).connectionName
-  }
-
-  override fun getQueueName(): String {
-    return (delegator as QueueConsumerMXBean).queueName
-  }
-
-  override fun getQueueSystem(): QueueSystem {
-    return (delegator as QueueConsumerMXBean).queueSystem
   }
 
   override fun getDiscarded(): Long {

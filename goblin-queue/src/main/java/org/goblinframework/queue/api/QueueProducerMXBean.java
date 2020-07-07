@@ -6,7 +6,9 @@ public interface QueueProducerMXBean extends PlatformManagedObject {
 
     String getProducerType();
 
-    String getDefinition();
+    String getLocation();
+
+    String getSerializer();
 
     Long getSuccessCount();
 

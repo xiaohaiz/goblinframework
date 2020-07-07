@@ -13,7 +13,8 @@ import org.springframework.util.concurrent.ListenableFutureCallback
 import java.util.concurrent.atomic.AtomicLong
 
 @GoblinManagedBean(type = "Kafka", name = "KafkaQueueProducer")
-class KafkaQueueProducer constructor(definition: QueueProducerDefinition) : GoblinManagedObject(), QueueProducer, QueueProducerMXBean {
+class KafkaQueueProducer constructor(definition: QueueProducerDefinition)
+  : GoblinManagedObject(), QueueProducer, QueueProducerMXBean {
 
   private val definition: QueueProducerDefinition = definition
 
@@ -65,8 +66,12 @@ class KafkaQueueProducer constructor(definition: QueueProducerDefinition) : Gobl
     return successCount.get()
   }
 
-  override fun getDefinition(): String {
-    return definition.toString()
+  override fun getLocation(): String {
+    return definition.location.toString()
+  }
+
+  override fun getSerializer(): String {
+    return definition.serializer.name
   }
 
   override fun getProducerType(): String {

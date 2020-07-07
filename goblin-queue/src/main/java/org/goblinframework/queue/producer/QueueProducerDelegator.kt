@@ -20,8 +20,12 @@ internal constructor(private val delegator: QueueProducer)
     return (delegator as QueueProducerMXBean).successCount
   }
 
-  override fun getDefinition(): String {
-    return (delegator as QueueProducerMXBean).definition
+  override fun getLocation(): String {
+    return (delegator as QueueProducerMXBean).location
+  }
+
+  override fun getSerializer(): String {
+    return (delegator as QueueProducerMXBean).serializer
   }
 
   override fun getProducerType(): String {

@@ -1,16 +1,18 @@
 package org.goblinframework.queue.api;
 
-import org.goblinframework.queue.QueueSystem;
-
 import java.lang.management.PlatformManagedObject;
 
 public interface QueueConsumerMXBean extends PlatformManagedObject {
 
-  QueueSystem getQueueSystem();
+  String getConsumerType();
 
-  String getConnectionName();
+  String getLocation();
 
-  String getQueueName();
+  int getMaxConcurrentConsumers();
+
+  int getMaxPermits();
+
+  String getGroup();
 
   long getFetched();
 
