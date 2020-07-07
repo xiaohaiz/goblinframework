@@ -29,6 +29,6 @@ public class GoblinMessage implements Serializable {
 
   @Override
   public String toString() {
-    return StringUtils.formatMessage("[id:{}, data:{}]", id, JsonUtils.toJson(data).substring(0, 100));
+    return StringUtils.formatMessage("[id:{}, data:{}]", id, JsonUtils.toJson(data));
   }
 }

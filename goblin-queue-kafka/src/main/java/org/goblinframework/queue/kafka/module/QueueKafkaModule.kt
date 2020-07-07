@@ -2,8 +2,10 @@ package org.goblinframework.queue.kafka.module
 
 import org.goblinframework.api.annotation.Install
 import org.goblinframework.core.system.*
+import org.goblinframework.queue.consumer.builder.QueueConsumerBuilderManager
 import org.goblinframework.queue.kafka.client.KafkaQueueConsumerClientManager
 import org.goblinframework.queue.kafka.client.KafkaQueueProducerClientManager
+import org.goblinframework.queue.kafka.consumer.KafkaQueueConsumerBuilder
 import org.goblinframework.queue.kafka.module.config.KafkaConfigManager
 import org.goblinframework.queue.kafka.producer.KafkaQueueProducerBuilder
 import org.goblinframework.queue.producer.builder.QueueProducerBuilderManager
@@ -19,6 +21,7 @@ class QueueKafkaModule : ISubModule {
         KafkaQueueProducerClientManager.INSTANCE.initialize()
         KafkaQueueConsumerClientManager.INSTANCE.initialize()
         QueueProducerBuilderManager.INSTANCE.register(KafkaQueueProducerBuilder.INSTANCE)
+        QueueConsumerBuilderManager.INSTANCE.register(KafkaQueueConsumerBuilder.INSTANCE)
     }
 
     override fun install(ctx: ModuleInstallContext) {

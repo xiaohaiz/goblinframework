@@ -69,7 +69,7 @@ constructor(protected val definition: QueueConsumerDefinition,
   )
 
   init {
-    executors = when (bean.type) {
+    executors = when (bean.getBean()) {
       is QueueMessageListener -> {
         QueueMessageListenerExecutors(bean, semaphore, definition.maxPermits)
       }
