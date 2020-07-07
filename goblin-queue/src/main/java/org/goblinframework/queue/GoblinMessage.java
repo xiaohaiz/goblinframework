@@ -14,7 +14,11 @@ public class GoblinMessage implements Serializable {
 
   private Object data;
 
-  private GoblinMessage(String id) {
+  public GoblinMessage() {
+    this(RandomUtils.nextObjectId());
+  }
+
+  public GoblinMessage(String id) {
     this.id = id;
   }
 
@@ -25,6 +29,14 @@ public class GoblinMessage implements Serializable {
   public GoblinMessage data(Object data) {
     this.data = data;
     return this;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public Object getData() {
+    return data;
   }
 
   @Override

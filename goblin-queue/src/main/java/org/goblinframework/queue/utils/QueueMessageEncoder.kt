@@ -37,7 +37,7 @@ object QueueMessageEncoder {
 
     try {
       return when(GoblinMessageSerializer.safeParse(type) ?: null) {
-        GoblinMessageSerializer.JSON -> JsonUtils.asObject(String(body), GoblinMessage::class.java)
+        GoblinMessageSerializer.JSON -> JsonUtils.asObject(String(body, Charsets.UTF_8), GoblinMessage::class.java)
         GoblinMessageSerializer.HESSIAN2 -> SerializerManager.INSTANCE.getSerializer(SerializerMode.HESSIAN2).deserialize(body)
         GoblinMessageSerializer.FST -> SerializerManager.INSTANCE.getSerializer(SerializerMode.FST).deserialize(body)
         GoblinMessageSerializer.JAVA -> SerializerManager.INSTANCE.getSerializer(SerializerMode.JAVA).deserialize(body)
