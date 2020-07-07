@@ -23,6 +23,7 @@ class QueueProducerEventListener : GoblinEventListener {
     } catch (e: Exception) {
       logger.warn("Failed to produce message", e)
     } finally {
+      event.instruction.complete()
       event.future.complete(1)
     }
   }

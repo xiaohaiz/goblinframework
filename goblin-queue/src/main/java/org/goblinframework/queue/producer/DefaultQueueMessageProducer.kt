@@ -5,6 +5,7 @@ import org.goblinframework.queue.GoblinMessage
 import org.goblinframework.queue.SendResultFuture
 import org.goblinframework.queue.api.QueueMessageProducer
 import org.goblinframework.queue.module.QueueChannelManager
+import org.goblinframework.queue.module.monitor.PMG
 import org.goblinframework.queue.utils.QueueMessageEncoder
 
 class DefaultQueueMessageProducer(private val producerTuples: List<QueueProducerTuple>) : QueueMessageProducer {
@@ -23,11 +24,14 @@ class DefaultQueueMessageProducer(private val producerTuples: List<QueueProducer
         return future
       }
 
-      val event = QueueProducerEvent(it.definition, it.producer, data, result)
+      val instruction = PMG(it.definition.location)
+      val event = QueueProducerEvent(it.definition, it.producer, data, result, instruction)
       val future = EventBus.publish(QueueChannelManager.PRODUCER_CHANNEL, event)
       future.addDiscardListener {
-        // todo, local storage
+        instruction.close()
       }
+
+
     }
 
     return result

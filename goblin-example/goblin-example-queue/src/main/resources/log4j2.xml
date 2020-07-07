@@ -9,6 +9,6 @@
     <Root level="info">
       <AppenderRef ref="Console"/>
     </Root>
-    <logger name="org.quartz" level="INFO"/>
+    <logger name="org.goblinframework" level="DEBUG"/>
   </Loggers>
 </Configuration>
