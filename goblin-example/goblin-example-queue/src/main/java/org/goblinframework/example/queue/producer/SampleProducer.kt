@@ -14,7 +14,6 @@ class SampleProducer {
       GoblinQueueProducer(system = QueueSystem.KFK, config = "default", queue = "test.example.queue"),
       GoblinQueueProducer(system = QueueSystem.KFK, config = "default", queue = "test.example.json.queue", serializer = GoblinMessageSerializer.JSON)
   )
-  @GoblinQueueProducer(system = QueueSystem.KFK, config = "default", queue = "test.example.queue")
   private lateinit var kafkaProducer: QueueMessageProducer
 
   fun getKafkaProducer(): QueueMessageProducer {
