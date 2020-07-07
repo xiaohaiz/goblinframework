@@ -14,11 +14,7 @@ class Server : StandaloneServer() {
 
     producer.getKafkaProducer().send(GoblinMessage.create().data("test"))
 
-    producer.getKafkaProducer().sendAsync(GoblinMessage.create().data("test")).uninterruptibly
-
-    producer.getKafkaJsonProducer().send(GoblinMessage.create().data("testJson"))
-
-    producer.getKafkaJsonProducer().sendAsync(GoblinMessage.create().data("testJson")).uninterruptibly
+    producer.getKafkaProducer().sendAsync(GoblinMessage.create().data("test async")).uninterruptibly
   }
 }
 
