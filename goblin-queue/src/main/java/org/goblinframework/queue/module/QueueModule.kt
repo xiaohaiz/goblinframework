@@ -31,9 +31,9 @@ class QueueModule : IModule {
     }
 
     override fun finalize(ctx: ModuleFinalizeContext) {
-        QueueChannelManager.INSTANCE.shutdown()
         QueueConsumerBuilderManager.INSTANCE.dispose()
         QueueProducerBuilderManager.INSTANCE.dispose()
+        QueueChannelManager.INSTANCE.shutdown()
         ctx.createSubModules()
                 .module(GoblinSubModule.QUEUE_KAFKA)
                 .module(GoblinSubModule.QUEUE_RABBITMQ)
