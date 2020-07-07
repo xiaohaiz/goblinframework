@@ -28,8 +28,8 @@ internal constructor(private val delegator: QueueProducer)
     return (delegator as QueueProducerMXBean).serializer
   }
 
-  override fun getProducerType(): String {
-    return (delegator as QueueProducerMXBean).producerType
+  override fun getMessageType(): String {
+    return (delegator as QueueProducerMXBean).messageType
   }
 
   override fun getFailureCount(): Long {

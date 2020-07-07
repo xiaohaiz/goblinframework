@@ -16,8 +16,8 @@ internal constructor(private val delegator: QueueConsumer)
     logger.debug("Queue consumer disposed")
   }
 
-  override fun getConsumerType(): String {
-    return (delegator as QueueConsumerMXBean).consumerType
+  override fun getMessageType(): String {
+    return (delegator as QueueConsumerMXBean).messageType
   }
 
   override fun getLocation(): String {

@@ -30,6 +30,8 @@ constructor(protected val definition: QueueConsumerDefinition,
   protected val success = AtomicLong(0)
   protected val failure = AtomicLong(0)
 
+  protected val consumerMessageType: String
+
   protected val recordListeners = mutableListOf<ConsumerRecordListener>(
       object : ConsumerRecordListener {
         override fun onFetched() {
@@ -70,9 +72,11 @@ constructor(protected val definition: QueueConsumerDefinition,
   init {
     executors = when (bean.getBean()) {
       is QueueMessageListener -> {
+        consumerMessageType = "GoblinMessage"
         QueueMessageListenerExecutors(bean, semaphore, definition.maxPermits)
       }
       is QueueListener -> {
+        consumerMessageType = "Bytes"
         QueueListenerExecutors(bean, semaphore, definition.maxPermits)
       }
       else -> {
@@ -83,6 +87,10 @@ constructor(protected val definition: QueueConsumerDefinition,
 
   override fun disposeBean() {
     (executors as GoblinManagedObject).dispose()
+  }
+
+  override fun getMessageType(): String {
+    return consumerMessageType
   }
 
   override fun getLocation(): String {

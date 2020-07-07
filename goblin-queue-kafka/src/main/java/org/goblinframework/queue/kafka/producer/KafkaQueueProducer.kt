@@ -74,7 +74,7 @@ class KafkaQueueProducer constructor(definition: QueueProducerDefinition)
     return definition.serializer.name
   }
 
-  override fun getProducerType(): String {
+  override fun getMessageType(): String {
     return "KafkaProducer"
   }
 

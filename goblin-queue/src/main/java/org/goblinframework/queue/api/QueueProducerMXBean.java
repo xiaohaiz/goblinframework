@@ -4,7 +4,7 @@ import java.lang.management.PlatformManagedObject;
 
 public interface QueueProducerMXBean extends PlatformManagedObject {
 
-    String getProducerType();
+    String getMessageType();
 
     String getLocation();
 
