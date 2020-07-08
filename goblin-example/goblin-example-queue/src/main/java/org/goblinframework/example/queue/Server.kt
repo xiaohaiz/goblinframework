@@ -3,6 +3,7 @@ package org.goblinframework.example.queue
 import org.goblinframework.bootstrap.core.StandaloneServer
 import org.goblinframework.core.container.GoblinSpringContainer
 import org.goblinframework.core.container.SpringContainer
+import org.goblinframework.core.util.ThreadUtils
 import org.goblinframework.example.queue.producer.SampleProducer
 import org.goblinframework.queue.GoblinMessage
 
@@ -12,13 +13,13 @@ class Server : StandaloneServer() {
   override fun doService(container: SpringContainer?) {
     val producer = container!!.applicationContext.getBean(SampleProducer::class.java)
 
-    producer.getKafkaProducer().send(GoblinMessage.create().data("test"))
-
-    producer.getKafkaProducer().sendAsync(GoblinMessage.create().data("test async")).uninterruptibly
-
-    producer.getKafkaLowLevelProducer().send("test low level".toByteArray(Charsets.UTF_8))
-
-    producer.getKafkaLowLevelProducer().sendAsync("test low level async".toByteArray(Charsets.UTF_8)).uninterruptibly
+    while (true) {
+      producer.getKafkaProducer().send(GoblinMessage.create().data("test"))
+      producer.getKafkaProducer().sendAsync(GoblinMessage.create().data("test async")).uninterruptibly
+      producer.getKafkaLowLevelProducer().send("test low level".toByteArray(Charsets.UTF_8))
+      producer.getKafkaLowLevelProducer().sendAsync("test low level async".toByteArray(Charsets.UTF_8)).uninterruptibly
+      ThreadUtils.sleepCurrentThread(1000)
+    }
   }
 }
 
