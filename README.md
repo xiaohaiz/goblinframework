@@ -1,9 +1,7 @@
 # goblinframework
 
-## todo list
-1. producer annotation injector
-  1.1 multi queue producer
-  1.2 goblin message producer (high level api)
-2. kafka producer builder
-3. consumer annotation injector
-4. kafka consumer builder
+## Queue Feature
+* Support high level & low level api, corresponded for GoblinMessage object and byte array.
+* Support sychornized & asychornized sending.
+* Support group customized for consumer listener.
+
