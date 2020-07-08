@@ -29,6 +29,8 @@
     <module>goblin-dao-mongo</module>
     <module>goblin-dao-mysql</module>
     <module>goblin-queue</module>
+    <module>goblin-queue-kafka</module>
+    <module>goblin-queue-rabbitmq</module>
     <module>goblin-transport</module>
     <module>goblin-transport-client</module>
     <module>goblin-transport-server</module>

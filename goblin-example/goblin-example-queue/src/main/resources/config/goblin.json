@@ -1,0 +1,23 @@
+{
+  "kafka": {
+    "default": {
+      "servers": "127.0.0.1:9092",
+      "producer": {
+        "asyncSend": false,
+        "batchSize": 16384,
+        "acks": "1",
+        "requestTimeout": 30000,
+        "lingerMs": 1000
+      },
+      "consumer": {
+        "autoCommit": false,
+        "autoCommitInterval": "1000",
+        "maxPollRecords": 500,
+        "maxPollInterval": 300000,
+        "autoOffset": "latest",
+        "requestTimeout": 305000,
+        "bufferSize": 65536
+      }
+    }
+  }
+}
