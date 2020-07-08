@@ -44,7 +44,7 @@ object QueueMessageEncoder {
         else -> null
       } as GoblinMessage
     } catch (e: Exception) {
-      throw GoblinQueueException("Failed to decode to GoblinMessage: [${bytes}]")
+      throw GoblinQueueException("Failed to decode to GoblinMessage: [${String(bytes)}]")
     }
   }
 }

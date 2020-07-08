@@ -40,7 +40,7 @@ abstract class AbstractListenerExecutors constructor(private val bean: Container
         event.recordListeners.forEach(ConsumerRecordListener::onSuccess)
       } catch (e: Exception) {
         event.recordListeners.forEach(ConsumerRecordListener::onFailure)
-        logger.error("Failed to handle queue consumer event: [bean=${bean.beanName}, data=${event.data}]", e)
+        logger.error("Failed to handle queue consumer event: [bean=${bean.beanName}, data=${String(event.data)}]", e)
       } finally {
         semaphore.release()
       }
