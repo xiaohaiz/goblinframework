@@ -2,7 +2,9 @@ package org.goblinframework.example.queue.listener
 
 import org.goblinframework.queue.GoblinMessage
 import org.goblinframework.queue.QueueSystem
+import org.goblinframework.queue.QueueSystem.KFK
 import org.goblinframework.queue.api.GoblinConsumerMode
+import org.goblinframework.queue.api.GoblinConsumerMode.PUBSUB
 import org.goblinframework.queue.api.GoblinQueueConsumer
 import org.goblinframework.queue.api.GoblinQueueConsumers
 import org.goblinframework.queue.api.QueueMessageListener
@@ -15,10 +17,10 @@ import javax.inject.Named
 @Named
 @GoblinQueueConsumers(
         consumers = [
-            GoblinQueueConsumer(system = QueueSystem.KFK, config = "default", queue = "test.example.queue"),
-            GoblinQueueConsumer(system = QueueSystem.KFK, config = "default", queue = "test.example.json.queue")
+            GoblinQueueConsumer(system = KFK, mode = PUBSUB, config = "default", queue = "test.example.queue"),
+            GoblinQueueConsumer(system = KFK, mode = PUBSUB, config = "default", queue = "test.example.queue", group = "hunb.group"),
+            GoblinQueueConsumer(system = KFK, mode = PUBSUB, config = "default", queue = "test.example.json.queue")
         ],
-        mode = GoblinConsumerMode.PUBSUB,
         maxPermits = 2
 )
 class SampleMessageListener : QueueMessageListener {

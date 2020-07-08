@@ -18,20 +18,18 @@ internal constructor(private val delegator: QueueConsumerBuilder)
 
   private val lock = ReentrantReadWriteLock()
   // todo 看看是否要换成delegator
-  private val buffer = mutableMapOf<String, QueueConsumerDelegator?>()
+  private val buffer = mutableMapOf<QueueConsumerDefinition, QueueConsumerDelegator?>()
 
   override fun system(): QueueSystem {
     return delegator.system()
   }
 
   override fun consumer(definition: QueueConsumerDefinition, reference: Any): QueueConsumer? {
-    val name = definition.location.toString()
-
-    lock.read { buffer[name] }?.let { return it }
+    lock.read { buffer[definition] }?.let { return it }
     lock.write {
-      buffer[name]?.let { return it }
+      buffer[definition]?.let { return it }
       val consumer = delegator.consumer(definition, reference)?.let { QueueConsumerDelegator(it) }
-      buffer[name] = consumer
+      buffer[definition] = consumer
       return consumer
     }
   }

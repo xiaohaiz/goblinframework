@@ -8,8 +8,6 @@ import java.lang.annotation.*;
 public @interface GoblinQueueConsumers {
   GoblinQueueConsumer[] consumers();
 
-  GoblinConsumerMode mode();
-
   // 连接数，因为是NIO的，一般情况1个就够了
   int maxConcurrentConsumers() default 1;
 

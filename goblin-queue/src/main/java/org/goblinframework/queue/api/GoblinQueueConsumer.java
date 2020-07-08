@@ -11,7 +11,9 @@ public @interface GoblinQueueConsumer {
 
   QueueSystem system() default QueueSystem.KFK;
 
-  String config() default "primary";
+  GoblinConsumerMode mode();
+
+  String config();
 
   String queue();
 

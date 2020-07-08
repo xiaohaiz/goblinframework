@@ -26,9 +26,9 @@ class QueueConsumerDefinitionBuilder {
           val location = QueueLocation(consumer.system, consumer.queue, consumer.config)
           var group = consumer.group
           if (group.isBlank()) {
-            if (consumers.mode == GoblinConsumerMode.PUBSUB) {
+            if (consumer.mode == GoblinConsumerMode.PUBSUB) {
               group = GoblinSystem.applicationName()
-            } else if (consumers.mode == GoblinConsumerMode.QUEUE) {
+            } else if (consumer.mode == GoblinConsumerMode.QUEUE) {
               group = location.queue
             }
           }

@@ -14,9 +14,8 @@ import javax.inject.Named
 @Named
 @GoblinQueueConsumers(
         consumers = [
-            GoblinQueueConsumer(system = QueueSystem.KFK, config = "default", queue = "test.example.low.level.queue", group = "test_hunb")
+            GoblinQueueConsumer(system = QueueSystem.KFK, mode = GoblinConsumerMode.PUBSUB, config = "default", queue = "test.example.low.level.queue", group = "test_hunb")
         ],
-        mode = GoblinConsumerMode.PUBSUB,
         maxPermits = 2
 )
 class SampleQueueListener : QueueListener {
