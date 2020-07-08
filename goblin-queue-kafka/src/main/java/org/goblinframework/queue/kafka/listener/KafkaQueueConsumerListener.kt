@@ -3,7 +3,7 @@ package org.goblinframework.queue.kafka.listener
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.utils.Bytes
 import org.goblinframework.queue.consumer.ConsumerRecordListener
-import org.goblinframework.queue.consumer.runner.ListenerExecutors
+import org.goblinframework.queue.consumer.executor.ListenerExecutors
 import org.springframework.kafka.listener.MessageListener
 import java.util.concurrent.Semaphore
 

@@ -7,9 +7,9 @@ import org.goblinframework.queue.api.QueueConsumer
 import org.goblinframework.queue.api.QueueConsumerMXBean
 import org.goblinframework.queue.api.QueueListener
 import org.goblinframework.queue.api.QueueMessageListener
-import org.goblinframework.queue.consumer.runner.ListenerExecutors
-import org.goblinframework.queue.consumer.runner.QueueListenerExecutors
-import org.goblinframework.queue.consumer.runner.QueueMessageListenerExecutors
+import org.goblinframework.queue.consumer.executor.ListenerExecutors
+import org.goblinframework.queue.consumer.executor.QueueListenerExecutors
+import org.goblinframework.queue.consumer.executor.QueueMessageListenerExecutors
 import java.util.concurrent.Semaphore
 import java.util.concurrent.atomic.AtomicLong
 

@@ -1,4 +1,4 @@
-package org.goblinframework.queue.consumer.runner
+package org.goblinframework.queue.consumer.executor
 
 import org.goblinframework.queue.consumer.QueueConsumerEvent
 

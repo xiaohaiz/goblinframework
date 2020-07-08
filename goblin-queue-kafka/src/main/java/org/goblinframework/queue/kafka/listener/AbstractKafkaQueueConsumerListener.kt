@@ -6,7 +6,7 @@ import org.goblinframework.core.event.EventBus
 import org.goblinframework.queue.GoblinQueueException
 import org.goblinframework.queue.consumer.ConsumerRecordListener
 import org.goblinframework.queue.consumer.QueueConsumerEvent
-import org.goblinframework.queue.consumer.runner.ListenerExecutors
+import org.goblinframework.queue.consumer.executor.ListenerExecutors
 import org.goblinframework.queue.module.QueueChannelManager
 import java.util.concurrent.Semaphore
 

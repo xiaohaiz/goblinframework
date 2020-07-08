@@ -1,4 +1,4 @@
-package org.goblinframework.queue.consumer.runner
+package org.goblinframework.queue.consumer.executor
 
 import java.lang.management.PlatformManagedObject
 
