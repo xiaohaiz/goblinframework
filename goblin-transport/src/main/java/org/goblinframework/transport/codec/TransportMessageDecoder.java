@@ -27,7 +27,7 @@ public class TransportMessageDecoder extends LengthFieldBasedFrameDecoder {
   protected TransportMessage decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
     ByteBuf frame = (ByteBuf) super.decode(ctx, in);
     if (frame == null) {
-      return TransportMessage.unrecognized();
+      return null;
     }
     try (ByteBufInputStream bis = new ByteBufInputStream(frame)) {
       DecodeResult decoded = Transcoder.decode(bis);
