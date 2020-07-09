@@ -20,11 +20,12 @@ class QueueProducerEventListener : GoblinEventListener {
     val event = context.event as QueueProducerEvent
     try {
       event.producer.send(event.data)
+      event.future.complete(1)
     } catch (e: Exception) {
       logger.warn("Failed to produce message", e)
+      event.future.complete(1, e)
     } finally {
       event.instruction.complete()
-      event.future.complete(1)
     }
   }
 }
