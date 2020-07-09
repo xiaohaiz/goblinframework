@@ -2,6 +2,7 @@ package org.goblinframework.queue.producer
 
 import org.goblinframework.core.event.EventBus
 import org.goblinframework.queue.GoblinMessage
+import org.goblinframework.queue.GoblinQueueException
 import org.goblinframework.queue.SendResultFuture
 import org.goblinframework.queue.api.QueueMessageProducer
 import org.goblinframework.queue.module.QueueChannelManager
@@ -19,9 +20,8 @@ class DefaultQueueMessageProducer(private val producerTuples: List<QueueProducer
     producerTuples.forEach {
       val data = QueueMessageEncoder.encode(message, it.definition.serializer)
       if (data == null) {
-        val future = SendResultFuture()
-        future.complete(System.currentTimeMillis(), IllegalArgumentException("Serializer not found for message [$message]"))
-        return future
+        result.complete(1, GoblinQueueException("Failed to encode message [$message]"))
+        return result
       }
 
       val instruction = PMG(it.definition.location)
@@ -29,9 +29,8 @@ class DefaultQueueMessageProducer(private val producerTuples: List<QueueProducer
       val future = EventBus.publish(QueueChannelManager.PRODUCER_CHANNEL, event)
       future.addDiscardListener {
         instruction.close()
+        result.complete(1, GoblinQueueException("Queue producer channel is full, message discarded"))
       }
-
-
     }
 
     return result

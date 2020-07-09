@@ -5,7 +5,7 @@ import org.goblinframework.core.concurrent.GoblinFutureImpl;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class SendResultFuture extends GoblinFutureImpl<Long> {
+public class SendResultFuture extends GoblinFutureImpl<Integer> {
 
   private AtomicInteger producerNums;
 
@@ -18,7 +18,7 @@ public class SendResultFuture extends GoblinFutureImpl<Long> {
   }
 
   @Override
-  public GoblinFuture<Long> complete(Long result) {
+  public GoblinFuture<Integer> complete(Integer result) {
     int n = producerNums.decrementAndGet();
     if (n == 0) {
       super.complete(result);

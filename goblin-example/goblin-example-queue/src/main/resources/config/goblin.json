@@ -7,7 +7,7 @@
         "batchSize": 16384,
         "acks": "1",
         "requestTimeout": 30000,
-        "lingerMs": 1000
+        "lingerMs": 50
       },
       "consumer": {
         "autoCommit": false,
